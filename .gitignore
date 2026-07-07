@@ -1,0 +1,17 @@
+# Secrets — never commit API keys
+.env
+
+# Data is not stored in the repository (course policy: large files go to OneDrive)
+data/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
