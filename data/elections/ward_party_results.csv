@@ -1,0 +1,1928 @@
+year,council,ward,party,votes,turnout,vote_share,won
+2021,Elmbridge Borough Council,Claygate,Liberal Democrats,1668,2786.0,60.4,True
+2021,Elmbridge Borough Council,Claygate,Conservative,979,2786.0,35.5,False
+2021,Elmbridge Borough Council,Claygate,Labour,113,2786.0,4.1,False
+2021,Elmbridge Borough Council,Cobham & Downside,Conservative,1416,2215.0,64.5,True
+2021,Elmbridge Borough Council,Cobham & Downside,Liberal Democrats,475,2215.0,21.6,False
+2021,Elmbridge Borough Council,Cobham & Downside,Labour,185,2215.0,8.4,False
+2021,Elmbridge Borough Council,Cobham & Downside,UKIP,63,2215.0,2.9,False
+2021,Elmbridge Borough Council,Cobham & Downside,Reform,56,2215.0,2.6,False
+2021,Elmbridge Borough Council,Esher,Esher Residents' Association,1435,2750.0,52.4,True
+2021,Elmbridge Borough Council,Esher,Conservative,992,2750.0,36.2,False
+2021,Elmbridge Borough Council,Esher,Green,173,2750.0,6.3,False
+2021,Elmbridge Borough Council,Esher,Labour,138,2750.0,5.0,False
+2021,Elmbridge Borough Council,Hersham Village,Conservative,1294,2496.0,52.3,True
+2021,Elmbridge Borough Council,Hersham Village,Liberal Democrats,781,2496.0,31.5,False
+2021,Elmbridge Borough Council,Hersham Village,Labour,401,2496.0,16.2,False
+2021,Elmbridge Borough Council,Hinchley Wood & Weston Green,Hinchley Wood Residents' Association,1711,2900.0,59.2,True
+2021,Elmbridge Borough Council,Hinchley Wood & Weston Green,Conservative,575,2900.0,19.9,False
+2021,Elmbridge Borough Council,Hinchley Wood & Weston Green,Liberal Democrats,502,2900.0,17.4,False
+2021,Elmbridge Borough Council,Hinchley Wood & Weston Green,Labour,101,2900.0,3.5,False
+2021,Elmbridge Borough Council,Long Ditton,Liberal Democrats,1329,2527.0,52.9,True
+2021,Elmbridge Borough Council,Long Ditton,Conservative,808,2527.0,32.1,False
+2021,Elmbridge Borough Council,Long Ditton,Green,218,2527.0,8.7,False
+2021,Elmbridge Borough Council,Long Ditton,Labour,120,2527.0,4.8,False
+2021,Elmbridge Borough Council,Long Ditton,UKIP,39,2527.0,1.6,False
+2021,Elmbridge Borough Council,Molesey East,Molesey Residents' Association,1014,2937.0,34.8,True
+2021,Elmbridge Borough Council,Molesey East,Conservative,892,2937.0,30.6,False
+2021,Elmbridge Borough Council,Molesey East,Liberal Democrats,553,2937.0,19.0,False
+2021,Elmbridge Borough Council,Molesey East,Green,245,2937.0,8.4,False
+2021,Elmbridge Borough Council,Molesey East,Labour,186,2937.0,6.4,False
+2021,Elmbridge Borough Council,Molesey East,UKIP,27,2937.0,0.9,False
+2021,Elmbridge Borough Council,Molesey West,Molesey Residents' Association,1262,2584.0,49.4,True
+2021,Elmbridge Borough Council,Molesey West,Conservative,563,2584.0,22.0,False
+2021,Elmbridge Borough Council,Molesey West,Liberal Democrats,499,2584.0,19.5,False
+2021,Elmbridge Borough Council,Molesey West,Labour,233,2584.0,9.1,False
+2021,Elmbridge Borough Council,Oatlands & Burwood Park,Conservative,1454,2475.0,59.3,True
+2021,Elmbridge Borough Council,Oatlands & Burwood Park,Liberal Democrats,772,2475.0,31.5,False
+2021,Elmbridge Borough Council,Oatlands & Burwood Park,Labour,224,2475.0,9.1,False
+2021,Elmbridge Borough Council,Oxshott & Stoke D'Abernon,Conservative,1901,2758.0,69.2,True
+2021,Elmbridge Borough Council,Oxshott & Stoke D'Abernon,Liberal Democrats,685,2758.0,24.9,False
+2021,Elmbridge Borough Council,Oxshott & Stoke D'Abernon,Labour,162,2758.0,5.9,False
+2021,Elmbridge Borough Council,Thames Ditton,Thames Ditton & Weston Green Residents' Association,1633,2923.0,56.0,True
+2021,Elmbridge Borough Council,Thames Ditton,Liberal Democrats,489,2923.0,16.8,False
+2021,Elmbridge Borough Council,Thames Ditton,Conservative,456,2923.0,15.6,False
+2021,Elmbridge Borough Council,Thames Ditton,Green,190,2923.0,6.5,False
+2021,Elmbridge Borough Council,Thames Ditton,Labour,146,2923.0,5.0,False
+2021,Elmbridge Borough Council,Walton Central,The Walton Society,1157,2495.0,46.8,True
+2021,Elmbridge Borough Council,Walton Central,Conservative,689,2495.0,27.8,False
+2021,Elmbridge Borough Council,Walton Central,Liberal Democrats,450,2495.0,18.2,False
+2021,Elmbridge Borough Council,Walton Central,Labour,178,2495.0,7.2,False
+2021,Elmbridge Borough Council,Walton North,Conservative,766,2009.0,38.5,True
+2021,Elmbridge Borough Council,Walton North,Liberal Democrats,489,2009.0,24.6,False
+2021,Elmbridge Borough Council,Walton North,Independent,408,2009.0,20.5,False
+2021,Elmbridge Borough Council,Walton North,Labour,326,2009.0,16.4,False
+2021,Elmbridge Borough Council,Walton South,Conservative,1375,2713.0,51.1,True
+2021,Elmbridge Borough Council,Walton South,Liberal Democrats,1083,2713.0,40.3,False
+2021,Elmbridge Borough Council,Walton South,Labour,232,2713.0,8.6,False
+2021,Elmbridge Borough Council,Weybridge Riverside,Liberal Democrats,1225,2486.0,49.9,True
+2021,Elmbridge Borough Council,Weybridge Riverside,Conservative,956,2486.0,38.9,False
+2021,Elmbridge Borough Council,Weybridge Riverside,Labour Co-op,275,2486.0,11.2,False
+2021,Elmbridge Borough Council,Weybridge St. George's Hill,Weybridge & St. George's Independents,1153,2607.0,44.6,True
+2021,Elmbridge Borough Council,Weybridge St. George's Hill,Conservative,1064,2607.0,41.1,False
+2021,Elmbridge Borough Council,Weybridge St. George's Hill,Labour,249,2607.0,9.6,False
+2021,Elmbridge Borough Council,Weybridge St. George's Hill,Independent,121,2607.0,4.7,False
+2021,Mole Valley District Council,Ashtead Common,Ashtead Independent,872,1377.0,63.3,True
+2021,Mole Valley District Council,Ashtead Common,Conservative,262,1377.0,19.0,False
+2021,Mole Valley District Council,Ashtead Common,Liberal Democrats,125,1377.0,9.1,False
+2021,Mole Valley District Council,Ashtead Common,Labour,118,1377.0,8.6,False
+2021,Mole Valley District Council,Ashtead Park,Ashtead Independent,796,1456.0,54.7,True
+2021,Mole Valley District Council,Ashtead Park,Conservative,404,1456.0,27.7,False
+2021,Mole Valley District Council,Ashtead Park,Liberal Democrats,110,1456.0,7.6,False
+2021,Mole Valley District Council,Ashtead Park,Green,79,1456.0,5.4,False
+2021,Mole Valley District Council,Ashtead Park,Labour,67,1456.0,4.6,False
+2021,Mole Valley District Council,Ashtead Village,Ashtead Independent,1215,2071.0,58.7,True
+2021,Mole Valley District Council,Ashtead Village,Conservative,441,2071.0,21.3,False
+2021,Mole Valley District Council,Ashtead Village,Liberal Democrats,167,2071.0,8.1,False
+2021,Mole Valley District Council,Ashtead Village,Labour,143,2071.0,6.9,False
+2021,Mole Valley District Council,Ashtead Village,Green,105,2071.0,5.1,False
+2021,Mole Valley District Council,Bookham North,Conservative,1148,2320.0,49.5,True
+2021,Mole Valley District Council,Bookham North,Liberal Democrats,935,2320.0,40.3,False
+2021,Mole Valley District Council,Bookham North,Green,126,2320.0,5.4,False
+2021,Mole Valley District Council,Bookham North,Labour Co-op,68,2320.0,2.9,False
+2021,Mole Valley District Council,Bookham North,Reform,43,2320.0,1.9,False
+2021,Mole Valley District Council,Bookham South,Conservative,1117,2375.0,47.0,True
+2021,Mole Valley District Council,Bookham South,Liberal Democrats,1039,2375.0,43.7,False
+2021,Mole Valley District Council,Bookham South,Green,119,2375.0,5.0,False
+2021,Mole Valley District Council,Bookham South,Labour,74,2375.0,3.1,False
+2021,Mole Valley District Council,Bookham South,Reform,26,2375.0,1.1,False
+2021,Mole Valley District Council,Dorking North,Liberal Democrats,938,1575.0,59.6,True
+2021,Mole Valley District Council,Dorking North,Conservative,330,1575.0,21.0,False
+2021,Mole Valley District Council,Dorking North,Green,201,1575.0,12.8,False
+2021,Mole Valley District Council,Dorking North,Labour,106,1575.0,6.7,False
+2021,Mole Valley District Council,Dorking South,Liberal Democrats,1452,2598.0,55.9,True
+2021,Mole Valley District Council,Dorking South,Conservative,658,2598.0,25.3,False
+2021,Mole Valley District Council,Dorking South,Green,299,2598.0,11.5,False
+2021,Mole Valley District Council,Dorking South,Labour Co-op,189,2598.0,7.3,False
+2021,Mole Valley District Council,Fetcham East,Conservative,880,1451.0,60.6,True
+2021,Mole Valley District Council,Fetcham East,Liberal Democrats,370,1451.0,25.5,False
+2021,Mole Valley District Council,Fetcham East,Green,144,1451.0,9.9,False
+2021,Mole Valley District Council,Fetcham East,Labour,57,1451.0,3.9,False
+2021,Mole Valley District Council,Fetcham West,Liberal Democrats,920,1581.0,58.2,True
+2021,Mole Valley District Council,Fetcham West,Conservative,622,1581.0,39.3,False
+2021,Mole Valley District Council,Fetcham West,Labour,39,1581.0,2.5,False
+2021,Mole Valley District Council,Holmwoods,Liberal Democrats,906,1790.0,50.6,True
+2021,Mole Valley District Council,Holmwoods,Conservative,663,1790.0,37.0,False
+2021,Mole Valley District Council,Holmwoods,Green,116,1790.0,6.5,False
+2021,Mole Valley District Council,Holmwoods,Labour,105,1790.0,5.9,False
+2021,Mole Valley District Council,Leatherhead North,Liberal Democrats,886,1881.0,47.1,True
+2021,Mole Valley District Council,Leatherhead North,Conservative,781,1881.0,41.5,False
+2021,Mole Valley District Council,Leatherhead North,Labour Co-op,214,1881.0,11.4,False
+2021,Mole Valley District Council,Leatherhead South,Conservative,877,1551.0,56.5,True
+2021,Mole Valley District Council,Leatherhead South,Liberal Democrats,389,1551.0,25.1,False
+2021,Mole Valley District Council,Leatherhead South,Labour Co-op,148,1551.0,9.5,False
+2021,Mole Valley District Council,Leatherhead South,Green,137,1551.0,8.8,False
+2021,Mole Valley District Council,Westcott,Conservative,566,916.0,61.8,True
+2021,Mole Valley District Council,Westcott,Liberal Democrats,219,916.0,23.9,False
+2021,Mole Valley District Council,Westcott,Green,87,916.0,9.5,False
+2021,Mole Valley District Council,Westcott,Labour Co-op,36,916.0,3.9,False
+2021,Mole Valley District Council,Westcott,SDP,8,916.0,0.9,False
+2021,Reigate and Banstead Borough Council,Banstead Village,Conservative,1731,2528.0,68.5,True
+2021,Reigate and Banstead Borough Council,Banstead Village,Green,309,2528.0,12.2,False
+2021,Reigate and Banstead Borough Council,Banstead Village,Labour,254,2528.0,10.0,False
+2021,Reigate and Banstead Borough Council,Banstead Village,Liberal Democrats,234,2528.0,9.3,False
+2021,Reigate and Banstead Borough Council,"Chipstead, Kingswood and Woodansterne",Conservative,2094,2902.0,72.2,True
+2021,Reigate and Banstead Borough Council,"Chipstead, Kingswood and Woodansterne",Green,448,2902.0,15.4,False
+2021,Reigate and Banstead Borough Council,"Chipstead, Kingswood and Woodansterne",Labour,360,2902.0,12.4,False
+2021,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Green,1331,,53.7,True
+2021,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Conservative,799,,32.3,False
+2021,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Labour,347,,14.0,False
+2021,Reigate and Banstead Borough Council,"Hooley, Merstham and Netherne",Conservative,1423,,44.0,True
+2021,Reigate and Banstead Borough Council,"Hooley, Merstham and Netherne",Labour,745,,23.1,False
+2021,Reigate and Banstead Borough Council,"Hooley, Merstham and Netherne",Green,554,,17.1,False
+2021,Reigate and Banstead Borough Council,"Hooley, Merstham and Netherne",Liberal Democrats,510,,15.8,False
+2021,Reigate and Banstead Borough Council,Horley Central and South,Conservative,1381,2398.0,57.6,True
+2021,Reigate and Banstead Borough Council,Horley Central and South,Labour,631,2398.0,26.3,False
+2021,Reigate and Banstead Borough Council,Horley Central and South,Green,386,2398.0,16.1,False
+2021,Reigate and Banstead Borough Council,Horley East and Salfords,Conservative,1194,,46.3,True
+2021,Reigate and Banstead Borough Council,Horley East and Salfords,Green,854,,33.1,False
+2021,Reigate and Banstead Borough Council,Horley East and Salfords,Labour,529,,20.5,False
+2021,Reigate and Banstead Borough Council,Horley West and Sidlow,Conservative,1331,2262.0,58.8,True
+2021,Reigate and Banstead Borough Council,Horley West and Sidlow,Labour Co-op,612,2262.0,27.1,False
+2021,Reigate and Banstead Borough Council,Horley West and Sidlow,Liberal Democrats,319,2262.0,14.1,False
+2021,Reigate and Banstead Borough Council,"Lower Kingswood, Tadworth and Walton",Conservative,2018,2975.0,67.8,True
+2021,Reigate and Banstead Borough Council,"Lower Kingswood, Tadworth and Walton",Liberal Democrats,379,2975.0,12.7,False
+2021,Reigate and Banstead Borough Council,"Lower Kingswood, Tadworth and Walton",Green,306,2975.0,10.3,False
+2021,Reigate and Banstead Borough Council,"Lower Kingswood, Tadworth and Walton",Labour,272,2975.0,9.1,False
+2021,Reigate and Banstead Borough Council,Meadvale and St. John's,Liberal Democrats,1226,2853.0,43.0,True
+2021,Reigate and Banstead Borough Council,Meadvale and St. John's,Conservative,1102,2853.0,38.6,False
+2021,Reigate and Banstead Borough Council,Meadvale and St. John's,Labour,472,2853.0,16.5,False
+2021,Reigate and Banstead Borough Council,Meadvale and St. John's,UKIP,53,2853.0,1.9,False
+2021,Reigate and Banstead Borough Council,Nork,Nork RA,1909,2751.0,69.4,True
+2021,Reigate and Banstead Borough Council,Nork,Conservative,586,2751.0,21.3,False
+2021,Reigate and Banstead Borough Council,Nork,Labour,153,2751.0,5.6,False
+2021,Reigate and Banstead Borough Council,Nork,Liberal Democrats,103,2751.0,3.7,False
+2021,Reigate and Banstead Borough Council,Redhill East,Green,1528,2358.0,64.8,True
+2021,Reigate and Banstead Borough Council,Redhill East,Conservative,557,2358.0,23.6,False
+2021,Reigate and Banstead Borough Council,Redhill East,Labour,273,2358.0,11.6,False
+2021,Reigate and Banstead Borough Council,Redhill West and Wray Common,Conservative,1143,2685.0,42.6,True
+2021,Reigate and Banstead Borough Council,Redhill West and Wray Common,Green,528,2685.0,19.7,False
+2021,Reigate and Banstead Borough Council,Redhill West and Wray Common,Labour,516,2685.0,19.2,False
+2021,Reigate and Banstead Borough Council,Redhill West and Wray Common,Liberal Democrats,498,2685.0,18.5,False
+2021,Reigate and Banstead Borough Council,Reigate,Conservative,1580,3209.0,49.2,True
+2021,Reigate and Banstead Borough Council,Reigate,Liberal Democrats,673,3209.0,21.0,False
+2021,Reigate and Banstead Borough Council,Reigate,Green,652,3209.0,20.3,False
+2021,Reigate and Banstead Borough Council,Reigate,Labour,304,3209.0,9.5,False
+2021,Reigate and Banstead Borough Council,South Park and Woodhatch,Green,1317,2518.0,52.3,True
+2021,Reigate and Banstead Borough Council,South Park and Woodhatch,Conservative,912,2518.0,36.2,False
+2021,Reigate and Banstead Borough Council,South Park and Woodhatch,Labour,289,2518.0,11.5,False
+2021,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Tattenham RA,1226,2135.0,57.4,True
+2021,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Conservative,501,2135.0,23.5,False
+2021,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Labour,245,2135.0,11.5,False
+2021,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Green,93,2135.0,4.4,False
+2021,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Liberal Democrats,70,2135.0,3.3,False
+2021,Runnymede Borough Council,Addlestone North,Conservative,625,1354.0,46.9,True
+2021,Runnymede Borough Council,Addlestone North,Green,310,1354.0,23.3,False
+2021,Runnymede Borough Council,Addlestone North,Labour Co-op,251,1354.0,18.8,False
+2021,Runnymede Borough Council,Addlestone North,Liberal Democrats,111,1354.0,8.3,False
+2021,Runnymede Borough Council,Addlestone North,TUSC,35,1354.0,2.6,False
+2021,Runnymede Borough Council,Addlestone South,Conservative,845,1310.0,57.6,True
+2021,Runnymede Borough Council,Addlestone South,Labour Co-op,394,1310.0,26.8,False
+2021,Runnymede Borough Council,Addlestone South,Liberal Democrats,229,1310.0,15.6,False
+2021,Runnymede Borough Council,Chertsey Riverside,Conservative,710,1310.0,54.7,True
+2021,Runnymede Borough Council,Chertsey Riverside,Labour Co-op,302,1310.0,23.3,False
+2021,Runnymede Borough Council,Chertsey Riverside,Liberal Democrats,193,1310.0,14.9,False
+2021,Runnymede Borough Council,Chertsey Riverside,Independent,93,1310.0,7.2,False
+2021,Runnymede Borough Council,Chertsey St. Ann's,Conservative,761,1470.0,52.6,True
+2021,Runnymede Borough Council,Chertsey St. Ann's,Labour Co-op,270,1470.0,18.7,False
+2021,Runnymede Borough Council,Chertsey St. Ann's,Green,208,1470.0,14.4,False
+2021,Runnymede Borough Council,Chertsey St. Ann's,Liberal Democrats,207,1470.0,14.3,False
+2021,Runnymede Borough Council,Egham Hythe,Conservative,694,1643.0,42.6,True
+2021,Runnymede Borough Council,Egham Hythe,Labour Co-op,666,1643.0,40.9,False
+2021,Runnymede Borough Council,Egham Hythe,Independent,269,1643.0,16.5,False
+2021,Runnymede Borough Council,Egham Town,RIRG,917,1748.0,52.9,True
+2021,Runnymede Borough Council,Egham Town,Conservative,372,1748.0,21.5,False
+2021,Runnymede Borough Council,Egham Town,Labour Co-op,355,1748.0,20.5,False
+2021,Runnymede Borough Council,Egham Town,Liberal Democrats,89,1748.0,5.1,False
+2021,Runnymede Borough Council,Englefield Green West,Conservative,548,1164.0,47.7,True
+2021,Runnymede Borough Council,Englefield Green West,Labour,242,1164.0,21.0,False
+2021,Runnymede Borough Council,Englefield Green West,Green,196,1164.0,17.0,False
+2021,Runnymede Borough Council,Englefield Green West,Independent,164,1164.0,14.3,False
+2021,Runnymede Borough Council,"Longcross, Lyne and Chertsey South",Liberal Democrats,473,1051.0,45.7,True
+2021,Runnymede Borough Council,"Longcross, Lyne and Chertsey South",Conservative,420,1051.0,40.5,False
+2021,Runnymede Borough Council,"Longcross, Lyne and Chertsey South",Independent,143,1051.0,13.8,False
+2021,Runnymede Borough Council,New Haw,Conservative,834,1504.0,56.4,True
+2021,Runnymede Borough Council,New Haw,Liberal Democrats,645,1504.0,43.6,False
+2021,Runnymede Borough Council,Ottershaw,Independent,855,1910.0,45.0,True
+2021,Runnymede Borough Council,Ottershaw,Conservative,675,1910.0,35.5,False
+2021,Runnymede Borough Council,Ottershaw,Labour Co-op,250,1910.0,13.2,False
+2021,Runnymede Borough Council,Ottershaw,Liberal Democrats,120,1910.0,6.3,False
+2021,Runnymede Borough Council,Thorpe,RIRG,892,1766.0,51.0,True
+2021,Runnymede Borough Council,Thorpe,Conservative,591,1766.0,33.8,False
+2021,Runnymede Borough Council,Thorpe,Labour Co-op,192,1766.0,11.0,False
+2021,Runnymede Borough Council,Thorpe,Liberal Democrats,73,1766.0,4.2,False
+2021,Runnymede Borough Council,Virginia Water,Conservative,709,1695.0,42.1,True
+2021,Runnymede Borough Council,Virginia Water,Independent,411,1695.0,24.4,False
+2021,Runnymede Borough Council,Virginia Water,Liberal Democrats,403,1695.0,23.9,False
+2021,Runnymede Borough Council,Virginia Water,Labour Co-op,162,1695.0,9.6,False
+2021,Runnymede Borough Council,Woodham and Rowtown,Conservative,1109,1875.0,59.5,True
+2021,Runnymede Borough Council,Woodham and Rowtown,Independent,291,1875.0,15.6,False
+2021,Runnymede Borough Council,Woodham and Rowtown,Labour Co-op,247,1875.0,13.3,False
+2021,Runnymede Borough Council,Woodham and Rowtown,Liberal Democrats,216,1875.0,11.6,False
+2021,Surrey County Council,Addlestone,Conservative,1777,3547.0,50.1,True
+2021,Surrey County Council,Addlestone,Labour,674,3547.0,19.0,False
+2021,Surrey County Council,Addlestone,Green,505,3547.0,14.2,False
+2021,Surrey County Council,Addlestone,Liberal Democrats,289,3547.0,8.1,False
+2021,Surrey County Council,Addlestone,Independent,224,3547.0,6.3,False
+2021,Surrey County Council,Addlestone,TUSC,78,3547.0,2.2,False
+2021,Surrey County Council,Ash,Liberal Democrats,2025,3650.0,55.8,True
+2021,Surrey County Council,Ash,Conservative,1326,3650.0,36.6,False
+2021,Surrey County Council,Ash,Labour,276,3650.0,7.6,False
+2021,Surrey County Council,Ashford,Independent,1461,,37.1,True
+2021,Surrey County Council,Ashford,Conservative,1279,,32.5,False
+2021,Surrey County Council,Ashford,Labour,558,,14.2,False
+2021,Surrey County Council,Ashford,Green,407,,10.3,False
+2021,Surrey County Council,Ashford,Liberal Democrats,232,,5.9,False
+2021,Surrey County Council,Ashtead,Ashtead Independent,2908,,59.1,True
+2021,Surrey County Council,Ashtead,Conservative,1092,,22.2,False
+2021,Surrey County Council,Ashtead,Liberal Democrats,361,,7.3,False
+2021,Surrey County Council,Ashtead,Green,285,,5.8,False
+2021,Surrey County Council,Ashtead,Labour,271,,5.5,False
+2021,Surrey County Council,"Bagshot, Windlesham and Chobham",Conservative,1633,4474.0,36.5,True
+2021,Surrey County Council,"Bagshot, Windlesham and Chobham",Independent,1326,4474.0,29.6,False
+2021,Surrey County Council,"Bagshot, Windlesham and Chobham",Liberal Democrats,1087,4474.0,24.3,False
+2021,Surrey County Council,"Bagshot, Windlesham and Chobham",Labour Co-op,298,4474.0,6.7,False
+2021,Surrey County Council,"Bagshot, Windlesham and Chobham",Reform,130,4474.0,2.9,False
+2021,Surrey County Council,"Banstead, Woodmansterne and Chipstead",Conservative,2811,4087.0,68.8,True
+2021,Surrey County Council,"Banstead, Woodmansterne and Chipstead",Labour,655,4087.0,16.0,False
+2021,Surrey County Council,"Banstead, Woodmansterne and Chipstead",Liberal Democrats,621,4087.0,15.2,False
+2021,Surrey County Council,Bookham and Fetcham West,Conservative,2907,6080.0,47.8,True
+2021,Surrey County Council,Bookham and Fetcham West,Liberal Democrats,2603,6080.0,42.8,False
+2021,Surrey County Council,Bookham and Fetcham West,Green,316,6080.0,5.2,False
+2021,Surrey County Council,Bookham and Fetcham West,Labour,173,6080.0,2.8,False
+2021,Surrey County Council,Bookham and Fetcham West,Reform,81,6080.0,1.3,False
+2021,Surrey County Council,Camberley East,Conservative,2015,3542.0,56.9,True
+2021,Surrey County Council,Camberley East,Liberal Democrats,959,3542.0,27.1,False
+2021,Surrey County Council,Camberley East,Labour Co-op,568,3542.0,16.0,False
+2021,Surrey County Council,Camberley West,Conservative,1860,3782.0,49.2,True
+2021,Surrey County Council,Camberley West,Liberal Democrats,1243,3782.0,32.9,False
+2021,Surrey County Council,Camberley West,Labour,593,3782.0,15.7,False
+2021,Surrey County Council,Camberley West,Workers Party,86,3782.0,2.3,False
+2021,Surrey County Council,Caterham Hill,Conservative,1913,,43.6,True
+2021,Surrey County Council,Caterham Hill,Liberal Democrats,1819,,41.5,False
+2021,Surrey County Council,Caterham Hill,Labour,434,,9.9,False
+2021,Surrey County Council,Caterham Hill,Independent,218,,5.0,False
+2021,Surrey County Council,Caterham Valley,Liberal Democrats,1751,,50.2,True
+2021,Surrey County Council,Caterham Valley,Conservative,1348,,38.7,False
+2021,Surrey County Council,Caterham Valley,Labour,388,,11.1,False
+2021,Surrey County Council,Chertsey,Conservative,2105,3485.0,60.4,True
+2021,Surrey County Council,Chertsey,Labour,739,3485.0,21.2,False
+2021,Surrey County Council,Chertsey,Liberal Democrats,641,3485.0,18.4,False
+2021,Surrey County Council,Cobham,Conservative,2601,3967.0,65.6,True
+2021,Surrey County Council,Cobham,Liberal Democrats,1087,3967.0,27.4,False
+2021,Surrey County Council,Cobham,Labour,279,3967.0,7.0,False
+2021,Surrey County Council,Cranleigh and Ewhurst,Liberal Democrats,2318,,46.5,True
+2021,Surrey County Council,Cranleigh and Ewhurst,Conservative,2198,,44.1,False
+2021,Surrey County Council,Cranleigh and Ewhurst,Labour,330,,6.6,False
+2021,Surrey County Council,Cranleigh and Ewhurst,UKIP,136,,2.7,False
+2021,Surrey County Council,Dorking Hills,Liberal Democrats,2989,,58.6,True
+2021,Surrey County Council,Dorking Hills,Conservative,1510,,29.6,False
+2021,Surrey County Council,Dorking Hills,Green,414,,8.1,False
+2021,Surrey County Council,Dorking Hills,Labour,188,,3.7,False
+2021,Surrey County Council,Dorking Rural,Conservative,2416,,49.2,True
+2021,Surrey County Council,Dorking Rural,Liberal Democrats,1864,,37.9,False
+2021,Surrey County Council,Dorking Rural,Green,509,,10.4,False
+2021,Surrey County Council,Dorking Rural,Labour,126,,2.6,False
+2021,Surrey County Council,Dorking South and the Holmwoods,Liberal Democrats,2406,,54.7,True
+2021,Surrey County Council,Dorking South and the Holmwoods,Conservative,1282,,29.2,False
+2021,Surrey County Council,Dorking South and the Holmwoods,Green,427,,9.7,False
+2021,Surrey County Council,Dorking South and the Holmwoods,Labour,281,,6.4,False
+2021,Surrey County Council,Earlswood and Reigate South,Green,1736,3896.0,44.6,True
+2021,Surrey County Council,Earlswood and Reigate South,Conservative,1612,3896.0,41.4,False
+2021,Surrey County Council,Earlswood and Reigate South,Labour,548,3896.0,14.1,False
+2021,Surrey County Council,East Molesey and Esher,Conservative,2520,4651.0,54.2,True
+2021,Surrey County Council,East Molesey and Esher,Liberal Democrats,1429,4651.0,30.7,False
+2021,Surrey County Council,East Molesey and Esher,Green,472,4651.0,10.1,False
+2021,Surrey County Council,East Molesey and Esher,Labour,230,4651.0,4.9,False
+2021,Surrey County Council,Egham,Labour Co-op,1101,2799.0,39.3,True
+2021,Surrey County Council,Egham,Conservative,1007,2799.0,36.0,False
+2021,Surrey County Council,Egham,Independent,461,2799.0,16.5,False
+2021,Surrey County Council,Egham,Liberal Democrats,230,2799.0,8.2,False
+2021,Surrey County Council,Englefield Green,Conservative,1171,3256.0,36.0,True
+2021,Surrey County Council,Englefield Green,Runnymede Independent Residents' Group,1027,3256.0,31.5,False
+2021,Surrey County Council,Englefield Green,Labour,580,3256.0,17.8,False
+2021,Surrey County Council,Englefield Green,Green,319,3256.0,9.8,False
+2021,Surrey County Council,Englefield Green,Liberal Democrats,159,3256.0,4.9,False
+2021,Surrey County Council,Epsom Town and Downs,Residents Association,1436,4997.0,28.7,True
+2021,Surrey County Council,Epsom Town and Downs,Conservative,1427,4997.0,28.6,False
+2021,Surrey County Council,Epsom Town and Downs,Liberal Democrats,1304,4997.0,26.1,False
+2021,Surrey County Council,Epsom Town and Downs,Labour,494,4997.0,9.9,False
+2021,Surrey County Council,Epsom Town and Downs,Green,319,4997.0,6.4,False
+2021,Surrey County Council,Epsom Town and Downs,Workers Party,17,4997.0,0.3,False
+2021,Surrey County Council,Epsom West,Conservative,1518,4632.0,32.8,True
+2021,Surrey County Council,Epsom West,Labour,1172,4632.0,25.3,False
+2021,Surrey County Council,Epsom West,Residents Associations of Epsom and Ewell,1029,4632.0,22.2,False
+2021,Surrey County Council,Epsom West,Liberal Democrats,913,4632.0,19.7,False
+2021,Surrey County Council,Ewell,Residents Association,2699,4344.0,62.1,True
+2021,Surrey County Council,Ewell,Conservative,797,4344.0,18.3,False
+2021,Surrey County Council,Ewell,Labour,407,4344.0,9.4,False
+2021,Surrey County Council,Ewell,Liberal Democrats,241,4344.0,5.5,False
+2021,Surrey County Council,Ewell,Green,200,4344.0,4.6,False
+2021,Surrey County Council,"Ewell Court, Auriol and Cuddington",Residents Association,2974,4477.0,66.4,True
+2021,Surrey County Council,"Ewell Court, Auriol and Cuddington",Conservative,629,4477.0,14.0,False
+2021,Surrey County Council,"Ewell Court, Auriol and Cuddington",Labour,311,4477.0,6.9,False
+2021,Surrey County Council,"Ewell Court, Auriol and Cuddington",Liberal Democrats,297,4477.0,6.6,False
+2021,Surrey County Council,"Ewell Court, Auriol and Cuddington",Green,266,4477.0,5.9,False
+2021,Surrey County Council,Farnham Central,Farnham Residents,2782,,67.3,True
+2021,Surrey County Council,Farnham Central,Conservative,929,,22.5,False
+2021,Surrey County Council,Farnham Central,Labour,420,,10.2,False
+2021,Surrey County Council,Farnham North,Farnham Residents,2107,,55.8,True
+2021,Surrey County Council,Farnham North,Conservative,719,,19.0,False
+2021,Surrey County Council,Farnham North,Liberal Democrats,589,,15.6,False
+2021,Surrey County Council,Farnham North,Labour,361,,9.6,False
+2021,Surrey County Council,Farnham South,Farnham Residents,1659,,40.5,True
+2021,Surrey County Council,Farnham South,Conservative,1497,,36.5,False
+2021,Surrey County Council,Farnham South,Independent,492,,12.0,False
+2021,Surrey County Council,Farnham South,Labour,449,,11.0,False
+2021,Surrey County Council,"Foxhills, Thorpe and Virginia Water",Conservative,2098,4257.0,49.3,True
+2021,Surrey County Council,"Foxhills, Thorpe and Virginia Water",Independent,1098,4257.0,25.8,False
+2021,Surrey County Council,"Foxhills, Thorpe and Virginia Water",Liberal Democrats,645,4257.0,15.2,False
+2021,Surrey County Council,"Foxhills, Thorpe and Virginia Water",Labour,416,4257.0,9.8,False
+2021,Surrey County Council,Frimley Green and Mytchett,Conservative,2520,4087.0,61.7,True
+2021,Surrey County Council,Frimley Green and Mytchett,Liberal Democrats,1276,4087.0,31.2,False
+2021,Surrey County Council,Frimley Green and Mytchett,Labour,291,4087.0,7.1,False
+2021,Surrey County Council,Godalming North,Liberal Democrats,3047,,59.6,True
+2021,Surrey County Council,Godalming North,Conservative,1530,,29.9,False
+2021,Surrey County Council,Godalming North,Labour,534,,10.4,False
+2021,Surrey County Council,"Godalming South, Milford and Witley",Liberal Democrats,3044,,58.8,True
+2021,Surrey County Council,"Godalming South, Milford and Witley",Conservative,1886,,36.5,False
+2021,Surrey County Council,"Godalming South, Milford and Witley",Labour,244,,4.7,False
+2021,Surrey County Council,Godstone,Independent,1522,,39.2,True
+2021,Surrey County Council,Godstone,Conservative,1312,,33.8,False
+2021,Surrey County Council,Godstone,Liberal Democrats,412,,10.6,False
+2021,Surrey County Council,Godstone,Green,382,,9.8,False
+2021,Surrey County Council,Godstone,Labour,252,,6.5,False
+2021,Surrey County Council,Goldsworth East and Horsell Village,Liberal Democrats,2252,4866.0,46.7,True
+2021,Surrey County Council,Goldsworth East and Horsell Village,Conservative,2056,4866.0,42.7,False
+2021,Surrey County Council,Goldsworth East and Horsell Village,Labour,510,4866.0,10.6,False
+2021,Surrey County Council,Guildford East,Liberal Democrats,1503,4657.0,32.3,True
+2021,Surrey County Council,Guildford East,R4GV,1421,4657.0,30.5,False
+2021,Surrey County Council,Guildford East,Conservative,1328,4657.0,28.5,False
+2021,Surrey County Council,Guildford East,Labour,405,4657.0,8.7,False
+2021,Surrey County Council,Guildford North,Liberal Democrats,1602,3628.0,44.2,True
+2021,Surrey County Council,Guildford North,Conservative,1283,3628.0,35.4,False
+2021,Surrey County Council,Guildford North,Labour,743,3628.0,20.5,False
+2021,Surrey County Council,Guildford South-East,R4GV,1749,4639.0,37.7,True
+2021,Surrey County Council,Guildford South-East,Conservative,1432,4639.0,30.9,False
+2021,Surrey County Council,Guildford South-East,Liberal Democrats,1077,4639.0,23.2,False
+2021,Surrey County Council,Guildford South-East,Labour,381,4639.0,8.2,False
+2021,Surrey County Council,Guildford South-West,Liberal Democrats,2009,4260.0,47.2,True
+2021,Surrey County Council,Guildford South-West,Conservative,852,4260.0,20.0,False
+2021,Surrey County Council,Guildford South-West,R4GV,819,4260.0,19.2,False
+2021,Surrey County Council,Guildford South-West,Labour,580,4260.0,13.6,False
+2021,Surrey County Council,Guildford West,Liberal Democrats,1020,2393.0,42.6,True
+2021,Surrey County Council,Guildford West,Conservative,656,2393.0,27.4,False
+2021,Surrey County Council,Guildford West,Labour,577,2393.0,24.1,False
+2021,Surrey County Council,Guildford West,Peace,140,2393.0,5.9,False
+2021,Surrey County Council,Haslemere,Liberal Democrats,2038,,50.0,True
+2021,Surrey County Council,Haslemere,Conservative,1751,,43.0,False
+2021,Surrey County Council,Haslemere,Labour,287,,7.0,False
+2021,Surrey County Council,Heatherside and Parkside,Conservative,2073,4269.0,48.6,True
+2021,Surrey County Council,Heatherside and Parkside,Liberal Democrats,1900,4269.0,44.5,False
+2021,Surrey County Council,Heatherside and Parkside,Labour,194,4269.0,4.5,False
+2021,Surrey County Council,Heatherside and Parkside,UKIP,102,4269.0,2.4,False
+2021,Surrey County Council,Hersham,Conservative,2424,4109.0,59.0,True
+2021,Surrey County Council,Hersham,Liberal Democrats,1115,4109.0,27.1,False
+2021,Surrey County Council,Hersham,Labour,570,4109.0,13.9,False
+2021,Surrey County Council,"Hinchley Wood, Claygate and Oxshott",Conservative,2760,5880.0,46.9,True
+2021,Surrey County Council,"Hinchley Wood, Claygate and Oxshott",Liberal Democrats,2607,5880.0,44.3,False
+2021,Surrey County Council,"Hinchley Wood, Claygate and Oxshott",Reform,259,5880.0,4.4,False
+2021,Surrey County Council,"Hinchley Wood, Claygate and Oxshott",Labour,254,5880.0,4.3,False
+2021,Surrey County Council,Horley East,Conservative,2034,3570.0,57.0,True
+2021,Surrey County Council,Horley East,Labour,820,3570.0,23.0,False
+2021,Surrey County Council,Horley East,Green,716,3570.0,20.1,False
+2021,Surrey County Council,"Horley West, Salfords and Sidlow",Conservative,2281,3466.0,65.8,True
+2021,Surrey County Council,"Horley West, Salfords and Sidlow",Labour,1185,3466.0,34.2,False
+2021,Surrey County Council,Horsleys,R4GV,2214,4634.0,47.8,True
+2021,Surrey County Council,Horsleys,Conservative,1735,4634.0,37.4,False
+2021,Surrey County Council,Horsleys,Liberal Democrats,536,4634.0,11.6,False
+2021,Surrey County Council,Horsleys,Labour,149,4634.0,3.2,False
+2021,Surrey County Council,Knaphill and Goldsworth West,Conservative,2101,4499.0,47.0,True
+2021,Surrey County Council,Knaphill and Goldsworth West,Independent,988,4499.0,22.1,False
+2021,Surrey County Council,Knaphill and Goldsworth West,Liberal Democrats,935,4499.0,20.9,False
+2021,Surrey County Council,Knaphill and Goldsworth West,Labour,363,4499.0,8.1,False
+2021,Surrey County Council,Knaphill and Goldsworth West,Heritage,50,4499.0,1.1,False
+2021,Surrey County Council,Knaphill and Goldsworth West,TUSC,37,4499.0,0.8,False
+2021,Surrey County Council,Laleham and Shepperton,Conservative,2477,,59.9,True
+2021,Surrey County Council,Laleham and Shepperton,Green,752,,18.2,False
+2021,Surrey County Council,Laleham and Shepperton,Labour,473,,11.4,False
+2021,Surrey County Council,Laleham and Shepperton,Liberal Democrats,398,,9.6,False
+2021,Surrey County Council,Laleham and Shepperton,TUSC,37,,0.9,False
+2021,Surrey County Council,Leatherhead and Fetcham East,Conservative,2633,,53.9,True
+2021,Surrey County Council,Leatherhead and Fetcham East,Liberal Democrats,1315,,26.9,False
+2021,Surrey County Council,Leatherhead and Fetcham East,Labour,490,,10.0,False
+2021,Surrey County Council,Leatherhead and Fetcham East,Green,443,,9.1,False
+2021,Surrey County Council,"Lightwater, West End and Bisley",Conservative,1938,4427.0,43.8,True
+2021,Surrey County Council,"Lightwater, West End and Bisley",Liberal Democrats,1416,4427.0,32.0,False
+2021,Surrey County Council,"Lightwater, West End and Bisley",Green,386,4427.0,8.7,False
+2021,Surrey County Council,"Lightwater, West End and Bisley",Independent,364,4427.0,8.2,False
+2021,Surrey County Council,"Lightwater, West End and Bisley",Labour,222,4427.0,5.0,False
+2021,Surrey County Council,"Lightwater, West End and Bisley",Reform,81,4427.0,1.8,False
+2021,Surrey County Council,"Lightwater, West End and Bisley",TUSC,20,4427.0,0.5,False
+2021,Surrey County Council,Lingfield,Conservative,2352,,49.2,True
+2021,Surrey County Council,Lingfield,Independent,1168,,24.4,False
+2021,Surrey County Council,Lingfield,Green,461,,9.6,False
+2021,Surrey County Council,Lingfield,Liberal Democrats,382,,8.0,False
+2021,Surrey County Council,Lingfield,Labour,315,,6.6,False
+2021,Surrey County Council,Lingfield,UKIP,105,,2.2,False
+2021,Surrey County Council,Lower Sunbury and Halliford,Conservative,1691,,40.5,True
+2021,Surrey County Council,Lower Sunbury and Halliford,Liberal Democrats,1661,,39.8,False
+2021,Surrey County Council,Lower Sunbury and Halliford,Green,434,,10.4,False
+2021,Surrey County Council,Lower Sunbury and Halliford,Labour,388,,9.3,False
+2021,Surrey County Council,Merstham and Banstead South,Conservative,2052,3617.0,56.7,True
+2021,Surrey County Council,Merstham and Banstead South,Labour,752,3617.0,20.8,False
+2021,Surrey County Council,Merstham and Banstead South,Liberal Democrats,414,3617.0,11.4,False
+2021,Surrey County Council,Merstham and Banstead South,Green,399,3617.0,11.0,False
+2021,Surrey County Council,Nork and Tattenhams,Nork and Tattenhams Residents` Associations,2763,4332.0,63.8,True
+2021,Surrey County Council,Nork and Tattenhams,Conservative,908,4332.0,21.0,False
+2021,Surrey County Council,Nork and Tattenhams,Labour,302,4332.0,7.0,False
+2021,Surrey County Council,Nork and Tattenhams,Green,197,4332.0,4.5,False
+2021,Surrey County Council,Nork and Tattenhams,Liberal Democrats,162,4332.0,3.7,False
+2021,Surrey County Council,Oxted,Conservative,2907,,51.7,True
+2021,Surrey County Council,Oxted,Independent,1106,,19.7,False
+2021,Surrey County Council,Oxted,Labour,976,,17.3,False
+2021,Surrey County Council,Oxted,Liberal Democrats,638,,11.3,False
+2021,Surrey County Council,Redhill East,Green,2622,4017.0,65.3,True
+2021,Surrey County Council,Redhill East,Conservative,844,4017.0,21.0,False
+2021,Surrey County Council,Redhill East,Labour,407,4017.0,10.1,False
+2021,Surrey County Council,Redhill East,Liberal Democrats,144,4017.0,3.6,False
+2021,Surrey County Council,Redhill West and Meadvale,Conservative,1726,3974.0,43.4,True
+2021,Surrey County Council,Redhill West and Meadvale,Liberal Democrats,1309,3974.0,32.9,False
+2021,Surrey County Council,Redhill West and Meadvale,Labour,829,3974.0,20.9,False
+2021,Surrey County Council,Redhill West and Meadvale,UKIP,110,3974.0,2.8,False
+2021,Surrey County Council,Reigate,Conservative,2146,4651.0,46.1,True
+2021,Surrey County Council,Reigate,Liberal Democrats,1101,4651.0,23.7,False
+2021,Surrey County Council,Reigate,Green,948,4651.0,20.4,False
+2021,Surrey County Council,Reigate,Labour,456,4651.0,9.8,False
+2021,Surrey County Council,Shalford,Conservative,2408,4302.0,56.0,True
+2021,Surrey County Council,Shalford,R4GV,1015,4302.0,23.6,False
+2021,Surrey County Council,Shalford,Liberal Democrats,529,4302.0,12.3,False
+2021,Surrey County Council,Shalford,Labour,350,4302.0,8.1,False
+2021,Surrey County Council,Shere,Conservative,1618,4346.0,37.2,True
+2021,Surrey County Council,Shere,GGG,1540,4346.0,35.4,False
+2021,Surrey County Council,Shere,Green,862,4346.0,19.8,False
+2021,Surrey County Council,Shere,Labour,326,4346.0,7.5,False
+2021,Surrey County Council,Staines,Conservative,1387,,33.0,True
+2021,Surrey County Council,Staines,Independent,1107,,26.3,False
+2021,Surrey County Council,Staines,Green,970,,23.1,False
+2021,Surrey County Council,Staines,Labour,738,,17.6,False
+2021,Surrey County Council,Staines South and Ashford West,Conservative,1866,,50.1,True
+2021,Surrey County Council,Staines South and Ashford West,Liberal Democrats,1238,,33.3,False
+2021,Surrey County Council,Staines South and Ashford West,Labour,536,,14.4,False
+2021,Surrey County Council,Staines South and Ashford West,TUSC,83,,2.2,False
+2021,Surrey County Council,Stanwell and Stanwell Moor,Labour,1434,,46.3,True
+2021,Surrey County Council,Stanwell and Stanwell Moor,Conservative,1231,,39.7,False
+2021,Surrey County Council,Stanwell and Stanwell Moor,Independent,302,,9.7,False
+2021,Surrey County Council,Stanwell and Stanwell Moor,Liberal Democrats,133,,4.3,False
+2021,Surrey County Council,Sunbury Common and Ashford Common,Conservative,1509,,46.6,True
+2021,Surrey County Council,Sunbury Common and Ashford Common,Liberal Democrats,610,,18.8,False
+2021,Surrey County Council,Sunbury Common and Ashford Common,Labour,522,,16.1,False
+2021,Surrey County Council,Sunbury Common and Ashford Common,Green,274,,8.5,False
+2021,Surrey County Council,Sunbury Common and Ashford Common,Independent,175,,5.4,False
+2021,Surrey County Council,Sunbury Common and Ashford Common,Reform,147,,4.5,False
+2021,Surrey County Council,"Tadworth, Walton and Kingswood",Conservative,2875,4118.0,69.8,True
+2021,Surrey County Council,"Tadworth, Walton and Kingswood",Labour,450,4118.0,10.9,False
+2021,Surrey County Council,"Tadworth, Walton and Kingswood",Green,437,4118.0,10.6,False
+2021,Surrey County Council,"Tadworth, Walton and Kingswood",Liberal Democrats,356,4118.0,8.6,False
+2021,Surrey County Council,The Byfleets,Independent,2022,3752.0,54.2,True
+2021,Surrey County Council,The Byfleets,Conservative,1111,3752.0,29.8,False
+2021,Surrey County Council,The Byfleets,Liberal Democrats,350,3752.0,9.4,False
+2021,Surrey County Council,The Byfleets,Green,247,3752.0,6.6,False
+2021,Surrey County Council,The Dittons,Dittons and Weston Green Residents,2744,5523.0,49.7,True
+2021,Surrey County Council,The Dittons,Liberal Democrats,1239,5523.0,22.4,False
+2021,Surrey County Council,The Dittons,Conservative,1014,5523.0,18.4,False
+2021,Surrey County Council,The Dittons,Green,297,5523.0,5.4,False
+2021,Surrey County Council,The Dittons,Labour,229,5523.0,4.1,False
+2021,Surrey County Council,Walton,Conservative,2012,4181.0,48.1,True
+2021,Surrey County Council,Walton,Liberal Democrats,1446,4181.0,34.6,False
+2021,Surrey County Council,Walton,Labour,723,4181.0,17.3,False
+2021,Surrey County Council,Walton South and Oatlands,Conservative,2475,4617.0,53.6,True
+2021,Surrey County Council,Walton South and Oatlands,Liberal Democrats,1692,4617.0,36.6,False
+2021,Surrey County Council,Walton South and Oatlands,Labour,450,4617.0,9.7,False
+2021,Surrey County Council,Warlingham,Conservative,2492,,58.2,True
+2021,Surrey County Council,Warlingham,Liberal Democrats,1217,,28.4,False
+2021,Surrey County Council,Warlingham,Independent,337,,7.9,False
+2021,Surrey County Council,Warlingham,Labour,235,,5.5,False
+2021,Surrey County Council,Waverley Eastern Villages,Conservative,2793,,61.8,True
+2021,Surrey County Council,Waverley Eastern Villages,Green,1287,,28.5,False
+2021,Surrey County Council,Waverley Eastern Villages,Labour,443,,9.8,False
+2021,Surrey County Council,Waverley Western Villages,Conservative,2414,,57.8,True
+2021,Surrey County Council,Waverley Western Villages,Liberal Democrats,1043,,25.0,False
+2021,Surrey County Council,Waverley Western Villages,Green,422,,10.1,False
+2021,Surrey County Council,Waverley Western Villages,Labour,216,,5.2,False
+2021,Surrey County Council,Waverley Western Villages,Reform,80,,1.9,False
+2021,Surrey County Council,West Ewell,Residents Association,1781,3684.0,48.3,True
+2021,Surrey County Council,West Ewell,Conservative,703,3684.0,19.1,False
+2021,Surrey County Council,West Ewell,Labour,677,3684.0,18.4,False
+2021,Surrey County Council,West Ewell,Green,263,3684.0,7.1,False
+2021,Surrey County Council,West Ewell,Liberal Democrats,260,3684.0,7.1,False
+2021,Surrey County Council,West Molesey,The Molesey Residents Association,1922,4055.0,47.4,True
+2021,Surrey County Council,West Molesey,Conservative,1039,4055.0,25.6,False
+2021,Surrey County Council,West Molesey,Liberal Democrats,719,4055.0,17.7,False
+2021,Surrey County Council,West Molesey,Labour,375,4055.0,9.2,False
+2021,Surrey County Council,Weybridge,Conservative,2384,4798.0,49.7,True
+2021,Surrey County Council,Weybridge,Liberal Democrats,1610,4798.0,33.6,False
+2021,Surrey County Council,Weybridge,Labour,456,4798.0,9.5,False
+2021,Surrey County Council,Weybridge,Independent,348,4798.0,7.3,False
+2021,Surrey County Council,Woking North,Conservative,2119,4503.0,47.8,True
+2021,Surrey County Council,Woking North,Labour,1973,4503.0,44.5,False
+2021,Surrey County Council,Woking North,UKIP,203,4503.0,4.6,False
+2021,Surrey County Council,Woking North,Heritage,136,4503.0,3.1,False
+2021,Surrey County Council,Woking South,Liberal Democrats,2747,4759.0,58.0,True
+2021,Surrey County Council,Woking South,Conservative,1210,4759.0,25.5,False
+2021,Surrey County Council,Woking South,Labour,360,4759.0,7.6,False
+2021,Surrey County Council,Woking South,Green,327,4759.0,6.9,False
+2021,Surrey County Council,Woking South,Heritage,94,4759.0,2.0,False
+2021,Surrey County Council,Woking South East,Conservative,2246,4474.0,50.5,True
+2021,Surrey County Council,Woking South East,Liberal Democrats,1607,4474.0,36.1,False
+2021,Surrey County Council,Woking South East,Green,475,4474.0,10.7,False
+2021,Surrey County Council,Woking South East,Heritage,119,4474.0,2.7,False
+2021,Surrey County Council,Woking South West,Conservative,1721,3799.0,45.6,True
+2021,Surrey County Council,Woking South West,Liberal Democrats,1260,3799.0,33.4,False
+2021,Surrey County Council,Woking South West,Green,345,3799.0,9.1,False
+2021,Surrey County Council,Woking South West,Labour,310,3799.0,8.2,False
+2021,Surrey County Council,Woking South West,Heritage,142,3799.0,3.8,False
+2021,Surrey County Council,Woodham and New Haw,Conservative,2054,3392.0,60.6,True
+2021,Surrey County Council,Woodham and New Haw,Liberal Democrats,792,3392.0,23.3,False
+2021,Surrey County Council,Woodham and New Haw,Labour,546,3392.0,16.1,False
+2021,Surrey County Council,Worplesdon,Conservative,2574,4307.0,59.8,True
+2021,Surrey County Council,Worplesdon,R4GV,713,4307.0,16.6,False
+2021,Surrey County Council,Worplesdon,Liberal Democrats,619,4307.0,14.4,False
+2021,Surrey County Council,Worplesdon,Labour,401,4307.0,9.3,False
+2021,Tandridge District Council,Bletchingley & Nutfield,Conservative,815,1888.0,43.3,True
+2021,Tandridge District Council,Bletchingley & Nutfield,Independent,606,1888.0,32.2,False
+2021,Tandridge District Council,Bletchingley & Nutfield,Liberal Democrats,303,1888.0,16.1,False
+2021,Tandridge District Council,Bletchingley & Nutfield,Labour,158,1888.0,8.4,False
+2021,Tandridge District Council,"Burstow, Horne & Outwood",Independent,691,1705.0,43.5,True
+2021,Tandridge District Council,"Burstow, Horne & Outwood",Conservative,667,1705.0,41.9,False
+2021,Tandridge District Council,"Burstow, Horne & Outwood",Liberal Democrats,127,1705.0,8.0,False
+2021,Tandridge District Council,"Burstow, Horne & Outwood",Green,105,1705.0,6.6,False
+2021,Tandridge District Council,Chaldon,Conservative,431,1470.0,62.2,True
+2021,Tandridge District Council,Chaldon,Liberal Democrats,262,1470.0,37.8,False
+2021,Tandridge District Council,Godstone,Independent,1104,1802.0,61.5,True
+2021,Tandridge District Council,Godstone,Conservative,451,1802.0,25.1,False
+2021,Tandridge District Council,Godstone,Labour,120,1802.0,6.7,False
+2021,Tandridge District Council,Godstone,Liberal Democrats,120,1802.0,6.7,False
+2021,Tandridge District Council,Harestone,Conservative,581,1452.0,40.4,True
+2021,Tandridge District Council,Harestone,Liberal Democrats,557,1452.0,38.7,False
+2021,Tandridge District Council,Harestone,Independent,187,1452.0,13.0,False
+2021,Tandridge District Council,Harestone,Labour,114,1452.0,7.9,False
+2021,Tandridge District Council,Oxted North & Tandridge,Oxted & Limpsfield Residents' Group,1779,2316.0,77.2,True
+2021,Tandridge District Council,Oxted North & Tandridge,Conservative,324,2316.0,14.1,False
+2021,Tandridge District Council,Oxted North & Tandridge,Liberal Democrats,119,2316.0,5.2,False
+2021,Tandridge District Council,Oxted North & Tandridge,Labour,81,2316.0,3.5,False
+2021,Tandridge District Council,Oxted South,Oxted & Limpsfield Residents' Group,1048,2086.0,50.4,True
+2021,Tandridge District Council,Oxted South,Conservative,709,2086.0,34.1,False
+2021,Tandridge District Council,Oxted South,Labour,243,2086.0,11.7,False
+2021,Tandridge District Council,Oxted South,Liberal Democrats,78,2086.0,3.8,False
+2021,Tandridge District Council,Portley,Liberal Democrats,682,1258.0,54.8,True
+2021,Tandridge District Council,Portley,Conservative,458,1258.0,36.8,False
+2021,Tandridge District Council,Portley,Labour,105,1258.0,8.4,False
+2021,Tandridge District Council,Queen's Park (2),Conservative,575,1595.0,48.0,True
+2021,Tandridge District Council,Queen's Park (2),Liberal Democrats,496,1595.0,41.4,False
+2021,Tandridge District Council,Queen's Park (2),Labour,126,1595.0,10.5,False
+2021,Tandridge District Council,Valley (2),Liberal Democrats,645,1081.0,59.0,True
+2021,Tandridge District Council,Valley (2),Conservative,271,1081.0,24.8,False
+2021,Tandridge District Council,Valley (2),Labour,99,1081.0,9.1,False
+2021,Tandridge District Council,Valley (2),Independent,78,1081.0,7.1,False
+2021,Tandridge District Council,"Warlingham East, Chelsham & Farleigh",Independent,1057,1806.0,64.3,True
+2021,Tandridge District Council,"Warlingham East, Chelsham & Farleigh",Conservative,458,1806.0,27.8,False
+2021,Tandridge District Council,"Warlingham East, Chelsham & Farleigh",Labour,130,1806.0,7.9,False
+2021,Tandridge District Council,Warlingham West,Conservative,726,1210.0,60.7,True
+2021,Tandridge District Council,Warlingham West,Liberal Democrats,405,1210.0,33.8,False
+2021,Tandridge District Council,Warlingham West,Labour,66,1210.0,5.5,False
+2021,Tandridge District Council,Westway,Conservative,491,1231.0,40.2,True
+2021,Tandridge District Council,Westway,Liberal Democrats,476,1231.0,39.0,False
+2021,Tandridge District Council,Westway,Labour,186,1231.0,15.2,False
+2021,Tandridge District Council,Westway,Independent,67,1231.0,5.5,False
+2021,Tandridge District Council,Whyteleafe,Liberal Democrats,522,1105.0,47.8,True
+2021,Tandridge District Council,Whyteleafe,Conservative,418,1105.0,38.2,False
+2021,Tandridge District Council,Whyteleafe,Labour,153,1105.0,14.0,False
+2021,Tandridge District Council,Woldingham,Conservative,479,694.0,69.5,True
+2021,Tandridge District Council,Woldingham,Liberal Democrats,133,694.0,19.3,False
+2021,Tandridge District Council,Woldingham,Labour,77,694.0,11.2,False
+2021,Woking Borough Council,Byfleet and West Byfleet,Conservative,1301,3073.0,42.7,True
+2021,Woking Borough Council,Byfleet and West Byfleet,Independent,1009,3073.0,33.1,False
+2021,Woking Borough Council,Byfleet and West Byfleet,Liberal Democrats,429,3073.0,14.1,False
+2021,Woking Borough Council,Byfleet and West Byfleet,Green,311,3073.0,10.2,False
+2021,Woking Borough Council,Canalside,Labour,1371,2747.0,50.3,True
+2021,Woking Borough Council,Canalside,Conservative,931,2747.0,34.1,False
+2021,Woking Borough Council,Canalside,Liberal Democrats,314,2747.0,11.5,False
+2021,Woking Borough Council,Canalside,UKIP,111,2747.0,4.1,False
+2021,Woking Borough Council,Goldsworth Park,Liberal Democrats,1329,2540.0,52.8,True
+2021,Woking Borough Council,Goldsworth Park,Conservative,950,2540.0,37.7,False
+2021,Woking Borough Council,Goldsworth Park,Green,240,2540.0,9.5,False
+2021,Woking Borough Council,Heathlands,Conservative,1474,3096.0,47.9,True
+2021,Woking Borough Council,Heathlands,Liberal Democrats,1218,3096.0,39.6,False
+2021,Woking Borough Council,Heathlands,Green,321,3096.0,10.4,False
+2021,Woking Borough Council,Heathlands,Heritage,63,3096.0,2.0,False
+2021,Woking Borough Council,Hoe Valley,Liberal Democrats,1451,2427.0,60.0,True
+2021,Woking Borough Council,Hoe Valley,Conservative,586,2427.0,24.2,False
+2021,Woking Borough Council,Hoe Valley,Labour,187,2427.0,7.7,False
+2021,Woking Borough Council,Hoe Valley,Green,136,2427.0,5.6,False
+2021,Woking Borough Council,Hoe Valley,Heritage,59,2427.0,2.4,False
+2021,Woking Borough Council,Horsell,Liberal Democrats,2018,3761.0,54.2,True
+2021,Woking Borough Council,Horsell,Conservative,1708,3761.0,45.8,False
+2021,Woking Borough Council,Knaphill,Conservative,1700,3364.0,50.8,True
+2021,Woking Borough Council,Knaphill,Independent,1073,3364.0,32.1,False
+2021,Woking Borough Council,Knaphill,Liberal Democrats,291,3364.0,8.7,False
+2021,Woking Borough Council,Knaphill,Labour,252,3364.0,7.5,False
+2021,Woking Borough Council,Knaphill,TUSC,28,3364.0,0.8,False
+2021,Woking Borough Council,Mount Hermon,Liberal Democrats,1611,3275.0,49.4,True
+2021,Woking Borough Council,Mount Hermon,Conservative,1137,3275.0,34.9,False
+2021,Woking Borough Council,Mount Hermon,Green,436,3275.0,13.4,False
+2021,Woking Borough Council,Mount Hermon,Heritage,76,3275.0,2.3,False
+2021,Woking Borough Council,Pyrford,Conservative,1400,3565.0,39.5,True
+2021,Woking Borough Council,Pyrford,Liberal Democrats,1029,3565.0,29.0,False
+2021,Woking Borough Council,Pyrford,Labour,478,3565.0,13.5,False
+2021,Woking Borough Council,Pyrford,Independent,457,3565.0,12.9,False
+2021,Woking Borough Council,Pyrford,Green,181,3565.0,5.1,False
+2021,Woking Borough Council,St. John's,Liberal Democrats,1320,2863.0,46.5,True
+2021,Woking Borough Council,St. John's,Conservative,1124,2863.0,39.6,False
+2021,Woking Borough Council,St. John's,Green,298,2863.0,10.5,False
+2021,Woking Borough Council,St. John's,Heritage,99,2863.0,3.5,False
+2022,Elmbridge Borough Council,Claygate,Liberal Democrats,1702,2645.0,64.3,True
+2022,Elmbridge Borough Council,Claygate,Conservative,765,2645.0,28.9,False
+2022,Elmbridge Borough Council,Claygate,Green,178,2645.0,6.7,False
+2022,Elmbridge Borough Council,Cobham and Downside,Liberal Democrats,1170,2437.0,48.0,True
+2022,Elmbridge Borough Council,Cobham and Downside,Conservative,1158,2437.0,47.5,False
+2022,Elmbridge Borough Council,Cobham and Downside,Labour,109,2437.0,4.5,False
+2022,Elmbridge Borough Council,Esher,Residents,1257,2746.0,45.8,True
+2022,Elmbridge Borough Council,Esher,Conservative,1058,2746.0,38.5,False
+2022,Elmbridge Borough Council,Esher,Green,226,2746.0,8.2,False
+2022,Elmbridge Borough Council,Esher,Labour,205,2746.0,7.5,False
+2022,Elmbridge Borough Council,Hersham Village,Liberal Democrats,1122,2486.0,45.1,True
+2022,Elmbridge Borough Council,Hersham Village,Conservative,1102,2486.0,44.3,False
+2022,Elmbridge Borough Council,Hersham Village,Labour,262,2486.0,10.5,False
+2022,Elmbridge Borough Council,Hinchley Wood & Weston Green,Residents,1669,2604.0,64.1,True
+2022,Elmbridge Borough Council,Hinchley Wood & Weston Green,Liberal Democrats,588,2604.0,22.6,False
+2022,Elmbridge Borough Council,Hinchley Wood & Weston Green,Conservative,347,2604.0,13.3,False
+2022,Elmbridge Borough Council,Long Ditton,Liberal Democrats,1772,2411.0,73.5,True
+2022,Elmbridge Borough Council,Long Ditton,Conservative,639,2411.0,26.5,False
+2022,Elmbridge Borough Council,Molesey East,Conservative,1125,3093.0,36.4,True
+2022,Elmbridge Borough Council,Molesey East,Liberal Democrats,1120,3093.0,36.2,False
+2022,Elmbridge Borough Council,Molesey East,Residents,637,3093.0,20.6,False
+2022,Elmbridge Borough Council,Molesey East,Green,117,3093.0,3.8,False
+2022,Elmbridge Borough Council,Molesey East,Labour,94,3093.0,3.0,False
+2022,Elmbridge Borough Council,Molesey West,Residents,966,2260.0,42.7,True
+2022,Elmbridge Borough Council,Molesey West,Conservative,558,2260.0,24.7,False
+2022,Elmbridge Borough Council,Molesey West,Liberal Democrats,519,2260.0,23.0,False
+2022,Elmbridge Borough Council,Molesey West,Labour,217,2260.0,9.6,False
+2022,Elmbridge Borough Council,Oatlands & Burwood Park,Conservative,1171,2338.0,50.1,True
+2022,Elmbridge Borough Council,Oatlands & Burwood Park,Liberal Democrats,999,2338.0,42.7,False
+2022,Elmbridge Borough Council,Oatlands & Burwood Park,Labour,168,2338.0,7.2,False
+2022,Elmbridge Borough Council,Oxshott & Stoke D'Abernon,Conservative,1478,2621.0,56.4,True
+2022,Elmbridge Borough Council,Oxshott & Stoke D'Abernon,Liberal Democrats,1143,2621.0,43.6,False
+2022,Elmbridge Borough Council,Thames Ditton,Residents,1629,2747.0,59.3,True
+2022,Elmbridge Borough Council,Thames Ditton,Liberal Democrats,749,2747.0,27.3,False
+2022,Elmbridge Borough Council,Thames Ditton,Conservative,369,2747.0,13.4,False
+2022,Elmbridge Borough Council,Walton Central,Residents,761,2418.0,31.5,True
+2022,Elmbridge Borough Council,Walton Central,Conservative,638,2418.0,26.4,False
+2022,Elmbridge Borough Council,Walton Central,Liberal Democrats,589,2418.0,24.4,False
+2022,Elmbridge Borough Council,Walton Central,Independent,258,2418.0,10.7,False
+2022,Elmbridge Borough Council,Walton Central,Labour,172,2418.0,7.1,False
+2022,Elmbridge Borough Council,Walton North,Liberal Democrats,1256,2255.0,55.7,True
+2022,Elmbridge Borough Council,Walton North,Conservative,786,2255.0,34.9,False
+2022,Elmbridge Borough Council,Walton North,Labour,213,2255.0,9.4,False
+2022,Elmbridge Borough Council,Walton South,Liberal Democrats,1671,3027.0,55.2,True
+2022,Elmbridge Borough Council,Walton South,Conservative,1151,3027.0,38.0,False
+2022,Elmbridge Borough Council,Walton South,Labour,136,3027.0,4.5,False
+2022,Elmbridge Borough Council,Walton South,Heritage,69,3027.0,2.3,False
+2022,Elmbridge Borough Council,Weybridge Riverside,Liberal Democrats,1200,2290.0,52.4,True
+2022,Elmbridge Borough Council,Weybridge Riverside,Conservative,896,2290.0,39.1,False
+2022,Elmbridge Borough Council,Weybridge Riverside,Labour,194,2290.0,8.5,False
+2022,Elmbridge Borough Council,Weybridge St. George's Hill,Conservative,1304,2533.0,51.5,True
+2022,Elmbridge Borough Council,Weybridge St. George's Hill,Residents,909,2533.0,35.9,False
+2022,Elmbridge Borough Council,Weybridge St. George's Hill,Labour,320,2533.0,12.6,False
+2022,Mole Valley District Council,Ashtead Common,Ashtead Ind.,828,1356.0,61.1,True
+2022,Mole Valley District Council,Ashtead Common,Conservative,202,1356.0,14.9,False
+2022,Mole Valley District Council,Ashtead Common,Liberal Democrats,201,1356.0,14.8,False
+2022,Mole Valley District Council,Ashtead Common,Green,125,1356.0,9.2,False
+2022,Mole Valley District Council,Ashtead Park,Ashtead Ind.,906,1414.0,64.1,True
+2022,Mole Valley District Council,Ashtead Park,Conservative,366,1414.0,25.9,False
+2022,Mole Valley District Council,Ashtead Park,Liberal Democrats,142,1414.0,10.0,False
+2022,Mole Valley District Council,Ashtead Village,Ashtead Ind.,1243,1976.0,62.9,True
+2022,Mole Valley District Council,Ashtead Village,Conservative,321,1976.0,16.2,False
+2022,Mole Valley District Council,Ashtead Village,Liberal Democrats,245,1976.0,12.4,False
+2022,Mole Valley District Council,Ashtead Village,Labour,167,1976.0,8.5,False
+2022,Mole Valley District Council,Bookham North,Liberal Democrats,1420,2344.0,60.6,True
+2022,Mole Valley District Council,Bookham North,Conservative,785,2344.0,33.5,False
+2022,Mole Valley District Council,Bookham North,Green,139,2344.0,5.9,False
+2022,Mole Valley District Council,Bookham South,Liberal Democrats,1347,2204.0,61.1,True
+2022,Mole Valley District Council,Bookham South,Conservative,718,2204.0,32.6,False
+2022,Mole Valley District Council,Bookham South,Green,139,2204.0,6.3,False
+2022,Mole Valley District Council,"Brockham, Betchworth and Buckland",Conservative,969,1679.0,57.7,True
+2022,Mole Valley District Council,"Brockham, Betchworth and Buckland",Liberal Democrats,522,1679.0,31.1,False
+2022,Mole Valley District Council,"Brockham, Betchworth and Buckland",Green,122,1679.0,7.3,False
+2022,Mole Valley District Council,"Brockham, Betchworth and Buckland",Labour,66,1679.0,3.9,False
+2022,Mole Valley District Council,"Capel, Leigh and Newdigate",Liberal Democrats,808,1659.0,48.7,True
+2022,Mole Valley District Council,"Capel, Leigh and Newdigate",Conservative,739,1659.0,44.5,False
+2022,Mole Valley District Council,"Capel, Leigh and Newdigate",Green,112,1659.0,6.8,False
+2022,Mole Valley District Council,Dorking North,Liberal Democrats,881,1549.0,56.9,True
+2022,Mole Valley District Council,Dorking North,Green,330,1549.0,21.3,False
+2022,Mole Valley District Council,Dorking North,Conservative,245,1549.0,15.8,False
+2022,Mole Valley District Council,Dorking North,Labour,93,1549.0,6.0,False
+2022,Mole Valley District Council,Dorking South,Liberal Democrats,1505,2452.0,61.4,True
+2022,Mole Valley District Council,Dorking South,Conservative,446,2452.0,18.2,False
+2022,Mole Valley District Council,Dorking South,Green,314,2452.0,12.8,False
+2022,Mole Valley District Council,Dorking South,Labour Co-op,187,2452.0,7.6,False
+2022,Mole Valley District Council,Fetcham East,Conservative,779,1327.0,58.7,True
+2022,Mole Valley District Council,Fetcham East,Liberal Democrats,440,1327.0,33.2,False
+2022,Mole Valley District Council,Fetcham East,Green,108,1327.0,8.1,False
+2022,Mole Valley District Council,Fetcham West,Liberal Democrats,1035,1574.0,65.8,True
+2022,Mole Valley District Council,Fetcham West,Conservative,539,1574.0,34.2,False
+2022,Mole Valley District Council,Holmwoods,Liberal Democrats,997,1657.0,60.2,True
+2022,Mole Valley District Council,Holmwoods,Conservative,546,1657.0,33.0,False
+2022,Mole Valley District Council,Holmwoods,Labour,114,1657.0,6.9,False
+2022,Mole Valley District Council,Leatherhead North,Liberal Democrats,988,1818.0,54.3,True
+2022,Mole Valley District Council,Leatherhead North,Conservative,578,1818.0,31.8,False
+2022,Mole Valley District Council,Leatherhead North,Labour Co-op,145,1818.0,8.0,False
+2022,Mole Valley District Council,Leatherhead North,Independent,107,1818.0,5.9,False
+2022,Mole Valley District Council,Leatherhead South,Conservative,677,1451.0,46.7,True
+2022,Mole Valley District Council,Leatherhead South,Liberal Democrats,539,1451.0,37.1,False
+2022,Mole Valley District Council,Leatherhead South,Green,118,1451.0,8.1,False
+2022,Mole Valley District Council,Leatherhead South,Labour Co-op,117,1451.0,8.1,False
+2022,Reigate and Banstead Borough Council,Banstead Village,Conservative,1720,2449.0,46.5,True
+2022,Reigate and Banstead Borough Council,Banstead Village,Independent,738,2449.0,20.0,False
+2022,Reigate and Banstead Borough Council,Banstead Village,Green,584,2449.0,15.8,False
+2022,Reigate and Banstead Borough Council,Banstead Village,Labour,448,2449.0,12.1,False
+2022,Reigate and Banstead Borough Council,Banstead Village,Liberal Democrats,208,2449.0,5.6,False
+2022,Reigate and Banstead Borough Council,"Chipstead, Kingswood and Woodansterne",Conservative,1562,2517.0,62.1,True
+2022,Reigate and Banstead Borough Council,"Chipstead, Kingswood and Woodansterne",Green,530,2517.0,21.1,False
+2022,Reigate and Banstead Borough Council,"Chipstead, Kingswood and Woodansterne",Labour,425,2517.0,16.9,False
+2022,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Green,1604,2456.0,65.3,True
+2022,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Conservative,499,2456.0,20.3,False
+2022,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Labour,353,2456.0,14.4,False
+2022,Reigate and Banstead Borough Council,"Hooley, Merstham and Netherne",Conservative,958,2729.0,35.1,True
+2022,Reigate and Banstead Borough Council,"Hooley, Merstham and Netherne",Labour,734,2729.0,26.9,False
+2022,Reigate and Banstead Borough Council,"Hooley, Merstham and Netherne",Green,694,2729.0,25.4,False
+2022,Reigate and Banstead Borough Council,"Hooley, Merstham and Netherne",Liberal Democrats,343,2729.0,12.6,False
+2022,Reigate and Banstead Borough Council,Horley Central and South,Conservative,1101,2289.0,48.1,True
+2022,Reigate and Banstead Borough Council,Horley Central and South,Labour,684,2289.0,29.9,False
+2022,Reigate and Banstead Borough Council,Horley Central and South,Green,323,2289.0,14.1,False
+2022,Reigate and Banstead Borough Council,Horley Central and South,Reform,181,2289.0,7.9,False
+2022,Reigate and Banstead Borough Council,Horley East and Salfords,Green,1049,2518.0,41.7,True
+2022,Reigate and Banstead Borough Council,Horley East and Salfords,Conservative,1025,2518.0,40.7,False
+2022,Reigate and Banstead Borough Council,Horley East and Salfords,Labour,444,2518.0,17.6,False
+2022,Reigate and Banstead Borough Council,Horley West and Sidlow,Conservative,1079,2238.0,48.2,True
+2022,Reigate and Banstead Borough Council,Horley West and Sidlow,Labour,798,2238.0,35.7,False
+2022,Reigate and Banstead Borough Council,Horley West and Sidlow,Liberal Democrats,361,2238.0,16.1,False
+2022,Reigate and Banstead Borough Council,Meadvale and St. John's,Liberal Democrats,1585,2808.0,56.4,True
+2022,Reigate and Banstead Borough Council,Meadvale and St. John's,Conservative,762,2808.0,27.1,False
+2022,Reigate and Banstead Borough Council,Meadvale and St. John's,Labour,461,2808.0,16.4,False
+2022,Reigate and Banstead Borough Council,Nork,Nork RA,1524,2510.0,60.7,True
+2022,Reigate and Banstead Borough Council,Nork,Conservative,572,2510.0,22.8,False
+2022,Reigate and Banstead Borough Council,Nork,Labour,222,2510.0,8.8,False
+2022,Reigate and Banstead Borough Council,Nork,Green,192,2510.0,7.6,False
+2022,Reigate and Banstead Borough Council,Redhill East,Green,1414,2206.0,64.1,True
+2022,Reigate and Banstead Borough Council,Redhill East,Conservative,385,2206.0,17.5,False
+2022,Reigate and Banstead Borough Council,Redhill East,Labour,259,2206.0,11.7,False
+2022,Reigate and Banstead Borough Council,Redhill East,Liberal Democrats,148,2206.0,6.7,False
+2022,Reigate and Banstead Borough Council,Redhill West and Wray Common,Conservative,867,2605.0,33.3,True
+2022,Reigate and Banstead Borough Council,Redhill West and Wray Common,Labour,715,2605.0,27.4,False
+2022,Reigate and Banstead Borough Council,Redhill West and Wray Common,Liberal Democrats,525,2605.0,20.2,False
+2022,Reigate and Banstead Borough Council,Redhill West and Wray Common,Green,498,2605.0,19.1,False
+2022,Reigate and Banstead Borough Council,Reigate,Conservative,1062,3052.0,34.8,True
+2022,Reigate and Banstead Borough Council,Reigate,Liberal Democrats,728,3052.0,23.9,False
+2022,Reigate and Banstead Borough Council,Reigate,Independent,540,3052.0,17.7,False
+2022,Reigate and Banstead Borough Council,Reigate,Green,474,3052.0,15.5,False
+2022,Reigate and Banstead Borough Council,Reigate,Labour,248,3052.0,8.1,False
+2022,Reigate and Banstead Borough Council,South Park and Woodhatch,Green,1280,2256.0,56.7,True
+2022,Reigate and Banstead Borough Council,South Park and Woodhatch,Conservative,590,2256.0,26.2,False
+2022,Reigate and Banstead Borough Council,South Park and Woodhatch,Labour,296,2256.0,13.1,False
+2022,Reigate and Banstead Borough Council,South Park and Woodhatch,Reform,90,2256.0,4.0,False
+2022,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Tattenham RA,1243,2073.0,60.0,True
+2022,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Conservative,412,2073.0,19.9,False
+2022,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Labour,304,2073.0,14.7,False
+2022,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Green,114,2073.0,5.5,False
+2022,Runnymede Borough Council,Addlestone North,Green,525,1294.0,40.6,True
+2022,Runnymede Borough Council,Addlestone North,Conservative,481,1294.0,37.2,False
+2022,Runnymede Borough Council,Addlestone North,Labour Co-op,186,1294.0,14.4,False
+2022,Runnymede Borough Council,Addlestone North,Liberal Democrats,102,1294.0,7.9,False
+2022,Runnymede Borough Council,Addlestone South,Conservative,610,1376.0,44.3,True
+2022,Runnymede Borough Council,Addlestone South,Labour Co-op,339,1376.0,24.6,False
+2022,Runnymede Borough Council,Addlestone South,Liberal Democrats,251,1376.0,18.2,False
+2022,Runnymede Borough Council,Addlestone South,Green,176,1376.0,12.8,False
+2022,Runnymede Borough Council,Chertsey Riverside,Conservative,475,1216.0,39.1,True
+2022,Runnymede Borough Council,Chertsey Riverside,Labour Co-op,333,1216.0,27.4,False
+2022,Runnymede Borough Council,Chertsey Riverside,Liberal Democrats,268,1216.0,22.0,False
+2022,Runnymede Borough Council,Chertsey Riverside,Green,140,1216.0,11.5,False
+2022,Runnymede Borough Council,Chertsey St. Ann's,Conservative,502,1464.0,34.3,True
+2022,Runnymede Borough Council,Chertsey St. Ann's,Independent,479,1464.0,32.7,False
+2022,Runnymede Borough Council,Chertsey St. Ann's,Labour,292,1464.0,19.9,False
+2022,Runnymede Borough Council,Chertsey St. Ann's,Liberal Democrats,191,1464.0,13.0,False
+2022,Runnymede Borough Council,Egham Hythe,Labour Co-op,827,1432.0,57.8,True
+2022,Runnymede Borough Council,Egham Hythe,Conservative,605,1432.0,42.2,False
+2022,Runnymede Borough Council,Egham Town,RIRG,826,1490.0,55.4,True
+2022,Runnymede Borough Council,Egham Town,Conservative,278,1490.0,18.7,False
+2022,Runnymede Borough Council,Egham Town,Labour Co-op,224,1490.0,15.0,False
+2022,Runnymede Borough Council,Egham Town,Green,91,1490.0,6.1,False
+2022,Runnymede Borough Council,Egham Town,Liberal Democrats,71,1490.0,4.8,False
+2022,Runnymede Borough Council,Englefield Green East,Independent,368,802.0,45.9,True
+2022,Runnymede Borough Council,Englefield Green East,Conservative,217,802.0,27.1,False
+2022,Runnymede Borough Council,Englefield Green East,Labour Co-op,159,802.0,19.8,False
+2022,Runnymede Borough Council,Englefield Green East,Liberal Democrats,58,802.0,7.2,False
+2022,Runnymede Borough Council,Englefield Green West,Labour Co-op,403,1094.0,36.8,True
+2022,Runnymede Borough Council,Englefield Green West,Conservative,383,1094.0,35.0,False
+2022,Runnymede Borough Council,Englefield Green West,Independent,308,1094.0,28.2,False
+2022,Runnymede Borough Council,"Longcross, Lyne and Chertsey South",Liberal Democrats,657,955.0,68.8,True
+2022,Runnymede Borough Council,"Longcross, Lyne and Chertsey South",Conservative,298,955.0,31.2,False
+2022,Runnymede Borough Council,New Haw,Conservative,661,1374.0,48.1,True
+2022,Runnymede Borough Council,New Haw,Liberal Democrats,652,1374.0,47.5,False
+2022,Runnymede Borough Council,New Haw,Heritage,61,1374.0,4.4,False
+2022,Runnymede Borough Council,Ottershaw,Independent,947,1704.0,55.6,True
+2022,Runnymede Borough Council,Ottershaw,Conservative,428,1704.0,25.1,False
+2022,Runnymede Borough Council,Ottershaw,Labour,190,1704.0,11.2,False
+2022,Runnymede Borough Council,Ottershaw,Liberal Democrats,139,1704.0,8.2,False
+2022,Runnymede Borough Council,Thorpe,RIRG,798,1503.0,53.1,True
+2022,Runnymede Borough Council,Thorpe,Conservative,421,1503.0,28.0,False
+2022,Runnymede Borough Council,Thorpe,Labour Co-op,211,1503.0,14.0,False
+2022,Runnymede Borough Council,Thorpe,Liberal Democrats,73,1503.0,4.9,False
+2022,Runnymede Borough Council,Virginia Water,Conservative,900,1588.0,56.7,True
+2022,Runnymede Borough Council,Virginia Water,Liberal Democrats,572,1588.0,36.0,False
+2022,Runnymede Borough Council,Virginia Water,Labour Co-op,116,1588.0,7.3,False
+2022,Runnymede Borough Council,Woodham and Rowtown,Conservative,939,1705.0,55.1,True
+2022,Runnymede Borough Council,Woodham and Rowtown,Liberal Democrats,490,1705.0,28.7,False
+2022,Runnymede Borough Council,Woodham and Rowtown,Green,276,1705.0,16.2,False
+2022,Tandridge District Council,Bletchingley and Nutfield,Independent,712,1742.0,40.9,True
+2022,Tandridge District Council,Bletchingley and Nutfield,Conservative,507,1742.0,29.1,False
+2022,Tandridge District Council,Bletchingley and Nutfield,Liberal Democrats,258,1742.0,14.8,False
+2022,Tandridge District Council,Bletchingley and Nutfield,Labour,150,1742.0,8.6,False
+2022,Tandridge District Council,Bletchingley and Nutfield,Green,115,1742.0,6.6,False
+2022,Tandridge District Council,"Burstow, Horne & Outwood",Independent,722,1510.0,48.1,True
+2022,Tandridge District Council,"Burstow, Horne & Outwood",Conservative,459,1510.0,30.6,False
+2022,Tandridge District Council,"Burstow, Horne & Outwood",Labour,156,1510.0,10.4,False
+2022,Tandridge District Council,"Burstow, Horne & Outwood",Green,95,1510.0,6.3,False
+2022,Tandridge District Council,"Burstow, Horne & Outwood",Liberal Democrats,70,1510.0,4.7,False
+2022,Tandridge District Council,Dormansland & Felcourt,Independent,585,1192.0,49.3,True
+2022,Tandridge District Council,Dormansland & Felcourt,Conservative,434,1192.0,36.6,False
+2022,Tandridge District Council,Dormansland & Felcourt,Liberal Democrats,120,1192.0,10.1,False
+2022,Tandridge District Council,Dormansland & Felcourt,Labour,48,1192.0,4.0,False
+2022,Tandridge District Council,Godstone,Independent,991,1609.0,61.9,True
+2022,Tandridge District Council,Godstone,Conservative,333,1609.0,20.8,False
+2022,Tandridge District Council,Godstone,Labour,185,1609.0,11.5,False
+2022,Tandridge District Council,Godstone,Liberal Democrats,93,1609.0,5.8,False
+2022,Tandridge District Council,Harestone,Liberal Democrats,721,1313.0,55.2,True
+2022,Tandridge District Council,Harestone,Conservative,524,1313.0,40.1,False
+2022,Tandridge District Council,Harestone,Labour,61,1313.0,4.7,False
+2022,Tandridge District Council,Limpsfield,Residents,850,1300.0,65.4,True
+2022,Tandridge District Council,Limpsfield,Conservative,266,1300.0,20.5,False
+2022,Tandridge District Council,Limpsfield,Liberal Democrats,125,1300.0,9.6,False
+2022,Tandridge District Council,Limpsfield,Labour,58,1300.0,4.5,False
+2022,Tandridge District Council,Lingfield & Crowhurst,Independent,558,1271.0,44.0,True
+2022,Tandridge District Council,Lingfield & Crowhurst,Conservative,544,1271.0,42.9,False
+2022,Tandridge District Council,Lingfield & Crowhurst,Labour,89,1271.0,7.0,False
+2022,Tandridge District Council,Lingfield & Crowhurst,Liberal Democrats,76,1271.0,6.0,False
+2022,Tandridge District Council,Oxted North & Tandridge,Residents,1568,1999.0,78.5,True
+2022,Tandridge District Council,Oxted North & Tandridge,Conservative,248,1999.0,12.4,False
+2022,Tandridge District Council,Oxted North & Tandridge,Liberal Democrats,100,1999.0,5.0,False
+2022,Tandridge District Council,Oxted North & Tandridge,Labour,81,1999.0,4.1,False
+2022,Tandridge District Council,Oxted South,Residents,1211,1814.0,67.1,True
+2022,Tandridge District Council,Oxted South,Conservative,253,1814.0,14.0,False
+2022,Tandridge District Council,Oxted South,Labour,229,1814.0,12.7,False
+2022,Tandridge District Council,Oxted South,Liberal Democrats,113,1814.0,6.3,False
+2022,Tandridge District Council,Queens Park,Liberal Democrats,489,1093.0,44.9,True
+2022,Tandridge District Council,Queens Park,Conservative,486,1093.0,44.6,False
+2022,Tandridge District Council,Queens Park,Labour,114,1093.0,10.5,False
+2022,Tandridge District Council,"Warlingham East, Chelsham & Farleigh",Liberal Democrats,713,1590.0,45.0,True
+2022,Tandridge District Council,"Warlingham East, Chelsham & Farleigh",Conservative,517,1590.0,32.6,False
+2022,Tandridge District Council,"Warlingham East, Chelsham & Farleigh",Independent,256,1590.0,16.1,False
+2022,Tandridge District Council,"Warlingham East, Chelsham & Farleigh",Labour,100,1590.0,6.3,False
+2022,Tandridge District Council,Warlingham West,Conservative,483,1060.0,45.7,True
+2022,Tandridge District Council,Warlingham West,Independent,272,1060.0,25.8,False
+2022,Tandridge District Council,Warlingham West,Liberal Democrats,247,1060.0,23.4,False
+2022,Tandridge District Council,Warlingham West,Labour,54,1060.0,5.1,False
+2022,Tandridge District Council,Westway,Liberal Democrats,491,972.0,50.7,True
+2022,Tandridge District Council,Westway,Conservative,317,972.0,32.7,False
+2022,Tandridge District Council,Westway,Labour,161,972.0,16.6,False
+2022,Tandridge District Council,Whyteleafe,Liberal Democrats,490,1020.0,48.5,True
+2022,Tandridge District Council,Whyteleafe,Conservative,364,1020.0,36.0,False
+2022,Tandridge District Council,Whyteleafe,Labour,157,1020.0,15.5,False
+2022,Woking Borough Council,Byfleet and West Byfleet,Independent,1692,3238.0,52.4,True
+2022,Woking Borough Council,Byfleet and West Byfleet,Conservative,840,3238.0,26.0,False
+2022,Woking Borough Council,Byfleet and West Byfleet,Liberal Democrats,694,3238.0,21.5,False
+2022,Woking Borough Council,Canalside,Labour,1310,2726.0,48.4,True
+2022,Woking Borough Council,Canalside,Conservative,937,2726.0,34.6,False
+2022,Woking Borough Council,Canalside,Liberal Democrats,462,2726.0,17.1,False
+2022,Woking Borough Council,Goldsworth Park,Liberal Democrats,1641,2497.0,66.4,True
+2022,Woking Borough Council,Goldsworth Park,Conservative,829,2497.0,33.6,False
+2022,Woking Borough Council,Heathlands,Liberal Democrats,1507,3067.0,49.2,True
+2022,Woking Borough Council,Heathlands,Conservative,1088,3067.0,35.5,False
+2022,Woking Borough Council,Heathlands,Green,409,3067.0,13.4,False
+2022,Woking Borough Council,Heathlands,Heritage,58,3067.0,1.9,False
+2022,Woking Borough Council,Hoe Valley,Liberal Democrats,1506,2365.0,63.8,True
+2022,Woking Borough Council,Hoe Valley,Conservative,484,2365.0,20.5,False
+2022,Woking Borough Council,Hoe Valley,Labour,221,2365.0,9.4,False
+2022,Woking Borough Council,Hoe Valley,Green,148,2365.0,6.3,False
+2022,Woking Borough Council,Horsell,Liberal Democrats,2285,3717.0,61.8,True
+2022,Woking Borough Council,Horsell,Conservative,1173,3717.0,31.7,False
+2022,Woking Borough Council,Horsell,Green,240,3717.0,6.5,False
+2022,Woking Borough Council,Knaphill,Independent,1397,2918.0,48.1,True
+2022,Woking Borough Council,Knaphill,Conservative,1019,2918.0,35.1,False
+2022,Woking Borough Council,Knaphill,Liberal Democrats,489,2918.0,16.8,False
+2022,Woking Borough Council,Mount Hermon,Liberal Democrats,1974,3068.0,64.5,True
+2022,Woking Borough Council,Mount Hermon,Conservative,782,3068.0,25.6,False
+2022,Woking Borough Council,Mount Hermon,Green,250,3068.0,8.2,False
+2022,Woking Borough Council,Mount Hermon,Heritage,53,3068.0,1.7,False
+2022,Woking Borough Council,Pyrford,Liberal Democrats,1743,3296.0,53.2,True
+2022,Woking Borough Council,Pyrford,Conservative,1147,3296.0,35.0,False
+2022,Woking Borough Council,Pyrford,Labour,263,3296.0,8.0,False
+2022,Woking Borough Council,Pyrford,Green,124,3296.0,3.8,False
+2022,Woking Borough Council,St Johns,Liberal Democrats,1720,2858.0,60.4,True
+2022,Woking Borough Council,St Johns,Conservative,809,2858.0,28.4,False
+2022,Woking Borough Council,St Johns,Green,233,2858.0,8.2,False
+2022,Woking Borough Council,St Johns,Heritage,87,2858.0,3.1,False
+2023,Elmbridge Borough Council,Claygate,Liberal Democrats,1732,2469.0,70.1,True
+2023,Elmbridge Borough Council,Claygate,Conservative,631,2469.0,25.6,False
+2023,Elmbridge Borough Council,Claygate,Labour,106,2469.0,4.3,False
+2023,Elmbridge Borough Council,Cobham and Downside,Liberal Democrats,1252,2546.0,49.2,True
+2023,Elmbridge Borough Council,Cobham and Downside,Conservative,1098,2546.0,43.1,False
+2023,Elmbridge Borough Council,Cobham and Downside,Labour,116,2546.0,4.6,False
+2023,Elmbridge Borough Council,Cobham and Downside,Reform,57,2546.0,2.2,False
+2023,Elmbridge Borough Council,Cobham and Downside,Heritage,23,2546.0,0.9,False
+2023,Elmbridge Borough Council,Esher,Residents,1301,2537.0,51.3,True
+2023,Elmbridge Borough Council,Esher,Conservative,989,2537.0,39.0,False
+2023,Elmbridge Borough Council,Esher,Labour,247,2537.0,9.7,False
+2023,Elmbridge Borough Council,Hersham Village,Liberal Democrats,1300,2787.0,46.6,True
+2023,Elmbridge Borough Council,Hersham Village,Conservative,1236,2787.0,44.3,False
+2023,Elmbridge Borough Council,Hersham Village,Labour,251,2787.0,9.0,False
+2023,Elmbridge Borough Council,Hinchley Wood and Weston Green,Residents,1603,2589.0,61.9,True
+2023,Elmbridge Borough Council,Hinchley Wood and Weston Green,Liberal Democrats,518,2589.0,20.0,False
+2023,Elmbridge Borough Council,Hinchley Wood and Weston Green,Conservative,384,2589.0,14.8,False
+2023,Elmbridge Borough Council,Hinchley Wood and Weston Green,Labour,84,2589.0,3.2,False
+2023,Elmbridge Borough Council,Long Ditton,Liberal Democrats,1471,2083.0,70.6,True
+2023,Elmbridge Borough Council,Long Ditton,Conservative,471,2083.0,22.6,False
+2023,Elmbridge Borough Council,Long Ditton,Labour,141,2083.0,6.8,False
+2023,Elmbridge Borough Council,Molesey East,Liberal Democrats,1236,2900.0,42.6,True
+2023,Elmbridge Borough Council,Molesey East,Residents,920,2900.0,31.7,False
+2023,Elmbridge Borough Council,Molesey East,Conservative,615,2900.0,21.2,False
+2023,Elmbridge Borough Council,Molesey East,Labour,129,2900.0,4.4,False
+2023,Elmbridge Borough Council,Molesey West,Residents,927,2155.0,43.0,True
+2023,Elmbridge Borough Council,Molesey West,Liberal Democrats,701,2155.0,32.5,False
+2023,Elmbridge Borough Council,Molesey West,Conservative,384,2155.0,17.8,False
+2023,Elmbridge Borough Council,Molesey West,Labour,143,2155.0,6.6,False
+2023,Elmbridge Borough Council,Oatlands and Burwood Park,Conservative,1290,2516.0,51.3,True
+2023,Elmbridge Borough Council,Oatlands and Burwood Park,Liberal Democrats,1014,2516.0,40.3,False
+2023,Elmbridge Borough Council,Oatlands and Burwood Park,Labour,157,2516.0,6.2,False
+2023,Elmbridge Borough Council,Oatlands and Burwood Park,UKIP,55,2516.0,2.2,False
+2023,Elmbridge Borough Council,Oxshott and Stoke d'Abernon,Conservative,1573,2599.0,60.5,True
+2023,Elmbridge Borough Council,Oxshott and Stoke d'Abernon,Liberal Democrats,898,2599.0,34.6,False
+2023,Elmbridge Borough Council,Oxshott and Stoke d'Abernon,Labour,69,2599.0,2.7,False
+2023,Elmbridge Borough Council,Oxshott and Stoke d'Abernon,Heritage,59,2599.0,2.3,False
+2023,Elmbridge Borough Council,Thames Ditton,Residents,1563,2684.0,58.2,True
+2023,Elmbridge Borough Council,Thames Ditton,Liberal Democrats,643,2684.0,24.0,False
+2023,Elmbridge Borough Council,Thames Ditton,Conservative,307,2684.0,11.4,False
+2023,Elmbridge Borough Council,Thames Ditton,Labour,127,2684.0,4.7,False
+2023,Elmbridge Borough Council,Thames Ditton,Reform,44,2684.0,1.6,False
+2023,Elmbridge Borough Council,Walton Central,Liberal Democrats,1028,2602.0,39.5,True
+2023,Elmbridge Borough Council,Walton Central,Residents,926,2602.0,35.6,False
+2023,Elmbridge Borough Council,Walton Central,Conservative,510,2602.0,19.6,False
+2023,Elmbridge Borough Council,Walton Central,Labour,138,2602.0,5.3,False
+2023,Elmbridge Borough Council,Walton North,Liberal Democrats,1197,2171.0,55.1,True
+2023,Elmbridge Borough Council,Walton North,Conservative,779,2171.0,35.9,False
+2023,Elmbridge Borough Council,Walton North,Labour,195,2171.0,9.0,False
+2023,Elmbridge Borough Council,Walton South,Liberal Democrats,1476,2947.0,50.1,True
+2023,Elmbridge Borough Council,Walton South,Conservative,1210,2947.0,41.1,False
+2023,Elmbridge Borough Council,Walton South,Labour,169,2947.0,5.7,False
+2023,Elmbridge Borough Council,Walton South,Heritage,92,2947.0,3.1,False
+2023,Elmbridge Borough Council,Weybridge Riverside,Liberal Democrats,1094,2068.0,52.9,True
+2023,Elmbridge Borough Council,Weybridge Riverside,Conservative,754,2068.0,36.5,False
+2023,Elmbridge Borough Council,Weybridge Riverside,Labour Co-op,220,2068.0,10.6,False
+2023,Elmbridge Borough Council,Weybridge St George's Hill,Residents,1144,2346.0,48.8,True
+2023,Elmbridge Borough Council,Weybridge St George's Hill,Conservative,908,2346.0,38.7,False
+2023,Elmbridge Borough Council,Weybridge St George's Hill,Labour Co-op,294,2346.0,12.5,False
+2023,Epsom and Ewell Borough Council,Auriol (2 Seats),Residents Association,773,1038.0,72.6,True
+2023,Epsom and Ewell Borough Council,Auriol (2 Seats),Conservative,138,1038.0,13.0,False
+2023,Epsom and Ewell Borough Council,Auriol (2 Seats),Labour,98,1038.0,9.2,False
+2023,Epsom and Ewell Borough Council,Auriol (2 Seats),Liberal Democrats,56,1038.0,5.3,False
+2023,Epsom and Ewell Borough Council,College (3 Seats),Liberal Democrats,1225,2319.0,45.8,True
+2023,Epsom and Ewell Borough Council,College (3 Seats),Residents Association,573,2319.0,21.4,False
+2023,Epsom and Ewell Borough Council,College (3 Seats),Conservative,551,2319.0,20.6,False
+2023,Epsom and Ewell Borough Council,College (3 Seats),Labour,327,2319.0,12.2,False
+2023,Epsom and Ewell Borough Council,Court (3 Seats),Labour,735,1271.0,53.1,True
+2023,Epsom and Ewell Borough Council,Court (3 Seats),Residents Association,293,1271.0,21.2,False
+2023,Epsom and Ewell Borough Council,Court (3 Seats),Conservative,187,1271.0,13.5,False
+2023,Epsom and Ewell Borough Council,Court (3 Seats),Liberal Democrats,170,1271.0,12.3,False
+2023,Epsom and Ewell Borough Council,Cuddington (3 Seats),Residents Association,1013,1511.0,61.5,True
+2023,Epsom and Ewell Borough Council,Cuddington (3 Seats),Labour,238,1511.0,14.4,False
+2023,Epsom and Ewell Borough Council,Cuddington (3 Seats),Conservative,215,1511.0,13.0,False
+2023,Epsom and Ewell Borough Council,Cuddington (3 Seats),Liberal Democrats,182,1511.0,11.0,False
+2023,Epsom and Ewell Borough Council,Ewell Court (2 Seats),Residents Association,816,1156.0,70.4,True
+2023,Epsom and Ewell Borough Council,Ewell Court (2 Seats),Conservative,150,1156.0,12.9,False
+2023,Epsom and Ewell Borough Council,Ewell Court (2 Seats),Labour,127,1156.0,11.0,False
+2023,Epsom and Ewell Borough Council,Ewell Court (2 Seats),Liberal Democrats,66,1156.0,5.7,False
+2023,Epsom and Ewell Borough Council,Ewell Village (2 Seats),Residents Association,588,1022.0,48.9,True
+2023,Epsom and Ewell Borough Council,Ewell Village (2 Seats),Labour,189,1022.0,15.7,False
+2023,Epsom and Ewell Borough Council,Ewell Village (2 Seats),Green,152,1022.0,12.6,False
+2023,Epsom and Ewell Borough Council,Ewell Village (2 Seats),Conservative,151,1022.0,12.6,False
+2023,Epsom and Ewell Borough Council,Ewell Village (2 Seats),Liberal Democrats,123,1022.0,10.2,False
+2023,Epsom and Ewell Borough Council,Horton (2 Seats),Conservative,737,1448.0,49.7,True
+2023,Epsom and Ewell Borough Council,Horton (2 Seats),Labour,357,1448.0,24.1,False
+2023,Epsom and Ewell Borough Council,Horton (2 Seats),Residents Association,258,1448.0,17.4,False
+2023,Epsom and Ewell Borough Council,Horton (2 Seats),Liberal Democrats,130,1448.0,8.8,False
+2023,Epsom and Ewell Borough Council,Nonsuch (3 Seats),Residents Association,962,1757.0,45.6,True
+2023,Epsom and Ewell Borough Council,Nonsuch (3 Seats),Conservative,411,1757.0,19.5,False
+2023,Epsom and Ewell Borough Council,Nonsuch (3 Seats),Green,356,1757.0,16.9,False
+2023,Epsom and Ewell Borough Council,Nonsuch (3 Seats),Labour,198,1757.0,9.4,False
+2023,Epsom and Ewell Borough Council,Nonsuch (3 Seats),Liberal Democrats,183,1757.0,8.7,False
+2023,Epsom and Ewell Borough Council,Ruxley (2 Seats),Residents Association,396,819.0,46.0,True
+2023,Epsom and Ewell Borough Council,Ruxley (2 Seats),Labour,172,819.0,20.0,False
+2023,Epsom and Ewell Borough Council,Ruxley (2 Seats),Conservative,144,819.0,16.7,False
+2023,Epsom and Ewell Borough Council,Ruxley (2 Seats),Green,85,819.0,9.9,False
+2023,Epsom and Ewell Borough Council,Ruxley (2 Seats),Liberal Democrats,64,819.0,7.4,False
+2023,Epsom and Ewell Borough Council,Stamford (2 Seats),Liberal Democrats,439,1567.0,25.0,True
+2023,Epsom and Ewell Borough Council,Stamford (2 Seats),Residents Association,431,1567.0,24.5,False
+2023,Epsom and Ewell Borough Council,Stamford (2 Seats),Conservative,355,1567.0,20.2,False
+2023,Epsom and Ewell Borough Council,Stamford (2 Seats),Green,283,1567.0,16.1,False
+2023,Epsom and Ewell Borough Council,Stamford (2 Seats),Labour,251,1567.0,14.3,False
+2023,Epsom and Ewell Borough Council,Stoneleigh (2 Seats),Residents Association,853,1148.0,69.6,True
+2023,Epsom and Ewell Borough Council,Stoneleigh (2 Seats),Conservative,178,1148.0,14.5,False
+2023,Epsom and Ewell Borough Council,Stoneleigh (2 Seats),Labour,120,1148.0,9.8,False
+2023,Epsom and Ewell Borough Council,Stoneleigh (2 Seats),Liberal Democrats,75,1148.0,6.1,False
+2023,Epsom and Ewell Borough Council,Town (3 Seats),Residents Association,622,1515.0,33.9,True
+2023,Epsom and Ewell Borough Council,Town (3 Seats),Labour,504,1515.0,27.4,False
+2023,Epsom and Ewell Borough Council,Town (3 Seats),Green,258,1515.0,14.0,False
+2023,Epsom and Ewell Borough Council,Town (3 Seats),Liberal Democrats,240,1515.0,13.1,False
+2023,Epsom and Ewell Borough Council,Town (3 Seats),Conservative,213,1515.0,11.6,False
+2023,Epsom and Ewell Borough Council,West Ewell (3 Seats),Residents Association,682,1545.0,34.1,True
+2023,Epsom and Ewell Borough Council,West Ewell (3 Seats),Labour,417,1545.0,20.8,False
+2023,Epsom and Ewell Borough Council,West Ewell (3 Seats),Conservative,367,1545.0,18.3,False
+2023,Epsom and Ewell Borough Council,West Ewell (3 Seats),Green,272,1545.0,13.6,False
+2023,Epsom and Ewell Borough Council,West Ewell (3 Seats),Liberal Democrats,264,1545.0,13.2,False
+2023,Epsom and Ewell Borough Council,Woodcote and Langley Vale (3 Seats),Residents Association,1058,1676.0,52.0,True
+2023,Epsom and Ewell Borough Council,Woodcote and Langley Vale (3 Seats),Conservative,607,1676.0,29.8,False
+2023,Epsom and Ewell Borough Council,Woodcote and Langley Vale (3 Seats),Liberal Democrats,203,1676.0,10.0,False
+2023,Epsom and Ewell Borough Council,Woodcote and Langley Vale (3 Seats),Labour,167,1676.0,8.2,False
+2023,Guildford Borough Council,Ash South,R4GV,737,1429.0,47.7,True
+2023,Guildford Borough Council,Ash South,Liberal Democrats,534,1429.0,34.6,False
+2023,Guildford Borough Council,Ash South,Conservative,274,1429.0,17.7,False
+2023,Guildford Borough Council,Ash Vale,Liberal Democrats,1183,1761.0,67.4,True
+2023,Guildford Borough Council,Ash Vale,Conservative,571,1761.0,32.6,False
+2023,Guildford Borough Council,Ash Wharf,Liberal Democrats,699,1437.0,41.1,True
+2023,Guildford Borough Council,Ash Wharf,Conservative,475,1437.0,27.9,False
+2023,Guildford Borough Council,Ash Wharf,Labour,280,1437.0,16.5,False
+2023,Guildford Borough Council,Ash Wharf,Green,246,1437.0,14.5,False
+2023,Guildford Borough Council,Bellfields and Slyfield,Labour,453,1084.0,35.2,True
+2023,Guildford Borough Council,Bellfields and Slyfield,Conservative,336,1084.0,26.1,False
+2023,Guildford Borough Council,Bellfields and Slyfield,Liberal Democrats,327,1084.0,25.4,False
+2023,Guildford Borough Council,Bellfields and Slyfield,R4GV,172,1084.0,13.4,False
+2023,Guildford Borough Council,Burpham,Liberal Democrats,1065,2337.0,41.3,True
+2023,Guildford Borough Council,Burpham,Conservative,669,2337.0,26.0,False
+2023,Guildford Borough Council,Burpham,R4GV,465,2337.0,18.0,False
+2023,Guildford Borough Council,Burpham,Labour,378,2337.0,14.7,False
+2023,Guildford Borough Council,Castle,R4GV,1159,3293.0,29.7,True
+2023,Guildford Borough Council,Castle,Conservative,1128,3293.0,28.9,False
+2023,Guildford Borough Council,Castle,Liberal Democrats,910,3293.0,23.3,False
+2023,Guildford Borough Council,Castle,Labour,439,3293.0,11.3,False
+2023,Guildford Borough Council,Castle,Independent,263,3293.0,6.7,False
+2023,Guildford Borough Council,Clandon and Horsley,R4GV,1949,3124.0,58.6,True
+2023,Guildford Borough Council,Clandon and Horsley,Conservative,667,3124.0,20.1,False
+2023,Guildford Borough Council,Clandon and Horsley,Liberal Democrats,400,3124.0,12.0,False
+2023,Guildford Borough Council,Clandon and Horsley,Labour,309,3124.0,9.3,False
+2023,Guildford Borough Council,Effingham,Liberal Democrats,521,811.0,64.8,True
+2023,Guildford Borough Council,Effingham,Conservative,240,811.0,29.9,False
+2023,Guildford Borough Council,Effingham,Labour,43,811.0,5.3,False
+2023,Guildford Borough Council,Merrow,Liberal Democrats,1315,3203.0,29.9,True
+2023,Guildford Borough Council,Merrow,R4GV,995,3203.0,22.6,False
+2023,Guildford Borough Council,Merrow,Conservative,954,3203.0,21.7,False
+2023,Guildford Borough Council,Merrow,Labour,648,3203.0,14.7,False
+2023,Guildford Borough Council,Merrow,Independent,487,3203.0,11.1,False
+2023,Guildford Borough Council,Normandy and Pirbright,Conservative,938,1616.0,47.7,True
+2023,Guildford Borough Council,Normandy and Pirbright,Liberal Democrats,341,1616.0,17.4,False
+2023,Guildford Borough Council,Normandy and Pirbright,R4GV,324,1616.0,16.5,False
+2023,Guildford Borough Council,Normandy and Pirbright,Labour,282,1616.0,14.4,False
+2023,Guildford Borough Council,Normandy and Pirbright,Independent,80,1616.0,4.1,False
+2023,Guildford Borough Council,Onslow,Liberal Democrats,1272,2196.0,51.5,True
+2023,Guildford Borough Council,Onslow,Conservative,479,2196.0,19.4,False
+2023,Guildford Borough Council,Onslow,R4GV,395,2196.0,16.0,False
+2023,Guildford Borough Council,Onslow,Labour,289,2196.0,11.7,False
+2023,Guildford Borough Council,Onslow,TUSC,36,2196.0,1.5,False
+2023,Guildford Borough Council,Pilgrims,Conservative,835,1469.0,52.9,True
+2023,Guildford Borough Council,Pilgrims,R4GV,358,1469.0,22.7,False
+2023,Guildford Borough Council,Pilgrims,Liberal Democrats,234,1469.0,14.8,False
+2023,Guildford Borough Council,Pilgrims,Labour,150,1469.0,9.5,False
+2023,Guildford Borough Council,Send and Lovelace,GGG,980,2105.0,41.7,True
+2023,Guildford Borough Council,Send and Lovelace,R4GV,515,2105.0,21.9,False
+2023,Guildford Borough Council,Send and Lovelace,Conservative,473,2105.0,20.1,False
+2023,Guildford Borough Council,Send and Lovelace,Liberal Democrats,192,2105.0,8.2,False
+2023,Guildford Borough Council,Send and Lovelace,Labour,188,2105.0,8.0,False
+2023,Guildford Borough Council,Shalford,Liberal Democrats,947,1883.0,47.1,True
+2023,Guildford Borough Council,Shalford,Conservative,476,1883.0,23.7,False
+2023,Guildford Borough Council,Shalford,GGG,407,1883.0,20.2,False
+2023,Guildford Borough Council,Shalford,Labour,182,1883.0,9.0,False
+2023,Guildford Borough Council,St Nicolas,Liberal Democrats,518,1124.0,46.2,True
+2023,Guildford Borough Council,St Nicolas,Conservative,252,1124.0,22.5,False
+2023,Guildford Borough Council,St Nicolas,R4GV,250,1124.0,22.3,False
+2023,Guildford Borough Council,St Nicolas,Labour,101,1124.0,9.0,False
+2023,Guildford Borough Council,Stoke,Liberal Democrats,634,1923.0,27.9,True
+2023,Guildford Borough Council,Stoke,Green,516,1923.0,22.7,False
+2023,Guildford Borough Council,Stoke,Labour,467,1923.0,20.5,False
+2023,Guildford Borough Council,Stoke,R4GV,340,1923.0,14.9,False
+2023,Guildford Borough Council,Stoke,Conservative,319,1923.0,14.0,False
+2023,Guildford Borough Council,Stoughton North,Liberal Democrats,750,1593.0,46.3,True
+2023,Guildford Borough Council,Stoughton North,Conservative,423,1593.0,26.1,False
+2023,Guildford Borough Council,Stoughton North,Labour,284,1593.0,17.5,False
+2023,Guildford Borough Council,Stoughton North,R4GV,164,1593.0,10.1,False
+2023,Guildford Borough Council,Stoughton South,Liberal Democrats,660,1628.0,39.9,True
+2023,Guildford Borough Council,Stoughton South,Labour,420,1628.0,25.4,False
+2023,Guildford Borough Council,Stoughton South,Conservative,294,1628.0,17.8,False
+2023,Guildford Borough Council,Stoughton South,R4GV,190,1628.0,11.5,False
+2023,Guildford Borough Council,Stoughton South,Peace,92,1628.0,5.6,False
+2023,Guildford Borough Council,Tillingbourne,Liberal Democrats,801,1803.0,40.2,True
+2023,Guildford Borough Council,Tillingbourne,Conservative,781,1803.0,39.2,False
+2023,Guildford Borough Council,Tillingbourne,Green,294,1803.0,14.7,False
+2023,Guildford Borough Council,Tillingbourne,Labour,118,1803.0,5.9,False
+2023,Guildford Borough Council,Westborough,Liberal Democrats,599,1308.0,37.5,True
+2023,Guildford Borough Council,Westborough,Labour,508,1308.0,31.8,False
+2023,Guildford Borough Council,Westborough,Conservative,290,1308.0,18.2,False
+2023,Guildford Borough Council,Westborough,R4GV,199,1308.0,12.5,False
+2023,Guildford Borough Council,Worplesdon,Conservative,1087,2615.0,39.0,True
+2023,Guildford Borough Council,Worplesdon,R4GV,855,2615.0,30.6,False
+2023,Guildford Borough Council,Worplesdon,Liberal Democrats,463,2615.0,16.6,False
+2023,Guildford Borough Council,Worplesdon,Labour,385,2615.0,13.8,False
+2023,Mole Valley District Council,Ashtead Lanes & Common,Ashtead Ind.,1636,2481.0,61.8,True
+2023,Mole Valley District Council,Ashtead Lanes & Common,Liberal Democrats,488,2481.0,18.4,False
+2023,Mole Valley District Council,Ashtead Lanes & Common,Conservative,284,2481.0,10.7,False
+2023,Mole Valley District Council,Ashtead Lanes & Common,Labour,241,2481.0,9.1,False
+2023,Mole Valley District Council,Ashtead Park,Ashtead Ind.,1242,2292.0,43.4,True
+2023,Mole Valley District Council,Ashtead Park,Independent,706,2292.0,24.7,False
+2023,Mole Valley District Council,Ashtead Park,Conservative,269,2292.0,9.4,False
+2023,Mole Valley District Council,Ashtead Park,Green,264,2292.0,9.2,False
+2023,Mole Valley District Council,Ashtead Park,Liberal Democrats,245,2292.0,8.6,False
+2023,Mole Valley District Council,Ashtead Park,Labour,136,2292.0,4.8,False
+2023,Mole Valley District Council,Bookham East & Eastwick Park,Liberal Democrats,1577,2598.0,55.8,True
+2023,Mole Valley District Council,Bookham East & Eastwick Park,Conservative,994,2598.0,35.2,False
+2023,Mole Valley District Council,Bookham East & Eastwick Park,Green,176,2598.0,6.2,False
+2023,Mole Valley District Council,Bookham East & Eastwick Park,Labour,80,2598.0,2.8,False
+2023,Mole Valley District Council,Bookham West,Liberal Democrats,1408,2184.0,58.6,True
+2023,Mole Valley District Council,Bookham West,Conservative,725,2184.0,30.2,False
+2023,Mole Valley District Council,Bookham West,Green,268,2184.0,11.2,False
+2023,Mole Valley District Council,"Brockham, Betchworth, Buckland, Box Hill & Headley",Liberal Democrats,1217,2289.0,43.3,True
+2023,Mole Valley District Council,"Brockham, Betchworth, Buckland, Box Hill & Headley",Conservative,1139,2289.0,40.5,False
+2023,Mole Valley District Council,"Brockham, Betchworth, Buckland, Box Hill & Headley",Green,285,2289.0,10.1,False
+2023,Mole Valley District Council,"Brockham, Betchworth, Buckland, Box Hill & Headley",Labour,168,2289.0,6.0,False
+2023,Mole Valley District Council,"Capel, Leigh, Newdigate & Charlwood",Liberal Democrats,894,2101.0,39.6,True
+2023,Mole Valley District Council,"Capel, Leigh, Newdigate & Charlwood",Conservative,698,2101.0,30.9,False
+2023,Mole Valley District Council,"Capel, Leigh, Newdigate & Charlwood",Green,604,2101.0,26.7,False
+2023,Mole Valley District Council,"Capel, Leigh, Newdigate & Charlwood",Labour Co-op,64,2101.0,2.8,False
+2023,Mole Valley District Council,Dorking North,Liberal Democrats,1301,2409.0,47.6,True
+2023,Mole Valley District Council,Dorking North,Green,778,2409.0,28.5,False
+2023,Mole Valley District Council,Dorking North,Labour,339,2409.0,12.4,False
+2023,Mole Valley District Council,Dorking North,Conservative,316,2409.0,11.6,False
+2023,Mole Valley District Council,Dorking South,Liberal Democrats,1301,2161.0,60.3,True
+2023,Mole Valley District Council,Dorking South,Green,445,2161.0,20.6,False
+2023,Mole Valley District Council,Dorking South,Conservative,413,2161.0,19.1,False
+2023,Mole Valley District Council,Fetcham,Liberal Democrats,1426,2427.0,53.8,True
+2023,Mole Valley District Council,Fetcham,Conservative,853,2427.0,32.2,False
+2023,Mole Valley District Council,Fetcham,Green,219,2427.0,8.3,False
+2023,Mole Valley District Council,Fetcham,Labour,151,2427.0,5.7,False
+2023,Mole Valley District Council,Holmwoods & Beare Green,Liberal Democrats,979,1806.0,49.7,True
+2023,Mole Valley District Council,Holmwoods & Beare Green,Conservative,607,1806.0,30.8,False
+2023,Mole Valley District Council,Holmwoods & Beare Green,Green,224,1806.0,11.4,False
+2023,Mole Valley District Council,Holmwoods & Beare Green,Labour,158,1806.0,8.0,False
+2023,Mole Valley District Council,Leatherhead North,Liberal Democrats,689,1217.0,52.0,True
+2023,Mole Valley District Council,Leatherhead North,Conservative,368,1217.0,27.8,False
+2023,Mole Valley District Council,Leatherhead North,Green,267,1217.0,20.2,False
+2023,Mole Valley District Council,Leatherhead South,Liberal Democrats,960,1940.0,41.4,True
+2023,Mole Valley District Council,Leatherhead South,Conservative,852,1940.0,36.7,False
+2023,Mole Valley District Council,Leatherhead South,Green,301,1940.0,13.0,False
+2023,Mole Valley District Council,Leatherhead South,Labour Co-op,207,1940.0,8.9,False
+2023,Mole Valley District Council,"Mickleham, Westcott & Okewood",Liberal Democrats,1180,2191.0,50.8,True
+2023,Mole Valley District Council,"Mickleham, Westcott & Okewood",Conservative,769,2191.0,33.1,False
+2023,Mole Valley District Council,"Mickleham, Westcott & Okewood",Green,372,2191.0,16.0,False
+2023,Reigate and Banstead Borough Council,Banstead Village,Conservative,1347,2160.0,62.4,True
+2023,Reigate and Banstead Borough Council,Banstead Village,Labour,337,2160.0,15.6,False
+2023,Reigate and Banstead Borough Council,Banstead Village,Liberal Democrats,275,2160.0,12.7,False
+2023,Reigate and Banstead Borough Council,Banstead Village,Green,201,2160.0,9.3,False
+2023,Reigate and Banstead Borough Council,"Chipstead, Kingswood and Woodmansterne",Conservative,1477,2353.0,62.8,True
+2023,Reigate and Banstead Borough Council,"Chipstead, Kingswood and Woodmansterne",Green,308,2353.0,13.1,False
+2023,Reigate and Banstead Borough Council,"Chipstead, Kingswood and Woodmansterne",Labour,286,2353.0,12.2,False
+2023,Reigate and Banstead Borough Council,"Chipstead, Kingswood and Woodmansterne",Liberal Democrats,282,2353.0,12.0,False
+2023,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Green,1360,2327.0,58.4,True
+2023,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Conservative,507,2327.0,21.8,False
+2023,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Labour,337,2327.0,14.5,False
+2023,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Liberal Democrats,123,2327.0,5.3,False
+2023,Reigate and Banstead Borough Council,"Hooley, Merstham and Netherne",Green,929,2482.0,37.4,True
+2023,Reigate and Banstead Borough Council,"Hooley, Merstham and Netherne",Conservative,717,2482.0,28.9,False
+2023,Reigate and Banstead Borough Council,"Hooley, Merstham and Netherne",Labour,573,2482.0,23.1,False
+2023,Reigate and Banstead Borough Council,"Hooley, Merstham and Netherne",Liberal Democrats,263,2482.0,10.6,False
+2023,Reigate and Banstead Borough Council,Horley Central and South,Conservative,840,2107.0,39.9,True
+2023,Reigate and Banstead Borough Council,Horley Central and South,Labour,560,2107.0,26.6,False
+2023,Reigate and Banstead Borough Council,Horley Central and South,Green,267,2107.0,12.7,False
+2023,Reigate and Banstead Borough Council,Horley Central and South,Liberal Democrats,266,2107.0,12.6,False
+2023,Reigate and Banstead Borough Council,Horley Central and South,Reform,174,2107.0,8.3,False
+2023,Reigate and Banstead Borough Council,Horley East and Salfords,Green,1019,2420.0,42.1,True
+2023,Reigate and Banstead Borough Council,Horley East and Salfords,Conservative,855,2420.0,35.3,False
+2023,Reigate and Banstead Borough Council,Horley East and Salfords,Labour,335,2420.0,13.8,False
+2023,Reigate and Banstead Borough Council,Horley East and Salfords,Liberal Democrats,211,2420.0,8.7,False
+2023,Reigate and Banstead Borough Council,Horley West and Sidlow,Conservative,937,2341.0,40.0,True
+2023,Reigate and Banstead Borough Council,Horley West and Sidlow,Labour,778,2341.0,33.2,False
+2023,Reigate and Banstead Borough Council,Horley West and Sidlow,Liberal Democrats,390,2341.0,16.7,False
+2023,Reigate and Banstead Borough Council,Horley West and Sidlow,Green,236,2341.0,10.1,False
+2023,Reigate and Banstead Borough Council,"Lower Kingswood, Tadworth and Walton",Conservative,1617,2584.0,62.6,True
+2023,Reigate and Banstead Borough Council,"Lower Kingswood, Tadworth and Walton",Liberal Democrats,514,2584.0,19.9,False
+2023,Reigate and Banstead Borough Council,"Lower Kingswood, Tadworth and Walton",Labour,453,2584.0,17.5,False
+2023,Reigate and Banstead Borough Council,Meadvale and St. John’s,Liberal Democrats,1210,2688.0,45.0,True
+2023,Reigate and Banstead Borough Council,Meadvale and St. John’s,Conservative,738,2688.0,27.5,False
+2023,Reigate and Banstead Borough Council,Meadvale and St. John’s,Green,454,2688.0,16.9,False
+2023,Reigate and Banstead Borough Council,Meadvale and St. John’s,Labour,286,2688.0,10.6,False
+2023,Reigate and Banstead Borough Council,Nork,Residents,1345,2366.0,56.8,True
+2023,Reigate and Banstead Borough Council,Nork,Conservative,615,2366.0,26.0,False
+2023,Reigate and Banstead Borough Council,Nork,Labour,191,2366.0,8.1,False
+2023,Reigate and Banstead Borough Council,Nork,Green,139,2366.0,5.9,False
+2023,Reigate and Banstead Borough Council,Nork,Liberal Democrats,76,2366.0,3.2,False
+2023,Reigate and Banstead Borough Council,Redhill East,Green,1504,2118.0,71.0,True
+2023,Reigate and Banstead Borough Council,Redhill East,Conservative,303,2118.0,14.3,False
+2023,Reigate and Banstead Borough Council,Redhill East,Labour,217,2118.0,10.2,False
+2023,Reigate and Banstead Borough Council,Redhill East,Liberal Democrats,94,2118.0,4.4,False
+2023,Reigate and Banstead Borough Council,Redhill West and Wray Common,Labour,893,2497.0,35.8,True
+2023,Reigate and Banstead Borough Council,Redhill West and Wray Common,Conservative,864,2497.0,34.6,False
+2023,Reigate and Banstead Borough Council,Redhill West and Wray Common,Green,378,2497.0,15.1,False
+2023,Reigate and Banstead Borough Council,Redhill West and Wray Common,Liberal Democrats,362,2497.0,14.5,False
+2023,Reigate and Banstead Borough Council,Reigate,Conservative,1260,2848.0,44.2,True
+2023,Reigate and Banstead Borough Council,Reigate,Liberal Democrats,859,2848.0,30.2,False
+2023,Reigate and Banstead Borough Council,Reigate,Green,446,2848.0,15.7,False
+2023,Reigate and Banstead Borough Council,Reigate,Labour,283,2848.0,9.9,False
+2023,Reigate and Banstead Borough Council,South Park and Woodhatch,Conservative,1093,2372.0,46.1,True
+2023,Reigate and Banstead Borough Council,South Park and Woodhatch,Green,942,2372.0,39.7,False
+2023,Reigate and Banstead Borough Council,South Park and Woodhatch,Labour,216,2372.0,9.1,False
+2023,Reigate and Banstead Borough Council,South Park and Woodhatch,Liberal Democrats,121,2372.0,5.1,False
+2023,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Residents,1237,1950.0,63.4,True
+2023,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Conservative,291,1950.0,14.9,False
+2023,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Labour,282,1950.0,14.5,False
+2023,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Liberal Democrats,71,1950.0,3.6,False
+2023,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Green,69,1950.0,3.5,False
+2023,Runnymede Borough Council,Addlestone North,Green,545,1374.0,39.7,True
+2023,Runnymede Borough Council,Addlestone North,Conservative,515,1374.0,37.5,False
+2023,Runnymede Borough Council,Addlestone North,Labour Co-op,228,1374.0,16.6,False
+2023,Runnymede Borough Council,Addlestone North,Liberal Democrats,86,1374.0,6.3,False
+2023,Runnymede Borough Council,Addlestone South,Conservative,609,1459.0,41.7,True
+2023,Runnymede Borough Council,Addlestone South,Labour Co-op,529,1459.0,36.3,False
+2023,Runnymede Borough Council,Addlestone South,Liberal Democrats,178,1459.0,12.2,False
+2023,Runnymede Borough Council,Addlestone South,Green,143,1459.0,9.8,False
+2023,Runnymede Borough Council,Chertsey Riverside,Conservative,565,1349.0,41.9,True
+2023,Runnymede Borough Council,Chertsey Riverside,Labour Co-op,519,1349.0,38.5,False
+2023,Runnymede Borough Council,Chertsey Riverside,Liberal Democrats,158,1349.0,11.7,False
+2023,Runnymede Borough Council,Chertsey Riverside,Green,107,1349.0,7.9,False
+2023,Runnymede Borough Council,Chertsey St. Ann's,Conservative,647,1434.0,45.1,True
+2023,Runnymede Borough Council,Chertsey St. Ann's,Labour Co-op,524,1434.0,36.5,False
+2023,Runnymede Borough Council,Chertsey St. Ann's,Liberal Democrats,167,1434.0,11.6,False
+2023,Runnymede Borough Council,Chertsey St. Ann's,Green,96,1434.0,6.7,False
+2023,Runnymede Borough Council,Egham Hythe,Labour Co-op,749,1503.0,49.8,True
+2023,Runnymede Borough Council,Egham Hythe,Conservative,624,1503.0,41.5,False
+2023,Runnymede Borough Council,Egham Hythe,Liberal,81,1503.0,5.4,False
+2023,Runnymede Borough Council,Egham Hythe,Independent,49,1503.0,3.3,False
+2023,Runnymede Borough Council,Egham Town,RIRG,927,1434.0,64.6,True
+2023,Runnymede Borough Council,Egham Town,Labour,213,1434.0,14.9,False
+2023,Runnymede Borough Council,Egham Town,Conservative,212,1434.0,14.8,False
+2023,Runnymede Borough Council,Egham Town,Liberal Democrats,82,1434.0,5.7,False
+2023,Runnymede Borough Council,Englefield Green East,Independent,442,811.0,54.5,True
+2023,Runnymede Borough Council,Englefield Green East,Conservative,188,811.0,23.2,False
+2023,Runnymede Borough Council,Englefield Green East,Labour Co-op,113,811.0,13.9,False
+2023,Runnymede Borough Council,Englefield Green East,Liberal Democrats,68,811.0,8.4,False
+2023,Runnymede Borough Council,Englefield Green West,Labour,613,1138.0,53.9,True
+2023,Runnymede Borough Council,Englefield Green West,Conservative,525,1138.0,46.1,False
+2023,Runnymede Borough Council,"Longcross, Lyne and Chertsey South",Liberal Democrats,689,941.0,73.2,True
+2023,Runnymede Borough Council,"Longcross, Lyne and Chertsey South",Conservative,252,941.0,26.8,False
+2023,Runnymede Borough Council,New Haw,Liberal Democrats,1135,1754.0,64.7,True
+2023,Runnymede Borough Council,New Haw,Conservative,536,1754.0,30.6,False
+2023,Runnymede Borough Council,New Haw,Green,68,1754.0,3.9,False
+2023,Runnymede Borough Council,New Haw,Heritage,15,1754.0,0.9,False
+2023,Runnymede Borough Council,Ottershaw,Independent,746,1643.0,45.4,True
+2023,Runnymede Borough Council,Ottershaw,Conservative,431,1643.0,26.2,False
+2023,Runnymede Borough Council,Ottershaw,Labour Co-op,215,1643.0,13.1,False
+2023,Runnymede Borough Council,Ottershaw,Liberal Democrats,133,1643.0,8.1,False
+2023,Runnymede Borough Council,Ottershaw,Green,118,1643.0,7.2,False
+2023,Runnymede Borough Council,Thorpe,RIRG,740,1383.0,53.5,True
+2023,Runnymede Borough Council,Thorpe,Conservative,395,1383.0,28.6,False
+2023,Runnymede Borough Council,Thorpe,Labour Co-op,178,1383.0,12.9,False
+2023,Runnymede Borough Council,Thorpe,Liberal Democrats,70,1383.0,5.1,False
+2023,Runnymede Borough Council,Virginia Water,Conservative,789,1661.0,47.5,True
+2023,Runnymede Borough Council,Virginia Water,Liberal Democrats,646,1661.0,38.9,False
+2023,Runnymede Borough Council,Virginia Water,Labour Co-op,107,1661.0,6.4,False
+2023,Runnymede Borough Council,Virginia Water,Reform,71,1661.0,4.3,False
+2023,Runnymede Borough Council,Virginia Water,Green,48,1661.0,2.9,False
+2023,Runnymede Borough Council,Woodham and Rowtown,Conservative,923,1663.0,55.5,True
+2023,Runnymede Borough Council,Woodham and Rowtown,Liberal Democrats,339,1663.0,20.4,False
+2023,Runnymede Borough Council,Woodham and Rowtown,Labour Co-op,248,1663.0,14.9,False
+2023,Runnymede Borough Council,Woodham and Rowtown,Green,153,1663.0,9.2,False
+2023,Spelthorne Borough Council,Ashford Common,Conservative,783,1929.0,30.9,True
+2023,Spelthorne Borough Council,Ashford Common,Independent,773,1929.0,30.5,False
+2023,Spelthorne Borough Council,Ashford Common,Labour,491,1929.0,19.4,False
+2023,Spelthorne Borough Council,Ashford Common,Liberal Democrats,490,1929.0,19.3,False
+2023,Spelthorne Borough Council,Ashford East,Independent,991,1958.0,40.2,True
+2023,Spelthorne Borough Council,Ashford East,Conservative,714,1958.0,29.0,False
+2023,Spelthorne Borough Council,Ashford East,Labour,442,1958.0,17.9,False
+2023,Spelthorne Borough Council,Ashford East,Green,319,1958.0,12.9,False
+2023,Spelthorne Borough Council,Ashford North & Stanwell South,Labour,728,1687.0,39.6,True
+2023,Spelthorne Borough Council,Ashford North & Stanwell South,Conservative,511,1687.0,27.8,False
+2023,Spelthorne Borough Council,Ashford North & Stanwell South,Independent,421,1687.0,22.9,False
+2023,Spelthorne Borough Council,Ashford North & Stanwell South,Reform,178,1687.0,9.7,False
+2023,Spelthorne Borough Council,Ashford Town,Independent,801,2046.0,28.9,True
+2023,Spelthorne Borough Council,Ashford Town,Conservative,725,2046.0,26.1,False
+2023,Spelthorne Borough Council,Ashford Town,Green,677,2046.0,24.4,False
+2023,Spelthorne Borough Council,Ashford Town,Labour,571,2046.0,20.6,False
+2023,Spelthorne Borough Council,Halliford & Sunbury West,Liberal Democrats,1014,1610.0,56.8,True
+2023,Spelthorne Borough Council,Halliford & Sunbury West,Conservative,489,1610.0,27.4,False
+2023,Spelthorne Borough Council,Halliford & Sunbury West,Labour,281,1610.0,15.8,False
+2023,Spelthorne Borough Council,Laleham & Shepperton Green,Conservative,945,1892.0,34.7,True
+2023,Spelthorne Borough Council,Laleham & Shepperton Green,Green,673,1892.0,24.7,False
+2023,Spelthorne Borough Council,Laleham & Shepperton Green,Liberal Democrats,470,1892.0,17.3,False
+2023,Spelthorne Borough Council,Laleham & Shepperton Green,Labour,378,1892.0,13.9,False
+2023,Spelthorne Borough Council,Laleham & Shepperton Green,Independent,192,1892.0,7.1,False
+2023,Spelthorne Borough Council,Laleham & Shepperton Green,TUSC,65,1892.0,2.4,False
+2023,Spelthorne Borough Council,Riverside & Laleham,Independent,1191,2128.0,40.1,True
+2023,Spelthorne Borough Council,Riverside & Laleham,Liberal Democrats,1022,2128.0,34.4,False
+2023,Spelthorne Borough Council,Riverside & Laleham,Conservative,754,2128.0,25.4,False
+2023,Spelthorne Borough Council,Shepperton Town,Conservative,1194,2082.0,33.7,True
+2023,Spelthorne Borough Council,Shepperton Town,Green,694,2082.0,19.6,False
+2023,Spelthorne Borough Council,Shepperton Town,Liberal Democrats,672,2082.0,19.0,False
+2023,Spelthorne Borough Council,Shepperton Town,Labour Co-op,555,2082.0,15.7,False
+2023,Spelthorne Borough Council,Shepperton Town,Independent,423,2082.0,12.0,False
+2023,Spelthorne Borough Council,Staines,Green,1222,2139.0,35.5,True
+2023,Spelthorne Borough Council,Staines,Independent,942,2139.0,27.4,False
+2023,Spelthorne Borough Council,Staines,Labour,740,2139.0,21.5,False
+2023,Spelthorne Borough Council,Staines,Conservative,537,2139.0,15.6,False
+2023,Spelthorne Borough Council,Staines South,Liberal Democrats,1171,1649.0,49.3,True
+2023,Spelthorne Borough Council,Staines South,Labour,769,1649.0,32.4,False
+2023,Spelthorne Borough Council,Staines South,Conservative,437,1649.0,18.4,False
+2023,Spelthorne Borough Council,Stanwell North,Labour,804,1528.0,56.0,True
+2023,Spelthorne Borough Council,Stanwell North,Conservative,632,1528.0,44.0,False
+2023,Spelthorne Borough Council,Sunbury Common,Liberal Democrats,828,1562.0,42.4,True
+2023,Spelthorne Borough Council,Sunbury Common,Independent,608,1562.0,31.1,False
+2023,Spelthorne Borough Council,Sunbury Common,Conservative,347,1562.0,17.7,False
+2023,Spelthorne Borough Council,Sunbury Common,Reform,172,1562.0,8.8,False
+2023,Spelthorne Borough Council,Sunbury East,Liberal Democrats,1068,2083.0,38.2,True
+2023,Spelthorne Borough Council,Sunbury East,Conservative,967,2083.0,34.6,False
+2023,Spelthorne Borough Council,Sunbury East,Green,758,2083.0,27.1,False
+2023,Surrey Heath Borough Council,Bagshot,Conservative,1061,1924.0,46.0,True
+2023,Surrey Heath Borough Council,Bagshot,Liberal Democrats,681,1924.0,29.5,False
+2023,Surrey Heath Borough Council,Bagshot,Independent,364,1924.0,15.8,False
+2023,Surrey Heath Borough Council,Bagshot,Reform,202,1924.0,8.8,False
+2023,Surrey Heath Borough Council,Bisley and West End,Liberal Democrats,1312,2281.0,49.3,True
+2023,Surrey Heath Borough Council,Bisley and West End,Conservative,753,2281.0,28.3,False
+2023,Surrey Heath Borough Council,Bisley and West End,Independent,598,2281.0,22.5,False
+2023,Surrey Heath Borough Council,Frimley,Liberal Democrats,783,1286.0,60.5,True
+2023,Surrey Heath Borough Council,Frimley,Conservative,511,1286.0,39.5,False
+2023,Surrey Heath Borough Council,Frimley Green,Liberal Democrats,1131,1842.0,60.5,True
+2023,Surrey Heath Borough Council,Frimley Green,Conservative,738,1842.0,39.5,False
+2023,Surrey Heath Borough Council,Heatherside,Liberal Democrats,1613,2471.0,66.1,True
+2023,Surrey Heath Borough Council,Heatherside,Conservative,829,2471.0,33.9,False
+2023,Surrey Heath Borough Council,Lightwater,Liberal Democrats,1184,2270.0,48.1,True
+2023,Surrey Heath Borough Council,Lightwater,Conservative,966,2270.0,39.2,False
+2023,Surrey Heath Borough Council,Lightwater,Reform,170,2270.0,6.9,False
+2023,Surrey Heath Borough Council,Lightwater,Labour,144,2270.0,5.8,False
+2023,Surrey Heath Borough Council,Mytchett and Deepcut,Liberal Democrats,995,1814.0,57.0,True
+2023,Surrey Heath Borough Council,Mytchett and Deepcut,Conservative,752,1814.0,43.0,False
+2023,Surrey Heath Borough Council,Old Dean,Conservative,563,957.0,58.9,True
+2023,Surrey Heath Borough Council,Old Dean,Labour,393,957.0,41.1,False
+2023,Surrey Heath Borough Council,Parkside,Liberal Democrats,837,1534.0,56.2,True
+2023,Surrey Heath Borough Council,Parkside,Conservative,653,1534.0,43.8,False
+2023,Surrey Heath Borough Council,St Michael's,Labour,684,1210.0,57.6,True
+2023,Surrey Heath Borough Council,St Michael's,Conservative,503,1210.0,42.4,False
+2023,Surrey Heath Borough Council,St Paul's,Conservative,714,1472.0,48.6,True
+2023,Surrey Heath Borough Council,St Paul's,Liberal Democrats,673,1472.0,45.8,False
+2023,Surrey Heath Borough Council,St Paul's,Labour,83,1472.0,5.6,False
+2023,Surrey Heath Borough Council,Town,Liberal Democrats,706,1184.0,60.7,True
+2023,Surrey Heath Borough Council,Town,Conservative,457,1184.0,39.3,False
+2023,Surrey Heath Borough Council,Watchetts,Liberal Democrats,831,1400.0,60.9,True
+2023,Surrey Heath Borough Council,Watchetts,Conservative,533,1400.0,39.1,False
+2023,Surrey Heath Borough Council,Windlesham and Chobham,Independent,864,1982.0,41.6,True
+2023,Surrey Heath Borough Council,Windlesham and Chobham,Conservative,535,1982.0,25.7,False
+2023,Surrey Heath Borough Council,Windlesham and Chobham,Liberal Democrats,534,1982.0,25.7,False
+2023,Surrey Heath Borough Council,Windlesham and Chobham,Green,145,1982.0,7.0,False
+2023,Tandridge District Council,Bletchingley and Nutfield,Independent,594,1564.0,38.0,True
+2023,Tandridge District Council,Bletchingley and Nutfield,Liberal Democrats,407,1564.0,26.0,False
+2023,Tandridge District Council,Bletchingley and Nutfield,Conservative,368,1564.0,23.5,False
+2023,Tandridge District Council,Bletchingley and Nutfield,Labour,195,1564.0,12.5,False
+2023,Tandridge District Council,"Burstow, Horne and Outwood",Independent,724,1399.0,51.8,True
+2023,Tandridge District Council,"Burstow, Horne and Outwood",Conservative,338,1399.0,24.2,False
+2023,Tandridge District Council,"Burstow, Horne and Outwood",Labour,179,1399.0,12.8,False
+2023,Tandridge District Council,"Burstow, Horne and Outwood",Green,89,1399.0,6.4,False
+2023,Tandridge District Council,"Burstow, Horne and Outwood",Liberal Democrats,69,1399.0,4.9,False
+2023,Tandridge District Council,Chaldon,Conservative,386,583.0,66.2,True
+2023,Tandridge District Council,Chaldon,Liberal Democrats,133,583.0,22.8,False
+2023,Tandridge District Council,Chaldon,Green,43,583.0,7.4,False
+2023,Tandridge District Council,Chaldon,Labour,21,583.0,3.6,False
+2023,Tandridge District Council,Dormansland and Felcourt,Independent,456,1096.0,41.6,True
+2023,Tandridge District Council,Dormansland and Felcourt,Conservative,421,1096.0,38.4,False
+2023,Tandridge District Council,Dormansland and Felcourt,Liberal Democrats,143,1096.0,13.0,False
+2023,Tandridge District Council,Dormansland and Felcourt,Labour,76,1096.0,6.9,False
+2023,Tandridge District Council,Felbridge,Independent,247,625.0,39.5,True
+2023,Tandridge District Council,Felbridge,Conservative,219,625.0,35.0,False
+2023,Tandridge District Council,Felbridge,Green,93,625.0,14.9,False
+2023,Tandridge District Council,Felbridge,Labour,66,625.0,10.6,False
+2023,Tandridge District Council,Godstone,Independent,859,1366.0,62.9,True
+2023,Tandridge District Council,Godstone,Conservative,242,1366.0,17.7,False
+2023,Tandridge District Council,Godstone,Labour,159,1366.0,11.6,False
+2023,Tandridge District Council,Godstone,Liberal Democrats,106,1366.0,7.8,False
+2023,Tandridge District Council,Limpsfield,OLRG,944,1244.0,75.9,True
+2023,Tandridge District Council,Limpsfield,Conservative,166,1244.0,13.3,False
+2023,Tandridge District Council,Limpsfield,Liberal Democrats,74,1244.0,5.9,False
+2023,Tandridge District Council,Limpsfield,Labour,60,1244.0,4.8,False
+2023,Tandridge District Council,Lingfield and Crowhurst,Conservative,477,1245.0,38.3,True
+2023,Tandridge District Council,Lingfield and Crowhurst,Independent,473,1245.0,38.0,False
+2023,Tandridge District Council,Lingfield and Crowhurst,Labour,182,1245.0,14.6,False
+2023,Tandridge District Council,Lingfield and Crowhurst,Liberal Democrats,113,1245.0,9.1,False
+2023,Tandridge District Council,Oxted North and Tandridge,OLRG,1371,1833.0,74.8,True
+2023,Tandridge District Council,Oxted North and Tandridge,Conservative,221,1833.0,12.1,False
+2023,Tandridge District Council,Oxted North and Tandridge,Labour,128,1833.0,7.0,False
+2023,Tandridge District Council,Oxted North and Tandridge,Liberal Democrats,98,1833.0,5.3,False
+2023,Tandridge District Council,Oxted North and Tandridge,Heritage,15,1833.0,0.8,False
+2023,Tandridge District Council,Oxted South,OLRG,1099,1693.0,64.9,True
+2023,Tandridge District Council,Oxted South,Conservative,209,1693.0,12.3,False
+2023,Tandridge District Council,Oxted South,Labour,195,1693.0,11.5,False
+2023,Tandridge District Council,Oxted South,Green,115,1693.0,6.8,False
+2023,Tandridge District Council,Oxted South,Liberal Democrats,75,1693.0,4.4,False
+2023,Tandridge District Council,Portley,Liberal Democrats,553,937.0,59.0,True
+2023,Tandridge District Council,Portley,Conservative,253,937.0,27.0,False
+2023,Tandridge District Council,Portley,Labour,131,937.0,14.0,False
+2023,Tandridge District Council,Tatsfield and Titsey,Independent,371,543.0,68.3,True
+2023,Tandridge District Council,Tatsfield and Titsey,Conservative,124,543.0,22.8,False
+2023,Tandridge District Council,Tatsfield and Titsey,Labour,48,543.0,8.8,False
+2023,Tandridge District Council,Valley,Liberal Democrats,684,925.0,73.9,True
+2023,Tandridge District Council,Valley,Conservative,158,925.0,17.1,False
+2023,Tandridge District Council,Valley,Labour,83,925.0,9.0,False
+2023,Tandridge District Council,"Warlingham East, Chelsham and Farleigh",Liberal Democrats,643,1392.0,46.2,True
+2023,Tandridge District Council,"Warlingham East, Chelsham and Farleigh",Conservative,456,1392.0,32.8,False
+2023,Tandridge District Council,"Warlingham East, Chelsham and Farleigh",Independent,147,1392.0,10.6,False
+2023,Tandridge District Council,"Warlingham East, Chelsham and Farleigh",Labour,85,1392.0,6.1,False
+2023,Tandridge District Council,"Warlingham East, Chelsham and Farleigh",Green,61,1392.0,4.4,False
+2023,Waverley Borough Council,"Alfold, Dunsfold & Hascombe",Conservative,572,948.0,44.0,True
+2023,Waverley Borough Council,"Alfold, Dunsfold & Hascombe",Liberal Democrats,377,948.0,29.0,False
+2023,Waverley Borough Council,"Alfold, Dunsfold & Hascombe",Green,257,948.0,19.8,False
+2023,Waverley Borough Council,"Alfold, Dunsfold & Hascombe",Labour,94,948.0,7.2,False
+2023,Waverley Borough Council,Bramley & Wonersh,Conservative,1673,2901.0,42.6,True
+2023,Waverley Borough Council,Bramley & Wonersh,Liberal Democrats,1077,2901.0,27.4,False
+2023,Waverley Borough Council,Bramley & Wonersh,Green,903,2901.0,23.0,False
+2023,Waverley Borough Council,Bramley & Wonersh,Labour,271,2901.0,6.9,False
+2023,Waverley Borough Council,Chiddingfold,Liberal Democrats,668,889.0,75.1,True
+2023,Waverley Borough Council,Chiddingfold,Conservative,221,889.0,24.9,False
+2023,Waverley Borough Council,Cranleigh East,Liberal Democrats,1351,2112.0,59.7,True
+2023,Waverley Borough Council,Cranleigh East,Conservative,666,2112.0,29.4,False
+2023,Waverley Borough Council,Cranleigh East,Labour,246,2112.0,10.9,False
+2023,Waverley Borough Council,Cranleigh West,Liberal Democrats,1110,1852.0,55.3,True
+2023,Waverley Borough Council,Cranleigh West,Conservative,682,1852.0,34.0,False
+2023,Waverley Borough Council,Cranleigh West,Labour,113,1852.0,5.6,False
+2023,Waverley Borough Council,Cranleigh West,Reform,81,1852.0,4.0,False
+2023,Waverley Borough Council,Cranleigh West,TUSC,22,1852.0,1.1,False
+2023,Waverley Borough Council,Elstead & Peper Harow,Liberal Democrats,649,1065.0,60.9,True
+2023,Waverley Borough Council,Elstead & Peper Harow,Conservative,416,1065.0,39.1,False
+2023,Waverley Borough Council,Ewhurst & Ellens Green,Liberal Democrats,462,902.0,51.2,True
+2023,Waverley Borough Council,Ewhurst & Ellens Green,Conservative,377,902.0,41.8,False
+2023,Waverley Borough Council,Ewhurst & Ellens Green,Reform,34,902.0,3.8,False
+2023,Waverley Borough Council,Ewhurst & Ellens Green,Labour,29,902.0,3.2,False
+2023,Waverley Borough Council,Farnham Bourne,Conservative,776,1529.0,44.2,True
+2023,Waverley Borough Council,Farnham Bourne,Farnham Residents,621,1529.0,35.4,False
+2023,Waverley Borough Council,Farnham Bourne,Green,357,1529.0,20.4,False
+2023,Waverley Borough Council,Farnham Castle,Farnham Residents,621,1109.0,50.2,True
+2023,Waverley Borough Council,Farnham Castle,Labour Co-op,429,1109.0,34.7,False
+2023,Waverley Borough Council,Farnham Castle,Conservative,188,1109.0,15.2,False
+2023,Waverley Borough Council,Farnham Firgrove,Farnham Residents,851,1428.0,55.1,True
+2023,Waverley Borough Council,Farnham Firgrove,Labour,454,1428.0,29.4,False
+2023,Waverley Borough Council,Farnham Firgrove,Conservative,239,1428.0,15.5,False
+2023,Waverley Borough Council,Farnham Heath End,Farnham Residents,837,1357.0,58.5,True
+2023,Waverley Borough Council,Farnham Heath End,Labour,360,1357.0,25.2,False
+2023,Waverley Borough Council,Farnham Heath End,Conservative,233,1357.0,16.3,False
+2023,Waverley Borough Council,Farnham Moor Park,Farnham Residents,981,1340.0,47.3,True
+2023,Waverley Borough Council,Farnham Moor Park,Liberal Democrats,696,1340.0,33.6,False
+2023,Waverley Borough Council,Farnham Moor Park,Conservative,397,1340.0,19.1,False
+2023,Waverley Borough Council,Farnham North West,Farnham Residents,668,981.0,58.2,True
+2023,Waverley Borough Council,Farnham North West,Green,261,981.0,22.8,False
+2023,Waverley Borough Council,Farnham North West,Conservative,218,981.0,19.0,False
+2023,Waverley Borough Council,Farnham Rowledge,Farnham Residents,893,1521.0,53.8,True
+2023,Waverley Borough Council,Farnham Rowledge,Conservative,425,1521.0,25.6,False
+2023,Waverley Borough Council,Farnham Rowledge,Independent,343,1521.0,20.7,False
+2023,Waverley Borough Council,Farnham Weybourne,Farnham Residents,737,1085.0,46.6,True
+2023,Waverley Borough Council,Farnham Weybourne,Liberal Democrats,632,1085.0,40.0,False
+2023,Waverley Borough Council,Farnham Weybourne,Conservative,211,1085.0,13.4,False
+2023,Waverley Borough Council,Godalming Binscombe & Charterhouse,Liberal Democrats,1377,2494.0,29.3,True
+2023,Waverley Borough Council,Godalming Binscombe & Charterhouse,Green,1280,2494.0,27.2,False
+2023,Waverley Borough Council,Godalming Binscombe & Charterhouse,Labour,1061,2494.0,22.6,False
+2023,Waverley Borough Council,Godalming Binscombe & Charterhouse,Conservative,984,2494.0,20.9,False
+2023,Waverley Borough Council,Godalming Central & Ockford,Liberal Democrats,897,1256.0,70.6,True
+2023,Waverley Borough Council,Godalming Central & Ockford,Conservative,374,1256.0,29.4,False
+2023,Waverley Borough Council,Godalming Farncombe & Catteshall,Liberal Democrats,1074,1535.0,47.4,True
+2023,Waverley Borough Council,Godalming Farncombe & Catteshall,Labour,718,1535.0,31.7,False
+2023,Waverley Borough Council,Godalming Farncombe & Catteshall,Conservative,473,1535.0,20.9,False
+2023,Waverley Borough Council,Godalming Holloway,Conservative,900,2030.0,30.2,True
+2023,Waverley Borough Council,Godalming Holloway,Liberal Democrats,899,2030.0,30.2,False
+2023,Waverley Borough Council,Godalming Holloway,Green,871,2030.0,29.2,False
+2023,Waverley Borough Council,Godalming Holloway,Independent,310,2030.0,10.4,False
+2023,Waverley Borough Council,Haselmere West,Liberal Democrats,856,1247.0,64.3,True
+2023,Waverley Borough Council,Haselmere West,Conservative,293,1247.0,22.0,False
+2023,Waverley Borough Council,Haselmere West,Labour,183,1247.0,13.7,False
+2023,Waverley Borough Council,Haslemere East,Liberal Democrats,1169,2375.0,34.1,True
+2023,Waverley Borough Council,Haslemere East,Conservative,1030,2375.0,30.0,False
+2023,Waverley Borough Council,Haslemere East,Green,905,2375.0,26.4,False
+2023,Waverley Borough Council,Haslemere East,Labour,327,2375.0,9.5,False
+2023,Waverley Borough Council,Hindhead & Beacon Hill,Liberal Democrats,801,1432.0,55.1,True
+2023,Waverley Borough Council,Hindhead & Beacon Hill,Conservative,653,1432.0,44.9,False
+2023,Waverley Borough Council,Western Commons,Independent,997,1479.0,45.3,True
+2023,Waverley Borough Council,Western Commons,Conservative,605,1479.0,27.5,False
+2023,Waverley Borough Council,Western Commons,Green,601,1479.0,27.3,False
+2023,Waverley Borough Council,Witley & Milford,Independent,1336,2490.0,30.3,True
+2023,Waverley Borough Council,Witley & Milford,Liberal Democrats,1064,2490.0,24.2,False
+2023,Waverley Borough Council,Witley & Milford,Conservative,1058,2490.0,24.0,False
+2023,Waverley Borough Council,Witley & Milford,Green,946,2490.0,21.5,False
+2023,Woking Borough Council,Byfleet and West Byfleet,Independent,1656,2824.0,58.7,True
+2023,Woking Borough Council,Byfleet and West Byfleet,Conservative,581,2824.0,20.6,False
+2023,Woking Borough Council,Byfleet and West Byfleet,Liberal Democrats,312,2824.0,11.1,False
+2023,Woking Borough Council,Byfleet and West Byfleet,Labour,176,2824.0,6.2,False
+2023,Woking Borough Council,Byfleet and West Byfleet,Green,95,2824.0,3.4,False
+2023,Woking Borough Council,Canalside,Labour,1112,2342.0,48.8,True
+2023,Woking Borough Council,Canalside,Liberal Democrats,542,2342.0,23.8,False
+2023,Woking Borough Council,Canalside,Conservative,448,2342.0,19.6,False
+2023,Woking Borough Council,Canalside,Green,178,2342.0,7.8,False
+2023,Woking Borough Council,Goldsworth Park,Liberal Democrats,1335,2340.0,57.4,True
+2023,Woking Borough Council,Goldsworth Park,Conservative,593,2340.0,25.5,False
+2023,Woking Borough Council,Goldsworth Park,Labour,254,2340.0,10.9,False
+2023,Woking Borough Council,Goldsworth Park,Green,143,2340.0,6.2,False
+2023,Woking Borough Council,Heathlands,Liberal Democrats,1725,3111.0,55.6,True
+2023,Woking Borough Council,Heathlands,Conservative,1026,3111.0,33.1,False
+2023,Woking Borough Council,Heathlands,Green,159,3111.0,5.1,False
+2023,Woking Borough Council,Heathlands,Labour,135,3111.0,4.4,False
+2023,Woking Borough Council,Heathlands,Heritage,55,3111.0,1.8,False
+2023,Woking Borough Council,Hoe Valley,Liberal Democrats,1477,2185.0,67.9,True
+2023,Woking Borough Council,Hoe Valley,Conservative,347,2185.0,15.9,False
+2023,Woking Borough Council,Hoe Valley,Labour,199,2185.0,9.1,False
+2023,Woking Borough Council,Hoe Valley,Green,153,2185.0,7.0,False
+2023,Woking Borough Council,Horsell,Liberal Democrats,2131,3380.0,63.4,True
+2023,Woking Borough Council,Horsell,Conservative,886,3380.0,26.4,False
+2023,Woking Borough Council,Horsell,Green,197,3380.0,5.9,False
+2023,Woking Borough Council,Horsell,Labour,148,3380.0,4.4,False
+2023,Woking Borough Council,Knaphill,Liberal Democrats,1149,2937.0,39.2,True
+2023,Woking Borough Council,Knaphill,Conservative,762,2937.0,26.0,False
+2023,Woking Borough Council,Knaphill,Independent,755,2937.0,25.8,False
+2023,Woking Borough Council,Knaphill,Labour Co-op,180,2937.0,6.1,False
+2023,Woking Borough Council,Knaphill,Green,84,2937.0,2.9,False
+2023,Woking Borough Council,Mount Hermon,Liberal Democrats,1707,2906.0,58.9,True
+2023,Woking Borough Council,Mount Hermon,Conservative,691,2906.0,23.8,False
+2023,Woking Borough Council,Mount Hermon,Labour,226,2906.0,7.8,False
+2023,Woking Borough Council,Mount Hermon,Green,225,2906.0,7.8,False
+2023,Woking Borough Council,Mount Hermon,Heritage,51,2906.0,1.8,False
+2023,Woking Borough Council,Pyrford,Liberal Democrats,1716,2972.0,58.0,True
+2023,Woking Borough Council,Pyrford,Conservative,873,2972.0,29.5,False
+2023,Woking Borough Council,Pyrford,Labour Co-op,233,2972.0,7.9,False
+2023,Woking Borough Council,Pyrford,Green,136,2972.0,4.6,False
+2023,Woking Borough Council,St John's,Liberal Democrats,1642,2581.0,63.7,True
+2023,Woking Borough Council,St John's,Conservative,536,2581.0,20.8,False
+2023,Woking Borough Council,St John's,Labour,178,2581.0,6.9,False
+2023,Woking Borough Council,St John's,Green,130,2581.0,5.0,False
+2023,Woking Borough Council,St John's,Heritage,90,2581.0,3.5,False
+2024,Elmbridge Borough Council,Claygate,Independent,1020,2559.0,39.9,True
+2024,Elmbridge Borough Council,Claygate,Liberal Democrats,858,2559.0,33.5,False
+2024,Elmbridge Borough Council,Claygate,Conservative,514,2559.0,20.1,False
+2024,Elmbridge Borough Council,Claygate,Green,95,2559.0,3.7,False
+2024,Elmbridge Borough Council,Claygate,Labour,72,2559.0,2.8,False
+2024,Elmbridge Borough Council,Cobham & Downside,Conservative,2056,4118.0,49.9,True
+2024,Elmbridge Borough Council,Cobham & Downside,Liberal Democrats,1566,4118.0,38.0,False
+2024,Elmbridge Borough Council,Cobham & Downside,Labour Co-op,348,4118.0,8.5,False
+2024,Elmbridge Borough Council,Cobham & Downside,UKIP,148,4118.0,3.6,False
+2024,Elmbridge Borough Council,Cobham and Downside,Conservative,1010,2205.0,45.8,True
+2024,Elmbridge Borough Council,Cobham and Downside,Liberal Democrats,888,2205.0,40.3,False
+2024,Elmbridge Borough Council,Cobham and Downside,Reform,168,2205.0,7.6,False
+2024,Elmbridge Borough Council,Cobham and Downside,Labour,112,2205.0,5.1,False
+2024,Elmbridge Borough Council,Cobham and Downside,Heritage,27,2205.0,1.2,False
+2024,Elmbridge Borough Council,Esher,Residents,1102,2371.0,46.5,True
+2024,Elmbridge Borough Council,Esher,Conservative,844,2371.0,35.6,False
+2024,Elmbridge Borough Council,Esher,Liberal Democrats,319,2371.0,13.5,False
+2024,Elmbridge Borough Council,Esher,Labour,106,2371.0,4.5,False
+2024,Elmbridge Borough Council,Hersham Village,Liberal Democrats,1349,2737.0,49.3,True
+2024,Elmbridge Borough Council,Hersham Village,Conservative,1209,2737.0,44.2,False
+2024,Elmbridge Borough Council,Hersham Village,Labour,179,2737.0,6.5,False
+2024,Elmbridge Borough Council,Hinchley Wood and Weston Green,Residents,1627,2583.0,63.0,True
+2024,Elmbridge Borough Council,Hinchley Wood and Weston Green,Liberal Democrats,445,2583.0,17.2,False
+2024,Elmbridge Borough Council,Hinchley Wood and Weston Green,Conservative,401,2583.0,15.5,False
+2024,Elmbridge Borough Council,Hinchley Wood and Weston Green,Labour,110,2583.0,4.3,False
+2024,Elmbridge Borough Council,Long Ditton,Liberal Democrats,1493,2149.0,69.5,True
+2024,Elmbridge Borough Council,Long Ditton,Conservative,479,2149.0,22.3,False
+2024,Elmbridge Borough Council,Long Ditton,Labour,177,2149.0,8.2,False
+2024,Elmbridge Borough Council,Molesey East,Liberal Democrats,1291,2684.0,48.1,True
+2024,Elmbridge Borough Council,Molesey East,Conservative,957,2684.0,35.7,False
+2024,Elmbridge Borough Council,Molesey East,Labour,222,2684.0,8.3,False
+2024,Elmbridge Borough Council,Molesey East,Green,214,2684.0,8.0,False
+2024,Elmbridge Borough Council,Molesey West,Residents,1032,2311.0,44.7,True
+2024,Elmbridge Borough Council,Molesey West,Liberal Democrats,750,2311.0,32.5,False
+2024,Elmbridge Borough Council,Molesey West,Conservative,309,2311.0,13.4,False
+2024,Elmbridge Borough Council,Molesey West,Labour,220,2311.0,9.5,False
+2024,Elmbridge Borough Council,Oatlands and Burwood Park,Conservative,1259,2607.0,48.3,True
+2024,Elmbridge Borough Council,Oatlands and Burwood Park,Liberal Democrats,1130,2607.0,43.3,False
+2024,Elmbridge Borough Council,Oatlands and Burwood Park,Labour,132,2607.0,5.1,False
+2024,Elmbridge Borough Council,Oatlands and Burwood Park,Green,86,2607.0,3.3,False
+2024,Elmbridge Borough Council,Oxshott and Stoke d'Abernon,Conservative,1379,2324.0,59.3,True
+2024,Elmbridge Borough Council,Oxshott and Stoke d'Abernon,Liberal Democrats,701,2324.0,30.2,False
+2024,Elmbridge Borough Council,Oxshott and Stoke d'Abernon,Labour,130,2324.0,5.6,False
+2024,Elmbridge Borough Council,Oxshott and Stoke d'Abernon,UKIP,70,2324.0,3.0,False
+2024,Elmbridge Borough Council,Oxshott and Stoke d'Abernon,Heritage,44,2324.0,1.9,False
+2024,Elmbridge Borough Council,Thames Ditton,Residents,1344,2644.0,50.8,True
+2024,Elmbridge Borough Council,Thames Ditton,Liberal Democrats,796,2644.0,30.1,False
+2024,Elmbridge Borough Council,Thames Ditton,Conservative,351,2644.0,13.3,False
+2024,Elmbridge Borough Council,Thames Ditton,Labour,153,2644.0,5.8,False
+2024,Elmbridge Borough Council,Walton Central,Liberal Democrats,1055,2417.0,43.6,True
+2024,Elmbridge Borough Council,Walton Central,Residents,809,2417.0,33.5,False
+2024,Elmbridge Borough Council,Walton Central,Conservative,419,2417.0,17.3,False
+2024,Elmbridge Borough Council,Walton Central,Labour,134,2417.0,5.5,False
+2024,Elmbridge Borough Council,Walton North,Liberal Democrats,1206,1919.0,62.8,True
+2024,Elmbridge Borough Council,Walton North,Conservative,484,1919.0,25.2,False
+2024,Elmbridge Borough Council,Walton North,Labour Co-op,229,1919.0,11.9,False
+2024,Elmbridge Borough Council,Walton South,Liberal Democrats,1389,2692.0,51.6,True
+2024,Elmbridge Borough Council,Walton South,Conservative,1020,2692.0,37.9,False
+2024,Elmbridge Borough Council,Walton South,Labour,150,2692.0,5.6,False
+2024,Elmbridge Borough Council,Walton South,Green,133,2692.0,4.9,False
+2024,Elmbridge Borough Council,Weybridge Riverside,Liberal Democrats,1222,2023.0,60.4,True
+2024,Elmbridge Borough Council,Weybridge Riverside,Conservative,599,2023.0,29.6,False
+2024,Elmbridge Borough Council,Weybridge Riverside,Labour Co-op,202,2023.0,10.0,False
+2024,Elmbridge Borough Council,Weybridge St George's Hill,Residents,1275,2404.0,53.0,True
+2024,Elmbridge Borough Council,Weybridge St George's Hill,Conservative,705,2404.0,29.3,False
+2024,Elmbridge Borough Council,Weybridge St George's Hill,Labour Co-op,239,2404.0,9.9,False
+2024,Elmbridge Borough Council,Weybridge St George's Hill,Green,185,2404.0,7.7,False
+2024,Elmbridge Borough Council,Weybridge St. George's Hill,Conservative,608,1322.0,46.0,True
+2024,Elmbridge Borough Council,Weybridge St. George's Hill,Residents,598,1322.0,45.2,False
+2024,Elmbridge Borough Council,Weybridge St. George's Hill,Green,116,1322.0,8.8,False
+2024,Mole Valley District Council,Ashstead Park,Ashstead Ind.,1098,,53.3,True
+2024,Mole Valley District Council,Ashstead Park,Liberal Democrats,375,,18.2,False
+2024,Mole Valley District Council,Ashstead Park,Conservative,368,,17.9,False
+2024,Mole Valley District Council,Ashstead Park,Labour,134,,6.5,False
+2024,Mole Valley District Council,Ashstead Park,Green,84,,4.1,False
+2024,Mole Valley District Council,Ashtead Lanes & Common,Ashstead Ind.,1437,,58.9,True
+2024,Mole Valley District Council,Ashtead Lanes & Common,Liberal Democrats,450,,18.4,False
+2024,Mole Valley District Council,Ashtead Lanes & Common,Conservative,259,,10.6,False
+2024,Mole Valley District Council,Ashtead Lanes & Common,Labour,164,,6.7,False
+2024,Mole Valley District Council,Ashtead Lanes & Common,Green,130,,5.3,False
+2024,Mole Valley District Council,Bookham East & Eastwick Park,Liberal Democrats,1426,,62.6,True
+2024,Mole Valley District Council,Bookham East & Eastwick Park,Conservative,696,,30.5,False
+2024,Mole Valley District Council,Bookham East & Eastwick Park,Green,101,,4.4,False
+2024,Mole Valley District Council,Bookham East & Eastwick Park,Labour,56,,2.5,False
+2024,Mole Valley District Council,Bookham West,Liberal Democrats,1234,,60.6,True
+2024,Mole Valley District Council,Bookham West,Conservative,564,,27.7,False
+2024,Mole Valley District Council,Bookham West,Green,138,,6.8,False
+2024,Mole Valley District Council,Bookham West,Labour,100,,4.9,False
+2024,Mole Valley District Council,"Brockham, Betchworth, Buckland, Box Hill & Headley",Liberal Democrats,1052,,50.2,True
+2024,Mole Valley District Council,"Brockham, Betchworth, Buckland, Box Hill & Headley",Conservative,617,,29.4,False
+2024,Mole Valley District Council,"Brockham, Betchworth, Buckland, Box Hill & Headley",Green,245,,11.7,False
+2024,Mole Valley District Council,"Brockham, Betchworth, Buckland, Box Hill & Headley",Labour,182,,8.7,False
+2024,Mole Valley District Council,"Capel, Leigh, Newdigate & Charlwood",Liberal Democrats,857,,42.8,True
+2024,Mole Valley District Council,"Capel, Leigh, Newdigate & Charlwood",Conservative,658,,32.9,False
+2024,Mole Valley District Council,"Capel, Leigh, Newdigate & Charlwood",Green,400,,20.0,False
+2024,Mole Valley District Council,"Capel, Leigh, Newdigate & Charlwood",Labour,86,,4.3,False
+2024,Mole Valley District Council,Dorking North,Liberal Democrats,1186,,49.6,True
+2024,Mole Valley District Council,Dorking North,Green,608,,25.4,False
+2024,Mole Valley District Council,Dorking North,Conservative,300,,12.5,False
+2024,Mole Valley District Council,Dorking North,Labour,297,,12.4,False
+2024,Mole Valley District Council,Dorking South,Liberal Democrats,1236,,58.8,True
+2024,Mole Valley District Council,Dorking South,Conservative,343,,16.3,False
+2024,Mole Valley District Council,Dorking South,Green,301,,14.3,False
+2024,Mole Valley District Council,Dorking South,Labour,222,,10.6,False
+2024,Mole Valley District Council,Fetcham,Liberal Democrats,1276,,58.3,True
+2024,Mole Valley District Council,Fetcham,Conservative,686,,31.3,False
+2024,Mole Valley District Council,Fetcham,Green,139,,6.3,False
+2024,Mole Valley District Council,Fetcham,Labour,88,,4.0,False
+2024,Mole Valley District Council,Holmwoods & Beare Green,Liberal Democrats,832,,45.4,True
+2024,Mole Valley District Council,Holmwoods & Beare Green,Conservative,550,,30.0,False
+2024,Mole Valley District Council,Holmwoods & Beare Green,Reform,186,,10.1,False
+2024,Mole Valley District Council,Holmwoods & Beare Green,Green,152,,8.3,False
+2024,Mole Valley District Council,Holmwoods & Beare Green,Labour,113,,6.2,False
+2024,Mole Valley District Council,Leatherhead North,Liberal Democrats,671,,51.9,True
+2024,Mole Valley District Council,Leatherhead North,Conservative,327,,25.3,False
+2024,Mole Valley District Council,Leatherhead North,Labour,195,,15.1,False
+2024,Mole Valley District Council,Leatherhead North,Green,100,,7.7,False
+2024,Mole Valley District Council,Leatherhead South,Liberal Democrats,970,,49.0,True
+2024,Mole Valley District Council,Leatherhead South,Conservative,714,,36.1,False
+2024,Mole Valley District Council,Leatherhead South,Labour,164,,8.3,False
+2024,Mole Valley District Council,Leatherhead South,Green,131,,6.6,False
+2024,Mole Valley District Council,"Mickleham, Westcott & Okewood",Liberal Democrats,1153,,57.0,True
+2024,Mole Valley District Council,"Mickleham, Westcott & Okewood",Conservative,603,,29.8,False
+2024,Mole Valley District Council,"Mickleham, Westcott & Okewood",Green,193,,9.5,False
+2024,Mole Valley District Council,"Mickleham, Westcott & Okewood",Labour,73,,3.6,False
+2024,Reigate and Banstead Borough Council,Banstead Village,Conservative,1354,2257.0,60.7,True
+2024,Reigate and Banstead Borough Council,Banstead Village,Labour,417,2257.0,18.7,False
+2024,Reigate and Banstead Borough Council,Banstead Village,Liberal Democrats,231,2257.0,10.3,False
+2024,Reigate and Banstead Borough Council,Banstead Village,Green,230,2257.0,10.3,False
+2024,Reigate and Banstead Borough Council,"Chipstead, Kingswood & Woodmansterne",Conservative,1671,2590.0,65.0,True
+2024,Reigate and Banstead Borough Council,"Chipstead, Kingswood & Woodmansterne",Labour,333,2590.0,13.0,False
+2024,Reigate and Banstead Borough Council,"Chipstead, Kingswood & Woodmansterne",Liberal Democrats,320,2590.0,12.5,False
+2024,Reigate and Banstead Borough Council,"Chipstead, Kingswood & Woodmansterne",Green,245,2590.0,9.5,False
+2024,Reigate and Banstead Borough Council,Earlswood & Whitebushes,Green,1429,2381.0,60.4,True
+2024,Reigate and Banstead Borough Council,Earlswood & Whitebushes,Conservative,417,2381.0,17.6,False
+2024,Reigate and Banstead Borough Council,Earlswood & Whitebushes,Labour,345,2381.0,14.6,False
+2024,Reigate and Banstead Borough Council,Earlswood & Whitebushes,Liberal Democrats,176,2381.0,7.4,False
+2024,Reigate and Banstead Borough Council,"Hooley, Merstham & Netherne",Green,1011,2650.0,38.4,True
+2024,Reigate and Banstead Borough Council,"Hooley, Merstham & Netherne",Conservative,635,2650.0,24.1,False
+2024,Reigate and Banstead Borough Council,"Hooley, Merstham & Netherne",Labour,533,2650.0,20.2,False
+2024,Reigate and Banstead Borough Council,"Hooley, Merstham & Netherne",Reform,284,2650.0,10.8,False
+2024,Reigate and Banstead Borough Council,"Hooley, Merstham & Netherne",Liberal Democrats,173,2650.0,6.6,False
+2024,Reigate and Banstead Borough Council,Horley Central & South,Conservative,781,2367.0,33.3,True
+2024,Reigate and Banstead Borough Council,Horley Central & South,Green,595,2367.0,25.4,False
+2024,Reigate and Banstead Borough Council,Horley Central & South,Labour,517,2367.0,22.1,False
+2024,Reigate and Banstead Borough Council,Horley Central & South,Liberal Democrats,450,2367.0,19.2,False
+2024,Reigate and Banstead Borough Council,Horley East & Salfords,Green,1090,2560.0,42.9,True
+2024,Reigate and Banstead Borough Council,Horley East & Salfords,Conservative,867,2560.0,34.1,False
+2024,Reigate and Banstead Borough Council,Horley East & Salfords,Labour,311,2560.0,12.2,False
+2024,Reigate and Banstead Borough Council,Horley East & Salfords,Liberal Democrats,272,2560.0,10.7,False
+2024,Reigate and Banstead Borough Council,Horley West & Sidlow,Liberal Democrats,1083,2720.0,40.2,True
+2024,Reigate and Banstead Borough Council,Horley West & Sidlow,Conservative,749,2720.0,27.8,False
+2024,Reigate and Banstead Borough Council,Horley West & Sidlow,Labour,690,2720.0,25.6,False
+2024,Reigate and Banstead Borough Council,Horley West & Sidlow,Green,174,2720.0,6.5,False
+2024,Reigate and Banstead Borough Council,"Lower Kingswood, Tadworth & Walton",Independent,1135,2856.0,39.9,True
+2024,Reigate and Banstead Borough Council,"Lower Kingswood, Tadworth & Walton",Conservative,1038,2856.0,36.5,False
+2024,Reigate and Banstead Borough Council,"Lower Kingswood, Tadworth & Walton",Labour,249,2856.0,8.8,False
+2024,Reigate and Banstead Borough Council,"Lower Kingswood, Tadworth & Walton",Green,220,2856.0,7.7,False
+2024,Reigate and Banstead Borough Council,"Lower Kingswood, Tadworth & Walton",Liberal Democrats,202,2856.0,7.1,False
+2024,Reigate and Banstead Borough Council,Meadvale & St. John's,Liberal Democrats,970,2663.0,36.6,True
+2024,Reigate and Banstead Borough Council,Meadvale & St. John's,Conservative,765,2663.0,28.9,False
+2024,Reigate and Banstead Borough Council,Meadvale & St. John's,Green,481,2663.0,18.2,False
+2024,Reigate and Banstead Borough Council,Meadvale & St. John's,Labour,431,2663.0,16.3,False
+2024,Reigate and Banstead Borough Council,Nork,Residents,1591,2438.0,65.4,True
+2024,Reigate and Banstead Borough Council,Nork,Conservative,453,2438.0,18.6,False
+2024,Reigate and Banstead Borough Council,Nork,Labour,200,2438.0,8.2,False
+2024,Reigate and Banstead Borough Council,Nork,Green,120,2438.0,4.9,False
+2024,Reigate and Banstead Borough Council,Nork,Liberal Democrats,69,2438.0,2.8,False
+2024,Reigate and Banstead Borough Council,Redhill East,Green,1439,2314.0,62.8,True
+2024,Reigate and Banstead Borough Council,Redhill East,Labour,370,2314.0,16.2,False
+2024,Reigate and Banstead Borough Council,Redhill East,Conservative,367,2314.0,16.0,False
+2024,Reigate and Banstead Borough Council,Redhill East,Liberal Democrats,115,2314.0,5.0,False
+2024,Reigate and Banstead Borough Council,Redhill West & Wray Common,Labour,1067,2618.0,41.1,True
+2024,Reigate and Banstead Borough Council,Redhill West & Wray Common,Conservative,808,2618.0,31.1,False
+2024,Reigate and Banstead Borough Council,Redhill West & Wray Common,Green,449,2618.0,17.3,False
+2024,Reigate and Banstead Borough Council,Redhill West & Wray Common,Liberal Democrats,271,2618.0,10.4,False
+2024,Reigate and Banstead Borough Council,Reigate,Conservative,1090,3054.0,36.1,True
+2024,Reigate and Banstead Borough Council,Reigate,Liberal Democrats,1007,3054.0,33.3,False
+2024,Reigate and Banstead Borough Council,Reigate,Green,668,3054.0,22.1,False
+2024,Reigate and Banstead Borough Council,Reigate,Labour,258,3054.0,8.5,False
+2024,Reigate and Banstead Borough Council,South Park & Woodhatch,Green,1185,2345.0,50.6,True
+2024,Reigate and Banstead Borough Council,South Park & Woodhatch,Conservative,486,2345.0,20.8,False
+2024,Reigate and Banstead Borough Council,South Park & Woodhatch,Labour,414,2345.0,17.7,False
+2024,Reigate and Banstead Borough Council,South Park & Woodhatch,Reform,149,2345.0,6.4,False
+2024,Reigate and Banstead Borough Council,South Park & Woodhatch,Liberal Democrats,107,2345.0,4.6,False
+2024,Reigate and Banstead Borough Council,Tattenham Corner & Preston,Residents,1378,2213.0,60.4,True
+2024,Reigate and Banstead Borough Council,Tattenham Corner & Preston,Conservative,357,2213.0,15.6,False
+2024,Reigate and Banstead Borough Council,Tattenham Corner & Preston,Labour,315,2213.0,13.8,False
+2024,Reigate and Banstead Borough Council,Tattenham Corner & Preston,Liberal Democrats,126,2213.0,5.5,False
+2024,Reigate and Banstead Borough Council,Tattenham Corner & Preston,Green,107,2213.0,4.7,False
+2024,Runnymede Borough Council,Addlestone North,Green,496,1245.0,39.8,True
+2024,Runnymede Borough Council,Addlestone North,Conservative,321,1245.0,25.8,False
+2024,Runnymede Borough Council,Addlestone North,Labour Co-op,188,1245.0,15.1,False
+2024,Runnymede Borough Council,Addlestone North,Reform,151,1245.0,12.1,False
+2024,Runnymede Borough Council,Addlestone North,Liberal Democrats,89,1245.0,7.1,False
+2024,Runnymede Borough Council,Addlestone South,Conservative,605,1441.0,42.0,True
+2024,Runnymede Borough Council,Addlestone South,Labour Co-op,596,1441.0,41.4,False
+2024,Runnymede Borough Council,Addlestone South,Liberal Democrats,240,1441.0,16.7,False
+2024,Runnymede Borough Council,Chertsey Riverside,Labour Co-op,653,1423.0,45.9,True
+2024,Runnymede Borough Council,Chertsey Riverside,Conservative,538,1423.0,37.8,False
+2024,Runnymede Borough Council,Chertsey Riverside,Green,122,1423.0,8.6,False
+2024,Runnymede Borough Council,Chertsey Riverside,Liberal Democrats,110,1423.0,7.7,False
+2024,Runnymede Borough Council,Chertsey St. Ann's,Labour Co-op,654,1385.0,47.2,True
+2024,Runnymede Borough Council,Chertsey St. Ann's,Conservative,480,1385.0,34.7,False
+2024,Runnymede Borough Council,Chertsey St. Ann's,Liberal Democrats,150,1385.0,10.8,False
+2024,Runnymede Borough Council,Chertsey St. Ann's,Green,101,1385.0,7.3,False
+2024,Runnymede Borough Council,Egham Hythe,Labour Co-op,758,1410.0,50.6,True
+2024,Runnymede Borough Council,Egham Hythe,Conservative,624,1410.0,41.6,False
+2024,Runnymede Borough Council,Egham Hythe,Independent,117,1410.0,7.8,False
+2024,Runnymede Borough Council,Egham Town,RIRG,735,1453.0,50.6,True
+2024,Runnymede Borough Council,Egham Town,Conservative,303,1453.0,20.9,False
+2024,Runnymede Borough Council,Egham Town,Labour,251,1453.0,17.3,False
+2024,Runnymede Borough Council,Egham Town,Liberal Democrats,112,1453.0,7.7,False
+2024,Runnymede Borough Council,Egham Town,Green,52,1453.0,3.6,False
+2024,Runnymede Borough Council,Englefield Green West,Labour,370,1125.0,32.9,True
+2024,Runnymede Borough Council,Englefield Green West,Conservative,332,1125.0,29.5,False
+2024,Runnymede Borough Council,Englefield Green West,Independent,322,1125.0,28.6,False
+2024,Runnymede Borough Council,Englefield Green West,Reform,101,1125.0,9.0,False
+2024,Runnymede Borough Council,"Longcross, Lyne and Chertsey South",Liberal Democrats,645,921.0,70.0,True
+2024,Runnymede Borough Council,"Longcross, Lyne and Chertsey South",Conservative,276,921.0,30.0,False
+2024,Runnymede Borough Council,New Haw,Liberal Democrats,1223,1683.0,72.7,True
+2024,Runnymede Borough Council,New Haw,Conservative,347,1683.0,20.6,False
+2024,Runnymede Borough Council,New Haw,Green,85,1683.0,5.1,False
+2024,Runnymede Borough Council,New Haw,Heritage,28,1683.0,1.7,False
+2024,Runnymede Borough Council,Ottershaw,Independent,727,1576.0,46.1,True
+2024,Runnymede Borough Council,Ottershaw,Conservative,384,1576.0,24.4,False
+2024,Runnymede Borough Council,Ottershaw,Labour Co-op,274,1576.0,17.4,False
+2024,Runnymede Borough Council,Ottershaw,Green,99,1576.0,6.3,False
+2024,Runnymede Borough Council,Ottershaw,Liberal Democrats,92,1576.0,5.8,False
+2024,Runnymede Borough Council,Thorpe,RIRG,665,1403.0,47.4,True
+2024,Runnymede Borough Council,Thorpe,Conservative,491,1403.0,35.0,False
+2024,Runnymede Borough Council,Thorpe,Labour Co-op,189,1403.0,13.5,False
+2024,Runnymede Borough Council,Thorpe,Liberal Democrats,58,1403.0,4.1,False
+2024,Runnymede Borough Council,Virginia Water,Liberal Democrats,808,1591.0,50.8,True
+2024,Runnymede Borough Council,Virginia Water,Conservative,699,1591.0,43.9,False
+2024,Runnymede Borough Council,Virginia Water,Green,84,1591.0,5.3,False
+2024,Runnymede Borough Council,Woodham and Rowtown,Conservative,919,1664.0,45.1,True
+2024,Runnymede Borough Council,Woodham and Rowtown,Liberal Democrats,435,1664.0,21.3,False
+2024,Runnymede Borough Council,Woodham and Rowtown,Labour Co-op,365,1664.0,17.9,False
+2024,Runnymede Borough Council,Woodham and Rowtown,Green,253,1664.0,12.4,False
+2024,Runnymede Borough Council,Woodham and Rowtown,Heritage,67,1664.0,3.3,False
+2024,Tandridge District Council,Bletchingley & Nutfield,Independent,640,1601.0,22.8,True
+2024,Tandridge District Council,Bletchingley & Nutfield,Bletchingley & Nutfield Residents,518,1601.0,18.4,False
+2024,Tandridge District Council,Bletchingley & Nutfield,Liberal Democrats,501,1601.0,17.8,False
+2024,Tandridge District Council,Bletchingley & Nutfield,Conservative,495,1601.0,17.6,False
+2024,Tandridge District Council,Bletchingley & Nutfield,Green,271,1601.0,9.6,False
+2024,Tandridge District Council,Bletchingley & Nutfield,Labour,218,1601.0,7.8,False
+2024,Tandridge District Council,Bletchingley & Nutfield,Heritage,168,1601.0,6.0,False
+2024,Tandridge District Council,"Burstow, Horne & Outwood","Burstow, Horne & Outwood Residents",825,1420.0,47.3,True
+2024,Tandridge District Council,"Burstow, Horne & Outwood",Conservative,361,1420.0,20.7,False
+2024,Tandridge District Council,"Burstow, Horne & Outwood",Labour,197,1420.0,11.3,False
+2024,Tandridge District Council,"Burstow, Horne & Outwood",Green,189,1420.0,10.8,False
+2024,Tandridge District Council,"Burstow, Horne & Outwood",Liberal Democrats,171,1420.0,9.8,False
+2024,Tandridge District Council,Chaldon,Conservative,367,558.0,65.8,True
+2024,Tandridge District Council,Chaldon,Liberal Democrats,113,558.0,20.3,False
+2024,Tandridge District Council,Chaldon,Green,78,558.0,14.0,False
+2024,Tandridge District Council,Dormansland & Felbridge,Conservative,705,1643.0,27.5,True
+2024,Tandridge District Council,Dormansland & Felbridge,Dormansland & Felbridge Residents,655,1643.0,25.6,False
+2024,Tandridge District Council,Dormansland & Felbridge,Independent,565,1643.0,22.1,False
+2024,Tandridge District Council,Dormansland & Felbridge,Green,273,1643.0,10.7,False
+2024,Tandridge District Council,Dormansland & Felbridge,Liberal Democrats,193,1643.0,7.5,False
+2024,Tandridge District Council,Dormansland & Felbridge,Labour,168,1643.0,6.6,False
+2024,Tandridge District Council,Godstone,Godstone Residents,1051,1462.0,71.8,True
+2024,Tandridge District Council,Godstone,Labour,207,1462.0,14.1,False
+2024,Tandridge District Council,Godstone,Conservative,205,1462.0,14.0,False
+2024,Tandridge District Council,Harestone,Liberal Democrats,697,1267.0,53.9,True
+2024,Tandridge District Council,Harestone,Conservative,468,1267.0,36.2,False
+2024,Tandridge District Council,Harestone,Labour,127,1267.0,9.8,False
+2024,Tandridge District Council,Limpsfield,OLRG,1051,1280.0,80.4,True
+2024,Tandridge District Council,Limpsfield,Conservative,144,1280.0,11.0,False
+2024,Tandridge District Council,Limpsfield,Liberal Democrats,113,1280.0,8.6,False
+2024,Tandridge District Council,Lingfield & Crowhurst,Lingfield & Crowhurst Residents,739,1588.0,34.8,True
+2024,Tandridge District Council,Lingfield & Crowhurst,Independent,584,1588.0,27.5,False
+2024,Tandridge District Council,Lingfield & Crowhurst,Labour,360,1588.0,16.9,False
+2024,Tandridge District Council,Lingfield & Crowhurst,Conservative,253,1588.0,11.9,False
+2024,Tandridge District Council,Lingfield & Crowhurst,Liberal Democrats,190,1588.0,8.9,False
+2024,Tandridge District Council,Oxted North,OLRG,1570,1964.0,73.6,True
+2024,Tandridge District Council,Oxted North,Conservative,186,1964.0,8.7,False
+2024,Tandridge District Council,Oxted North,Green,186,1964.0,8.7,False
+2024,Tandridge District Council,Oxted North,Labour,170,1964.0,8.0,False
+2024,Tandridge District Council,Oxted North,Heritage,21,1964.0,1.0,False
+2024,Tandridge District Council,Oxted South,OLRG,1096,1571.0,68.7,True
+2024,Tandridge District Council,Oxted South,Labour,265,1571.0,16.6,False
+2024,Tandridge District Council,Oxted South,Conservative,235,1571.0,14.7,False
+2024,Tandridge District Council,Portley & Queens Park,Liberal Democrats,767,1694.0,34.1,True
+2024,Tandridge District Council,Portley & Queens Park,Conservative,637,1694.0,28.3,False
+2024,Tandridge District Council,Portley & Queens Park,Caterham Residents,493,1694.0,21.9,False
+2024,Tandridge District Council,Portley & Queens Park,Labour,352,1694.0,15.7,False
+2024,Tandridge District Council,Tatsfield & Titsey,Independent,423,604.0,70.0,True
+2024,Tandridge District Council,Tatsfield & Titsey,Conservative,129,604.0,21.4,False
+2024,Tandridge District Council,Tatsfield & Titsey,Green,52,604.0,8.6,False
+2024,Tandridge District Council,Valley,Liberal Democrats,628,1064.0,51.5,True
+2024,Tandridge District Council,Valley,Caterham Residents,302,1064.0,24.8,False
+2024,Tandridge District Council,Valley,Conservative,155,1064.0,12.7,False
+2024,Tandridge District Council,Valley,Labour,134,1064.0,11.0,False
+2024,Tandridge District Council,"Warlingham East, Chelsham & Farleigh",Independent,850,1656.0,41.5,True
+2024,Tandridge District Council,"Warlingham East, Chelsham & Farleigh",Liberal Democrats,506,1656.0,24.7,False
+2024,Tandridge District Council,"Warlingham East, Chelsham & Farleigh",Conservative,494,1656.0,24.1,False
+2024,Tandridge District Council,"Warlingham East, Chelsham & Farleigh",Labour,200,1656.0,9.8,False
+2024,Tandridge District Council,Warlingham West,Conservative,596,1177.0,49.5,True
+2024,Tandridge District Council,Warlingham West,Liberal Democrats,333,1177.0,27.6,False
+2024,Tandridge District Council,Warlingham West,Independent,144,1177.0,12.0,False
+2024,Tandridge District Council,Warlingham West,Labour,132,1177.0,11.0,False
+2024,Tandridge District Council,Westway,Liberal Democrats,622,1444.0,42.9,True
+2024,Tandridge District Council,Westway,Conservative,423,1444.0,29.2,False
+2024,Tandridge District Council,Westway,Labour,405,1444.0,27.9,False
+2024,Tandridge District Council,Whyteleafe,Whyteleafe Residents,441,944.0,43.2,True
+2024,Tandridge District Council,Whyteleafe,Liberal Democrats,313,944.0,30.7,False
+2024,Tandridge District Council,Whyteleafe,Labour,116,944.0,11.4,False
+2024,Tandridge District Council,Whyteleafe,Conservative,97,944.0,9.5,False
+2024,Tandridge District Council,Whyteleafe,Green,53,944.0,5.2,False
+2024,Tandridge District Council,Woldingham,Independent,477,674.0,70.8,True
+2024,Tandridge District Council,Woldingham,Conservative,120,674.0,17.8,False
+2024,Tandridge District Council,Woldingham,Labour,46,674.0,6.8,False
+2024,Tandridge District Council,Woldingham,Liberal Democrats,31,674.0,4.6,False
+2024,Woking Borough Council,Byfleet and West Byfleet,Independent,1383,3096.0,44.7,True
+2024,Woking Borough Council,Byfleet and West Byfleet,Conservative,1062,3096.0,34.3,False
+2024,Woking Borough Council,Byfleet and West Byfleet,Liberal Democrats,349,3096.0,11.3,False
+2024,Woking Borough Council,Byfleet and West Byfleet,Labour,302,3096.0,9.8,False
+2024,Woking Borough Council,Canalside,Liberal Democrats,1224,2901.0,42.2,True
+2024,Woking Borough Council,Canalside,Labour,1195,2901.0,41.2,False
+2024,Woking Borough Council,Canalside,Conservative,402,2901.0,13.9,False
+2024,Woking Borough Council,Canalside,TUSC,80,2901.0,2.8,False
+2024,Woking Borough Council,Goldsworth Park,Liberal Democrats,1505,2196.0,68.5,True
+2024,Woking Borough Council,Goldsworth Park,Conservative,362,2196.0,16.5,False
+2024,Woking Borough Council,Goldsworth Park,Labour,329,2196.0,15.0,False
+2024,Woking Borough Council,Heathlands,Liberal Democrats,1484,2886.0,51.4,True
+2024,Woking Borough Council,Heathlands,Conservative,833,2886.0,28.9,False
+2024,Woking Borough Council,Heathlands,Reform,224,2886.0,7.8,False
+2024,Woking Borough Council,Heathlands,Labour,181,2886.0,6.3,False
+2024,Woking Borough Council,Heathlands,Green,136,2886.0,4.7,False
+2024,Woking Borough Council,Heathlands,Heritage,28,2886.0,1.0,False
+2024,Woking Borough Council,Hoe Valley,Liberal Democrats,1569,2251.0,71.3,True
+2024,Woking Borough Council,Hoe Valley,Conservative,358,2251.0,16.3,False
+2024,Woking Borough Council,Hoe Valley,Labour,273,2251.0,12.4,False
+2024,Woking Borough Council,Horsell,Liberal Democrats,2177,3265.0,66.7,True
+2024,Woking Borough Council,Horsell,Conservative,713,3265.0,21.8,False
+2024,Woking Borough Council,Horsell,Green,180,3265.0,5.5,False
+2024,Woking Borough Council,Horsell,Labour,159,3265.0,4.9,False
+2024,Woking Borough Council,Horsell,TUSC,36,3265.0,1.1,False
+2024,Woking Borough Council,Knaphill,Liberal Democrats,1460,3120.0,46.8,True
+2024,Woking Borough Council,Knaphill,Conservative,1257,3120.0,40.3,False
+2024,Woking Borough Council,Knaphill,Labour,403,3120.0,12.9,False
+2024,Woking Borough Council,Mount Hermon,Liberal Democrats,1752,2849.0,61.5,True
+2024,Woking Borough Council,Mount Hermon,Conservative,574,2849.0,20.1,False
+2024,Woking Borough Council,Mount Hermon,Labour,263,2849.0,9.2,False
+2024,Woking Borough Council,Mount Hermon,Green,179,2849.0,6.3,False
+2024,Woking Borough Council,Mount Hermon,Heritage,52,2849.0,1.8,False
+2024,Woking Borough Council,Mount Hermon,TUSC,29,2849.0,1.0,False
+2024,Woking Borough Council,Pyrford,Liberal Democrats,1533,3004.0,51.0,True
+2024,Woking Borough Council,Pyrford,Conservative,1148,3004.0,38.2,False
+2024,Woking Borough Council,Pyrford,Labour,323,3004.0,10.8,False
+2024,Woking Borough Council,St John's,Liberal Democrats,1716,2564.0,66.9,True
+2024,Woking Borough Council,St John's,Conservative,447,2564.0,17.4,False
+2024,Woking Borough Council,St John's,Labour,246,2564.0,9.6,False
+2024,Woking Borough Council,St John's,Heritage,155,2564.0,6.0,False
