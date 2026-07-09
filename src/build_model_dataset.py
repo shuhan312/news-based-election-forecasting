@@ -16,6 +16,8 @@ Output:  data/processed/model_dataset.csv
 Usage:   python src/build_model_dataset.py
 """
 
+import re
+
 import pandas as pd
 
 WINNERS = "data/elections/ward_winners.csv"
@@ -35,17 +37,33 @@ def pre_election_features(news):
                                  if c != "year"})
 
 
-def add_ward_history(winners):
-    """Attach each ward's previous result (same council + ward name).
+def ward_key(name):
+    """Normalise a ward name for matching across years.
 
-    Ward boundaries changed for some 2023 elections, so not every ward
-    has a findable predecessor; those get NaN rather than a guess.
+    Wikipedia editors write the same ward differently in different
+    years ("Cobham & Downside" / "Cobham and Downside", "St John's" /
+    "St Johns"), so we match on a cleaned-up key but keep the original
+    name for display.
     """
-    winners = winners.sort_values(["council", "ward", "year"])
-    prev = winners.groupby(["council", "ward"])
+    key = name.lower().replace("&", " and ")
+    key = re.sub(r"[.'’]", "", key)
+    return re.sub(r"\s+", " ", key).strip()
+
+
+def add_ward_history(winners):
+    """Attach each ward's previous result (same council + ward).
+
+    Ward boundaries genuinely changed for some 2023 elections, so not
+    every ward has a findable predecessor; those get NaN rather than
+    a guess.
+    """
+    winners = winners.copy()
+    winners["ward_key"] = winners["ward"].map(ward_key)
+    winners = winners.sort_values(["council", "ward_key", "year"])
+    prev = winners.groupby(["council", "ward_key"])
     winners["prev_winning_party"] = prev["winning_party"].shift(1)
     winners["prev_margin"] = prev["margin"].shift(1)
-    return winners
+    return winners.drop(columns="ward_key")
 
 
 def main():
@@ -59,6 +77,17 @@ def main():
     matched = dataset["prev_winning_party"].notna().mean()
     print(f"{len(dataset)} ward contests -> {OUT}")
     print(f"ward history available for {matched:.0%} of contests")
+
+    # break the match rate down by year: 2021 has no earlier data to
+    # match against, and the 2023 all-out councils last voted in 2019,
+    # also out of range, so low years here point to a data-coverage
+    # gap rather than a matching bug
+    by_year = dataset.groupby("year").agg(
+        contests=("ward", "count"),
+        matched=("prev_winning_party", lambda s: s.notna().sum()))
+    by_year["match_rate"] = (by_year["matched"] / by_year["contests"] * 100).round(0)
+    print("\nWard history match rate by year:")
+    print(by_year.to_string())
 
     # first look: national climate vs how the two big parties fared
     per_year = dataset.groupby("year").agg(
