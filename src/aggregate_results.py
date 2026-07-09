@@ -18,7 +18,7 @@ import re
 
 import pandas as pd
 
-IN_PATH = "data/elections/results_2021_2024.csv"
+IN_PATH = "data/elections/results_2017_2024.csv"
 PARTY_OUT = "data/elections/ward_party_results.csv"
 WINNER_OUT = "data/elections/ward_winners.csv"
 
@@ -38,8 +38,11 @@ def main():
     df = df[~df["ward"].str.contains(DATE_IN_NAME, na=False)]
     print(f"dropped {before - len(df)} by-election rows, {len(df)} remain")
 
-    # "Chertsey Meads (2 seats)" and "Chertsey Meads" are the same ward
-    df["ward"] = df["ward"].str.replace(r"\s*\(\d+\s*seats?[^)]*\)", "", regex=True).str.strip()
+    # "Chertsey Meads (2 seats)" and "Ash Vale (top 2 candidates
+    # elected)" are the same wards as their plain names
+    df["ward"] = df["ward"].str.replace(
+        r"\s*\((top\s+)?\d+\s*(seats?|candidates?)[^)]*\)", "",
+        regex=True).str.strip()
 
     # party result in a ward = its best-placed candidate
     party = (df.groupby(["year", "council", "ward", "party"])

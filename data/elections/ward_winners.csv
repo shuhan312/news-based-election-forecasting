@@ -1,4 +1,342 @@
 year,council,ward,winning_party,winner_share,second_party,margin,n_parties,turnout
+2017,Surrey County Council,Addlestone,Conservative,53.6,Labour,34.3,5,3364.0
+2017,Surrey County Council,Ash,Conservative,59.9,Liberal Democrats,41.0,5,2796.0
+2017,Surrey County Council,Ashford,Conservative,46.8,UKIP,30.8,6,3685.0
+2017,Surrey County Council,Ashtead,Independent,54.4,Conservative,19.4,5,5082.0
+2017,Surrey County Council,"Bagshot, Windlesham and Chobham",Conservative,62.3,Liberal Democrats,45.0,4,3914.0
+2017,Surrey County Council,"Banstead, Woodmansterne & Chipstead",Conservative,66.6,Liberal Democrats,52.0,5,3622.0
+2017,Surrey County Council,Bookham and Fetcham West,Conservative,50.9,Liberal Democrats,10.2,4,6401.0
+2017,Surrey County Council,Camberley East,Conservative,71.0,Liberal Democrats,54.8,3,3146.0
+2017,Surrey County Council,Camberley West,Conservative,55.2,Labour,36.6,5,3633.0
+2017,Surrey County Council,Caterham Hill,Liberal Democrats,44.3,Conservative,0.3,4,3923.0
+2017,Surrey County Council,Caterham Valley,Liberal Democrats,47.5,Conservative,7.4,4,3346.0
+2017,Surrey County Council,Chertsey,Conservative,59.3,Labour,39.8,4,3335.0
+2017,Surrey County Council,Cobham,Conservative,67.4,Liberal Democrats,47.4,4,3398.0
+2017,Surrey County Council,Cranleigh & Ewhurst,Conservative,53.9,Liberal Democrats,25.7,4,3888.0
+2017,Surrey County Council,Dorking Hills,Liberal Democrats,56.6,Conservative,24.0,5,5134.0
+2017,Surrey County Council,Dorking Rural,Conservative,53.6,Liberal Democrats,18.4,5,4812.0
+2017,Surrey County Council,Dorking South and the Holmwoods,Liberal Democrats,51.5,Conservative,18.1,5,4392.0
+2017,Surrey County Council,Earlswood and Reigate South,Conservative,48.7,Labour,29.7,5,3330.0
+2017,Surrey County Council,East Molesey & Esher,Conservative,53.9,Residents,24.4,6,3889.0
+2017,Surrey County Council,Egham,Conservative,49.3,Labour,28.6,5,2238.0
+2017,Surrey County Council,Englefield Green,Conservative,41.4,Runnymeade Independent Residents Group,12.8,6,2826.0
+2017,Surrey County Council,Epsom Town & Downs,Conservative,42.0,Residents,10.3,5,4169.0
+2017,Surrey County Council,Epsom West,Conservative,29.8,Liberal Democrats,1.8,5,4083.0
+2017,Surrey County Council,Ewell,Residents,66.5,Conservative,47.6,5,3879.0
+2017,Surrey County Council,"Ewell Court, Auriol & Cuddington",Residents,67.5,Conservative,48.1,5,4010.0
+2017,Surrey County Council,Farnham Central,Farnham Residents,43.2,Liberal Democrats,16.5,4,4060.0
+2017,Surrey County Council,Farnham North,Farnham Residents,45.3,Conservative,9.4,4,3547.0
+2017,Surrey County Council,Farnham South,Conservative,39.0,Farnham Residents,1.6,6,3913.0
+2017,Surrey County Council,"Foxhills, Thorpe and Virginia Water",Conservative,65.3,Liberal Democrats,52.3,5,2314.0
+2017,Surrey County Council,Frimley Green and Mytchett,Conservative,60.5,Liberal Democrats,41.2,6,3475.0
+2017,Surrey County Council,Godalming North,Liberal Democrats,45.6,Conservative,5.7,4,4154.0
+2017,Surrey County Council,"Godalming South, Milford & Witley",Conservative,62.4,Liberal Democrats,38.5,3,3978.0
+2017,Surrey County Council,Godstone,Conservative,47.1,UKIP,20.0,4,3498.0
+2017,Surrey County Council,Goldsworth East and Horsell Village,Conservative,42.8,Liberal Democrats,1.2,4,4514.0
+2017,Surrey County Council,Guildford East,Conservative,45.3,Liberal Democrats,9.8,4,4214.0
+2017,Surrey County Council,Guildford North,Liberal Democrats,41.8,Conservative,8.4,4,3744.0
+2017,Surrey County Council,Guildford South-East,Conservative,50.9,Liberal Democrats,10.6,3,4069.0
+2017,Surrey County Council,Guildford South-West,Liberal Democrats,53.7,Conservative,23.0,5,3675.0
+2017,Surrey County Council,Guildford West,Liberal Democrats,43.1,Labour Co-op,17.2,6,2216.0
+2017,Surrey County Council,Haslemere,Conservative,52.7,Liberal Democrats,24.5,5,3507.0
+2017,Surrey County Council,Heatherside and Parkside,Conservative,55.3,Liberal Democrats,38.0,6,3768.0
+2017,Surrey County Council,Hersham,Conservative,54.5,Hersham Village Society,29.6,5,3940.0
+2017,Surrey County Council,"Hinchley Wood, Claygate & Oxshott",Conservative,49.7,Liberal Democrats,2.6,3,4821.0
+2017,Surrey County Council,Horley East,Conservative,59.6,Labour,44.8,5,3340.0
+2017,Surrey County Council,"Horley West, Salfords and Sidlow",Conservative,57.9,Labour,43.1,5,2930.0
+2017,Surrey County Council,Horsleys,Conservative,54.1,Liberal Democrats,15.9,5,4531.0
+2017,Surrey County Council,Knaphill and Goldsworth West,Conservative,63.2,Liberal Democrats,41.5,4,3705.0
+2017,Surrey County Council,Laleham and Shepperton,Conservative,54.2,Independent,37.6,6,4007.0
+2017,Surrey County Council,Leatherhead and Fetcham East,Conservative,53.3,Liberal Democrats,24.1,5,4307.0
+2017,Surrey County Council,"Lightwater, West End and Bisley",Conservative,54.9,Independent,38.6,6,3839.0
+2017,Surrey County Council,Lingfield,Conservative,68.7,Liberal Democrats,53.4,4,4152.0
+2017,Surrey County Council,Lower Sunbury & Halliford,Conservative,51.2,Liberal Democrats,19.3,5,3800.0
+2017,Surrey County Council,Merstham and Banstead South,Conservative,54.7,Labour,38.5,5,3012.0
+2017,Surrey County Council,Nork and Tattenhams,Residents,63.8,Conservative,38.7,5,3869.0
+2017,Surrey County Council,Oxted,Conservative,50.4,Liberal Democrats,32.4,5,4873.0
+2017,Surrey County Council,Redhill East,Green,53.4,Conservative,28.0,5,3462.0
+2017,Surrey County Council,Redhill West and Meadvale,Conservative,42.9,Green,20.7,5,3875.0
+2017,Surrey County Council,Reigate,Conservative,52.5,Liberal Democrats,21.8,5,4109.0
+2017,Surrey County Council,Shalford,Conservative,55.4,Liberal Democrats,42.3,6,3678.0
+2017,Surrey County Council,Shere,Conservative,61.9,Liberal Democrats,41.9,4,3567.0
+2017,Surrey County Council,Staines,Conservative,40.6,UKIP,20.6,6,3587.0
+2017,Surrey County Council,Staines South & Ashford West,Conservative,53.2,Labour,36.8,5,3599.0
+2017,Surrey County Council,Stanwell & Stanwell Moor,Labour,46.1,Conservative,7.6,4,2806.0
+2017,Surrey County Council,Sunbury Common & Ashford Common,Conservative,44.0,Liberal Democrats,11.4,5,3195.0
+2017,Surrey County Council,"Tadworth, Walton and Kingswood",Conservative,71.0,Liberal Democrats,62.4,5,3656.0
+2017,Surrey County Council,The Byfleets,Conservative,41.4,Independent,9.0,5,3709.0
+2017,Surrey County Council,The Dittons,Residents,56.6,Conservative,34.1,4,4441.0
+2017,Surrey County Council,Walton,Conservative,52.7,Liberal Democrats,30.8,4,3443.0
+2017,Surrey County Council,Walton South & Oatlands,Conservative,62.1,Liberal Democrats,39.3,4,3785.0
+2017,Surrey County Council,Warlingham,Conservative,56.9,Liberal Democrats,27.6,4,3979.0
+2017,Surrey County Council,Waverley Eastern Villages,Conservative,68.1,Liberal Democrats,47.7,4,3697.0
+2017,Surrey County Council,Waverley Western Villages,Conservative,71.3,Liberal Democrats,53.5,3,3291.0
+2017,Surrey County Council,West Ewell,Residents,50.5,Conservative,27.4,5,3150.0
+2017,Surrey County Council,West Molesey,Residents,49.5,Conservative,15.8,5,3564.0
+2017,Surrey County Council,Weybridge,Conservative,50.2,Liberal Democrats,14.0,5,4119.0
+2017,Surrey County Council,Woking North,Conservative,44.4,Labour,5.7,4,4307.0
+2017,Surrey County Council,Woking South,Liberal Democrats,53.7,Conservative,20.1,4,4230.0
+2017,Surrey County Council,Woking South East,Conservative,62.1,Liberal Democrats,36.8,4,3768.0
+2017,Surrey County Council,Woking South West,Conservative,55.0,Liberal Democrats,27.4,4,3404.0
+2017,Surrey County Council,Woodham and New Haw,Conservative,63.0,Liberal Democrats,51.4,5,3198.0
+2017,Surrey County Council,Worplesdon,Conservative,69.2,Liberal Democrats,52.3,4,3890.0
+2018,Elmbridge Borough Council,Claygate,Liberal Democrats,56.3,Conservative,17.3,3,2539.0
+2018,Elmbridge Borough Council,Cobham and Downside,Conservative,66.4,Liberal Democrats,52.5,4,1931.0
+2018,Elmbridge Borough Council,Esher,Conservative,49.2,Esher Residents' Association,13.0,4,2325.0
+2018,Elmbridge Borough Council,Hersham Village,Conservative,48.8,Hersham Village Society,21.7,4,2369.0
+2018,Elmbridge Borough Council,Hinchley Wood and Weston Green,Hinchley Wood / Weston Green Residents' Associations,70.3,Conservative,52.9,4,2508.0
+2018,Elmbridge Borough Council,Long Ditton,Liberal Democrats,45.8,Conservative,0.3,3,2235.0
+2018,Elmbridge Borough Council,Molesey East,Conservative,46.8,Molesey Residents' Association,10.1,5,2857.0
+2018,Elmbridge Borough Council,Molesey West,Molesey Residents' Association,46.5,Conservative,13.3,4,2247.0
+2018,Elmbridge Borough Council,Oatlands and Burwood Park,Conservative,69.1,Liberal Democrats,52.2,4,2196.0
+2018,Elmbridge Borough Council,Oxshott and Stoke D'Abernon,Conservative,76.7,Liberal Democrats,60.7,4,2293.0
+2018,Elmbridge Borough Council,Thames Ditton,Thames Ditton / Weston Green Residents' Association,65.6,Conservative,48.6,4,2438.0
+2018,Elmbridge Borough Council,Walton Central,Conservative,45.2,The Walton Society,3.3,3,2270.0
+2018,Elmbridge Borough Council,Walton North,Conservative,45.5,Labour,11.6,5,1880.0
+2018,Elmbridge Borough Council,Walton South,Conservative,54.7,Liberal Democrats,23.9,3,2344.0
+2018,Elmbridge Borough Council,Weybridge Riverside,Liberal Democrats,39.3,Conservative,2.2,5,2272.0
+2018,Elmbridge Borough Council,Weybridge St George's Hill,Conservative,54.1,Weybridge & St. George's Independents,17.4,3,2398.0
+2018,Mole Valley District Council,Ashtead Common,Ashtead Independent,59.7,Conservative,42.3,5,
+2018,Mole Valley District Council,Ashtead Park,Ashtead Independent,61.1,Conservative,33.8,5,
+2018,Mole Valley District Council,Ashtead Village,Ashtead Independent,62.9,Conservative,41.8,5,
+2018,Mole Valley District Council,Bookham North,Conservative,50.4,Liberal Democrats,10.9,4,
+2018,Mole Valley District Council,Bookham South,Liberal Democrats,54.5,Conservative,15.9,4,
+2018,Mole Valley District Council,"Brockham, Betchworth and Buckland",Conservative,55.9,Liberal Democrats,21.1,5,
+2018,Mole Valley District Council,"Capel, Leigh and Newdigate",Conservative,46.6,Liberal Democrats,3.2,5,
+2018,Mole Valley District Council,Dorking North,Liberal Democrats,66.6,Conservative,50.0,5,
+2018,Mole Valley District Council,Dorking South,Liberal Democrats,57.1,Conservative,31.0,5,
+2018,Mole Valley District Council,Fetcham East,Conservative,63.0,Liberal Democrats,34.7,4,
+2018,Mole Valley District Council,Fetcham West,Liberal Democrats,64.4,Conservative,36.2,4,
+2018,Mole Valley District Council,Holmwoods,Liberal Democrats,49.1,Conservative,15.6,5,
+2018,Mole Valley District Council,Leatherhead North,Liberal Democrats,41.9,Conservative,7.6,5,
+2018,Mole Valley District Council,Leatherhead South,Conservative,61.4,No Description,43.7,4,
+2018,Reigate and Banstead Borough Council,Banstead Village,Conservative,68.4,Labour,53.5,4,2073.0
+2018,Reigate and Banstead Borough Council,"Chipstead, Hooley and Woodmansterne",Conservative,63.8,Labour,50.9,5,2149.0
+2018,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Green,32.8,Conservative,0.7,5,2325.0
+2018,Reigate and Banstead Borough Council,Horley Central,Conservative,61.4,Labour,22.8,2,1932.0
+2018,Reigate and Banstead Borough Council,Horley East,Conservative,66.1,Labour,45.5,3,1792.0
+2018,Reigate and Banstead Borough Council,Horley West,Conservative,48.0,Labour,25.9,4,
+2018,Reigate and Banstead Borough Council,Kingswood with Burgh Heath,Conservative,80.9,Labour,68.5,3,1807.0
+2018,Reigate and Banstead Borough Council,Meadvale and St John's,Conservative,39.5,Liberal Democrats,0.2,4,2135.0
+2018,Reigate and Banstead Borough Council,Merstham,Conservative,44.5,Labour,12.2,4,1795.0
+2018,Reigate and Banstead Borough Council,Nork,Residents,55.9,Conservative,27.6,5,2015.0
+2018,Reigate and Banstead Borough Council,Redhill East,Green,58.2,Conservative,34.0,4,2374.0
+2018,Reigate and Banstead Borough Council,Redhill West,Conservative,44.0,Labour,17.5,5,2237.0
+2018,Reigate and Banstead Borough Council,Reigate Central,Conservative,48.1,Liberal Democrats,22.0,4,2095.0
+2018,Reigate and Banstead Borough Council,Reigate Hill,Conservative,66.0,Liberal Democrats,41.3,3,1524.0
+2018,Reigate and Banstead Borough Council,South Park and Woodhatch,Conservative,45.8,Labour,19.4,4,1807.0
+2018,Reigate and Banstead Borough Council,Tadworth and Walton,Conservative,71.8,Liberal Democrats,61.8,5,1967.0
+2018,Reigate and Banstead Borough Council,Tattenhams,Residents,64.5,Conservative,40.0,4,1869.0
+2018,Runnymede Borough Council,Addlestone Bourneside,Conservative,52.6,Labour,17.2,3,1414.0
+2018,Runnymede Borough Council,Addlestone North,Conservative,63.8,Labour,27.6,2,1236.0
+2018,Runnymede Borough Council,Chertsey Meads,Conservative,66.1,Labour,32.2,2,1386.0
+2018,Runnymede Borough Council,Chertsey South and Row Town,Conservative,42.4,Green,22.2,5,1493.0
+2018,Runnymede Borough Council,Chertsey St Ann's,Conservative,49.1,Labour,17.0,4,1513.0
+2018,Runnymede Borough Council,Egham Hythe,Labour,53.1,Conservative,6.2,2,1299.0
+2018,Runnymede Borough Council,Egham Town,RIRG,56.2,Conservative,33.8,3,1202.0
+2018,Runnymede Borough Council,Englefield Green East,Conservative,53.6,Labour,27.7,3,770.0
+2018,Runnymede Borough Council,Englefield Green West,Conservative,41.3,Labour,8.9,4,946.0
+2018,Runnymede Borough Council,Foxhills,Independent,35.7,Conservative,7.9,5,1716.0
+2018,Runnymede Borough Council,New Haw,Conservative,62.6,Labour,42.2,3,1166.0
+2018,Runnymede Borough Council,Thorpe,RIRG,59.8,Conservative,31.2,3,1389.0
+2018,Runnymede Borough Council,Virginia Water,Conservative,47.3,Independent,19.5,4,1563.0
+2018,Runnymede Borough Council,Woodham,Conservative,73.1,Labour,52.9,3,1502.0
+2018,Tandridge District Council,Bletchingley and Nutfield,Conservative,49.6,UKIP,27.7,4,1563.0
+2018,Tandridge District Council,"Burstow, Horne and Outwood",Independent,51.4,Conservative,12.9,4,1803.0
+2018,Tandridge District Council,Dormansland and Felcourt,Independent,44.1,Conservative,1.0,4,1178.0
+2018,Tandridge District Council,Godstone,Independent,65.6,Conservative,44.3,4,1990.0
+2018,Tandridge District Council,Harestone,Conservative,51.4,Liberal Democrats,15.6,4,1289.0
+2018,Tandridge District Council,Limpsfield,Residents,64.3,Conservative,35.2,4,1428.0
+2018,Tandridge District Council,Lingfield and Crowhurst,Conservative,42.7,Independent,9.3,4,1229.0
+2018,Tandridge District Council,Oxted North and Tandridge,Residents,67.6,Conservative,43.4,4,2264.0
+2018,Tandridge District Council,Oxted South,Residents,57.6,Conservative,34.7,4,2093.0
+2018,Tandridge District Council,Queens Park,Liberal Democrats,58.7,Conservative,26.4,4,1286.0
+2018,Tandridge District Council,Warlingham East and Chelsham and Farleigh,Liberal Democrats,49.5,Conservative,14.5,4,1684.0
+2018,Tandridge District Council,Warlingham West,Conservative,62.2,Liberal Democrats,35.0,4,1052.0
+2018,Tandridge District Council,Westway,Liberal Democrats,42.4,Conservative,7.6,4,1144.0
+2018,Tandridge District Council,Whyteleafe,Liberal Democrats,46.5,Conservative,8.9,4,1039.0
+2018,Woking Borough Council,Byfleet and West Byfleet,Independent,40.9,Conservative,1.8,4,2880.0
+2018,Woking Borough Council,Canalside,Labour,45.0,Conservative,12.2,5,2694.0
+2018,Woking Borough Council,Goldsworth Park,Conservative,38.0,Liberal Democrats,0.4,4,2445.0
+2018,Woking Borough Council,Heathlands,Conservative,62.2,Liberal Democrats,37.8,3,2850.0
+2018,Woking Borough Council,Hoe Valley,Liberal Democrats,49.1,Conservative,16.0,4,2233.0
+2018,Woking Borough Council,Horsell,Conservative,50.0,Liberal Democrats,14.6,4,3227.0
+2018,Woking Borough Council,Knaphill,Conservative,53.9,Independent,38.3,4,2552.0
+2018,Woking Borough Council,Mount Hermon,Liberal Democrats,43.1,Conservative,0.6,4,3019.0
+2018,Woking Borough Council,Pyrford,Conservative,61.6,Liberal Democrats,41.4,4,3180.0
+2018,Woking Borough Council,St Johns,Liberal Democrats,43.5,Conservative,2.0,4,2804.0
+2019,Elmbridge Borough Council,Claygate,Liberal Democrats,63.0,Conservative,28.8,3,2269.0
+2019,Elmbridge Borough Council,Cobham & Downside,Conservative,47.4,Liberal Democrats,16.0,4,1904.0
+2019,Elmbridge Borough Council,Esher,Residents,46.7,Conservative,7.1,4,2438.0
+2019,Elmbridge Borough Council,Hersham Village,Conservative,52.8,Hersham Village Society,17.8,3,2228.0
+2019,Elmbridge Borough Council,Hinchley Wood & Weston Green,Hinchley Wood Residents' Association,73.6,Liberal Democrats,58.6,3,2398.0
+2019,Elmbridge Borough Council,Long Ditton,Liberal Democrats,57.8,Conservative,21.1,3,2065.0
+2019,Elmbridge Borough Council,Molesey East,Molesey Residents' Association,48.0,Conservative,18.1,5,2643.0
+2019,Elmbridge Borough Council,Molesey West,Molesey Residents' Association,63.5,Conservative,48.0,4,1907.0
+2019,Elmbridge Borough Council,Oatlands & Burwood Park,Conservative,60.3,Liberal Democrats,40.9,4,2086.0
+2019,Elmbridge Borough Council,Oxshott & Stoke D'Abernon,Conservative,65.5,Liberal Democrats,35.3,3,2258.0
+2019,Elmbridge Borough Council,Thames Ditton,Thames Ditton & Weston Green Residents' Association,67.4,Liberal Democrats,52.9,4,2339.0
+2019,Elmbridge Borough Council,Walton Central,The Walton Society,57.0,Conservative,23.7,3,2168.0
+2019,Elmbridge Borough Council,Walton North,Conservative,46.0,Labour,18.0,3,
+2019,Elmbridge Borough Council,Walton South,Conservative,50.8,Liberal Democrats,15.5,3,2061.0
+2019,Elmbridge Borough Council,Weybridge Riverside,Liberal Democrats,47.6,Conservative,6.3,4,2312.0
+2019,Elmbridge Borough Council,Weybridge St. George's Hall,Weybridge & St. George's Independents,52.4,Conservative,12.8,3,2290.0
+2019,Epsom and Ewell Borough Council,Auriol,Residents Association,82.0,Conservative,74.5,4,1070.0
+2019,Epsom and Ewell Borough Council,College,Liberal Democrats,41.7,Residents Association,5.6,4,1916.0
+2019,Epsom and Ewell Borough Council,Court,Labour,44.9,Residents Association,15.3,4,1299.0
+2019,Epsom and Ewell Borough Council,Cuddington,Residents Association,65.1,Liberal Democrats,52.4,4,1392.0
+2019,Epsom and Ewell Borough Council,Ewell,Residents Association,68.0,Conservative,56.6,4,1344.0
+2019,Epsom and Ewell Borough Council,Ewell Court,Residents Association,80.1,Conservative,72.2,4,1454.0
+2019,Epsom and Ewell Borough Council,Nonsuch,Residents Association,77.8,Liberal Democrats,68.1,4,1407.0
+2019,Epsom and Ewell Borough Council,Ruxley,Residents Association,66.9,Labour,54.2,4,1158.0
+2019,Epsom and Ewell Borough Council,Stamford,Residents Association,31.5,Conservative,1.4,5,2009.0
+2019,Epsom and Ewell Borough Council,Stoneleigh,Residents Association,82.2,Liberal Democrats,75.6,4,1267.0
+2019,Epsom and Ewell Borough Council,Town,Residents Association,43.5,Liberal Democrats,22.7,5,1555.0
+2019,Epsom and Ewell Borough Council,West Ewell,Residents Association,71.3,Labour,60.3,4,1429.0
+2019,Epsom and Ewell Borough Council,Woodcote,Residents Association,52.0,Conservative,22.2,4,1751.0
+2019,Guildford Borough Council,Ash South & Tongham,Conservative,39.7,R4GV,0.5,3,1885.0
+2019,Guildford Borough Council,Ash Vale,Conservative,56.9,Liberal Democrats,13.8,2,1089.0
+2019,Guildford Borough Council,Ash Wharf,Conservative,49.5,Green,18.1,3,1306.0
+2019,Guildford Borough Council,Burpham,Liberal Democrats,53.3,Conservative,19.9,3,1808.0
+2019,Guildford Borough Council,Christchurch,R4GV,44.2,Conservative,15.7,4,2065.0
+2019,Guildford Borough Council,Clandon & Horsley,GGG,44.2,R4GV,2.8,3,3790.0
+2019,Guildford Borough Council,Effingham,Liberal Democrats,57.4,GGG,30.8,3,931.0
+2019,Guildford Borough Council,Friary & St Nicolas,Liberal Democrats,44.7,R4GV,15.1,4,2541.0
+2019,Guildford Borough Council,Holy Trinity Ward *,R4GV,36.4,Liberal Democrats,4.0,4,2551.0
+2019,Guildford Borough Council,Lovelace *,R4GV,90.5,Conservative,81.0,2,882.0
+2019,Guildford Borough Council,Merrow,R4GV,43.5,Liberal Democrats,17.2,4,2750.0
+2019,Guildford Borough Council,Normandy,Conservative,41.7,Liberal Democrats,6.4,3,1094.0
+2019,Guildford Borough Council,Onslow,Liberal Democrats,36.8,R4GV,4.8,4,1877.0
+2019,Guildford Borough Council,Pilgrims *,R4GV,57.8,Conservative,15.6,2,890.0
+2019,Guildford Borough Council,Pirbright,Conservative,67.4,Liberal Democrats,45.6,3,587.0
+2019,Guildford Borough Council,Send,GGG,71.0,Conservative,50.2,3,1612.0
+2019,Guildford Borough Council,Shalford,R4GV,31.8,GGG,7.3,6,1791.0
+2019,Guildford Borough Council,Stoke,Labour,46.0,Liberal Democrats,15.9,3,1244.0
+2019,Guildford Borough Council,Stoughton,Liberal Democrats,59.5,Conservative,36.4,3,2417.0
+2019,Guildford Borough Council,Tillingbourne,Conservative,36.7,Green,3.6,3,1656.0
+2019,Guildford Borough Council,Westborough,Liberal Democrats,46.8,Labour,19.7,4,1881.0
+2019,Guildford Borough Council,Worplesdon *,R4GV,45.3,Conservative,17.5,4,2409.0
+2019,Mole Valley District Council,Ashtead Village,Ashtead Independent,67.3,Liberal Democrats,54.9,5,
+2019,Mole Valley District Council,Beare Green,Liberal Democrats,51.8,Conservative,19.7,5,
+2019,Mole Valley District Council,Bookham North,Liberal Democrats,67.6,Green,42.3,3,
+2019,Mole Valley District Council,Bookham South,Liberal Democrats,61.0,Conservative,31.1,4,
+2019,Mole Valley District Council,Box Hill & Headley,Liberal Democrats,54.8,Conservative,21.1,3,
+2019,Mole Valley District Council,"Brockham, Betchworth and Buckland",Liberal Democrats,45.8,Conservative,8.8,4,
+2019,Mole Valley District Council,"Capel, Leigh and Newdigate",Liberal Democrats,50.9,Conservative,15.2,4,
+2019,Mole Valley District Council,Charlwood,Conservative,46.4,Green,18.3,4,
+2019,Mole Valley District Council,Dorking South,Liberal Democrats,67.6,Conservative,49.0,4,
+2019,Mole Valley District Council,Holmwoods,Liberal Democrats,54.4,Conservative,34.4,6,
+2019,Mole Valley District Council,Leatherhead North,Liberal Democrats,42.6,Conservative,9.5,5,
+2019,Mole Valley District Council,Leith Hill,Liberal Democrats,76.1,Conservative,56.4,3,
+2019,Mole Valley District Council,"Mickleham, Westhumble & Pixham",Liberal Democrats,53.1,Independent,24.8,5,
+2019,Mole Valley District Council,Okewood,Conservative,43.5,Liberal Democrats,12.9,4,
+2019,Reigate and Banstead Borough Council,Banstead Village,Conservative,46.3,Green,21.0,4,2046.0
+2019,Reigate and Banstead Borough Council,"Chipstead , Kingswood and Woodmansterne",Conservative,42.7,Green,23.4,5,2307.0
+2019,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Green,50.8,Conservative,30.7,5,2496.0
+2019,Reigate and Banstead Borough Council,"Hooley , Merstham and Netherne",Conservative,33.7,Labour,11.9,5,2383.0
+2019,Reigate and Banstead Borough Council,Horley Central and South,Conservative,32.6,Green,9.2,4,2027.0
+2019,Reigate and Banstead Borough Council,Horley East and Salfords,Conservative,35.3,Green,6.2,4,2152.0
+2019,Reigate and Banstead Borough Council,Horley West and Sidlow,Conservative,36.2,Liberal Democrats,12.0,4,1881.0
+2019,Reigate and Banstead Borough Council,"Lower Kingswood , Tadworth and Walton",Conservative,52.6,Liberal Democrats,32.5,4,2506.0
+2019,Reigate and Banstead Borough Council,Meadvale and St. John's,Liberal Democrats,41.5,Conservative,12.6,4,2720.0
+2019,Reigate and Banstead Borough Council,Nork,Nork RA,69.9,Conservative,53.0,4,2273.0
+2019,Reigate and Banstead Borough Council,Redhill East,Green,59.6,Conservative,40.8,5,2047.0
+2019,Reigate and Banstead Borough Council,Redhill West and Wray Common,Conservative,40.7,Green,15.0,4,2344.0
+2019,Reigate and Banstead Borough Council,Reigate,Conservative,32.0,Independent,5.0,5,3015.0
+2019,Reigate and Banstead Borough Council,South Park and Woodhatch,Conservative,30.5,Green,7.5,5,2194.0
+2019,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Tattenhams RA,67.5,Conservative,54.8,4,1881.0
+2019,Runnymede Borough Council,Addlestone North,Conservative,23.4,Green,0.4,5,
+2019,Runnymede Borough Council,Addlestone South,Conservative,47.0,Labour Co-op,15.3,3,
+2019,Runnymede Borough Council,Chertsey Riverside,Conservative,44.0,Liberal Democrats,15.1,3,
+2019,Runnymede Borough Council,Chertsey St Ann's,Conservative,47.5,Labour Co-op,20.5,3,
+2019,Runnymede Borough Council,Egham Hythe,Labour Co-op,50.5,Conservative,1.0,2,
+2019,Runnymede Borough Council,Egham Town,RIRG,63.6,Conservative,41.5,3,
+2019,Runnymede Borough Council,Englefield Green East,Conservative,40.5,Independent,17.9,4,
+2019,Runnymede Borough Council,Englefield Green West,Conservative,34.5,Green,6.4,4,
+2019,Runnymede Borough Council,"Longcross, Lyne and Chertsey South",Liberal Democrats,45.5,Conservative,18.6,4,
+2019,Runnymede Borough Council,New Haw,Conservative,46.0,Liberal Democrats,13.4,3,
+2019,Runnymede Borough Council,Ottershaw,Independent,40.5,Conservative,20.5,5,
+2019,Runnymede Borough Council,Thorpe,RIRG,58.6,Conservative,39.3,4,
+2019,Runnymede Borough Council,Virginia Water,Conservative,74.5,Labour Co-op,49.0,2,
+2019,Runnymede Borough Council,Woodham and Rowtown,Conservative,42.5,Green,14.8,4,
+2019,Spelthorne Borough Council,Ashford Common,Conservative,36.5,Green,18.9,5,
+2019,Spelthorne Borough Council,Ashford East,Conservative,34.5,Green,13.6,5,
+2019,Spelthorne Borough Council,Ashford North and Stanwell South,Conservative,42.1,Labour,8.1,3,
+2019,Spelthorne Borough Council,Ashford Town,Conservative,40.4,Green,12.2,4,
+2019,Spelthorne Borough Council,Halliford and Sunbury West,Liberal Democrats,47.8,Conservative,19.2,4,
+2019,Spelthorne Borough Council,Laleham and Shepperton Green,Conservative,35.5,Green,15.8,5,
+2019,Spelthorne Borough Council,Riverside and Laleham,Independent,32.5,Conservative,6.5,5,
+2019,Spelthorne Borough Council,Shepperton Town,Conservative,44.3,Green,24.3,5,
+2019,Spelthorne Borough Council,Staines,Green,38.5,Labour,13.6,4,
+2019,Spelthorne Borough Council,Staines South,Liberal Democrats,38.2,Labour,15.4,4,
+2019,Spelthorne Borough Council,Stanwell North,Labour,42.8,Conservative,4.7,3,
+2019,Spelthorne Borough Council,Sunbury Common,Independent,31.8,Liberal Democrats,7.7,5,
+2019,Spelthorne Borough Council,Sunbury East,Conservative,37.8,Liberal Democrats,4.1,4,
+2019,Surrey Heath Borough Council,Bagshot,Conservative,48.6,Liberal Democrats,7.4,3,2015.0
+2019,Surrey Heath Borough Council,Bisley and West End,Liberal Democrats,37.0,Conservative,10.5,5,1987.0
+2019,Surrey Heath Borough Council,Frimley,Conservative,73.6,Labour,47.2,2,1271.0
+2019,Surrey Heath Borough Council,Frimley Green,Liberal Democrats,41.6,Conservative,5.0,5,1879.0
+2019,Surrey Heath Borough Council,Heatherside,Liberal Democrats,49.6,Conservative,13.2,3,2395.0
+2019,Surrey Heath Borough Council,Lightwater,Green,47.8,Conservative,8.7,3,1898.0
+2019,Surrey Heath Borough Council,Mytchett and Deepcut,Conservative,46.2,Liberal Democrats,6.5,3,1886.0
+2019,Surrey Heath Borough Council,Old Dean,Labour,51.0,Conservative,2.0,2,968.0
+2019,Surrey Heath Borough Council,Parkside,Conservative,53.4,Liberal Democrats,21.5,3,1279.0
+2019,Surrey Heath Borough Council,St Michael's,Conservative,59.8,Labour,19.6,2,1045.0
+2019,Surrey Heath Borough Council,St Paul's,Conservative,68.0,Liberal Democrats,36.0,2,1212.0
+2019,Surrey Heath Borough Council,Town,Conservative,58.9,Liberal Democrats,17.8,2,947.0
+2019,Surrey Heath Borough Council,Watchetts,Conservative,63.7,Labour,27.4,2,1136.0
+2019,Surrey Heath Borough Council,Windlesham and Chobham,Independent,67.9,Conservative,35.8,2,2309.0
+2019,Tandridge District Council,Bletchingley and Nutfield,Conservative,44.6,UKIP,20.9,4,1540.0
+2019,Tandridge District Council,"Burstow, Horne and Outwood",Independent,41.9,Conservative,5.4,5,1635.0
+2019,Tandridge District Council,Chaldon,Conservative,69.1,Liberal Democrats,50.3,4,605.0
+2019,Tandridge District Council,Dormansland and Felcourt,Conservative,45.6,Independent,2.5,3,1282.0
+2019,Tandridge District Council,Felbridge,Conservative,65.0,Independent,41.7,3,752.0
+2019,Tandridge District Council,Godstone,Independent,73.1,Conservative,58.7,5,1853.0
+2019,Tandridge District Council,Limpsfield,Residents,70.4,Conservative,46.8,3,1481.0
+2019,Tandridge District Council,Lingfield and Crowhurst,Independent,66.2,Conservative,41.3,3,1340.0
+2019,Tandridge District Council,Oxted North and Tandridge,Residents,67.8,Conservative,43.1,4,2336.0
+2019,Tandridge District Council,Oxted South,Residents,63.3,Conservative,46.8,5,2025.0
+2019,Tandridge District Council,Portley,Liberal Democrats,55.9,Conservative,30.0,4,1064.0
+2019,Tandridge District Council,Tatsfield and Titsey,Independent,58.0,Conservative,33.8,4,545.0
+2019,Tandridge District Council,Valley,Liberal Democrats,62.5,Conservative,45.2,4,1035.0
+2019,Tandridge District Council,"Warlingham East, Chelsham and Farleigh",Liberal Democrats,55.0,Conservative,27.3,4,1446.0
+2019,Waverley Borough Council,Blackheath and Wonersh,Conservative,58.1,Liberal Democrats,33.6,4,673.0
+2019,Waverley Borough Council,"Bramley, Busbridge and Hascombe",Conservative,56.7,Green,13.4,2,1252.0
+2019,Waverley Borough Council,Chiddingfold and Dunsfold,Conservative,41.5,Green,14.2,4,1137.0
+2019,Waverley Borough Council,Cranleigh East,Liberal Democrats,44.8,Conservative,5.8,3,1716.0
+2019,Waverley Borough Council,Cranleigh West,Conservative,60.8,Liberal Democrats,21.6,2,1125.0
+2019,Waverley Borough Council,Elstead and Thursley,Conservative,75.1,Labour,50.2,2,1083.0
+2019,Waverley Borough Council,Ewhurst,Conservative,76.3,Labour,52.6,2,625.0
+2019,Waverley Borough Council,Farnham Bourne,Residents,41.4,Conservative,3.8,3,1280.0
+2019,Waverley Borough Council,Farnham Castle,Residents,64.7,Liberal Democrats,43.5,3,1262.0
+2019,Waverley Borough Council,Farnham Firgrove,Residents,56.0,Liberal Democrats,35.6,4,1362.0
+2019,Waverley Borough Council,Farnham Hale and Heath End,Residents,67.6,Conservative,45.7,3,1143.0
+2019,Waverley Borough Council,Farnham Moor Park,Residents,66.2,Liberal Democrats,48.8,3,1332.0
+2019,Waverley Borough Council,Farnham Shortheath and Boundstone,Residents,70.4,Conservative,51.0,3,1156.0
+2019,Waverley Borough Council,Farnham Upper Hale,Residents,69.4,Labour,53.5,3,1081.0
+2019,Waverley Borough Council,Farnham Weybourne and Badshot Lea,Liberal Democrats,49.0,Residents,17.1,4,1396.0
+2019,Waverley Borough Council,Farnham Wrecclesham and Rowledge,Residents,46.6,Conservative,19.7,4,1305.0
+2019,Waverley Borough Council,"Frensham, Dockenfield and Tilford",Conservative,50.0,Green,16.7,3,1146.0
+2019,Waverley Borough Council,Godalming Binscombe,Liberal Democrats,46.4,Labour,16.7,3,1164.0
+2019,Waverley Borough Council,Godalming Central and Ockford,Liberal Democrats,69.5,Conservative,50.6,3,1459.0
+2019,Waverley Borough Council,Godalming Charterhouse,Green,47.7,Conservative,19.9,3,1292.0
+2019,Waverley Borough Council,Godalming Farncombe and Catteshall,Liberal Democrats,53.5,Labour,27.9,3,1396.0
+2019,Waverley Borough Council,Godalming Holloway,Liberal Democrats,46.2,Conservative,13.2,3,1698.0
+2019,Waverley Borough Council,Haslemere Critchmere and Shottermill,Liberal Democrats,56.3,Conservative,22.6,3,1837.0
+2019,Waverley Borough Council,Haslemere East and Grayswood,Conservative,35.5,Liberal Democrats,6.5,4,2279.0
+2019,Waverley Borough Council,Hindhead,Liberal Democrats,46.7,Conservative,0.2,3,1160.0
+2019,Waverley Borough Council,Milford,Liberal Democrats,35.2,Independent,0.9,4,1282.0
+2019,Waverley Borough Council,Witley and Hambledon,Conservative,41.5,Independent,1.0,3,1225.0
+2019,Woking Borough Council,Byfleet and West Byfleet,Independent,53.4,Conservative,30.6,5,2701.0
+2019,Woking Borough Council,Canalside,Labour,37.6,Conservative,7.5,5,2767.0
+2019,Woking Borough Council,Goldsworth Park,Liberal Democrats,42.2,Conservative,11.3,5,2454.0
+2019,Woking Borough Council,Heathlands,Conservative,51.3,Independent,31.8,4,2791.0
+2019,Woking Borough Council,Hoe Valley,Liberal Democrats,56.8,Conservative,38.3,5,2039.0
+2019,Woking Borough Council,Horsell,Conservative,41.8,Liberal Democrats,6.9,5,3122.0
+2019,Woking Borough Council,Knaphill,Conservative,36.3,Independent,5.8,6,2655.0
+2019,Woking Borough Council,Mount Hermon,Liberal Democrats,51.0,Conservative,22.1,5,2802.0
+2019,Woking Borough Council,Pyrford,Conservative,37.8,Independent,9.6,6,2921.0
+2019,Woking Borough Council,St John's,Liberal Democrats,47.9,Conservative,17.6,5,2802.0
 2021,Elmbridge Borough Council,Claygate,Liberal Democrats,60.4,Conservative,24.9,3,2786.0
 2021,Elmbridge Borough Council,Cobham & Downside,Conservative,64.5,Liberal Democrats,42.9,5,2215.0
 2021,Elmbridge Borough Council,Esher,Esher Residents' Association,52.4,Conservative,16.2,4,2750.0

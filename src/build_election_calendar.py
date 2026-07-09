@@ -37,7 +37,11 @@ COUNCILS = [
     "Waverley Borough Council",
     "Woking Borough Council",
 ]
-YEARS = range(2021, 2027)
+# Starts at 2017 so every ward contested in 2021-2024 can find its
+# previous result: 2017 covers the county council, 2018-2019 the
+# boroughs. These earlier years feed ward-history features only; the
+# study period itself is still 2021-2026.
+YEARS = range(2017, 2027)
 
 # Confirmed on surreycc.gov.uk (8 Jul 2026): local government
 # reorganisation replaced Surrey's 12 councils with two new unitary

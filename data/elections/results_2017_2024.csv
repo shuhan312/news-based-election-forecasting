@@ -1,4 +1,1842 @@
 year,council,ward,party,candidate,votes,vote_share,turnout
+2017,Surrey County Council,Addlestone,Conservative,John Furey*,1804,54.0,3364.0
+2017,Surrey County Council,Addlestone,Labour,June Tilbury,648,19.0,3364.0
+2017,Surrey County Council,Addlestone,UKIP,Nicolas Wood,356,11.0,3364.0
+2017,Surrey County Council,Addlestone,Liberal Democrats,Chelsea Whyte,324,10.0,3364.0
+2017,Surrey County Council,Addlestone,Green,Richard Miller,232,7.0,3364.0
+2017,Surrey County Council,Ash,Conservative,Marsha Moseley*,1675,60.0,2796.0
+2017,Surrey County Council,Ash,Liberal Democrats,Caroline Johnson,528,19.0,2796.0
+2017,Surrey County Council,Ash,Labour,Jacob Armani,249,9.0,2796.0
+2017,Surrey County Council,Ash,UKIP,Kyle Greaves,192,7.0,2796.0
+2017,Surrey County Council,Ash,Green,Neil Jameson,152,5.0,2796.0
+2017,Surrey County Council,Ashford,Conservative,Naz Islam,1725,47.0,3685.0
+2017,Surrey County Council,Ashford,UKIP,Paul West,591,16.0,3685.0
+2017,Surrey County Council,Ashford,Labour,Rebecca Geach,564,15.0,3685.0
+2017,Surrey County Council,Ashford,Independent,Frank Ayres,357,10.0,3685.0
+2017,Surrey County Council,Ashford,Liberal Democrats,Thomas Fidler,271,7.0,3685.0
+2017,Surrey County Council,Ashford,Green,Rupert Jackson,177,5.0,3685.0
+2017,Surrey County Council,Ashtead,Independent,Christopher Townsend*,2763,54.0,5082.0
+2017,Surrey County Council,Ashtead,Conservative,Chris Hunt,1777,35.0,5082.0
+2017,Surrey County Council,Ashtead,Liberal Democrats,Sebastian Bate,225,4.0,5082.0
+2017,Surrey County Council,Ashtead,Labour,Susan Gilchrist,194,4.0,5082.0
+2017,Surrey County Council,Ashtead,Green,Tony Cooper,123,2.0,5082.0
+2017,Surrey County Council,"Bagshot, Windlesham and Chobham",Conservative,Mike Goodman*,2437,62.0,3914.0
+2017,Surrey County Council,"Bagshot, Windlesham and Chobham",Liberal Democrats,Sam Kay,679,17.0,3914.0
+2017,Surrey County Council,"Bagshot, Windlesham and Chobham",Green,Andrew Willgoss,579,15.0,3914.0
+2017,Surrey County Council,"Bagshot, Windlesham and Chobham",Labour,Paul Edwards,219,6.0,3914.0
+2017,Surrey County Council,"Banstead, Woodmansterne & Chipstead",Conservative,Ken Gulati*,2414,67.0,3622.0
+2017,Surrey County Council,"Banstead, Woodmansterne & Chipstead",Liberal Democrats,James Fowler,529,15.0,3622.0
+2017,Surrey County Council,"Banstead, Woodmansterne & Chipstead",Labour,Evan Gregory,276,8.0,3622.0
+2017,Surrey County Council,"Banstead, Woodmansterne & Chipstead",UKIP,Gillian Grant,238,7.0,3622.0
+2017,Surrey County Council,"Banstead, Woodmansterne & Chipstead",Green,Phil Wilson,165,5.0,3622.0
+2017,Surrey County Council,Bookham and Fetcham West,Conservative,Clare Curran*,3256,51.0,6401.0
+2017,Surrey County Council,Bookham and Fetcham West,Liberal Democrats,Raj Haque,2604,41.0,6401.0
+2017,Surrey County Council,Bookham and Fetcham West,Green,Damian McDevitt,288,4.0,6401.0
+2017,Surrey County Council,Bookham and Fetcham West,UKIP,Marjorie Dixon,253,4.0,6401.0
+2017,Surrey County Council,Camberley East,Conservative,Bill Chapman*,2233,71.0,3146.0
+2017,Surrey County Council,Camberley East,Liberal Democrats,David Whitcroft,511,16.0,3146.0
+2017,Surrey County Council,Camberley East,Labour,Bernard Collins,402,13.0,3146.0
+2017,Surrey County Council,Camberley West,Conservative,Charlotte Morley,1839,51.0,3633.0
+2017,Surrey County Council,Camberley West,Labour,Richard Claridge,621,17.0,3633.0
+2017,Surrey County Council,Camberley West,Independent,David Allen,394,11.0,3633.0
+2017,Surrey County Council,Camberley West,Liberal Democrats,Morgan Rise,328,9.0,3633.0
+2017,Surrey County Council,Camberley West,Independent,Frances Halstead,300,8.0,3633.0
+2017,Surrey County Council,Camberley West,UKIP,Damian Heads,151,4.0,3633.0
+2017,Surrey County Council,Caterham Hill,Liberal Democrats,Chris Botten,1738,44.0,3923.0
+2017,Surrey County Council,Caterham Hill,Conservative,Rod Stead,1726,44.0,3923.0
+2017,Surrey County Council,Caterham Hill,Labour,Eddington Pindura,262,7.0,3923.0
+2017,Surrey County Council,Caterham Hill,UKIP,Joe Branco,197,5.0,3923.0
+2017,Surrey County Council,Caterham Valley,Liberal Democrats,David Lee,1589,47.0,3346.0
+2017,Surrey County Council,Caterham Valley,Conservative,Michael Cooper,1343,40.0,3346.0
+2017,Surrey County Council,Caterham Valley,Labour,Mark Wood,242,7.0,3346.0
+2017,Surrey County Council,Caterham Valley,UKIP,Jeffrey Bolter,172,5.0,3346.0
+2017,Surrey County Council,Chertsey,Conservative,Mark Nuti,1978,59.0,3335.0
+2017,Surrey County Council,Chertsey,Labour,Arran Neathey,650,19.0,3335.0
+2017,Surrey County Council,Chertsey,Liberal Democrats,Sylvia Whyte,381,11.0,3335.0
+2017,Surrey County Council,Chertsey,UKIP,Bill Bruno,326,10.0,3335.0
+2017,Surrey County Council,Cobham,Conservative,Mary Lewis*,2290,67.0,3398.0
+2017,Surrey County Council,Cobham,Liberal Democrats,David Bellchamber,679,20.0,3398.0
+2017,Surrey County Council,Cobham,Labour,Lana Hylands,254,7.0,3398.0
+2017,Surrey County Council,Cobham,UKIP,Elaine Kingston,175,5.0,3398.0
+2017,Surrey County Council,Cranleigh & Ewhurst,Conservative,Andrew Povey,2094,54.0,3888.0
+2017,Surrey County Council,Cranleigh & Ewhurst,Liberal Democrats,Richard Cole,1098,28.0,3888.0
+2017,Surrey County Council,Cranleigh & Ewhurst,UKIP,Roseleen Egan,362,9.0,3888.0
+2017,Surrey County Council,Cranleigh & Ewhurst,Labour,Luke Wenman,334,9.0,3888.0
+2017,Surrey County Council,Dorking Hills,Liberal Democrats,Hazel Watson*,2906,57.0,5134.0
+2017,Surrey County Council,Dorking Hills,Conservative,David Mir,1675,33.0,5134.0
+2017,Surrey County Council,Dorking Hills,Green,Jacquetta Fewster,231,4.0,5134.0
+2017,Surrey County Council,Dorking Hills,UKIP,David Payne,167,3.0,5134.0
+2017,Surrey County Council,Dorking Hills,Labour,Emma Davies,155,3.0,5134.0
+2017,Surrey County Council,Dorking Rural,Conservative,Helyn Clack*,2580,54.0,4812.0
+2017,Surrey County Council,Dorking Rural,Liberal Democrats,Roger Abbott,1695,35.0,4812.0
+2017,Surrey County Council,Dorking Rural,UKIP,Geoff Cox,248,5.0,4812.0
+2017,Surrey County Council,Dorking Rural,Green,Jeff Zie,164,3.0,4812.0
+2017,Surrey County Council,Dorking Rural,Labour,Angus Rendall,125,3.0,4812.0
+2017,Surrey County Council,Dorking South and the Holmwoods,Liberal Democrats,Stephen Cooksey*,2261,51.0,4392.0
+2017,Surrey County Council,Dorking South and the Holmwoods,Conservative,Roger Jones,1466,33.0,4392.0
+2017,Surrey County Council,Dorking South and the Holmwoods,Green,Chris Crook,256,6.0,4392.0
+2017,Surrey County Council,Dorking South and the Holmwoods,UKIP,Michael Foulston,205,5.0,4392.0
+2017,Surrey County Council,Dorking South and the Holmwoods,Labour,Peter Horitz,204,5.0,4392.0
+2017,Surrey County Council,Earlswood and Reigate South,Conservative,Barbara Thomas*,1621,48.0,3330.0
+2017,Surrey County Council,Earlswood and Reigate South,Labour,Graham Wildridge,633,19.0,3330.0
+2017,Surrey County Council,Earlswood and Reigate South,Liberal Democrats,Moray Carey,488,14.0,3330.0
+2017,Surrey County Council,Earlswood and Reigate South,UKIP,Brian Stiff,353,10.0,3330.0
+2017,Surrey County Council,Earlswood and Reigate South,Green,Sue Fenton,235,9.0,3330.0
+2017,Surrey County Council,East Molesey & Esher,Conservative,Peter Szanto,2095,54.0,3889.0
+2017,Surrey County Council,East Molesey & Esher,Residents,Elizabeth Cooper,1149,30.0,3889.0
+2017,Surrey County Council,East Molesey & Esher,Liberal Democrats,Paul Nagle,318,8.0,3889.0
+2017,Surrey County Council,East Molesey & Esher,Labour,Raymond Kelly,159,4.0,3889.0
+2017,Surrey County Council,East Molesey & Esher,Green,Laura Harmour,102,3.0,3889.0
+2017,Surrey County Council,East Molesey & Esher,UKIP,Trevor Marshall,66,2.0,3889.0
+2017,Surrey County Council,Egham,Conservative,Yvonna Lay*,1104,49.0,2238.0
+2017,Surrey County Council,Egham,Labour,Fiona Dent,464,21.0,2238.0
+2017,Surrey County Council,Egham,Liberal Democrats,Jake Short,299,13.0,2238.0
+2017,Surrey County Council,Egham,UKIP,David Roe,224,10.0,2238.0
+2017,Surrey County Council,Egham,Green,Fergus Munro,147,7.0,2238.0
+2017,Surrey County Council,Englefield Green,Conservative,Marisa Heath*,1169,41.0,2826.0
+2017,Surrey County Council,Englefield Green,Runnymeade Independent Residents Group,Chris Fisher,809,29.0,2826.0
+2017,Surrey County Council,Englefield Green,Labour,Ben Tozer,307,11.0,2826.0
+2017,Surrey County Council,Englefield Green,Liberal Democrats,Will Coles,255,9.0,2826.0
+2017,Surrey County Council,Englefield Green,UKIP,David Hunt,148,5.0,2826.0
+2017,Surrey County Council,Englefield Green,Green,Lee-Anne Lawrence,138,5.0,2826.0
+2017,Surrey County Council,Epsom Town & Downs,Conservative,Tina Mountain*,1751,42.0,4169.0
+2017,Surrey County Council,Epsom Town & Downs,Residents,Clive Woodbridge,1321,32.0,4169.0
+2017,Surrey County Council,Epsom Town & Downs,Liberal Democrats,Julie Anne Morris,612,15.0,4169.0
+2017,Surrey County Council,Epsom Town & Downs,Labour,Veronica Monks,347,8.0,4169.0
+2017,Surrey County Council,Epsom Town & Downs,Green,Theresa MacIntyre,138,3.0,4169.0
+2017,Surrey County Council,Epsom West,Conservative,Bernie Muir,1218,30.0,4083.0
+2017,Surrey County Council,Epsom West,Liberal Democrats,Clare Clark,1144,28.0,4083.0
+2017,Surrey County Council,Epsom West,Labour,Kate Chinn,839,21.0,4083.0
+2017,Surrey County Council,Epsom West,Residents,Barry Nash,717,18.0,4083.0
+2017,Surrey County Council,Epsom West,Green,Janice Baker,165,4.0,4083.0
+2017,Surrey County Council,Ewell,Residents,John Beckett*,2579,66.0,3879.0
+2017,Surrey County Council,Ewell,Conservative,James Tarbit,732,19.0,3879.0
+2017,Surrey County Council,Ewell,Labour,Rosalind Godson,255,7.0,3879.0
+2017,Surrey County Council,Ewell,Liberal Democrats,Alison Kelly,234,6.0,3879.0
+2017,Surrey County Council,Ewell,Green,Susan McGrath,79,2.0,3879.0
+2017,Surrey County Council,"Ewell Court, Auriol & Cuddington",Residents,Eber Kington*,2708,68.0,4010.0
+2017,Surrey County Council,"Ewell Court, Auriol & Cuddington",Conservative,Karan Persand,776,19.0,4010.0
+2017,Surrey County Council,"Ewell Court, Auriol & Cuddington",Labour,Erica Gregory,254,6.0,4010.0
+2017,Surrey County Council,"Ewell Court, Auriol & Cuddington",Liberal Democrats,Paul Coulter,180,4.0,4010.0
+2017,Surrey County Council,"Ewell Court, Auriol & Cuddington",Green,Lucy Barford,92,2.0,4010.0
+2017,Surrey County Council,Farnham Central,Farnham Residents,Andy MacLeod,1754,43.0,4060.0
+2017,Surrey County Council,Farnham Central,Liberal Democrats,Jo Aylwin,1085,27.0,4060.0
+2017,Surrey County Council,Farnham Central,Conservative,Pat Frost*,1057,26.0,4060.0
+2017,Surrey County Council,Farnham Central,Green,Fiona Scimone,164,4.0,4060.0
+2017,Surrey County Council,Farnham North,Farnham Residents,Stephen Spence,1606,45.0,3547.0
+2017,Surrey County Council,Farnham North,Conservative,Mike Hodge,1274,36.0,3547.0
+2017,Surrey County Council,Farnham North,Liberal Democrats,Rob Walton,437,12.0,3547.0
+2017,Surrey County Council,Farnham North,Green,Dave Beynon,230,6.0,3547.0
+2017,Surrey County Council,Farnham South,Conservative,Robert Ramsdale,1526,39.0,3913.0
+2017,Surrey County Council,Farnham South,Farnham Residents,John Ward,1463,37.0,3913.0
+2017,Surrey County Council,Farnham South,Liberal Democrats,Mark Turner,550,14.0,3913.0
+2017,Surrey County Council,Farnham South,Labour,Andrew Jones,148,4.0,3913.0
+2017,Surrey County Council,Farnham South,Independent,Mark Westcott,140,4.0,3913.0
+2017,Surrey County Council,Farnham South,UKIP,Jim Burroughs,86,2.0,3913.0
+2017,Surrey County Council,"Foxhills, Thorpe and Virginia Water",Conservative,Mel Few*,2314,65.0,2314.0
+2017,Surrey County Council,"Foxhills, Thorpe and Virginia Water",Liberal Democrats,Don Whyte,462,13.0,2314.0
+2017,Surrey County Council,"Foxhills, Thorpe and Virginia Water",Labour,Jacqueline Fletcher,333,9.0,2314.0
+2017,Surrey County Council,"Foxhills, Thorpe and Virginia Water",UKIP,Steve Gynn,321,9.0,2314.0
+2017,Surrey County Council,"Foxhills, Thorpe and Virginia Water",Green,Tobias Horkan,116,3.0,2314.0
+2017,Surrey County Council,Frimley Green and Mytchett,Conservative,Paul Deach,2103,61.0,3475.0
+2017,Surrey County Council,Frimley Green and Mytchett,Liberal Democrats,Cindy Ferguson,672,19.0,3475.0
+2017,Surrey County Council,Frimley Green and Mytchett,Labour,Jenniann Davies,267,8.0,3475.0
+2017,Surrey County Council,Frimley Green and Mytchett,UKIP,Paul Chapman,252,7.0,3475.0
+2017,Surrey County Council,Frimley Green and Mytchett,Green,Peter Barnett,129,4.0,3475.0
+2017,Surrey County Council,Frimley Green and Mytchett,Christian,Juliana Brimicombe,52,1.0,3475.0
+2017,Surrey County Council,Godalming North,Liberal Democrats,Penny Rivers,1895,46.0,4154.0
+2017,Surrey County Council,Godalming North,Conservative,Steve Cosser*,1656,40.0,4154.0
+2017,Surrey County Council,Godalming North,Green,James Coope,349,8.0,4154.0
+2017,Surrey County Council,Godalming North,UKIP,Brian Egan,254,6.0,4154.0
+2017,Surrey County Council,"Godalming South, Milford & Witley",Conservative,Peter Martin,2484,62.0,3978.0
+2017,Surrey County Council,"Godalming South, Milford & Witley",Liberal Democrats,Paul Follows,952,24.0,3978.0
+2017,Surrey County Council,"Godalming South, Milford & Witley",Labour,Kate Townsend,542,14.0,3978.0
+2017,Surrey County Council,Godstone,Conservative,Rose Thorn,1646,47.0,3498.0
+2017,Surrey County Council,Godstone,UKIP,Helena Windsor*,949,27.0,3498.0
+2017,Surrey County Council,Godstone,Liberal Democrats,Tamzie Hollands,613,18.0,3498.0
+2017,Surrey County Council,Godstone,Labour,Linda Baharier,290,8.0,3498.0
+2017,Surrey County Council,Goldsworth East and Horsell Village,Conservative,Colin Kemp*,1934,43.0,4514.0
+2017,Surrey County Council,Goldsworth East and Horsell Village,Liberal Democrats,John Doran,1876,42.0,4514.0
+2017,Surrey County Council,Goldsworth East and Horsell Village,Labour,John Scott-Morgan,463,10.0,4514.0
+2017,Surrey County Council,Goldsworth East and Horsell Village,UKIP,Tim Read,241,5.0,4514.0
+2017,Surrey County Council,Guildford East,Conservative,Graham Ellwood*,1910,45.0,4214.0
+2017,Surrey County Council,Guildford East,Liberal Democrats,George Potter,1495,35.0,4214.0
+2017,Surrey County Council,Guildford East,Labour,Richard Mithen,505,12.0,4214.0
+2017,Surrey County Council,Guildford East,Green,Sam Peters,304,7.0,4214.0
+2017,Surrey County Council,Guildford North,Liberal Democrats,Angela Goodwin,1564,42.0,3744.0
+2017,Surrey County Council,Guildford North,Conservative,David Snipp,1250,33.0,3744.0
+2017,Surrey County Council,Guildford North,Labour,Anne Rouse,724,19.0,3744.0
+2017,Surrey County Council,Guildford North,Green,Paul Stevenson,206,6.0,3744.0
+2017,Surrey County Council,Guildford South-East,Conservative,Mark Brett-Warburton*,2073,51.0,4069.0
+2017,Surrey County Council,Guildford South-East,Liberal Democrats,Leonie Anderson,1641,40.0,4069.0
+2017,Surrey County Council,Guildford South-East,Labour,Howard Smith,355,9.0,4069.0
+2017,Surrey County Council,Guildford South-West,Liberal Democrats,David Goodwin*,1975,51.0,3675.0
+2017,Surrey County Council,Guildford South-West,Conservative,Bob Hughes,1128,31.0,3675.0
+2017,Surrey County Council,Guildford South-West,Labour,Matthew Smith,330,9.0,3675.0
+2017,Surrey County Council,Guildford South-West,Green,Mark Bray-Parry,208,6.0,3675.0
+2017,Surrey County Council,Guildford South-West,Peace,Chapel Kabir,34,1.0,3675.0
+2017,Surrey County Council,Guildford West,Liberal Democrats,Fiona White*,955,43.0,2216.0
+2017,Surrey County Council,Guildford West,Labour Co-op,George Dokimakis,573,26.0,2216.0
+2017,Surrey County Council,Guildford West,Conservative,Adrian Chandler,567,26.0,2216.0
+2017,Surrey County Council,Guildford West,Green,Jo Purvis,71,3.0,2216.0
+2017,Surrey County Council,Guildford West,Peace,John Morris,38,2.0,2216.0
+2017,Surrey County Council,Guildford West,Socialist (GB),Adam Buick,12,1.0,2216.0
+2017,Surrey County Council,Haslemere,Conservative,Richard Hampson,1849,53.0,3507.0
+2017,Surrey County Council,Haslemere,Liberal Democrats,John Robini,990,28.0,3507.0
+2017,Surrey County Council,Haslemere,Green,Jon Taylor,304,9.0,3507.0
+2017,Surrey County Council,Haslemere,Labour,Kim Hemmingway,200,6.0,3507.0
+2017,Surrey County Council,Haslemere,UKIP,Gail Weingartner,164,5.0,3507.0
+2017,Surrey County Council,Heatherside and Parkside,Conservative,Edward Hawkins,2041,54.0,3768.0
+2017,Surrey County Council,Heatherside and Parkside,Liberal Democrats,John Skipper,638,17.0,3768.0
+2017,Surrey County Council,Heatherside and Parkside,Independent,David Ivison*,466,12.0,3768.0
+2017,Surrey County Council,Heatherside and Parkside,Labour,Jill Coles,216,6.0,3768.0
+2017,Surrey County Council,Heatherside and Parkside,UKIP,Hazel Prowse,179,5.0,3768.0
+2017,Surrey County Council,Heatherside and Parkside,Green,Yvonne Greenwood,153,4.0,3768.0
+2017,Surrey County Council,Heatherside and Parkside,Independent,Barrie Cullen,75,2.0,3768.0
+2017,Surrey County Council,Hersham,Conservative,John O'Reilly,2146,54.0,3940.0
+2017,Surrey County Council,Hersham,Hersham Village Society,Roy Green,981,25.0,3940.0
+2017,Surrey County Council,Hersham,Labour,Peter Ramsbottom,296,8.0,3940.0
+2017,Surrey County Council,Hersham,Liberal Democrats,Michael Smith,287,7.0,3940.0
+2017,Surrey County Council,Hersham,Green,Olivia Palmer,230,6.0,3940.0
+2017,Surrey County Council,"Hinchley Wood, Claygate & Oxshott",Conservative,Mike Bennison*,2395,50.0,4821.0
+2017,Surrey County Council,"Hinchley Wood, Claygate & Oxshott",Liberal Democrats,Alastair Coomes,2269,47.0,4821.0
+2017,Surrey County Council,"Hinchley Wood, Claygate & Oxshott",UKIP,Bernard Collignon,157,3.0,4821.0
+2017,Surrey County Council,Horley East,Conservative,Graham Knight,1990,60.0,3340.0
+2017,Surrey County Council,Horley East,Labour,Linda Mabbett,494,15.0,3340.0
+2017,Surrey County Council,Horley East,UKIP,Malcolm Brighting,386,12.0,3340.0
+2017,Surrey County Council,Horley East,Liberal Democrats,Judith Sykes,298,9.0,3340.0
+2017,Surrey County Council,Horley East,Green,David Scoffield,172,5.0,3340.0
+2017,Surrey County Council,"Horley West, Salfords and Sidlow",Conservative,Kay Hammond*,1697,55.0,2930.0
+2017,Surrey County Council,"Horley West, Salfords and Sidlow",Labour,Tom Turner,434,14.0,2930.0
+2017,Surrey County Council,"Horley West, Salfords and Sidlow",UKIP,Joseph Fox,429,14.0,2930.0
+2017,Surrey County Council,"Horley West, Salfords and Sidlow",Liberal Democrats,Geoffrey Southall,215,12.0,2930.0
+2017,Surrey County Council,"Horley West, Salfords and Sidlow",Green,Muriel Passmore,155,5.0,2930.0
+2017,Surrey County Council,Horsleys,Conservative,Julie Iles,2450,54.0,4531.0
+2017,Surrey County Council,Horsleys,Liberal Democrats,Paul Kennedy,1731,38.0,4531.0
+2017,Surrey County Council,Horsleys,Green,Ann James,134,3.0,4531.0
+2017,Surrey County Council,Horsleys,UKIP,Robert Cane,108,2.0,4531.0
+2017,Surrey County Council,Horsleys,Labour,Carolyn Fiddes,108,2.0,4531.0
+2017,Surrey County Council,Knaphill and Goldsworth West,Conservative,Saj Hussain*,2342,63.0,3705.0
+2017,Surrey County Council,Knaphill and Goldsworth West,Liberal Democrats,Ann-Marie Barker,804,22.0,3705.0
+2017,Surrey County Council,Knaphill and Goldsworth West,Labour,Peter Ford,356,10.0,3705.0
+2017,Surrey County Council,Knaphill and Goldsworth West,UKIP,Troy De Leon,203,5.0,3705.0
+2017,Surrey County Council,Laleham and Shepperton,Conservative,Richard Walsh*,2171,54.0,4007.0
+2017,Surrey County Council,Laleham and Shepperton,Independent,Stuart Boyle,665,17.0,4007.0
+2017,Surrey County Council,Laleham and Shepperton,Labour,Jon Button,396,10.0,4007.0
+2017,Surrey County Council,Laleham and Shepperton,Liberal Democrats,Richard Dunn,349,9.0,4007.0
+2017,Surrey County Council,Laleham and Shepperton,UKIP,Brian Catt,271,7.0,4007.0
+2017,Surrey County Council,Laleham and Shepperton,Green,Peter Hughes,155,4.0,4007.0
+2017,Surrey County Council,Leatherhead and Fetcham East,Conservative,Tim Hall*,2295,53.0,4307.0
+2017,Surrey County Council,Leatherhead and Fetcham East,Liberal Democrats,Clare Malcolmson,1259,29.0,4307.0
+2017,Surrey County Council,Leatherhead and Fetcham East,Labour,Marc Green,354,8.0,4307.0
+2017,Surrey County Council,Leatherhead and Fetcham East,UKIP,Michael Heelas,251,6.0,4307.0
+2017,Surrey County Council,Leatherhead and Fetcham East,Green,Julian Everett,148,3.0,4307.0
+2017,Surrey County Council,"Lightwater, West End and Bisley",Conservative,David Mansfield,2109,55.0,3839.0
+2017,Surrey County Council,"Lightwater, West End and Bisley",Independent,Graham Alleway,627,16.0,3839.0
+2017,Surrey County Council,"Lightwater, West End and Bisley",Liberal Democrats,Rob Beere,613,16.0,3839.0
+2017,Surrey County Council,"Lightwater, West End and Bisley",Labour,Mick Sheehan,223,6.0,3839.0
+2017,Surrey County Council,"Lightwater, West End and Bisley",Green,Sharon Galliford,139,4.0,3839.0
+2017,Surrey County Council,"Lightwater, West End and Bisley",UKIP,Piotr Farbiszewski,128,3.0,3839.0
+2017,Surrey County Council,Lingfield,Conservative,Lesley Steeds,2853,69.0,4152.0
+2017,Surrey County Council,Lingfield,Liberal Democrats,Dave Wilkes,635,15.0,4152.0
+2017,Surrey County Council,Lingfield,UKIP,Richard Grant,378,9.0,4152.0
+2017,Surrey County Council,Lingfield,Labour,Elizabeth Warwick-Ching,286,7.0,4152.0
+2017,Surrey County Council,Lower Sunbury & Halliford,Conservative,Tim Evans*,1945,51.0,3800.0
+2017,Surrey County Council,Lower Sunbury & Halliford,Liberal Democrats,Sandra Dunn,1211,32.0,3800.0
+2017,Surrey County Council,Lower Sunbury & Halliford,Labour,Sean Beatty,319,8.0,3800.0
+2017,Surrey County Council,Lower Sunbury & Halliford,UKIP,Redvers Cunningham,223,6.0,3800.0
+2017,Surrey County Council,Lower Sunbury & Halliford,Green,Steve Trafford,102,3.0,3800.0
+2017,Surrey County Council,Merstham and Banstead South,Conservative,Bob Gardner*,1647,55.0,3012.0
+2017,Surrey County Council,Merstham and Banstead South,Labour,Stewart Dack,489,16.0,3012.0
+2017,Surrey County Council,Merstham and Banstead South,Liberal Democrats,Christopher Howell,416,16.0,3012.0
+2017,Surrey County Council,Merstham and Banstead South,UKIP,Leigh Jones,275,9.0,3012.0
+2017,Surrey County Council,Merstham and Banstead South,Green,Kumari Lane,185,6.0,3012.0
+2017,Surrey County Council,Nork and Tattenhams,Residents,Nick Harrison*,2470,64.0,3869.0
+2017,Surrey County Council,Nork and Tattenhams,Conservative,Alex Clarke,971,25.0,3869.0
+2017,Surrey County Council,Nork and Tattenhams,Liberal Democrats,Stephen Gee,184,5.0,3869.0
+2017,Surrey County Council,Nork and Tattenhams,Labour,Kimberley Griffin,166,4.0,3869.0
+2017,Surrey County Council,Nork and Tattenhams,Green,Alistair Morten,78,2.0,3869.0
+2017,Surrey County Council,Oxted,Conservative,Cameron McIntosh,2457,50.0,4873.0
+2017,Surrey County Council,Oxted,Liberal Democrats,Craig Shepherd,878,18.0,4873.0
+2017,Surrey County Council,Oxted,Labour,Katherine Saunders,698,14.0,4873.0
+2017,Surrey County Council,Oxted,UKIP,Christopher Dean,478,10.0,4873.0
+2017,Surrey County Council,Oxted,Green,Benedict Southworth,362,7.0,4873.0
+2017,Surrey County Council,Redhill East,Green,Jonathan Essex*,1849,53.0,3462.0
+2017,Surrey County Council,Redhill East,Conservative,Frank Kelly,879,25.0,3462.0
+2017,Surrey County Council,Redhill East,Labour,Toby Brampton,350,10.0,3462.0
+2017,Surrey County Council,Redhill East,Liberal Democrats,Stuart Holmes,250,7.0,3462.0
+2017,Surrey County Council,Redhill East,UKIP,Laurence Clack,134,4.0,3462.0
+2017,Surrey County Council,Redhill West and Meadvale,Conservative,Natalie Bramhall*,1661,43.0,3875.0
+2017,Surrey County Council,Redhill West and Meadvale,Green,Rob Jarrett,862,22.0,3875.0
+2017,Surrey County Council,Redhill West and Meadvale,Liberal Democrats,Peter Lambell,769,20.0,3875.0
+2017,Surrey County Council,Redhill West and Meadvale,Labour,David Heydon,425,11.0,3875.0
+2017,Surrey County Council,Redhill West and Meadvale,UKIP,Tim Pearson,158,4.0,3875.0
+2017,Surrey County Council,Reigate,Conservative,Zully Grant-Duff*,2157,52.0,4109.0
+2017,Surrey County Council,Reigate,Liberal Democrats,John Vincent,1263,31.0,4109.0
+2017,Surrey County Council,Reigate,Green,Liz Wakefield,283,7.0,4109.0
+2017,Surrey County Council,Reigate,Labour,Robin Spencer,257,6.0,4109.0
+2017,Surrey County Council,Reigate,UKIP,Phyll Cambridge,149,4.0,4109.0
+2017,Surrey County Council,Shalford,Conservative,Matt Furniss,2036,55.0,3678.0
+2017,Surrey County Council,Shalford,Liberal Democrats,James Steel,480,13.0,3678.0
+2017,Surrey County Council,Shalford,GGG,Nick Norton,401,11.0,3678.0
+2017,Surrey County Council,Shalford,UKIP,George Johnson*,312,8.0,3678.0
+2017,Surrey County Council,Shalford,Labour,Mark Redhead,241,7.0,3678.0
+2017,Surrey County Council,Shalford,Green,Fran Aslin,208,6.0,3678.0
+2017,Surrey County Council,Shere,Conservative,Keith Taylor*,2207,62.0,3567.0
+2017,Surrey County Council,Shere,Liberal Democrats,Tom Hunt,713,20.0,3567.0
+2017,Surrey County Council,Shere,Green,Vicki Elcoate,391,11.0,3567.0
+2017,Surrey County Council,Shere,Labour,Robin Woof,256,7.0,3567.0
+2017,Surrey County Council,Staines,Conservative,Sinead Mooney,1455,41.0,3587.0
+2017,Surrey County Council,Staines,UKIP,Denise Saliagopoulos*,718,20.0,3587.0
+2017,Surrey County Council,Staines,Labour,John Johnston,589,16.0,3587.0
+2017,Surrey County Council,Staines,Liberal Democrats,Nichola Cornes,571,16.0,3587.0
+2017,Surrey County Council,Staines,Green,Elizabeth Mansfield,208,6.0,3587.0
+2017,Surrey County Council,Staines,TUSC,Matt Clarke,46,1.0,3587.0
+2017,Surrey County Council,Staines South & Ashford West,Conservative,Denise Turner-Stewart*,1914,53.0,3599.0
+2017,Surrey County Council,Staines South & Ashford West,Labour,Suzanne Gulbrandson,589,16.0,3599.0
+2017,Surrey County Council,Staines South & Ashford West,UKIP,Chris Beresford,530,15.0,3599.0
+2017,Surrey County Council,Staines South & Ashford West,Liberal Democrats,Christopher Bateson,448,12.0,3599.0
+2017,Surrey County Council,Staines South & Ashford West,Green,Anoma Jacobs,118,3.0,3599.0
+2017,Surrey County Council,Stanwell & Stanwell Moor,Labour,Robert Evans  *,1294,46.0,2806.0
+2017,Surrey County Council,Stanwell & Stanwell Moor,Conservative,John Boughtflower,1080,38.0,2806.0
+2017,Surrey County Council,Stanwell & Stanwell Moor,UKIP,Gerald Gravett,318,11.0,2806.0
+2017,Surrey County Council,Stanwell & Stanwell Moor,Liberal Democrats,Terrence Lewis,114,4.0,2806.0
+2017,Surrey County Council,Sunbury Common & Ashford Common,Conservative,Alison Griffiths,1406,44.0,3195.0
+2017,Surrey County Council,Sunbury Common & Ashford Common,Liberal Democrats,Ian Beardsmore*,1041,33.0,3195.0
+2017,Surrey County Council,Sunbury Common & Ashford Common,Labour,Susan Bryer,402,13.0,3195.0
+2017,Surrey County Council,Sunbury Common & Ashford Common,UKIP,Peter Appleford,266,8.0,3195.0
+2017,Surrey County Council,Sunbury Common & Ashford Common,Green,Paul Jacobs,80,3.0,3195.0
+2017,Surrey County Council,"Tadworth, Walton and Kingswood",Conservative,Jeffrey Harris,2596,71.0,3656.0
+2017,Surrey County Council,"Tadworth, Walton and Kingswood",Liberal Democrats,Stephen Kulka,313,9.0,3656.0
+2017,Surrey County Council,"Tadworth, Walton and Kingswood",UKIP,Valerie Moore,285,8.0,3656.0
+2017,Surrey County Council,"Tadworth, Walton and Kingswood",Labour,David Burnley,260,7.0,3656.0
+2017,Surrey County Council,"Tadworth, Walton and Kingswood",Green,Roger Ponsford,202,6.0,3656.0
+2017,Surrey County Council,The Byfleets,Conservative,Richard Wilson*,1536,41.0,3709.0
+2017,Surrey County Council,The Byfleets,Independent,John Edwin Bond,1203,32.0,3709.0
+2017,Surrey County Council,The Byfleets,Liberal Democrats,Anne Roberts,650,18.0,3709.0
+2017,Surrey County Council,The Byfleets,Labour,Alex Wilks,198,5.0,3709.0
+2017,Surrey County Council,The Byfleets,UKIP,Lyn Sage,122,3.0,3709.0
+2017,Surrey County Council,The Dittons,Residents,Nick Darby,2515,57.0,4441.0
+2017,Surrey County Council,The Dittons,Conservative,Bruce Finch,1001,23.0,4441.0
+2017,Surrey County Council,The Dittons,Liberal Democrats,Gerard Doherty,724,16.0,4441.0
+2017,Surrey County Council,The Dittons,Labour,Rosemary Rendall,201,5.0,4441.0
+2017,Surrey County Council,Walton,Conservative,Rachael Lake*,1813,53.0,3443.0
+2017,Surrey County Council,Walton,Liberal Democrats,Chris Elmer,753,22.0,3443.0
+2017,Surrey County Council,Walton,Labour,Richard Leonard,620,18.0,3443.0
+2017,Surrey County Council,Walton,UKIP,David Ions,257,7.0,3443.0
+2017,Surrey County Council,Walton South & Oatlands,Conservative,Tony Samuels*,2351,62.0,3785.0
+2017,Surrey County Council,Walton South & Oatlands,Liberal Democrats,Adriana Dredge,862,23.0,3785.0
+2017,Surrey County Council,Walton South & Oatlands,Labour,Warren Weertman,378,10.0,3785.0
+2017,Surrey County Council,Walton South & Oatlands,UKIP,Simon Kadwill-Kelly,194,5.0,3785.0
+2017,Surrey County Council,Warlingham,Conservative,David Hodge *,2265,56.0,3979.0
+2017,Surrey County Council,Warlingham,Liberal Democrats,Charles Lister,1165,29.0,3979.0
+2017,Surrey County Council,Warlingham,UKIP,Roger Bird,403,10.0,3979.0
+2017,Surrey County Council,Warlingham,Labour,Jenifer Dugdale,146,5.0,3979.0
+2017,Surrey County Council,Waverley Eastern Villages,Conservative,Victoria Young*,2519,68.0,3697.0
+2017,Surrey County Council,Waverley Eastern Villages,Liberal Democrats,Fabian Cole,755,20.0,3697.0
+2017,Surrey County Council,Waverley Eastern Villages,Labour,Lewis Curtis,246,7.0,3697.0
+2017,Surrey County Council,Waverley Eastern Villages,UKIP,Woodruff Walker,177,5.0,3697.0
+2017,Surrey County Council,Waverley Western Villages,Conservative,David Harmer*,2345,71.0,3291.0
+2017,Surrey County Council,Waverley Western Villages,Liberal Democrats,Geoffrey Whitby,585,18.0,3291.0
+2017,Surrey County Council,Waverley Western Villages,Green,Susan Ryland,361,11.0,3291.0
+2017,Surrey County Council,West Ewell,Residents,Jan Mason*,1592,51.0,3150.0
+2017,Surrey County Council,West Ewell,Conservative,Stephen Pontin,729,23.0,3150.0
+2017,Surrey County Council,West Ewell,Labour,Rob Geleit,462,15.0,3150.0
+2017,Surrey County Council,West Ewell,Liberal Democrats,Julia Kirkland,270,9.0,3150.0
+2017,Surrey County Council,West Ewell,Green,David Kidd,97,3.0,3150.0
+2017,Surrey County Council,West Molesey,Residents,Ernest Mallett*,1763,49.0,3564.0
+2017,Surrey County Council,West Molesey,Conservative,Steve Bax,1201,34.0,3564.0
+2017,Surrey County Council,West Molesey,Labour,Jamal Ajjane,264,7.0,3564.0
+2017,Surrey County Council,West Molesey,Liberal Democrats,Alastair Sturgis,194,5.0,3564.0
+2017,Surrey County Council,West Molesey,Green,Sarah Spencer-Bowdage,142,4.0,3564.0
+2017,Surrey County Council,Weybridge,Conservative,Tim Oliver,2069,50.0,4119.0
+2017,Surrey County Council,Weybridge,Liberal Democrats,Vicki Macleod,1492,36.0,4119.0
+2017,Surrey County Council,Weybridge,Labour,Stephanie Franklin,222,5.0,4119.0
+2017,Surrey County Council,Weybridge,UKIP,Timothy Pope,180,4.0,4119.0
+2017,Surrey County Council,Weybridge,Green,Lesley Tilling,156,4.0,4119.0
+2017,Surrey County Council,Woking North,Conservative,Ben Carasco*,1913,44.0,4307.0
+2017,Surrey County Council,Woking North,Labour,Mohammad Khan,1666,39.0,4307.0
+2017,Surrey County Council,Woking North,Liberal Democrats,Henry Kay,535,12.0,4307.0
+2017,Surrey County Council,Woking North,UKIP,Judith Squire,193,4.0,4307.0
+2017,Surrey County Council,Woking South,Liberal Democrats,Will Forster*,2271,54.0,4230.0
+2017,Surrey County Council,Woking South,Conservative,Paul Saper,1423,34.0,4230.0
+2017,Surrey County Council,Woking South,Labour,Christopher Martin,343,8.0,4230.0
+2017,Surrey County Council,Woking South,UKIP,Richard Squire,193,5.0,4230.0
+2017,Surrey County Council,Woking South East,Conservative,Liz Bowes*,2341,62.0,3768.0
+2017,Surrey County Council,Woking South East,Liberal Democrats,Liam Lyons,954,25.0,3768.0
+2017,Surrey County Council,Woking South East,Labour,Geoff O'Shea,299,8.0,3768.0
+2017,Surrey County Council,Woking South East,UKIP,Robin Milner,174,5.0,3768.0
+2017,Surrey County Council,Woking South West,Conservative,Ayesha Azad,1873,55.0,3404.0
+2017,Surrey County Council,Woking South West,Liberal Democrats,Chris Took,940,28.0,3404.0
+2017,Surrey County Council,Woking South West,Labour,William James Sellers,391,11.0,3404.0
+2017,Surrey County Council,Woking South West,UKIP,Terry Knight,200,6.0,3404.0
+2017,Surrey County Council,Woodham and New Haw,Conservative,Mary Angell*,2015,63.0,3198.0
+2017,Surrey County Council,Woodham and New Haw,Liberal Democrats,Jennifer Coulon,372,12.0,3198.0
+2017,Surrey County Council,Woodham and New Haw,Labour,Philip Martin,330,10.0,3198.0
+2017,Surrey County Council,Woodham and New Haw,UKIP,Valerie Woodhouse,288,9.0,3198.0
+2017,Surrey County Council,Woodham and New Haw,Green,Martin Robson,193,6.0,3198.0
+2017,Surrey County Council,Worplesdon,Conservative,Keith Witham*,2691,69.0,3890.0
+2017,Surrey County Council,Worplesdon,Liberal Democrats,Paul Hienkens,658,17.0,3890.0
+2017,Surrey County Council,Worplesdon,Labour,Dominic Stone,359,9.0,3890.0
+2017,Surrey County Council,Worplesdon,Green,Eugene Suggett,182,5.0,3890.0
+2018,Elmbridge Borough Council,Claygate,Liberal Democrats,Mike Rollings,1427,56.3,2539.0
+2018,Elmbridge Borough Council,Claygate,Conservative,Mark Sugden,988,39.0,2539.0
+2018,Elmbridge Borough Council,Claygate,Labour,Vera-Anne Anderson,121,4.8,2539.0
+2018,Elmbridge Borough Council,Cobham and Downside,Conservative,James Browne,1280,66.4,1931.0
+2018,Elmbridge Borough Council,Cobham and Downside,Liberal Democrats,Zelda Pitman,268,13.9,1931.0
+2018,Elmbridge Borough Council,Cobham and Downside,Labour,Irene Threlkeld,253,13.1,1931.0
+2018,Elmbridge Borough Council,Cobham and Downside,UKIP,Elaine Kingston,128,6.6,1931.0
+2018,Elmbridge Borough Council,Esher,Conservative,Simon Waugh,1142,49.2,2325.0
+2018,Elmbridge Borough Council,Esher,Esher Residents' Association,Richard Williams,840,36.2,2325.0
+2018,Elmbridge Borough Council,Esher,Labour,Susan Dennis,186,8.0,2325.0
+2018,Elmbridge Borough Council,Esher,Green,Laura Harmour,151,6.5,2325.0
+2018,Elmbridge Borough Council,Hersham Village,Conservative,Ruth Mitchell,1152,48.8,2369.0
+2018,Elmbridge Borough Council,Hersham Village,Hersham Village Society,Anne Hill-Purcell,640,27.1,2369.0
+2018,Elmbridge Borough Council,Hersham Village,Labour,Julie Crook,314,13.3,2369.0
+2018,Elmbridge Borough Council,Hersham Village,Green,Olivia Palmer,256,10.8,2369.0
+2018,Elmbridge Borough Council,Hinchley Wood and Weston Green,Hinchley Wood / Weston Green Residents' Associations,Nigel Haig-Brown,1762,70.3,2508.0
+2018,Elmbridge Borough Council,Hinchley Wood and Weston Green,Conservative,Geoff Herbert,437,17.4,2508.0
+2018,Elmbridge Borough Council,Hinchley Wood and Weston Green,Liberal Democrats,Liz Ambekar,236,9.4,2508.0
+2018,Elmbridge Borough Council,Hinchley Wood and Weston Green,Labour,Jacqueline Andrews,71,2.8,2508.0
+2018,Elmbridge Borough Council,Long Ditton,Liberal Democrats,Barry Fairbank,1019,45.8,2235.0
+2018,Elmbridge Borough Council,Long Ditton,Conservative,Claudia Riley-Hards,1011,45.5,2235.0
+2018,Elmbridge Borough Council,Long Ditton,Labour,Bronte Schiltz,193,8.7,2235.0
+2018,Elmbridge Borough Council,Molesey East,Conservative,Steve Bax,1337,46.8,2857.0
+2018,Elmbridge Borough Council,Molesey East,Molesey Residents' Association,Tony Popham,1048,36.7,2857.0
+2018,Elmbridge Borough Council,Molesey East,Labour,Rosie Rendall,265,9.3,2857.0
+2018,Elmbridge Borough Council,Molesey East,Green,Lisa Howard,183,6.4,2857.0
+2018,Elmbridge Borough Council,Molesey East,Monster Raving Loony,Monkey the Drummer,22,0.8,2857.0
+2018,Elmbridge Borough Council,Molesey West,Molesey Residents' Association,Ruby Ahmed,1043,46.5,2247.0
+2018,Elmbridge Borough Council,Molesey West,Conservative,Paul Wood,745,33.2,2247.0
+2018,Elmbridge Borough Council,Molesey West,Labour,Marc Doran,273,12.2,2247.0
+2018,Elmbridge Borough Council,Molesey West,Liberal Democrats,Paul Nagle,181,8.1,2247.0
+2018,Elmbridge Borough Council,Oatlands and Burwood Park,Conservative,Barry Cheyne,1513,69.1,2196.0
+2018,Elmbridge Borough Council,Oatlands and Burwood Park,Liberal Democrats,Graham Winton,370,16.9,2196.0
+2018,Elmbridge Borough Council,Oatlands and Burwood Park,Labour,Warren Weertman,254,11.6,2196.0
+2018,Elmbridge Borough Council,Oatlands and Burwood Park,UKIP,Simon Kadwill-Kelly,51,2.3,2196.0
+2018,Elmbridge Borough Council,Oxshott and Stoke D'Abernon,Conservative,Andrew Burley,1755,76.7,2293.0
+2018,Elmbridge Borough Council,Oxshott and Stoke D'Abernon,Liberal Democrats,Dorothy Ford,366,16.0,2293.0
+2018,Elmbridge Borough Council,Oxshott and Stoke D'Abernon,Labour,Hugh Bryant,118,5.2,2293.0
+2018,Elmbridge Borough Council,Oxshott and Stoke D'Abernon,UKIP,Nicholas Wood,50,2.2,2293.0
+2018,Elmbridge Borough Council,Thames Ditton,Thames Ditton / Weston Green Residents' Association,Caroline James,1593,65.6,2438.0
+2018,Elmbridge Borough Council,Thames Ditton,Conservative,Xingang Wang,412,17.0,2438.0
+2018,Elmbridge Borough Council,Thames Ditton,Liberal Democrats,Francisca Oxley,214,8.8,2438.0
+2018,Elmbridge Borough Council,Thames Ditton,Labour,Benjamin Griffin,210,8.6,2438.0
+2018,Elmbridge Borough Council,Walton Central,Conservative,Christine Richardson,1020,45.2,2270.0
+2018,Elmbridge Borough Council,Walton Central,The Walton Society,Graham Woolgar,947,41.9,2270.0
+2018,Elmbridge Borough Council,Walton Central,Labour,Peter Ramsbottom,292,12.9,2270.0
+2018,Elmbridge Borough Council,Walton North,Conservative,Alan Kopitko,851,45.5,1880.0
+2018,Elmbridge Borough Council,Walton North,Labour,Lana Hylands,634,33.9,1880.0
+2018,Elmbridge Borough Council,Walton North,Liberal Democrats,Margaret Hawkes,256,13.7,1880.0
+2018,Elmbridge Borough Council,Walton North,UKIP,David Ions,90,4.8,1880.0
+2018,Elmbridge Borough Council,Walton North,Monster Raving Loony,Baron Badger,38,2.0,1880.0
+2018,Elmbridge Borough Council,Walton South,Conservative,Malcolm Howard,1276,54.7,2344.0
+2018,Elmbridge Borough Council,Walton South,Liberal Democrats,Chris Elmer,719,30.8,2344.0
+2018,Elmbridge Borough Council,Walton South,Labour,Katrina Jepson,336,14.4,2344.0
+2018,Elmbridge Borough Council,Weybridge Riverside,Liberal Democrats,Vicki MacLeod,891,39.3,2272.0
+2018,Elmbridge Borough Council,Weybridge Riverside,Conservative,Andrew Muddyman,842,37.1,2272.0
+2018,Elmbridge Borough Council,Weybridge Riverside,Independent,Craig MacKenzie,304,13.4,2272.0
+2018,Elmbridge Borough Council,Weybridge Riverside,Labour,Stephanie Franklin,193,8.5,2272.0
+2018,Elmbridge Borough Council,Weybridge Riverside,UKIP,Timothy Pope,39,1.7,2272.0
+2018,Elmbridge Borough Council,Weybridge St George's Hill,Conservative,Charu Sood,1293,54.1,2398.0
+2018,Elmbridge Borough Council,Weybridge St George's Hill,Weybridge & St. George's Independents,Rani Bhamra,878,36.7,2398.0
+2018,Elmbridge Borough Council,Weybridge St George's Hill,Labour,Angus Rendall,219,9.2,2398.0
+2018,Elmbridge Borough Council,"Oxshott and Stoke D'Abernon, 12 July 2018",Conservative,David Lewis,1297,72.0,1802.0
+2018,Elmbridge Borough Council,"Oxshott and Stoke D'Abernon, 12 July 2018",Liberal Democrats,Dorothy Ford,463,25.7,1802.0
+2018,Elmbridge Borough Council,"Oxshott and Stoke D'Abernon, 12 July 2018",UKIP,Nicholas Wood,42,2.3,1802.0
+2018,Mole Valley District Council,Ashtead Common,Ashtead Independent,Patricia Wiltshire,836,59.7,
+2018,Mole Valley District Council,Ashtead Common,Conservative,Marion Bridgen,244,17.4,
+2018,Mole Valley District Council,Ashtead Common,Liberal Democrats,Keira Vyvyan-Robinson,172,12.3,
+2018,Mole Valley District Council,Ashtead Common,Labour,Caroline Gilchrist,117,8.4,
+2018,Mole Valley District Council,Ashtead Common,Green,Steve McDonald,31,2.2,
+2018,Mole Valley District Council,Ashtead Park,Ashtead Independent,Garry Stansfield,875,61.1,
+2018,Mole Valley District Council,Ashtead Park,Conservative,Linda St John,391,27.3,
+2018,Mole Valley District Council,Ashtead Park,Liberal Democrats,Hector Keun,70,4.9,
+2018,Mole Valley District Council,Ashtead Park,Green,Susan McGrath,49,3.4,
+2018,Mole Valley District Council,Ashtead Park,Labour,Susan Gilchrist,47,3.3,
+2018,Mole Valley District Council,Ashtead Village,Ashtead Independent,Alan Reilly,1232,62.9,
+2018,Mole Valley District Council,Ashtead Village,Conservative,Fiona Reynolds,413,21.1,
+2018,Mole Valley District Council,Ashtead Village,Liberal Democrats,Rita Antonelli,141,7.2,
+2018,Mole Valley District Council,Ashtead Village,Labour,Clive Scott,115,5.9,
+2018,Mole Valley District Council,Ashtead Village,Green,Lucy Barford,59,3.0,
+2018,Mole Valley District Council,Bookham North,Conservative,Richard Moyse,1108,50.4,
+2018,Mole Valley District Council,Bookham North,Liberal Democrats,Fran Pyatt,868,39.5,
+2018,Mole Valley District Council,Bookham North,Green,Ann James,118,5.4,
+2018,Mole Valley District Council,Bookham North,Labour,Bert Jones,105,4.8,
+2018,Mole Valley District Council,Bookham South,Liberal Democrats,Elizabeth Daly,1179,54.5,
+2018,Mole Valley District Council,Bookham South,Conservative,Jatin Patel,835,38.6,
+2018,Mole Valley District Council,Bookham South,Green,Damian McDevitt,80,3.7,
+2018,Mole Valley District Council,Bookham South,Labour,Colin Edgley,69,3.2,
+2018,Mole Valley District Council,"Brockham, Betchworth and Buckland",Conservative,Simon Budd,1063,55.9,
+2018,Mole Valley District Council,"Brockham, Betchworth and Buckland",Liberal Democrats,Roger Abbott,661,34.8,
+2018,Mole Valley District Council,"Brockham, Betchworth and Buckland",Labour,Rosemary Buckle,79,4.2,
+2018,Mole Valley District Council,"Brockham, Betchworth and Buckland",Green,Julian Everett,73,3.8,
+2018,Mole Valley District Council,"Brockham, Betchworth and Buckland",Democrats and Veterans,Harry Edwards,26,1.4,
+2018,Mole Valley District Council,"Capel, Leigh and Newdigate",Conservative,Mary Huggins,736,46.6,
+2018,Mole Valley District Council,"Capel, Leigh and Newdigate",Liberal Democrats,Lesley Bushnell,685,43.4,
+2018,Mole Valley District Council,"Capel, Leigh and Newdigate",UKIP,Geoff Cox,65,4.1,
+2018,Mole Valley District Council,"Capel, Leigh and Newdigate",Labour,Charlotte Dix,48,3.0,
+2018,Mole Valley District Council,"Capel, Leigh and Newdigate",Green,Muriel Passmore,45,2.8,
+2018,Mole Valley District Council,Dorking North,Liberal Democrats,David Draper,989,66.6,
+2018,Mole Valley District Council,Dorking North,Conservative,Dean Beasley,247,16.6,
+2018,Mole Valley District Council,Dorking North,Green,Jacquetta Fewster,114,7.7,
+2018,Mole Valley District Council,Dorking North,Labour,James Stringer,105,7.1,
+2018,Mole Valley District Council,Dorking North,UKIP,David Payne,31,2.1,
+2018,Mole Valley District Council,Dorking South,Liberal Democrats,Margaret Cooksey,1385,57.1,
+2018,Mole Valley District Council,Dorking South,Conservative,Roger Jones,634,26.1,
+2018,Mole Valley District Council,Dorking South,Labour,Frank Pemberton,203,8.4,
+2018,Mole Valley District Council,Dorking South,Green,Chris Crook,142,5.9,
+2018,Mole Valley District Council,Dorking South,UKIP,Majorie Dixon,61,2.5,
+2018,Mole Valley District Council,Fetcham East,Conservative,Tracy Keeley,885,63.0,
+2018,Mole Valley District Council,Fetcham East,Liberal Democrats,Ian Anderson,398,28.3,
+2018,Mole Valley District Council,Fetcham East,Labour,Ann Clark,81,5.8,
+2018,Mole Valley District Council,Fetcham East,Green,Eugene Suggett,41,2.9,
+2018,Mole Valley District Council,Fetcham West,Liberal Democrats,Raj Harque,1016,64.4,
+2018,Mole Valley District Council,Fetcham West,Conservative,Hugh Broom,444,28.2,
+2018,Mole Valley District Council,Fetcham West,Labour,Mark Coote,59,3.7,
+2018,Mole Valley District Council,Fetcham West,Green,Richard Essex,58,3.7,
+2018,Mole Valley District Council,Holmwoods,Liberal Democrats,Clayton Wellman,871,49.1,
+2018,Mole Valley District Council,Holmwoods,Conservative,Fiona Meadows,595,33.5,
+2018,Mole Valley District Council,Holmwoods,Labour,Laurence Nasskau,133,7.5,
+2018,Mole Valley District Council,Holmwoods,Green,Jeff Zie,93,5.2,
+2018,Mole Valley District Council,Holmwoods,UKIP,Margaret Curran,83,4.7,
+2018,Mole Valley District Council,Leatherhead North,Liberal Democrats,Emma Cussell,729,41.9,
+2018,Mole Valley District Council,Leatherhead North,Conservative,Simon Moss,598,34.3,
+2018,Mole Valley District Council,Leatherhead North,Labour,Marc Green,275,15.8,
+2018,Mole Valley District Council,Leatherhead North,UKIP,Bob Cane,74,4.3,
+2018,Mole Valley District Council,Leatherhead North,Green,Vicki Elcoate,65,3.7,
+2018,Mole Valley District Council,Leatherhead South,Conservative,Tim Ashton,845,61.4,
+2018,Mole Valley District Council,Leatherhead South,No Description,Gareth Hartwell,243,17.7,
+2018,Mole Valley District Council,Leatherhead South,Labour,Kim Coote,162,11.8,
+2018,Mole Valley District Council,Leatherhead South,Green,David Scoffield,126,9.2,
+2018,Reigate and Banstead Borough Council,Banstead Village,Conservative,Samuel Walsh,1413,68.4,2073.0
+2018,Reigate and Banstead Borough Council,Banstead Village,Labour,Barbara Williams,307,14.9,2073.0
+2018,Reigate and Banstead Borough Council,Banstead Village,Liberal Democrats,Graham Burr,259,12.5,2073.0
+2018,Reigate and Banstead Borough Council,Banstead Village,UKIP,Colin Stiff,88,4.3,2073.0
+2018,Reigate and Banstead Borough Council,"Chipstead, Hooley and Woodmansterne",Conservative,Tim Archer,1367,63.8,2149.0
+2018,Reigate and Banstead Borough Council,"Chipstead, Hooley and Woodmansterne",Labour,Peter Parrott,276,12.9,2149.0
+2018,Reigate and Banstead Borough Council,"Chipstead, Hooley and Woodmansterne",Liberal Democrats,Chris Howell,196,9.1,2149.0
+2018,Reigate and Banstead Borough Council,"Chipstead, Hooley and Woodmansterne",Green,Shasha Khan,183,8.5,2149.0
+2018,Reigate and Banstead Borough Council,"Chipstead, Hooley and Woodmansterne",UKIP,Laurence Clack,122,5.7,2149.0
+2018,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Green,Hal Brown,760,32.8,2325.0
+2018,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Conservative,Rita Renton,743,32.1,2325.0
+2018,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Labour,Toby Brampton,505,21.8,2325.0
+2018,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Liberal Democrats,Jane Kulka,163,7.0,2325.0
+2018,Reigate and Banstead Borough Council,Earlswood and Whitebushes,UKIP,Joe Fox,146,6.3,2325.0
+2018,Reigate and Banstead Borough Council,Horley Central,Conservative,Christian Stevens,1164,61.4,1932.0
+2018,Reigate and Banstead Borough Council,Horley Central,Labour,Linda Mabbett,732,38.6,1932.0
+2018,Reigate and Banstead Borough Council,Horley East,Conservative,Graham Knight,1184,66.1,1792.0
+2018,Reigate and Banstead Borough Council,Horley East,Labour,Nicholas Gulsen-Sales,369,20.6,1792.0
+2018,Reigate and Banstead Borough Council,Horley East,Liberal Democrats,Monica Dyer,239,13.3,1792.0
+2018,Reigate and Banstead Borough Council,Horley West,Conservative,Alex Horwood,957,48.0,
+2018,Reigate and Banstead Borough Council,Horley West,Conservative,Richard Biggs,868,43.5,
+2018,Reigate and Banstead Borough Council,Horley West,Labour,Rob Spencer,440,22.1,
+2018,Reigate and Banstead Borough Council,Horley West,Labour,Tom Turner,401,20.1,
+2018,Reigate and Banstead Borough Council,Horley West,UKIP,Peter Palmer,303,15.2,
+2018,Reigate and Banstead Borough Council,Horley West,Liberal Democrats,Geoffrey Southall,292,14.7,
+2018,Reigate and Banstead Borough Council,Kingswood with Burgh Heath,Conservative,Rod Ashford,1454,80.9,1807.0
+2018,Reigate and Banstead Borough Council,Kingswood with Burgh Heath,Labour,Gerry O'Dwyer,223,12.4,1807.0
+2018,Reigate and Banstead Borough Council,Kingswood with Burgh Heath,UKIP,Alastair Richardson,120,6.7,1807.0
+2018,Reigate and Banstead Borough Council,Meadvale and St John's,Conservative,Jonathan White,841,39.5,2135.0
+2018,Reigate and Banstead Borough Council,Meadvale and St John's,Liberal Democrats,Stephen Kulka,835,39.3,2135.0
+2018,Reigate and Banstead Borough Council,Meadvale and St John's,Labour,Douglas Wickenden,246,11.6,2135.0
+2018,Reigate and Banstead Borough Council,Meadvale and St John's,Green,Sue Fenton,205,9.6,2135.0
+2018,Reigate and Banstead Borough Council,Merstham,Conservative,Graeme Crome,797,44.5,1795.0
+2018,Reigate and Banstead Borough Council,Merstham,Labour,Stewart Dack,578,32.3,1795.0
+2018,Reigate and Banstead Borough Council,Merstham,Liberal Democrats,Toby Risk,272,15.2,1795.0
+2018,Reigate and Banstead Borough Council,Merstham,UKIP,Leigh Jones,144,8.0,1795.0
+2018,Reigate and Banstead Borough Council,Nork,Residents,Brian Stead,1124,55.9,2015.0
+2018,Reigate and Banstead Borough Council,Nork,Conservative,Jane Illingworth,568,28.3,2015.0
+2018,Reigate and Banstead Borough Council,Nork,Labour,Alex Hubbard,133,6.6,2015.0
+2018,Reigate and Banstead Borough Council,Nork,Liberal Democrats,Stephen Gee,105,5.2,2015.0
+2018,Reigate and Banstead Borough Council,Nork,Green,Joseph Ingell,79,3.9,2015.0
+2018,Reigate and Banstead Borough Council,Redhill East,Green,Jonathan Essex,1377,58.2,2374.0
+2018,Reigate and Banstead Borough Council,Redhill East,Conservative,Paul Bevan,573,24.2,2374.0
+2018,Reigate and Banstead Borough Council,Redhill East,Labour,Rex Giles,296,12.5,2374.0
+2018,Reigate and Banstead Borough Council,Redhill East,Liberal Democrats,Stuart Holmes,121,5.1,2374.0
+2018,Reigate and Banstead Borough Council,Redhill West,Conservative,Rich Michalowski,984,44.0,2237.0
+2018,Reigate and Banstead Borough Council,Redhill West,Labour,Jon Pepper,593,26.5,2237.0
+2018,Reigate and Banstead Borough Council,Redhill West,Green,Ruth Ritter,322,14.4,2237.0
+2018,Reigate and Banstead Borough Council,Redhill West,Liberal Democrats,Andrew Cressy,256,11.5,2237.0
+2018,Reigate and Banstead Borough Council,Redhill West,UKIP,Steven Richards,80,3.6,2237.0
+2018,Reigate and Banstead Borough Council,Reigate Central,Conservative,Michael Blacker,1005,48.1,2095.0
+2018,Reigate and Banstead Borough Council,Reigate Central,Liberal Democrats,John Vincent,546,26.1,2095.0
+2018,Reigate and Banstead Borough Council,Reigate Central,Green,Elizabeth Wakefield,286,13.7,2095.0
+2018,Reigate and Banstead Borough Council,Reigate Central,Labour,Michele David,253,12.1,2095.0
+2018,Reigate and Banstead Borough Council,Reigate Hill,Conservative,Gareth Owen,1002,66.0,1524.0
+2018,Reigate and Banstead Borough Council,Reigate Hill,Liberal Democrats,Gregory Ardan,375,24.7,1524.0
+2018,Reigate and Banstead Borough Council,Reigate Hill,Labour,Denise Allen,141,9.3,1524.0
+2018,Reigate and Banstead Borough Council,South Park and Woodhatch,Conservative,Victor Lewanski,826,45.8,1807.0
+2018,Reigate and Banstead Borough Council,South Park and Woodhatch,Labour,Tony Robinson,476,26.4,1807.0
+2018,Reigate and Banstead Borough Council,South Park and Woodhatch,Liberal Democrats,Moray Carey,354,19.6,1807.0
+2018,Reigate and Banstead Borough Council,South Park and Woodhatch,UKIP,Chris Byrne,148,8.2,1807.0
+2018,Reigate and Banstead Borough Council,Tadworth and Walton,Conservative,Rachel Turner,1410,71.8,1967.0
+2018,Reigate and Banstead Borough Council,Tadworth and Walton,Liberal Democrats,Sonja Begley-Moore,197,10.0,1967.0
+2018,Reigate and Banstead Borough Council,Tadworth and Walton,Green,Roger Ponsford,146,7.4,1967.0
+2018,Reigate and Banstead Borough Council,Tadworth and Walton,Labour,David Burnley,130,6.6,1967.0
+2018,Reigate and Banstead Borough Council,Tadworth and Walton,UKIP,Valerie Moore,82,4.2,1967.0
+2018,Reigate and Banstead Borough Council,Tattenhams,Residents,Bob Harper,1202,64.5,1869.0
+2018,Reigate and Banstead Borough Council,Tattenhams,Conservative,Frances Clarke,457,24.5,1869.0
+2018,Reigate and Banstead Borough Council,Tattenhams,Labour,Jake Bonner,155,8.3,1869.0
+2018,Reigate and Banstead Borough Council,Tattenhams,Green,Alistair Morten,50,2.7,1869.0
+2018,Runnymede Borough Council,Addlestone Bourneside,Conservative,John Raymond Furey,739,52.6,1414.0
+2018,Runnymede Borough Council,Addlestone Bourneside,Labour,June Patricia Tilbury,498,35.44,1414.0
+2018,Runnymede Borough Council,Addlestone Bourneside,Liberal Democrats,Chelsea Katherine Whyte,168,11.96,1414.0
+2018,Runnymede Borough Council,Addlestone North,Conservative,David William Parr,779,63.8,1236.0
+2018,Runnymede Borough Council,Addlestone North,Labour,Michael William Scott,442,36.2,1236.0
+2018,Runnymede Borough Council,Chertsey Meads,Conservative,Stephen Luke Dennett,900,66.08,1386.0
+2018,Runnymede Borough Council,Chertsey Meads,Labour,Philip Martin,462,33.92,1386.0
+2018,Runnymede Borough Council,Chertsey South and Row Town,Conservative,Peter Snow,723,48.56,1493.0
+2018,Runnymede Borough Council,Chertsey South and Row Town,Conservative,Neil William Rubidge,719,48.29,1493.0
+2018,Runnymede Borough Council,Chertsey South and Row Town,Green,Richard George Miller,345,23.17,1493.0
+2018,Runnymede Borough Council,Chertsey South and Row Town,Labour,James Douglas Scott,249,16.82,1493.0
+2018,Runnymede Borough Council,Chertsey South and Row Town,Liberal Democrats,Sylvia Jane Whyte,246,16.52,1493.0
+2018,Runnymede Borough Council,Chertsey South and Row Town,UKIP,Graham Frank Wood,144,9.67,1493.0
+2018,Runnymede Borough Council,Chertsey St Ann's,Conservative,Richard Joseph Edis,736,49.1,1513.0
+2018,Runnymede Borough Council,Chertsey St Ann's,Labour,Arran Richard Neathey,481,32.09,1513.0
+2018,Runnymede Borough Council,Chertsey St Ann's,Liberal Democrats,Kevin Thomas Lee,158,10.54,1513.0
+2018,Runnymede Borough Council,Chertsey St Ann's,UKIP,William Albert Bruno,124,8.27,1513.0
+2018,Runnymede Borough Council,Egham Hythe,Labour,Fiona Robertson Dent,682,53.12,1299.0
+2018,Runnymede Borough Council,Egham Hythe,Conservative,Jonathan James Wilson,602,46.88,1299.0
+2018,Runnymede Borough Council,Egham Town,RIRG,Alan Alderson,674,56.21,1202.0
+2018,Runnymede Borough Council,Egham Town,Conservative,Charles Stewart Prescott,269,22.44,1202.0
+2018,Runnymede Borough Council,Egham Town,Labour,William Keith Heal,256,21.35,1202.0
+2018,Runnymede Borough Council,Englefield Green East,Conservative,Peter John Taylor,411,53.59,770.0
+2018,Runnymede Borough Council,Englefield Green East,Labour,Robert Ashley King,199,25.95,770.0
+2018,Runnymede Borough Council,Englefield Green East,Liberal Democrats,Nina Immink,157,20.47,770.0
+2018,Runnymede Borough Council,Englefield Green West,Conservative,Michael Touros Kusneraitis,389,41.25,946.0
+2018,Runnymede Borough Council,Englefield Green West,Labour,Abby Louise King,306,32.45,946.0
+2018,Runnymede Borough Council,Englefield Green West,RIRG,Annabel Rose Tresilian Clarke,168,17.82,946.0
+2018,Runnymede Borough Council,Englefield Green West,UKIP,David Charles Hunt,80,8.48,946.0
+2018,Runnymede Borough Council,Foxhills,Independent,Malcolm David Cressey,725,42.3,1716.0
+2018,Runnymede Borough Council,Foxhills,Independent,Angela Shepperdson,625,36.46,1716.0
+2018,Runnymede Borough Council,Foxhills,Conservative,Emma Georgina Bancroft,564,32.91,1716.0
+2018,Runnymede Borough Council,Foxhills,Conservative,David Calum James MacPhee,489,28.53,1716.0
+2018,Runnymede Borough Council,Foxhills,Liberal Democrats,Don Whyte,402,23.45,1716.0
+2018,Runnymede Borough Council,Foxhills,Labour,John Colin Gurney,204,11.9,1716.0
+2018,Runnymede Borough Council,Foxhills,UKIP,Toby Micklethwait,134,7.82,1716.0
+2018,Runnymede Borough Council,New Haw,Conservative,Mark James Maddox,725,62.61,1166.0
+2018,Runnymede Borough Council,New Haw,Labour,James Richard Mullett,236,20.38,1166.0
+2018,Runnymede Borough Council,New Haw,Liberal Democrats,Jennifer Jane Coulon,197,17.01,1166.0
+2018,Runnymede Borough Council,Thorpe,RIRG,Margaret Theresa Harnden,827,59.8,1389.0
+2018,Runnymede Borough Council,Thorpe,Conservative,Christian Thomas Jepson Egglishaw,396,28.63,1389.0
+2018,Runnymede Borough Council,Thorpe,Labour,Jack Eugeniusz Stokes,160,11.57,1389.0
+2018,Runnymede Borough Council,Virginia Water,Conservative,Parshotam Singh Sohi,738,47.31,1563.0
+2018,Runnymede Borough Council,Virginia Water,Independent,Alex Balkan,433,27.76,1563.0
+2018,Runnymede Borough Council,Virginia Water,RIRG,Brian Anthony Clarke,285,18.27,1563.0
+2018,Runnymede Borough Council,Virginia Water,Labour,James Lloyd Neal,104,6.67,1563.0
+2018,Runnymede Borough Council,Woodham,Conservative,David Ewan Anderson-Bassey,1087,73.05,1502.0
+2018,Runnymede Borough Council,Woodham,Labour,Anne Marie Emerson-Miller,301,20.23,1502.0
+2018,Runnymede Borough Council,Woodham,UKIP,Valerie Ann Woodhouse,100,6.72,1502.0
+2018,Tandridge District Council,Bletchingley and Nutfield,Conservative,Tony Elias*,775,49.6,1563.0
+2018,Tandridge District Council,Bletchingley and Nutfield,UKIP,Helena Windsor,343,21.9,1563.0
+2018,Tandridge District Council,Bletchingley and Nutfield,Liberal Democrats,Richard Fowler,267,17.1,1563.0
+2018,Tandridge District Council,Bletchingley and Nutfield,Labour,Linda Baharier,178,11.4,1563.0
+2018,Tandridge District Council,"Burstow, Horne and Outwood",Independent,Kevin Bourne,926,51.4,1803.0
+2018,Tandridge District Council,"Burstow, Horne and Outwood",Conservative,Peter Bond*,695,38.5,1803.0
+2018,Tandridge District Council,"Burstow, Horne and Outwood",Labour,Fern Warwick-Ching,119,6.6,1803.0
+2018,Tandridge District Council,"Burstow, Horne and Outwood",Liberal Democrats,Judy Wilkinson,63,3.5,1803.0
+2018,Tandridge District Council,Dormansland and Felcourt,Independent,Nicholas White,520,44.1,1178.0
+2018,Tandridge District Council,Dormansland and Felcourt,Conservative,Maureen Young*,508,43.1,1178.0
+2018,Tandridge District Council,Dormansland and Felcourt,Liberal Democrats,Tony Hardisty,86,7.3,1178.0
+2018,Tandridge District Council,Dormansland and Felcourt,Labour,Ann Seuret,64,5.4,1178.0
+2018,Tandridge District Council,Godstone,Independent,Chris Farr,1305,65.6,1990.0
+2018,Tandridge District Council,Godstone,Conservative,Rose Thorn*,423,21.3,1990.0
+2018,Tandridge District Council,Godstone,Labour,Barbara Wantling,147,7.4,1990.0
+2018,Tandridge District Council,Godstone,Liberal Democrats,Tamzie Hollands,115,5.8,1990.0
+2018,Tandridge District Council,Harestone,Conservative,Beverley Connolly*,663,51.4,1289.0
+2018,Tandridge District Council,Harestone,Liberal Democrats,Annette Evans,461,35.8,1289.0
+2018,Tandridge District Council,Harestone,Labour,Mark Wood,129,10.0,1289.0
+2018,Tandridge District Council,Harestone,UKIP,Martin Ferguson,36,2.8,1289.0
+2018,Tandridge District Council,Limpsfield,Residents,Phil Davies,918,64.3,1428.0
+2018,Tandridge District Council,Limpsfield,Conservative,Zee Lapthorne,416,29.1,1428.0
+2018,Tandridge District Council,Limpsfield,Liberal Democrats,Martin Caxton,59,4.1,1428.0
+2018,Tandridge District Council,Limpsfield,Labour,Alec McNally,35,2.5,1428.0
+2018,Tandridge District Council,Lingfield and Crowhurst,Conservative,Mark Ridge,525,42.7,1229.0
+2018,Tandridge District Council,Lingfield and Crowhurst,Independent,Michael Sydney,410,33.4,1229.0
+2018,Tandridge District Council,Lingfield and Crowhurst,Liberal Democrats,Dave Wilkes,150,12.2,1229.0
+2018,Tandridge District Council,Lingfield and Crowhurst,Labour,Rebecca Pritchard,144,11.7,1229.0
+2018,Tandridge District Council,Oxted North and Tandridge,Residents,Catherine Sayer,1531,67.6,2264.0
+2018,Tandridge District Council,Oxted North and Tandridge,Conservative,David Weightman*,548,24.2,2264.0
+2018,Tandridge District Council,Oxted North and Tandridge,Labour,Che Ramsden,100,4.4,2264.0
+2018,Tandridge District Council,Oxted North and Tandridge,Liberal Democrats,Craig Shepherd,85,3.8,2264.0
+2018,Tandridge District Council,Oxted South,Residents,Lynn Mills,1206,57.6,2093.0
+2018,Tandridge District Council,Oxted South,Conservative,Julie Bird,480,22.9,2093.0
+2018,Tandridge District Council,Oxted South,Labour,Katherine Saunders,296,14.1,2093.0
+2018,Tandridge District Council,Oxted South,Liberal Democrats,Jonathan Salisbury,111,5.3,2093.0
+2018,Tandridge District Council,Queens Park,Liberal Democrats,John Orrick,755,58.7,1286.0
+2018,Tandridge District Council,Queens Park,Conservative,Rod Stead*,415,32.3,1286.0
+2018,Tandridge District Council,Queens Park,Labour,Eddington Pindura,74,5.8,1286.0
+2018,Tandridge District Council,Queens Park,UKIP,Graham Bailey,42,3.3,1286.0
+2018,Tandridge District Council,Warlingham East and Chelsham and Farleigh,Liberal Democrats,Simon Morrow*,833,49.5,1684.0
+2018,Tandridge District Council,Warlingham East and Chelsham and Farleigh,Conservative,Nathan Adams,590,35.0,1684.0
+2018,Tandridge District Council,Warlingham East and Chelsham and Farleigh,UKIP,Martin Haley,141,8.4,1684.0
+2018,Tandridge District Council,Warlingham East and Chelsham and Farleigh,Labour,Michael Snowden,120,7.1,1684.0
+2018,Tandridge District Council,Warlingham West,Conservative,Robin Bloore,654,62.2,1052.0
+2018,Tandridge District Council,Warlingham West,Liberal Democrats,Celia Caulcott,286,27.2,1052.0
+2018,Tandridge District Council,Warlingham West,Labour,Patrick Rogers,70,6.7,1052.0
+2018,Tandridge District Council,Warlingham West,UKIP,Christopher Dean,42,4.0,1052.0
+2018,Tandridge District Council,Westway,Liberal Democrats,George Dennis,485,42.2,1144.0
+2018,Tandridge District Council,Westway,Conservative,Eithne Webster*,398,34.8,1144.0
+2018,Tandridge District Council,Westway,Labour,Lucy McNally,223,19.5,1144.0
+2018,Tandridge District Council,Westway,UKIP,Joe Branco,38,3.3,1144.0
+2018,Tandridge District Council,Whyteleafe,Liberal Democrats,Jeffrey Gray,483,46.5,1039.0
+2018,Tandridge District Council,Whyteleafe,Conservative,Sakina Bradbury*,391,37.6,1039.0
+2018,Tandridge District Council,Whyteleafe,Labour,Fatima Kamara,133,12.8,1039.0
+2018,Tandridge District Council,Whyteleafe,UKIP,Grayson Clarke,32,3.1,1039.0
+2018,Woking Borough Council,Byfleet and West Byfleet,Independent,Mary Ann Bridgeman  Y,1178,40.9,2880.0
+2018,Woking Borough Council,Byfleet and West Byfleet,Conservative,Gary William Elson,1125,39.1,2880.0
+2018,Woking Borough Council,Byfleet and West Byfleet,Liberal Democrats,Ellen Sophie Nicholson,352,12.2,2880.0
+2018,Woking Borough Council,Byfleet and West Byfleet,Labour,Mohammed Sakhawat Khan,225,7.8,2880.0
+2018,Woking Borough Council,Canalside,Labour,Mohammed Ilyas Raja  Y,1213,45.0,2694.0
+2018,Woking Borough Council,Canalside,Conservative,Robina Shaheen,883,32.8,2694.0
+2018,Woking Borough Council,Canalside,Liberal Democrats,John Francis Doran,338,12.5,2694.0
+2018,Woking Borough Council,Canalside,Independent,David Benjamin Severn,155,5.8,2694.0
+2018,Woking Borough Council,Canalside,UKIP,Terence J Knight,105,3.9,2694.0
+2018,Woking Borough Council,Goldsworth Park,Conservative,Chitra Rana  Y,930,38.0,2445.0
+2018,Woking Borough Council,Goldsworth Park,Liberal Democrats,James Richard Sanderson,920,37.6,2445.0
+2018,Woking Borough Council,Goldsworth Park,Labour,Christopher David Martin,500,20.4,2445.0
+2018,Woking Borough Council,Goldsworth Park,UKIP,Troy de Leon,95,3.9,2445.0
+2018,Woking Borough Council,Heathlands,Conservative,Simon Michael Ashall,1772,62.2,2850.0
+2018,Woking Borough Council,Heathlands,Liberal Democrats,Thomas Edward Rimmer,695,24.4,2850.0
+2018,Woking Borough Council,Heathlands,Labour,Elizabeth Anne Evans,383,13.4,2850.0
+2018,Woking Borough Council,Hoe Valley,Liberal Democrats,Deborah Elizabeth Hughes  Y,1096,49.1,2233.0
+2018,Woking Borough Council,Hoe Valley,Conservative,John Frederick Lawrence,739,33.1,2233.0
+2018,Woking Borough Council,Hoe Valley,Labour,Geraldine Margaret Mitchell-Smith,312,14.0,2233.0
+2018,Woking Borough Council,Hoe Valley,UKIP,Judith Diana Squire,86,3.9,2233.0
+2018,Woking Borough Council,Horsell,Conservative,Nancy Hazel Mary Martin,1612,50.0,3227.0
+2018,Woking Borough Council,Horsell,Liberal Democrats,Anthony Laurence Kremer,1141,35.4,3227.0
+2018,Woking Borough Council,Horsell,Labour,Conor Michael John Bakhuizen,357,11.1,3227.0
+2018,Woking Borough Council,Horsell,UKIP,Lynda Mary Sage,117,3.6,3227.0
+2018,Woking Borough Council,Knaphill,Conservative,Deborah Harlow  Y,1376,53.9,2552.0
+2018,Woking Borough Council,Knaphill,Independent,Hassan Badrudin Akberali,398,15.6,2552.0
+2018,Woking Borough Council,Knaphill,Liberal Democrats,Jamie Diane Roscoe-Jones,391,15.3,2552.0
+2018,Woking Borough Council,Knaphill,Labour,Colin Robert Bright,387,15.2,2552.0
+2018,Woking Borough Council,Mount Hermon,Liberal Democrats,Liam Stuart Lyons,1300,43.1,3019.0
+2018,Woking Borough Council,Mount Hermon,Conservative,Mark Russell John Pengelly  N,1283,42.5,3019.0
+2018,Woking Borough Council,Mount Hermon,Labour,Sabir Hussain,374,12.4,3019.0
+2018,Woking Borough Council,Mount Hermon,UKIP,Richard Peter Farr Squire,62,2.1,3019.0
+2018,Woking Borough Council,Pyrford,Conservative,Rashid Mohammed  Y,2076,59.3,3180.0
+2018,Woking Borough Council,Pyrford,Liberal Democrats,Ian Michael Lachowicz,679,21.4,3180.0
+2018,Woking Borough Council,Pyrford,Labour,Geoffrey Folk O'Shea,447,14.4,3180.0
+2018,Woking Borough Council,Pyrford,UKIP,Robin Deller Milner,167,5.3,3180.0
+2018,Woking Borough Council,St Johns,Liberal Democrats,Kenneth Howard  Y,1219,43.5,2804.0
+2018,Woking Borough Council,St Johns,Conservative,Steven James Royston Dorsett,1163,41.5,2804.0
+2018,Woking Borough Council,St Johns,Labour,John Scott-Morgan,302,10.8,2804.0
+2018,Woking Borough Council,St Johns,UKIP,Timothy Martin Read,120,4.3,2804.0
+2019,Elmbridge Borough Council,Claygate,Liberal Democrats,Alex Coomes,1429,63.0,2269.0
+2019,Elmbridge Borough Council,Claygate,Conservative,Mark Sugden,775,34.2,2269.0
+2019,Elmbridge Borough Council,Claygate,Labour,Sean Byrne,65,2.9,2269.0
+2019,Elmbridge Borough Council,Cobham & Downside,Conservative,Dorothy Mitchell,902,47.4,1904.0
+2019,Elmbridge Borough Council,Cobham & Downside,Liberal Democrats,David Bellchamber,598,31.4,1904.0
+2019,Elmbridge Borough Council,Cobham & Downside,UKIP,Elaine Kingston,238,12.5,1904.0
+2019,Elmbridge Borough Council,Cobham & Downside,Labour,Hugh Bryant,166,8.7,1904.0
+2019,Elmbridge Borough Council,Esher,Residents,Richard Williams*,1138,46.7,2438.0
+2019,Elmbridge Borough Council,Esher,Conservative,Richard John,965,39.6,2438.0
+2019,Elmbridge Borough Council,Esher,Green,Laura Harmour,222,9.1,2438.0
+2019,Elmbridge Borough Council,Esher,Labour,Susan Dennis,113,4.6,2438.0
+2019,Elmbridge Borough Council,Hersham Village,Conservative,Mary Sheldon,1177,52.8,2228.0
+2019,Elmbridge Borough Council,Hersham Village,Hersham Village Society,Sam Thompson,780,35.0,2228.0
+2019,Elmbridge Borough Council,Hersham Village,Labour,Julie Crook,271,12.2,2228.0
+2019,Elmbridge Borough Council,Hinchley Wood & Weston Green,Hinchley Wood Residents' Association,Janet Turner,1766,73.6,2398.0
+2019,Elmbridge Borough Council,Hinchley Wood & Weston Green,Liberal Democrats,Liz Ambekar,360,15.0,2398.0
+2019,Elmbridge Borough Council,Hinchley Wood & Weston Green,Conservative,Geoff Herbert,272,11.3,2398.0
+2019,Elmbridge Borough Council,Long Ditton,Liberal Democrats,Neil Houston,1194,57.8,2065.0
+2019,Elmbridge Borough Council,Long Ditton,Conservative,Claudia Riley-Hards,757,36.7,2065.0
+2019,Elmbridge Borough Council,Long Ditton,Labour,John Fryer,114,5.5,2065.0
+2019,Elmbridge Borough Council,Molesey East,Molesey Residents' Association,Lesley Yauner,1268,48.0,2643.0
+2019,Elmbridge Borough Council,Molesey East,Conservative,Xingang Wang,790,29.9,2643.0
+2019,Elmbridge Borough Council,Molesey East,Liberal Democrats,Susan Fergy,252,9.5,2643.0
+2019,Elmbridge Borough Council,Molesey East,Green,Lisa Howard,208,7.9,2643.0
+2019,Elmbridge Borough Council,Molesey East,Labour,Rosie Rendall,125,4.7,2643.0
+2019,Elmbridge Borough Council,Molesey West,Molesey Residents' Association,Tony Popham,1211,63.5,1907.0
+2019,Elmbridge Borough Council,Molesey West,Conservative,John Gould,295,15.5,1907.0
+2019,Elmbridge Borough Council,Molesey West,Liberal Democrats,Alastair Sturgis,227,11.9,1907.0
+2019,Elmbridge Borough Council,Molesey West,Labour,David Sheldrake,174,9.1,1907.0
+2019,Elmbridge Borough Council,Oatlands & Burwood Park,Conservative,Hilary Butler,1258,60.3,2086.0
+2019,Elmbridge Borough Council,Oatlands & Burwood Park,Liberal Democrats,Adriana Dredge,405,19.4,2086.0
+2019,Elmbridge Borough Council,Oatlands & Burwood Park,Green,Annie Connell,315,15.1,2086.0
+2019,Elmbridge Borough Council,Oatlands & Burwood Park,Labour,Angus Rendall,108,5.2,2086.0
+2019,Elmbridge Borough Council,Oxshott & Stoke D'Abernon,Conservative,David Lewis,1480,65.5,2258.0
+2019,Elmbridge Borough Council,Oxshott & Stoke D'Abernon,Liberal Democrats,Dorothy Ford,681,30.2,2258.0
+2019,Elmbridge Borough Council,Oxshott & Stoke D'Abernon,Labour,Christine Bailey,97,4.3,2258.0
+2019,Elmbridge Borough Council,Thames Ditton,Thames Ditton & Weston Green Residents' Association,Joanna Randolph,1577,67.4,2339.0
+2019,Elmbridge Borough Council,Thames Ditton,Liberal Democrats,Jez Langham,340,14.5,2339.0
+2019,Elmbridge Borough Council,Thames Ditton,Conservative,Rory Simpson,284,12.1,2339.0
+2019,Elmbridge Borough Council,Thames Ditton,Labour,Richard Howard,138,5.9,2339.0
+2019,Elmbridge Borough Council,Walton Central,The Walton Society,Graham Woolgar,1235,57.0,2168.0
+2019,Elmbridge Borough Council,Walton Central,Conservative,Kristopher Januszajtis-Neale,723,33.3,2168.0
+2019,Elmbridge Borough Council,Walton Central,Labour,Gerry O'Driscoll,210,9.7,2168.0
+2019,Elmbridge Borough Council,Walton North,Conservative,Rachael Lake,696,46.0,
+2019,Elmbridge Borough Council,Walton North,Labour,Peter Ashurst,424,28.0,
+2019,Elmbridge Borough Council,Walton North,Liberal Democrats,Nicholas Gosling,393,26.0,
+2019,Elmbridge Borough Council,Walton South,Conservative,Chris Cross,1048,50.8,2061.0
+2019,Elmbridge Borough Council,Walton South,Liberal Democrats,Margaret Hawkes,727,35.3,2061.0
+2019,Elmbridge Borough Council,Walton South,Labour,Vera-Anne Anderson,286,13.9,2061.0
+2019,Elmbridge Borough Council,Weybridge Riverside,Liberal Democrats,Ashley Tilling,1101,47.6,2312.0
+2019,Elmbridge Borough Council,Weybridge Riverside,Conservative,Paul Wood,955,41.3,2312.0
+2019,Elmbridge Borough Council,Weybridge Riverside,Labour Co-op,Warren Weertman,140,6.1,2312.0
+2019,Elmbridge Borough Council,Weybridge Riverside,UKIP,Nicholas Wood,116,5.0,2312.0
+2019,Elmbridge Borough Council,Weybridge St. George's Hall,Weybridge & St. George's Independents,Tom Catton,1201,52.4,2290.0
+2019,Elmbridge Borough Council,Weybridge St. George's Hall,Conservative,John O'Reilly,907,39.6,2290.0
+2019,Elmbridge Borough Council,Weybridge St. George's Hall,Labour,Heather Bokota,182,7.9,2290.0
+2019,Epsom and Ewell Borough Council,Auriol,Residents Association,John Beckett,889,83.3,1070.0
+2019,Epsom and Ewell Borough Council,Auriol,Residents Association,Peter Webb,838,78.5,1070.0
+2019,Epsom and Ewell Borough Council,Auriol,Conservative,William Pontin,81,7.6,1070.0
+2019,Epsom and Ewell Borough Council,Auriol,Conservative,Keew Ng,71,6.7,1070.0
+2019,Epsom and Ewell Borough Council,Auriol,Labour,Julia Lucas,69,6.5,1070.0
+2019,Epsom and Ewell Borough Council,Auriol,Labour,Nora Pearce,62,5.8,1070.0
+2019,Epsom and Ewell Borough Council,Auriol,Liberal Democrats,Rachel Sumeray,45,4.2,1070.0
+2019,Epsom and Ewell Borough Council,College,Liberal Democrats,Julie Morris,864,45.2,1916.0
+2019,Epsom and Ewell Borough Council,College,Liberal Democrats,David Gulland,838,43.9,1916.0
+2019,Epsom and Ewell Borough Council,College,Residents Association,Nigel Collin,749,39.2,1916.0
+2019,Epsom and Ewell Borough Council,College,Liberal Democrats,Andrej Kubicek,738,38.6,1916.0
+2019,Epsom and Ewell Borough Council,College,Residents Association,Christine Long,649,34.0,1916.0
+2019,Epsom and Ewell Borough Council,College,Residents Association,Robert Leach,645,33.8,1916.0
+2019,Epsom and Ewell Borough Council,College,Conservative,Alexander Clarke,323,16.9,1916.0
+2019,Epsom and Ewell Borough Council,College,Conservative,Gjergj Bushati,255,13.4,1916.0
+2019,Epsom and Ewell Borough Council,College,Conservative,Alastair Whitby,252,13.2,1916.0
+2019,Epsom and Ewell Borough Council,College,Labour,Margaret Lewis,136,7.1,1916.0
+2019,Epsom and Ewell Borough Council,College,Labour,Rosalind Godson,131,6.9,1916.0
+2019,Epsom and Ewell Borough Council,Court,Labour,Kate Chinn,601,46.6,1299.0
+2019,Epsom and Ewell Borough Council,Court,Labour,Rob Geleit,589,45.7,1299.0
+2019,Epsom and Ewell Borough Council,Court,Labour,Debbie Monksfield,571,44.3,1299.0
+2019,Epsom and Ewell Borough Council,Court,Residents Association,Christine Beams,396,30.7,1299.0
+2019,Epsom and Ewell Borough Council,Court,Residents Association,Mary Sullivan,365,28.3,1299.0
+2019,Epsom and Ewell Borough Council,Court,Residents Association,David Triggs,329,25.5,1299.0
+2019,Epsom and Ewell Borough Council,Court,Conservative,Gordon Paterson,186,14.4,1299.0
+2019,Epsom and Ewell Borough Council,Court,Conservative,Alexander Peacock,186,14.4,1299.0
+2019,Epsom and Ewell Borough Council,Court,Conservative,Simon Smyth,164,12.7,1299.0
+2019,Epsom and Ewell Borough Council,Court,Liberal Democrats,David Buxton,155,12.0,1299.0
+2019,Epsom and Ewell Borough Council,Court,Liberal Democrats,Oliver Schuster,131,10.2,1299.0
+2019,Epsom and Ewell Borough Council,Court,Liberal Democrats,Dorothee Wilbs,116,9.0,1299.0
+2019,Epsom and Ewell Borough Council,Cuddington,Residents Association,Robert Foote,977,70.3,1392.0
+2019,Epsom and Ewell Borough Council,Cuddington,Residents Association,Lucie Dallen,969,69.7,1392.0
+2019,Epsom and Ewell Borough Council,Cuddington,Residents Association,Phillip Neale,962,69.2,1392.0
+2019,Epsom and Ewell Borough Council,Cuddington,Liberal Democrats,Raj Saini,190,13.7,1392.0
+2019,Epsom and Ewell Borough Council,Cuddington,Conservative,Jennifer Arkwell,175,12.6,1392.0
+2019,Epsom and Ewell Borough Council,Cuddington,Conservative,Paul Crispin,160,11.5,1392.0
+2019,Epsom and Ewell Borough Council,Cuddington,Labour,Marita Gerrard,159,11.4,1392.0
+2019,Epsom and Ewell Borough Council,Cuddington,Labour,Kevin Davies,136,9.8,1392.0
+2019,Epsom and Ewell Borough Council,Cuddington,Labour,Godfrey Mason,124,8.9,1392.0
+2019,Epsom and Ewell Borough Council,Cuddington,Conservative,John Earnshaw,118,8.5,1392.0
+2019,Epsom and Ewell Borough Council,Ewell,Residents Association,Christine Cleveland,922,69.0,1344.0
+2019,Epsom and Ewell Borough Council,Ewell,Residents Association,Clive Woodbridge,903,67.6,1344.0
+2019,Epsom and Ewell Borough Council,Ewell,Residents Association,Humphrey Reynolds,887,66.4,1344.0
+2019,Epsom and Ewell Borough Council,Ewell,Conservative,Tony Kitcat,155,11.6,1344.0
+2019,Epsom and Ewell Borough Council,Ewell,Liberal Democrats,Tony Fincham,140,10.5,1344.0
+2019,Epsom and Ewell Borough Council,Ewell,Conservative,David Price,140,10.5,1344.0
+2019,Epsom and Ewell Borough Council,Ewell,Labour,Sandra Hatfield,139,10.4,1344.0
+2019,Epsom and Ewell Borough Council,Ewell,Liberal Democrats,Philip Pavey,138,10.3,1344.0
+2019,Epsom and Ewell Borough Council,Ewell,Conservative,Diane Earnshaw,134,10.0,1344.0
+2019,Epsom and Ewell Borough Council,Ewell,Liberal Democrats,Kenneth Kimber,129,9.7,1344.0
+2019,Epsom and Ewell Borough Council,Ewell,Labour,Samuel Woodall,126,9.4,1344.0
+2019,Epsom and Ewell Borough Council,Ewell,Labour,Michael Westbrook,124,9.3,1344.0
+2019,Epsom and Ewell Borough Council,Ewell Court,Residents Association,Eber Kington,1241,85.6,1454.0
+2019,Epsom and Ewell Borough Council,Ewell Court,Residents Association,Peter O'Donovan,1167,80.5,1454.0
+2019,Epsom and Ewell Borough Council,Ewell Court,Residents Association,Guy Robbins,1139,78.6,1454.0
+2019,Epsom and Ewell Borough Council,Ewell Court,Conservative,Colm Egan,122,8.4,1454.0
+2019,Epsom and Ewell Borough Council,Ewell Court,Conservative,Danny Fullilove,117,8.1,1454.0
+2019,Epsom and Ewell Borough Council,Ewell Court,Labour,Mike Nelson,101,7.0,1454.0
+2019,Epsom and Ewell Borough Council,Ewell Court,Conservative,Andrew Sharpe,101,7.0,1454.0
+2019,Epsom and Ewell Borough Council,Ewell Court,Labour,Naim Salam,92,6.3,1454.0
+2019,Epsom and Ewell Borough Council,Ewell Court,Liberal Democrats,Lee Robertson,85,5.9,1454.0
+2019,Epsom and Ewell Borough Council,Nonsuch,Residents Association,Christine Howells,1124,80.2,1407.0
+2019,Epsom and Ewell Borough Council,Nonsuch,Residents Association,Christopher Frost,1079,77.0,1407.0
+2019,Epsom and Ewell Borough Council,Nonsuch,Residents Association,Colin Keane,1058,75.5,1407.0
+2019,Epsom and Ewell Borough Council,Nonsuch,Liberal Democrats,Steve Dixon,140,10.0,1407.0
+2019,Epsom and Ewell Borough Council,Nonsuch,Liberal Democrats,Linda Chimiel,132,9.4,1407.0
+2019,Epsom and Ewell Borough Council,Nonsuch,Conservative,Peter Chan,118,8.4,1407.0
+2019,Epsom and Ewell Borough Council,Nonsuch,Conservative,Geoffrey Pope,116,8.3,1407.0
+2019,Epsom and Ewell Borough Council,Nonsuch,Liberal Democrats,Joao de Campos Cruz,113,8.1,1407.0
+2019,Epsom and Ewell Borough Council,Nonsuch,Conservative,Linda Trompetto,101,7.2,1407.0
+2019,Epsom and Ewell Borough Council,Nonsuch,Labour,Alexander Edwards,62,4.4,1407.0
+2019,Epsom and Ewell Borough Council,Nonsuch,Labour,Ian Ward,49,3.5,1407.0
+2019,Epsom and Ewell Borough Council,Ruxley,Residents Association,Janet Mason,769,66.7,1158.0
+2019,Epsom and Ewell Borough Council,Ruxley,Residents Association,Alex Coley,747,64.8,1158.0
+2019,Epsom and Ewell Borough Council,Ruxley,Residents Association,Alan Sursham,703,61.0,1158.0
+2019,Epsom and Ewell Borough Council,Ruxley,Labour,Susanna Bellino,146,12.7,1158.0
+2019,Epsom and Ewell Borough Council,Ruxley,Labour,Jason Anderson,138,12.0,1158.0
+2019,Epsom and Ewell Borough Council,Ruxley,Conservative,David Collins,138,12.0,1158.0
+2019,Epsom and Ewell Borough Council,Ruxley,Conservative,Joseph Alawo,133,11.5,1158.0
+2019,Epsom and Ewell Borough Council,Ruxley,Conservative,David Lyndsay,133,11.5,1158.0
+2019,Epsom and Ewell Borough Council,Ruxley,Labour,Ghazal Diani,130,11.3,1158.0
+2019,Epsom and Ewell Borough Council,Ruxley,Liberal Democrats,Julia Kirkland,97,8.4,1158.0
+2019,Epsom and Ewell Borough Council,Ruxley,Liberal Democrats,Ashley Day,76,6.6,1158.0
+2019,Epsom and Ewell Borough Council,Ruxley,Liberal Democrats,Adam Pettifer,67,5.8,1158.0
+2019,Epsom and Ewell Borough Council,Stamford,Residents Association,Steve Bridger,730,36.4,2009.0
+2019,Epsom and Ewell Borough Council,Stamford,Conservative,Bernadette Muir,697,34.8,2009.0
+2019,Epsom and Ewell Borough Council,Stamford,Residents Association,Previn Jagutpal,679,33.9,2009.0
+2019,Epsom and Ewell Borough Council,Stamford,Conservative,James Petit,658,32.9,2009.0
+2019,Epsom and Ewell Borough Council,Stamford,Residents Association,Martin Olney,657,32.8,2009.0
+2019,Epsom and Ewell Borough Council,Stamford,Conservative,Stephen Pontin,593,29.6,2009.0
+2019,Epsom and Ewell Borough Council,Stamford,Green,Janice Baker,362,18.1,2009.0
+2019,Epsom and Ewell Borough Council,Stamford,Liberal Democrats,Clare Clark,312,15.6,2009.0
+2019,Epsom and Ewell Borough Council,Stamford,Liberal Democrats,Paul Vagg,307,15.3,2009.0
+2019,Epsom and Ewell Borough Council,Stamford,Labour,Alexandra Payne,216,10.8,2009.0
+2019,Epsom and Ewell Borough Council,Stamford,Liberal Democrats,Jeremy Smith,215,10.7,2009.0
+2019,Epsom and Ewell Borough Council,Stamford,Labour,Garrick Bigwood,169,8.4,2009.0
+2019,Epsom and Ewell Borough Council,Stamford,Labour,Amos Sibanda,139,6.9,2009.0
+2019,Epsom and Ewell Borough Council,Stoneleigh,Residents Association,Hannah Dalton,1040,82.2,1267.0
+2019,Epsom and Ewell Borough Council,Stoneleigh,Residents Association,David Reeve,1040,82.2,1267.0
+2019,Epsom and Ewell Borough Council,Stoneleigh,Residents Association,Christopher Webb,994,78.6,1267.0
+2019,Epsom and Ewell Borough Council,Stoneleigh,Liberal Democrats,Yvonne Dowling,84,6.6,1267.0
+2019,Epsom and Ewell Borough Council,Stoneleigh,Conservative,James Larter,78,6.2,1267.0
+2019,Epsom and Ewell Borough Council,Stoneleigh,Liberal Democrats,James Dapre,77,6.1,1267.0
+2019,Epsom and Ewell Borough Council,Stoneleigh,Liberal Democrats,Brian Fisher,68,5.4,1267.0
+2019,Epsom and Ewell Borough Council,Stoneleigh,Conservative,Katy Sullivan,68,5.4,1267.0
+2019,Epsom and Ewell Borough Council,Stoneleigh,Labour,Sarah Humphreys,63,5.0,1267.0
+2019,Epsom and Ewell Borough Council,Stoneleigh,Conservative,Paul Willis,59,4.7,1267.0
+2019,Epsom and Ewell Borough Council,Stoneleigh,Labour,Tony Clark,56,4.4,1267.0
+2019,Epsom and Ewell Borough Council,Stoneleigh,Labour,Catherine Power,52,4.1,1267.0
+2019,Epsom and Ewell Borough Council,Town,Residents Association,Neil Dallen,795,51.6,1555.0
+2019,Epsom and Ewell Borough Council,Town,Residents Association,Luke Giles,732,47.5,1555.0
+2019,Epsom and Ewell Borough Council,Town,Residents Association,Arthur Abdulin,705,45.7,1555.0
+2019,Epsom and Ewell Borough Council,Town,Liberal Democrats,Alison Kelly,379,24.6,1555.0
+2019,Epsom and Ewell Borough Council,Town,Liberal Democrats,Martin Kimber,289,18.8,1555.0
+2019,Epsom and Ewell Borough Council,Town,Liberal Democrats,Julian Freeman,276,17.9,1555.0
+2019,Epsom and Ewell Borough Council,Town,Labour,Caroline Barretto,257,16.7,1555.0
+2019,Epsom and Ewell Borough Council,Town,Green,David Candlin,244,15.8,1555.0
+2019,Epsom and Ewell Borough Council,Town,Labour,Richard Chinn,206,13.4,1555.0
+2019,Epsom and Ewell Borough Council,Town,Labour,Stuart Gosling,202,13.1,1555.0
+2019,Epsom and Ewell Borough Council,Town,Conservative,Stephen Hackett,151,9.8,1555.0
+2019,Epsom and Ewell Borough Council,Town,Conservative,Graham Rapier,145,9.4,1555.0
+2019,Epsom and Ewell Borough Council,Town,Conservative,Martin Richards,137,8.9,1555.0
+2019,Epsom and Ewell Borough Council,West Ewell,Residents Association,Clive Smitheram,1005,70.7,1429.0
+2019,Epsom and Ewell Borough Council,West Ewell,Residents Association,Monica Coleman,992,69.8,1429.0
+2019,Epsom and Ewell Borough Council,West Ewell,Residents Association,Barry Nash,967,68.0,1429.0
+2019,Epsom and Ewell Borough Council,West Ewell,Labour,Michael Davis,155,10.9,1429.0
+2019,Epsom and Ewell Borough Council,West Ewell,Labour,Daniel Edwards,147,10.3,1429.0
+2019,Epsom and Ewell Borough Council,West Ewell,Labour,Danielle Grufferty,142,9.9,1429.0
+2019,Epsom and Ewell Borough Council,West Ewell,Liberal Democrats,Andrew Casey,132,9.3,1429.0
+2019,Epsom and Ewell Borough Council,West Ewell,Liberal Democrats,Rusmat Ahmed,124,8.7,1429.0
+2019,Epsom and Ewell Borough Council,West Ewell,Conservative,Edward Rutherford,118,8.3,1429.0
+2019,Epsom and Ewell Borough Council,West Ewell,Liberal Democrats,Paul da Silva,112,7.9,1429.0
+2019,Epsom and Ewell Borough Council,West Ewell,Conservative,David Tidd,111,7.8,1429.0
+2019,Epsom and Ewell Borough Council,West Ewell,Conservative,Clifford Woodroffe,96,6.8,1429.0
+2019,Epsom and Ewell Borough Council,Woodcote,Residents Association,Elizabeth Frost,1058,60.7,1751.0
+2019,Epsom and Ewell Borough Council,Woodcote,Residents Association,Steven McCormick,862,49.5,1751.0
+2019,Epsom and Ewell Borough Council,Woodcote,Residents Association,Bernice Froud,858,49.3,1751.0
+2019,Epsom and Ewell Borough Council,Woodcote,Conservative,Christina Mountain,607,34.8,1751.0
+2019,Epsom and Ewell Borough Council,Woodcote,Conservative,Henry Strausser,378,21.7,1751.0
+2019,Epsom and Ewell Borough Council,Woodcote,Conservative,Arran Essex,324,18.6,1751.0
+2019,Epsom and Ewell Borough Council,Woodcote,Liberal Democrats,Julia Goacher,203,11.7,1751.0
+2019,Epsom and Ewell Borough Council,Woodcote,Labour,Abigail Bloom,167,9.6,1751.0
+2019,Epsom and Ewell Borough Council,Woodcote,Liberal Democrats,Emily Martyr,166,9.5,1751.0
+2019,Epsom and Ewell Borough Council,Woodcote,Liberal Democrats,John Payne,155,8.9,1751.0
+2019,Epsom and Ewell Borough Council,Woodcote,Labour,Catherine Carver-Hill,135,7.7,1751.0
+2019,Epsom and Ewell Borough Council,Woodcote,Labour,Dan Condon,127,7.3,1751.0
+2019,Guildford Borough Council,Ash South & Tongham (top 3 candidates elected),Conservative,Graham Eyre,973,51.6,1885.0
+2019,Guildford Borough Council,Ash South & Tongham (top 3 candidates elected),R4GV,Paul Abbey,961,51.0,1885.0
+2019,Guildford Borough Council,Ash South & Tongham (top 3 candidates elected),Conservative,Paul Spooner,853,45.3,1885.0
+2019,Guildford Borough Council,Ash South & Tongham (top 3 candidates elected),Conservative,Nigel Kearse,817,43.3,1885.0
+2019,Guildford Borough Council,Ash South & Tongham (top 3 candidates elected),Liberal Democrats,Philip Buckley,519,27.5,1885.0
+2019,Guildford Borough Council,Ash South & Tongham (top 3 candidates elected),Liberal Democrats,Sinclair Webster,484,25.7,1885.0
+2019,Guildford Borough Council,Ash Vale (top 2 candidates elected),Conservative,Nigel Manning,631,57.9,1089.0
+2019,Guildford Borough Council,Ash Vale (top 2 candidates elected),Conservative,Marsha Moseley,619,56.8,1089.0
+2019,Guildford Borough Council,Ash Vale (top 2 candidates elected),Liberal Democrats,Miranda Hoegen,477,43.8,1089.0
+2019,Guildford Borough Council,Ash Wharf (top 2 candidates elected),Conservative,Jo Randall,763,58.4,1306.0
+2019,Guildford Borough Council,Ash Wharf (top 2 candidates elected),Conservative,Andrew Gomm,756,57.9,1306.0
+2019,Guildford Borough Council,Ash Wharf (top 2 candidates elected),Green,Sam Richards,484,37.1,1306.0
+2019,Guildford Borough Council,Ash Wharf (top 2 candidates elected),Liberal Democrats,Roslyn McMillan,294,22.5,1306.0
+2019,Guildford Borough Council,Burpham (top 2 candidates elected),Liberal Democrats,Ted Mayne,972,53.8,1808.0
+2019,Guildford Borough Council,Burpham (top 2 candidates elected),Liberal Democrats,George Potter,922,51.0,1808.0
+2019,Guildford Borough Council,Burpham (top 2 candidates elected),Conservative,Christian Holliday,610,33.7,1808.0
+2019,Guildford Borough Council,Burpham (top 2 candidates elected),Conservative,Mike Piper,568,31.4,1808.0
+2019,Guildford Borough Council,Burpham (top 2 candidates elected),Labour,Sue Hackman,242,13.4,1808.0
+2019,Guildford Borough Council,Burpham (top 2 candidates elected),Labour,Poppy Ni Bhroithe-Barnett,180,10.0,1808.0
+2019,Guildford Borough Council,Christchurch (top 2 candidates elected),R4GV,Joss Bigmore,1042,50.5,2065.0
+2019,Guildford Borough Council,Christchurch (top 2 candidates elected),R4GV,Dennis Booth,845,40.9,2065.0
+2019,Guildford Borough Council,Christchurch (top 2 candidates elected),Conservative,Matt Furniss,673,32.6,2065.0
+2019,Guildford Borough Council,Christchurch (top 2 candidates elected),Conservative,Nikki Nelson-Smith,608,29.4,2065.0
+2019,Guildford Borough Council,Christchurch (top 2 candidates elected),Liberal Democrats,Paul Hienkens,450,21.8,2065.0
+2019,Guildford Borough Council,Christchurch (top 2 candidates elected),Labour,Joan O'Byrne,193,9.3,2065.0
+2019,Guildford Borough Council,Christchurch (top 2 candidates elected),Labour,Mark Redhead,143,6.9,2065.0
+2019,Guildford Borough Council,Clandon & Horsley (top 3 candidates elected),GGG,Catherine-Anne Young,2907,76.7,3790.0
+2019,Guildford Borough Council,Clandon & Horsley (top 3 candidates elected),R4GV,Tim Anderson,2726,71.9,3790.0
+2019,Guildford Borough Council,Clandon & Horsley (top 3 candidates elected),R4GV,Christopher Barrass,2666,70.3,3790.0
+2019,Guildford Borough Council,Clandon & Horsley (top 3 candidates elected),Conservative,Jonathan Rogerson,947,25.0,3790.0
+2019,Guildford Borough Council,Clandon & Horsley (top 3 candidates elected),Conservative,Caroline Heath-Taylor,704,18.6,3790.0
+2019,Guildford Borough Council,Clandon & Horsley (top 3 candidates elected),Conservative,Alex Fiuza,532,14.0,3790.0
+2019,Guildford Borough Council,Effingham (top 1 candidate elected),Liberal Democrats,Liz Hogger,529,56.8,931.0
+2019,Guildford Borough Council,Effingham (top 1 candidate elected),GGG,Ben Paton,245,26.3,931.0
+2019,Guildford Borough Council,Effingham (top 1 candidate elected),Conservative,Christopher Jay,147,15.8,931.0
+2019,Guildford Borough Council,Friary & St Nicolas (top 3 candidates elected),Liberal Democrats,Caroline Reeves,1371,58.9,2541.0
+2019,Guildford Borough Council,Friary & St Nicolas (top 3 candidates elected),Liberal Democrats,Angela Goodwin,1332,52.4,2541.0
+2019,Guildford Borough Council,Friary & St Nicolas (top 3 candidates elected),Liberal Democrats,Tom Hunt,1134,44.6,2541.0
+2019,Guildford Borough Council,Friary & St Nicolas (top 3 candidates elected),R4GV,Fiona Davidson,907,35.7,2541.0
+2019,Guildford Borough Council,Friary & St Nicolas (top 3 candidates elected),Conservative,John De Wit,409,16.1,2541.0
+2019,Guildford Borough Council,Friary & St Nicolas (top 3 candidates elected),Conservative,Bill Stokoe,405,15.9,2541.0
+2019,Guildford Borough Council,Friary & St Nicolas (top 3 candidates elected),Labour,Elizabeth Mpyisi,381,15.0,2541.0
+2019,Guildford Borough Council,Friary & St Nicolas (top 3 candidates elected),Labour,Brian Creese,336,13.2,2541.0
+2019,Guildford Borough Council,Friary & St Nicolas (top 3 candidates elected),Conservative,Vaibhav Pant,331,13.0,2541.0
+2019,Guildford Borough Council,Friary & St Nicolas (top 3 candidates elected),Labour,Matthew Smith,311,12.2,2541.0
+2019,Guildford Borough Council,Holy Trinity Ward (top 3 candidates elected) *,R4GV,Maddy Redpath,968,37.9,2551.0
+2019,Guildford Borough Council,Holy Trinity Ward (top 3 candidates elected) *,R4GV,John Redpath,932,36.5,2551.0
+2019,Guildford Borough Council,Holy Trinity Ward (top 3 candidates elected) *,R4GV,John Rigg,911,35.7,2551.0
+2019,Guildford Borough Council,Holy Trinity Ward (top 3 candidates elected) *,Liberal Democrats,Ciarán Doran,860,33.7,2551.0
+2019,Guildford Borough Council,Holy Trinity Ward (top 3 candidates elected) *,Liberal Democrats,Jennifer Gale,834,32.7,2551.0
+2019,Guildford Borough Council,Holy Trinity Ward (top 3 candidates elected) *,Liberal Democrats,Stephen Mallet,644,25.2,2551.0
+2019,Guildford Borough Council,Holy Trinity Ward (top 3 candidates elected) *,Conservative,Alexandra Chesterfield,617,24.2,2551.0
+2019,Guildford Borough Council,Holy Trinity Ward (top 3 candidates elected) *,Conservative,Geoff Davis,615,24.1,2551.0
+2019,Guildford Borough Council,Holy Trinity Ward (top 3 candidates elected) *,Conservative,Gerry Lytle,559,21.9,2551.0
+2019,Guildford Borough Council,Holy Trinity Ward (top 3 candidates elected) *,Labour,Gregory Clack,211,8.3,2551.0
+2019,Guildford Borough Council,Holy Trinity Ward (top 3 candidates elected) *,Labour,Chris Pegman,184,7.2,2551.0
+2019,Guildford Borough Council,Holy Trinity Ward (top 3 candidates elected) *,Labour,Alexander Scott,154,6.0,2551.0
+2019,Guildford Borough Council,Lovelace (top 1 candidate elected) *,R4GV,Colin Cross,789,90.5,882.0
+2019,Guildford Borough Council,Lovelace (top 1 candidate elected) *,Conservative,Julie Iles,83,9.5,882.0
+2019,Guildford Borough Council,Merrow (top 3 candidates elected),R4GV,Deborah Seabrook,1731,62.9,2750.0
+2019,Guildford Borough Council,Merrow (top 3 candidates elected),Liberal Democrats,Steven Lee,1047,38.1,2750.0
+2019,Guildford Borough Council,Merrow (top 3 candidates elected),Liberal Democrats,Jan Harwood,976,35.5,2750.0
+2019,Guildford Borough Council,Merrow (top 3 candidates elected),Conservative,Jennifer Jordan,856,31.1,2750.0
+2019,Guildford Borough Council,Merrow (top 3 candidates elected),Conservative,Philip Brooker,789,28.7,2750.0
+2019,Guildford Borough Council,Merrow (top 3 candidates elected),Conservative,Graham Ellwood,656,23.9,2750.0
+2019,Guildford Borough Council,Merrow (top 3 candidates elected),Labour,John Hawthorne,345,12.5,2750.0
+2019,Guildford Borough Council,Merrow (top 3 candidates elected),Labour,Michael Hill,327,11.9,2750.0
+2019,Guildford Borough Council,Merrow (top 3 candidates elected),Labour,Michael Hassell,294,10.7,2750.0
+2019,Guildford Borough Council,Normandy (top 1 candidate elected),Conservative,David Bilbé,451,41.7,1094.0
+2019,Guildford Borough Council,Normandy (top 1 candidate elected),Liberal Democrats,Henry Kay,382,35.3,1094.0
+2019,Guildford Borough Council,Normandy (top 1 candidate elected),GGG,Peter Elliott,248,22.9,1094.0
+2019,Guildford Borough Council,Onslow (top 3 candidates elected),Liberal Democrats,David Goodwin,891,47.5,1877.0
+2019,Guildford Borough Council,Onslow (top 3 candidates elected),Liberal Democrats,Jon Askew,819,43.6,1877.0
+2019,Guildford Borough Council,Onslow (top 3 candidates elected),Liberal Democrats,Will Salmon,815,43.4,1877.0
+2019,Guildford Borough Council,Onslow (top 3 candidates elected),R4GV,Howard Moss,775,41.3,1877.0
+2019,Guildford Borough Council,Onslow (top 3 candidates elected),Conservative,Adrian Chandler,419,22.3,1877.0
+2019,Guildford Borough Council,Onslow (top 3 candidates elected),Conservative,Helen Harris,399,21.3,1877.0
+2019,Guildford Borough Council,Onslow (top 3 candidates elected),Labour,Jacob Allen,336,17.9,1877.0
+2019,Guildford Borough Council,Onslow (top 3 candidates elected),Labour,Richard Mithen,301,16.0,1877.0
+2019,Guildford Borough Council,Onslow (top 3 candidates elected),Conservative,Neil Ward,187,10.0,1877.0
+2019,Guildford Borough Council,Pilgrims (top 1 candidate elected) *,R4GV,Tony Rooth,507,65.0,890.0
+2019,Guildford Borough Council,Pilgrims (top 1 candidate elected) *,Conservative,Sallie Barker,370,35.0,890.0
+2019,Guildford Borough Council,Pirbright (top 1 candidate elected),Conservative,Gordon Jackson,392,67.4,587.0
+2019,Guildford Borough Council,Pirbright (top 1 candidate elected),Liberal Democrats,Russel Sherrard-Smith,127,21.8,587.0
+2019,Guildford Borough Council,Pirbright (top 1 candidate elected),Labour,Akanshya Gurung,63,10.8,587.0
+2019,Guildford Borough Council,Send (top 2 candidates elected),GGG,Patrick Sheard,1217,75.5,1612.0
+2019,Guildford Borough Council,Send (top 2 candidates elected),GGG,Susan Parker,1150,71.3,1612.0
+2019,Guildford Borough Council,Send (top 2 candidates elected),Conservative,Julia Osborn,357,22.1,1612.0
+2019,Guildford Borough Council,Send (top 2 candidates elected),Conservative,Alexander Stewart-Clark,234,14.5,1612.0
+2019,Guildford Borough Council,Send (top 2 candidates elected),Labour,Rob Woof,139,8.6,1612.0
+2019,Guildford Borough Council,Shalford (top 2 candidates elected),R4GV,Chris Blow,825,46.1,1791.0
+2019,Guildford Borough Council,Shalford (top 2 candidates elected),GGG,Ramsey Nagaty,637,35.6,1791.0
+2019,Guildford Borough Council,Shalford (top 2 candidates elected),Conservative,Michael Parsons,489,27.3,1791.0
+2019,Guildford Borough Council,Shalford (top 2 candidates elected),Conservative,Bob Hughes,431,24.1,1791.0
+2019,Guildford Borough Council,Shalford (top 2 candidates elected),Liberal Democrats,Jillian Doran,336,18.8,1791.0
+2019,Guildford Borough Council,Shalford (top 2 candidates elected),Liberal Democrats,Vanessa King,294,16.4,1791.0
+2019,Guildford Borough Council,Shalford (top 2 candidates elected),Labour,Tim Wolfenden,181,10.1,1791.0
+2019,Guildford Borough Council,Shalford (top 2 candidates elected),Independent,Mark Taylor,128,7.1,1791.0
+2019,Guildford Borough Council,Stoke (top 2 candidates elected),Labour,Angela Gunning,648,52.1,1244.0
+2019,Guildford Borough Council,Stoke (top 2 candidates elected),Labour,James Walsh,496,39.9,1244.0
+2019,Guildford Borough Council,Stoke (top 2 candidates elected),Liberal Democrats,Lizzie Griffiths,424,34.1,1244.0
+2019,Guildford Borough Council,Stoke (top 2 candidates elected),Conservative,Paul Mackie,338,27.2,1244.0
+2019,Guildford Borough Council,Stoke (top 2 candidates elected),Conservative,Tay-Jarl Andessen,295,23.7,1244.0
+2019,Guildford Borough Council,Stoughton (top 3 candidates elected),Liberal Democrats,Pauline Searle,1476,61.1,2417.0
+2019,Guildford Borough Council,Stoughton (top 3 candidates elected),Liberal Democrats,Gillian Harwood,1431,59.2,2417.0
+2019,Guildford Borough Council,Stoughton (top 3 candidates elected),Liberal Democrats,Masuk Miah,1317,54.5,2417.0
+2019,Guildford Borough Council,Stoughton (top 3 candidates elected),Conservative,David Quelch,574,23.7,2417.0
+2019,Guildford Borough Council,Stoughton (top 3 candidates elected),Conservative,Philip Hooper,513,21.2,2417.0
+2019,Guildford Borough Council,Stoughton (top 3 candidates elected),Labour,Anne Rouse,430,17.8,2417.0
+2019,Guildford Borough Council,Stoughton (top 3 candidates elected),Labour,Shelley Grainger,399,16.5,2417.0
+2019,Guildford Borough Council,Stoughton (top 3 candidates elected),Conservative,Malachy Ujam,377,15.6,2417.0
+2019,Guildford Borough Council,Stoughton (top 3 candidates elected),Labour,Nick Trier,337,13.9,2417.0
+2019,Guildford Borough Council,Tillingbourne (top 2 candidates elected),Conservative,Richard Billington,825,49.8,1656.0
+2019,Guildford Borough Council,Tillingbourne (top 2 candidates elected),Green,Diana Jones,745,45.0,1656.0
+2019,Guildford Borough Council,Tillingbourne (top 2 candidates elected),Conservative,David Wright,734,44.3,1656.0
+2019,Guildford Borough Council,Tillingbourne (top 2 candidates elected),Liberal Democrats,Liam O'Keefe,679,41.0,1656.0
+2019,Guildford Borough Council,Westborough (top 3 candidates elected),Liberal Democrats,Julia McShane,898,47.7,1881.0
+2019,Guildford Borough Council,Westborough (top 3 candidates elected),Liberal Democrats,Fiona White,801,42.6,1881.0
+2019,Guildford Borough Council,Westborough (top 3 candidates elected),Liberal Democrats,James Steel,779,41.4,1881.0
+2019,Guildford Borough Council,Westborough (top 3 candidates elected),Labour,Amanda Creese,519,27.6,1881.0
+2019,Guildford Borough Council,Westborough (top 3 candidates elected),Labour,George Dokimakis,493,26.2,1881.0
+2019,Guildford Borough Council,Westborough (top 3 candidates elected),Labour,Howard Smith,468,24.9,1881.0
+2019,Guildford Borough Council,Westborough (top 3 candidates elected),Conservative,Liz Hooper,311,16.5,1881.0
+2019,Guildford Borough Council,Westborough (top 3 candidates elected),Conservative,Sheila Kirkland,311,16.5,1881.0
+2019,Guildford Borough Council,Westborough (top 3 candidates elected),Conservative,Alastair Knowles,306,16.3,1881.0
+2019,Guildford Borough Council,Westborough (top 3 candidates elected),Peace,John Morris,190,10.1,1881.0
+2019,Guildford Borough Council,Westborough (top 3 candidates elected),Peace,Valerie Drummond,153,8.1,1881.0
+2019,Guildford Borough Council,Westborough (top 3 candidates elected),Peace,Frances Worpe,116,6.2,1881.0
+2019,Guildford Borough Council,Worplesdon (top 3 candidates elected) *,R4GV,Bob McShee,1308,54.3,2409.0
+2019,Guildford Borough Council,Worplesdon (top 3 candidates elected) *,R4GV,Elizabeth McShee,1160,48.2,2409.0
+2019,Guildford Borough Council,Worplesdon (top 3 candidates elected) *,R4GV,Ruth Brothwell,1003,41.6,2409.0
+2019,Guildford Borough Council,Worplesdon (top 3 candidates elected) *,Conservative,David Elms,803,33.3,2409.0
+2019,Guildford Borough Council,Worplesdon (top 3 candidates elected) *,Conservative,Keith Witham,762,31.6,2409.0
+2019,Guildford Borough Council,Worplesdon (top 3 candidates elected) *,Conservative,Dennis Paul,675,28.0,2409.0
+2019,Guildford Borough Council,Worplesdon (top 3 candidates elected) *,Liberal Democrats,Jonathan Edwards,472,19.6,2409.0
+2019,Guildford Borough Council,Worplesdon (top 3 candidates elected) *,Labour,Ali Mirmak,307,12.7,2409.0
+2019,Guildford Borough Council,Worplesdon (top 3 candidates elected) *,Labour,Dominic Stone,295,12.2,2409.0
+2019,Guildford Borough Council,Friary & St Nicolas: 6 May 2021,Liberal Democrats,Cait Taylor,1056,39.2,2694.0
+2019,Guildford Borough Council,Friary & St Nicolas: 6 May 2021,R4GV,Dom Frazer,660,24.5,2694.0
+2019,Guildford Borough Council,Friary & St Nicolas: 6 May 2021,Conservative,Sallie Barker,548,20.3,2694.0
+2019,Guildford Borough Council,Friary & St Nicolas: 6 May 2021,Labour,Jacob Allen,430,16.0,2694.0
+2019,Guildford Borough Council,Pirbright: 6 May 2021,Conservative,Keith Witham,440,60.8,724.0
+2019,Guildford Borough Council,Pirbright: 6 May 2021,Green,Claire Whitehouse,119,16.4,724.0
+2019,Guildford Borough Council,Pirbright: 6 May 2021,R4GV,Gerry Lytle,109,15.1,724.0
+2019,Guildford Borough Council,Pirbright: 6 May 2021,Labour,Ali Mirmak,56,7.7,724.0
+2019,Guildford Borough Council,Send: 6 May 2021,GGG,Guida Esteves,851,52.4,1625.0
+2019,Guildford Borough Council,Send: 6 May 2021,Conservative,Justin Offord,500,30.8,1625.0
+2019,Guildford Borough Council,Send: 6 May 2021,Green,Sam Peters,206,12.7,1625.0
+2019,Guildford Borough Council,Send: 6 May 2021,Labour,Charlotte Smith,68,4.2,1625.0
+2019,Guildford Borough Council,Tillingbourne: 20 October 2022,Liberal Democrats,Richard Morris,636,46.5,1367.0
+2019,Guildford Borough Council,Tillingbourne: 20 October 2022,Conservative,Justin Offord,293,21.4,1367.0
+2019,Guildford Borough Council,Tillingbourne: 20 October 2022,R4GV,Clare Price,185,13.5,1367.0
+2019,Guildford Borough Council,Tillingbourne: 20 October 2022,Green,Sam Peters,168,12.3,1367.0
+2019,Guildford Borough Council,Tillingbourne: 20 October 2022,Labour,John Marsh,85,6.2,1367.0
+2019,Mole Valley District Council,Ashtead Village,Ashtead Independent,Chris Hunt,1277,67.3,
+2019,Mole Valley District Council,Ashtead Village,Liberal Democrats,Rita Antonelli,236,12.4,
+2019,Mole Valley District Council,Ashtead Village,Conservative,Angus Fraser Gillan,219,11.5,
+2019,Mole Valley District Council,Ashtead Village,Green,Jacquetta Jane Fewster,85,4.5,
+2019,Mole Valley District Council,Ashtead Village,Labour,Clive George Scott,80,4.2,
+2019,Mole Valley District Council,Beare Green,Liberal Democrats,Caroline Mary Salmon,355,51.8,
+2019,Mole Valley District Council,Beare Green,Conservative,Michelle Watson,220,32.1,
+2019,Mole Valley District Council,Beare Green,UKIP,Ian Bignell,68,9.9,
+2019,Mole Valley District Council,Beare Green,Green,Muriel Lily Passmore,22,3.2,
+2019,Mole Valley District Council,Beare Green,Labour,Christine Mary Foster,20,2.9,
+2019,Mole Valley District Council,Bookham North,Liberal Democrats,Roger Martin Adams,1217,67.6,
+2019,Mole Valley District Council,Bookham North,Green,Richard Essex,455,25.3,
+2019,Mole Valley District Council,Bookham North,Labour,Marc Patrick Green,128,7.1,
+2019,Mole Valley District Council,Bookham South,Liberal Democrats,Nancy Julia Goodacre,1321,61.0,
+2019,Mole Valley District Council,Bookham South,Conservative,John Frederick Chandler,648,29.9,
+2019,Mole Valley District Council,Bookham South,Green,Damian Michael McDevitt,158,7.3,
+2019,Mole Valley District Council,Bookham South,Labour,Giles Cawley,40,1.8,
+2019,Mole Valley District Council,Box Hill & Headley,Liberal Democrats,David Kennaugh Preedy,449,54.8,
+2019,Mole Valley District Council,Box Hill & Headley,Conservative,Malcolm Bailey Ladell,276,33.7,
+2019,Mole Valley District Council,Box Hill & Headley,UKIP,Marion Caroline Woodville,95,11.6,
+2019,Mole Valley District Council,"Brockham, Betchworth and Buckland",Liberal Democrats,Paul James Potter,787,45.8,
+2019,Mole Valley District Council,"Brockham, Betchworth and Buckland",Conservative,John Edwin Muggeridge,636,37.0,
+2019,Mole Valley District Council,"Brockham, Betchworth and Buckland",Green,Roger Abbot,260,15.1,
+2019,Mole Valley District Council,"Brockham, Betchworth and Buckland",Labour,Kevin Alan Stroud,35,2.0,
+2019,Mole Valley District Council,"Capel, Leigh and Newdigate",Liberal Democrats,Lesley Jean Bushnell,835,50.9,
+2019,Mole Valley District Council,"Capel, Leigh and Newdigate",Conservative,Corinna Osborne-Patterson,586,35.7,
+2019,Mole Valley District Council,"Capel, Leigh and Newdigate",UKIP,Geoff Cox,154,9.4,
+2019,Mole Valley District Council,"Capel, Leigh and Newdigate",Green,John Francis Roche,65,4.0,
+2019,Mole Valley District Council,Charlwood,Conservative,Charles Iain Yarwood,282,46.4,
+2019,Mole Valley District Council,Charlwood,Green,Lisa Claire Scott,171,28.1,
+2019,Mole Valley District Council,Charlwood,UKIP,Marjorie Joan Dixon,86,14.1,
+2019,Mole Valley District Council,Charlwood,Liberal Democrats,Timothy Edward Brooks,69,11.3,
+2019,Mole Valley District Council,Dorking South,Liberal Democrats,Stephen John Cooksey,1632,67.6,
+2019,Mole Valley District Council,Dorking South,Conservative,Roger Edwin Riseley Jones,450,18.6,
+2019,Mole Valley District Council,Dorking South,Labour,James Rushcombe Stringer,172,7.1,
+2019,Mole Valley District Council,Dorking South,UKIP,Michael John Hird Foulston,159,6.6,
+2019,Mole Valley District Council,Holmwoods,Liberal Democrats,Claire Philomena Malcolmson,912,54.3,
+2019,Mole Valley District Council,Holmwoods,Conservative,Fiona Gail Meadows,336,20.0,
+2019,Mole Valley District Council,Holmwoods,UKIP,Margaret Mary Curran,196,11.7,
+2019,Mole Valley District Council,Holmwoods,Green,Tracey Harwood,120,7.2,
+2019,Mole Valley District Council,Holmwoods,Labour,Laurence Paul Nasskau,80,4.8,
+2019,Mole Valley District Council,Holmwoods,SDP,Pip English,32,1.9,
+2019,Mole Valley District Council,Leatherhead North,Liberal Democrats,Keira Rowena Vyvyan-Robinson,726,42.6,
+2019,Mole Valley District Council,Leatherhead North,Conservative,Paul Patrick Purcell,564,33.1,
+2019,Mole Valley District Council,Leatherhead North,Labour,Mark John Coote,175,10.3,
+2019,Mole Valley District Council,Leatherhead North,UKIP,David Gordon Payne,154,9.0,
+2019,Mole Valley District Council,Leatherhead North,Green,Vicki Elcoate,87,5.1,
+2019,Mole Valley District Council,Leith Hill,Liberal Democrats,Hazel Valerie Ann Watson,532,76.1,
+2019,Mole Valley District Council,Leith Hill,Conservative,David Karim Mir,138,19.7,
+2019,Mole Valley District Council,Leith Hill,Green,Lucy Jane Barford,29,4.1,
+2019,Mole Valley District Council,"Mickleham, Westhumble & Pixham",Liberal Democrats,Elsie Rosam,440,53.1,
+2019,Mole Valley District Council,"Mickleham, Westhumble & Pixham",Independent,David Campbell Irvine,234,28.3,
+2019,Mole Valley District Council,"Mickleham, Westhumble & Pixham",Conservative,Gavin Timothy Charles Musgrave,102,12.3,
+2019,Mole Valley District Council,"Mickleham, Westhumble & Pixham",Green,Susan McGrath,36,4.3,
+2019,Mole Valley District Council,"Mickleham, Westhumble & Pixham",Labour,Kim Rosslyn Coote,16,1.9,
+2019,Mole Valley District Council,Okewood,Conservative,Helyn Clack,240,43.5,
+2019,Mole Valley District Council,Okewood,Liberal Democrats,Steven Robert Round,169,30.6,
+2019,Mole Valley District Council,Okewood,UKIP,Leigh Jones,76,13.8,
+2019,Mole Valley District Council,Okewood,Green,Jennifer Lindsay Smith,67,12.1,
+2019,Reigate and Banstead Borough Council,Banstead Village,Conservative,Eddy Humphreys,1233,60.3,2046.0
+2019,Reigate and Banstead Borough Council,Banstead Village,Conservative,Sam Walsh,1210,59.1,2046.0
+2019,Reigate and Banstead Borough Council,Banstead Village,Conservative,Nadean Moses,1076,52.6,2046.0
+2019,Reigate and Banstead Borough Council,Banstead Village,Green,Sophie Rowlands,674,32.9,2046.0
+2019,Reigate and Banstead Borough Council,Banstead Village,UKIP,Laurence Clack,380,18.6,2046.0
+2019,Reigate and Banstead Borough Council,Banstead Village,Labour,Barbara Williams,375,18.3,2046.0
+2019,Reigate and Banstead Borough Council,"Chipstead , Kingswood and Woodmansterne",Conservative,Tim Archer,1422,61.6,2307.0
+2019,Reigate and Banstead Borough Council,"Chipstead , Kingswood and Woodmansterne",Conservative,Simon Parnall,1277,55.4,2307.0
+2019,Reigate and Banstead Borough Council,"Chipstead , Kingswood and Woodmansterne",Conservative,Caroline Neame,1207,52.3,2307.0
+2019,Reigate and Banstead Borough Council,"Chipstead , Kingswood and Woodmansterne",Green,Sasha Khan,642,27.8,2307.0
+2019,Reigate and Banstead Borough Council,"Chipstead , Kingswood and Woodmansterne",Liberal Democrats,Eileen Hannah,545,23.6,2307.0
+2019,Reigate and Banstead Borough Council,"Chipstead , Kingswood and Woodmansterne",UKIP,Gerry Hever,367,15.9,2307.0
+2019,Reigate and Banstead Borough Council,"Chipstead , Kingswood and Woodmansterne",Labour,Ian Thirlwall,357,15.5,2307.0
+2019,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Green,Hal Brown,1452,58.2,2496.0
+2019,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Green,Ruth Ritter,1194,47.8,2496.0
+2019,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Green,Susan Fenton,1119,44.8,2496.0
+2019,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Conservative,Barbara Thomson,574,23.0,2496.0
+2019,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Conservative,Chris Reynolds,573,23.0,2496.0
+2019,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Conservative,Shysta Manzoor,496,19.9,2496.0
+2019,Reigate and Banstead Borough Council,Earlswood and Whitebushes,UKIP,Joe Fox,291,11.7,2496.0
+2019,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Labour,James Sunderland,291,11.7,2496.0
+2019,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Labour,Rex Giles,255,10.2,2496.0
+2019,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Liberal Democrats,Anthony Anderson,252,10.1,2496.0
+2019,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Labour,Jody Salisbury,235,9.4,2496.0
+2019,Reigate and Banstead Borough Council,Earlswood and Whitebushes,Liberal Democrats,Jane Kulka,229,9.2,2496.0
+2019,Reigate and Banstead Borough Council,"Hooley , Merstham and Netherne",Conservative,Mark Brunt,1026,43.1,2383.0
+2019,Reigate and Banstead Borough Council,"Hooley , Merstham and Netherne",Conservative,Keith Forman,776,32.6,2383.0
+2019,Reigate and Banstead Borough Council,"Hooley , Merstham and Netherne",Conservative,Frank Kelly,722,30.3,2383.0
+2019,Reigate and Banstead Borough Council,"Hooley , Merstham and Netherne",Labour,Shaka Aklilu,664,27.9,2383.0
+2019,Reigate and Banstead Borough Council,"Hooley , Merstham and Netherne",Labour,Leon Bourne,598,25.1,2383.0
+2019,Reigate and Banstead Borough Council,"Hooley , Merstham and Netherne",Green,Chantal Clarke,586,24.6,2383.0
+2019,Reigate and Banstead Borough Council,"Hooley , Merstham and Netherne",Labour,Stewart Dack,510,21.4,2383.0
+2019,Reigate and Banstead Borough Council,"Hooley , Merstham and Netherne",Liberal Democrats,Jemma de Vincenzo,435,18.3,2383.0
+2019,Reigate and Banstead Borough Council,"Hooley , Merstham and Netherne",Liberal Democrats,Graham Burr,406,17.0,2383.0
+2019,Reigate and Banstead Borough Council,"Hooley , Merstham and Netherne",Liberal Democrats,Toby Risk,344,14.4,2383.0
+2019,Reigate and Banstead Borough Council,"Hooley , Merstham and Netherne",UKIP,Steve Richards,330,13.8,2383.0
+2019,Reigate and Banstead Borough Council,Horley Central and South,Conservative,Jerry Hudson,825,40.7,2027.0
+2019,Reigate and Banstead Borough Council,Horley Central and South,Conservative,Andy Lynch,822,40.6,2027.0
+2019,Reigate and Banstead Borough Council,Horley Central and South,Conservative,Christian Stevens,782,38.6,2027.0
+2019,Reigate and Banstead Borough Council,Horley Central and South,Green,Katherine Liakos,592,29.2,2027.0
+2019,Reigate and Banstead Borough Council,Horley Central and South,Labour,Rob Spencer,580,28.6,2027.0
+2019,Reigate and Banstead Borough Council,Horley Central and South,UKIP,Christopher Dunbar,535,26.4,2027.0
+2019,Reigate and Banstead Borough Council,Horley Central and South,Labour,Tom Turner,529,26.1,2027.0
+2019,Reigate and Banstead Borough Council,Horley Central and South,Labour,Linda Mabbett,495,24.4,2027.0
+2019,Reigate and Banstead Borough Council,Horley East and Salfords,Conservative,Tony Schofield,993,46.1,2152.0
+2019,Reigate and Banstead Borough Council,Horley East and Salfords,Conservative,Derek Allcard,912,42.4,2152.0
+2019,Reigate and Banstead Borough Council,Horley East and Salfords,Conservative,Graham Knight,881,40.9,2152.0
+2019,Reigate and Banstead Borough Council,Horley East and Salfords,Green,Simon Pinto,819,38.1,2152.0
+2019,Reigate and Banstead Borough Council,Horley East and Salfords,Labour,Barry Cullen,560,26.0,2152.0
+2019,Reigate and Banstead Borough Council,Horley East and Salfords,Labour,Toby Brampton,502,23.3,2152.0
+2019,Reigate and Banstead Borough Council,Horley East and Salfords,UKIP,Dneis Berarie,440,20.4,2152.0
+2019,Reigate and Banstead Borough Council,Horley West and Sidlow,Conservative,Richard Biggs,926,49.2,1881.0
+2019,Reigate and Banstead Borough Council,Horley West and Sidlow,Conservative,Alex Horwood,759,40.4,1881.0
+2019,Reigate and Banstead Borough Council,Horley West and Sidlow,Conservative,Giorgio Buttironi,687,36.5,1881.0
+2019,Reigate and Banstead Borough Council,Horley West and Sidlow,Liberal Democrats,Geoffrey Southall,619,32.9,1881.0
+2019,Reigate and Banstead Borough Council,Horley West and Sidlow,UKIP,Peter Palmer,511,27.2,1881.0
+2019,Reigate and Banstead Borough Council,Horley West and Sidlow,Labour,Sara-Jane Hepburn,505,26.8,1881.0
+2019,Reigate and Banstead Borough Council,Horley West and Sidlow,Labour,Rick Starczweski,415,22.1,1881.0
+2019,Reigate and Banstead Borough Council,"Lower Kingswood , Tadworth and Walton",Conservative,Rachel Turner,1559,62.2,2506.0
+2019,Reigate and Banstead Borough Council,"Lower Kingswood , Tadworth and Walton",Conservative,Rod Ashford,1527,60.9,2506.0
+2019,Reigate and Banstead Borough Council,"Lower Kingswood , Tadworth and Walton",Conservative,Jamie Paul,1509,60.2,2506.0
+2019,Reigate and Banstead Borough Council,"Lower Kingswood , Tadworth and Walton",Liberal Democrats,Christopher Howell,595,23.7,2506.0
+2019,Reigate and Banstead Borough Council,"Lower Kingswood , Tadworth and Walton",UKIP,Valerie Moore,481,19.2,2506.0
+2019,Reigate and Banstead Borough Council,"Lower Kingswood , Tadworth and Walton",Labour,David Burnley,327,13.0,2506.0
+2019,Reigate and Banstead Borough Council,Meadvale and St. John's,Liberal Democrats,Stephen Kulka,1333,49.0,2720.0
+2019,Reigate and Banstead Borough Council,Meadvale and St. John's,Liberal Democrats,Jane Philpott,1248,45.9,2720.0
+2019,Reigate and Banstead Borough Council,Meadvale and St. John's,Liberal Democrats,David Ross,1022,37.6,2720.0
+2019,Reigate and Banstead Borough Council,Meadvale and St. John's,Conservative,Jonathan White,928,34.1,2720.0
+2019,Reigate and Banstead Borough Council,Meadvale and St. John's,Conservative,Lindy Murray,869,31.9,2720.0
+2019,Reigate and Banstead Borough Council,Meadvale and St. John's,Conservative,Tim Peniston-Bird,825,30.3,2720.0
+2019,Reigate and Banstead Borough Council,Meadvale and St. John's,Green,Soo Abram,705,25.9,2720.0
+2019,Reigate and Banstead Borough Council,Meadvale and St. John's,Labour,Rosie Norgrove,245,9.0,2720.0
+2019,Reigate and Banstead Borough Council,Meadvale and St. John's,Labour,John Adams,243,8.9,2720.0
+2019,Reigate and Banstead Borough Council,Meadvale and St. John's,Labour,Gerry O'Dwyer,158,5.8,2720.0
+2019,Reigate and Banstead Borough Council,Nork,Nork RA,Gemma Adamson,1759,77.4,2273.0
+2019,Reigate and Banstead Borough Council,Nork,Nork RA,Ross Feeney,1650,72.6,2273.0
+2019,Reigate and Banstead Borough Council,Nork,Nork RA,Peter Harp,1605,70.6,2273.0
+2019,Reigate and Banstead Borough Council,Nork,Conservative,Chloe Schendel-Wilson,424,18.7,2273.0
+2019,Reigate and Banstead Borough Council,Nork,Conservative,Jim Couchman,356,15.7,2273.0
+2019,Reigate and Banstead Borough Council,Nork,Conservative,Tony Rigby,322,14.2,2273.0
+2019,Reigate and Banstead Borough Council,Nork,Liberal Democrats,Stephen Gee,187,8.2,2273.0
+2019,Reigate and Banstead Borough Council,Nork,Labour,Emma Smith,145,6.4,2273.0
+2019,Reigate and Banstead Borough Council,Redhill East,Green,Jonathan Essex,1373,67.1,2047.0
+2019,Reigate and Banstead Borough Council,Redhill East,Green,Stephen McKenna,1187,58.0,2047.0
+2019,Reigate and Banstead Borough Council,Redhill East,Green,Sue Sinden,1099,53.7,2047.0
+2019,Reigate and Banstead Borough Council,Redhill East,Conservative,Richard Coad,434,21.2,2047.0
+2019,Reigate and Banstead Borough Council,Redhill East,Conservative,Paul Bevan,371,18.1,2047.0
+2019,Reigate and Banstead Borough Council,Redhill East,Conservative,Abhishek Sachdeva,252,12.3,2047.0
+2019,Reigate and Banstead Borough Council,Redhill East,Labour,John Berge,179,8.7,2047.0
+2019,Reigate and Banstead Borough Council,Redhill East,Liberal Democrats,Stuart Holmes,167,8.2,2047.0
+2019,Reigate and Banstead Borough Council,Redhill East,Labour,Ann Watkins,152,7.4,2047.0
+2019,Reigate and Banstead Borough Council,Redhill East,Liberal Democrats,Gemma Roulston,151,7.4,2047.0
+2019,Reigate and Banstead Borough Council,Redhill East,UKIP,Alastair Richardson,150,7.3,2047.0
+2019,Reigate and Banstead Borough Council,Redhill East,Liberal Democrats,Andrew Cressy,149,7.3,2047.0
+2019,Reigate and Banstead Borough Council,Redhill East,Labour,Tony Robinson,117,5.7,2047.0
+2019,Reigate and Banstead Borough Council,Redhill West and Wray Common,Conservative,Natalie Bramhall,1005,42.9,2344.0
+2019,Reigate and Banstead Borough Council,Redhill West and Wray Common,Conservative,Rich Michalowski,905,38.6,2344.0
+2019,Reigate and Banstead Borough Council,Redhill West and Wray Common,Conservative,Kanika Sachdeva,829,35.4,2344.0
+2019,Reigate and Banstead Borough Council,Redhill West and Wray Common,Green,Joseph Booton,636,27.1,2344.0
+2019,Reigate and Banstead Borough Council,Redhill West and Wray Common,Green,Kumari Lane,591,25.2,2344.0
+2019,Reigate and Banstead Borough Council,Redhill West and Wray Common,Green,Frank Percy,538,23.0,2344.0
+2019,Reigate and Banstead Borough Council,Redhill West and Wray Common,Liberal Democrats,Susan Vincent,424,18.1,2344.0
+2019,Reigate and Banstead Borough Council,Redhill West and Wray Common,Liberal Democrats,Michael Rogers,419,17.9,2344.0
+2019,Reigate and Banstead Borough Council,Redhill West and Wray Common,Labour,Yvonne England,406,17.3,2344.0
+2019,Reigate and Banstead Borough Council,Redhill West and Wray Common,Liberal Democrats,David Sayers,377,16.1,2344.0
+2019,Reigate and Banstead Borough Council,Redhill West and Wray Common,Labour,Jon Pepper,349,14.9,2344.0
+2019,Reigate and Banstead Borough Council,Redhill West and Wray Common,Labour,Douglas Wickenden,286,12.2,2344.0
+2019,Reigate and Banstead Borough Council,Reigate,Conservative,Rosemary Absalom,1297,43.0,3015.0
+2019,Reigate and Banstead Borough Council,Reigate,Independent,Christopher Whinney,1096,36.4,3015.0
+2019,Reigate and Banstead Borough Council,Reigate,Conservative,Michael Blacker,1063,35.3,3015.0
+2019,Reigate and Banstead Borough Council,Reigate,Conservative,Rita Renton,1037,34.4,3015.0
+2019,Reigate and Banstead Borough Council,Reigate,Liberal Democrats,John Vincent,856,28.4,3015.0
+2019,Reigate and Banstead Borough Council,Reigate,Liberal Democrats,Gregory Ardan,783,26.0,3015.0
+2019,Reigate and Banstead Borough Council,Reigate,Liberal Democrats,Monica Dyer,771,25.6,3015.0
+2019,Reigate and Banstead Borough Council,Reigate,Green,Leon Deith,612,20.3,3015.0
+2019,Reigate and Banstead Borough Council,Reigate,Labour,Janine Baker,197,6.5,3015.0
+2019,Reigate and Banstead Borough Council,Reigate,Labour,Peter Grove,192,6.4,3015.0
+2019,Reigate and Banstead Borough Council,Reigate,Labour,Graham Wildridge,146,4.8,3015.0
+2019,Reigate and Banstead Borough Council,South Park and Woodhatch,Conservative,James King,865,39.4,2194.0
+2019,Reigate and Banstead Borough Council,South Park and Woodhatch,Conservative,Victor Lewanski,759,34.6,2194.0
+2019,Reigate and Banstead Borough Council,South Park and Woodhatch,Conservative,Simon Rickman,687,31.3,2194.0
+2019,Reigate and Banstead Borough Council,South Park and Woodhatch,Green,Lynne Burnham,654,29.8,2194.0
+2019,Reigate and Banstead Borough Council,South Park and Woodhatch,Labour,Susan Gregory,517,23.6,2194.0
+2019,Reigate and Banstead Borough Council,South Park and Woodhatch,Liberal Democrats,Moray Carey,457,20.8,2194.0
+2019,Reigate and Banstead Borough Council,South Park and Woodhatch,Labour,Bob Griffiths,431,19.6,2194.0
+2019,Reigate and Banstead Borough Council,South Park and Woodhatch,Liberal Democrats,Helen Samuel,422,19.2,2194.0
+2019,Reigate and Banstead Borough Council,South Park and Woodhatch,Labour,Mick Hay,377,17.2,2194.0
+2019,Reigate and Banstead Borough Council,South Park and Woodhatch,Liberal Democrats,Joanna Lloyd,367,16.7,2194.0
+2019,Reigate and Banstead Borough Council,South Park and Woodhatch,UKIP,Chris Byrne,345,15.7,2194.0
+2019,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Tattenhams RA,Jill Bray,1397,74.3,1881.0
+2019,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Tattenhams RA,Nick Harrison,1363,72.5,1881.0
+2019,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Tattenhams RA,Non Harper,1330,70.7,1881.0
+2019,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Conservative,Frances Clarke,263,14.0,1881.0
+2019,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Conservative,Aaron Harris,249,13.2,1881.0
+2019,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Conservative,Rahul Batra,238,12.7,1881.0
+2019,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Labour,Jake Bonner,211,11.2,1881.0
+2019,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Green,Alistair Morten,198,10.5,1881.0
+2019,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Labour,John Cordner,153,8.1,1881.0
+2019,Runnymede Borough Council,Addlestone North,Conservative,James Broadhead,414,33.96,
+2019,Runnymede Borough Council,Addlestone North,Green,Michael Robert Brierley,408,33.47,
+2019,Runnymede Borough Council,Addlestone North,Independent,Stewart Mark Mackay,408,33.47,
+2019,Runnymede Borough Council,Addlestone North,Conservative,David William Parr,388,31.83,
+2019,Runnymede Borough Council,Addlestone North,Conservative,Peter James Waddell,330,27.07,
+2019,Runnymede Borough Council,Addlestone North,Labour Co-op,Anne Emerson-Miller,278,22.81,
+2019,Runnymede Borough Council,Addlestone North,Independent,Keith David Collett,274,22.48,
+2019,Runnymede Borough Council,Addlestone North,Liberal Democrats,Stuart Andrew Lawrence,263,21.58,
+2019,Runnymede Borough Council,Addlestone North,Labour Co-op,Adrian Anthony Elston,252,20.67,
+2019,Runnymede Borough Council,Addlestone North,Labour Co-op,Michael William Scott,205,16.82,
+2019,Runnymede Borough Council,Addlestone South,Conservative,Peter Snow,690,48.02,
+2019,Runnymede Borough Council,Addlestone South,Conservative,Jonathan James Wilson,658,45.79,
+2019,Runnymede Borough Council,Addlestone South,Conservative,John Raymond Furey,655,45.58,
+2019,Runnymede Borough Council,Addlestone South,Labour Co-op,June Patricia Tilbury,465,32.36,
+2019,Runnymede Borough Council,Addlestone South,Labour Co-op,Noel Martin Daniels,416,28.95,
+2019,Runnymede Borough Council,Addlestone South,Labour Co-op,Gavin Tennent Morrison,411,28.6,
+2019,Runnymede Borough Council,Addlestone South,UKIP,James Turner,313,21.78,
+2019,Runnymede Borough Council,Chertsey Riverside,Conservative,Derek Alban Cotty,543,48.74,
+2019,Runnymede Borough Council,Chertsey Riverside,Conservative,Dolsie Vaughan Clarke,540,48.47,
+2019,Runnymede Borough Council,Chertsey Riverside,Conservative,Stephen Luke Dennett,534,47.94,
+2019,Runnymede Borough Council,Chertsey Riverside,Liberal Democrats,Annabel Mary Jones,356,31.96,
+2019,Runnymede Borough Council,Chertsey Riverside,Labour Co-op,Tina Miranda Jenkins,334,29.98,
+2019,Runnymede Borough Council,Chertsey Riverside,Labour Co-op,Joseph Vincent Blake,288,25.85,
+2019,Runnymede Borough Council,Chertsey Riverside,Labour Co-op,Peter Kingham,263,23.61,
+2019,Runnymede Borough Council,Chertsey St Ann's,Conservative,Mark Gordon Nuti,675,51.06,
+2019,Runnymede Borough Council,Chertsey St Ann's,Conservative,Richard Joseph Edis,601,45.46,
+2019,Runnymede Borough Council,Chertsey St Ann's,Conservative,Myles Lee Willingale,553,41.83,
+2019,Runnymede Borough Council,Chertsey St Ann's,Labour Co-op,Phillip James Martin,384,29.05,
+2019,Runnymede Borough Council,Chertsey St Ann's,Liberal Democrats,Kevin Thomas Lee,363,27.46,
+2019,Runnymede Borough Council,Chertsey St Ann's,Labour Co-op,Edmund Alan Moore,333,25.19,
+2019,Runnymede Borough Council,Chertsey St Ann's,Labour Co-op,Bernie Charles Stacey,324,24.51,
+2019,Runnymede Borough Council,Egham Hythe,Labour Co-op,Robert Ashley King,598,46.14,
+2019,Runnymede Borough Council,Egham Hythe,Conservative,Mark Raymond Adams,585,45.14,
+2019,Runnymede Borough Council,Egham Hythe,Labour Co-op,Arran Richard Neathey,574,44.29,
+2019,Runnymede Borough Council,Egham Hythe,Conservative,Yvonna Pia Lay,567,43.75,
+2019,Runnymede Borough Council,Egham Hythe,Conservative,Gillian Warner,563,43.44,
+2019,Runnymede Borough Council,Egham Hythe,Labour Co-op,Adam Feroze Manzoor Abbas,557,42.98,
+2019,Runnymede Borough Council,Egham Town,RIRG,Isabel Alice Mullens,1031,66.73,
+2019,Runnymede Borough Council,Egham Town,RIRG,Alan Alderson,1027,66.47,
+2019,Runnymede Borough Council,Egham Town,RIRG,Brian Anthony Clarke,900,58.25,
+2019,Runnymede Borough Council,Egham Town,Conservative,David Coen,358,23.17,
+2019,Runnymede Borough Council,Egham Town,Conservative,Maureen Catherine Elizabeth Furey,258,16.7,
+2019,Runnymede Borough Council,Egham Town,Labour Co-op,Jacqueline Mary Fletcher,232,15.02,
+2019,Runnymede Borough Council,Egham Town,Conservative,David Calum James MacPhee,218,14.11,
+2019,Runnymede Borough Council,Egham Town,Labour Co-op,Katie Violet Regardsoe,207,13.4,
+2019,Runnymede Borough Council,Egham Town,Labour Co-op,William Keith Heal,205,13.27,
+2019,Runnymede Borough Council,Englefield Green East,Conservative,Marisa Natalia Heath,455,50.56,
+2019,Runnymede Borough Council,Englefield Green East,Conservative,Japneet Kaur Sohi,346,38.44,
+2019,Runnymede Borough Council,Englefield Green East,Independent,David John Knight,254,28.22,
+2019,Runnymede Borough Council,Englefield Green East,Liberal Democrats,Ian David Heath,215,23.89,
+2019,Runnymede Borough Council,Englefield Green East,Labour Co-op,Dominic John Breen,200,22.22,
+2019,Runnymede Borough Council,Englefield Green East,Labour Co-op,William Christopher Ian Hayes,197,21.89,
+2019,Runnymede Borough Council,Englefield Green West,Conservative,Nigel Michael King,497,44.1,
+2019,Runnymede Borough Council,Englefield Green West,Conservative,Michael Touros Kusneraitis,481,42.68,
+2019,Runnymede Borough Council,Englefield Green West,Conservative,Nicholas Hugh Prescot,437,38.78,
+2019,Runnymede Borough Council,Englefield Green West,Green,Andrea Berardi,405,35.94,
+2019,Runnymede Borough Council,Englefield Green West,Labour Co-op,Abby Louise King,337,29.9,
+2019,Runnymede Borough Council,Englefield Green West,Labour Co-op,James Rhys Davies,299,26.53,
+2019,Runnymede Borough Council,Englefield Green West,Labour Co-op,Jack Eugeniusz Stokes,203,18.01,
+2019,Runnymede Borough Council,Englefield Green West,UKIP,Jason Doig Myles,200,17.75,
+2019,Runnymede Borough Council,"Longcross, Lyne and Chertsey South",Liberal Democrats,Donald James Whyte,539,53.21,
+2019,Runnymede Borough Council,"Longcross, Lyne and Chertsey South",Liberal Democrats,Sylvia Jane Whyte,526,41.36,
+2019,Runnymede Borough Council,"Longcross, Lyne and Chertsey South",Liberal Democrats,Theresa Lois Burton,419,32.8,
+2019,Runnymede Borough Council,"Longcross, Lyne and Chertsey South",Conservative,Robert Ian Bromley,319,31.49,
+2019,Runnymede Borough Council,"Longcross, Lyne and Chertsey South",Conservative,Angela Shepperdson,290,28.63,
+2019,Runnymede Borough Council,"Longcross, Lyne and Chertsey South",Conservative,John Gerard Kavanagh,254,25.07,
+2019,Runnymede Borough Council,"Longcross, Lyne and Chertsey South",Green,Benjamin Timothy George Smith,171,16.88,
+2019,Runnymede Borough Council,"Longcross, Lyne and Chertsey South",UKIP,Anthony Robert Micklethwait,155,15.3,
+2019,Runnymede Borough Council,"Longcross, Lyne and Chertsey South",UKIP,Christopher David Butcher,150,14.81,
+2019,Runnymede Borough Council,New Haw,Conservative,Jacqueline Mary Gracey,777,56.43,
+2019,Runnymede Borough Council,New Haw,Conservative,Mark James Maddox,737,53.52,
+2019,Runnymede Borough Council,New Haw,Conservative,Stephen David Walsh,679,49.31,
+2019,Runnymede Borough Council,New Haw,Liberal Democrats,Jennifer Jane Coulon,551,40.01,
+2019,Runnymede Borough Council,New Haw,Labour Co-op,James Richard Mullett,362,26.29,
+2019,Runnymede Borough Council,Ottershaw,Independent,John Olorenshaw,1047,58.56,
+2019,Runnymede Borough Council,Ottershaw,Independent,Malcolm David Cressey,1046,58.5,
+2019,Runnymede Borough Council,Ottershaw,Conservative,Iftikhar Chaudhri,517,28.91,
+2019,Runnymede Borough Council,Ottershaw,Conservative,Neill William Rubidge,503,28.13,
+2019,Runnymede Borough Council,Ottershaw,Conservative,Shannon Kerry Niomi Saise-Marshall,494,27.63,
+2019,Runnymede Borough Council,Ottershaw,UKIP,Graham Frank Wood,387,21.46,
+2019,Runnymede Borough Council,Ottershaw,Liberal Democrats,Liberal Democrats,358,20.02,
+2019,Runnymede Borough Council,Ottershaw,Labour,John Colin Gurney,273,15.27,
+2019,Runnymede Borough Council,Thorpe,RIRG,Elaine Gill,990,61.68,
+2019,Runnymede Borough Council,Thorpe,RIRG,Linda Mary Gillham,946,58.94,
+2019,Runnymede Borough Council,Thorpe,RIRG,Margaret Theresa Harnden,920,57.32,
+2019,Runnymede Borough Council,Thorpe,Conservative,Nicholas John Wase-Rogers,327,20.37,
+2019,Runnymede Borough Council,Thorpe,Conservative,Charles Michael Collins,325,20.25,
+2019,Runnymede Borough Council,Thorpe,Conservative,June Dorothy Seager,301,18.75,
+2019,Runnymede Borough Council,Thorpe,UKIP,William Albert Bruno,216,13.46,
+2019,Runnymede Borough Council,Thorpe,Labour Co-op,Nayier Latif Ahmad,157,9.78,
+2019,Runnymede Borough Council,Thorpe,Labour Co-op,Joseph William Harry Royal,156,9.72,
+2019,Runnymede Borough Council,Virginia Water,Conservative,Christopher Paul Howorth,937,68.75,
+2019,Runnymede Borough Council,Virginia Water,Conservative,Jonathan Hulley,927,68.01,
+2019,Runnymede Borough Council,Virginia Water,Conservative,Parshotam Singh Sohi,828,60.75,
+2019,Runnymede Borough Council,Virginia Water,Labour Co-op,James Lloyd Neal,321,23.55,
+2019,Runnymede Borough Council,Virginia Water,Labour Co-op,Maliha Malika Reza,284,20.84,
+2019,Runnymede Borough Council,Woodham and Rowtown,Conservative,Thomas James Francis Gracey,981,56.51,
+2019,Runnymede Borough Council,Woodham and Rowtown,Conservative,David Ewan Anderson-Bassey,939,54.09,
+2019,Runnymede Borough Council,Woodham and Rowtown,Conservative,Scott Alderson Lewis,914,52.65,
+2019,Runnymede Borough Council,Woodham and Rowtown,Green,Gordon George William Matthews,639,36.81,
+2019,Runnymede Borough Council,Woodham and Rowtown,Labour Co-op,Jessica Abigail Weeds,367,21.14,
+2019,Runnymede Borough Council,Woodham and Rowtown,UKIP,Valerie Ann Woodhouse,322,18.55,
+2019,Spelthorne Borough Council,Ashford Common,Conservative,Clare Barratt,891,51.6,
+2019,Spelthorne Borough Council,Ashford Common,Conservative,Richard Barratt,805,46.6,
+2019,Spelthorne Borough Council,Ashford Common,Conservative,Robert Noble,719,41.6,
+2019,Spelthorne Borough Council,Ashford Common,Green,Anoma Jacobs,429,24.8,
+2019,Spelthorne Borough Council,Ashford Common,UKIP,Adam Hack-Davies,408,23.6,
+2019,Spelthorne Borough Council,Ashford Common,Liberal Democrats,Ian Clench,365,21.1,
+2019,Spelthorne Borough Council,Ashford Common,Labour,Amy McWeeney,350,20.3,
+2019,Spelthorne Borough Council,Ashford Common,Labour,Christopher Karamian,310,17.9,
+2019,Spelthorne Borough Council,Ashford East,Conservative,John Boughtflower,816,46.9,
+2019,Spelthorne Borough Council,Ashford East,Conservative,Rose Chandler,780,44.8,
+2019,Spelthorne Borough Council,Ashford East,Conservative,Anthony Mitchell,740,42.5,
+2019,Spelthorne Borough Council,Ashford East,Green,Jill Beecher,496,28.5,
+2019,Spelthorne Borough Council,Ashford East,UKIP,Brian Catt,379,21.8,
+2019,Spelthorne Borough Council,Ashford East,Labour,Sarah Wrightson,369,21.2,
+2019,Spelthorne Borough Council,Ashford East,Labour,Ian Jenkins,368,21.1,
+2019,Spelthorne Borough Council,Ashford East,Liberal Democrats,Alexandra Dare,308,17.7,
+2019,Spelthorne Borough Council,Ashford East,Liberal Democrats,Michael Alexiou,272,15.6,
+2019,Spelthorne Borough Council,Ashford North and Stanwell South,Conservative,Joanne Sexton,760,43.9,
+2019,Spelthorne Borough Council,Ashford North and Stanwell South,Conservative,Satvinder Buttar,690,39.9,
+2019,Spelthorne Borough Council,Ashford North and Stanwell South,Conservative,Amar Brar,655,37.9,
+2019,Spelthorne Borough Council,Ashford North and Stanwell South,Labour,Roger Bowen,613,35.4,
+2019,Spelthorne Borough Council,Ashford North and Stanwell South,Labour,Rebecca Geach,611,35.3,
+2019,Spelthorne Borough Council,Ashford North and Stanwell South,Labour,Tim Lobanov,555,32.1,
+2019,Spelthorne Borough Council,Ashford North and Stanwell South,UKIP,Michael Pratt,432,25.0,
+2019,Spelthorne Borough Council,Ashford Town,Conservative,Nick Gething,988,48.9,
+2019,Spelthorne Borough Council,Ashford Town,Conservative,Olivia Rybinski,896,44.4,
+2019,Spelthorne Borough Council,Ashford Town,Conservative,Naz Islam,874,43.3,
+2019,Spelthorne Borough Council,Ashford Town,Green,Malcolm Beecher,691,34.2,
+2019,Spelthorne Borough Council,Ashford Town,Green,Rupert Jackson,641,31.7,
+2019,Spelthorne Borough Council,Ashford Town,Labour,Tony Burrell,444,22.0,
+2019,Spelthorne Borough Council,Ashford Town,Labour,Iain Raymond,354,17.5,
+2019,Spelthorne Borough Council,Ashford Town,UKIP,Bob Berressem,324,16.0,
+2019,Spelthorne Borough Council,Halliford and Sunbury West,Liberal Democrats,Sandra Dunn,976,54.0,
+2019,Spelthorne Borough Council,Halliford and Sunbury West,Liberal Democrats,Thomas Fidler,860,47.5,
+2019,Spelthorne Borough Council,Halliford and Sunbury West,Liberal Democrats,Lawrence Nichols,781,43.2,
+2019,Spelthorne Borough Council,Halliford and Sunbury West,Conservative,Anthony Jones,584,32.3,
+2019,Spelthorne Borough Council,Halliford and Sunbury West,Conservative,Buddhi Weerasinghe,525,29.0,
+2019,Spelthorne Borough Council,Halliford and Sunbury West,Conservative,Anna Nowicka,515,28.5,
+2019,Spelthorne Borough Council,Halliford and Sunbury West,UKIP,Shirley Jacobs,271,15.0,
+2019,Spelthorne Borough Council,Halliford and Sunbury West,Labour,Sean Beatty,210,11.6,
+2019,Spelthorne Borough Council,Laleham and Shepperton Green,Conservative,Maureen Attewell,911,51.6,
+2019,Spelthorne Borough Council,Laleham and Shepperton Green,Conservative,Richard Smith-Ainsley,764,43.3,
+2019,Spelthorne Borough Council,Laleham and Shepperton Green,Conservative,Mary Madams,731,41.4,
+2019,Spelthorne Borough Council,Laleham and Shepperton Green,Green,Paul Jacobs,505,28.6,
+2019,Spelthorne Borough Council,Laleham and Shepperton Green,Liberal Democrats,John Thesiger,417,23.6,
+2019,Spelthorne Borough Council,Laleham and Shepperton Green,Liberal Democrats,Alan Mockford,399,22.6,
+2019,Spelthorne Borough Council,Laleham and Shepperton Green,UKIP,Linda Thatcher,374,21.2,
+2019,Spelthorne Borough Council,Laleham and Shepperton Green,Labour,Sue Bryer,361,20.4,
+2019,Spelthorne Borough Council,Riverside and Laleham,Independent,Denise Saliagopoulos,935,48.1,
+2019,Spelthorne Borough Council,Riverside and Laleham,Conservative,Michele Gibson,748,38.5,
+2019,Spelthorne Borough Council,Riverside and Laleham,Conservative,Tony Harman,668,34.4,
+2019,Spelthorne Borough Council,Riverside and Laleham,Conservative,Howard Williams,544,28.0,
+2019,Spelthorne Borough Council,Riverside and Laleham,Liberal Democrats,Terrence Lewis,491,25.3,
+2019,Spelthorne Borough Council,Riverside and Laleham,Independent,Quentin Edgington,458,23.6,
+2019,Spelthorne Borough Council,Riverside and Laleham,Liberal Democrats,Gerald Dare,442,22.7,
+2019,Spelthorne Borough Council,Riverside and Laleham,Labour,John Johnston,374,19.2,
+2019,Spelthorne Borough Council,Riverside and Laleham,UKIP,Derek Sheppard,328,16.9,
+2019,Spelthorne Borough Council,Shepperton Town,Conservative,Robin Sider,1295,59.5,
+2019,Spelthorne Borough Council,Shepperton Town,Conservative,Vivienne Leighton,1189,54.6,
+2019,Spelthorne Borough Council,Shepperton Town,Conservative,Colin Barnard,1153,53.0,
+2019,Spelthorne Borough Council,Shepperton Town,Green,Peter Hughes,585,26.9,
+2019,Spelthorne Borough Council,Shepperton Town,Liberal Democrats,Robert Johnson,443,20.4,
+2019,Spelthorne Borough Council,Shepperton Town,Labour,Bethany Edwards,330,15.2,
+2019,Spelthorne Borough Council,Shepperton Town,UKIP,Gerry Ring,272,12.5,
+2019,Spelthorne Borough Council,Shepperton Town,Labour,Stephen Bentley,270,12.4,
+2019,Spelthorne Borough Council,Staines,Green,Tom Lagden,978,52.3,
+2019,Spelthorne Borough Council,Staines,Green,Jan Doerfel,890,47.6,
+2019,Spelthorne Borough Council,Staines,Labour,Veena Sivagnanam,633,33.8,
+2019,Spelthorne Borough Council,Staines,Conservative,Mark Francis,630,33.7,
+2019,Spelthorne Borough Council,Staines,Conservative,Jean Pinkerton,623,33.3,
+2019,Spelthorne Borough Council,Staines,Conservative,Sinead Mooney,606,32.4,
+2019,Spelthorne Borough Council,Staines,UKIP,Gerald Gravett,297,15.9,
+2019,Spelthorne Borough Council,Staines South,Liberal Democrats,Christopher Bateson,821,49.8,
+2019,Spelthorne Borough Council,Staines South,Liberal Democrats,Nichola Cornes,796,48.3,
+2019,Spelthorne Borough Council,Staines South,Labour,Jennifer Vinson,490,29.8,
+2019,Spelthorne Borough Council,Staines South,Conservative,Steven Burkmar,421,25.6,
+2019,Spelthorne Borough Council,Staines South,UKIP,Chris Beresford,420,25.5,
+2019,Spelthorne Borough Council,Staines South,Conservative,Sabine Capes,383,23.3,
+2019,Spelthorne Borough Council,Staines South,Conservative,Richard Smith,383,23.3,
+2019,Spelthorne Borough Council,Stanwell North,Labour,Sue Doran,729,44.6,
+2019,Spelthorne Borough Council,Stanwell North,Labour,John Doran,689,42.2,
+2019,Spelthorne Borough Council,Stanwell North,Conservative,Jim McIlroy,649,39.7,
+2019,Spelthorne Borough Council,Stanwell North,Labour,Jon Button,594,36.4,
+2019,Spelthorne Borough Council,Stanwell North,Conservative,Katie Barratt,521,31.9,
+2019,Spelthorne Borough Council,Stanwell North,Conservative,Joshua Jogo,427,26.1,
+2019,Spelthorne Borough Council,Stanwell North,UKIP,Marilyn Thomas,326,20.0,
+2019,Spelthorne Borough Council,Sunbury Common,Independent,Ian Beardsmore*,803,46.8,
+2019,Spelthorne Borough Council,Sunbury Common,Liberal Democrats,Bernie Spoor,609,35.5,
+2019,Spelthorne Borough Council,Sunbury Common,Liberal Democrats,Richard Dunn,540,31.5,
+2019,Spelthorne Borough Council,Sunbury Common,Conservative,Alison Griffiths,507,29.5,
+2019,Spelthorne Borough Council,Sunbury Common,Liberal Democrats,John Turner,372,21.7,
+2019,Spelthorne Borough Council,Sunbury Common,Labour,Eric Ollington,343,20.0,
+2019,Spelthorne Borough Council,Sunbury Common,Conservative,Nicola Molnar,329,19.2,
+2019,Spelthorne Borough Council,Sunbury Common,Conservative,Alex Sapunovas,311,18.1,
+2019,Spelthorne Borough Council,Sunbury Common,Independent,Chris Frazer,307,17.9,
+2019,Spelthorne Borough Council,Sunbury Common,UKIP,Betty Sutton,267,15.6,
+2019,Spelthorne Borough Council,Sunbury East,Conservative,Helen Harvey,897,48.2,
+2019,Spelthorne Borough Council,Sunbury East,Conservative,Ian Harvey,881,47.3,
+2019,Spelthorne Borough Council,Sunbury East,Liberal Democrats,Kathleen Grant,799,42.9,
+2019,Spelthorne Borough Council,Sunbury East,Conservative,Daxa Patel,787,42.3,
+2019,Spelthorne Borough Council,Sunbury East,Liberal Democrats,Anthony Rawlinson,715,38.4,
+2019,Spelthorne Borough Council,Sunbury East,Labour,John May,398,21.4,
+2019,Spelthorne Borough Council,Sunbury East,UKIP,Timothy Digby,280,15.0,
+2019,Spelthorne Borough Council,Staines South: 6 May 2021,Conservative,Sinead Mooney,675,36.6,1846.0
+2019,Spelthorne Borough Council,Staines South: 6 May 2021,Liberal Democrats,Rob Millist,668,36.2,1846.0
+2019,Spelthorne Borough Council,Staines South: 6 May 2021,Labour,Harriet Digby,319,17.3,1846.0
+2019,Spelthorne Borough Council,Staines South: 6 May 2021,Independent,Lesley Connor,154,8.3,1846.0
+2019,Spelthorne Borough Council,Staines South: 6 May 2021,TUSC,Paul Couchman,30,1.6,1846.0
+2019,Spelthorne Borough Council,Staines: 22 July 2021,Green,Malcolm Beecher,651,44.0,1480.0
+2019,Spelthorne Borough Council,Staines: 22 July 2021,Conservative,Michael Zenonos,486,32.8,1480.0
+2019,Spelthorne Borough Council,Staines: 22 July 2021,Independent,Paul West,275,18.6,1480.0
+2019,Spelthorne Borough Council,Staines: 22 July 2021,TUSC,Paul Couchman,39,2.6,1480.0
+2019,Spelthorne Borough Council,Staines: 22 July 2021,Reform,Gerald Gravett,29,2.0,1480.0
+2019,Spelthorne Borough Council,Stanwell North: 23 February 2022,Labour,Jon Button,605,48.8,1241.0
+2019,Spelthorne Borough Council,Stanwell North: 23 February 2022,Conservative,Michael Zenonos,567,45.7,1241.0
+2019,Spelthorne Borough Council,Stanwell North: 23 February 2022,TUSC,Paul Dennis Couchman,69,5.6,1241.0
+2019,Spelthorne Borough Council,Laleham and Shepperton Green: 25 May 2022,Green,Stuart Whitmore,903,51.7,
+2019,Spelthorne Borough Council,Laleham and Shepperton Green: 25 May 2022,Conservative,Karen Howkins,775,44.4,
+2019,Spelthorne Borough Council,Laleham and Shepperton Green: 25 May 2022,TUSC,Paul Couchman,69,3.9,
+2019,Spelthorne Borough Council,Laleham and Shepperton Green: 11 August 2022,Conservative,Karen Howkins,810,55.5,
+2019,Spelthorne Borough Council,Laleham and Shepperton Green: 11 August 2022,Liberal Democrats,John Thesiger,578,39.6,
+2019,Spelthorne Borough Council,Laleham and Shepperton Green: 11 August 2022,TUSC,Paul Couchman,71,4.9,
+2019,Surrey Heath Borough Council,Bagshot (3 seats),Liberal Democrats,Sam Kay,1031,51.6,2015.0
+2019,Surrey Heath Borough Council,Bagshot (3 seats),Liberal Democrats,Tim Fitzgerald,886,44.4,2015.0
+2019,Surrey Heath Borough Council,Bagshot (3 seats),Conservative,Valerie White,852,42.7,2015.0
+2019,Surrey Heath Borough Council,Bagshot (3 seats),Liberal Democrats,Lance Spencer,795,39.8,2015.0
+2019,Surrey Heath Borough Council,Bagshot (3 seats),Conservative,Katia Malcaus Cooper,767,38.4,2015.0
+2019,Surrey Heath Borough Council,Bagshot (3 seats),Conservative,Colin Manley,679,34.0,2015.0
+2019,Surrey Heath Borough Council,Bagshot (3 seats),UKIP,Stephen West,255,12.8,2015.0
+2019,Surrey Heath Borough Council,Bisley and West End (3 seats),Conservative,Adrian Page,922,46.6,1987.0
+2019,Surrey Heath Borough Council,Bisley and West End (3 seats),Conservative,David Mansfield,857,43.3,1987.0
+2019,Surrey Heath Borough Council,Bisley and West End (3 seats),Independent,Graham Alleway,841,42.5,1987.0
+2019,Surrey Heath Borough Council,Bisley and West End (3 seats),Conservative,Nic Price,792,40.0,1987.0
+2019,Surrey Heath Borough Council,Bisley and West End (3 seats),Liberal Democrats,Julie Hoad,457,23.1,1987.0
+2019,Surrey Heath Borough Council,Bisley and West End (3 seats),Liberal Democrats,Martin Alexander,411,20.8,1987.0
+2019,Surrey Heath Borough Council,Bisley and West End (3 seats),Liberal Democrats,Huw Evans,332,16.8,1987.0
+2019,Surrey Heath Borough Council,Bisley and West End (3 seats),UKIP,Stephen McClelland,245,12.4,1987.0
+2019,Surrey Heath Borough Council,Bisley and West End (3 seats),Labour,Mick Sheehan,182,9.2,1987.0
+2019,Surrey Heath Borough Council,Frimley (2 seats),Conservative,Sarah Croke,853,69.6,1271.0
+2019,Surrey Heath Borough Council,Frimley (2 seats),Conservative,Darryl Ratiram,820,66.9,1271.0
+2019,Surrey Heath Borough Council,Frimley (2 seats),Labour,Julian Woodward,306,25.0,1271.0
+2019,Surrey Heath Borough Council,Frimley (2 seats),Labour,Jefferson Nwokeoma,294,24.0,1271.0
+2019,Surrey Heath Borough Council,Frimley Green (3 seats),Liberal Democrats,Benjamin Leach,1019,54.7,1879.0
+2019,Surrey Heath Borough Council,Frimley Green (3 seats),Liberal Democrats,Cliff Betton,1012,54.4,1879.0
+2019,Surrey Heath Borough Council,Frimley Green (3 seats),Liberal Democrats,Sashi Mylvaganam,889,47.7,1879.0
+2019,Surrey Heath Borough Council,Frimley Green (3 seats),Conservative,Bruce Mansell,601,32.3,1879.0
+2019,Surrey Heath Borough Council,Frimley Green (3 seats),Conservative,Max Nelson,568,30.5,1879.0
+2019,Surrey Heath Borough Council,Frimley Green (3 seats),Conservative,Attieh Fard,519,27.9,1879.0
+2019,Surrey Heath Borough Council,Frimley Green (3 seats),UKIP,Jonathan Wong,269,14.4,1879.0
+2019,Surrey Heath Borough Council,Frimley Green (3 seats),Pirate,Gavin Crump,190,10.2,1879.0
+2019,Surrey Heath Borough Council,Heatherside (3 seats),Liberal Democrats,Graham Tapper,1261,53.1,2395.0
+2019,Surrey Heath Borough Council,Heatherside (3 seats),Liberal Democrats,John Skipper,1143,48.1,2395.0
+2019,Surrey Heath Borough Council,Heatherside (3 seats),Liberal Democrats,Kristian Wrenn,1075,45.2,2395.0
+2019,Surrey Heath Borough Council,Heatherside (3 seats),Conservative,Paul Ilnicki,926,39.0,2395.0
+2019,Surrey Heath Borough Council,Heatherside (3 seats),Conservative,Ian Cullen,855,36.0,2395.0
+2019,Surrey Heath Borough Council,Heatherside (3 seats),Conservative,Jonathan Lytle,761,32.0,2395.0
+2019,Surrey Heath Borough Council,Heatherside (3 seats),UKIP,Hazel Prowse,357,15.0,2395.0
+2019,Surrey Heath Borough Council,Lightwater (3 seats),Green,Sharon Galliford,1019,54.0,1898.0
+2019,Surrey Heath Borough Council,Lightwater (3 seats),Conservative,Rebecca Jennings-Evans,833,44.1,1898.0
+2019,Surrey Heath Borough Council,Lightwater (3 seats),Green,Peter Barnett,770,40.8,1898.0
+2019,Surrey Heath Borough Council,Lightwater (3 seats),Green,Andrew Willgoss,762,40.4,1898.0
+2019,Surrey Heath Borough Council,Lightwater (3 seats),Conservative,Jarmila Halovsky-Yu,741,39.3,1898.0
+2019,Surrey Heath Borough Council,Lightwater (3 seats),Conservative,John Winterton,723,38.3,1898.0
+2019,Surrey Heath Borough Council,Lightwater (3 seats),UKIP,Peter Appleford,278,14.7,1898.0
+2019,Surrey Heath Borough Council,Mytchett and Deepcut (3 seats),Conservative,Paul Deach,971,51.9,1886.0
+2019,Surrey Heath Borough Council,Mytchett and Deepcut (3 seats),Liberal Democrats,Helen Whitcroft,835,44.6,1886.0
+2019,Surrey Heath Borough Council,Mytchett and Deepcut (3 seats),Liberal Democrats,Morgan Rise,761,40.7,1886.0
+2019,Surrey Heath Borough Council,Mytchett and Deepcut (3 seats),Liberal Democrats,Jacques Olmo,760,40.6,1886.0
+2019,Surrey Heath Borough Council,Mytchett and Deepcut (3 seats),Conservative,Craig Fennell,616,32.9,1886.0
+2019,Surrey Heath Borough Council,Mytchett and Deepcut (3 seats),Conservative,Joanne Potter,603,32.2,1886.0
+2019,Surrey Heath Borough Council,Mytchett and Deepcut (3 seats),UKIP,Damien Heads,298,15.9,1886.0
+2019,Surrey Heath Borough Council,Old Dean (2 seats),Labour,Rodney Bates,474,50.2,968.0
+2019,Surrey Heath Borough Council,Old Dean (2 seats),Conservative,Shaun Garrett,455,48.2,968.0
+2019,Surrey Heath Borough Council,Old Dean (2 seats),Conservative,Trefor Hogg,446,47.2,968.0
+2019,Surrey Heath Borough Council,Old Dean (2 seats),Labour,Murray Rowlands,386,40.9,968.0
+2019,Surrey Heath Borough Council,Parkside (2 seats),Conservative,Edward Hawkins,729,57.4,1279.0
+2019,Surrey Heath Borough Council,Parkside (2 seats),Conservative,Josephine Hawkins,690,54.3,1279.0
+2019,Surrey Heath Borough Council,Parkside (2 seats),Liberal Democrats,Cindy Ferguson,435,34.3,1279.0
+2019,Surrey Heath Borough Council,Parkside (2 seats),Liberal Democrats,Chris Tew,325,25.6,1279.0
+2019,Surrey Heath Borough Council,Parkside (2 seats),UKIP,Tony Cable,200,15.7,1279.0
+2019,Surrey Heath Borough Council,St Michael's (2 seats),Conservative,Colin Dougan,583,57.9,1045.0
+2019,Surrey Heath Borough Council,St Michael's (2 seats),Conservative,Alan McClafferty,538,53.4,1045.0
+2019,Surrey Heath Borough Council,St Michael's (2 seats),Labour,Richard Claridge,392,38.9,1045.0
+2019,Surrey Heath Borough Council,St Michael's (2 seats),Labour,Jill Coles,392,38.9,1045.0
+2019,Surrey Heath Borough Council,St Paul's (2 seats),Conservative,Vivienne Chapman,802,67.5,1212.0
+2019,Surrey Heath Borough Council,St Paul's (2 seats),Conservative,Dan Adams,745,62.7,1212.0
+2019,Surrey Heath Borough Council,St Paul's (2 seats),Liberal Democrats,Fiona Karimjee,377,31.7,1212.0
+2019,Surrey Heath Borough Council,St Paul's (2 seats),Liberal Democrats,Miriam Spencer,327,27.5,1212.0
+2019,Surrey Heath Borough Council,Town (2 seats),Conservative,Richard Brooks,534,58.4,947.0
+2019,Surrey Heath Borough Council,Town (2 seats),Conservative,Robin Perry,494,54.0,947.0
+2019,Surrey Heath Borough Council,Town (2 seats),Liberal Democrats,Richard Coe,373,40.8,947.0
+2019,Surrey Heath Borough Council,Town (2 seats),Liberal Democrats,Vijaya Ramdas,326,35.7,947.0
+2019,Surrey Heath Borough Council,Watchetts (2 seats),Conservative,Charlotte Morley,664,61.2,1136.0
+2019,Surrey Heath Borough Council,Watchetts (2 seats),Conservative,David Lewis,650,59.9,1136.0
+2019,Surrey Heath Borough Council,Watchetts (2 seats),Labour,Alexandra Dalwood,379,34.9,1136.0
+2019,Surrey Heath Borough Council,Watchetts (2 seats),Labour,Joseph Lord,324,29.9,1136.0
+2019,Surrey Heath Borough Council,Windlesham and Chobham (3 seats),Independent,Victoria Wheeler,1482,64.7,2309.0
+2019,Surrey Heath Borough Council,Windlesham and Chobham (3 seats),Independent,Pat Tedder,1426,62.2,2309.0
+2019,Surrey Heath Borough Council,Windlesham and Chobham (3 seats),Independent,Emma McGrath,1213,52.9,2309.0
+2019,Surrey Heath Borough Council,Windlesham and Chobham (3 seats),Conservative,Mike Goodman,701,30.6,2309.0
+2019,Surrey Heath Borough Council,Windlesham and Chobham (3 seats),Conservative,Alex Green,574,25.1,2309.0
+2019,Surrey Heath Borough Council,Windlesham and Chobham (3 seats),Conservative,Alexander Hanney,522,22.8,2309.0
+2019,Surrey Heath Borough Council,Windlesham and Chobham (3 seats),Independent,Alison Hook,481,21.0,2309.0
+2019,Surrey Heath Borough Council,Bagshot,Conservative,Mark Gordon,1225,54.1,2297.0
+2019,Surrey Heath Borough Council,Bagshot,Liberal Democrats,Richard Wilson,1038,45.9,2297.0
+2019,Surrey Heath Borough Council,Frimley Green,Conservative,Stuart Black,896,48.3,1852.0
+2019,Surrey Heath Borough Council,Frimley Green,Liberal Democrats,Jacques Olmo,877,47.3,1852.0
+2019,Surrey Heath Borough Council,Frimley Green,Labour,Christine Richards,76,4.1,1852.0
+2019,Surrey Heath Borough Council,Bisley and West End,Liberal Democrats,Liz Noble,1286,66.2,1956.0
+2019,Surrey Heath Borough Council,Bisley and West End,Conservative,Tony Henderson,662,33.8,1956.0
+2019,Tandridge District Council,Bletchingley and Nutfield,Conservative,Gill Black*,683,44.6,1540.0
+2019,Tandridge District Council,Bletchingley and Nutfield,UKIP,Helena Windsor,364,23.7,1540.0
+2019,Tandridge District Council,Bletchingley and Nutfield,Liberal Democrats,Richard Fowler,341,22.2,1540.0
+2019,Tandridge District Council,Bletchingley and Nutfield,Labour,Linda Baharier,145,9.5,1540.0
+2019,Tandridge District Council,"Burstow, Horne and Outwood",Independent,Colin White,677,41.9,1635.0
+2019,Tandridge District Council,"Burstow, Horne and Outwood",Conservative,Lydia Ridge,589,36.5,1635.0
+2019,Tandridge District Council,"Burstow, Horne and Outwood",Liberal Democrats,Judy Wilkinson,134,8.3,1635.0
+2019,Tandridge District Council,"Burstow, Horne and Outwood",Green,Catherine Baart,129,8.0,1635.0
+2019,Tandridge District Council,"Burstow, Horne and Outwood",Labour,Fern Warwick-Ching,86,5.3,1635.0
+2019,Tandridge District Council,Chaldon,Conservative,Bob Milton,418,69.1,605.0
+2019,Tandridge District Council,Chaldon,Liberal Democrats,Neil Parker,114,18.8,605.0
+2019,Tandridge District Council,Chaldon,UKIP,Graham Bailey,56,9.3,605.0
+2019,Tandridge District Council,Chaldon,Labour,Darron Ward,17,2.8,605.0
+2019,Tandridge District Council,Dormansland and Felcourt,Conservative,Lesley Steeds*,585,45.6,1282.0
+2019,Tandridge District Council,Dormansland and Felcourt,Independent,Bridget Davy,552,43.1,1282.0
+2019,Tandridge District Council,Dormansland and Felcourt,Liberal Democrats,Dave Wilkes,145,11.3,1282.0
+2019,Tandridge District Council,Felbridge,Conservative,Ken Harwood*,489,65.0,752.0
+2019,Tandridge District Council,Felbridge,Independent,Mike Crane,175,23.3,752.0
+2019,Tandridge District Council,Felbridge,Green,Rebecca Peterson,88,11.7,752.0
+2019,Tandridge District Council,Godstone,Independent,Charlotte Swann,1354,73.1,1853.0
+2019,Tandridge District Council,Godstone,Conservative,Nick Childs*,266,14.4,1853.0
+2019,Tandridge District Council,Godstone,Liberal Democrats,David Nickols,83,4.5,1853.0
+2019,Tandridge District Council,Godstone,Green,Peter Murphy,75,4.0,1853.0
+2019,Tandridge District Council,Godstone,Labour,Barbara Wantling,75,4.0,1853.0
+2019,Tandridge District Council,Limpsfield,Residents,Claire Blackwell,1043,70.4,1481.0
+2019,Tandridge District Council,Limpsfield,Conservative,Richard Adamson,349,23.6,1481.0
+2019,Tandridge District Council,Limpsfield,Liberal Democrats,Martin Caxton,89,6.0,1481.0
+2019,Tandridge District Council,Lingfield and Crowhurst,Independent,Liz Lockwood*,887,66.2,1340.0
+2019,Tandridge District Council,Lingfield and Crowhurst,Conservative,Clive Jecks,334,24.9,1340.0
+2019,Tandridge District Council,Lingfield and Crowhurst,Liberal Democrats,Peter Montagnon,119,8.9,1340.0
+2019,Tandridge District Council,Oxted North and Tandridge,Residents,David Stamp,1584,67.8,2336.0
+2019,Tandridge District Council,Oxted North and Tandridge,Conservative,Martin Fisher*,578,24.7,2336.0
+2019,Tandridge District Council,Oxted North and Tandridge,Liberal Democrats,Sheelagh Crampton,111,4.8,2336.0
+2019,Tandridge District Council,Oxted North and Tandridge,Labour,Patrick Rogers,63,2.7,2336.0
+2019,Tandridge District Council,Oxted South,Residents,Chris Langton,1282,63.3,2025.0
+2019,Tandridge District Council,Oxted South,Conservative,Alan Feesey,334,16.5,2025.0
+2019,Tandridge District Council,Oxted South,SDP,Helena Forsythe,148,7.3,2025.0
+2019,Tandridge District Council,Oxted South,Labour,Che Ramsden,142,7.0,2025.0
+2019,Tandridge District Council,Oxted South,Liberal Democrats,Jonathan Salisbury,119,5.9,2025.0
+2019,Tandridge District Council,Portley,Liberal Democrats,Kerry Mansfield,595,55.9,1064.0
+2019,Tandridge District Council,Portley,Conservative,Sakina Bradbury,276,25.9,1064.0
+2019,Tandridge District Council,Portley,UKIP,Mark Fowler,119,11.2,1064.0
+2019,Tandridge District Council,Portley,Labour,Ian Giddings,74,7.0,1064.0
+2019,Tandridge District Council,Tatsfield and Titsey,Independent,Martin Allen*,316,58.0,545.0
+2019,Tandridge District Council,Tatsfield and Titsey,Conservative,Alex Standen,132,24.2,545.0
+2019,Tandridge District Council,Tatsfield and Titsey,UKIP,Christopher Dean,63,11.6,545.0
+2019,Tandridge District Council,Tatsfield and Titsey,Labour,Sarah Stewart,34,6.2,545.0
+2019,Tandridge District Council,Valley,Liberal Democrats,Dorinda Cooper*,647,62.5,1035.0
+2019,Tandridge District Council,Valley,Conservative,Adam Bradbury,179,17.3,1035.0
+2019,Tandridge District Council,Valley,UKIP,Judy Moore,110,10.6,1035.0
+2019,Tandridge District Council,Valley,Labour,Carron Walker,99,9.6,1035.0
+2019,Tandridge District Council,"Warlingham East, Chelsham and Farleigh",Liberal Democrats,Celia Caulcott,796,55.0,1446.0
+2019,Tandridge District Council,"Warlingham East, Chelsham and Farleigh",Conservative,Perry Chotai,400,27.7,1446.0
+2019,Tandridge District Council,"Warlingham East, Chelsham and Farleigh",UKIP,Martin Haley,177,12.2,1446.0
+2019,Tandridge District Council,"Warlingham East, Chelsham and Farleigh",Labour,Michael Snowden,73,5.0,1446.0
+2019,Waverley Borough Council,Blackheath and Wonersh (1 seat),Conservative,Michael Goodridge,387,58.1,673.0
+2019,Waverley Borough Council,Blackheath and Wonersh (1 seat),Liberal Democrats,Robert Ellis,163,24.5,673.0
+2019,Waverley Borough Council,Blackheath and Wonersh (1 seat),Green,Richard Goldsmith,90,13.5,673.0
+2019,Waverley Borough Council,Blackheath and Wonersh (1 seat),Labour,Simon Hall,26,3.9,673.0
+2019,Waverley Borough Council,"Bramley, Busbridge and Hascombe (2 seats)",Conservative,Richard Seaborne,774,62.5,1252.0
+2019,Waverley Borough Council,"Bramley, Busbridge and Hascombe (2 seats)",Green,Martin D'Arcy,590,47.7,1252.0
+2019,Waverley Borough Council,"Bramley, Busbridge and Hascombe (2 seats)",Conservative,Stewart Stennett,538,43.5,1252.0
+2019,Waverley Borough Council,Chiddingfold and Dunsfold (2 seats),Conservative,John Gray,617,55.0,1137.0
+2019,Waverley Borough Council,Chiddingfold and Dunsfold (2 seats),Conservative,Anna James,606,54.0,1137.0
+2019,Waverley Borough Council,Chiddingfold and Dunsfold (2 seats),Green,Lou Whyte,406,36.2,1137.0
+2019,Waverley Borough Council,Chiddingfold and Dunsfold (2 seats),Liberal Democrats,John Leston,344,30.7,1137.0
+2019,Waverley Borough Council,Chiddingfold and Dunsfold (2 seats),Labour,Tony Johnson,121,10.8,1137.0
+2019,Waverley Borough Council,Cranleigh East (3 seats),Liberal Democrats,Richard Cole,779,46.5,1716.0
+2019,Waverley Borough Council,Cranleigh East (3 seats),Liberal Democrats,Ruth Reed,702,41.9,1716.0
+2019,Waverley Borough Council,Cranleigh East (3 seats),Conservative,Mary Foryszewski,678,40.4,1716.0
+2019,Waverley Borough Council,Cranleigh East (3 seats),Liberal Democrats,Ken Reed,664,39.6,1716.0
+2019,Waverley Borough Council,Cranleigh East (3 seats),Conservative,Angela Richardson,648,38.6,1716.0
+2019,Waverley Borough Council,Cranleigh East (3 seats),Conservative,Andrew Blurton,610,36.4,1716.0
+2019,Waverley Borough Council,Cranleigh East (3 seats),Labour,Mark West,280,16.7,1716.0
+2019,Waverley Borough Council,Cranleigh West (2 seats),Conservative,Liz Townsend,669,60.8,1125.0
+2019,Waverley Borough Council,Cranleigh West (2 seats),Conservative,Patricia Ellis,560,50.9,1125.0
+2019,Waverley Borough Council,Cranleigh West (2 seats),Liberal Democrats,Nigel Sanctuary,431,39.1,1125.0
+2019,Waverley Borough Council,Cranleigh West (2 seats),Liberal Democrats,Fabian Cole,369,33.5,1125.0
+2019,Waverley Borough Council,Elstead and Thursley (2 seats),Conservative,Jenny Else,819,78.5,1083.0
+2019,Waverley Borough Council,Elstead and Thursley (2 seats),Conservative,David Else,744,71.3,1083.0
+2019,Waverley Borough Council,Elstead and Thursley (2 seats),Labour,Jessica Webster,272,26.1,1083.0
+2019,Waverley Borough Council,Ewhurst (1 seat),Conservative,Val Henry,461,76.3,625.0
+2019,Waverley Borough Council,Ewhurst (1 seat),Labour,James Mitchell,143,23.7,625.0
+2019,Waverley Borough Council,Farnham Bourne (2 seats),Residents,Roger Blishen,749,58.7,1280.0
+2019,Waverley Borough Council,Farnham Bourne (2 seats),Conservative,Carole Cockburn,679,53.2,1280.0
+2019,Waverley Borough Council,Farnham Bourne (2 seats),Liberal Democrats,Cosmo Lupton,380,29.8,1280.0
+2019,Waverley Borough Council,Farnham Bourne (2 seats),Conservative,Martin Lear,379,29.7,1280.0
+2019,Waverley Borough Council,Farnham Castle (2 seats),Residents,David Beaman,885,70.6,1262.0
+2019,Waverley Borough Council,Farnham Castle (2 seats),Residents,George Hesse,813,64.8,1262.0
+2019,Waverley Borough Council,Farnham Castle (2 seats),Liberal Democrats,Peter Telford,290,23.1,1262.0
+2019,Waverley Borough Council,Farnham Castle (2 seats),Conservative,Sarah Anson,193,15.4,1262.0
+2019,Waverley Borough Council,Farnham Castle (2 seats),Conservative,Liz Wheatley,124,9.9,1262.0
+2019,Waverley Borough Council,Farnham Firgrove (2 seats),Residents,Jerry Hyman,853,63.0,1362.0
+2019,Waverley Borough Council,Farnham Firgrove (2 seats),Residents,John Neale,767,56.6,1362.0
+2019,Waverley Borough Council,Farnham Firgrove (2 seats),Liberal Democrats,Adam Chambers,310,22.9,1362.0
+2019,Waverley Borough Council,Farnham Firgrove (2 seats),Conservative,Simon Foale,272,20.1,1362.0
+2019,Waverley Borough Council,Farnham Firgrove (2 seats),Conservative,Sam Pritchard,256,18.9,1362.0
+2019,Waverley Borough Council,Farnham Firgrove (2 seats),Labour,Anthony Watts,87,6.4,1362.0
+2019,Waverley Borough Council,Farnham Hale and Heath End (2 seats),Residents,Sally Dickson,821,72.2,1143.0
+2019,Waverley Borough Council,Farnham Hale and Heath End (2 seats),Residents,Michaela Gray,709,62.4,1143.0
+2019,Waverley Borough Council,Farnham Hale and Heath End (2 seats),Conservative,Mike Hodge,266,23.4,1143.0
+2019,Waverley Borough Council,Farnham Hale and Heath End (2 seats),Conservative,Denise Le Gal,215,18.9,1143.0
+2019,Waverley Borough Council,Farnham Hale and Heath End (2 seats),Labour,Rebecca Kaye,128,11.3,1143.0
+2019,Waverley Borough Council,Farnham Moor Park (2 seats),Residents,Andy MacLeod*,992,74.9,1332.0
+2019,Waverley Borough Council,Farnham Moor Park (2 seats),Residents,Michaela Martin,899,67.8,1332.0
+2019,Waverley Borough Council,Farnham Moor Park (2 seats),Liberal Democrats,Richard Soper,260,19.6,1332.0
+2019,Waverley Borough Council,Farnham Moor Park (2 seats),Conservative,Pat Frost,246,18.6,1332.0
+2019,Waverley Borough Council,Farnham Moor Park (2 seats),Conservative,Rashida Nasir,148,11.2,1332.0
+2019,Waverley Borough Council,Farnham Shortheath and Boundstone (2 seats),Residents,John Ward,814,71.0,1156.0
+2019,Waverley Borough Council,Farnham Shortheath and Boundstone (2 seats),Residents,Kika Mirylees,790,68.9,1156.0
+2019,Waverley Borough Council,Farnham Shortheath and Boundstone (2 seats),Conservative,Adrian Waller,225,19.6,1156.0
+2019,Waverley Borough Council,Farnham Shortheath and Boundstone (2 seats),Conservative,Tom van den Broek,217,18.9,1156.0
+2019,Waverley Borough Council,Farnham Shortheath and Boundstone (2 seats),Labour,Andrew Jones,118,10.3,1156.0
+2019,Waverley Borough Council,Farnham Upper Hale (2 seats),Residents,Penny Marriott,813,75.7,1081.0
+2019,Waverley Borough Council,Farnham Upper Hale (2 seats),Residents,Peter Marriott,690,64.2,1081.0
+2019,Waverley Borough Council,Farnham Upper Hale (2 seats),Labour,Howard Kaye,186,17.3,1081.0
+2019,Waverley Borough Council,Farnham Upper Hale (2 seats),Conservative,Owen Barry,173,16.1,1081.0
+2019,Waverley Borough Council,Farnham Upper Hale (2 seats),Conservative,Stephen Barr,121,11.3,1081.0
+2019,Waverley Borough Council,Farnham Weybourne and Badshot Lea (2 seats),Liberal Democrats,Daniel Hunt,701,50.7,1396.0
+2019,Waverley Borough Council,Farnham Weybourne and Badshot Lea (2 seats),Liberal Democrats,Mark Merryweather,604,43.6,1396.0
+2019,Waverley Borough Council,Farnham Weybourne and Badshot Lea (2 seats),Residents,Bob Blower,456,32.9,1396.0
+2019,Waverley Borough Council,Farnham Weybourne and Badshot Lea (2 seats),Residents,David Quick,388,28.0,1396.0
+2019,Waverley Borough Council,Farnham Weybourne and Badshot Lea (2 seats),Conservative,Chris Storey,209,15.1,1396.0
+2019,Waverley Borough Council,Farnham Weybourne and Badshot Lea (2 seats),Conservative,Nabeel Nasir,161,11.6,1396.0
+2019,Waverley Borough Council,Farnham Weybourne and Badshot Lea (2 seats),Labour,Joan Anniballi,65,4.7,1396.0
+2019,Waverley Borough Council,Farnham Wrecclesham and Rowledge (2 seats),Residents,Brian Edmonds,675,52.1,1305.0
+2019,Waverley Borough Council,Farnham Wrecclesham and Rowledge (2 seats),Residents,Peter Clark,620,47.8,1305.0
+2019,Waverley Borough Council,Farnham Wrecclesham and Rowledge (2 seats),Conservative,Robert Ramsdale,390,30.1,1305.0
+2019,Waverley Borough Council,Farnham Wrecclesham and Rowledge (2 seats),Conservative,Lynley Griffiths,315,24.3,1305.0
+2019,Waverley Borough Council,Farnham Wrecclesham and Rowledge (2 seats),Liberal Democrats,Rosamund Lupton,265,20.4,1305.0
+2019,Waverley Borough Council,Farnham Wrecclesham and Rowledge (2 seats),Labour,Tim Corry,119,9.2,1305.0
+2019,Waverley Borough Council,"Frensham, Dockenfield and Tilford (2 seats)",Conservative,Brian Adams,683,60.7,1146.0
+2019,Waverley Borough Council,"Frensham, Dockenfield and Tilford (2 seats)",Conservative,Julia Potts,590,52.4,1146.0
+2019,Waverley Borough Council,"Frensham, Dockenfield and Tilford (2 seats)",Green,Susan Ryland,454,40.3,1146.0
+2019,Waverley Borough Council,"Frensham, Dockenfield and Tilford (2 seats)",Labour,Natasha Fletcher,228,20.2,1146.0
+2019,Waverley Borough Council,Godalming Binscombe (2 seats),Liberal Democrats,Paul Rivers,729,63.9,1164.0
+2019,Waverley Borough Council,Godalming Binscombe (2 seats),Labour,Nick Palmer,467,40.9,1164.0
+2019,Waverley Borough Council,Godalming Binscombe (2 seats),Conservative,Anne Gray,375,32.9,1164.0
+2019,Waverley Borough Council,Godalming Binscombe (2 seats),Conservative,David Hunter,302,26.5,1164.0
+2019,Waverley Borough Council,Godalming Central and Ockford (2 seats),Liberal Democrats,Paul Follows,1073,74.1,1459.0
+2019,Waverley Borough Council,Godalming Central and Ockford (2 seats),Liberal Democrats,Anne-Marie Rosoman,878,60.6,1459.0
+2019,Waverley Borough Council,Godalming Central and Ockford (2 seats),Conservative,Kirsty Walden,292,20.2,1459.0
+2019,Waverley Borough Council,Godalming Central and Ockford (2 seats),Conservative,Tristan Hopper,275,19.0,1459.0
+2019,Waverley Borough Council,Godalming Central and Ockford (2 seats),Labour,Richard Ashworth,179,12.4,1459.0
+2019,Waverley Borough Council,Godalming Charterhouse (2 seats),Green,Steve Williams,865,67.6,1292.0
+2019,Waverley Borough Council,Godalming Charterhouse (2 seats),Conservative,Steve Cosser,504,39.4,1292.0
+2019,Waverley Borough Council,Godalming Charterhouse (2 seats),Labour,Kate Cooney,446,34.8,1292.0
+2019,Waverley Borough Council,Godalming Charterhouse (2 seats),Conservative,Andrew Bolton,422,33.0,1292.0
+2019,Waverley Borough Council,Godalming Farncombe and Catteshall (2 seats),Liberal Democrats,Penny Rivers,1012,73.7,1396.0
+2019,Waverley Borough Council,Godalming Farncombe and Catteshall (2 seats),Labour,George Wilson,484,35.3,1396.0
+2019,Waverley Borough Council,Godalming Farncombe and Catteshall (2 seats),Conservative,Nicholas Williams,395,28.8,1396.0
+2019,Waverley Borough Council,Godalming Farncombe and Catteshall (2 seats),Conservative,Ross Welland,317,23.1,1396.0
+2019,Waverley Borough Council,Godalming Holloway (2 seats),Liberal Democrats,Joan Heagin,1034,61.6,1698.0
+2019,Waverley Borough Council,Godalming Holloway (2 seats),Conservative,Peter Martin,737,43.9,1698.0
+2019,Waverley Borough Council,Godalming Holloway (2 seats),Conservative,Tom Martin,642,38.3,1698.0
+2019,Waverley Borough Council,Godalming Holloway (2 seats),Labour,Toby Westcott-White,465,27.7,1698.0
+2019,Waverley Borough Council,Haslemere Critchmere and Shottermill (3 seats),Liberal Democrats,Jacqueline Robini,1034,57.1,1837.0
+2019,Waverley Borough Council,Haslemere Critchmere and Shottermill (3 seats),Liberal Democrats,Peter Nicholson,894,49.4,1837.0
+2019,Waverley Borough Council,Haslemere Critchmere and Shottermill (3 seats),Liberal Democrats,John Robini,887,49.0,1837.0
+2019,Waverley Borough Council,Haslemere Critchmere and Shottermill (3 seats),Conservative,James Edwards,619,34.2,1837.0
+2019,Waverley Borough Council,Haslemere Critchmere and Shottermill (3 seats),Conservative,Carole King,566,31.3,1837.0
+2019,Waverley Borough Council,Haslemere Critchmere and Shottermill (3 seats),Conservative,Phoebe Sullivan,472,26.1,1837.0
+2019,Waverley Borough Council,Haslemere Critchmere and Shottermill (3 seats),UKIP,Adam Wade,184,10.2,1837.0
+2019,Waverley Borough Council,Haslemere East and Grayswood (3 seats),Conservative,Simon Dear,1001,45.6,2279.0
+2019,Waverley Borough Council,Haslemere East and Grayswood (3 seats),Conservative,Stephen Mulliner,999,45.1,2279.0
+2019,Waverley Borough Council,Haslemere East and Grayswood (3 seats),Conservative,Robert Knowles,976,44.1,2279.0
+2019,Waverley Borough Council,Haslemere East and Grayswood (3 seats),Liberal Democrats,Terry Weldon,819,37.0,2279.0
+2019,Waverley Borough Council,Haslemere East and Grayswood (3 seats),Green,Gary Lloyd,800,36.1,2279.0
+2019,Waverley Borough Council,Haslemere East and Grayswood (3 seats),Liberal Democrats,Elizabeth Pamplin,796,35.9,2279.0
+2019,Waverley Borough Council,Haslemere East and Grayswood (3 seats),Labour,Adrian La Porta,202,9.1,2279.0
+2019,Waverley Borough Council,Hindhead (2 seats),Liberal Democrats,Jerome Davidson,544,48.6,1160.0
+2019,Waverley Borough Council,Hindhead (2 seats),Conservative,Peter Isherwood,542,48.4,1160.0
+2019,Waverley Borough Council,Hindhead (2 seats),Liberal Democrats,Geoffrey Whitby,542,48.4,1160.0
+2019,Waverley Borough Council,Hindhead (2 seats),Conservative,Gerrard Hall,437,39.0,1160.0
+2019,Waverley Borough Council,Hindhead (2 seats),Labour,David Irwin,79,7.1,1160.0
+2019,Waverley Borough Council,Milford (2 seats),Liberal Democrats,Christine Baker,646,50.7,1282.0
+2019,Waverley Borough Council,Milford (2 seats),Independent,John Lee,629,49.3,1282.0
+2019,Waverley Borough Council,Milford (2 seats),Conservative,Simon Drake,356,27.9,1282.0
+2019,Waverley Borough Council,Milford (2 seats),Conservative,Adam Taylor-Smith,315,24.7,1282.0
+2019,Waverley Borough Council,Milford (2 seats),UKIP,Rosaleen Egan,203,15.9,1282.0
+2019,Waverley Borough Council,Witley and Hambledon (2 seats),Conservative,Jan Floyd-Douglass,617,51.0,1225.0
+2019,Waverley Borough Council,Witley and Hambledon (2 seats),Conservative,Trevor Sadler,615,50.9,1225.0
+2019,Waverley Borough Council,Witley and Hambledon (2 seats),Independent,Maxine Gale,601,49.7,1225.0
+2019,Waverley Borough Council,Witley and Hambledon (2 seats),Labour,George Davies,267,22.1,1225.0
+2019,Waverley Borough Council,Milford: 13 February 2020,Independent,Maxine Gale,452,50.6,893.0
+2019,Waverley Borough Council,Milford: 13 February 2020,Conservative,Carmel Oates,328,36.7,893.0
+2019,Waverley Borough Council,Milford: 13 February 2020,Independent,Rosaleen Egan,113,12.7,893.0
+2019,Waverley Borough Council,Cranleigh East: 7 October 2021,Liberal Democrats,Philip Townsend,903,56.8,1589.0
+2019,Waverley Borough Council,Cranleigh East: 7 October 2021,Conservative,Rosemary Burbridge,686,43.2,1589.0
+2019,Waverley Borough Council,"Frensham, Dockenfield & Tilford: 12 May 2022",Independent,David Munro,492,42.1,1169.0
+2019,Waverley Borough Council,"Frensham, Dockenfield & Tilford: 12 May 2022",Green,Susan Ryland,354,30.3,1169.0
+2019,Waverley Borough Council,"Frensham, Dockenfield & Tilford: 12 May 2022",Conservative,Nabeel Nasir,323,27.6,1169.0
+2019,Waverley Borough Council,Hindhead: 23 June 2022,Liberal Democrats,Julian Spence,537,54.6,983.0
+2019,Waverley Borough Council,Hindhead: 23 June 2022,Conservative,Ged Hall,446,45.4,983.0
+2019,Waverley Borough Council,Chiddingfold and Dunsfold: 1 December 2022,Liberal Democrats,Dave Busby,652,66.6,979.0
+2019,Waverley Borough Council,Chiddingfold and Dunsfold: 1 December 2022,Conservative,Ian Mitchell,297,30.3,979.0
+2019,Waverley Borough Council,Chiddingfold and Dunsfold: 1 December 2022,Labour,Rebecca Aitken,30,3.1,979.0
+2019,Woking Borough Council,Byfleet and West Byfleet,Independent,Amanda Jayne Boote,1440,53.4,2701.0
+2019,Woking Borough Council,Byfleet and West Byfleet,Conservative,Irene Esther Watson Green,614,22.8,2701.0
+2019,Woking Borough Council,Byfleet and West Byfleet,Liberal Democrats,Ellen Sophie Nicholson,364,13.5,2701.0
+2019,Woking Borough Council,Byfleet and West Byfleet,UKIP,Jamie Paul Hayward,157,5.8,2701.0
+2019,Woking Borough Council,Byfleet and West Byfleet,Green,James Duncan Craig,120,4.5,2701.0
+2019,Woking Borough Council,Canalside,Labour,Mohammad Ali,1033,37.6,2767.0
+2019,Woking Borough Council,Canalside,Conservative,Mohammad Riasat Khan,827,30.1,2767.0
+2019,Woking Borough Council,Canalside,Liberal Democrats,Andrea Elizabeth Barker,375,13.6,2767.0
+2019,Woking Borough Council,Canalside,UKIP,William Nelson Owen Roe,315,11.5,2767.0
+2019,Woking Borough Council,Canalside,Green,Richard Guy Lewis Connelly,198,7.2,2767.0
+2019,Woking Borough Council,Goldsworth Park,Liberal Democrats,James Richard Sanderson,1032,42.2,2454.0
+2019,Woking Borough Council,Goldsworth Park,Conservative,Jonathan Thomas Ewart Cope,755,30.9,2454.0
+2019,Woking Borough Council,Goldsworth Park,Labour,Christopher David Martin,280,11.4,2454.0
+2019,Woking Borough Council,Goldsworth Park,UKIP,Troy de Leon,234,9.6,2454.0
+2019,Woking Borough Council,Goldsworth Park,Green,Ella Jessica Walding,145,5.9,2454.0
+2019,Woking Borough Council,Heathlands,Conservative,Ayesha Azad,1424,51.3,2791.0
+2019,Woking Borough Council,Heathlands,Independent,Robert Arthur Shatwell,542,19.5,2791.0
+2019,Woking Borough Council,Heathlands,Liberal Democrats,Guy Tuson Cosnahan,538,19.4,2791.0
+2019,Woking Borough Council,Heathlands,Green,Anna Katharine Wright,271,9.8,2791.0
+2019,Woking Borough Council,Hoe Valley,Liberal Democrats,Louise Mary Nell Morales,1147,56.8,2039.0
+2019,Woking Borough Council,Hoe Valley,Conservative,Colin Patrick Scott,374,18.5,2039.0
+2019,Woking Borough Council,Hoe Valley,Labour,Brian Stanley Walter,204,10.1,2039.0
+2019,Woking Borough Council,Hoe Valley,UKIP,David Simon Roe,159,7.9,2039.0
+2019,Woking Borough Council,Hoe Valley,Green,Ivica Petrikova,137,6.8,2039.0
+2019,Woking Borough Council,Horsell,Conservative,Colin Sidney Kemp,1298,41.8,3122.0
+2019,Woking Borough Council,Horsell,Liberal Democrats,John Francis Doran,1083,34.9,3122.0
+2019,Woking Borough Council,Horsell,Green,Nigel Charles Ridgeon,266,8.6,3122.0
+2019,Woking Borough Council,Horsell,UKIP,Judith Diana Squire,260,8.4,3122.0
+2019,Woking Borough Council,Horsell,Labour,Joshua James Reid,196,6.3,3122.0
+2019,Woking Borough Council,Knaphill,Conservative,Melanie Anne Whitehand,960,36.3,2655.0
+2019,Woking Borough Council,Knaphill,Independent,Hassan Badrudrin Akberali,808,30.5,2655.0
+2019,Woking Borough Council,Knaphill,Liberal Democrats,Norman Grenville Johns,339,12.8,2655.0
+2019,Woking Borough Council,Knaphill,Labour,Geraldine Margaret Mitchell-Smith,214,8.1,2655.0
+2019,Woking Borough Council,Knaphill,Green,Alexandra May Connelly,180,6.8,2655.0
+2019,Woking Borough Council,Knaphill,UKIP,Andrew George Glen,145,5.5,2655.0
+2019,Woking Borough Council,Mount Hermon,Liberal Democrats,Ian Johnson,1421,51.0,2802.0
+2019,Woking Borough Council,Mount Hermon,Conservative,John Frederick Lawrence,806,28.9,2802.0
+2019,Woking Borough Council,Mount Hermon,Labour,Zara Coombes,211,7.6,2802.0
+2019,Woking Borough Council,Mount Hermon,Green,Irene Jane Ridgeon,196,7.0,2802.0
+2019,Woking Borough Council,Mount Hermon,UKIP,Richard Peter Farr Squire,155,5.6,2802.0
+2019,Woking Borough Council,Pyrford,Conservative,Gary William Elson,1099,37.8,2921.0
+2019,Woking Borough Council,Pyrford,Independent,Joanna Avey,821,28.2,2921.0
+2019,Woking Borough Council,Pyrford,Liberal Democrats,Ian Michael Lachowicz,419,14.4,2921.0
+2019,Woking Borough Council,Pyrford,Labour,Samar Akhlaq Chaudhary,323,11.1,2921.0
+2019,Woking Borough Council,Pyrford,Green,Danny Clarke,124,4.3,2921.0
+2019,Woking Borough Council,Pyrford,UKIP,Robin Deller Milner,124,4.3,2921.0
+2019,Woking Borough Council,St John's,Liberal Democrats,Robert Norman Leach,1293,47.9,2802.0
+2019,Woking Borough Council,St John's,Conservative,Mark Russell John Pengelly,819,30.3,2802.0
+2019,Woking Borough Council,St John's,UKIP,Timothy Martin Read,254,9.4,2802.0
+2019,Woking Borough Council,St John's,Labour,John Scott-Morgan,172,6.4,2802.0
+2019,Woking Borough Council,St John's,Green,Kathleen Elizabeth Kett,161,6.0,2802.0
 2021,Surrey County Council,Cobham,Conservative,David John Lewis,2601,66.0,3967.0
 2021,Surrey County Council,Cobham,Liberal Democrats,David Colin Bellchamber,1087,27.0,3967.0
 2021,Surrey County Council,Cobham,Labour,Irene Threlkeld,279,7.0,3967.0

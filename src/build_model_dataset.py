@@ -71,7 +71,10 @@ def main():
     news = pd.read_csv(NEWS)
 
     winners = add_ward_history(winners)
-    dataset = winners.merge(pre_election_features(news), on="year", how="left")
+    # 2017-2019 rows exist only to donate history to later wards: the
+    # news corpus starts in 2021, so they cannot be training rows
+    dataset = winners[winners["year"] >= 2021].copy()
+    dataset = dataset.merge(pre_election_features(news), on="year", how="left")
     dataset.to_csv(OUT, index=False)
 
     matched = dataset["prev_winning_party"].notna().mean()

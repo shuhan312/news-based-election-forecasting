@@ -1,13 +1,13 @@
 """Extract ward-level election results from the Wikipedia pages in the calendar.
 
-For every 2021-2024 election in data/elections/election_calendar.csv this
+For every 2017-2024 election in data/elections/election_calendar.csv this
 script downloads the Wikipedia article (cached in data/raw/wikipedia/, so
 pages are only fetched once) and pulls out each ward's results table:
 one row per candidate with party, votes and vote share, plus the ward
 turnout where the page provides it.
 
 Everything is combined into one long table:
-  data/elections/results_2021_2024.csv
+  data/elections/results_2017_2024.csv
   columns: year, council, ward, party, candidate, votes, vote_share, turnout
 
 Wikipedia result tables are hand-edited and vary between pages, so the
@@ -29,7 +29,7 @@ from bs4 import BeautifulSoup
 
 CALENDAR = Path("data/elections/election_calendar.csv")
 CACHE_DIR = Path("data/raw/wikipedia")
-OUT_PATH = Path("data/elections/results_2021_2024.csv")
+OUT_PATH = Path("data/elections/results_2017_2024.csv")
 
 # Rows in an election box that are bookkeeping, not candidates.
 NON_CANDIDATE = re.compile(
