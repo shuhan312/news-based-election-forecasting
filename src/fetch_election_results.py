@@ -9,7 +9,8 @@ turnout where the page provides it.
 Everything is combined into one long table:
   data/elections/results_2017_2024.csv
   columns: year, council, ward, party_raw, party_canonical, candidate, votes,
-           candidate_vote_share, seats_contested, turnout,
+           candidate_vote_share, candidate_rank, candidate_elected,
+           seats_contested, turnout,
            event_type, polling_date, source metadata
 
 The Wikipedia pages are living pages: a page for a scheduled election can
@@ -224,6 +225,36 @@ def parse_table(table):
     return rows, turnout
 
 
+def mark_candidate_outcomes(rows, seats_contested):
+    """Add candidate rank and elected status when a table states its seats.
+
+    Candidate rows are checked by vote total rather than assumed to be in the
+    correct order.  A tie spanning the final available seat is left unknown:
+    a source table without a stated tie-break must not be used to invent a
+    winner.
+    """
+    for row in rows:
+        row["candidate_rank"] = 1 + sum(
+            other["votes"] > row["votes"] for other in rows)
+        row["candidate_elected"] = None
+
+    if seats_contested is None or len(rows) < seats_contested:
+        return
+
+    sorted_votes = sorted((row["votes"] for row in rows), reverse=True)
+    cutoff = sorted_votes[seats_contested - 1]
+    tied_at_cutoff = (len(rows) > seats_contested and
+                       sum(row["votes"] == cutoff for row in rows) > 1 and
+                       sum(row["votes"] > cutoff for row in rows) < seats_contested)
+
+    for row in rows:
+        if tied_at_cutoff and row["votes"] == cutoff:
+            # The source does not tell us which tied candidate won the final
+            # seat, so preserve the uncertainty instead of choosing one.
+            continue
+        row["candidate_elected"] = row["votes"] >= cutoff
+
+
 def main():
     calendar = pd.read_csv(CALENDAR)
     calendar = calendar[calendar["wikipedia_page"].notna()
@@ -245,6 +276,7 @@ def main():
             ward = ward_name(metadata)
             if "election result" in ward.lower():  # page-level summary, not a ward
                 continue
+            mark_candidate_outcomes(rows, metadata["seats_contested"])
             for r in rows:
                 r.update({"year": e["year"], "council": e["council"],
                           "ward": ward, "turnout": turnout,
@@ -258,7 +290,8 @@ def main():
 
     df = pd.DataFrame(all_rows)[[
         "year", "council", "ward", "party_raw", "party_canonical", "candidate", "votes",
-        "candidate_vote_share", "seats_contested", "turnout", "event_type", "polling_date",
+        "candidate_vote_share", "candidate_rank", "candidate_elected",
+        "seats_contested", "turnout", "event_type", "polling_date",
         "source_url", "source_table_index", "source_caption",
         "source_heading", "source_section",
     ]]
@@ -268,6 +301,8 @@ def main():
     print(df["event_type"].value_counts().to_string())
     print("\nCandidate rows with an explicit seat count:")
     print(df["seats_contested"].notna().sum())
+    print("Candidate rows identified as elected:")
+    print(df["candidate_elected"].eq(True).sum())
     print("\nRows per year:")
     print(df["year"].value_counts().sort_index().to_string())
     print("\nTop parties by row count:")

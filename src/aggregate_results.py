@@ -5,7 +5,7 @@ prediction model actually needs:
 
   data/elections/ward_party_results.csv   one row per ward x party
   data/elections/ward_winners.csv         one row per ward, with its
-                                          top-polling party and margin
+                                          top-polling party and seat summary
 
 In multi-seat wards a party fields several candidates, so summing their
 votes would double-count voters. We therefore score each party by its
@@ -31,7 +31,8 @@ def main():
     # The raw file must be regenerated with fetch_election_results.py first.
     required = {
         "event_type", "polling_date", "party_raw", "party_canonical",
-        "candidate_vote_share", "seats_contested",
+        "candidate_vote_share", "candidate_rank", "candidate_elected",
+        "seats_contested",
     }
     missing = required.difference(df.columns)
     if missing:
@@ -57,26 +58,44 @@ def main():
         r"\s*\((top\s+)?\d+\s*(seats?|candidates?)[^)]*\)", "",
         regex=True).str.strip()
 
+    ward_keys = ["year", "council", "ward"]
+    # A tie at the final available seat cannot be resolved from the cached
+    # table alone.  Mark every party result in that ward as unknown rather
+    # than reporting a partial, misleading seat allocation.
+    seat_status = (df.groupby(ward_keys)["candidate_elected"]
+                   .agg(seat_results_known=lambda values: values.notna().all())
+                   .reset_index())
+    df = df.merge(seat_status, on=ward_keys, how="left")
+
     # Party result in a ward = its best-placed candidate.  This avoids adding
     # several candidates' votes together in a multi-seat election.
-    party = (df.groupby(["year", "council", "ward", "party_canonical"])
+    party_keys = ["year", "council", "ward", "party_canonical"]
+    party = (df.groupby(party_keys)
                .agg(best_candidate_votes=("votes", "max"),
                     seats_contested=("seats_contested", "first"),
+                    seat_results_known=("seat_results_known", "first"),
                     turnout=("turnout", "first"))
                .reset_index())
+
+    elected_counts = (df.loc[df["candidate_elected"].eq(True)]
+                      .groupby(party_keys).size()
+                      .rename("party_seats_won").reset_index())
+    party = party.merge(elected_counts, on=party_keys, how="left")
+    party["party_seats_won"] = party["party_seats_won"].fillna(0).astype("Int64")
+    party.loc[~party["seat_results_known"], "party_seats_won"] = pd.NA
 
     # Keep the raw spellings visible for audit, while using the canonical
     # label as the stable output name.  Multiple raw aliases can map to one
     # canonical party, so they are recorded as a semicolon-separated list.
-    raw_labels = (df.groupby(["year", "council", "ward", "party_canonical"])["party_raw"]
+    raw_labels = (df.groupby(party_keys)["party_raw"]
                    .agg(lambda values: "; ".join(sorted(set(values))))
                    .rename("party_raw_labels")
                    .reset_index())
     party = party.merge(raw_labels,
-                        on=["year", "council", "ward", "party_canonical"],
+                        on=party_keys,
                         how="left")
     party = party.rename(columns={"party_canonical": "party"})
-    ward_total = (party.groupby(["year", "council", "ward"])["best_candidate_votes"]
+    ward_total = (party.groupby(ward_keys)["best_candidate_votes"]
                   .transform("sum"))
     party["best_candidate_share"] = (
         party["best_candidate_votes"] / ward_total * 100).round(1)
@@ -84,7 +103,7 @@ def main():
     party = party.sort_values(["year", "council", "ward", "best_candidate_votes"],
                               ascending=[True, True, True, False])
     party["is_top_polling_party"] = ~party.duplicated(
-        ["year", "council", "ward"])  # one top candidate party per ward
+        ward_keys)  # one top candidate party per ward
 
     party.to_csv(PARTY_OUT, index=False)
 
@@ -103,6 +122,10 @@ def main():
             "best_candidate_margin": margin,
             "n_parties": len(g),
             "seats_contested": g.iloc[0]["seats_contested"],
+            "seat_results_known": g.iloc[0]["seat_results_known"],
+            "seats_awarded": (int(g["party_seats_won"].sum())
+                               if g.iloc[0]["seat_results_known"] else None),
+            "top_party_seats_won": g.iloc[0]["party_seats_won"],
             "turnout": g.iloc[0]["turnout"],
             # Backwards-compatible aliases: these do not mean every seat was
             # won by one party in a multi-seat ward.
@@ -112,7 +135,7 @@ def main():
             "margin": margin,
         })
 
-    winners = (party.groupby(["year", "council", "ward"])
+    winners = (party.groupby(ward_keys)
                     .apply(summarise, include_groups=False).reset_index())
     winners.to_csv(WINNER_OUT, index=False)
 

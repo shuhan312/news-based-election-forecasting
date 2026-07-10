@@ -1,8 +1,8 @@
 """Run regression checks on the first-stage election cleaning pipeline.
 
-This validator covers explicit by-election metadata, party aliases and the
-best-candidate fields used for multi-seat wards.  It does not yet validate
-official source reconciliation or turnout rates.
+This validator covers explicit by-election metadata, party aliases, and the
+candidate/party seat fields used for multi-seat wards.  It does not yet
+validate official source reconciliation or turnout rates.
 
 Run after:
     python3 src/fetch_election_results.py
@@ -48,7 +48,7 @@ def main():
         "event_type", "polling_date", "source_url", "source_table_index",
         "source_caption", "source_heading", "source_section",
         "party_raw", "party_canonical", "candidate_vote_share",
-        "seats_contested",
+        "candidate_rank", "candidate_elected", "seats_contested",
     }
     assert required.issubset(raw.columns), "raw election metadata is incomplete"
     assert raw["event_type"].notna().all(), "event_type contains null values"
@@ -93,13 +93,25 @@ def main():
     known_seats = raw["seats_contested"].dropna()
     assert (known_seats.ge(1) & known_seats.mod(1).eq(0)).all()
 
+    table_keys = ["source_url", "source_table_index"]
+    table_seats = raw.dropna(subset=["seats_contested"])
+    resolved_tables = table_seats.groupby(table_keys).filter(
+        lambda group: group["candidate_elected"].notna().all())
+    elected_per_table = resolved_tables.groupby(table_keys)["candidate_elected"].sum()
+    seats_per_table = resolved_tables.groupby(table_keys)["seats_contested"].first()
+    assert elected_per_table.eq(seats_per_table).all(), "candidate seats do not match table seats"
+
     # Aggregated outputs must contain only scheduled tables and retain the
     # one-party-result / one-top-polling-party invariants of this prototype.
     assert not party.duplicated(["year", "council", "ward", "party"]).any()
-    assert party.groupby(["year", "council", "ward"])["is_top_polling_party"].sum().eq(1).all()
+    ward_keys = ["year", "council", "ward"]
+    assert party.groupby(ward_keys)["is_top_polling_party"].sum().eq(1).all()
     assert not winners.duplicated(["year", "council", "ward"]).any()
     assert winners["top_polling_party"].eq(winners["winning_party"]).all()
     assert winners["best_candidate_margin"].eq(winners["margin"]).all()
+    known_party_seats = party.loc[party["seat_results_known"]]
+    assert (known_party_seats.groupby(ward_keys)["party_seats_won"].sum()
+            .eq(known_party_seats.groupby(ward_keys)["seats_contested"].first())).all()
 
     scheduled = raw.loc[raw["event_type"].eq("scheduled")].copy()
     scheduled["ward"] = scheduled["ward"].map(ward_key)
