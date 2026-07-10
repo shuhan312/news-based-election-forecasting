@@ -9,7 +9,7 @@ turnout where the page provides it.
 Everything is combined into one long table:
   data/elections/results_2017_2024.csv
   columns: year, council, ward, party_raw, party_canonical, candidate, votes,
-           vote_share, turnout,
+           candidate_vote_share, seats_contested, turnout,
            event_type, polling_date, source metadata
 
 The Wikipedia pages are living pages: a page for a scheduled election can
@@ -59,6 +59,13 @@ BY_ELECTION = re.compile(r"\bby[-\s]?elections?\b", re.IGNORECASE)
 # the whole table into a by-election.
 DUE_TO_BY_ELECTION = re.compile(
     r"\bdue\s+to\s+(?:an?\s+)?by[-\s]?election\b", re.IGNORECASE)
+
+# Ward captions commonly say either "(3 seats)" or "(top 3 candidates
+# elected)".  This is the number of seats being contested in that table, not
+# the total number of councillors on the council.
+SEATS_CONTESTED = re.compile(
+    r"\b(?:top\s+)?(?P<count>\d+)\s+(?:seats?|candidates?)"
+    r"(?:\s+elected)?\b", re.IGNORECASE)
 
 # Keep the original Wikipedia label in party_raw and use this conservative
 # mapping only for unambiguous spelling or naming variants.  Local resident
@@ -134,6 +141,16 @@ def table_metadata(table):
         # publication dates and scheduled election dates.
         polling_date = datetime.strptime(match.group(0).title(), "%d %B %Y").date().isoformat()
 
+    # Prefer the local caption/heading.  A missing value means that the
+    # Wikipedia table did not explicitly state the number of contested seats;
+    # do not guess that it was a single-seat contest.
+    seats_contested = None
+    for label in (caption, heading):
+        seat_match = SEATS_CONTESTED.search(label)
+        if seat_match:
+            seats_contested = int(seat_match.group("count"))
+            break
+
     # A dedicated "By-elections" section is authoritative.  Outside one,
     # accept only an explicit by-election label in the local caption/heading;
     # this avoids false positives from normal tables with an extra vacancy.
@@ -150,6 +167,7 @@ def table_metadata(table):
         "source_section": section,
         "event_type": "by_election" if is_by_election else "scheduled",
         "polling_date": polling_date,
+        "seats_contested": seats_contested,
     }
 
 
@@ -202,7 +220,7 @@ def parse_table(table):
         rows.append({"party_raw": texts[1],
                      "party_canonical": canonical_party(texts[1]),
                      "candidate": texts[2],
-                     "votes": votes, "vote_share": share})
+                     "votes": votes, "candidate_vote_share": share})
     return rows, turnout
 
 
@@ -240,7 +258,7 @@ def main():
 
     df = pd.DataFrame(all_rows)[[
         "year", "council", "ward", "party_raw", "party_canonical", "candidate", "votes",
-        "vote_share", "turnout", "event_type", "polling_date",
+        "candidate_vote_share", "seats_contested", "turnout", "event_type", "polling_date",
         "source_url", "source_table_index", "source_caption",
         "source_heading", "source_section",
     ]]
@@ -248,6 +266,8 @@ def main():
     print(f"\n{len(df)} candidate rows -> {OUT_PATH}")
     print("\nCandidate rows by event type:")
     print(df["event_type"].value_counts().to_string())
+    print("\nCandidate rows with an explicit seat count:")
+    print(df["seats_contested"].notna().sum())
     print("\nRows per year:")
     print(df["year"].value_counts().sort_index().to_string())
     print("\nTop parties by row count:")

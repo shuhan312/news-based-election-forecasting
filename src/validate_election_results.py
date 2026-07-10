@@ -1,8 +1,8 @@
 """Run regression checks on the first-stage election cleaning pipeline.
 
-This validator covers explicit by-election metadata and the party aliases
-added in the current cleaning stage.  It does not yet validate official
-source reconciliation, turnout rates, or multi-seat outcomes.
+This validator covers explicit by-election metadata, party aliases and the
+best-candidate fields used for multi-seat wards.  It does not yet validate
+official source reconciliation or turnout rates.
 
 Run after:
     python3 src/fetch_election_results.py
@@ -47,7 +47,8 @@ def main():
     required = {
         "event_type", "polling_date", "source_url", "source_table_index",
         "source_caption", "source_heading", "source_section",
-        "party_raw", "party_canonical",
+        "party_raw", "party_canonical", "candidate_vote_share",
+        "seats_contested",
     }
     assert required.issubset(raw.columns), "raw election metadata is incomplete"
     assert raw["event_type"].notna().all(), "event_type contains null values"
@@ -87,21 +88,28 @@ def main():
     assert_event(raw, "Elmbridge Borough Council", r"Cobham.*by-election",
                  "by_election")
 
+    # An absent seat count is allowed when Wikipedia omits it, but a present
+    # value must be a positive whole number.
+    known_seats = raw["seats_contested"].dropna()
+    assert (known_seats.ge(1) & known_seats.mod(1).eq(0)).all()
+
     # Aggregated outputs must contain only scheduled tables and retain the
     # one-party-result / one-top-polling-party invariants of this prototype.
     assert not party.duplicated(["year", "council", "ward", "party"]).any()
-    assert party.groupby(["year", "council", "ward"])["won"].sum().eq(1).all()
+    assert party.groupby(["year", "council", "ward"])["is_top_polling_party"].sum().eq(1).all()
     assert not winners.duplicated(["year", "council", "ward"]).any()
+    assert winners["top_polling_party"].eq(winners["winning_party"]).all()
+    assert winners["best_candidate_margin"].eq(winners["margin"]).all()
 
     scheduled = raw.loc[raw["event_type"].eq("scheduled")].copy()
     scheduled["ward"] = scheduled["ward"].map(ward_key)
     expected_party = (scheduled.groupby(["year", "council", "ward", "party_canonical"])
-                       .agg(votes=("votes", "max"))
+                       .agg(best_candidate_votes=("votes", "max"))
                        .reset_index()
                        .rename(columns={"party_canonical": "party"})
                        .sort_values(["year", "council", "ward", "party"])
                        .reset_index(drop=True))
-    actual_party = (party[["year", "council", "ward", "party", "votes"]]
+    actual_party = (party[["year", "council", "ward", "party", "best_candidate_votes"]]
                     .sort_values(["year", "council", "ward", "party"])
                     .reset_index(drop=True))
 

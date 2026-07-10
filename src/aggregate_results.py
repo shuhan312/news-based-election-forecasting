@@ -4,12 +4,13 @@ Turns results_2021_2024.csv (one row per candidate) into the tables a
 prediction model actually needs:
 
   data/elections/ward_party_results.csv   one row per ward x party
-  data/elections/ward_winners.csv         one row per ward, with the
-                                          winning party, margin and turnout
+  data/elections/ward_winners.csv         one row per ward, with its
+                                          top-polling party and margin
 
 In multi-seat wards a party fields several candidates, so summing their
-votes would double-count voters. The usual convention is to score each
-party by its best-placed candidate, and that is what we do here.
+votes would double-count voters. We therefore score each party by its
+best-placed candidate. The resulting share is explicitly named a
+best-candidate share; it is not a complete party vote share.
 
 By-elections are deliberately excluded.  The extractor records an explicit
 event_type from the Wikipedia table's caption and headings, which is safer
@@ -28,7 +29,10 @@ def main():
     df = pd.read_csv(IN_PATH)
     # Fail rather than silently recreating the old, date-in-ward-name rule.
     # The raw file must be regenerated with fetch_election_results.py first.
-    required = {"event_type", "polling_date"}
+    required = {
+        "event_type", "polling_date", "party_raw", "party_canonical",
+        "candidate_vote_share", "seats_contested",
+    }
     missing = required.difference(df.columns)
     if missing:
         raise ValueError(
@@ -53,11 +57,12 @@ def main():
         r"\s*\((top\s+)?\d+\s*(seats?|candidates?)[^)]*\)", "",
         regex=True).str.strip()
 
-    # Party result in a ward = its best-placed candidate.
-    # TODO (next data-quality stage): this is a best-candidate proxy, not a
-    # literal party vote share in a multi-seat ward.
+    # Party result in a ward = its best-placed candidate.  This avoids adding
+    # several candidates' votes together in a multi-seat election.
     party = (df.groupby(["year", "council", "ward", "party_canonical"])
-               .agg(votes=("votes", "max"), turnout=("turnout", "first"))
+               .agg(best_candidate_votes=("votes", "max"),
+                    seats_contested=("seats_contested", "first"),
+                    turnout=("turnout", "first"))
                .reset_index())
 
     # Keep the raw spellings visible for audit, while using the canonical
@@ -71,25 +76,40 @@ def main():
                         on=["year", "council", "ward", "party_canonical"],
                         how="left")
     party = party.rename(columns={"party_canonical": "party"})
-    ward_total = party.groupby(["year", "council", "ward"])["votes"].transform("sum")
-    party["vote_share"] = (party["votes"] / ward_total * 100).round(1)
+    ward_total = (party.groupby(["year", "council", "ward"])["best_candidate_votes"]
+                  .transform("sum"))
+    party["best_candidate_share"] = (
+        party["best_candidate_votes"] / ward_total * 100).round(1)
 
-    party = party.sort_values(["year", "council", "ward", "votes"],
+    party = party.sort_values(["year", "council", "ward", "best_candidate_votes"],
                               ascending=[True, True, True, False])
-    party["won"] = ~party.duplicated(["year", "council", "ward"])  # top row per ward
+    party["is_top_polling_party"] = ~party.duplicated(
+        ["year", "council", "ward"])  # one top candidate party per ward
 
     party.to_csv(PARTY_OUT, index=False)
 
-    # one row per ward: winner, runner-up and the gap between them
+    # One row per ward.  The explicit fields describe the best-candidate
+    # proxy.  Legacy aliases remain because build_model_dataset.py still
+    # consumes them; they can be removed when that downstream schema changes.
     def summarise(g):
+        top_share = g.iloc[0]["best_candidate_share"]
+        second_party = g.iloc[1]["party"] if len(g) > 1 else None
+        margin = (top_share - g.iloc[1]["best_candidate_share"]).round(1) \
+                 if len(g) > 1 else None
         return pd.Series({
-            "winning_party": g.iloc[0]["party"],
-            "winner_share": g.iloc[0]["vote_share"],
-            "second_party": g.iloc[1]["party"] if len(g) > 1 else None,
-            "margin": (g.iloc[0]["vote_share"] - g.iloc[1]["vote_share"]).round(1)
-                      if len(g) > 1 else None,
+            "top_polling_party": g.iloc[0]["party"],
+            "top_party_best_candidate_share": top_share,
+            "second_top_polling_party": second_party,
+            "best_candidate_margin": margin,
             "n_parties": len(g),
+            "seats_contested": g.iloc[0]["seats_contested"],
             "turnout": g.iloc[0]["turnout"],
+            # Backwards-compatible aliases: these do not mean every seat was
+            # won by one party in a multi-seat ward.
+            "winning_party": g.iloc[0]["party"],
+            "winner_share": top_share,
+            "second_party": second_party,
+            "margin": margin,
         })
 
     winners = (party.groupby(["year", "council", "ward"])
@@ -99,8 +119,8 @@ def main():
     print(f"{len(party)} ward x party rows -> {PARTY_OUT}")
     print(f"{len(winners)} wards -> {WINNER_OUT}")
 
-    print("\nWards won per party per year:")
-    table = (winners.groupby(["year", "winning_party"]).size()
+    print("\nWards with top-polling party per year:")
+    table = (winners.groupby(["year", "top_polling_party"]).size()
                     .unstack(fill_value=0).T
                     .sort_values(2023, ascending=False))
     print(table.head(8).to_string())
