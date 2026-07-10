@@ -1,4 +1,4 @@
-"""Aggregate candidate-level election results into ward-level outcomes.
+"""Aggregate scheduled-election candidate results into ward-level outcomes.
 
 Turns results_2021_2024.csv (one row per candidate) into the tables a
 prediction model actually needs:
@@ -11,10 +11,12 @@ In multi-seat wards a party fields several candidates, so summing their
 votes would double-count voters. The usual convention is to score each
 party by its best-placed candidate, and that is what we do here.
 
+By-elections are deliberately excluded.  The extractor records an explicit
+event_type from the Wikipedia table's caption and headings, which is safer
+than trying to detect a by-election from the ward name.
+
 Usage:  python src/aggregate_results.py
 """
-
-import re
 
 import pandas as pd
 
@@ -22,21 +24,28 @@ IN_PATH = "data/elections/results_2017_2024.csv"
 PARTY_OUT = "data/elections/ward_party_results.csv"
 WINNER_OUT = "data/elections/ward_winners.csv"
 
-# By-elections held after the scheduled election appear on the same
-# Wikipedia page with the date in the table caption, e.g.
-# "Addlestone South by-election, 21 August 2025". A date in the ward
-# name is the reliable marker; the plain phrase "due to by-election"
-# also appears on ordinary wards that elected an extra seat, so we
-# must not filter on the word alone.
-DATE_IN_NAME = re.compile(r"\d{1,2}\s+\w+\s+\d{4}")
-
-
 def main():
     df = pd.read_csv(IN_PATH)
-    before = len(df)
+    # Fail rather than silently recreating the old, date-in-ward-name rule.
+    # The raw file must be regenerated with fetch_election_results.py first.
+    required = {"event_type", "polling_date"}
+    missing = required.difference(df.columns)
+    if missing:
+        raise ValueError(
+            "Missing election metadata " + ", ".join(sorted(missing)) +
+            ". Rerun src/fetch_election_results.py before aggregating.")
 
-    df = df[~df["ward"].str.contains(DATE_IN_NAME, na=False)]
-    print(f"dropped {before - len(df)} by-election rows, {len(df)} remain")
+    valid_types = {"scheduled", "by_election"}
+    observed_types = set(df["event_type"].dropna())
+    if df["event_type"].isna().any() or not observed_types.issubset(valid_types):
+        raise ValueError(
+            "event_type must contain only 'scheduled' or 'by_election'; "
+            f"found {sorted(observed_types)}.")
+
+    before = len(df)
+    df = df.loc[df["event_type"].eq("scheduled")].copy()
+    print(f"excluded {before - len(df)} by-election candidate rows; "
+          f"{len(df)} scheduled-election rows remain")
 
     # "Chertsey Meads (2 seats)" and "Ash Vale (top 2 candidates
     # elected)" are the same wards as their plain names
@@ -44,7 +53,9 @@ def main():
         r"\s*\((top\s+)?\d+\s*(seats?|candidates?)[^)]*\)", "",
         regex=True).str.strip()
 
-    # party result in a ward = its best-placed candidate
+    # Party result in a ward = its best-placed candidate.
+    # TODO (next data-quality stage): this is a best-candidate proxy, not a
+    # literal party vote share in a multi-seat ward.
     party = (df.groupby(["year", "council", "ward", "party"])
                .agg(votes=("votes", "max"), turnout=("turnout", "first"))
                .reset_index())

@@ -272,10 +272,10 @@ year,council,ward,winning_party,winner_share,second_party,margin,n_parties,turno
 2019,Spelthorne Borough Council,Stanwell North,Labour,42.8,Conservative,4.7,3,
 2019,Spelthorne Borough Council,Sunbury Common,Independent,31.8,Liberal Democrats,7.7,5,
 2019,Spelthorne Borough Council,Sunbury East,Conservative,37.8,Liberal Democrats,4.1,4,
-2019,Surrey Heath Borough Council,Bagshot,Conservative,48.6,Liberal Democrats,7.4,3,2015.0
-2019,Surrey Heath Borough Council,Bisley and West End,Liberal Democrats,37.0,Conservative,10.5,5,1987.0
+2019,Surrey Heath Borough Council,Bagshot,Liberal Democrats,48.2,Conservative,8.3,3,2015.0
+2019,Surrey Heath Borough Council,Bisley and West End,Conservative,34.8,Independent,3.0,5,1987.0
 2019,Surrey Heath Borough Council,Frimley,Conservative,73.6,Labour,47.2,2,1271.0
-2019,Surrey Heath Borough Council,Frimley Green,Liberal Democrats,41.6,Conservative,5.0,5,1879.0
+2019,Surrey Heath Borough Council,Frimley Green,Liberal Democrats,49.0,Conservative,20.1,4,1879.0
 2019,Surrey Heath Borough Council,Heatherside,Liberal Democrats,49.6,Conservative,13.2,3,2395.0
 2019,Surrey Heath Borough Council,Lightwater,Green,47.8,Conservative,8.7,3,1898.0
 2019,Surrey Heath Borough Council,Mytchett and Deepcut,Conservative,46.2,Liberal Democrats,6.5,3,1886.0
@@ -751,7 +751,6 @@ year,council,ward,winning_party,winner_share,second_party,margin,n_parties,turno
 2023,Woking Borough Council,Pyrford,Liberal Democrats,58.0,Conservative,28.5,4,2972.0
 2023,Woking Borough Council,St John's,Liberal Democrats,63.7,Conservative,42.9,5,2581.0
 2024,Elmbridge Borough Council,Claygate,Independent,39.9,Liberal Democrats,6.4,5,2559.0
-2024,Elmbridge Borough Council,Cobham & Downside,Conservative,49.9,Liberal Democrats,11.9,4,4118.0
 2024,Elmbridge Borough Council,Cobham and Downside,Conservative,45.8,Liberal Democrats,5.5,5,2205.0
 2024,Elmbridge Borough Council,Esher,Residents,46.5,Conservative,10.9,4,2371.0
 2024,Elmbridge Borough Council,Hersham Village,Liberal Democrats,49.3,Conservative,5.1,3,2737.0
@@ -767,7 +766,6 @@ year,council,ward,winning_party,winner_share,second_party,margin,n_parties,turno
 2024,Elmbridge Borough Council,Walton South,Liberal Democrats,51.6,Conservative,13.7,4,2692.0
 2024,Elmbridge Borough Council,Weybridge Riverside,Liberal Democrats,60.4,Conservative,30.8,3,2023.0
 2024,Elmbridge Borough Council,Weybridge St George's Hill,Residents,53.0,Conservative,23.7,4,2404.0
-2024,Elmbridge Borough Council,Weybridge St. George's Hill,Conservative,46.0,Residents,0.8,3,1322.0
 2024,Mole Valley District Council,Ashstead Park,Ashstead Ind.,53.3,Liberal Democrats,35.1,5,
 2024,Mole Valley District Council,Ashtead Lanes & Common,Ashstead Ind.,58.9,Liberal Democrats,40.5,5,
 2024,Mole Valley District Council,Bookham East & Eastwick Park,Liberal Democrats,62.6,Conservative,32.1,4,
@@ -832,6 +830,7 @@ year,council,ward,winning_party,winner_share,second_party,margin,n_parties,turno
 2024,Woking Borough Council,Goldsworth Park,Liberal Democrats,68.5,Conservative,52.0,3,2196.0
 2024,Woking Borough Council,Heathlands,Liberal Democrats,51.4,Conservative,22.5,6,2886.0
 2024,Woking Borough Council,Hoe Valley,Liberal Democrats,71.3,Conservative,55.0,3,2251.0
+2024,Woking Borough Council,Hoe Valley: 10 July 2025,Liberal Democrats,62.8,Reform,41.5,5,1779.0
 2024,Woking Borough Council,Horsell,Liberal Democrats,66.7,Conservative,44.9,5,3265.0
 2024,Woking Borough Council,Knaphill,Liberal Democrats,46.8,Conservative,6.5,3,3120.0
 2024,Woking Borough Council,Mount Hermon,Liberal Democrats,61.5,Conservative,41.4,6,2849.0

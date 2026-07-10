@@ -8,7 +8,14 @@ turnout where the page provides it.
 
 Everything is combined into one long table:
   data/elections/results_2017_2024.csv
-  columns: year, council, ward, party, candidate, votes, vote_share, turnout
+  columns: year, council, ward, party, candidate, votes, vote_share, turnout,
+           event_type, polling_date, source metadata
+
+The Wikipedia pages are living pages: a page for a scheduled election can
+also later acquire tables for by-elections.  We therefore preserve the table
+caption and nearby headings, and explicitly label each table as a scheduled
+election or a by-election.  Downstream aggregation can then exclude
+by-elections without trying to infer their type from the ward name.
 
 Wikipedia result tables are hand-edited and vary between pages, so the
 parser is defensive: it reports per page how many tables and candidate
@@ -21,6 +28,7 @@ Usage:  python src/fetch_election_results.py
 
 import re
 import time
+from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
@@ -35,6 +43,21 @@ OUT_PATH = Path("data/elections/results_2017_2024.csv")
 NON_CANDIDATE = re.compile(
     r"majority|turnout|registered electors|rejected|swing|gain|hold|total",
     re.IGNORECASE)
+
+# Dates in Wikipedia captions/headings use a written month, e.g. "4 July
+# 2024".  A source-page year is not enough because pages can contain later
+# by-elections, so retain the actual polling date when the page states one.
+POLLING_DATE = re.compile(
+    r"\b(?P<day>[0-3]?\d)\s+"
+    r"(?P<month>January|February|March|April|May|June|July|August|September|"
+    r"October|November|December)\s+(?P<year>\d{4})\b",
+    re.IGNORECASE)
+BY_ELECTION = re.compile(r"\bby[-\s]?elections?\b", re.IGNORECASE)
+# A scheduled all-out election can contain a note such as "2 seats due to a
+# by-election".  That describes why an extra seat is vacant; it does not turn
+# the whole table into a by-election.
+DUE_TO_BY_ELECTION = re.compile(
+    r"\bdue\s+to\s+(?:an?\s+)?by[-\s]?election\b", re.IGNORECASE)
 
 
 def download(url, cache_file):
@@ -54,13 +77,56 @@ def clean(text):
     return re.sub(r"\[.*?\]", "", text).strip()
 
 
-def ward_name(table):
-    """Ward = the table's caption, else the nearest heading above it."""
-    if table.caption:
-        return re.sub(r"\s+", " ", clean(table.caption.get_text(" ")))
-    for heading in table.find_all_previous(["h3", "h4", "h2"]):
-        return clean(heading.get_text())
-    return ""
+def heading_before(table, names):
+    """Return the nearest preceding heading of one of the requested levels."""
+    heading = table.find_previous(names)
+    return clean(heading.get_text(" ")) if heading else ""
+
+
+def table_metadata(table):
+    """Extract auditable context and an explicit election type for one table.
+
+    Some by-election tables have a plain ward-name caption, while the date is
+    only in their h3 heading and the word "by-election" only in their h2
+    section.  Looking at all three levels prevents those tables being merged
+    with the scheduled ward result later on.  A phrase such as "seats due to
+    a by-election" is deliberately not treated as a by-election table.
+    """
+    caption = (re.sub(r"\s+", " ", clean(table.caption.get_text(" ")))
+               if table.caption else "")
+    heading = heading_before(table, ["h3", "h4"])
+    section = heading_before(table, ["h2"])
+    source_text = " ".join(part for part in (caption, heading, section) if part)
+
+    match = POLLING_DATE.search(source_text)
+    polling_date = None
+    if match:
+        # Store ISO dates so later scripts can reliably compare them with
+        # publication dates and scheduled election dates.
+        polling_date = datetime.strptime(match.group(0).title(), "%d %B %Y").date().isoformat()
+
+    # A dedicated "By-elections" section is authoritative.  Outside one,
+    # accept only an explicit by-election label in the local caption/heading;
+    # this avoids false positives from normal tables with an extra vacancy.
+    local_text = " ".join(part for part in (caption, heading) if part)
+    is_by_election = (
+        bool(BY_ELECTION.search(section)) or
+        (bool(BY_ELECTION.search(local_text)) and
+         not bool(DUE_TO_BY_ELECTION.search(local_text)))
+    )
+
+    return {
+        "source_caption": caption,
+        "source_heading": heading,
+        "source_section": section,
+        "event_type": "by_election" if is_by_election else "scheduled",
+        "polling_date": polling_date,
+    }
+
+
+def ward_name(metadata):
+    """Ward = table caption, falling back to its nearest local heading."""
+    return metadata["source_caption"] or metadata["source_heading"]
 
 
 def to_number(text, cast=int):
@@ -122,25 +188,35 @@ def main():
         soup = BeautifulSoup(html, "html.parser")
 
         n_tables, n_rows = 0, 0
-        for table in soup.find_all("table", class_="wikitable"):
+        for table_index, table in enumerate(soup.find_all("table", class_="wikitable")):
             rows, turnout = parse_table(table)
             if not rows:
                 continue
-            ward = ward_name(table)
+            metadata = table_metadata(table)
+            ward = ward_name(metadata)
             if "election result" in ward.lower():  # page-level summary, not a ward
                 continue
             for r in rows:
                 r.update({"year": e["year"], "council": e["council"],
-                          "ward": ward, "turnout": turnout})
+                          "ward": ward, "turnout": turnout,
+                          "source_url": e["url"],
+                          "source_table_index": table_index,
+                          **metadata})
             all_rows.extend(rows)
             n_tables += 1
             n_rows += len(rows)
         print(f"{e['year']} {e['council']}: {n_tables} ward tables, {n_rows} candidate rows")
 
-    df = pd.DataFrame(all_rows)[["year", "council", "ward", "party",
-                                 "candidate", "votes", "vote_share", "turnout"]]
+    df = pd.DataFrame(all_rows)[[
+        "year", "council", "ward", "party", "candidate", "votes",
+        "vote_share", "turnout", "event_type", "polling_date",
+        "source_url", "source_table_index", "source_caption",
+        "source_heading", "source_section",
+    ]]
     df.to_csv(OUT_PATH, index=False)
     print(f"\n{len(df)} candidate rows -> {OUT_PATH}")
+    print("\nCandidate rows by event type:")
+    print(df["event_type"].value_counts().to_string())
     print("\nRows per year:")
     print(df["year"].value_counts().sort_index().to_string())
     print("\nTop parties by row count:")
