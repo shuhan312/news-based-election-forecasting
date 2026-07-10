@@ -8,7 +8,8 @@ turnout where the page provides it.
 
 Everything is combined into one long table:
   data/elections/results_2017_2024.csv
-  columns: year, council, ward, party, candidate, votes, vote_share, turnout,
+  columns: year, council, ward, party_raw, party_canonical, candidate, votes,
+           vote_share, turnout,
            event_type, polling_date, source metadata
 
 The Wikipedia pages are living pages: a page for a scheduled election can
@@ -58,6 +59,34 @@ BY_ELECTION = re.compile(r"\bby[-\s]?elections?\b", re.IGNORECASE)
 # the whole table into a by-election.
 DUE_TO_BY_ELECTION = re.compile(
     r"\bdue\s+to\s+(?:an?\s+)?by[-\s]?election\b", re.IGNORECASE)
+
+# Keep the original Wikipedia label in party_raw and use this conservative
+# mapping only for unambiguous spelling or naming variants.  Local resident
+# groups remain distinct unless their alias is exact, because their local
+# identity can be politically meaningful in a Surrey ward.
+PARTY_ALIASES = {
+    "reform": "Reform UK",
+    "reform uk": "Reform UK",
+    "labour co-op": "Labour",
+    "labour and co-operative": "Labour",
+    "labour and co-op": "Labour",
+    "liberal democrat": "Liberal Democrats",
+    "liberal democrats": "Liberal Democrats",
+    "lib dem": "Liberal Democrats",
+    "lib dems": "Liberal Democrats",
+    "green party": "Green",
+    "the green party": "Green",
+    "conservative party": "Conservative",
+    "residents associations": "Residents Association",
+    "residents' association": "Residents Association",
+    "residents' associations": "Residents Association",
+}
+
+
+def canonical_party(label):
+    """Return a stable party label while retaining the raw label separately."""
+    value = re.sub(r"\s+", " ", str(label)).strip()
+    return PARTY_ALIASES.get(value.casefold(), value)
 
 
 def download(url, cache_file):
@@ -170,7 +199,9 @@ def parse_table(table):
         # cell is a count, a real candidate name has letters in it
         if not re.search(r"[A-Za-z]", texts[2]):
             continue
-        rows.append({"party": texts[1], "candidate": texts[2],
+        rows.append({"party_raw": texts[1],
+                     "party_canonical": canonical_party(texts[1]),
+                     "candidate": texts[2],
                      "votes": votes, "vote_share": share})
     return rows, turnout
 
@@ -208,7 +239,7 @@ def main():
         print(f"{e['year']} {e['council']}: {n_tables} ward tables, {n_rows} candidate rows")
 
     df = pd.DataFrame(all_rows)[[
-        "year", "council", "ward", "party", "candidate", "votes",
+        "year", "council", "ward", "party_raw", "party_canonical", "candidate", "votes",
         "vote_share", "turnout", "event_type", "polling_date",
         "source_url", "source_table_index", "source_caption",
         "source_heading", "source_section",
@@ -220,7 +251,7 @@ def main():
     print("\nRows per year:")
     print(df["year"].value_counts().sort_index().to_string())
     print("\nTop parties by row count:")
-    print(df["party"].value_counts().head(8).to_string())
+    print(df["party_canonical"].value_counts().head(8).to_string())
 
 
 if __name__ == "__main__":

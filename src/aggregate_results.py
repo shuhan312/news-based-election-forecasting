@@ -56,9 +56,21 @@ def main():
     # Party result in a ward = its best-placed candidate.
     # TODO (next data-quality stage): this is a best-candidate proxy, not a
     # literal party vote share in a multi-seat ward.
-    party = (df.groupby(["year", "council", "ward", "party"])
+    party = (df.groupby(["year", "council", "ward", "party_canonical"])
                .agg(votes=("votes", "max"), turnout=("turnout", "first"))
                .reset_index())
+
+    # Keep the raw spellings visible for audit, while using the canonical
+    # label as the stable output name.  Multiple raw aliases can map to one
+    # canonical party, so they are recorded as a semicolon-separated list.
+    raw_labels = (df.groupby(["year", "council", "ward", "party_canonical"])["party_raw"]
+                   .agg(lambda values: "; ".join(sorted(set(values))))
+                   .rename("party_raw_labels")
+                   .reset_index())
+    party = party.merge(raw_labels,
+                        on=["year", "council", "ward", "party_canonical"],
+                        how="left")
+    party = party.rename(columns={"party_canonical": "party"})
     ward_total = party.groupby(["year", "council", "ward"])["votes"].transform("sum")
     party["vote_share"] = (party["votes"] / ward_total * 100).round(1)
 

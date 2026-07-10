@@ -37,7 +37,7 @@ year,council,ward,winning_party,winner_share,second_party,margin,n_parties,turno
 2017,Surrey County Council,Guildford North,Liberal Democrats,41.8,Conservative,8.4,4,3744.0
 2017,Surrey County Council,Guildford South-East,Conservative,50.9,Liberal Democrats,10.6,3,4069.0
 2017,Surrey County Council,Guildford South-West,Liberal Democrats,53.7,Conservative,23.0,5,3675.0
-2017,Surrey County Council,Guildford West,Liberal Democrats,43.1,Labour Co-op,17.2,6,2216.0
+2017,Surrey County Council,Guildford West,Liberal Democrats,43.1,Labour,17.2,6,2216.0
 2017,Surrey County Council,Haslemere,Conservative,52.7,Liberal Democrats,24.5,5,3507.0
 2017,Surrey County Council,Heatherside and Parkside,Conservative,55.3,Liberal Democrats,38.0,6,3768.0
 2017,Surrey County Council,Hersham,Conservative,54.5,Hersham Village Society,29.6,5,3940.0
@@ -246,10 +246,10 @@ year,council,ward,winning_party,winner_share,second_party,margin,n_parties,turno
 2019,Reigate and Banstead Borough Council,South Park and Woodhatch,Conservative,30.5,Green,7.5,5,2194.0
 2019,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Tattenhams RA,67.5,Conservative,54.8,4,1881.0
 2019,Runnymede Borough Council,Addlestone North,Conservative,23.4,Green,0.4,5,
-2019,Runnymede Borough Council,Addlestone South,Conservative,47.0,Labour Co-op,15.3,3,
+2019,Runnymede Borough Council,Addlestone South,Conservative,47.0,Labour,15.3,3,
 2019,Runnymede Borough Council,Chertsey Riverside,Conservative,44.0,Liberal Democrats,15.1,3,
-2019,Runnymede Borough Council,Chertsey St Ann's,Conservative,47.5,Labour Co-op,20.5,3,
-2019,Runnymede Borough Council,Egham Hythe,Labour Co-op,50.5,Conservative,1.0,2,
+2019,Runnymede Borough Council,Chertsey St Ann's,Conservative,47.5,Labour,20.5,3,
+2019,Runnymede Borough Council,Egham Hythe,Labour,50.5,Conservative,1.0,2,
 2019,Runnymede Borough Council,Egham Town,RIRG,63.6,Conservative,41.5,3,
 2019,Runnymede Borough Council,Englefield Green East,Conservative,40.5,Independent,17.9,4,
 2019,Runnymede Borough Council,Englefield Green West,Conservative,34.5,Green,6.4,4,
@@ -257,7 +257,7 @@ year,council,ward,winning_party,winner_share,second_party,margin,n_parties,turno
 2019,Runnymede Borough Council,New Haw,Conservative,46.0,Liberal Democrats,13.4,3,
 2019,Runnymede Borough Council,Ottershaw,Independent,40.5,Conservative,20.5,5,
 2019,Runnymede Borough Council,Thorpe,RIRG,58.6,Conservative,39.3,4,
-2019,Runnymede Borough Council,Virginia Water,Conservative,74.5,Labour Co-op,49.0,2,
+2019,Runnymede Borough Council,Virginia Water,Conservative,74.5,Labour,49.0,2,
 2019,Runnymede Borough Council,Woodham and Rowtown,Conservative,42.5,Green,14.8,4,
 2019,Spelthorne Borough Council,Ashford Common,Conservative,36.5,Green,18.9,5,
 2019,Spelthorne Borough Council,Ashford East,Conservative,34.5,Green,13.6,5,
@@ -372,7 +372,7 @@ year,council,ward,winning_party,winner_share,second_party,margin,n_parties,turno
 2021,Reigate and Banstead Borough Council,"Hooley, Merstham and Netherne",Conservative,44.0,Labour,20.9,4,
 2021,Reigate and Banstead Borough Council,Horley Central and South,Conservative,57.6,Labour,31.3,3,2398.0
 2021,Reigate and Banstead Borough Council,Horley East and Salfords,Conservative,46.3,Green,13.2,3,
-2021,Reigate and Banstead Borough Council,Horley West and Sidlow,Conservative,58.8,Labour Co-op,31.7,3,2262.0
+2021,Reigate and Banstead Borough Council,Horley West and Sidlow,Conservative,58.8,Labour,31.7,3,2262.0
 2021,Reigate and Banstead Borough Council,"Lower Kingswood, Tadworth and Walton",Conservative,67.8,Liberal Democrats,55.1,4,2975.0
 2021,Reigate and Banstead Borough Council,Meadvale and St. John's,Liberal Democrats,43.0,Conservative,4.4,4,2853.0
 2021,Reigate and Banstead Borough Council,Nork,Nork RA,69.4,Conservative,48.1,4,2751.0
@@ -382,10 +382,10 @@ year,council,ward,winning_party,winner_share,second_party,margin,n_parties,turno
 2021,Reigate and Banstead Borough Council,South Park and Woodhatch,Green,52.3,Conservative,16.1,3,2518.0
 2021,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Tattenham RA,57.4,Conservative,33.9,5,2135.0
 2021,Runnymede Borough Council,Addlestone North,Conservative,46.9,Green,23.6,5,1354.0
-2021,Runnymede Borough Council,Addlestone South,Conservative,57.6,Labour Co-op,30.8,3,1310.0
-2021,Runnymede Borough Council,Chertsey Riverside,Conservative,54.7,Labour Co-op,31.4,4,1310.0
-2021,Runnymede Borough Council,Chertsey St. Ann's,Conservative,52.6,Labour Co-op,33.9,4,1470.0
-2021,Runnymede Borough Council,Egham Hythe,Conservative,42.6,Labour Co-op,1.7,3,1643.0
+2021,Runnymede Borough Council,Addlestone South,Conservative,57.6,Labour,30.8,3,1310.0
+2021,Runnymede Borough Council,Chertsey Riverside,Conservative,54.7,Labour,31.4,4,1310.0
+2021,Runnymede Borough Council,Chertsey St. Ann's,Conservative,52.6,Labour,33.9,4,1470.0
+2021,Runnymede Borough Council,Egham Hythe,Conservative,42.6,Labour,1.7,3,1643.0
 2021,Runnymede Borough Council,Egham Town,RIRG,52.9,Conservative,31.4,4,1748.0
 2021,Runnymede Borough Council,Englefield Green West,Conservative,47.7,Labour,26.7,4,1164.0
 2021,Runnymede Borough Council,"Longcross, Lyne and Chertsey South",Liberal Democrats,45.7,Conservative,5.2,3,1051.0
@@ -413,7 +413,7 @@ year,council,ward,winning_party,winner_share,second_party,margin,n_parties,turno
 2021,Surrey County Council,Dorking South and the Holmwoods,Liberal Democrats,54.7,Conservative,25.5,4,
 2021,Surrey County Council,Earlswood and Reigate South,Green,44.6,Conservative,3.2,3,3896.0
 2021,Surrey County Council,East Molesey and Esher,Conservative,54.2,Liberal Democrats,23.5,4,4651.0
-2021,Surrey County Council,Egham,Labour Co-op,39.3,Conservative,3.3,4,2799.0
+2021,Surrey County Council,Egham,Labour,39.3,Conservative,3.3,4,2799.0
 2021,Surrey County Council,Englefield Green,Conservative,36.0,Runnymede Independent Residents' Group,4.5,5,3256.0
 2021,Surrey County Council,Epsom Town and Downs,Residents Association,28.7,Conservative,0.1,6,4997.0
 2021,Surrey County Council,Epsom West,Conservative,32.8,Labour,7.5,4,4632.0
@@ -545,13 +545,13 @@ year,council,ward,winning_party,winner_share,second_party,margin,n_parties,turno
 2022,Reigate and Banstead Borough Council,South Park and Woodhatch,Green,56.7,Conservative,30.5,4,2256.0
 2022,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Tattenham RA,60.0,Conservative,40.1,4,2073.0
 2022,Runnymede Borough Council,Addlestone North,Green,40.6,Conservative,3.4,4,1294.0
-2022,Runnymede Borough Council,Addlestone South,Conservative,44.3,Labour Co-op,19.7,4,1376.0
-2022,Runnymede Borough Council,Chertsey Riverside,Conservative,39.1,Labour Co-op,11.7,4,1216.0
+2022,Runnymede Borough Council,Addlestone South,Conservative,44.3,Labour,19.7,4,1376.0
+2022,Runnymede Borough Council,Chertsey Riverside,Conservative,39.1,Labour,11.7,4,1216.0
 2022,Runnymede Borough Council,Chertsey St. Ann's,Conservative,34.3,Independent,1.6,4,1464.0
-2022,Runnymede Borough Council,Egham Hythe,Labour Co-op,57.8,Conservative,15.6,2,1432.0
+2022,Runnymede Borough Council,Egham Hythe,Labour,57.8,Conservative,15.6,2,1432.0
 2022,Runnymede Borough Council,Egham Town,RIRG,55.4,Conservative,36.7,5,1490.0
 2022,Runnymede Borough Council,Englefield Green East,Independent,45.9,Conservative,18.8,4,802.0
-2022,Runnymede Borough Council,Englefield Green West,Labour Co-op,36.8,Conservative,1.8,3,1094.0
+2022,Runnymede Borough Council,Englefield Green West,Labour,36.8,Conservative,1.8,3,1094.0
 2022,Runnymede Borough Council,"Longcross, Lyne and Chertsey South",Liberal Democrats,68.8,Conservative,37.6,2,955.0
 2022,Runnymede Borough Council,New Haw,Conservative,48.1,Liberal Democrats,0.6,3,1374.0
 2022,Runnymede Borough Council,Ottershaw,Independent,55.6,Conservative,30.5,4,1704.0
@@ -662,10 +662,10 @@ year,council,ward,winning_party,winner_share,second_party,margin,n_parties,turno
 2023,Reigate and Banstead Borough Council,South Park and Woodhatch,Conservative,46.1,Green,6.4,4,2372.0
 2023,Reigate and Banstead Borough Council,Tattenham Corner and Preston,Residents,63.4,Conservative,48.5,5,1950.0
 2023,Runnymede Borough Council,Addlestone North,Green,39.7,Conservative,2.2,4,1374.0
-2023,Runnymede Borough Council,Addlestone South,Conservative,41.7,Labour Co-op,5.4,4,1459.0
-2023,Runnymede Borough Council,Chertsey Riverside,Conservative,41.9,Labour Co-op,3.4,4,1349.0
-2023,Runnymede Borough Council,Chertsey St. Ann's,Conservative,45.1,Labour Co-op,8.6,4,1434.0
-2023,Runnymede Borough Council,Egham Hythe,Labour Co-op,49.8,Conservative,8.3,4,1503.0
+2023,Runnymede Borough Council,Addlestone South,Conservative,41.7,Labour,5.4,4,1459.0
+2023,Runnymede Borough Council,Chertsey Riverside,Conservative,41.9,Labour,3.4,4,1349.0
+2023,Runnymede Borough Council,Chertsey St. Ann's,Conservative,45.1,Labour,8.6,4,1434.0
+2023,Runnymede Borough Council,Egham Hythe,Labour,49.8,Conservative,8.3,4,1503.0
 2023,Runnymede Borough Council,Egham Town,RIRG,64.6,Labour,49.7,4,1434.0
 2023,Runnymede Borough Council,Englefield Green East,Independent,54.5,Conservative,31.3,4,811.0
 2023,Runnymede Borough Council,Englefield Green West,Labour,53.9,Conservative,7.8,2,1138.0
@@ -724,7 +724,7 @@ year,council,ward,winning_party,winner_share,second_party,margin,n_parties,turno
 2023,Waverley Borough Council,Elstead & Peper Harow,Liberal Democrats,60.9,Conservative,21.8,2,1065.0
 2023,Waverley Borough Council,Ewhurst & Ellens Green,Liberal Democrats,51.2,Conservative,9.4,4,902.0
 2023,Waverley Borough Council,Farnham Bourne,Conservative,44.2,Farnham Residents,8.8,3,1529.0
-2023,Waverley Borough Council,Farnham Castle,Farnham Residents,50.2,Labour Co-op,15.5,3,1109.0
+2023,Waverley Borough Council,Farnham Castle,Farnham Residents,50.2,Labour,15.5,3,1109.0
 2023,Waverley Borough Council,Farnham Firgrove,Farnham Residents,55.1,Labour,25.7,3,1428.0
 2023,Waverley Borough Council,Farnham Heath End,Farnham Residents,58.5,Labour,33.3,3,1357.0
 2023,Waverley Borough Council,Farnham Moor Park,Farnham Residents,47.3,Liberal Democrats,13.7,3,1340.0
@@ -795,10 +795,10 @@ year,council,ward,winning_party,winner_share,second_party,margin,n_parties,turno
 2024,Reigate and Banstead Borough Council,South Park & Woodhatch,Green,50.6,Conservative,29.8,5,2345.0
 2024,Reigate and Banstead Borough Council,Tattenham Corner & Preston,Residents,60.4,Conservative,44.8,5,2213.0
 2024,Runnymede Borough Council,Addlestone North,Green,39.8,Conservative,14.0,5,1245.0
-2024,Runnymede Borough Council,Addlestone South,Conservative,42.0,Labour Co-op,0.6,3,1441.0
-2024,Runnymede Borough Council,Chertsey Riverside,Labour Co-op,45.9,Conservative,8.1,4,1423.0
-2024,Runnymede Borough Council,Chertsey St. Ann's,Labour Co-op,47.2,Conservative,12.5,4,1385.0
-2024,Runnymede Borough Council,Egham Hythe,Labour Co-op,50.6,Conservative,9.0,3,1410.0
+2024,Runnymede Borough Council,Addlestone South,Conservative,42.0,Labour,0.6,3,1441.0
+2024,Runnymede Borough Council,Chertsey Riverside,Labour,45.9,Conservative,8.1,4,1423.0
+2024,Runnymede Borough Council,Chertsey St. Ann's,Labour,47.2,Conservative,12.5,4,1385.0
+2024,Runnymede Borough Council,Egham Hythe,Labour,50.6,Conservative,9.0,3,1410.0
 2024,Runnymede Borough Council,Egham Town,RIRG,50.6,Conservative,29.7,5,1453.0
 2024,Runnymede Borough Council,Englefield Green West,Labour,32.9,Conservative,3.4,4,1125.0
 2024,Runnymede Borough Council,"Longcross, Lyne and Chertsey South",Liberal Democrats,70.0,Conservative,40.0,2,921.0
@@ -830,7 +830,7 @@ year,council,ward,winning_party,winner_share,second_party,margin,n_parties,turno
 2024,Woking Borough Council,Goldsworth Park,Liberal Democrats,68.5,Conservative,52.0,3,2196.0
 2024,Woking Borough Council,Heathlands,Liberal Democrats,51.4,Conservative,22.5,6,2886.0
 2024,Woking Borough Council,Hoe Valley,Liberal Democrats,71.3,Conservative,55.0,3,2251.0
-2024,Woking Borough Council,Hoe Valley: 10 July 2025,Liberal Democrats,62.8,Reform,41.5,5,1779.0
+2024,Woking Borough Council,Hoe Valley: 10 July 2025,Liberal Democrats,62.8,Reform UK,41.5,5,1779.0
 2024,Woking Borough Council,Horsell,Liberal Democrats,66.7,Conservative,44.9,5,3265.0
 2024,Woking Borough Council,Knaphill,Liberal Democrats,46.8,Conservative,6.5,3,3120.0
 2024,Woking Borough Council,Mount Hermon,Liberal Democrats,61.5,Conservative,41.4,6,2849.0

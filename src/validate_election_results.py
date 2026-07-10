@@ -1,8 +1,8 @@
 """Run regression checks on the first-stage election cleaning pipeline.
 
-This validator covers only the explicit by-election metadata added in the
-first cleaning stage.  It does not yet validate party-name normalisation,
-official source reconciliation, turnout rates, or multi-seat outcomes.
+This validator covers explicit by-election metadata and the party aliases
+added in the current cleaning stage.  It does not yet validate official
+source reconciliation, turnout rates, or multi-seat outcomes.
 
 Run after:
     python3 src/fetch_election_results.py
@@ -47,10 +47,24 @@ def main():
     required = {
         "event_type", "polling_date", "source_url", "source_table_index",
         "source_caption", "source_heading", "source_section",
+        "party_raw", "party_canonical",
     }
     assert required.issubset(raw.columns), "raw election metadata is incomplete"
     assert raw["event_type"].notna().all(), "event_type contains null values"
     assert set(raw["event_type"]).issubset(EVENT_TYPES), "unknown event type found"
+
+    # These aliases are the minimum contract for the canonical party field.
+    # The raw spelling remains available for audit and future remapping.
+    expected_aliases = {
+        "Reform": "Reform UK",
+        "Labour Co-op": "Labour",
+        "Liberal Democrat": "Liberal Democrats",
+        "Green Party": "Green",
+    }
+    for raw_label, canonical in expected_aliases.items():
+        rows = raw.loc[raw["party_raw"].eq(raw_label)]
+        if not rows.empty:
+            assert rows["party_canonical"].eq(canonical).all(), raw_label
 
     # Candidate rows from one source table must never disagree about whether
     # that table is scheduled or a by-election.
@@ -81,9 +95,10 @@ def main():
 
     scheduled = raw.loc[raw["event_type"].eq("scheduled")].copy()
     scheduled["ward"] = scheduled["ward"].map(ward_key)
-    expected_party = (scheduled.groupby(["year", "council", "ward", "party"])
+    expected_party = (scheduled.groupby(["year", "council", "ward", "party_canonical"])
                        .agg(votes=("votes", "max"))
                        .reset_index()
+                       .rename(columns={"party_canonical": "party"})
                        .sort_values(["year", "council", "ward", "party"])
                        .reset_index(drop=True))
     actual_party = (party[["year", "council", "ward", "party", "votes"]]
