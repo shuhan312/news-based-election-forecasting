@@ -1,6 +1,6 @@
 """Aggregate scheduled-election candidate results into ward-level outcomes.
 
-Turns results_2021_2024.csv (one row per candidate) into the tables a
+Turns results_2017_2024.csv (one row per candidate) into the tables a
 prediction model actually needs:
 
   data/elections/ward_party_results.csv   one row per ward x party
@@ -25,6 +25,46 @@ IN_PATH = "data/elections/results_2017_2024.csv"
 PARTY_OUT = "data/elections/ward_party_results.csv"
 WINNER_OUT = "data/elections/ward_winners.csv"
 
+TURNOUT_COLUMNS = [
+    "people_who_voted",
+    "registered_voters",
+    "turnout_percent",
+    "turnout_data_source",
+    "turnout_is_reliable",
+]
+
+
+def resolve_ward_turnout(df, ward_keys):
+    """Keep one turnout record per ward, or flag conflicting source tables."""
+    table_keys = ward_keys + ["source_url", "source_table_index"]
+
+    # Candidate rows from the same source table must carry the same values.
+    consistency = (df.groupby(table_keys)[TURNOUT_COLUMNS]
+                   .nunique(dropna=False))
+    if consistency.gt(1).any().any():
+        raise ValueError("Turnout fields disagree within a source table")
+
+    by_table = (df.groupby(table_keys)[TURNOUT_COLUMNS]
+                .first()
+                .reset_index())
+
+    def one_ward(group):
+        if len(group) > 1:
+            # Do not choose one value when two source tables have the same
+            # year/council/ward key.  The audit file records these cases.
+            return pd.Series({
+                "people_who_voted": pd.NA,
+                "registered_voters": pd.NA,
+                "turnout_percent": pd.NA,
+                "turnout_data_source": "conflicting_source_tables",
+                "turnout_is_reliable": False,
+            })
+        return group.iloc[0][TURNOUT_COLUMNS]
+
+    return (by_table.groupby(ward_keys)
+            .apply(one_ward, include_groups=False)
+            .reset_index())
+
 def main():
     df = pd.read_csv(IN_PATH)
     # Fail rather than silently recreating the old, date-in-ward-name rule.
@@ -32,7 +72,7 @@ def main():
     required = {
         "event_type", "polling_date", "party_raw", "party_canonical",
         "candidate_vote_share", "candidate_rank", "candidate_elected",
-        "seats_contested",
+        "seats_contested", *TURNOUT_COLUMNS,
     }
     missing = required.difference(df.columns)
     if missing:
@@ -66,6 +106,7 @@ def main():
                    .agg(seat_results_known=lambda values: values.notna().all())
                    .reset_index())
     df = df.merge(seat_status, on=ward_keys, how="left")
+    ward_turnout = resolve_ward_turnout(df, ward_keys)
 
     # Party result in a ward = its best-placed candidate.  This avoids adding
     # several candidates' votes together in a multi-seat election.
@@ -73,9 +114,9 @@ def main():
     party = (df.groupby(party_keys)
                .agg(best_candidate_votes=("votes", "max"),
                     seats_contested=("seats_contested", "first"),
-                    seat_results_known=("seat_results_known", "first"),
-                    turnout=("turnout", "first"))
+                    seat_results_known=("seat_results_known", "first"))
                .reset_index())
+    party = party.merge(ward_turnout, on=ward_keys, how="left")
 
     elected_counts = (df.loc[df["candidate_elected"].eq(True)]
                       .groupby(party_keys).size()
@@ -126,7 +167,11 @@ def main():
             "seats_awarded": (int(g["party_seats_won"].sum())
                                if g.iloc[0]["seat_results_known"] else None),
             "top_party_seats_won": g.iloc[0]["party_seats_won"],
-            "turnout": g.iloc[0]["turnout"],
+            "people_who_voted": g.iloc[0]["people_who_voted"],
+            "registered_voters": g.iloc[0]["registered_voters"],
+            "turnout_percent": g.iloc[0]["turnout_percent"],
+            "turnout_data_source": g.iloc[0]["turnout_data_source"],
+            "turnout_is_reliable": g.iloc[0]["turnout_is_reliable"],
             # Backwards-compatible aliases: these do not mean every seat was
             # won by one party in a multi-seat ward.
             "winning_party": g.iloc[0]["party"],

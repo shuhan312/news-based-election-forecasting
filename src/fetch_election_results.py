@@ -3,14 +3,15 @@
 For every 2017-2024 election in data/elections/election_calendar.csv this
 script downloads the Wikipedia article (cached in data/raw/wikipedia/, so
 pages are only fetched once) and pulls out each ward's results table:
-one row per candidate with party, votes and vote share, plus the ward
-turnout where the page provides it.
+one row per candidate with party, votes and vote share.  Turnout information
+is kept in separate fields when the page provides it.
 
 Everything is combined into one long table:
   data/elections/results_2017_2024.csv
   columns: year, council, ward, party_raw, party_canonical, candidate, votes,
            candidate_vote_share, candidate_rank, candidate_elected,
-           seats_contested, turnout,
+           seats_contested, people_who_voted, registered_voters,
+           turnout_percent, turnout_data_source, turnout_is_reliable,
            event_type, polling_date, source metadata
 
 The Wikipedia pages are living pages: a page for a scheduled election can
@@ -43,8 +44,11 @@ OUT_PATH = Path("data/elections/results_2017_2024.csv")
 
 # Rows in an election box that are bookkeeping, not candidates.
 NON_CANDIDATE = re.compile(
-    r"majority|turnout|registered electors|rejected|swing|gain|hold|total",
+    r"majority|turnout|registered electors|electorate|rejected|swing|gain|hold|total",
     re.IGNORECASE)
+
+# Wikipedia usually rounds the displayed turnout percentage.
+TURNOUT_RATE_TOLERANCE_PP = 0.2
 
 # Dates in Wikipedia captions/headings use a written month, e.g. "4 July
 # 2024".  A source-page year is not enough because pages can contain later
@@ -178,33 +182,93 @@ def ward_name(metadata):
 
 
 def to_number(text, cast=int):
+    value = str(text).replace(",", "").replace("%", "").strip()
     try:
-        return cast(text.replace(",", "").strip())
-    except ValueError:
+        return cast(value)
+    except (TypeError, ValueError):
         return None
 
 
+def turnout_info(people_who_voted, registered_voters, turnout_percent):
+    """Return the turnout fields for one source table."""
+    if turnout_percent is not None and not 0 <= turnout_percent <= 100:
+        turnout_percent = None
+
+    calculated_percent = None
+    if people_who_voted is not None and registered_voters not in (None, 0):
+        calculated_percent = people_who_voted / registered_voters * 100
+
+    if turnout_percent is not None:
+        reliable = True
+        source = "wikipedia_reported_turnout_percent"
+        if (calculated_percent is not None and
+                abs(turnout_percent - calculated_percent) > TURNOUT_RATE_TOLERANCE_PP):
+            reliable = False
+            source = "wikipedia_reported_turnout_percent_needs_review"
+    elif calculated_percent is not None:
+        turnout_percent = round(calculated_percent, 2)
+        reliable = True
+        source = "calculated_from_people_and_registered_voters"
+    elif people_who_voted is not None:
+        reliable = False
+        source = "wikipedia_people_who_voted_only"
+    elif registered_voters is not None:
+        reliable = False
+        source = "wikipedia_registered_voters_only"
+    else:
+        reliable = False
+        source = "missing"
+
+    return {
+        "people_who_voted": people_who_voted,
+        "registered_voters": registered_voters,
+        "turnout_percent": turnout_percent,
+        "turnout_data_source": source,
+        "turnout_is_reliable": reliable,
+    }
+
+
 def parse_table(table):
-    """Parse one election box. Returns (candidate rows, turnout or None)."""
+    """Parse one election result table and its turnout information."""
     header = " ".join(th.get_text() for th in table.find_all("th"))
     # a ward results table always lists Party, Candidate and Votes;
     # summary tables (seats won etc.) lack a Candidate column
     if not ("Party" in header and "Candidate" in header and "Votes" in header):
         return [], None
 
-    rows, turnout = [], None
+    rows = []
+    people_who_voted = None
+    registered_voters = None
+    turnout_percent = None
+
     for tr in table.find_all("tr"):
         # candidate names are sometimes <th> (plainrowheaders variant),
         # so read every cell in order and work from the text pattern
         texts = [clean(c.get_text(" ")) for c in tr.find_all(["th", "td"])]
         if not texts:
             continue
-        first_label = texts[0] or (texts[1] if len(texts) > 1 else "")
 
-        if NON_CANDIDATE.search(first_label[:30]):
-            if first_label.lower().startswith("turnout"):
-                numbers = [to_number(t) for t in texts[1:]]
-                turnout = next((n for n in numbers if n is not None), None)
+        label_index = next((i for i, value in enumerate(texts) if value), None)
+        if label_index is None:
+            continue
+        label = texts[label_index]
+
+        if NON_CANDIDATE.search(label[:30]):
+            values_after_label = texts[label_index + 1:]
+            if label.casefold().startswith("turnout"):
+                # The source layout is normally Turnout | people | percent.
+                people_who_voted = (
+                    to_number(values_after_label[0])
+                    if len(values_after_label) >= 1 else None)
+                turnout_percent = (
+                    to_number(values_after_label[1], float)
+                    if len(values_after_label) >= 2 else None)
+            elif (label.casefold().startswith("registered electors") or
+                  label.casefold().startswith("electorate")):
+                for value in values_after_label:
+                    registered_voters = to_number(value)
+                    if registered_voters is not None:
+                        break
             continue
         # candidate row pattern: empty colour-swatch cell, then
         # party, candidate, votes, share
@@ -222,7 +286,8 @@ def parse_table(table):
                      "party_canonical": canonical_party(texts[1]),
                      "candidate": texts[2],
                      "votes": votes, "candidate_vote_share": share})
-    return rows, turnout
+    return rows, turnout_info(people_who_voted, registered_voters,
+                              turnout_percent)
 
 
 def mark_candidate_outcomes(rows, seats_contested):
@@ -269,7 +334,7 @@ def main():
 
         n_tables, n_rows = 0, 0
         for table_index, table in enumerate(soup.find_all("table", class_="wikitable")):
-            rows, turnout = parse_table(table)
+            rows, table_turnout = parse_table(table)
             if not rows:
                 continue
             metadata = table_metadata(table)
@@ -279,7 +344,7 @@ def main():
             mark_candidate_outcomes(rows, metadata["seats_contested"])
             for r in rows:
                 r.update({"year": e["year"], "council": e["council"],
-                          "ward": ward, "turnout": turnout,
+                          "ward": ward, **table_turnout,
                           "source_url": e["url"],
                           "source_table_index": table_index,
                           **metadata})
@@ -291,7 +356,9 @@ def main():
     df = pd.DataFrame(all_rows)[[
         "year", "council", "ward", "party_raw", "party_canonical", "candidate", "votes",
         "candidate_vote_share", "candidate_rank", "candidate_elected",
-        "seats_contested", "turnout", "event_type", "polling_date",
+        "seats_contested", "people_who_voted", "registered_voters",
+        "turnout_percent", "turnout_data_source", "turnout_is_reliable",
+        "event_type", "polling_date",
         "source_url", "source_table_index", "source_caption",
         "source_heading", "source_section",
     ]]
@@ -303,6 +370,8 @@ def main():
     print(df["seats_contested"].notna().sum())
     print("Candidate rows identified as elected:")
     print(df["candidate_elected"].eq(True).sum())
+    print("Candidate rows with a reliable turnout percentage:")
+    print(df["turnout_is_reliable"].sum())
     print("\nRows per year:")
     print(df["year"].value_counts().sort_index().to_string())
     print("\nTop parties by row count:")
