@@ -2098,11 +2098,11 @@ year,council,ward,party,best_candidate_votes,seats_contested,seat_results_known,
 2022,Mole Valley District Council,Leatherhead South,Liberal Democrats,539,,False,1451.0,,42.8,wikipedia_reported_turnout_percent,True,,Liberal Democrats,37.1,False
 2022,Mole Valley District Council,Leatherhead South,Green,118,,False,1451.0,,42.8,wikipedia_reported_turnout_percent,True,,Green,8.1,False
 2022,Mole Valley District Council,Leatherhead South,Labour,117,,False,1451.0,,42.8,wikipedia_reported_turnout_percent,True,,Labour Co-op,8.1,False
-2022,Reigate and Banstead Borough Council,Banstead Village,Conservative,1720,,False,,,,conflicting_source_tables,False,,Conservative,46.5,True
-2022,Reigate and Banstead Borough Council,Banstead Village,Independent,738,,False,,,,conflicting_source_tables,False,,Independent,20.0,False
-2022,Reigate and Banstead Borough Council,Banstead Village,Green,584,,False,,,,conflicting_source_tables,False,,Green,15.8,False
-2022,Reigate and Banstead Borough Council,Banstead Village,Labour,448,,False,,,,conflicting_source_tables,False,,Labour,12.1,False
-2022,Reigate and Banstead Borough Council,Banstead Village,Liberal Democrats,208,,False,,,,conflicting_source_tables,False,,Liberal Democrats,5.6,False
+2022,Reigate and Banstead Borough Council,Banstead Village,Conservative,1102,,False,2449.0,,36.5,wikipedia_reported_turnout_percent,True,,Conservative,45.0,True
+2022,Reigate and Banstead Borough Council,Banstead Village,Independent,738,,False,2449.0,,36.5,wikipedia_reported_turnout_percent,True,,Independent,30.1,False
+2022,Reigate and Banstead Borough Council,Banstead Village,Labour,243,,False,2449.0,,36.5,wikipedia_reported_turnout_percent,True,,Labour,9.9,False
+2022,Reigate and Banstead Borough Council,Banstead Village,Liberal Democrats,208,,False,2449.0,,36.5,wikipedia_reported_turnout_percent,True,,Liberal Democrats,8.5,False
+2022,Reigate and Banstead Borough Council,Banstead Village,Green,158,,False,2449.0,,36.5,wikipedia_reported_turnout_percent,True,,Green,6.5,False
 2022,Reigate and Banstead Borough Council,"Chipstead, Kingswood and Woodansterne",Conservative,1562,,False,2517.0,,34.2,wikipedia_reported_turnout_percent,True,,Conservative,62.1,True
 2022,Reigate and Banstead Borough Council,"Chipstead, Kingswood and Woodansterne",Green,530,,False,2517.0,,34.2,wikipedia_reported_turnout_percent,True,,Green,21.1,False
 2022,Reigate and Banstead Borough Council,"Chipstead, Kingswood and Woodansterne",Labour,425,,False,2517.0,,34.2,wikipedia_reported_turnout_percent,True,,Labour,16.9,False
@@ -2123,6 +2123,9 @@ year,council,ward,party,best_candidate_votes,seats_contested,seat_results_known,
 2022,Reigate and Banstead Borough Council,Horley West and Sidlow,Conservative,1079,,False,2238.0,,29.1,wikipedia_reported_turnout_percent,True,,Conservative,48.2,True
 2022,Reigate and Banstead Borough Council,Horley West and Sidlow,Labour,798,,False,2238.0,,29.1,wikipedia_reported_turnout_percent,True,,Labour,35.7,False
 2022,Reigate and Banstead Borough Council,Horley West and Sidlow,Liberal Democrats,361,,False,2238.0,,29.1,wikipedia_reported_turnout_percent,True,,Liberal Democrats,16.1,False
+2022,Reigate and Banstead Borough Council,"Lower Kingswood, Tadworth and Walton",Conservative,1720,,False,2752.0,,35.4,wikipedia_reported_turnout_percent,True,,Conservative,62.5,True
+2022,Reigate and Banstead Borough Council,"Lower Kingswood, Tadworth and Walton",Green,584,,False,2752.0,,35.4,wikipedia_reported_turnout_percent,True,,Green,21.2,False
+2022,Reigate and Banstead Borough Council,"Lower Kingswood, Tadworth and Walton",Labour,448,,False,2752.0,,35.4,wikipedia_reported_turnout_percent,True,,Labour,16.3,False
 2022,Reigate and Banstead Borough Council,Meadvale and St. John's,Liberal Democrats,1585,,False,2808.0,,42.6,wikipedia_reported_turnout_percent,True,,Liberal Democrats,56.4,True
 2022,Reigate and Banstead Borough Council,Meadvale and St. John's,Conservative,762,,False,2808.0,,42.6,wikipedia_reported_turnout_percent,True,,Conservative,27.1,False
 2022,Reigate and Banstead Borough Council,Meadvale and St. John's,Labour,461,,False,2808.0,,42.6,wikipedia_reported_turnout_percent,True,,Labour,16.4,False

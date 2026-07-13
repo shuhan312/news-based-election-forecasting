@@ -25,6 +25,10 @@ parser is defensive: it reports per page how many tables and candidate
 rows it recognised, and unrecognised rows are skipped, not guessed.
 Spot-check the output against official council result pages before use.
 
+If a scheduled-election page repeats a ward caption but one duplicate table
+has a different local ward heading, the heading is used as the ward name for
+that duplicate.  The original caption remains in the source metadata.
+
 Usage:  python src/fetch_election_results.py
         (needs: pip install beautifulsoup4)
 """
@@ -179,6 +183,49 @@ def table_metadata(table):
 def ward_name(metadata):
     """Ward = table caption, falling back to its nearest local heading."""
     return metadata["source_caption"] or metadata["source_heading"]
+
+
+def ward_label_key(label):
+    """Normalise a caption or heading before comparing ward names."""
+    value = str(label).casefold().replace("&", " and ")
+    value = POLLING_DATE.sub("", value)
+    value = BY_ELECTION.sub("", value)
+    value = re.sub(
+        r"\s*\((top\s+)?\d+\s*(seats?|candidates?)[^)]*\)", "", value)
+    return re.sub(r"[^a-z0-9]+", "", value)
+
+
+def correct_duplicate_scheduled_captions(df):
+    """Use a specific ward heading when a scheduled caption was copied twice."""
+    table_keys = ["source_url", "source_table_index"]
+    table_columns = table_keys + [
+        "event_type", "source_caption", "source_heading"
+    ]
+    tables = df[table_columns].drop_duplicates(table_keys)
+    scheduled = tables.loc[tables["event_type"].eq("scheduled")]
+    corrected_tables = 0
+
+    for (_, caption), group in scheduled.groupby(["source_url", "source_caption"]):
+        if not caption or len(group) < 2:
+            continue
+
+        caption_key = ward_label_key(caption)
+        heading_keys = group["source_heading"].map(ward_label_key)
+        has_matching_heading = heading_keys.eq(caption_key).any()
+        if not has_matching_heading:
+            continue
+
+        # A generic heading such as "Election result" is not a ward name.
+        for _, table in group.loc[
+            heading_keys.ne(caption_key) &
+            ~heading_keys.isin(["", "electionresult"])
+        ].iterrows():
+            mask = (df["source_url"].eq(table["source_url"]) &
+                    df["source_table_index"].eq(table["source_table_index"]))
+            df.loc[mask, "ward"] = table["source_heading"]
+            corrected_tables += 1
+
+    return corrected_tables
 
 
 def to_number(text, cast=int):
@@ -353,7 +400,12 @@ def main():
             n_rows += len(rows)
         print(f"{e['year']} {e['council']}: {n_tables} ward tables, {n_rows} candidate rows")
 
-    df = pd.DataFrame(all_rows)[[
+    df = pd.DataFrame(all_rows)
+    corrected_tables = correct_duplicate_scheduled_captions(df)
+    if corrected_tables:
+        print(f"corrected ward name from heading in {corrected_tables} source table(s)")
+
+    df = df[[
         "year", "council", "ward", "party_raw", "party_canonical", "candidate", "votes",
         "candidate_vote_share", "candidate_rank", "candidate_elected",
         "seats_contested", "people_who_voted", "registered_voters",

@@ -224,17 +224,40 @@ def main():
     assert (known_party_seats.groupby(ward_keys)["party_seats_won"].sum()
             .eq(known_party_seats.groupby(ward_keys)["seats_contested"].first())).all()
 
-    # A copied Wikipedia caption produces two source tables for this ward.
-    # Aggregation must mark turnout as unresolved rather than choose one.
+    # Table 8 on the 2022 Reigate page has a copied Banstead Village caption.
+    # Its local heading and official result identify it as Lower Kingswood,
+    # Tadworth and Walton, so these must remain separate wards.
+    reigate_2022 = raw.loc[(raw["year"] == 2022) &
+                           raw["council"].eq(
+                               "Reigate and Banstead Borough Council") &
+                           raw["event_type"].eq("scheduled")]
+    banstead_raw = reigate_2022.loc[
+        reigate_2022["source_table_index"].eq(1)]
+    lower_raw = reigate_2022.loc[
+        reigate_2022["source_table_index"].eq(8)]
+    assert banstead_raw["ward"].eq("Banstead Village").all()
+    assert lower_raw["ward"].eq(
+        "Lower Kingswood, Tadworth and Walton").all()
+    assert banstead_raw["people_who_voted"].eq(2449).all()
+    assert banstead_raw["turnout_percent"].eq(36.5).all()
+    assert lower_raw["people_who_voted"].eq(2752).all()
+    assert lower_raw["turnout_percent"].eq(35.4).all()
+
     banstead_party = party.loc[(party["year"] == 2022) &
                                party["council"].eq(
                                    "Reigate and Banstead Borough Council") &
                                party["ward"].eq("Banstead Village")]
-    assert not banstead_party.empty
-    assert banstead_party["turnout_data_source"].eq(
-        "conflicting_source_tables").all()
-    assert banstead_party["turnout_percent"].isna().all()
-    assert (~banstead_party["turnout_is_reliable"]).all()
+    lower_party = party.loc[(party["year"] == 2022) &
+                            party["council"].eq(
+                                "Reigate and Banstead Borough Council") &
+                            party["ward"].eq(
+                                "Lower Kingswood, Tadworth and Walton")]
+    assert set(banstead_party["party"]) == {
+        "Conservative", "Independent", "Labour", "Liberal Democrats", "Green"
+    }
+    assert set(lower_party["party"]) == {"Conservative", "Green", "Labour"}
+    assert banstead_party["turnout_is_reliable"].all()
+    assert lower_party["turnout_is_reliable"].all()
 
     scheduled = raw.loc[raw["event_type"].eq("scheduled")].copy()
     scheduled["ward"] = scheduled["ward"].map(ward_key)
