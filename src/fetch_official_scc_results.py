@@ -122,9 +122,31 @@ def percentage(text):
     return float(match.group(1)) if match else None
 
 
+# The reviewed task-4 table is the single source of truth for standardised
+# party names; PARTY_ALIASES above remains only as a fallback for labels the
+# table has not reviewed yet.
+STANDARDISATION_TABLE = Path("data/elections/party_name_standardisation.csv")
+_reviewed_names_cache = None
+
+
+def _reviewed_names():
+    global _reviewed_names_cache
+    if _reviewed_names_cache is None:
+        _reviewed_names_cache = {}
+        if STANDARDISATION_TABLE.exists():
+            with STANDARDISATION_TABLE.open(newline="", encoding="utf-8") as handle:
+                for row in csv.DictReader(handle):
+                    _reviewed_names_cache[row["Party Name As Published"].casefold()] = \
+                        row["Standardised Party Name"]
+    return _reviewed_names_cache
+
+
 def standard_party_name(label):
     """Keep the published label and supply a stable label for clear aliases."""
     published = clean(label)
+    reviewed = _reviewed_names().get(published.casefold())
+    if reviewed:
+        return reviewed
     return PARTY_ALIASES.get(published.casefold(), published)
 
 

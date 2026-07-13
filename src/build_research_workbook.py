@@ -36,6 +36,8 @@ DEFAULT_OUTPUT = REPO_ROOT / "outputs/surrey_election_news_workbook_2026_07_14/S
 
 CSV_SOURCES = {
     "Candidate Results": REPO_ROOT / "data/elections/official_scc_candidate_results.csv",
+    "Political Parties": REPO_ROOT / "data/elections/party_name_standardisation.csv",
+    "Candidates": REPO_ROOT / "data/elections/candidate_name_standardisation.csv",
     "2026 East Surrey": REPO_ROOT / "data/elections/2026_east_surrey_results.csv",
     "2026 West Surrey": REPO_ROOT / "data/elections/2026_west_surrey_results.csv",
 }
