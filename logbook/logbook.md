@@ -64,4 +64,68 @@
 - Weekly call, time TBC.
 
 
+## 2026-07-13 - Weekly Progress Update
+
+**Progress completed:**
+
+- Set up a reproducible project structure for collecting, checking and analysing Surrey local-election and news data.
+
+- Tested both Guardian and NewsAPI collection approaches. Because NewsAPI has limited historical depth and local Surrey coverage, Guardian is currently the main reproducible news source.
+
+- Collected 4,574 Guardian articles using Surrey, council, political-party and context-related queries, then filtered these to 2,210 articles in relevant news sections. Only 125 filtered articles name a specific Surrey council, and only 2 of these were published before May 2026. This means the current news corpus has limited ward- and council-level local detail.
+
+- Built monthly news features for party mentions and themes, and created an initial model dataset linking pre-election news features and previous ward results to 2021-2024 ward outcomes. Because the current news features are mainly shared across wards within the same year, they are a starting point for analysis rather than sufficient ward-level predictors.
+
+- Built a script-generated Surrey election calendar covering 2017-2026. The calendar records the older Surrey council elections used for training and the 2026 East and West Surrey unitary elections proposed for later validation.
+
+- Extracted candidate-level election results from cached source pages. The raw dataset now contains 4,390 candidate records: 4,165 scheduled-election records and 225 by-election records.
+
+**Election-data quality work:**
+
+- Added year-by-year checks for previous ward-result matching. Because the original 2021-2024 collection did not include enough earlier elections to find predecessors for some wards, especially around the 2023 all-out elections, the election history was extended back to 2017. The earlier years are used only as historical information; model rows remain from 2021 onwards.
+
+- Separated scheduled elections from by-elections. Because a by-election can occur later in the same ward and otherwise be merged with the normal election, the raw file now retains both event types while ward-level training outcomes use scheduled elections only.
+
+- Standardised clear party-name variants while retaining the original source labels. This prevents clear aliases such as "Reform" and "Reform UK" from being treated as different parties, while avoiding unsupported assumptions about different local residents' groups.
+
+- Added multi-seat ward information, including seats_contested, candidate rank, elected-candidate status and party seats won where the source supports them. Because one ward can elect more than one councillor and one voter can vote for multiple candidates, the highest-polling candidate's result is now labelled as a best-candidate party proxy rather than a full party vote share.
+
+- Replaced the old ambiguous turnout field with people_who_voted, registered_voters, turnout_percent, turnout_data_source and turnout_is_reliable. This was necessary because source tables may provide a turnout percentage, a voting count, both, or neither; in multi-seat wards, summing candidate votes does not give the number of people who voted.
+
+- Added audit_turnout.py and turnout_audit.csv. The audit checks what each source table actually provides before results are aggregated. If a turnout value is missing, conflicting or unsupported, the relevant field remains empty and is marked unreliable rather than guessed. Therefore, turnout can currently be used only for the reliable subset of wards and should not yet be treated as a universal modelling target.
+
+- Added automated validation checks for election type, party labels, seat allocation, turnout fields and source-table consistency.
+
+- Corrected a duplicated 2022 Reigate and Banstead ward label. Two different source tables were both labelled "Banstead Village", but they had different ward headings, candidates, vote totals and turnout figures. The parser now keeps Banstead Village and Lower Kingswood, Tadworth and Walton as separate ward outcomes, preventing their candidate results, party outcomes and turnout from being merged.
+
+**Current position:**
+
+- The election pipeline now produces reproducible candidate, ward-party and ward-outcome data for 2017-2024, including 838 scheduled-election ward outcomes.
+
+- The initial model dataset contains 2021-2024 ward contests with pre-election news features and historical ward-result features. It is an initial research dataset, not yet a final predictive model.
+
+- All tracked election CSV outputs were regenerated from the scripts after each correction rather than manually edited.
+
+**Current limitations and questions for discussion:**
+
+- Because Guardian provides limited local Surrey coverage before elections, more geographically specific news sources or a better location-extraction method may be needed before ward-level prediction is credible.
+
+- In multi-seat wards, top_polling_party is a clear and consistently available outcome proxy, but it is not identical to full party vote share or complete seat control. The primary outcome should be agreed before model evaluation begins.
+
+- Turnout is not consistently available or comparable across all source tables. It should remain a secondary outcome until reliable coverage is established.
+
+- The 2026 East and West Surrey unitary elections use a new local-government structure. A defensible geographic crosswalk is needed before they can be treated as a direct validation set against the older council data.
+
+**Next actions:**
+
+- Agree the primary election outcome with the supervisor, likely top_polling_party or party-seat outcome where reliable.
+
+- Decide whether 2026 should be used as direct validation after a geographic crosswalk, or as a separate structural-change case study.
+
+- Create a small manually labelled set of news articles for relevance, location, topic and stakeholder context.
+
+- Compare rule-based and LLM-based context classification against that labelled set.
+
+- Build more geographically specific pre-election news features before testing baseline prediction models.
+
 
