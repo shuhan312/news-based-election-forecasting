@@ -1,0 +1,2792 @@
+{
+ "sheets": [
+  {
+   "name": "Elections",
+   "headers": [
+    "Election ID",
+    "Election Name",
+    "Election Date",
+    "Election Type",
+    "Authority",
+    "Geography Type",
+    "Seats per Division/Ward",
+    "Source URL",
+    "Source Status",
+    "Extraction Status",
+    "Notes"
+   ],
+   "rows": [
+    [
+     "SCC-2013-05",
+     "2013 Surrey County Council election",
+     {
+      "__date__": "2013-05-02"
+     },
+     "Scheduled",
+     "Surrey County Council",
+     "County division",
+     null,
+     "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=5&RPID=0",
+     "Supervisor-provided official URL",
+     "Not started",
+     "Core historical election specified by the supervisor."
+    ],
+    [
+     "SCC-2017-05",
+     "2017 Surrey County Council election",
+     {
+      "__date__": "2017-05-04"
+     },
+     "Scheduled",
+     "Surrey County Council",
+     "County division",
+     null,
+     "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=10&RPID=0",
+     "Supervisor-provided official URL",
+     "Existing partial data; needs migration",
+     "Core historical election specified by the supervisor."
+    ],
+    [
+     "SCC-2021-05",
+     "2021 Surrey County Council election",
+     {
+      "__date__": "2021-05-06"
+     },
+     "Scheduled",
+     "Surrey County Council",
+     "County division",
+     null,
+     "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=16&RPID=0",
+     "Supervisor-provided official URL",
+     "Existing partial data; needs migration",
+     "Core historical election specified by the supervisor."
+    ],
+    [
+     "SCC-BYELECTIONS",
+     "Surrey County Council by-elections",
+     null,
+     "By-election",
+     "Surrey County Council",
+     "County division",
+     null,
+     "https://mycouncil.surreycc.gov.uk/mgManageElectionResults.aspx?bcr=1",
+     "Supervisor-provided official archive",
+     "Not started",
+     "Create one separate Elections row for each by-election after it is identified in the archive."
+    ],
+    [
+     "EAST-2026-05",
+     "2026 East Surrey Council election",
+     {
+      "__date__": "2026-05-07"
+     },
+     "Scheduled",
+     "East Surrey Council",
+     "New unitary ward",
+     2,
+     "https://www10.surreycc.gov.uk/electionmap/eastSurrey/",
+     "Official result map",
+     "Not started",
+     "Keep separate from historic divisions until a documented crosswalk exists."
+    ],
+    [
+     "WEST-2026-05",
+     "2026 West Surrey Council election",
+     {
+      "__date__": "2026-05-07"
+     },
+     "Scheduled",
+     "West Surrey Council",
+     "New unitary ward",
+     2,
+     "https://www10.surreycc.gov.uk/electionmap/WestSurrey/",
+     "Official result map",
+     "Not started",
+     "Keep separate from historic divisions until a documented crosswalk exists."
+    ]
+   ],
+   "column_widths": {
+    "A": 18.0,
+    "B": 26.0,
+    "C": 18.0,
+    "D": 18.0,
+    "E": 18.0,
+    "F": 18.0,
+    "G": 18.0,
+    "H": 34.0,
+    "I": 18.0,
+    "J": 18.0,
+    "K": 34.0
+   }
+  },
+  {
+   "name": "Candidate Results",
+   "headers": [
+    "Candidate Result ID",
+    "Election ID",
+    "Election Name",
+    "Election Date",
+    "Election Type",
+    "Authority",
+    "Division/Ward ID",
+    "Division/Ward Name",
+    "Seats Available",
+    "Candidate ID",
+    "Candidate Name As Published",
+    "Party ID",
+    "Party Name As Published",
+    "Standardised Party Name",
+    "Party Category",
+    "Votes Received",
+    "Vote Share",
+    "Final Position",
+    "Elected",
+    "Winning Candidate",
+    "Winning Party",
+    "Winning Margin Votes",
+    "Winning Margin Percentage Points",
+    "Electorate",
+    "Ballot Papers Issued",
+    "Turnout",
+    "Rejected Ballots",
+    "Previous Winning Party",
+    "Previous Party Vote Share",
+    "Change In Vote Share",
+    "Candidate Previously Stood",
+    "Incumbent Candidate",
+    "Incumbent Party",
+    "First Appearance Of Party In Area",
+    "Source URL",
+    "Notes"
+   ],
+   "rows": [],
+   "column_widths": {
+    "A": 18.0,
+    "B": 18.0,
+    "C": 26.0,
+    "D": 18.0,
+    "E": 18.0,
+    "F": 18.0,
+    "G": 18.0,
+    "H": 26.0,
+    "I": 18.0,
+    "J": 18.0,
+    "K": 26.0,
+    "L": 18.0,
+    "M": 26.0,
+    "N": 26.0,
+    "O": 18.0,
+    "P": 18.0,
+    "Q": 18.0,
+    "R": 18.0,
+    "S": 18.0,
+    "T": 18.0,
+    "U": 18.0,
+    "V": 18.0,
+    "W": 18.0,
+    "X": 18.0,
+    "Y": 18.0,
+    "Z": 18.0,
+    "AA": 18.0,
+    "AB": 18.0,
+    "AC": 18.0,
+    "AD": 18.0,
+    "AE": 18.0,
+    "AF": 18.0,
+    "AG": 18.0,
+    "AH": 18.0,
+    "AI": 34.0,
+    "AJ": 34.0
+   }
+  },
+  {
+   "name": "Divisions and Wards",
+   "headers": [
+    "Division/Ward ID",
+    "Name As Published",
+    "Standardised Name",
+    "Authority",
+    "Geography Type",
+    "Election ID",
+    "Seats Available",
+    "Town/Village",
+    "Borough/District",
+    "2026 Council",
+    "Old Division To 2026 Ward Mapping Status",
+    "Source URL",
+    "Notes"
+   ],
+   "rows": [],
+   "column_widths": {
+    "A": 18.0,
+    "B": 26.0,
+    "C": 26.0,
+    "D": 18.0,
+    "E": 18.0,
+    "F": 18.0,
+    "G": 18.0,
+    "H": 18.0,
+    "I": 18.0,
+    "J": 18.0,
+    "K": 18.0,
+    "L": 34.0,
+    "M": 34.0
+   }
+  },
+  {
+   "name": "Candidates",
+   "headers": [
+    "Candidate ID",
+    "Candidate Name As Published",
+    "Standardised Candidate Name",
+    "Known Variants",
+    "First Election ID",
+    "Latest Election ID",
+    "Previously Stood",
+    "Incumbent Candidate",
+    "Current/Last Known Party",
+    "Source URL",
+    "Notes"
+   ],
+   "rows": [],
+   "column_widths": {
+    "A": 18.0,
+    "B": 26.0,
+    "C": 26.0,
+    "D": 18.0,
+    "E": 18.0,
+    "F": 18.0,
+    "G": 18.0,
+    "H": 18.0,
+    "I": 18.0,
+    "J": 34.0,
+    "K": 34.0
+   }
+  },
+  {
+   "name": "Political Parties",
+   "headers": [
+    "Party ID",
+    "Party Name As Published",
+    "Standardised Party Name",
+    "Party Category",
+    "Established/Emerging/Local/Independent",
+    "First Appearance Election ID",
+    "Source URL",
+    "Notes"
+   ],
+   "rows": [],
+   "column_widths": {
+    "A": 18.0,
+    "B": 26.0,
+    "C": 26.0,
+    "D": 18.0,
+    "E": 18.0,
+    "F": 18.0,
+    "G": 34.0,
+    "H": 34.0
+   }
+  },
+  {
+   "name": "Party History and New Entrants",
+   "headers": [
+    "Party History ID",
+    "Party ID",
+    "Standardised Party Name",
+    "Start Election ID",
+    "End Election ID",
+    "Relationship To Earlier Party",
+    "Related Earlier Party",
+    "New Entrant Flag",
+    "Evidence/Source URL",
+    "Notes"
+   ],
+   "rows": [],
+   "column_widths": {
+    "A": 18.0,
+    "B": 18.0,
+    "C": 26.0,
+    "D": 18.0,
+    "E": 18.0,
+    "F": 18.0,
+    "G": 18.0,
+    "H": 18.0,
+    "I": 34.0,
+    "J": 34.0
+   }
+  },
+  {
+   "name": "NewsAPI Searches",
+   "headers": [
+    "Search ID",
+    "Election ID",
+    "Division/Ward ID",
+    "Division/Ward Name",
+    "Search Scope",
+    "Time Window",
+    "Date From",
+    "Date To",
+    "Exact Search Query",
+    "Domains Searched",
+    "Sorting Method",
+    "Search Date",
+    "Results Returned",
+    "Results Accepted",
+    "Results Excluded",
+    "NewsAPI Subscription/Access Note",
+    "Status",
+    "Notes"
+   ],
+   "rows": [],
+   "column_widths": {
+    "A": 18.0,
+    "B": 18.0,
+    "C": 18.0,
+    "D": 26.0,
+    "E": 18.0,
+    "F": 18.0,
+    "G": 18.0,
+    "H": 18.0,
+    "I": 18.0,
+    "J": 18.0,
+    "K": 18.0,
+    "L": 18.0,
+    "M": 18.0,
+    "N": 18.0,
+    "O": 18.0,
+    "P": 18.0,
+    "Q": 18.0,
+    "R": 34.0
+   }
+  },
+  {
+   "name": "News Articles",
+   "headers": [
+    "Article ID",
+    "Election ID",
+    "Division/Ward ID",
+    "Search ID",
+    "Publication",
+    "Author",
+    "Headline",
+    "Description",
+    "Article URL",
+    "Publication Date And Time",
+    "Original/Updated Date",
+    "Article Type",
+    "NewsAPI Content Extract",
+    "Article Text/Archive Reference",
+    "Word Count",
+    "Paywall Status",
+    "Duplicate/Syndicated Indicator",
+    "Days Before Polling Day",
+    "Time Period Band",
+    "Geographic Classification",
+    "Geographic Area Affected",
+    "Surrey Mentioned",
+    "Ward Mentioned",
+    "Candidate Mentioned",
+    "National Party Leader Mentioned",
+    "Local Issue, National Issue Or Both",
+    "Local Relevance Score",
+    "National Relevance Score",
+    "Publication Type",
+    "Estimated Prominence Or Reach",
+    "What Happened",
+    "Where It Happened",
+    "Main Issue",
+    "Secondary Issues",
+    "Who Is Praised",
+    "Who Is Criticised",
+    "Who Is Assigning Blame",
+    "Who Is Receiving Blame Or Credit",
+    "Party Controlling Relevant Council Or Service",
+    "Party Likely To Receive Electoral Benefit",
+    "Party Likely To Receive Electoral Damage",
+    "Indicates Party Growth, Decline Or Voter Switching",
+    "Continuing Story",
+    "Contains Poll, Prediction Or Result",
+    "Supporting Text",
+    "Relevance Decision",
+    "Reason For Inclusion/Exclusion",
+    "Notes"
+   ],
+   "rows": [],
+   "column_widths": {
+    "A": 18.0,
+    "B": 18.0,
+    "C": 18.0,
+    "D": 18.0,
+    "E": 18.0,
+    "F": 18.0,
+    "G": 18.0,
+    "H": 26.0,
+    "I": 34.0,
+    "J": 18.0,
+    "K": 18.0,
+    "L": 18.0,
+    "M": 18.0,
+    "N": 18.0,
+    "O": 18.0,
+    "P": 18.0,
+    "Q": 18.0,
+    "R": 18.0,
+    "S": 34.0,
+    "T": 34.0
+   }
+  },
+  {
+   "name": "Article-Party Context",
+   "headers": [
+    "Party Context ID",
+    "Article ID",
+    "Party ID",
+    "Party Name",
+    "Number Of Mentions",
+    "Prominence",
+    "Context Tone",
+    "Blame",
+    "Credit",
+    "Competence",
+    "Integrity",
+    "Main Associated Issue",
+    "Directly Quoted",
+    "Gaining/Losing Support",
+    "Credible Challenger",
+    "Voter Switching Discussed",
+    "Switching From Party",
+    "Switching To Party",
+    "Local Relevance Score",
+    "Electoral Relevance Score",
+    "Reform UK In Headline",
+    "Reform UK Candidate Mentioned",
+    "Reform UK Candidate Quoted",
+    "Local Campaign Activity Or Event",
+    "Policy Mentioned",
+    "Described As Threat To Conservatives",
+    "Described As Threat To Labour",
+    "Described As Threat To Liberal Democrats",
+    "Conservative To Reform Switching",
+    "Labour To Reform Switching",
+    "Liberal Democrat To Reform Switching",
+    "Protest Or Anti-Incumbent Support",
+    "National Momentum",
+    "Local Organisational Strength",
+    "Credibility Score",
+    "Momentum Score",
+    "Supporting Text",
+    "Notes"
+   ],
+   "rows": [],
+   "column_widths": {
+    "A": 18.0,
+    "B": 18.0,
+    "C": 18.0,
+    "D": 26.0,
+    "E": 18.0,
+    "F": 18.0,
+    "G": 18.0,
+    "H": 18.0,
+    "I": 18.0,
+    "J": 18.0,
+    "K": 18.0,
+    "L": 18.0,
+    "M": 18.0,
+    "N": 18.0,
+    "O": 18.0,
+    "P": 18.0,
+    "Q": 18.0,
+    "R": 18.0,
+    "S": 18.0,
+    "T": 18.0,
+    "U": 34.0,
+    "V": 34.0
+   }
+  },
+  {
+   "name": "Article-Candidate Context",
+   "headers": [
+    "Candidate Context ID",
+    "Article ID",
+    "Candidate ID",
+    "Candidate Name",
+    "Party ID",
+    "Party Name",
+    "Number Of Mentions",
+    "Prominence",
+    "Context Tone",
+    "Blame",
+    "Credit",
+    "Competence",
+    "Integrity",
+    "Main Issue",
+    "Directly Quoted",
+    "Credible/Gaining Momentum/Protest Candidate",
+    "Local Relevance Score",
+    "Electoral Relevance Score",
+    "Supporting Text",
+    "Notes"
+   ],
+   "rows": [],
+   "column_widths": {
+    "A": 18.0,
+    "B": 18.0,
+    "C": 18.0,
+    "D": 26.0,
+    "E": 18.0,
+    "F": 26.0,
+    "G": 18.0,
+    "H": 18.0,
+    "I": 18.0,
+    "J": 18.0,
+    "K": 18.0,
+    "L": 18.0,
+    "M": 18.0,
+    "N": 18.0,
+    "O": 18.0,
+    "P": 18.0,
+    "Q": 18.0,
+    "R": 18.0,
+    "S": 34.0,
+    "T": 34.0
+   }
+  },
+  {
+   "name": "Local News Searches",
+   "headers": [
+    "Local Search ID",
+    "Election ID",
+    "Division/Ward ID",
+    "Source Name",
+    "Source URL/Domain",
+    "Exact Search Query",
+    "Date From",
+    "Date To",
+    "Search Date",
+    "Results Returned",
+    "Results Accepted",
+    "Results Excluded",
+    "Archive/Access Note",
+    "Status",
+    "Notes"
+   ],
+   "rows": [],
+   "column_widths": {
+    "A": 18.0,
+    "B": 18.0,
+    "C": 18.0,
+    "D": 26.0,
+    "E": 34.0,
+    "F": 18.0,
+    "G": 18.0,
+    "H": 18.0,
+    "I": 18.0,
+    "J": 18.0,
+    "K": 18.0,
+    "L": 18.0,
+    "M": 18.0,
+    "N": 18.0,
+    "O": 34.0
+   }
+  },
+  {
+   "name": "Excluded Articles",
+   "headers": [
+    "Excluded Article ID",
+    "Article ID",
+    "Search ID",
+    "Publication",
+    "Headline",
+    "Article URL",
+    "Publication Date",
+    "Exclusion Reason",
+    "Reviewed By",
+    "Review Date",
+    "Notes"
+   ],
+   "rows": [],
+   "column_widths": {
+    "A": 18.0,
+    "B": 18.0,
+    "C": 18.0,
+    "D": 18.0,
+    "E": 18.0,
+    "F": 34.0,
+    "G": 18.0,
+    "H": 34.0,
+    "I": 18.0,
+    "J": 18.0,
+    "K": 34.0
+   }
+  },
+  {
+   "name": "2026 East Surrey",
+   "headers": [
+    "Candidate Result ID",
+    "Election Name",
+    "Election Date",
+    "Authority",
+    "Ward Name",
+    "Seats Available",
+    "Candidate Name As Published",
+    "Party Name As Published",
+    "Standardised Party Name",
+    "Votes Received",
+    "Vote Share",
+    "Final Position",
+    "Elected",
+    "Electorate",
+    "Ballot Papers Issued",
+    "Turnout",
+    "Rejected Ballots",
+    "Source URL",
+    "Notes"
+   ],
+   "rows": [],
+   "column_widths": {
+    "A": 18.0,
+    "B": 26.0,
+    "C": 18.0,
+    "D": 18.0,
+    "E": 26.0,
+    "F": 18.0,
+    "G": 26.0,
+    "H": 26.0,
+    "I": 26.0,
+    "J": 18.0,
+    "K": 18.0,
+    "L": 18.0,
+    "M": 18.0,
+    "N": 18.0,
+    "O": 18.0,
+    "P": 18.0,
+    "Q": 18.0,
+    "R": 34.0,
+    "S": 34.0
+   }
+  },
+  {
+   "name": "2026 West Surrey",
+   "headers": [
+    "Candidate Result ID",
+    "Election Name",
+    "Election Date",
+    "Authority",
+    "Ward Name",
+    "Seats Available",
+    "Candidate Name As Published",
+    "Party Name As Published",
+    "Standardised Party Name",
+    "Votes Received",
+    "Vote Share",
+    "Final Position",
+    "Elected",
+    "Electorate",
+    "Ballot Papers Issued",
+    "Turnout",
+    "Rejected Ballots",
+    "Source URL",
+    "Notes"
+   ],
+   "rows": [],
+   "column_widths": {
+    "A": 18.0,
+    "B": 26.0,
+    "C": 18.0,
+    "D": 18.0,
+    "E": 26.0,
+    "F": 18.0,
+    "G": 26.0,
+    "H": 26.0,
+    "I": 26.0,
+    "J": 18.0,
+    "K": 18.0,
+    "L": 18.0,
+    "M": 18.0,
+    "N": 18.0,
+    "O": 18.0,
+    "P": 18.0,
+    "Q": 18.0,
+    "R": 34.0,
+    "S": 34.0
+   }
+  },
+  {
+   "name": "Data Dictionary",
+   "headers": [
+    "Table",
+    "Field/Resource",
+    "Data Type",
+    "Definition/Rule",
+    "Source/Rule URL"
+   ],
+   "rows": [
+    [
+     "Elections",
+     "Election ID",
+     "Text / number / date as appropriate",
+     "Stable unique identifier, for example SCC-2021-05.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Elections",
+     "Election Name",
+     "Text / number / date as appropriate",
+     "Official or published name of the election.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Elections",
+     "Election Date",
+     "Text / number / date as appropriate",
+     "Polling day as an Excel date.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Elections",
+     "Election Type",
+     "Text / number / date as appropriate",
+     "Scheduled election or by-election.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Elections",
+     "Authority",
+     "Text / number / date as appropriate",
+     "The responsible authority, for example Surrey County Council.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Elections",
+     "Geography Type",
+     "Text / number / date as appropriate",
+     "County division, ward, or new unitary ward.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Elections",
+     "Seats per Division/Ward",
+     "Text / number / date as appropriate",
+     "Number of councillor seats normally available in each contest; keep blank if not yet confirmed.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Elections",
+     "Source URL",
+     "Text / number / date as appropriate",
+     "Official source URL supplied by the supervisor.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Elections",
+     "Source Status",
+     "Text / number / date as appropriate",
+     "Whether the source has been checked and is available for extraction.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Elections",
+     "Extraction Status",
+     "Text / number / date as appropriate",
+     "Not started, in progress, complete, or needs review.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Elections",
+     "Notes",
+     "Text / number / date as appropriate",
+     "Important source or scope notes.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Candidate Result ID",
+     "Text / number / date as appropriate",
+     "Stable unique candidate-contest identifier.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Election ID",
+     "Text / number / date as appropriate",
+     "Links this row to Elections.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Election Name",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Election Date",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Election Type",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Authority",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Division/Ward ID",
+     "Text / number / date as appropriate",
+     "Links this row to Divisions and Wards.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Division/Ward Name",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Seats Available",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Candidate ID",
+     "Text / number / date as appropriate",
+     "Links this row to Candidates.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Candidate Name As Published",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Party ID",
+     "Text / number / date as appropriate",
+     "Links this row to Political Parties.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Party Name As Published",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Standardised Party Name",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Party Category",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Votes Received",
+     "Text / number / date as appropriate",
+     "Candidate votes as published; do not replace with an inferred value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Vote Share",
+     "Text / number / date as appropriate",
+     "Candidate vote share as published, stored as a decimal percentage.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Final Position",
+     "Text / number / date as appropriate",
+     "Candidate rank within the division or ward.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Elected",
+     "Text / number / date as appropriate",
+     "Yes, No, or Unknown; do not infer ties.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Winning Candidate",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Winning Party",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Winning Margin Votes",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Winning Margin Percentage Points",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Electorate",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Ballot Papers Issued",
+     "Text / number / date as appropriate",
+     "Actual ballots issued/people voting where the official source provides this value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Turnout",
+     "Text / number / date as appropriate",
+     "Official turnout percentage; leave blank when unsupported or ambiguous.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Rejected Ballots",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Previous Winning Party",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Previous Party Vote Share",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Change In Vote Share",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Candidate Previously Stood",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Incumbent Candidate",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Incumbent Party",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "First Appearance Of Party In Area",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Source URL",
+     "Text / number / date as appropriate",
+     "Direct official or archived source for this row.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidate Results",
+     "Notes",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Divisions and Wards",
+     "Division/Ward ID",
+     "Text / number / date as appropriate",
+     "Stable geography identifier, not the display name.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Divisions and Wards",
+     "Name As Published",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Divisions and Wards",
+     "Standardised Name",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Divisions and Wards",
+     "Authority",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Divisions and Wards",
+     "Geography Type",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Divisions and Wards",
+     "Election ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Divisions and Wards",
+     "Seats Available",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Divisions and Wards",
+     "Town/Village",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Divisions and Wards",
+     "Borough/District",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Divisions and Wards",
+     "2026 Council",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Divisions and Wards",
+     "Old Division To 2026 Ward Mapping Status",
+     "Text / number / date as appropriate",
+     "Keep as Not mapped until a defensible crosswalk is documented.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Divisions and Wards",
+     "Source URL",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Divisions and Wards",
+     "Notes",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidates",
+     "Candidate ID",
+     "Text / number / date as appropriate",
+     "Stable identifier for a person after name matching is reviewed.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidates",
+     "Candidate Name As Published",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidates",
+     "Standardised Candidate Name",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidates",
+     "Known Variants",
+     "Text / number / date as appropriate",
+     "Published name variants retained for audit.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidates",
+     "First Election ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidates",
+     "Latest Election ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidates",
+     "Previously Stood",
+     "Text / number / date as appropriate",
+     "Yes, No, or Unknown; based on documented earlier contest records only.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidates",
+     "Incumbent Candidate",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidates",
+     "Current/Last Known Party",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidates",
+     "Source URL",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Candidates",
+     "Notes",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Political Parties",
+     "Party ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Political Parties",
+     "Party Name As Published",
+     "Text / number / date as appropriate",
+     "Exact source wording.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Political Parties",
+     "Standardised Party Name",
+     "Text / number / date as appropriate",
+     "Project-wide grouping label; preserve the original label separately.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Political Parties",
+     "Party Category",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Political Parties",
+     "Established/Emerging/Local/Independent",
+     "Text / number / date as appropriate",
+     "Project classification. Reform UK and UKIP must remain separate.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Political Parties",
+     "First Appearance Election ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Political Parties",
+     "Source URL",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Political Parties",
+     "Notes",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Party History and New Entrants",
+     "Party History ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Party History and New Entrants",
+     "Party ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Party History and New Entrants",
+     "Standardised Party Name",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Party History and New Entrants",
+     "Start Election ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Party History and New Entrants",
+     "End Election ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Party History and New Entrants",
+     "Relationship To Earlier Party",
+     "Text / number / date as appropriate",
+     "Historical context only; never merge distinct parties solely because of a perceived relationship.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Party History and New Entrants",
+     "Related Earlier Party",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Party History and New Entrants",
+     "New Entrant Flag",
+     "Text / number / date as appropriate",
+     "Yes, No, or Unknown for first appearance in the relevant area.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Party History and New Entrants",
+     "Evidence/Source URL",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Party History and New Entrants",
+     "Notes",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "NewsAPI Searches",
+     "Search ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "NewsAPI Searches",
+     "Election ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "NewsAPI Searches",
+     "Division/Ward ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "NewsAPI Searches",
+     "Division/Ward Name",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "NewsAPI Searches",
+     "Search Scope",
+     "Text / number / date as appropriate",
+     "Local, national, mixed, or candidate-specific.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "NewsAPI Searches",
+     "Time Window",
+     "Text / number / date as appropriate",
+     "180-91 days, 90-31 days, 30-15 days, 14-8 days, 7-4 days, or final 72 hours before polling day.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "NewsAPI Searches",
+     "Date From",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "NewsAPI Searches",
+     "Date To",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "NewsAPI Searches",
+     "Exact Search Query",
+     "Text / number / date as appropriate",
+     "Store the exact query, including Boolean operators and quotation marks.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "NewsAPI Searches",
+     "Domains Searched",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "NewsAPI Searches",
+     "Sorting Method",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "NewsAPI Searches",
+     "Search Date",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "NewsAPI Searches",
+     "Results Returned",
+     "Text / number / date as appropriate",
+     "Count returned by the source before filtering.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "NewsAPI Searches",
+     "Results Accepted",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "NewsAPI Searches",
+     "Results Excluded",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "NewsAPI Searches",
+     "NewsAPI Subscription/Access Note",
+     "Text / number / date as appropriate",
+     "Record the historical access actually available under the subscription.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "NewsAPI Searches",
+     "Status",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "NewsAPI Searches",
+     "Notes",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Article ID",
+     "Text / number / date as appropriate",
+     "Stable unique article identifier.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Election ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Division/Ward ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Search ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Publication",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Author",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Headline",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Description",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Article URL",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Publication Date And Time",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Original/Updated Date",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Article Type",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "NewsAPI Content Extract",
+     "Text / number / date as appropriate",
+     "Metadata/extract returned by NewsAPI; may be truncated.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Article Text/Archive Reference",
+     "Text / number / date as appropriate",
+     "Lawful full-text location or archive reference when available.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Word Count",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Paywall Status",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Duplicate/Syndicated Indicator",
+     "Text / number / date as appropriate",
+     "Yes, No, or Unknown.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Relevance Decision",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Reason For Inclusion/Exclusion",
+     "Text / number / date as appropriate",
+     "Short evidence-based explanation.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Notes",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Days Before Polling Day",
+     "Whole number",
+     "Days between publication and polling day. Articles published after voting began, and articles reporting the result, are excluded.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Time Period Band",
+     "Category",
+     "One exclusive band: 180-91, 90-31, 30-15, 14-8, 7-4 days, or final 72 hours before polling day. Cumulative 180/90/30/14/7-day and 72-hour windows are derived from this during analysis, not stored per article.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Geographic Classification",
+     "Category",
+     "One of: Ward-specific local news; Surrey-wide news; Regional news; National political news; Mixed national and local news.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Geographic Area Affected",
+     "Text",
+     "Ward, town, borough, county, region or nation affected by the story.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Surrey Mentioned",
+     "Yes/No",
+     "Whether Surrey is mentioned.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Ward Mentioned",
+     "Yes/No",
+     "Whether the relevant ward or division is mentioned.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Candidate Mentioned",
+     "Yes/No",
+     "Whether any relevant candidate is mentioned.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "National Party Leader Mentioned",
+     "Yes/No",
+     "Whether a national party leader is mentioned.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Local Issue, National Issue Or Both",
+     "Category",
+     "Local, National, or Both.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Local Relevance Score",
+     "Score 0-1",
+     "Local relevance score from 0 to 1.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "National Relevance Score",
+     "Score 0-1",
+     "National relevance score from 0 to 1.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Publication Type",
+     "Category",
+     "Local, regional or national publication.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Estimated Prominence Or Reach",
+     "Text/number",
+     "Estimated prominence or audience reach, where available.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "What Happened",
+     "Text",
+     "Short factual summary of what the article reports.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Where It Happened",
+     "Text",
+     "Where it happened.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Main Issue",
+     "Category",
+     "Main issue, using the agreed categories: council finance; council tax; roads and transport; planning and housing; schools and special educational needs; social care; waste and recycling; crime; environment and flooding; healthcare; local business; immigration; council performance; candidate or party conduct; scandal; protest; service closure; investment or funding; local government reorganisation; candidate selection or withdrawal; resignation or defection; new-party emergence; voter switching; anti-incumbent sentiment.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Secondary Issues",
+     "Category",
+     "Secondary issues, using the same agreed categories.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Who Is Praised",
+     "Text",
+     "Who is being praised.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Who Is Criticised",
+     "Text",
+     "Who is being criticised.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Who Is Assigning Blame",
+     "Text",
+     "Who is assigning blame.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Who Is Receiving Blame Or Credit",
+     "Text",
+     "Who is receiving blame or credit.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Party Controlling Relevant Council Or Service",
+     "Text",
+     "Which party controls the relevant council or service.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Party Likely To Receive Electoral Benefit",
+     "Text",
+     "Party that may receive electoral benefit.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Party Likely To Receive Electoral Damage",
+     "Text",
+     "Party that may receive electoral damage.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Indicates Party Growth, Decline Or Voter Switching",
+     "Text",
+     "Whether the article indicates party growth, decline or voter switching, and for which party.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Continuing Story",
+     "Yes/No",
+     "Whether the article concerns a continuing story.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Contains Poll, Prediction Or Result",
+     "Yes/No",
+     "Whether the article contains a poll, election prediction or result.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "News Articles",
+     "Supporting Text",
+     "Text",
+     "A supporting sentence or passage for important classifications.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Party Context ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Article ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Party ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Party Name",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Number Of Mentions",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Prominence",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Context Tone",
+     "Text / number / date as appropriate",
+     "Positive, neutral, negative, mixed, or unknown; record supporting text.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Blame",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Credit",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Competence",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Integrity",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Main Associated Issue",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Directly Quoted",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Gaining/Losing Support",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Credible Challenger",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Voter Switching Discussed",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Switching From Party",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Switching To Party",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Local Relevance Score",
+     "Text / number / date as appropriate",
+     "0 to 1 score for specific Surrey/division relevance.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Electoral Relevance Score",
+     "Text / number / date as appropriate",
+     "0 to 1 score for relevance to the election outcome.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Supporting Text",
+     "Text / number / date as appropriate",
+     "A supporting sentence or passage for important classifications.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Notes",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Reform UK In Headline",
+     "Yes/No",
+     "Reform UK rows only: Reform UK named in the headline.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Reform UK Candidate Mentioned",
+     "Yes/No",
+     "Reform UK rows only: a Reform UK candidate is mentioned.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Reform UK Candidate Quoted",
+     "Yes/No",
+     "Reform UK rows only: a Reform UK candidate is directly quoted.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Local Campaign Activity Or Event",
+     "Yes/No",
+     "Reform UK rows only: local campaign activity or event described.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Policy Mentioned",
+     "Text",
+     "Reform UK rows only: policy mentioned in connection with the party.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Described As Threat To Conservatives",
+     "Yes/No",
+     "Reform UK rows only.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Described As Threat To Labour",
+     "Yes/No",
+     "Reform UK rows only.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Described As Threat To Liberal Democrats",
+     "Yes/No",
+     "Reform UK rows only.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Conservative To Reform Switching",
+     "Yes/No",
+     "Reform UK rows only: Conservative-to-Reform switching discussed.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Labour To Reform Switching",
+     "Yes/No",
+     "Reform UK rows only: Labour-to-Reform switching discussed.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Liberal Democrat To Reform Switching",
+     "Yes/No",
+     "Reform UK rows only: Liberal Democrat-to-Reform switching discussed.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Protest Or Anti-Incumbent Support",
+     "Yes/No",
+     "Reform UK rows only: support framed as protest or anti-incumbent.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "National Momentum",
+     "Yes/No",
+     "Reform UK rows only: national momentum described.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Local Organisational Strength",
+     "Yes/No",
+     "Reform UK rows only: local organisational strength described.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Credibility Score",
+     "Score 0-1",
+     "Reform UK rows only: credibility score from 0 to 1.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Momentum Score",
+     "Score 0-1",
+     "Reform UK rows only: momentum score from 0 to 1.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Party Context",
+     "Reform UK analysis rule",
+     "Rule",
+     "Complete the Reform UK columns only on rows where Standardised Party Name is Reform UK. \"Described as gaining support\" and \"described as a credible challenger\" use the existing Gaining/Losing Support and Credible Challenger columns. Keep Reform UK separate from UKIP; any UKIP relationship is recorded in Party History and New Entrants.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Candidate Context",
+     "Candidate Context ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Candidate Context",
+     "Article ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Candidate Context",
+     "Candidate ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Candidate Context",
+     "Candidate Name",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Candidate Context",
+     "Party ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Candidate Context",
+     "Party Name",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Candidate Context",
+     "Number Of Mentions",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Candidate Context",
+     "Prominence",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Candidate Context",
+     "Context Tone",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Candidate Context",
+     "Blame",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Candidate Context",
+     "Credit",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Candidate Context",
+     "Competence",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Candidate Context",
+     "Integrity",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Candidate Context",
+     "Main Issue",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Candidate Context",
+     "Directly Quoted",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Candidate Context",
+     "Credible/Gaining Momentum/Protest Candidate",
+     "Text / number / date as appropriate",
+     "Evidence-based contextual description; retain supporting text.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Candidate Context",
+     "Local Relevance Score",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Candidate Context",
+     "Electoral Relevance Score",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Candidate Context",
+     "Supporting Text",
+     "Text / number / date as appropriate",
+     "A supporting sentence or passage for important classifications.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Article-Candidate Context",
+     "Notes",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Local News Searches",
+     "Local Search ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Local News Searches",
+     "Election ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Local News Searches",
+     "Division/Ward ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Local News Searches",
+     "Source Name",
+     "Text / number / date as appropriate",
+     "Tutor-provided local news or archive source.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Local News Searches",
+     "Source URL/Domain",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Local News Searches",
+     "Exact Search Query",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Local News Searches",
+     "Date From",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Local News Searches",
+     "Date To",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Local News Searches",
+     "Search Date",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Local News Searches",
+     "Results Returned",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Local News Searches",
+     "Results Accepted",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Local News Searches",
+     "Results Excluded",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Local News Searches",
+     "Archive/Access Note",
+     "Text / number / date as appropriate",
+     "Record paywall, archive or date-access limitations.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Local News Searches",
+     "Status",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Local News Searches",
+     "Notes",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Excluded Articles",
+     "Excluded Article ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Excluded Articles",
+     "Article ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Excluded Articles",
+     "Search ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Excluded Articles",
+     "Publication",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Excluded Articles",
+     "Headline",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Excluded Articles",
+     "Article URL",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Excluded Articles",
+     "Publication Date",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Excluded Articles",
+     "Exclusion Reason",
+     "Text / number / date as appropriate",
+     "For example duplicate, wrong Surrey, post-polling, result reporting, or irrelevant topic.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Excluded Articles",
+     "Reviewed By",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Excluded Articles",
+     "Review Date",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Excluded Articles",
+     "Notes",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 East Surrey",
+     "Candidate Result ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 East Surrey",
+     "Election Name",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 East Surrey",
+     "Election Date",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 East Surrey",
+     "Authority",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 East Surrey",
+     "Ward Name",
+     "Text / number / date as appropriate",
+     "New East Surrey ward; do not merge with historic divisions yet.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 East Surrey",
+     "Seats Available",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 East Surrey",
+     "Candidate Name As Published",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 East Surrey",
+     "Party Name As Published",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 East Surrey",
+     "Standardised Party Name",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 East Surrey",
+     "Votes Received",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 East Surrey",
+     "Vote Share",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 East Surrey",
+     "Final Position",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 East Surrey",
+     "Elected",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 East Surrey",
+     "Electorate",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 East Surrey",
+     "Ballot Papers Issued",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 East Surrey",
+     "Turnout",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 East Surrey",
+     "Rejected Ballots",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 East Surrey",
+     "Source URL",
+     "Text / number / date as appropriate",
+     "Use the official East Surrey result map or linked ward result.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 East Surrey",
+     "Notes",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 West Surrey",
+     "Candidate Result ID",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 West Surrey",
+     "Election Name",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 West Surrey",
+     "Election Date",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 West Surrey",
+     "Authority",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 West Surrey",
+     "Ward Name",
+     "Text / number / date as appropriate",
+     "New West Surrey ward; do not merge with historic divisions yet.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 West Surrey",
+     "Seats Available",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 West Surrey",
+     "Candidate Name As Published",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 West Surrey",
+     "Party Name As Published",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 West Surrey",
+     "Standardised Party Name",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 West Surrey",
+     "Votes Received",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 West Surrey",
+     "Vote Share",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 West Surrey",
+     "Final Position",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 West Surrey",
+     "Elected",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 West Surrey",
+     "Electorate",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 West Surrey",
+     "Ballot Papers Issued",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 West Surrey",
+     "Turnout",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 West Surrey",
+     "Rejected Ballots",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 West Surrey",
+     "Source URL",
+     "Text / number / date as appropriate",
+     "Use the official West Surrey result map or linked ward result.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "2026 West Surrey",
+     "Notes",
+     "Text / number / date as appropriate",
+     "Populate from the source named in the relevant row; leave blank rather than infer an unsupported value.",
+     "Supervisor brief, 14 July 2026"
+    ],
+    [
+     "Resource list",
+     "Surrey County Council election archive",
+     "URL",
+     "Main official archive; use it to identify County Council by-elections.",
+     "https://mycouncil.surreycc.gov.uk/mgManageElectionResults.aspx?bcr=1"
+    ],
+    [
+     "Resource list",
+     "2013 Surrey County Council results",
+     "URL",
+     "Supervisor-provided historical election result page.",
+     "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=5&RPID=0"
+    ],
+    [
+     "Resource list",
+     "2017 Surrey County Council results",
+     "URL",
+     "Supervisor-provided historical election result page.",
+     "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=10&RPID=0"
+    ],
+    [
+     "Resource list",
+     "2021 Surrey County Council results",
+     "URL",
+     "Supervisor-provided historical election result page.",
+     "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=16&RPID=0"
+    ],
+    [
+     "Resource list",
+     "2026 East Surrey results",
+     "URL",
+     "Official result map; keep in a separate tab.",
+     "https://www10.surreycc.gov.uk/electionmap/eastSurrey/"
+    ],
+    [
+     "Resource list",
+     "2026 West Surrey results",
+     "URL",
+     "Official result map; keep in a separate tab.",
+     "https://www10.surreycc.gov.uk/electionmap/WestSurrey/"
+    ],
+    [
+     "Resource list",
+     "NewsAPI Everything endpoint",
+     "URL",
+     "Use for date-bounded historical searches after subscription access is confirmed.",
+     "https://newsapi.org/docs/endpoints/everything"
+    ],
+    [
+     "Resource list",
+     "SurreyLive",
+     "URL",
+     "Local Surrey news source for separate search logging.",
+     "https://www.getsurrey.co.uk/"
+    ],
+    [
+     "Resource list",
+     "BBC News Surrey",
+     "URL",
+     "Regional/local Surrey news source for separate search logging.",
+     "https://www.bbc.co.uk/news/england/surrey"
+    ],
+    [
+     "Resource list",
+     "Woking News & Mail",
+     "URL",
+     "Local news source for separate search logging.",
+     "https://www.wokingnewsandmail.co.uk/"
+    ],
+    [
+     "Resource list",
+     "Farnham Herald",
+     "URL",
+     "Local news source for separate search logging.",
+     "https://www.farnhamherald.com/"
+    ],
+    [
+     "Resource list",
+     "The Guildford Dragon",
+     "URL",
+     "Local news source for separate search logging.",
+     "https://guildford-dragon.com/"
+    ],
+    [
+     "Resource list",
+     "Epsom & Ewell Times",
+     "URL",
+     "Local news source for separate search logging.",
+     "https://epsomandewelltimes.com/"
+    ],
+    [
+     "Resource list",
+     "Surrey Comet",
+     "URL",
+     "Local news source for separate search logging.",
+     "https://www.surreycomet.co.uk/"
+    ],
+    [
+     "Resource list",
+     "Surrey newspaper archive guide",
+     "URL",
+     "Guide to local newspaper back issues and archives.",
+     "https://www.surreycc.gov.uk/culture-and-leisure/history-centre/researchers/guides/newspaper-back-issues"
+    ],
+    [
+     "Resource list",
+     "SurreyLive In Your Area",
+     "URL",
+     "Supervisor-listed local news source.",
+     "https://www.getsurrey.co.uk/in-your-area/"
+    ]
+   ],
+   "column_widths": {
+    "A": 28.0,
+    "B": 34.0,
+    "C": 20.0,
+    "D": 64.0,
+    "E": 48.0
+   }
+  }
+ ]
+}
