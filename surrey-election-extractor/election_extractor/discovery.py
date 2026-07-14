@@ -1,12 +1,24 @@
-"""Ward and division discovery using indexed search evidence."""
+"""Official-archive-first discovery of Surrey election areas.
+
+The normal workflow follows links published by Surrey's election archive and
+area index. Indexed search remains an audited fallback when that official path
+is unavailable or produces no valid area-result links.
+"""
+
+from __future__ import annotations
 
 import re
 from collections.abc import Iterable
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from urllib.parse import parse_qsl, urlsplit
+from html.parser import HTMLParser
+from typing import Protocol
+from urllib.error import HTTPError
+from urllib.parse import parse_qsl, urljoin, urlsplit
+from urllib.request import Request, urlopen
 
 from election_extractor.models import (
+    AreaNameStatus,
     DiscoveredElectionArea,
     DiscoveryReport,
     DiscoveryStatus,
@@ -28,15 +40,140 @@ DATE_PATTERN = re.compile(
     re.IGNORECASE,
 )
 ARCHIVE_PATH = "/mgElectionResults.aspx"
+INDEX_PATH = "/mgElectionElectionAreaResults.aspx"
 SEARCH_DOMAIN = "mycouncil.surreycc.gov.uk"
+GENERIC_AREA_LINK_TEXT = {
+    "election results",
+    "results",
+    "view results",
+    "view election results",
+}
+
 # Search engines use several title layouts for the same council result page.
 # Only these explicit layouts are accepted so an unrelated title is not treated
 # as evidence for a ward or division name.
 AREA_NAME_PATTERNS = (
-    re.compile(r"^Election results for\s+(.+?)(?:,\s*\d{1,2}\s+\w+\s+\d{4}|\s*[-|–—])", re.IGNORECASE),
+    re.compile(
+        r"^Election results for\s+(.+?)(?:,\s*\d{1,2}\s+\w+\s+\d{4}|\s*[-|–—])",
+        re.IGNORECASE,
+    ),
     re.compile(r"^(.+?)\s*[-|–—]\s*Election results", re.IGNORECASE),
     re.compile(r"^(.+?)\s+election result(?:s)?(?:\s*[-|–—]|$)", re.IGNORECASE),
 )
+
+
+@dataclass(frozen=True)
+class OfficialArchiveResponse:
+    """Represent one ordinary public HTTP response from an archive page."""
+
+    status_code: int
+    final_url: str
+    body: str
+
+
+class OfficialArchiveClient(Protocol):
+    """Allow real HTTP access and deterministic archive fixtures to share a contract."""
+
+    def fetch(self, url: str) -> OfficialArchiveResponse:
+        """Fetch one official archive or area-index URL without browser automation."""
+
+
+class UrllibOfficialArchiveClient:
+    """Use normal public HTTP only; this client does not bypass site protections."""
+
+    def __init__(self, *, timeout: float = 20.0) -> None:
+        self._timeout = timeout
+
+    def fetch(self, url: str) -> OfficialArchiveResponse:
+        canonical_url = validate_discovery_source_url(url)
+        request = Request(
+            canonical_url,
+            headers={
+                "Accept": "text/html,application/xhtml+xml",
+                "User-Agent": "SurreyElectionExtractor/1.0 (academic data audit)",
+            },
+        )
+        try:
+            with urlopen(request, timeout=self._timeout) as response:
+                body = response.read().decode(
+                    response.headers.get_content_charset() or "utf-8",
+                    errors="replace",
+                )
+                return OfficialArchiveResponse(
+                    status_code=response.getcode(),
+                    final_url=response.geturl(),
+                    body=body,
+                )
+        except HTTPError as exc:
+            body = exc.read().decode(
+                exc.headers.get_content_charset() or "utf-8",
+                errors="replace",
+            )
+            return OfficialArchiveResponse(
+                status_code=exc.code,
+                final_url=exc.geturl(),
+                body=body,
+            )
+
+
+@dataclass(frozen=True)
+class _ArchiveLink:
+    """Keep one literal anchor target and its visible published label."""
+
+    href: str
+    text: str
+
+
+class _ArchiveHTMLParser(HTMLParser):
+    """Collect visible archive text and anchors without executing page scripts."""
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.visible_text: list[str] = []
+        self.links: list[_ArchiveLink] = []
+        self._ignored_depth = 0
+        self._anchor_href: str | None = None
+        self._anchor_text: list[str] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        lowered = tag.casefold()
+        if lowered in {"script", "style", "noscript"}:
+            self._ignored_depth += 1
+            return
+        if self._ignored_depth:
+            return
+        if lowered == "a":
+            href = dict(attrs).get("href")
+            if href:
+                self._anchor_href = href
+                self._anchor_text = []
+
+    def handle_endtag(self, tag: str) -> None:
+        lowered = tag.casefold()
+        if lowered in {"script", "style", "noscript"}:
+            self._ignored_depth = max(self._ignored_depth - 1, 0)
+            return
+        if self._ignored_depth:
+            return
+        if lowered == "a" and self._anchor_href is not None:
+            self.links.append(
+                _ArchiveLink(
+                    href=self._anchor_href,
+                    text=" ".join(" ".join(self._anchor_text).split()),
+                )
+            )
+            self._anchor_href = None
+            self._anchor_text = []
+
+    def handle_data(self, data: str) -> None:
+        if self._ignored_depth:
+            return
+        cleaned = " ".join(data.split())
+        if not cleaned:
+            return
+        self.visible_text.append(cleaned)
+        if self._anchor_href is not None:
+            self._anchor_text.append(cleaned)
 
 
 @dataclass(frozen=True)
@@ -50,7 +187,7 @@ class _Evidence:
 
 @dataclass(frozen=True)
 class DiscoverySearchAttempt(SearchAttempt):
-    """Extend the existing audit record with real-run search context."""
+    """Extend the existing audit record for official and indexed discovery."""
 
     election_name: str | None = None
     election_year: int | None = None
@@ -59,11 +196,19 @@ class DiscoverySearchAttempt(SearchAttempt):
     domains_searched: tuple[str, ...] = (SEARCH_DOMAIN,)
     accepted_result_count: int = 0
     excluded_result_count: int = 0
+    discovery_method: str = "indexed_search"
+    request_url: str | None = None
+    discovered_url: str | None = None
+    validation_result: str | None = None
+    rejection_reason: str | None = None
+    discovered_name: str | None = None
+    official_name: str | None = None
+    name_status: AreaNameStatus | None = None
 
 
 @dataclass(frozen=True)
 class _ElectionContext:
-    """Election metadata supported by the supplied archive and indexed page."""
+    """Election metadata supported by a published archive, index or search result."""
 
     year: int | None
     name: str | None
@@ -78,6 +223,14 @@ class _SearchRun:
     results: tuple[SearchResult, ...]
     error: str | None = None
     division_ward_name: str | None = None
+
+
+@dataclass(frozen=True)
+class _OfficialDiscovery:
+    """Keep official archive areas and their detailed audit independently of search."""
+
+    areas: tuple[DiscoveredElectionArea, ...]
+    attempts: tuple[DiscoverySearchAttempt, ...]
 
 
 def _single_numeric_value(url: str, name: str) -> str | None:
@@ -117,7 +270,7 @@ def build_search_queries(
     election_name: str | None = None,
     election_date: str | None = None,
 ) -> tuple[str, ...]:
-    """Build deterministic queries for an official archive or area index."""
+    """Build deterministic fallback queries for an official archive or area index."""
     canonical_index = validate_discovery_source_url(index_url)
     election_identifier = _election_identifier(canonical_index)
     exact_area_index = (
@@ -126,20 +279,11 @@ def build_search_queries(
     )
     queries = [f'site:mycouncil.surreycc.gov.uk "{canonical_index}"']
     if canonical_index != exact_area_index:
-        # ModernGov uses the same numeric election identifier on the archive
-        # and area-index views. The exact official index query supplies context;
-        # it does not construct or assume any ward result ID.
         queries.append(f'site:mycouncil.surreycc.gov.uk "{exact_area_index}"')
-    queries.extend(
-        [
-        (
-            "site:mycouncil.surreycc.gov.uk "
-            f'inurl:mgElectionElectionAreaResults.aspx "EID={election_identifier}"'
-        ),
-        ]
+    queries.append(
+        "site:mycouncil.surreycc.gov.uk "
+        f'inurl:mgElectionElectionAreaResults.aspx "EID={election_identifier}"'
     )
-    # Real area URLs use ID rather than EID. Election name and date therefore
-    # provide the relationship back to the supplied election archive.
     if election_date:
         queries.append(
             "site:mycouncil.surreycc.gov.uk "
@@ -149,7 +293,6 @@ def build_search_queries(
         queries.append(
             f'site:mycouncil.surreycc.gov.uk inurl:mgElectionAreaResults.aspx "{election_name}"'
         )
-    # Dictionary keys remove repeated queries while preserving creation order.
     return tuple(dict.fromkeys(queries))
 
 
@@ -164,40 +307,65 @@ def extract_area_name(title: str) -> str | None:
     return None
 
 
-def _extract_metadata(results: Iterable[SearchResult]) -> _ElectionContext:
-    candidates: list[tuple[int, str, str | None]] = []
-    for result in results:
-        text = " ".join(part for part in (result.title, result.snippet) if part)
-        year_match = YEAR_PATTERN.search(text)
-        if not year_match:
-            continue
-        year = int(year_match.group(1))
-        lower_text = text.casefold()
-        if "election" not in lower_text:
-            continue
-        date_match = DATE_PATTERN.search(text)
-        election_date = date_match.group(1) if date_match else None
-        # Support both the original mocked wording and ModernGov's real wording.
+def _canonical_area_name(value: str | None) -> str | None:
+    """Apply only whitespace, case and punctuation normalisation for comparison."""
+    if not value:
+        return None
+    cleaned = " ".join(re.sub(r"[^A-Za-z0-9]+", " ", value).casefold().split())
+    return cleaned or None
+
+
+def area_name_status(
+    discovered_name: str | None,
+    official_name: str | None,
+) -> AreaNameStatus:
+    """Compare names without silently treating distinct wards as one ward."""
+    discovered = _canonical_area_name(discovered_name)
+    official = _canonical_area_name(official_name)
+    if discovered and official:
+        return AreaNameStatus.EXACT if discovered == official else AreaNameStatus.NAME_MISMATCH
+    if official:
+        return AreaNameStatus.OFFICIAL_ONLY
+    return AreaNameStatus.SEARCH_ONLY
+
+
+def _context_from_text(text: str) -> _ElectionContext:
+    """Read only published election labels and dates from visible page text."""
+    name_match = re.search(
+        r"((?:19|20)\d{2}\s+Surrey County Council\s+(?:by-)?election)",
+        text,
+        re.IGNORECASE,
+    )
+    if not name_match:
         name_match = re.search(
-            r"((?:19|20)\d{2}\s+Surrey County Council\s+(?:by-)?election)",
+            r"(County Council\s+(?:By-)?Election\s+(?:19|20)\d{2})",
             text,
             re.IGNORECASE,
         )
-        if not name_match:
-            name_match = re.search(
-                r"(County Council\s+(?:By-)?Election\s+(?:19|20)\d{2})",
-                text,
-                re.IGNORECASE,
-            )
-        if name_match:
-            candidates.append((year, " ".join(name_match.group(1).split()), election_date))
+    if not name_match:
+        return _ElectionContext(None, None, None)
+    name = " ".join(name_match.group(1).split())
+    year_match = YEAR_PATTERN.search(name)
+    date_match = DATE_PATTERN.search(text)
+    return _ElectionContext(
+        int(year_match.group(1)) if year_match else None,
+        name,
+        date_match.group(1) if date_match else None,
+    )
+
+
+def _extract_metadata(results: Iterable[SearchResult]) -> _ElectionContext:
+    candidates = []
+    for result in results:
+        context = _context_from_text(" ".join((result.title, result.snippet)))
+        if context.year is not None and context.name is not None:
+            candidates.append(context)
     if not candidates:
         return _ElectionContext(None, None, None)
-    year, name, election_date = sorted(
+    return sorted(
         candidates,
-        key=lambda item: (item[0], item[1].casefold(), item[2] or ""),
+        key=lambda item: (item.year or 0, (item.name or "").casefold(), item.date or ""),
     )[0]
-    return _ElectionContext(year, name, election_date)
 
 
 def _matches_election_context(result: SearchResult, context: _ElectionContext) -> bool:
@@ -228,8 +396,6 @@ def _area_evidence(
             continue
         if not _matches_election_context(result, context):
             continue
-        # Group by canonical URL so duplicates from different queries or result
-        # positions become one discovered election area.
         evidence.setdefault(result_url, []).append(
             _Evidence(result_url=result_url, title=result.title, snippet=result.snippet)
         )
@@ -240,14 +406,339 @@ def _best_area_name(items: Iterable[_Evidence]) -> str | None:
     names = {name for item in items if (name := extract_area_name(item.title))}
     if not names:
         return None
-    # A deterministic choice makes output independent of search-result order.
-    # The shorter recognised title fragment usually excludes publisher suffixes.
     return sorted(names, key=lambda name: (len(name), name.casefold()))[0]
 
 
-def discover_election_areas(index_url: str, provider: SearchProvider) -> DiscoveryReport:
-    """Discover distinct official area-result URLs and retain every search attempt."""
-    canonical_index = validate_discovery_source_url(index_url)
+def _parse_archive_page(body: str) -> _ArchiveHTMLParser:
+    parser = _ArchiveHTMLParser()
+    parser.feed(body)
+    parser.close()
+    return parser
+
+
+def _official_area_name(link: _ArchiveLink) -> str | None:
+    """Accept a ward label only when the official anchor contains a real name."""
+    name = " ".join(link.text.split()).strip()
+    if not name or name.casefold() in GENERIC_AREA_LINK_TEXT:
+        return None
+    return name
+
+
+def _official_attempt(
+    *,
+    source_index_url: str,
+    request_url: str,
+    status: str,
+    result_count: int,
+    context: _ElectionContext,
+    discovered_url: str | None = None,
+    division_ward_name: str | None = None,
+    validation_result: str | None = None,
+    rejection_reason: str | None = None,
+    accepted: int = 0,
+    excluded: int = 0,
+    name_status: AreaNameStatus | None = None,
+) -> DiscoverySearchAttempt:
+    """Create one method-labelled official audit record without credentials."""
+    return DiscoverySearchAttempt(
+        query="",
+        source_index_url=source_index_url,
+        status=status,
+        result_count=result_count,
+        error=rejection_reason if status == "failed" else None,
+        election_name=context.name,
+        election_year=context.year,
+        division_ward_name=division_ward_name,
+        search_date=datetime.now(timezone.utc).date().isoformat(),
+        accepted_result_count=accepted,
+        excluded_result_count=excluded,
+        discovery_method="official_archive",
+        request_url=request_url,
+        discovered_url=discovered_url,
+        validation_result=validation_result,
+        rejection_reason=rejection_reason,
+        discovered_name=division_ward_name,
+        official_name=division_ward_name,
+        name_status=name_status,
+    )
+
+
+def _result_link_candidates(
+    links: Iterable[_ArchiveLink],
+    page_url: str,
+) -> Iterable[tuple[_ArchiveLink, str]]:
+    """Yield only literal official result links published in the current page."""
+    for link in links:
+        absolute_url = urljoin(page_url, link.href)
+        try:
+            yield link, normalise_area_result_url(absolute_url)
+        except ValueError:
+            continue
+
+
+def _index_link_candidates(
+    links: Iterable[_ArchiveLink],
+    page_url: str,
+    election_identifier: str,
+) -> Iterable[str]:
+    """Yield only official area-index links that retain the target election ID."""
+    for link in links:
+        try:
+            candidate = validate_index_url(urljoin(page_url, link.href))
+        except ValueError:
+            continue
+        if _single_numeric_value(candidate, "EID") == election_identifier:
+            yield candidate
+
+
+def _fetch_official_page(
+    client: OfficialArchiveClient,
+    url: str,
+) -> tuple[OfficialArchiveResponse | None, str | None]:
+    """Fetch once and surface a compact audit error instead of retrying or bypassing."""
+    try:
+        response = client.fetch(url)
+    except Exception as exc:
+        return None, type(exc).__name__
+    if not 200 <= response.status_code < 300:
+        return response, f"HTTP_{response.status_code}"
+    return response, None
+
+
+def _discover_from_official_archive(
+    source_index_url: str,
+    client: OfficialArchiveClient,
+) -> _OfficialDiscovery:
+    """Follow only published archive/index links and never construct area URLs."""
+    election_identifier = _election_identifier(source_index_url)
+    attempts: list[DiscoverySearchAttempt] = []
+    # RPID and XXR are display parameters. A result ID is the stable published
+    # election-area identity within one official index, so it prevents the
+    # same ward appearing again through a different pagination/display link.
+    areas_by_result_id: dict[str, DiscoveredElectionArea] = {}
+    attempted_result_ids: set[str] = set()
+
+    source_response, source_error = _fetch_official_page(client, source_index_url)
+    if source_response is None or source_error:
+        attempts.append(
+            _official_attempt(
+                source_index_url=source_index_url,
+                request_url=source_index_url,
+                status="failed",
+                result_count=0,
+                context=_ElectionContext(None, None, None),
+                validation_result="unavailable",
+                rejection_reason=source_error or "unavailable",
+            )
+        )
+        return _OfficialDiscovery((), tuple(attempts))
+
+    source_parser = _parse_archive_page(source_response.body)
+    source_context = _context_from_text(" ".join(source_parser.visible_text))
+    source_final_url = validate_discovery_source_url(source_response.final_url)
+    source_is_area_index = urlsplit(source_final_url).path.casefold() == INDEX_PATH.casefold()
+    # An area-index URL can be supplied directly.  When an archive URL is
+    # supplied, only the archive's literal same-election link starts the next
+    # step; the program never constructs an area-index URL from an EID.
+    pending_indexes = {
+        source_final_url
+    } if source_is_area_index else set(
+        _index_link_candidates(
+            source_parser.links,
+            source_final_url,
+            election_identifier,
+        )
+    )
+
+    # A direct result link on an archive page is rare but still valid official
+    # evidence when its visible name and archive election context are present.
+    attempts.append(
+        _official_attempt(
+            source_index_url=source_index_url,
+            request_url=source_final_url,
+            status="completed",
+            result_count=len(pending_indexes),
+            context=source_context,
+            validation_result="area_index_found" if pending_indexes else "no_area_index",
+            accepted=len(pending_indexes),
+        )
+    )
+
+    processed_indexes: set[str] = set()
+    while pending_indexes:
+        # Stable order keeps the first retained published link deterministic.
+        index_url = min(pending_indexes)
+        pending_indexes.remove(index_url)
+        if index_url in processed_indexes:
+            continue
+        processed_indexes.add(index_url)
+        if source_is_area_index and index_url == source_final_url:
+            parser = source_parser
+            context = source_context
+            final_index_url = source_final_url
+        else:
+            response, error = _fetch_official_page(client, index_url)
+            if response is None or error:
+                attempts.append(
+                    _official_attempt(
+                        source_index_url=source_index_url,
+                        request_url=index_url,
+                        status="failed",
+                        result_count=0,
+                        context=source_context,
+                        validation_result="unavailable",
+                        rejection_reason=error or "unavailable",
+                    )
+                )
+                continue
+            final_index_url = validate_index_url(response.final_url)
+            parser = _parse_archive_page(response.body)
+            parsed_context = _context_from_text(" ".join(parser.visible_text))
+            # Prefer election metadata printed on this area-index page.  The
+            # archive metadata remains a fallback only when the index omits it.
+            context = parsed_context if parsed_context.name else source_context
+            attempts.append(
+                _official_attempt(
+                    source_index_url=source_index_url,
+                    request_url=final_index_url,
+                    status="completed",
+                    result_count=0,
+                    context=context,
+                    validation_result="area_index_loaded",
+                )
+            )
+
+        # Following only same-EID index links covers a published pagination
+        # structure while avoiding generated page numbers or unrelated elections.
+        for next_index in _index_link_candidates(
+            parser.links,
+            final_index_url,
+            election_identifier,
+        ):
+            if next_index not in processed_indexes:
+                pending_indexes.add(next_index)
+
+        for link, result_url in _result_link_candidates(parser.links, final_index_url):
+            official_name = _official_area_name(link)
+            result_id = _single_numeric_value(result_url, "ID")
+            if result_id is None:
+                # normalise_area_result_url already requires a numeric ID, but
+                # retain an explicit rejection if a future URL rule changes.
+                attempts.append(
+                    _official_attempt(
+                        source_index_url=source_index_url,
+                        request_url=final_index_url,
+                        status="completed",
+                        result_count=1,
+                        context=context,
+                        discovered_url=result_url,
+                        division_ward_name=official_name,
+                        validation_result="rejected",
+                        rejection_reason="missing_result_identifier",
+                        excluded=1,
+                    )
+                )
+                continue
+            if result_id in attempted_result_ids:
+                attempts.append(
+                    _official_attempt(
+                        source_index_url=source_index_url,
+                        request_url=final_index_url,
+                        status="completed",
+                        result_count=1,
+                        context=context,
+                        discovered_url=result_url,
+                        division_ward_name=official_name,
+                        validation_result="duplicate",
+                        rejection_reason="duplicate_result_url",
+                        excluded=1,
+                        name_status=area_name_status(official_name, official_name),
+                    )
+                )
+                continue
+            attempted_result_ids.add(result_id)
+            if official_name is None:
+                attempts.append(
+                    _official_attempt(
+                        source_index_url=source_index_url,
+                        request_url=final_index_url,
+                        status="completed",
+                        result_count=1,
+                        context=context,
+                        discovered_url=result_url,
+                        validation_result="rejected",
+                        rejection_reason="missing_official_area_name",
+                        excluded=1,
+                    )
+                )
+                continue
+            if context.year is None or context.name is None:
+                attempts.append(
+                    _official_attempt(
+                        source_index_url=source_index_url,
+                        request_url=final_index_url,
+                        status="completed",
+                        result_count=1,
+                        context=context,
+                        discovered_url=result_url,
+                        division_ward_name=official_name,
+                        validation_result="rejected",
+                        rejection_reason="missing_election_metadata",
+                        excluded=1,
+                        name_status=area_name_status(official_name, official_name),
+                    )
+                )
+                continue
+
+            name_status = area_name_status(official_name, official_name)
+            areas_by_result_id[result_id] = DiscoveredElectionArea(
+                election_year=context.year,
+                election_name=context.name,
+                division_ward_name=official_name,
+                result_url=result_url,
+                source_index_url=source_index_url,
+                discovery_status=DiscoveryStatus.DISCOVERED,
+                discovered_name=official_name,
+                official_name=official_name,
+                name_status=name_status,
+                discovery_method="official_archive",
+                official_index_url=final_index_url,
+            )
+            attempts.append(
+                _official_attempt(
+                    source_index_url=source_index_url,
+                    request_url=final_index_url,
+                    status="completed",
+                    result_count=1,
+                    context=context,
+                    discovered_url=result_url,
+                    division_ward_name=official_name,
+                    validation_result="accepted",
+                    accepted=1,
+                    name_status=name_status,
+                )
+            )
+
+    return _OfficialDiscovery(
+        tuple(
+            sorted(
+                areas_by_result_id.values(),
+                key=lambda area: (area.division_ward_name or "").casefold(),
+            )
+        ),
+        tuple(attempts),
+    )
+
+
+def _discover_from_indexed_search(
+    canonical_index: str,
+    provider: SearchProvider,
+    prior_attempts: Iterable[DiscoverySearchAttempt] = (),
+) -> DiscoveryReport:
+    """Keep the existing SerpAPI route as a lower-priority audited fallback."""
+    # This function is reached only when the official route produced no valid
+    # result areas.  Search evidence therefore cannot overwrite official URLs
+    # or published ward names when those are already available.
     search_runs: list[_SearchRun] = []
     all_results: list[SearchResult] = []
 
@@ -256,8 +747,6 @@ def discover_election_areas(index_url: str, provider: SearchProvider) -> Discove
         try:
             results = tuple(provider.search(query))
         except Exception as exc:
-            # Keep a failed attempt in the audit and continue so another indexed
-            # query can still provide partial, evidence-backed discovery.
             search_runs.append(_SearchRun(query, (), type(exc).__name__))
             continue
         search_runs.append(_SearchRun(query, results))
@@ -265,8 +754,6 @@ def discover_election_areas(index_url: str, provider: SearchProvider) -> Discove
 
     context = _extract_metadata(all_results)
     if context.name or context.date:
-        # Context-based queries locate ID-based result pages without assuming
-        # that an area URL carries the election's EID.
         context_queries = build_search_queries(
             canonical_index,
             context.name,
@@ -285,8 +772,6 @@ def discover_election_areas(index_url: str, provider: SearchProvider) -> Discove
     areas = []
     for result_url in sorted(evidence_by_url):
         area_name = _best_area_name(evidence_by_url[result_url])
-        # Status values make missing evidence explicit; no placeholder ward name
-        # or election metadata is invented.
         if area_name is None:
             status = DiscoveryStatus.MISSING_AREA_NAME
         elif context.year is None or context.name is None:
@@ -301,12 +786,16 @@ def discover_election_areas(index_url: str, provider: SearchProvider) -> Discove
                 result_url=result_url,
                 source_index_url=canonical_index,
                 discovery_status=status,
+                discovered_name=area_name,
+                official_name=None,
+                name_status=area_name_status(area_name, None),
+                discovery_method="indexed_search",
             )
         )
 
     search_date = datetime.now(timezone.utc).date().isoformat()
     accepted_urls = set(evidence_by_url)
-    attempts = []
+    attempts = list(prior_attempts)
     for run in search_runs:
         accepted = 0
         for result in run.results:
@@ -329,7 +818,28 @@ def discover_election_areas(index_url: str, provider: SearchProvider) -> Discove
                 search_date=search_date,
                 accepted_result_count=accepted,
                 excluded_result_count=len(run.results) - accepted,
+                discovery_method="indexed_search",
+                validation_result="search_fallback",
             )
         )
-
     return DiscoveryReport(canonical_index, tuple(areas), tuple(attempts))
+
+
+def discover_election_areas(
+    index_url: str,
+    provider: SearchProvider,
+    *,
+    archive_client: OfficialArchiveClient | None = None,
+) -> DiscoveryReport:
+    """Discover official areas first and use indexed search only when needed."""
+    canonical_index = validate_discovery_source_url(index_url)
+    official = _discover_from_official_archive(
+        canonical_index,
+        archive_client or UrllibOfficialArchiveClient(),
+    )
+    if official.areas:
+        return DiscoveryReport(canonical_index, official.areas, official.attempts)
+    # One unavailable or rejected link does not trigger a mixed-source result.
+    # Fallback is used only after the complete official attempt has no accepted
+    # areas, keeping the provenance of each discovery run unambiguous.
+    return _discover_from_indexed_search(canonical_index, provider, official.attempts)

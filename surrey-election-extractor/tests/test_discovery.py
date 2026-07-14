@@ -5,8 +5,13 @@ import json
 
 import pytest
 
-from election_extractor.discovery import build_search_queries, discover_election_areas
-from election_extractor.models import DiscoveryStatus, SearchResult
+from election_extractor.discovery import (
+    OfficialArchiveResponse,
+    area_name_status,
+    build_search_queries,
+    discover_election_areas,
+)
+from election_extractor.models import AreaNameStatus, DiscoveryStatus, SearchResult
 from election_extractor.search_providers.mock_provider import MockSearchProvider
 from election_extractor.search_providers.serpapi import SerpApiSearchProvider
 from election_extractor.url_utils import normalise_area_result_url, validate_index_url
@@ -15,6 +20,42 @@ from election_extractor.url_utils import normalise_area_result_url, validate_ind
 INDEX_URL = "https://mycouncil.surreycc.gov.uk/mgElectionElectionAreaResults.aspx?EID=16"
 ARCHIVE_URL = "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=16&RPID=0"
 ELECTION_NAME = "2021 Surrey County Council election"
+OFFICIAL_INDEX_URL = (
+    "https://mycouncil.surreycc.gov.uk/"
+    "mgElectionElectionAreaResults.aspx?EID=16&RPID=453690863"
+)
+
+
+class MockOfficialArchiveClient:
+    """Return configured public-page fixtures without a live HTTP request."""
+
+    def __init__(
+        self,
+        responses: dict[str, OfficialArchiveResponse | Exception] | Exception,
+    ) -> None:
+        self.responses = responses
+        self.urls: list[str] = []
+
+    def fetch(self, url: str) -> OfficialArchiveResponse:
+        self.urls.append(url)
+        if isinstance(self.responses, Exception):
+            raise self.responses
+        response = self.responses.get(url, RuntimeError(f"Unexpected URL: {url}"))
+        if isinstance(response, Exception):
+            raise response
+        return response
+
+
+def unavailable_archive_client() -> MockOfficialArchiveClient:
+    return MockOfficialArchiveClient(TimeoutError("archive unavailable"))
+
+
+def search_fallback_report(index_url: str, provider: MockSearchProvider):
+    return discover_election_areas(
+        index_url,
+        provider,
+        archive_client=unavailable_archive_client(),
+    )
 
 
 def mocked_provider() -> MockSearchProvider:
@@ -80,7 +121,7 @@ def test_invalid_index_urls_are_rejected(url: str) -> None:
 
 
 def test_duplicate_result_urls_are_removed() -> None:
-    report = discover_election_areas(INDEX_URL, mocked_provider())
+    report = search_fallback_report(INDEX_URL, mocked_provider())
 
     assert len(report.areas) == 2
     assert len({area.result_url for area in report.areas}) == 2
@@ -90,7 +131,7 @@ def test_duplicate_result_urls_are_removed() -> None:
 
 
 def test_ward_names_are_extracted_from_mocked_results() -> None:
-    report = discover_election_areas(INDEX_URL, mocked_provider())
+    report = search_fallback_report(INDEX_URL, mocked_provider())
 
     areas_by_name = {area.division_ward_name: area for area in report.areas}
     assert set(areas_by_name) == {"Addlestone", "Ash"}
@@ -101,13 +142,19 @@ def test_ward_names_are_extracted_from_mocked_results() -> None:
 
 def test_search_attempts_are_recorded() -> None:
     provider = mocked_provider()
-    report = discover_election_areas(INDEX_URL, provider)
+    report = search_fallback_report(INDEX_URL, provider)
 
-    assert len(report.search_attempts) == 3
-    assert [attempt.query for attempt in report.search_attempts] == provider.queries
+    assert len(report.search_attempts) == 4
+    assert report.search_attempts[0].discovery_method == "official_archive"
+    assert report.search_attempts[0].status == "failed"
+    assert [attempt.query for attempt in report.search_attempts[1:]] == provider.queries
     assert all(attempt.source_index_url == INDEX_URL for attempt in report.search_attempts)
-    assert all(attempt.status == "completed" for attempt in report.search_attempts)
-    assert [attempt.result_count for attempt in report.search_attempts] == [1, 2, 1]
+    assert [attempt.status for attempt in report.search_attempts[1:]] == [
+        "completed",
+        "completed",
+        "completed",
+    ]
+    assert [attempt.result_count for attempt in report.search_attempts] == [0, 1, 2, 1]
 
 
 def test_url_normalisation_preserves_meaningful_parameters() -> None:
@@ -198,7 +245,7 @@ def test_real_archive_url_discovers_id_based_result_with_matching_context() -> N
         }
     )
 
-    report = discover_election_areas(ARCHIVE_URL, provider)
+    report = search_fallback_report(ARCHIVE_URL, provider)
 
     assert report.source_index_url == ARCHIVE_URL
     assert len(report.areas) == 1
@@ -239,6 +286,68 @@ def test_isolated_official_id_without_target_election_context_is_rejected() -> N
         }
     )
 
-    report = discover_election_areas(ARCHIVE_URL, provider)
+    report = search_fallback_report(ARCHIVE_URL, provider)
 
     assert report.areas == ()
+
+
+def official_archive_page() -> str:
+    return """
+    <html><body>
+      <h1>County Council Election 2021 - Thursday, 6 May 2021</h1>
+      <a href="mgElectionElectionAreaResults.aspx?EID=16&RPID=453690863">
+        Election results by wards
+      </a>
+    </body></html>
+    """
+
+
+def official_area_index_page() -> str:
+    return """
+    <html><body>
+      <h1>County Council Election 2021 - Thursday, 6 May 2021</h1>
+      <a href="mgElectionAreaResults.aspx?XXR=0&ID=201&RPID=999999999">Addlestone</a>
+      <a href="mgElectionAreaResults.aspx?XXR=0&ID=202&RPID=453691252">Guildford South-East</a>
+      <a href="mgElectionAreaResults.aspx?XXR=0&ID=201&RPID=453691252">Addlestone</a>
+      <a href="https://example.com/mgElectionAreaResults.aspx?ID=999">Unrelated area</a>
+      <a href="mgElectionAreaResults.aspx?ID=not-a-number">Invalid area</a>
+    </body></html>
+    """
+
+
+def test_official_archive_discovers_all_published_area_links_before_search() -> None:
+    client = MockOfficialArchiveClient(
+        {
+            ARCHIVE_URL: OfficialArchiveResponse(200, ARCHIVE_URL, official_archive_page()),
+            OFFICIAL_INDEX_URL: OfficialArchiveResponse(
+                200,
+                OFFICIAL_INDEX_URL,
+                official_area_index_page(),
+            ),
+        }
+    )
+    provider = MockSearchProvider({})
+
+    report = discover_election_areas(ARCHIVE_URL, provider, archive_client=client)
+
+    assert provider.queries == []
+    assert [area.division_ward_name for area in report.areas] == [
+        "Addlestone",
+        "Guildford South-East",
+    ]
+    assert all(area.discovery_method == "official_archive" for area in report.areas)
+    assert all(area.official_name == area.division_ward_name for area in report.areas)
+    assert all(area.discovered_name == area.official_name for area in report.areas)
+    assert all(area.name_status is AreaNameStatus.EXACT for area in report.areas)
+    assert len({area.result_url for area in report.areas}) == 2
+    assert sum(attempt.accepted_result_count for attempt in report.search_attempts) == 3
+    assert any(
+        attempt.rejection_reason == "duplicate_result_url"
+        for attempt in report.search_attempts
+    )
+
+
+def test_name_mismatch_is_explicit_and_does_not_silently_normalise_wards() -> None:
+    status = area_name_status("Guildford South", "Guildford South-East")
+
+    assert status is AreaNameStatus.NAME_MISMATCH
