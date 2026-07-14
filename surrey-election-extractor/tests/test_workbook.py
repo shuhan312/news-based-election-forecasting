@@ -11,7 +11,11 @@ from election_extractor.extraction import (
     ExtractionAttempt,
     ExtractionStatus,
 )
-from election_extractor.models import DiscoveredElectionArea, DiscoveryStatus
+from election_extractor.models import (
+    DiscoveredElectionArea,
+    DiscoveryStatus,
+    ElectionStructureMetadata,
+)
 from election_extractor.validation import (
     PublishedVotingSummary,
     ValidationResult,
@@ -28,6 +32,7 @@ SECOND_URL = (
     "https://mycouncil.surreycc.gov.uk/"
     "mgElectionAreaResults.aspx?ID=202&RPID=0"
 )
+SEAT_SOURCE_URL = "https://www.legislation.gov.uk/uksi/2012/1872/contents/made"
 
 
 def candidate(
@@ -120,6 +125,33 @@ def attempt(
         result_count=2,
         candidate_record_count=2,
         error=error,
+    )
+
+
+def structure_metadata(
+    *,
+    official_seats: int | None = None,
+    secondary_seats: int | None = 1,
+) -> ElectionStructureMetadata:
+    """Create one separate, source-backed Seats metadata record for a test."""
+    return ElectionStructureMetadata(
+        election_year=2021,
+        election_name="2021 Surrey County Council election",
+        authority="Surrey County Council",
+        division_or_ward_name="Ash",
+        official_number_of_seats=official_seats,
+        secondary_number_of_seats=secondary_seats,
+        seat_source_type=(
+            "The Surrey (Electoral Changes) Order 2012" if secondary_seats is not None else None
+        ),
+        seat_source_url=SEAT_SOURCE_URL if secondary_seats is not None else None,
+        seat_evidence_text=(
+            "Article 4 and the Schedule name Ash and provide for one councillor per division."
+            if secondary_seats is not None
+            else None
+        ),
+        confidence="High" if secondary_seats is not None else None,
+        notes="Supplementary evidence only; official result-page Seats remains missing.",
     )
 
 
@@ -386,3 +418,61 @@ def test_11_failed_area_has_reason_and_no_fake_candidate_rows(tmp_path) -> None:
     assert sheet["B5"].value == "Failed"
     assert "SearchError" in sheet["B10"].value
     assert sheet.cell(candidate_header + 1, 1).value is None
+
+
+def test_12_election_structure_metadata_is_separate_and_source_backed(tmp_path) -> None:
+    path = tmp_path / "structure_metadata.xlsx"
+    records, validations, discoveries, attempts, summaries = standard_inputs()
+    incomplete_records = (
+        replace(
+            records[0],
+            number_of_seats=None,
+            missing_fields=("number_of_seats",),
+            extraction_status=ExtractionStatus.INCOMPLETE,
+        ),
+    )
+    incomplete_validations = (
+        validation(
+            status=ValidationStatus.INCOMPLETE,
+            missing_fields=("summary.number_of_seats",),
+        ),
+    )
+
+    generate_workbook(
+        path,
+        incomplete_records,
+        incomplete_validations,
+        discoveries,
+        attempts,
+        summaries,
+        election_structure_metadata=(structure_metadata(),),
+    )
+    workbook = load_workbook(path)
+    sheet = workbook["Election Structure Metadata"]
+
+    assert tuple(cell.value for cell in sheet[1]) == (
+        "Election Year",
+        "Election",
+        "Authority",
+        "Division or Ward",
+        "Official Seats",
+        "Secondary Seats",
+        "Source Type",
+        "Source URL",
+        "Evidence",
+        "Confidence",
+        "Notes",
+    )
+    assert sheet["D2"].value == "Ash"
+    assert sheet["E2"].value is None
+    assert sheet["F2"].value == 1
+    assert sheet["H2"].hyperlink.target == SEAT_SOURCE_URL
+    assert "Article 4" in sheet["I2"].value
+    assert "ElectionStructureMetadataTable" in sheet.tables
+
+    # The presence of supplementary evidence must not change the official
+    # extraction status or fill the official Seats cell in the ward worksheet.
+    assert workbook["Index"]["F2"].value == "Incomplete"
+    ward_sheet = workbook["Addlestone"]
+    summary_header = find_row(ward_sheet, "Detail")
+    assert ward_sheet.cell(summary_header + 1, 2).value is None

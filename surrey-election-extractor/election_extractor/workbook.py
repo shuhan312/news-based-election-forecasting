@@ -15,7 +15,7 @@ from election_extractor.extraction import (
     ExtractionAttempt,
     ExtractionStatus,
 )
-from election_extractor.models import DiscoveredElectionArea
+from election_extractor.models import DiscoveredElectionArea, ElectionStructureMetadata
 from election_extractor.validation import (
     PublishedVotingSummary,
     ValidationResult,
@@ -54,6 +54,19 @@ LOG_COLUMNS = (
     "Fields Found",
     "Fields Missing",
     "Warning or Error",
+)
+ELECTION_STRUCTURE_METADATA_COLUMNS = (
+    "Election Year",
+    "Election",
+    "Authority",
+    "Division or Ward",
+    "Official Seats",
+    "Secondary Seats",
+    "Source Type",
+    "Source URL",
+    "Evidence",
+    "Confidence",
+    "Notes",
 )
 
 INVALID_SHEET_CHARACTERS = re.compile(r"[:\\/?*\[\]]")
@@ -449,6 +462,63 @@ def _write_ward_sheet(
     sheet.print_area = f"A1:E{summary_end_row}"
 
 
+def _write_election_structure_metadata_sheet(
+    sheet: Worksheet,
+    metadata_records: Sequence[ElectionStructureMetadata],
+) -> None:
+    """Write supplementary structure evidence without changing official values."""
+    sheet.sheet_view.showGridLines = False
+    sheet.freeze_panes = "A2"
+    sheet.append(ELECTION_STRUCTURE_METADATA_COLUMNS)
+    _style_header(sheet[1])
+
+    # Official and supplementary Seats values occupy different cells.  This
+    # makes the source boundary visible in every exported workbook and avoids
+    # presenting a secondary value as if Surrey published it on the result page.
+    for row_number, metadata in enumerate(metadata_records, start=2):
+        sheet.append(
+            (
+                metadata.election_year,
+                metadata.election_name,
+                metadata.authority,
+                metadata.division_or_ward_name,
+                metadata.official_number_of_seats,
+                metadata.secondary_number_of_seats,
+                metadata.seat_source_type,
+                metadata.seat_source_url,
+                metadata.seat_evidence_text,
+                metadata.confidence,
+                metadata.notes,
+            )
+        )
+        # The source URL is a link for auditability, while its text remains
+        # visible to users who view the worksheet without following hyperlinks.
+        _external_hyperlink(sheet.cell(row=row_number, column=8), metadata.seat_source_url)
+
+    if metadata_records:
+        table = Table(
+            displayName="ElectionStructureMetadataTable",
+            ref=f"A1:K{len(metadata_records) + 1}",
+        )
+        _table_style(table)
+        sheet.add_table(table)
+        sheet.auto_filter.ref = f"A1:K{len(metadata_records) + 1}"
+
+    for row in sheet.iter_rows():
+        for cell in row:
+            cell.alignment = Alignment(vertical="top", wrap_text=True)
+    for column in (5, 6):
+        for row in range(2, len(metadata_records) + 2):
+            sheet.cell(row=row, column=column).number_format = "#,##0"
+
+    _autosize_columns(sheet, minimum=12, maximum=55)
+    sheet.column_dimensions["H"].width = 55
+    sheet.column_dimensions["I"].width = 55
+    sheet.column_dimensions["K"].width = 55
+    _configure_print_layout(sheet)
+    sheet.print_area = f"A1:K{max(len(metadata_records) + 1, 1)}"
+
+
 def generate_workbook(
     output_path: str | Path,
     records: Sequence[CandidateResultRecord],
@@ -456,6 +526,7 @@ def generate_workbook(
     discovery_areas: Sequence[DiscoveredElectionArea] = (),
     extraction_attempts: Sequence[ExtractionAttempt] = (),
     voting_summaries: Sequence[PublishedVotingSummary] = (),
+    election_structure_metadata: Sequence[ElectionStructureMetadata] = (),
 ) -> Path:
     """Generate one workbook without changing extracted or validated inputs.
 
@@ -492,7 +563,7 @@ def generate_workbook(
     index_sheet.append(INDEX_COLUMNS)
     _style_header(index_sheet[1])
 
-    used_names = {"Index", "Extraction Log"}
+    used_names = {"Index", "Extraction Log", "Election Structure Metadata"}
     area_rows = []
     ward_sheets = []
     for table_number, source_url in enumerate(source_urls, start=1):
@@ -623,6 +694,12 @@ def generate_workbook(
         for cell in row:
             cell.alignment = Alignment(vertical="top", wrap_text=True)
     log_sheet.print_area = f"A1:G{max(log_row - 1, 1)}"
+
+    # This additive worksheet is intentionally independent of area status and
+    # validation.  Supplementary evidence must not turn an incomplete official
+    # extraction into a complete one.
+    metadata_sheet = workbook.create_sheet("Election Structure Metadata")
+    _write_election_structure_metadata_sheet(metadata_sheet, election_structure_metadata)
 
     workbook.save(output)
     return output

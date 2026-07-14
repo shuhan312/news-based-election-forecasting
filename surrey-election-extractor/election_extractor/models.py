@@ -67,3 +67,45 @@ class DiscoveryReport:
     source_index_url: str
     areas: tuple[DiscoveredElectionArea, ...]
     search_attempts: tuple[SearchAttempt, ...]
+
+
+@dataclass(frozen=True)
+class ElectionStructureMetadata:
+    """Keep secondary election-structure evidence separate from official results.
+
+    The two Seats fields are intentionally independent.  In particular, a
+    secondary value is never a fallback for ``official_number_of_seats``.
+    """
+
+    election_year: int | None
+    election_name: str | None
+    authority: str | None
+    division_or_ward_name: str
+    official_number_of_seats: int | None
+    secondary_number_of_seats: int | None
+    seat_source_type: str | None = None
+    seat_source_url: str | None = None
+    seat_evidence_text: str | None = None
+    confidence: str | None = None
+    notes: str | None = None
+
+    def __post_init__(self) -> None:
+        """Require provenance whenever a secondary Seats value is recorded."""
+        if self.secondary_number_of_seats is None:
+            return
+
+        provenance = {
+            "seat_source_type": self.seat_source_type,
+            "seat_source_url": self.seat_source_url,
+            "seat_evidence_text": self.seat_evidence_text,
+        }
+        missing = [
+            field_name
+            for field_name, value in provenance.items()
+            if value is None or not value.strip()
+        ]
+        if missing:
+            raise ValueError(
+                "Secondary Seats metadata requires source provenance: "
+                + ", ".join(missing)
+            )
