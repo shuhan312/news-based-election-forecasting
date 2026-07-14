@@ -1,3 +1,2 @@
-# Runtime and test dependencies will be selected in a later implementation step.
-# No dependencies are installed or pinned during the initial scaffolding step.
-
+# Discovery uses only the Python standard library at runtime.
+pytest>=8,<9
