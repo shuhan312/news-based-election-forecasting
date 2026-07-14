@@ -3,7 +3,12 @@
 from dataclasses import replace
 from datetime import datetime, timezone
 
-from election_extractor.extraction import CandidateResultRecord, ExtractionStatus
+from election_extractor.extraction import (
+    CandidateResultRecord,
+    EvidenceConflict,
+    ExtractionStatus,
+    FieldEvidence,
+)
 from election_extractor.validation import (
     PublishedVotingSummary,
     ValidationStatus,
@@ -253,3 +258,40 @@ def test_19_failed_extraction_remains_failed() -> None:
 
     assert result.validation_status is ValidationStatus.FAILED
     assert event_for(result, "extraction_status")[0].result is ValidationStatus.FAILED
+
+
+def test_20_indexed_evidence_conflicts_are_added_to_validation_notes() -> None:
+    evidence = tuple(
+        FieldEvidence(
+            field_name="original_party_name",
+            published_value=value,
+            source_url=SOURCE_URL,
+            search_query=f"query {index}",
+            search_result_title="Election candidate result",
+            search_result_snippet=f"Candidate One, {value}",
+        )
+        for index, value in enumerate(("Conservative", "Labour"), start=1)
+    )
+    conflict = EvidenceConflict(
+        field_name="original_party_name",
+        published_values=("Conservative", "Labour"),
+        evidence=evidence,
+    )
+    records = (
+        replace(
+            valid_records()[0],
+            original_party_name=None,
+            extraction_status=ExtractionStatus.INCOMPLETE,
+            conflicts=(conflict,),
+        ),
+        valid_records()[1],
+    )
+
+    result = validate(records)
+
+    assert result.validation_status is ValidationStatus.INCOMPLETE
+    assert event_for(result, "indexed_evidence_conflict")[0].result is ValidationStatus.WARNING
+    assert any(
+        "Conservative" in note and "Labour" in note
+        for note in result.validation_notes
+    )

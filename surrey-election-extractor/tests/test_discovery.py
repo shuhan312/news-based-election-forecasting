@@ -13,6 +13,7 @@ from election_extractor.url_utils import normalise_area_result_url, validate_ind
 
 
 INDEX_URL = "https://mycouncil.surreycc.gov.uk/mgElectionElectionAreaResults.aspx?EID=16"
+ARCHIVE_URL = "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=16&RPID=0"
 ELECTION_NAME = "2021 Surrey County Council election"
 
 
@@ -35,6 +36,7 @@ def mocked_provider() -> MockSearchProvider:
                         "http://mycouncil.surreycc.gov.uk/"
                         "mgElectionAreaResults.aspx?utm_source=test&RPID=0&ID=201"
                     ),
+                    snippet="2021 Surrey County Council election.",
                 ),
                 SearchResult(
                     title="Ash - Election results - Surrey County Council",
@@ -42,6 +44,7 @@ def mocked_provider() -> MockSearchProvider:
                         "https://mycouncil.surreycc.gov.uk/"
                         "mgElectionAreaResults.aspx?ID=202&RPID=0"
                     ),
+                    snippet="2021 Surrey County Council election.",
                 ),
             ],
             metadata_query: [
@@ -51,6 +54,7 @@ def mocked_provider() -> MockSearchProvider:
                         "https://mycouncil.surreycc.gov.uk/"
                         "mgElectionAreaResults.aspx?ID=201&RPID=0&gclid=tracking"
                     ),
+                    snippet="2021 Surrey County Council election.",
                 )
             ],
         }
@@ -150,3 +154,91 @@ def test_serpapi_adapter_maps_mocked_api_response(monkeypatch: pytest.MonkeyPatc
             snippet="Official result.",
         ),
     )
+
+
+def test_real_archive_url_discovers_id_based_result_with_matching_context() -> None:
+    initial = build_search_queries(ARCHIVE_URL)
+    real_name = "County Council Election 2021"
+    real_date = "6 May 2021"
+    context_queries = build_search_queries(ARCHIVE_URL, real_name, real_date)[len(initial):]
+    area_url = (
+        "https://mycouncil.surreycc.gov.uk/"
+        "mgElectionAreaResults.aspx?ID=338"
+    )
+    provider = MockSearchProvider(
+        {
+            initial[0]: [
+                SearchResult(
+                    title="Election candidates and results by wards, 6 May 2021",
+                    url=(
+                        "https://mycouncil.surreycc.gov.uk/"
+                        "mgElectionElectionAreaResults.aspx?Page=all&EID=16"
+                    ),
+                    snippet="County Council Election 2021 - Thursday, 6 May 2021.",
+                )
+            ],
+            initial[1]: [],
+            initial[2]: [],
+            context_queries[0]: [
+                SearchResult(
+                    title="Election results for Worplesdon, 6 May 2021",
+                    url=area_url,
+                    snippet="County Council Election 2021 - Thursday, 6 May 2021.",
+                ),
+                SearchResult(
+                    title="Election results for Wrong Year, 4 May 2017",
+                    url=(
+                        "https://mycouncil.surreycc.gov.uk/"
+                        "mgElectionAreaResults.aspx?ID=999"
+                    ),
+                    snippet="County Council Election 2017.",
+                ),
+            ],
+            context_queries[1]: [],
+        }
+    )
+
+    report = discover_election_areas(ARCHIVE_URL, provider)
+
+    assert report.source_index_url == ARCHIVE_URL
+    assert len(report.areas) == 1
+    assert report.areas[0].division_ward_name == "Worplesdon"
+    assert report.areas[0].result_url == area_url
+    assert report.areas[0].election_year == 2021
+    assert report.areas[0].election_name == real_name
+    assert sum(attempt.accepted_result_count for attempt in report.search_attempts) == 1
+    assert sum(attempt.excluded_result_count for attempt in report.search_attempts) == 2
+    assert all(attempt.search_date for attempt in report.search_attempts)
+
+
+def test_isolated_official_id_without_target_election_context_is_rejected() -> None:
+    initial = build_search_queries(ARCHIVE_URL)
+    provider = MockSearchProvider(
+        {
+            initial[0]: [
+                SearchResult(
+                    title="Election candidates and results by wards, 6 May 2021",
+                    url=(
+                        "https://mycouncil.surreycc.gov.uk/"
+                        "mgElectionElectionAreaResults.aspx?EID=16"
+                    ),
+                    snippet="County Council Election 2021 - Thursday, 6 May 2021.",
+                )
+            ],
+            initial[1]: [],
+            initial[2]: [
+                SearchResult(
+                    title="Election results for Unrelated Area",
+                    url=(
+                        "https://mycouncil.surreycc.gov.uk/"
+                        "mgElectionAreaResults.aspx?ID=777"
+                    ),
+                    snippet="No election year is present.",
+                )
+            ],
+        }
+    )
+
+    report = discover_election_areas(ARCHIVE_URL, provider)
+
+    assert report.areas == ()

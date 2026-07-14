@@ -267,6 +267,43 @@ def _conflict_events(
     return events, notes
 
 
+def _indexed_evidence_conflict_events(
+    records: Sequence[CandidateResultRecord],
+    ward: str | None,
+    source_url: str,
+) -> tuple[list[ValidationEvent], list[str]]:
+    """Expose extraction conflicts as validation warnings without repairing data."""
+    events = []
+    notes = []
+    seen = set()
+    for index, record in enumerate(records, start=1):
+        for conflict in record.conflicts:
+            key = (index, conflict.field_name, conflict.published_values)
+            if key in seen:
+                continue
+            seen.add(key)
+            values = ", ".join(repr(value) for value in conflict.published_values)
+            sources = ", ".join(
+                dict.fromkeys(item.source_url for item in conflict.evidence)
+            )
+            note = (
+                f"Conflicting indexed evidence for candidate {index} "
+                f"{conflict.field_name}: {values}. Sources: {sources}."
+            )
+            notes.append(note)
+            events.append(
+                _event(
+                    ward,
+                    "indexed_evidence_conflict",
+                    ValidationStatus.WARNING,
+                    source_url,
+                    note,
+                    (f"candidate[{index}].{conflict.field_name}",),
+                )
+            )
+    return events, notes
+
+
 def _candidate_vote_total_event(
     records: Sequence[CandidateResultRecord],
     summaries: Sequence[PublishedVotingSummary],
@@ -559,6 +596,15 @@ def validate_election_results(
             ward_text,
             source_url,
         )
+        indexed_conflict_events, indexed_conflict_notes = (
+            _indexed_evidence_conflict_events(
+                area_records,
+                ward_text,
+                source_url,
+            )
+        )
+        events.extend(indexed_conflict_events)
+        notes.extend(indexed_conflict_notes)
 
         missing_message = None
         if missing:
