@@ -1,0 +1,39 @@
+{
+  "elections": [
+    {
+      "election_id": "surrey-county-council-2013",
+      "election_name": "Surrey County Council Election 2013",
+      "election_year": 2013,
+      "election_type": "County Council election",
+      "official_archive_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=5&RPID=0"
+    },
+    {
+      "election_id": "surrey-county-council-2017",
+      "election_name": "Surrey County Council Election 2017",
+      "election_year": 2017,
+      "election_type": "County Council election",
+      "official_archive_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=10&RPID=0"
+    },
+    {
+      "election_id": "surrey-county-council-2021",
+      "election_name": "County Council Election 2021",
+      "election_year": 2021,
+      "election_type": "County Council election",
+      "official_archive_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=16&RPID=0"
+    },
+    {
+      "election_id": "surrey-county-council-2026-east-surrey",
+      "election_name": "Surrey County Council Election 2026",
+      "election_year": 2026,
+      "election_type": "County Council election",
+      "official_url": "https://www10.surreycc.gov.uk/electionmap/eastSurrey/"
+    },
+    {
+      "election_id": "surrey-county-council-2026-west-surrey",
+      "election_name": "Surrey County Council Election 2026",
+      "election_year": 2026,
+      "election_type": "County Council election",
+      "official_url": "https://www10.surreycc.gov.uk/electionmap/WestSurrey/"
+    }
+  ]
+}
