@@ -20,9 +20,39 @@ const tableDefinitions = [
   ["Candidates", "CandidatesTable"],
   ["Political Parties", "PoliticalPartiesTable"],
   ["Party History and New Entrants", "PartyHistoryTable"],
+  ["Party Standardisation Issues", "PartyStandardisationIssuesTable"],
+  ["Geographic Mapping", "GeographicMappingTable"],
   ["Supplementary Metadata", "SupplementaryMetadataTable"],
   ["Data Dictionary", "DataDictionaryTable"],
 ];
+
+// These sheets intentionally begin without data rows.  Creating a blank
+// placeholder mapping or party issue would fabricate a relationship, so the
+// workbook writes only documented headers until reviewed evidence exists.
+const emptyTableSchemas = {
+  "Party Standardisation Issues": [
+    "issue_id",
+    "election_id",
+    "original_party_name",
+    "issue_type",
+    "proposed_standard_party_name",
+    "status",
+    "evidence_source",
+    "notes",
+  ],
+  "Geographic Mapping": [
+    "previous_election",
+    "previous_area_name",
+    "previous_area_id",
+    "current_election",
+    "current_area_name",
+    "current_area_id",
+    "mapping_type",
+    "confidence",
+    "evidence_source",
+    "notes",
+  ],
+};
 
 const longTextColumns = new Set([
   "source_reference",
@@ -81,12 +111,14 @@ function formatTable(sheet, rowCount, headers, tableName) {
     if (wholeNumberColumns.has(fieldName)) column.format.numberFormat = "#,##0";
     if (percentageColumns.has(fieldName)) column.format.numberFormat = '0.0"%"';
   }
-  const table = sheet.tables.add(
-    `A1:${columnLetter(columnCount)}${rowCount + 1}`,
-    true,
-    tableName,
-  );
-  table.style = "TableStyleMedium2";
+  if (rowCount > 0) {
+    const table = sheet.tables.add(
+      `A1:${columnLetter(columnCount)}${rowCount + 1}`,
+      true,
+      tableName,
+    );
+    table.style = "TableStyleMedium2";
+  }
 }
 
 function columnLetter(columnNumber) {
@@ -104,10 +136,13 @@ const workbook = Workbook.create();
 const previewRanges = [];
 for (const [sheetName, tableName] of tableDefinitions) {
   const rows = payload[sheetName];
-  if (!Array.isArray(rows) || rows.length === 0) {
-    throw new Error(`Workbook payload has no rows for ${sheetName}.`);
+  if (!Array.isArray(rows)) {
+    throw new Error(`Workbook payload has no row array for ${sheetName}.`);
   }
-  const headers = Object.keys(rows[0]);
+  const headers = rows.length > 0 ? Object.keys(rows[0]) : emptyTableSchemas[sheetName];
+  if (!headers) {
+    throw new Error(`Workbook payload has no schema for empty ${sheetName}.`);
+  }
   const sheet = workbook.worksheets.add(sheetName);
   // Values are copied field-for-field from the prepared audited payload. Null
   // remains a blank Excel cell; this writer never substitutes zero or derives
@@ -120,6 +155,9 @@ for (const [sheetName, tableName] of tableDefinitions) {
   ];
   sheet.getRangeByIndexes(0, 0, matrix.length, headers.length).values = matrix;
   formatTable(sheet, rows.length, headers, tableName);
+  // Excel tables require a data row.  Schema-only sheets therefore retain
+  // styled, frozen headers but no table object until evidence-backed rows are
+  // added by a later approved mapping or party-standardisation review.
   // Large candidate tables are checked through a representative top range so
   // visual verification remains practical without altering the workbook data.
   previewRanges.push({

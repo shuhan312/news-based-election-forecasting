@@ -1,4 +1,4 @@
-"""Build a unified analytical payload from audited 2013, 2017 and 2021 outputs only."""
+"""Build a unified analytical payload from audited Surrey election outputs."""
 
 from __future__ import annotations
 
@@ -21,7 +21,12 @@ OUTPUT_DIRECTORY = PROJECT_ROOT / "outputs/master_surrey_election_database"
 def generate_master_database_outputs(
     output_directory: Path = OUTPUT_DIRECTORY,
 ) -> tuple[Path, Path, Path]:
-    """Write reproducible payload and documentation without running extraction."""
+    """Write reproducible payload and documentation without running extraction.
+
+    The function reads completed local audits, including separately configured
+    2026 East and West sources. It never maps their wards to historic divisions
+    or calculates historical comparisons.
+    """
 
     # Input loading is intentionally limited to audited local files. No source
     # website is requested and no published election value is recalculated.

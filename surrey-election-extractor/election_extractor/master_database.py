@@ -58,6 +58,22 @@ AUDITED_ELECTION_INPUTS = {
         / "outputs/2021_secondary_seats_audit/2021_secondary_seats_audit.json",
         "division_turnout_evidence": None,
     },
+    # East and West are separate configured 2026 election inputs.  They share
+    # an election year and title, but their map-index sources and new ward IDs
+    # must remain distinct until a separate evidence-based boundary mapping is
+    # approved.
+    "surrey-county-council-2026-east-surrey": {
+        "audit_path": PROJECT_ROOT
+        / "outputs/2026_east_full_extraction/2026_extraction_audit.json",
+        "secondary_seats_audit": None,
+        "division_turnout_evidence": None,
+    },
+    "surrey-county-council-2026-west-surrey": {
+        "audit_path": PROJECT_ROOT
+        / "outputs/2026_west_full_extraction/2026_extraction_audit.json",
+        "secondary_seats_audit": None,
+        "division_turnout_evidence": None,
+    },
 }
 
 
@@ -82,6 +98,8 @@ class MasterDatabasePayload:
     candidates: tuple[dict[str, object], ...]
     political_parties: tuple[dict[str, object], ...]
     party_history_and_new_entrants: tuple[dict[str, object], ...]
+    party_standardisation_issues: tuple[dict[str, object], ...]
+    geographic_mapping: tuple[dict[str, object], ...]
     supplementary_metadata: tuple[dict[str, object], ...]
     data_dictionary: tuple[dict[str, object], ...]
     audit_summary: dict[str, object]
@@ -152,7 +170,7 @@ def _optional_float(value: object) -> float | None:
 def load_audited_elections(
     inputs: Mapping[str, Mapping[str, Path | None]] = AUDITED_ELECTION_INPUTS,
 ) -> tuple[AuditedElectionInput, ...]:
-    """Load only the completed audited 2013, 2017 and 2021 source outputs.
+    """Load only completed, audited 2013, 2017, 2021 and 2026 source outputs.
 
     This function deliberately has no network access and never calls discovery
     or extraction. It makes the master workbook reproducible from the audited
@@ -454,6 +472,15 @@ def build_master_database(
             party_years.items(), key=lambda item: (item[0].casefold(), item[0])
         )
     )
+    # Standardisation is deliberately not applied during database integration.
+    # This empty table provides an explicit reviewed location for future party
+    # aliases or local-group decisions without treating a proposed mapping as
+    # an established fact or altering original published party wording.
+    party_standardisation_issues: tuple[dict[str, object], ...] = ()
+    # 2026 wards have not been evidenced as equivalent to earlier divisions.
+    # An empty schema preserves that uncertainty and prevents downstream code
+    # from silently joining results across boundary changes.
+    geographic_mapping: tuple[dict[str, object], ...] = ()
     summary = _audit_summary(
         elections=elections,
         candidate_rows=candidate_rows,
@@ -468,6 +495,8 @@ def build_master_database(
         candidates=candidates,
         political_parties=parties,
         party_history_and_new_entrants=party_history,
+        party_standardisation_issues=party_standardisation_issues,
+        geographic_mapping=geographic_mapping,
         supplementary_metadata=tuple(
             sorted(supplementary_rows, key=lambda row: str(row["metadata_id"]))
         ),
@@ -529,12 +558,16 @@ def _audit_summary(
         "supplementary_metadata_by_field": dict(
             sorted(Counter(str(row["field_name"]) for row in supplementary_rows).items())
         ),
+        "geographic_mapping_rows": 0,
+        "party_standardisation_issue_rows": 0,
         "official_division_field_missing_counts": missing_division_values,
         "per_election": per_election,
         "data_integrity_note": (
             "Null values preserve unavailable official information. Supplementary "
             "evidence is stored separately and does not replace official fields or "
-            "change layered completeness."
+            "change layered completeness. The 2026 East and West wards remain "
+            "unmapped to historical divisions, so no historical comparisons are "
+            "calculated."
         ),
     }
 
@@ -600,6 +633,28 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("standard_party_name", "Current no-op standardisation retaining the exact published wording.", "original party name", "derived", "Never merges parties automatically."),
             ("party_category", "Reserved for a separately evidenced classification.", "future enrichment", "derived", "NULL until a documented classification is added."),
         ],
+        "Party Standardisation Issues": [
+            ("issue_id", "Stable identifier for one reviewed party-standardisation issue.", "party standardisation review", "derived", "No rows until a documented review identifies an issue."),
+            ("election_id", "Configured election identifier in which the published party wording was observed.", "configuration", "configuration", "NULL only for a future cross-election issue."),
+            ("original_party_name", "Exact published party wording requiring review.", "official result page", "official", "Never normalised automatically."),
+            ("issue_type", "Reason a manual standardisation decision may be needed.", "party standardisation review", "derived", "NULL until a review is recorded."),
+            ("proposed_standard_party_name", "Potential standardised name pending documented approval.", "party standardisation review", "derived", "NULL until a documented mapping is approved; does not alter original_party_name."),
+            ("status", "Review status of the potential mapping.", "party standardisation review", "derived", "NULL until a review is recorded."),
+            ("evidence_source", "Source supporting a future standardisation decision.", "party standardisation review", "derived", "NULL until evidence is recorded."),
+            ("notes", "Scope or non-merger notes for a future review.", "party standardisation review", "derived", "NULL until a review is recorded."),
+        ],
+        "Geographic Mapping": [
+            ("previous_election", "Configured identifier for the earlier election geography.", "future boundary mapping evidence", "derived", "No rows until an evidence-supported mapping is reviewed."),
+            ("previous_area_name", "Published earlier division or ward name.", "official result page", "official", "No value is inferred from a later ward name."),
+            ("previous_area_id", "Stable earlier result-page identifier.", "official URL", "derived", "No rows until an evidence-supported mapping is reviewed."),
+            ("current_election", "Configured identifier for the later election geography.", "future boundary mapping evidence", "derived", "No rows until an evidence-supported mapping is reviewed."),
+            ("current_area_name", "Published later division or ward name.", "official result page", "official", "No value is inferred from an earlier division name."),
+            ("current_area_id", "Stable later result-page identifier.", "official URL", "derived", "No rows until an evidence-supported mapping is reviewed."),
+            ("mapping_type", "Documented relationship between two electoral geographies.", "boundary mapping evidence", "derived", "NULL until official or clearly documented mapping evidence exists."),
+            ("confidence", "Recorded confidence in a documented mapping.", "boundary mapping evidence", "derived", "NULL until evidence is reviewed."),
+            ("evidence_source", "Direct source URL or document reference for a mapping.", "boundary mapping evidence", "derived", "NULL until evidence is reviewed."),
+            ("notes", "Boundary-change qualifications or unresolved issues.", "boundary mapping evidence", "derived", "NULL until evidence is reviewed."),
+        ],
         "Party History and New Entrants": [
             ("party_name", "Observed published party name.", "Candidate Results", "derived", "Never blank for observed parties."),
             ("first_observed_year", "First year present in the loaded audited dataset only.", "Candidate Results", "derived", "NULL only if no loaded observation exists."),
@@ -650,6 +705,8 @@ def payload_as_dict(payload: MasterDatabasePayload) -> dict[str, object]:
         "Candidates": list(payload.candidates),
         "Political Parties": list(payload.political_parties),
         "Party History and New Entrants": list(payload.party_history_and_new_entrants),
+        "Party Standardisation Issues": list(payload.party_standardisation_issues),
+        "Geographic Mapping": list(payload.geographic_mapping),
         "Supplementary Metadata": list(payload.supplementary_metadata),
         "Data Dictionary": list(payload.data_dictionary),
         "audit_summary": payload.audit_summary,
@@ -670,6 +727,8 @@ def audit_summary_markdown(payload: MasterDatabasePayload) -> str:
         f"- Divisions with supplementary Seats evidence: {summary['divisions_with_secondary_seats']}",
         f"- Supplementary metadata records: {summary['supplementary_metadata_records']}",
         f"- Supplementary metadata by field: {summary['supplementary_metadata_by_field']}",
+        f"- Geographic Mapping rows: {summary['geographic_mapping_rows']}",
+        f"- Party Standardisation Issues rows: {summary['party_standardisation_issue_rows']}",
         f"- Official division-field missing counts: {summary['official_division_field_missing_counts']}",
         "",
         "## Election coverage",
