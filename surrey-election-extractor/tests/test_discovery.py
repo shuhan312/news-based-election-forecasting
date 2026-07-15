@@ -29,6 +29,8 @@ OFFICIAL_INDEX_URL = (
     "https://mycouncil.surreycc.gov.uk/"
     "mgElectionElectionAreaResults.aspx?EID=16&RPID=453690863"
 )
+EAST_2026_MAP_INDEX = "https://www10.surreycc.gov.uk/electionmap/eastSurrey/"
+WEST_2026_MAP_INDEX = "https://www10.surreycc.gov.uk/electionmap/WestSurrey/"
 
 
 class MockOfficialArchiveClient:
@@ -457,3 +459,111 @@ def test_name_mismatch_is_explicit_and_does_not_silently_normalise_wards() -> No
     status = area_name_status("Guildford South", "Guildford South-East")
 
     assert status is AreaNameStatus.NAME_MISMATCH
+
+
+@pytest.mark.parametrize("map_index", [EAST_2026_MAP_INDEX, WEST_2026_MAP_INDEX])
+def test_2026_east_and_west_map_indexes_are_accepted(map_index: str) -> None:
+    """Only the two configured public 2026 map entry points are accepted."""
+    from election_extractor.discovery import validate_discovery_source_url
+
+    assert validate_discovery_source_url(map_index) == map_index
+
+
+def test_2026_map_index_discovers_wards_and_deduplicates_eid_id_pairs() -> None:
+    """Repeated winner links stay one ward while EID and ID remain in the URL."""
+    body = """
+    <html><body>
+      <a href="https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=352&EID=2037">Ashtead Ward</a>
+      <a href="https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?EID=2037&ID=352">Ashtead Ward</a>
+      <a href="https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=353&EID=2037">Banstead Ward</a>
+    </body></html>
+    """
+    provider = MockSearchProvider({})
+    report = discover_election_areas(
+        EAST_2026_MAP_INDEX,
+        provider,
+        archive_client=MockOfficialArchiveClient(
+            {
+                EAST_2026_MAP_INDEX: OfficialArchiveResponse(
+                    200, EAST_2026_MAP_INDEX, body
+                )
+            }
+        ),
+    )
+
+    assert provider.queries == []
+    assert [area.division_ward_name for area in report.areas] == [
+        "Ashtead Ward",
+        "Banstead Ward",
+    ]
+    assert [area.result_url for area in report.areas] == [
+        "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?EID=2037&ID=352",
+        "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?EID=2037&ID=353",
+    ]
+    assert all(area.discovery_method == "official_map_index" for area in report.areas)
+    assert any(attempt.rejection_reason == "duplicate_result_url" for attempt in report.search_attempts)
+    assert all(
+        attempt.domains_searched == (
+            "www10.surreycc.gov.uk",
+            "mycouncil.surreycc.gov.uk",
+        )
+        for attempt in report.search_attempts
+    )
+
+
+def test_2026_map_index_rejects_invalid_or_incomplete_result_links() -> None:
+    """Map discovery requires both EID and ID on an official result-page URL."""
+    body = """
+    <html><body>
+      <a href="https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=388&EID=2007">Addlestone Ward</a>
+      <a href="https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=389">Missing EID Ward</a>
+      <a href="https://example.com/mgElectionAreaResults.aspx?ID=390&EID=2007">External Ward</a>
+      <a href="https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=nope&EID=2007">Invalid Ward</a>
+    </body></html>
+    """
+    report = discover_election_areas(
+        WEST_2026_MAP_INDEX,
+        MockSearchProvider({}),
+        archive_client=MockOfficialArchiveClient(
+            {
+                WEST_2026_MAP_INDEX: OfficialArchiveResponse(
+                    200, WEST_2026_MAP_INDEX, body
+                )
+            }
+        ),
+    )
+
+    assert [area.division_ward_name for area in report.areas] == ["Addlestone Ward"]
+    assert report.areas[0].result_url.endswith("EID=2007&ID=388")
+    assert {
+        attempt.rejection_reason
+        for attempt in report.search_attempts
+        if attempt.validation_result == "rejected"
+    } == {"invalid_map_result_url", "missing_map_result_eid_or_id"}
+
+
+def test_2026_map_index_deduplicates_by_eid_and_id_not_id_alone() -> None:
+    """A future map cannot collapse distinct official EID/ID result pairs."""
+    body = """
+    <html><body>
+      <a href="https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=400&EID=2007">First Ward</a>
+      <a href="https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=400&EID=2037">Second Ward</a>
+    </body></html>
+    """
+    report = discover_election_areas(
+        WEST_2026_MAP_INDEX,
+        MockSearchProvider({}),
+        archive_client=MockOfficialArchiveClient(
+            {
+                WEST_2026_MAP_INDEX: OfficialArchiveResponse(
+                    200, WEST_2026_MAP_INDEX, body
+                )
+            }
+        ),
+    )
+
+    assert len(report.areas) == 2
+    assert {area.result_url.split("?")[1] for area in report.areas} == {
+        "EID=2007&ID=400",
+        "EID=2037&ID=400",
+    }

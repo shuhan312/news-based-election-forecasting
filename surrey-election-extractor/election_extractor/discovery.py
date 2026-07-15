@@ -14,7 +14,7 @@ from datetime import datetime, timezone
 from html.parser import HTMLParser
 from typing import Protocol
 from urllib.error import HTTPError
-from urllib.parse import parse_qsl, urljoin, urlsplit
+from urllib.parse import parse_qsl, urljoin, urlsplit, urlunsplit
 from urllib.request import Request, urlopen
 
 from election_extractor.models import (
@@ -43,6 +43,14 @@ DATE_PATTERN = re.compile(
 ARCHIVE_PATH = "/mgElectionResults.aspx"
 INDEX_PATH = "/mgElectionElectionAreaResults.aspx"
 SEARCH_DOMAIN = "mycouncil.surreycc.gov.uk"
+MAP_INDEX_HOST = "www10.surreycc.gov.uk"
+# The 2026 election has two published map indexes rather than the historical
+# ``mycouncil`` archive/index structure.  This explicit allow-list prevents a
+# URL for another Surrey map or an arbitrary www10 page becoming a data source.
+MAP_INDEX_PATHS = {
+    "/electionmap/eastsurrey/": "/electionmap/eastSurrey/",
+    "/electionmap/westsurrey/": "/electionmap/WestSurrey/",
+}
 GENERIC_AREA_LINK_TEXT = {
     "election results",
     "results",
@@ -245,8 +253,51 @@ def _single_numeric_value(url: str, name: str) -> str | None:
     return values[0] if len(values) == 1 and values[0].isdigit() else None
 
 
+def _normalise_2026_map_index_url(url: str) -> str:
+    """Validate one of the two published 2026 East/West map-index URLs.
+
+    Map indexes have no meaningful query parameters.  Rejecting them here
+    keeps discovery tied to the two configured public entry points and avoids
+    silently following an altered or unrelated map URL.
+    """
+    if not isinstance(url, str) or not url.strip():
+        raise ValueError("URL must be a non-empty string.")
+    parsed = urlsplit(url.strip())
+    if parsed.scheme.casefold() not in {"http", "https"}:
+        raise ValueError("URL must use HTTP or HTTPS.")
+    if parsed.username or parsed.password:
+        raise ValueError("URL must not contain user credentials.")
+    if (parsed.hostname or "").casefold() != MAP_INDEX_HOST:
+        raise ValueError("URL is not a Surrey 2026 map index URL.")
+    if parsed.port not in {None, 80, 443}:
+        raise ValueError("URL must not use a non-standard port.")
+    if parsed.query:
+        raise ValueError("Surrey 2026 map index URLs must not include query parameters.")
+
+    # The official West URL uses a capital W.  Match case-insensitively for a
+    # normal web URL, then return one stable spelling for audit and deduplication.
+    path = parsed.path if parsed.path.endswith("/") else f"{parsed.path}/"
+    canonical_path = MAP_INDEX_PATHS.get(path.casefold())
+    if canonical_path is None:
+        raise ValueError("URL is not a configured Surrey 2026 map index URL.")
+    return urlunsplit(("https", MAP_INDEX_HOST, canonical_path, "", ""))
+
+
+def _is_2026_map_index_url(url: str) -> bool:
+    """Return whether a canonical discovery source uses the 2026 map route."""
+    parsed = urlsplit(url)
+    return (
+        (parsed.hostname or "").casefold() == MAP_INDEX_HOST
+        and parsed.path.casefold() in MAP_INDEX_PATHS
+    )
+
+
 def validate_discovery_source_url(url: str) -> str:
-    """Accept an official area index or the official election archive page."""
+    """Accept a historical archive/index or a configured 2026 map index."""
+    try:
+        return _normalise_2026_map_index_url(url)
+    except ValueError:
+        pass
     try:
         return validate_index_url(url)
     except ValueError:
@@ -457,9 +508,18 @@ def _official_attempt(
     accepted: int = 0,
     excluded: int = 0,
     name_status: AreaNameStatus | None = None,
+    discovery_method: str = "official_archive",
 ) -> DiscoverySearchAttempt:
     """Create one method-labelled official audit record without credentials."""
     metadata_status, missing_metadata_fields = _metadata_audit(context)
+    # A 2026 map route reads the published www10 index and follows its literal
+    # mycouncil result links.  Store both public hosts in the audit instead of
+    # implying that this route was discovered through the historical archive.
+    domains_searched = (
+        (MAP_INDEX_HOST, SEARCH_DOMAIN)
+        if discovery_method == "official_map_index"
+        else (SEARCH_DOMAIN,)
+    )
     return DiscoverySearchAttempt(
         query="",
         source_index_url=source_index_url,
@@ -470,9 +530,10 @@ def _official_attempt(
         election_year=context.year,
         division_ward_name=division_ward_name,
         search_date=datetime.now(timezone.utc).date().isoformat(),
+        domains_searched=domains_searched,
         accepted_result_count=accepted,
         excluded_result_count=excluded,
-        discovery_method="official_archive",
+        discovery_method=discovery_method,
         request_url=request_url,
         discovered_url=discovered_url,
         validation_result=validation_result,
@@ -496,6 +557,215 @@ def _result_link_candidates(
             yield link, normalise_area_result_url(absolute_url)
         except ValueError:
             continue
+
+
+def _map_result_identifier(result_url: str) -> tuple[str, str] | None:
+    """Return a 2026 ward identity only when both official identifiers exist.
+
+    The map may repeat one result page for multiple elected candidates.  The
+    EID/ID pair identifies the published result page without treating that
+    repetition as either a new ward or evidence about the number of Seats.
+    """
+    election_id = _single_numeric_value(result_url, "EID")
+    result_id = _single_numeric_value(result_url, "ID")
+    if election_id is None or result_id is None:
+        return None
+    return election_id, result_id
+
+
+def _discover_from_2026_map_index(
+    source_index_url: str,
+    client: OfficialArchiveClient,
+) -> _OfficialDiscovery:
+    """Discover 2026 wards from one published East/West map index.
+
+    This is deliberately separate from the historical archive walker.  The
+    map page directly links to result pages and has no EID index pagination;
+    discovery therefore reads only its literal, labelled result links.
+    """
+    attempts: list[DiscoverySearchAttempt] = []
+    response, error = _fetch_official_page(client, source_index_url)
+    empty_context = _ElectionContext(None, None, None)
+    if response is None or error:
+        attempts.append(
+            _official_attempt(
+                source_index_url=source_index_url,
+                request_url=source_index_url,
+                status="failed",
+                result_count=0,
+                context=empty_context,
+                validation_result="unavailable",
+                rejection_reason=error or "unavailable",
+                discovery_method="official_map_index",
+            )
+        )
+        return _OfficialDiscovery((), tuple(attempts))
+
+    try:
+        final_index_url = _normalise_2026_map_index_url(response.final_url)
+    except ValueError:
+        attempts.append(
+            _official_attempt(
+                source_index_url=source_index_url,
+                request_url=response.final_url,
+                status="failed",
+                result_count=0,
+                context=empty_context,
+                validation_result="unexpected_redirect",
+                rejection_reason="invalid_map_index_url",
+                discovery_method="official_map_index",
+            )
+        )
+        return _OfficialDiscovery((), tuple(attempts))
+
+    parser = _parse_archive_page(response.body)
+    # The configured election layer owns the 2026 election name/year.  The map
+    # index itself is not required to repeat them, so absence is audited rather
+    # than guessed from its URL or from the year-specific adapter.
+    context = _context_from_text(" ".join(parser.visible_text))
+    areas_by_identifier: dict[tuple[str, str], DiscoveredElectionArea] = {}
+    seen_identifiers: set[tuple[str, str]] = set()
+    result_link_count = 0
+
+    for link in parser.links:
+        literal_url = urljoin(final_index_url, link.href)
+        if urlsplit(literal_url).path.casefold() != "/mgElectionAreaResults.aspx".casefold():
+            continue
+        result_link_count += 1
+        try:
+            result_url = normalise_area_result_url(literal_url)
+        except ValueError:
+            attempts.append(
+                _official_attempt(
+                    source_index_url=source_index_url,
+                    request_url=final_index_url,
+                    status="completed",
+                    result_count=1,
+                    context=context,
+                    discovered_url=literal_url,
+                    validation_result="rejected",
+                    rejection_reason="invalid_map_result_url",
+                    excluded=1,
+                    discovery_method="official_map_index",
+                )
+            )
+            continue
+
+        identifier = _map_result_identifier(result_url)
+        if identifier is None:
+            attempts.append(
+                _official_attempt(
+                    source_index_url=source_index_url,
+                    request_url=final_index_url,
+                    status="completed",
+                    result_count=1,
+                    context=context,
+                    discovered_url=result_url,
+                    validation_result="rejected",
+                    rejection_reason="missing_map_result_eid_or_id",
+                    excluded=1,
+                    discovery_method="official_map_index",
+                )
+            )
+            continue
+
+        official_name = _official_area_name(link)
+        if official_name is None:
+            attempts.append(
+                _official_attempt(
+                    source_index_url=source_index_url,
+                    request_url=final_index_url,
+                    status="completed",
+                    result_count=1,
+                    context=context,
+                    discovered_url=result_url,
+                    validation_result="rejected",
+                    rejection_reason="missing_official_area_name",
+                    excluded=1,
+                    discovery_method="official_map_index",
+                )
+            )
+            continue
+
+        if identifier in seen_identifiers:
+            attempts.append(
+                _official_attempt(
+                    source_index_url=source_index_url,
+                    request_url=final_index_url,
+                    status="completed",
+                    result_count=1,
+                    context=context,
+                    discovered_url=result_url,
+                    division_ward_name=official_name,
+                    validation_result="duplicate",
+                    rejection_reason="duplicate_result_url",
+                    excluded=1,
+                    name_status=area_name_status(official_name, official_name),
+                    discovery_method="official_map_index",
+                )
+            )
+            continue
+
+        seen_identifiers.add(identifier)
+        metadata_status, missing_metadata_fields = _metadata_audit(context)
+        name_status = area_name_status(official_name, official_name)
+        areas_by_identifier[identifier] = DiscoveredElectionArea(
+            election_year=context.year,
+            election_name=context.name,
+            division_ward_name=official_name,
+            result_url=result_url,
+            source_index_url=source_index_url,
+            discovery_status=DiscoveryStatus.DISCOVERED,
+            discovered_name=official_name,
+            official_name=official_name,
+            name_status=name_status,
+            discovery_method="official_map_index",
+            official_index_url=final_index_url,
+            metadata_status=metadata_status,
+            missing_metadata_fields=missing_metadata_fields,
+        )
+        attempts.append(
+            _official_attempt(
+                source_index_url=source_index_url,
+                request_url=final_index_url,
+                status="completed",
+                result_count=1,
+                context=context,
+                discovered_url=result_url,
+                division_ward_name=official_name,
+                validation_result=(
+                    "accepted_metadata_missing"
+                    if metadata_status is MetadataStatus.MISSING
+                    else "accepted"
+                ),
+                accepted=1,
+                name_status=name_status,
+                discovery_method="official_map_index",
+            )
+        )
+
+    # Keep one index-level audit row even when no candidate result links exist.
+    attempts.insert(
+        0,
+        _official_attempt(
+            source_index_url=source_index_url,
+            request_url=final_index_url,
+            status="completed",
+            result_count=result_link_count,
+            context=context,
+            validation_result="map_index_loaded",
+            discovery_method="official_map_index",
+        ),
+    )
+    return _OfficialDiscovery(
+        tuple(
+            sorted(
+                areas_by_identifier.values(),
+                key=lambda area: (area.division_ward_name or "").casefold(),
+            )
+        ),
+        tuple(attempts),
+    )
 
 
 def _index_link_candidates(
@@ -847,6 +1117,15 @@ def discover_election_areas(
 ) -> DiscoveryReport:
     """Discover official areas first and use indexed search only when needed."""
     canonical_index = validate_discovery_source_url(index_url)
+    if _is_2026_map_index_url(canonical_index):
+        # Map indexes are a complete official source in their own right.  Do
+        # not use the historical search fallback: it cannot safely add wards
+        # that the East/West map has not explicitly published.
+        official = _discover_from_2026_map_index(
+            canonical_index,
+            archive_client or UrllibOfficialArchiveClient(),
+        )
+        return DiscoveryReport(canonical_index, official.areas, official.attempts)
     official = _discover_from_official_archive(
         canonical_index,
         archive_client or UrllibOfficialArchiveClient(),
