@@ -16,6 +16,10 @@ outputs/*_official_pilot/
 outputs/*_seats_diagnosis*/
 outputs/*_secondary_seats_audit/
 
+# Detailed generated JSON audits remain local or in OneDrive.
+outputs/*_layered_completeness/*.json
+outputs/final_position_provenance_audit/*.json
+
 # Local secrets and API-key files
 .env
 .env.*
