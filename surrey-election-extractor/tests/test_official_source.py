@@ -36,13 +36,20 @@ def valid_page() -> str:
         <tr><td>Keith Francis Witham</td><td>Conservative</td><td>2,574</td><td>60%</td><td>Elected</td></tr>
         <tr><td>Gina Redpath</td><td>Residents for Guildford and Villages</td><td>1,716</td><td>40%</td><td>Not elected</td></tr>
       </table>
-      <table>
+      <table class="mgStatsTable" summary="Voting summary table">
+        <caption class="mgSectionTitle">Voting Summary</caption>
+        <tr><th>Details</th><th>Number</th></tr>
         <tr><td>Seats</td><td>1</td></tr>
         <tr><td>Total votes</td><td>4,290</td></tr>
         <tr><td>Electorate</td><td>10,000</td></tr>
-        <tr><td>Ballot papers issued</td><td>4,300</td></tr>
-        <tr><td>Ballot papers rejected</td><td>10</td></tr>
+        <tr><td>Number of ballot papers issued</td><td>4,300</td></tr>
+        <tr><td>Number of ballot papers rejected</td><td>10</td></tr>
         <tr><td>Turnout</td><td>43%</td></tr>
+      </table>
+      <table summary="Table of rejected ballot papers">
+        <caption>Rejected ballot papers</caption>
+        <tr><th>Description</th><th>Number</th></tr>
+        <tr><td>Turnout</td><td>99%</td></tr>
       </table>
     </body></html>
     """
@@ -119,7 +126,22 @@ def test_official_table_parser_preserves_published_values() -> None:
     ]
     assert shared["number_of_seats"] == "1"
     assert shared["total_votes"] == "4,290"
+    assert shared["electorate"] == "10,000"
+    assert shared["ballot_papers_issued"] == "4,300"
+    assert shared["ballot_papers_rejected"] == "10"
     assert shared["turnout"] == "43%"
+    assert dict(data.shared_evidence)["number_of_seats"] == "Seats: 1"
+    # The same label in a non-summary table is not election-summary evidence.
+    assert shared["turnout"] != "99%"
+
+
+def test_official_voting_summary_preserves_published_multi_seat_values() -> None:
+    page = valid_page().replace("<td>Seats</td><td>1</td>", "<td>Seats</td><td>2</td>")
+
+    data = parse_official_election_page(page)
+
+    assert dict(data.shared_fields)["number_of_seats"] == "2"
+    assert dict(data.shared_evidence)["number_of_seats"] == "Seats: 2"
 
 
 def test_modern_gov_percent_header_and_same_result_redirect_are_accepted() -> None:

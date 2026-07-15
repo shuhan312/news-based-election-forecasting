@@ -438,13 +438,40 @@ def complete_official_page() -> str:
         <tr><th>Election Candidate</th><th>Party</th><th>Votes</th><th>Vote Share</th><th>Outcome</th></tr>
         <tr><td>Keith Francis Witham</td><td>Conservative</td><td>2,574</td><td>60%</td><td>Elected</td></tr>
       </table>
-      <table>
+      <table class="mgStatsTable" summary="Voting summary table">
+        <caption class="mgSectionTitle">Voting Summary</caption>
+        <tr><th>Details</th><th>Number</th></tr>
         <tr><td>Seats</td><td>1</td></tr><tr><td>Total votes</td><td>2,574</td></tr>
-        <tr><td>Electorate</td><td>5,000</td></tr><tr><td>Ballot papers issued</td><td>2,580</td></tr>
-        <tr><td>Ballot papers rejected</td><td>6</td></tr><tr><td>Turnout</td><td>51.6%</td></tr>
+        <tr><td>Electorate</td><td>5,000</td></tr><tr><td>Number of ballot papers issued</td><td>2,580</td></tr>
+        <tr><td>Number of ballot papers rejected</td><td>6</td></tr><tr><td>Turnout</td><td>51.6%</td></tr>
       </table>
     </body></html>
     """
+
+
+def multi_seat_discovered_area() -> DiscoveredElectionArea:
+    """Model a 2026 ward without applying its seat count to earlier elections."""
+    return DiscoveredElectionArea(
+        election_year=2026,
+        election_name="County Council Election 2026",
+        division_ward_name="Example Two-Member Ward",
+        result_url=RESULT_URL,
+        source_index_url=(
+            "https://mycouncil.surreycc.gov.uk/"
+            "mgElectionElectionAreaResults.aspx?EID=99"
+        ),
+        discovery_status=DiscoveryStatus.DISCOVERED,
+    )
+
+
+def multi_seat_official_page() -> str:
+    """Reuse the official table shape with an explicitly published two-seat value."""
+    return (
+        complete_official_page()
+        .replace("Worplesdon, 6 May 2021", "Example Two-Member Ward, 7 May 2026")
+        .replace("County Council Election 2021", "County Council Election 2026")
+        .replace("<td>Seats</td><td>1</td>", "<td>Seats</td><td>2</td>")
+    )
 
 
 def test_official_page_is_used_before_indexed_search() -> None:
@@ -466,7 +493,12 @@ def test_official_page_is_used_before_indexed_search() -> None:
     assert record.candidate_name == "Keith Francis Witham"
     assert record.original_party_name == "Conservative"
     assert record.votes_received == 2574
+    assert record.number_of_seats == 1
     assert record.total_votes == 2574
+    assert record.electorate == 5000
+    assert record.ballot_papers_issued == 2580
+    assert record.ballot_papers_rejected == 6
+    assert record.turnout == 51.6
     assert record.source_type is EvidenceSourceType.OFFICIAL
     assert record.extraction_status is ExtractionStatus.COMPLETE
     assert record.field_evidence
@@ -479,6 +511,73 @@ def test_official_page_is_used_before_indexed_search() -> None:
     assert (
         report.official_diagnostics[0].classification
         is OfficialPageClassification.VALID_ELECTION_RESULT_PAGE
+    )
+    summary_evidence = {
+        item.field_name: item
+        for item in record.field_evidence
+        if item.field_name
+        in {
+            "number_of_seats",
+            "total_votes",
+            "electorate",
+            "ballot_papers_issued",
+            "ballot_papers_rejected",
+            "turnout",
+        }
+    }
+    expected_summary_text = {
+        "number_of_seats": "Seats: 1",
+        "total_votes": "Total votes: 2,574",
+        "electorate": "Electorate: 5,000",
+        "ballot_papers_issued": "Number of ballot papers issued: 2,580",
+        "ballot_papers_rejected": "Number of ballot papers rejected: 6",
+        "turnout": "Turnout: 51.6%",
+    }
+    assert set(summary_evidence) == set(expected_summary_text)
+    for field_name, evidence_text in expected_summary_text.items():
+        field_evidence = summary_evidence[field_name]
+        assert field_evidence.source_url == record.source_url
+        assert field_evidence.source_type is EvidenceSourceType.OFFICIAL
+        assert evidence_text in field_evidence.search_result_snippet
+        assert field_evidence.extraction_timestamp is not None
+
+
+def test_official_voting_summary_supports_a_published_two_seat_2026_ward() -> None:
+    area = multi_seat_discovered_area()
+    report = extract_candidate_results(
+        (area,),
+        MockSearchProvider({}),
+        official_page_client=MockOfficialPageClient(
+            OfficialPageResponse(200, area.result_url, multi_seat_official_page())
+        ),
+    )
+
+    assert len(report.records) == 1
+    assert report.records[0].number_of_seats == 2
+    assert report.records[0].extraction_status is ExtractionStatus.COMPLETE
+
+
+def test_missing_published_seats_remain_blank_and_keep_the_record_incomplete() -> None:
+    area = real_discovered_area()
+    page_without_seats = complete_official_page().replace(
+        "<tr><td>Seats</td><td>1</td></tr>",
+        "",
+    )
+    report = extract_candidate_results(
+        (area,),
+        MockSearchProvider({}),
+        official_page_client=MockOfficialPageClient(
+            OfficialPageResponse(200, area.result_url, page_without_seats)
+        ),
+    )
+
+    assert len(report.records) == 1
+    record = report.records[0]
+    assert record.number_of_seats is None
+    assert "number_of_seats" in record.missing_fields
+    assert record.extraction_status is ExtractionStatus.INCOMPLETE
+    assert not any(
+        item.field_name == "number_of_seats" for item in record.field_evidence
     )
 
 

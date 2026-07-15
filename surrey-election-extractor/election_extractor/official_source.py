@@ -112,6 +112,15 @@ class OfficialCandidateRow:
 
 
 @dataclass(frozen=True)
+class _OfficialHTMLTable:
+    """Keep table rows together with the official label that identifies the table."""
+
+    rows: tuple[tuple[tuple[str, str], ...], ...]
+    caption: str
+    summary_attribute: str
+
+
+@dataclass(frozen=True)
 class OfficialPageData:
     """Return published shared fields and evidence-backed candidate rows."""
 
@@ -127,12 +136,15 @@ class _ElectionHTMLParser(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.page_title = ""
         self.visible_text: list[str] = []
-        self.tables: list[list[list[tuple[str, str]]]] = []
+        self.tables: list[_OfficialHTMLTable] = []
         self._table: list[list[tuple[str, str]]] | None = None
+        self._table_caption: list[str] = []
+        self._table_summary_attribute = ""
         self._row: list[tuple[str, str]] | None = None
         self._cell_tag: str | None = None
         self._cell_text: list[str] = []
         self._title_depth = 0
+        self._caption_depth = 0
         self._ignored_depth = 0
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
@@ -146,6 +158,10 @@ class _ElectionHTMLParser(HTMLParser):
             self._title_depth += 1
         elif lowered == "table" and self._table is None:
             self._table = []
+            self._table_caption = []
+            self._table_summary_attribute = dict(attrs).get("summary") or ""
+        elif lowered == "caption" and self._table is not None:
+            self._caption_depth += 1
         elif lowered == "tr" and self._table is not None:
             self._row = []
         elif lowered in {"th", "td"} and self._row is not None:
@@ -161,6 +177,8 @@ class _ElectionHTMLParser(HTMLParser):
             return
         if lowered == "title":
             self._title_depth = max(self._title_depth - 1, 0)
+        elif lowered == "caption" and self._caption_depth:
+            self._caption_depth = max(self._caption_depth - 1, 0)
         elif lowered in {"th", "td"} and self._cell_tag == lowered:
             text = " ".join(" ".join(self._cell_text).split())
             if self._row is not None:
@@ -172,8 +190,16 @@ class _ElectionHTMLParser(HTMLParser):
                 self._table.append(self._row)
             self._row = None
         elif lowered == "table" and self._table is not None:
-            self.tables.append(self._table)
+            self.tables.append(
+                _OfficialHTMLTable(
+                    rows=tuple(tuple(row) for row in self._table),
+                    caption=" ".join(" ".join(self._table_caption).split()),
+                    summary_attribute=self._table_summary_attribute,
+                )
+            )
             self._table = None
+            self._table_caption = []
+            self._table_summary_attribute = ""
 
     def handle_data(self, data: str) -> None:
         if self._ignored_depth:
@@ -184,6 +210,8 @@ class _ElectionHTMLParser(HTMLParser):
         self.visible_text.append(cleaned)
         if self._title_depth:
             self.page_title = " ".join((self.page_title, cleaned)).strip()
+        if self._caption_depth:
+            self._table_caption.append(cleaned)
         if self._cell_tag:
             self._cell_text.append(cleaned)
 
@@ -215,7 +243,7 @@ def _normalise_heading(value: str) -> str:
 
 def _has_candidate_table(parser: _ElectionHTMLParser) -> bool:
     for table in parser.tables:
-        for row in table:
+        for row in table.rows:
             headings = {_normalise_heading(text) for _, text in row}
             if (
                 headings & {"candidate", "election candidate"}
@@ -224,6 +252,22 @@ def _has_candidate_table(parser: _ElectionHTMLParser) -> bool:
             ):
                 return True
     return False
+
+
+def _is_voting_summary_table(table: _OfficialHTMLTable) -> bool:
+    """Accept only a table explicitly labelled as Surrey's Voting Summary."""
+    descriptor = _normalise_heading(
+        f"{table.caption} {table.summary_attribute}"
+    )
+    # The caption/summary attribute is published by ModernGov. Requiring that
+    # label prevents similarly shaped tables, such as rejected-ballot details,
+    # from being misread as the election-level voting summary.
+    if "voting summary" not in descriptor:
+        return False
+    return any(
+        {_normalise_heading(text) for _, text in row} >= {"details", "number"}
+        for row in table.rows
+    )
 
 
 def _same_official_result_page(requested_url: str, final_url: str) -> bool:
@@ -382,7 +426,7 @@ def parse_official_election_page(body: str) -> OfficialPageData:
     for table in parser.tables:
         header_index = None
         header_fields: list[str | None] = []
-        for index, row in enumerate(table):
+        for index, row in enumerate(table.rows):
             mapped = [_candidate_header_field(text) for _, text in row]
             if {item for item in mapped if item} >= {
                 "candidate_name",
@@ -393,7 +437,7 @@ def parse_official_election_page(body: str) -> OfficialPageData:
                 header_fields = mapped
                 break
         if header_index is not None:
-            for row in table[header_index + 1 :]:
+            for row in table.rows[header_index + 1 :]:
                 values: dict[str, str] = {}
                 for field_name, (_, text) in zip(header_fields, row):
                     cleaned = " ".join(text.split()).strip()
@@ -408,9 +452,15 @@ def parse_official_election_page(body: str) -> OfficialPageData:
                             evidence_text=" | ".join(text for _, text in row if text),
                         )
                     )
-            continue
 
-        for row in table:
+    for table in parser.tables:
+        if not _is_voting_summary_table(table):
+            continue
+        # Summary fields are accepted only from the table explicitly labelled
+        # "Voting Summary" on the official page. Values remain published text
+        # here; numeric conversion happens later in the existing extraction
+        # pipeline without using calculated substitutes.
+        for row in table.rows:
             if len(row) < 2:
                 continue
             label = _normalise_heading(row[0][1])
