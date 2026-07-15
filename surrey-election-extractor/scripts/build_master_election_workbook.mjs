@@ -20,6 +20,7 @@ const tableDefinitions = [
   ["Candidates", "CandidatesTable"],
   ["Political Parties", "PoliticalPartiesTable"],
   ["Party History and New Entrants", "PartyHistoryTable"],
+  ["Supplementary Metadata", "SupplementaryMetadataTable"],
   ["Data Dictionary", "DataDictionaryTable"],
 ];
 
@@ -46,9 +47,11 @@ const wholeNumberColumns = new Set([
   "first_observed_year",
 ]);
 const percentageColumns = new Set(["vote_share", "turnout"]);
+const identifierColumns = new Set(["metadata_id", "division_id", "candidate_id"]);
 
 function widthFor(fieldName) {
   if (longTextColumns.has(fieldName)) return 48;
+  if (identifierColumns.has(fieldName)) return 28;
   if (fieldName.endsWith("_status") || fieldName === "source_type") return 24;
   if (wholeNumberColumns.has(fieldName) || percentageColumns.has(fieldName)) return 16;
   if (fieldName.includes("name") || fieldName.includes("party")) return 28;
@@ -136,6 +139,18 @@ const overview = await workbook.inspect({
   tableMaxCols: 8,
 });
 console.log(overview.ndjson);
+
+// The new generic evidence table has provenance columns beyond the standard
+// preview width, so inspect its complete header and the two approved 2013
+// turnout records before exporting the workbook.
+const supplementaryCheck = await workbook.inspect({
+  kind: "table",
+  range: "Supplementary Metadata!A1:N3",
+  tableMaxRows: 3,
+  tableMaxCols: 14,
+  maxChars: 5000,
+});
+console.log(supplementaryCheck.ndjson);
 
 // The master database is value-based, but scan for standard Excel formula
 // errors before export so a future calculated column cannot silently ship a

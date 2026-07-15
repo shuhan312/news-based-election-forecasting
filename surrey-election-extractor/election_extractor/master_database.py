@@ -17,10 +17,22 @@ from election_extractor.completeness import (
 from election_extractor.election_config import ElectionConfiguration, load_election_config
 from election_extractor.election_structure_metadata import load_secondary_seats_audit
 from election_extractor.extraction import CandidateResultRecord, ExtractionStatus
-from election_extractor.models import ElectionStructureMetadata
+from election_extractor.models import (
+    ElectionStructureMetadata,
+    SupplementaryMetadataRecord,
+)
+from election_extractor.supplementary_metadata import (
+    load_supplementary_metadata,
+    records_as_rows,
+    structure_metadata_as_records,
+)
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+SUPPLEMENTARY_METADATA_PATH = PROJECT_ROOT / "config/supplementary_metadata.json"
+# This is the date on which the existing statutory Seats audit was reviewed
+# into the generic metadata layer. It does not claim a date for the statute.
+SECONDARY_SEATS_AUDIT_RETRIEVAL_DATE = "2026-07-15"
 AUDITED_ELECTION_INPUTS = {
     "surrey-county-council-2013": {
         "audit_path": PROJECT_ROOT / "outputs/2013_full_extraction/2013_extraction_audit.json",
@@ -41,12 +53,13 @@ AUDITED_ELECTION_INPUTS = {
 
 @dataclass(frozen=True)
 class AuditedElectionInput:
-    """Keep one completed election audit and its optional secondary Seats audit."""
+    """Keep one completed audit and separate supplementary evidence records."""
 
     configuration: ElectionConfiguration
     audit_path: Path
     records: tuple[CandidateResultRecord, ...]
     election_structure_metadata: tuple[ElectionStructureMetadata, ...]
+    supplementary_metadata: tuple[SupplementaryMetadataRecord, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -59,6 +72,7 @@ class MasterDatabasePayload:
     candidates: tuple[dict[str, object], ...]
     political_parties: tuple[dict[str, object], ...]
     party_history_and_new_entrants: tuple[dict[str, object], ...]
+    supplementary_metadata: tuple[dict[str, object], ...]
     data_dictionary: tuple[dict[str, object], ...]
     audit_summary: dict[str, object]
 
@@ -136,6 +150,12 @@ def load_audited_elections(
     """
 
     configurations = {item.election_id: item for item in load_election_config()}
+    registered_metadata: defaultdict[str, list[SupplementaryMetadataRecord]] = defaultdict(list)
+    for item in load_supplementary_metadata(
+        SUPPLEMENTARY_METADATA_PATH,
+        permitted_election_ids=configurations,
+    ):
+        registered_metadata[item.election_id].append(item)
     loaded = []
     for election_id, paths in inputs.items():
         configuration = configurations[election_id]
@@ -154,12 +174,32 @@ def load_audited_elections(
                 election_name=configuration.election_name,
                 authority=authority if isinstance(authority, str) else None,
             )
+        # A generic metadata record receives an official division ID only when
+        # the audited official result URL identifies that same published name.
+        # The conversion is additive: the specialised Seats fields remain as
+        # they were and no generic record is passed into completeness logic.
+        division_ids_by_name = {
+            record.division_ward_name.casefold(): _division_id(
+                configuration.election_id, record.source_url
+            )
+            for record in records
+            if record.division_ward_name is not None
+        }
+        supplementary_metadata = tuple(registered_metadata[configuration.election_id]) + (
+            structure_metadata_as_records(
+                election_id=configuration.election_id,
+                metadata=metadata,
+                division_ids_by_name=division_ids_by_name,
+                retrieval_date=SECONDARY_SEATS_AUDIT_RETRIEVAL_DATE,
+            )
+        )
         loaded.append(
             AuditedElectionInput(
                 configuration=configuration,
                 audit_path=audit_path,
                 records=records,
                 election_structure_metadata=metadata,
+                supplementary_metadata=supplementary_metadata,
             )
         )
     return tuple(loaded)
@@ -240,11 +280,15 @@ def build_master_database(
     election_rows: list[dict[str, object]] = []
     candidate_rows: list[dict[str, object]] = []
     division_rows: list[dict[str, object]] = []
+    supplementary_rows: list[dict[str, object]] = []
     party_years: defaultdict[str, set[int]] = defaultdict(set)
     layered_reports: dict[str, LayeredCompletenessReport] = {}
 
     for election in elections:
         configuration = election.configuration
+        # Supplementary evidence is exported as its own table. It is never an
+        # input to candidate or division completeness assessment below.
+        supplementary_rows.extend(records_as_rows(election.supplementary_metadata))
         # Layered completeness is read-only: it selects metadata sources for
         # assessment but never writes configuration or supplementary values
         # back into official candidate records.
@@ -392,6 +436,7 @@ def build_master_database(
         elections=elections,
         candidate_rows=candidate_rows,
         division_rows=division_rows,
+        supplementary_rows=supplementary_rows,
         layered_reports=layered_reports,
     )
     return MasterDatabasePayload(
@@ -401,6 +446,9 @@ def build_master_database(
         candidates=candidates,
         political_parties=parties,
         party_history_and_new_entrants=party_history,
+        supplementary_metadata=tuple(
+            sorted(supplementary_rows, key=lambda row: str(row["metadata_id"]))
+        ),
         data_dictionary=tuple(_data_dictionary_rows()),
         audit_summary=summary,
     )
@@ -411,6 +459,7 @@ def _audit_summary(
     elections: Sequence[AuditedElectionInput],
     candidate_rows: Sequence[Mapping[str, object]],
     division_rows: Sequence[Mapping[str, object]],
+    supplementary_rows: Sequence[Mapping[str, object]],
     layered_reports: Mapping[str, LayeredCompletenessReport],
 ) -> dict[str, object]:
     """Summarise coverage and missingness without presenting it as a repair."""
@@ -454,11 +503,16 @@ def _audit_summary(
         "divisions_with_secondary_seats": sum(
             row["secondary_number_of_seats"] is not None for row in division_rows
         ),
+        "supplementary_metadata_records": len(supplementary_rows),
+        "supplementary_metadata_by_field": dict(
+            sorted(Counter(str(row["field_name"]) for row in supplementary_rows).items())
+        ),
         "official_division_field_missing_counts": missing_division_values,
         "per_election": per_election,
         "data_integrity_note": (
             "Null values preserve unavailable official information. Supplementary "
-            "Seats evidence is stored separately and does not replace official Seats."
+            "evidence is stored separately and does not replace official fields or "
+            "change layered completeness."
         ),
     }
 
@@ -531,6 +585,22 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("notes", "Scope limitation for party-history enrichment.", "project documentation", "derived", "Never used as electoral evidence."),
             ("source", "Dataset source used for this observation.", "Candidate Results", "derived", "Never blank for observed parties."),
         ],
+        "Supplementary Metadata": [
+            ("metadata_id", "Stable identifier for one reviewed external evidence record.", "supplementary metadata register", "supplementary", "Never blank; duplicate identifiers are rejected."),
+            ("election_id", "Configured election identifier for the evidence claim.", "configuration", "supplementary", "Never blank for a supplementary record."),
+            ("division_id", "Official derived division identifier when evidence is division-level.", "official URL", "supplementary", "NULL for election- or candidate-level metadata; required for division-level metadata."),
+            ("field_name", "Name of the separate supplementary field supported by the source.", "supplementary metadata register", "supplementary", "Never blank; does not map automatically to an official field."),
+            ("value", "Reviewed external value retained only in this evidence layer.", "supplementary source", "supplementary", "Never copied into official candidate or division fields."),
+            ("geographic_level", "Scope of the evidence: election, division or candidate.", "supplementary metadata register", "supplementary", "Never blank; prevents election-wide values being treated as division data."),
+            ("source_type", "Type of external or separate official source.", "supplementary source", "supplementary", "Never blank for a supplementary value."),
+            ("source_name", "Named publication or document that supports the claim.", "supplementary source", "supplementary", "Never blank for a supplementary value."),
+            ("source_url", "Direct URL for the supporting source.", "supplementary source", "supplementary", "Never blank; HTTP(S) URL required."),
+            ("evidence_text", "Supporting passage or precise evidence summary.", "supplementary source", "supplementary", "Never blank for a supplementary value."),
+            ("retrieval_date", "Date on which the source evidence was retrieved or reviewed.", "supplementary metadata register", "supplementary", "Never blank; ISO YYYY-MM-DD format required."),
+            ("confidence", "Recorded assessment of the evidence reliability.", "supplementary metadata register", "supplementary", "Never blank for a supplementary value."),
+            ("notes", "Scope restriction or handling note for the external evidence.", "supplementary metadata register", "supplementary", "NULL when no additional note is required."),
+            ("validation_status", "Review decision for the evidence record.", "supplementary metadata register", "supplementary", "Never blank; does not alter official completeness."),
+        ],
     }
     rows = []
     for table, fields in definitions.items():
@@ -558,6 +628,7 @@ def payload_as_dict(payload: MasterDatabasePayload) -> dict[str, object]:
         "Candidates": list(payload.candidates),
         "Political Parties": list(payload.political_parties),
         "Party History and New Entrants": list(payload.party_history_and_new_entrants),
+        "Supplementary Metadata": list(payload.supplementary_metadata),
         "Data Dictionary": list(payload.data_dictionary),
         "audit_summary": payload.audit_summary,
     }
@@ -575,6 +646,8 @@ def audit_summary_markdown(payload: MasterDatabasePayload) -> str:
         f"- Division rows: {summary['division_rows']}",
         f"- Candidate rows with NULL final_position: {summary['candidate_rows_with_null_final_position']}",
         f"- Divisions with supplementary Seats evidence: {summary['divisions_with_secondary_seats']}",
+        f"- Supplementary metadata records: {summary['supplementary_metadata_records']}",
+        f"- Supplementary metadata by field: {summary['supplementary_metadata_by_field']}",
         f"- Official division-field missing counts: {summary['official_division_field_missing_counts']}",
         "",
         "## Election coverage",

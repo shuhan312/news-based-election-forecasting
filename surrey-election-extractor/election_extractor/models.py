@@ -1,7 +1,9 @@
-"""Provider-neutral models used by the election-area discovery stage."""
+"""Provider-neutral models used across Surrey election pipeline stages."""
 
 from dataclasses import dataclass
+from datetime import date
 from enum import Enum
+from urllib.parse import urlparse
 
 
 class DiscoveryStatus(str, Enum):
@@ -95,6 +97,7 @@ class ElectionStructureMetadata:
     official_number_of_seats: int | None
     secondary_number_of_seats: int | None
     seat_source_type: str | None = None
+    seat_source_name: str | None = None
     seat_source_url: str | None = None
     seat_evidence_text: str | None = None
     confidence: str | None = None
@@ -120,3 +123,80 @@ class ElectionStructureMetadata:
                 "Secondary Seats metadata requires source provenance: "
                 + ", ".join(missing)
             )
+
+
+class GeographicLevel(str, Enum):
+    """Limit supplementary evidence to an explicit analytical scope."""
+
+    ELECTION = "election"
+    DIVISION = "division"
+    CANDIDATE = "candidate"
+
+
+class SupplementaryValidationStatus(str, Enum):
+    """State whether an external evidence record passed the project review."""
+
+    VERIFIED = "verified"
+    PENDING_REVIEW = "pending_review"
+    REJECTED = "rejected"
+
+
+@dataclass(frozen=True)
+class SupplementaryMetadataRecord:
+    """Store one external evidence claim without changing official result data.
+
+    ``value`` deliberately has no mapping to an official candidate or division
+    field. Consumers must use this record as a separate provenance layer rather
+    than treating it as a fallback for missing official values.
+    """
+
+    metadata_id: str
+    election_id: str
+    division_id: str | None
+    field_name: str
+    value: object
+    geographic_level: GeographicLevel
+    source_type: str
+    source_name: str
+    source_url: str
+    evidence_text: str
+    retrieval_date: str
+    confidence: str
+    notes: str | None
+    validation_status: SupplementaryValidationStatus
+
+    def __post_init__(self) -> None:
+        """Reject untraceable or incorrectly scoped supplementary claims."""
+
+        required_text = {
+            "metadata_id": self.metadata_id,
+            "election_id": self.election_id,
+            "field_name": self.field_name,
+            "source_type": self.source_type,
+            "source_name": self.source_name,
+            "source_url": self.source_url,
+            "evidence_text": self.evidence_text,
+            "retrieval_date": self.retrieval_date,
+            "confidence": self.confidence,
+        }
+        missing = [name for name, value in required_text.items() if not value.strip()]
+        if missing:
+            raise ValueError(
+                "Supplementary metadata requires: " + ", ".join(missing)
+            )
+        if self.value is None:
+            raise ValueError("Supplementary metadata value cannot be null.")
+        if self.geographic_level is GeographicLevel.DIVISION and not self.division_id:
+            raise ValueError("Division-level supplementary metadata requires division_id.")
+        if self.geographic_level is not GeographicLevel.DIVISION and self.division_id:
+            raise ValueError("Only division-level supplementary metadata may have division_id.")
+
+        parsed_url = urlparse(self.source_url)
+        if parsed_url.scheme not in {"http", "https"} or not parsed_url.netloc:
+            raise ValueError("Supplementary metadata source_url must be an HTTP(S) URL.")
+        try:
+            date.fromisoformat(self.retrieval_date)
+        except ValueError as exc:
+            raise ValueError(
+                "Supplementary metadata retrieval_date must use YYYY-MM-DD."
+            ) from exc

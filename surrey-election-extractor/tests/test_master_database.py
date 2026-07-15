@@ -6,7 +6,7 @@ from pathlib import Path
 from election_extractor.election_config import ElectionConfiguration
 from election_extractor.extraction import CandidateResultRecord, ExtractionStatus
 from election_extractor.master_database import AuditedElectionInput, build_master_database
-from election_extractor.models import ElectionStructureMetadata
+from election_extractor.models import ElectionStructureMetadata, SupplementaryMetadataRecord
 
 
 def configuration(year: int) -> ElectionConfiguration:
@@ -62,6 +62,7 @@ def audited_input(
     year: int,
     records: tuple[CandidateResultRecord, ...],
     metadata: tuple[ElectionStructureMetadata, ...] = (),
+    supplementary_metadata: tuple[SupplementaryMetadataRecord, ...] = (),
 ) -> AuditedElectionInput:
     """Create a local audited-input object without accessing a real website."""
 
@@ -70,6 +71,7 @@ def audited_input(
         audit_path=Path(__file__),
         records=records,
         election_structure_metadata=metadata,
+        supplementary_metadata=supplementary_metadata,
     )
 
 

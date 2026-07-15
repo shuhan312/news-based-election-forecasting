@@ -1,0 +1,36 @@
+{
+  "records": [
+    {
+      "metadata_id": "surrey-county-council-2013:secondary_election_turnout:surrey-council",
+      "election_id": "surrey-county-council-2013",
+      "division_id": null,
+      "field_name": "secondary_election_turnout",
+      "value": 30.0,
+      "geographic_level": "election",
+      "source_type": "Surrey County Council official publication",
+      "source_name": "Surrey News: Election results declared",
+      "source_url": "https://news.surreycc.gov.uk/2013/05/03/election-results-special/",
+      "evidence_text": "The votes have been counted in all 81 divisions for the 2013 Surrey County Council elections; Turnout 30%.",
+      "retrieval_date": "2026-07-15",
+      "confidence": "High",
+      "notes": "Election-wide supplementary turnout only. It is not an official division turnout and is not copied to any division record.",
+      "validation_status": "verified"
+    },
+    {
+      "metadata_id": "surrey-county-council-2013:secondary_election_turnout:electoral-commission",
+      "election_id": "surrey-county-council-2013",
+      "division_id": null,
+      "field_name": "secondary_election_turnout",
+      "value": 30.0,
+      "geographic_level": "election",
+      "source_type": "Electoral Commission official report",
+      "source_name": "Electoral Commission: Results and turnout at the May 2017 England local elections",
+      "source_url": "https://www.electoralcommission.org.uk/research-reports-and-data/our-reports-and-data-past-elections-and-referendums/results-and-turnout-may-2017-england-local-elections",
+      "evidence_text": "Table 3.2 lists Surrey ballot-box turnout as 30.0% for 2013 and 35.8% for 2017.",
+      "retrieval_date": "2026-07-15",
+      "confidence": "High",
+      "notes": "Independent election-level corroboration only. It is not copied to any division turnout field.",
+      "validation_status": "verified"
+    }
+  ]
+}

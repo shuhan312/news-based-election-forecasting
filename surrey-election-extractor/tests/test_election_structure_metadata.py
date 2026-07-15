@@ -104,6 +104,7 @@ def test_completed_audit_is_loaded_without_replacing_official_seats(tmp_path) ->
                         "secondary_seats_available": True,
                         "secondary_seats_value": 1,
                         "source_type": SOURCE_TYPE,
+                        "source_title": "The Surrey (Electoral Changes) Order 2012 (UKSI 2012/1872)",
                         "source_url": SOURCE_URL,
                         "evidence_text": EVIDENCE,
                         "confidence": "High",
@@ -125,4 +126,5 @@ def test_completed_audit_is_loaded_without_replacing_official_seats(tmp_path) ->
     assert record.division_or_ward_name == "Ash"
     assert record.official_number_of_seats is None
     assert record.secondary_number_of_seats == 1
+    assert record.seat_source_name == "The Surrey (Electoral Changes) Order 2012 (UKSI 2012/1872)"
     assert record.seat_source_url == SOURCE_URL

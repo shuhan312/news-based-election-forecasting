@@ -46,6 +46,9 @@ def load_secondary_seats_audit(
                 official_number_of_seats=record.get("official_number_of_seats"),
                 secondary_number_of_seats=secondary_value,
                 seat_source_type=record.get("source_type"),
+                # Preserve the named statutory document for the generic
+                # metadata layer as well as the existing Seats-specific view.
+                seat_source_name=record.get("source_title"),
                 seat_source_url=record.get("source_url"),
                 seat_evidence_text=record.get("evidence_text"),
                 confidence=record.get("confidence"),
