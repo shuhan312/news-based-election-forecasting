@@ -23,6 +23,11 @@ from election_extractor.extraction import CandidateResultRecord, ExtractionStatu
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_INPUTS = {
+    "surrey-county-council-2013": {
+        "source_audit": PROJECT_ROOT / "outputs/2013_full_extraction/2013_extraction_audit.json",
+        "output_directory": PROJECT_ROOT / "outputs/2013_layered_completeness",
+        "secondary_seats_audit": None,
+    },
     "surrey-county-council-2017": {
         "source_audit": PROJECT_ROOT / "outputs/2017_full_extraction/2017_extraction_audit.json",
         "output_directory": PROJECT_ROOT / "outputs/2017_layered_completeness",

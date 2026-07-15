@@ -22,6 +22,10 @@ from election_extractor.models import ElectionStructureMetadata
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 AUDITED_ELECTION_INPUTS = {
+    "surrey-county-council-2013": {
+        "audit_path": PROJECT_ROOT / "outputs/2013_full_extraction/2013_extraction_audit.json",
+        "secondary_seats_audit": None,
+    },
     "surrey-county-council-2017": {
         "audit_path": PROJECT_ROOT / "outputs/2017_full_extraction/2017_extraction_audit.json",
         "secondary_seats_audit": None,
@@ -124,7 +128,7 @@ def _optional_float(value: object) -> float | None:
 def load_audited_elections(
     inputs: Mapping[str, Mapping[str, Path | None]] = AUDITED_ELECTION_INPUTS,
 ) -> tuple[AuditedElectionInput, ...]:
-    """Load only the existing audited 2017 and 2021 source outputs.
+    """Load only the completed audited 2013, 2017 and 2021 source outputs.
 
     This function deliberately has no network access and never calls discovery
     or extraction. It makes the master workbook reproducible from the audited
@@ -366,6 +370,9 @@ def build_master_database(
         }
         for party_name in sorted(party_years, key=lambda value: (value.casefold(), value))
     )
+    loaded_years = ", ".join(
+        str(election.configuration.election_year) for election in elections
+    )
     party_history = tuple(
         {
             "party_name": party_name,
@@ -375,7 +382,7 @@ def build_master_database(
                 "First observed in the loaded audited dataset only; this is not "
                 "a claim about the party's historical origin or entry."
             ),
-            "source": "Derived from audited Candidate Results for 2017 and 2021.",
+            "source": f"Derived from audited Candidate Results for {loaded_years}.",
         }
         for party_name, years in sorted(
             party_years.items(), key=lambda item: (item[0].casefold(), item[0])

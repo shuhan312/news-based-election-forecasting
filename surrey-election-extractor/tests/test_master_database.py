@@ -1,5 +1,6 @@
 """Tests for the source-preserving multi-election master database payload."""
 
+from dataclasses import replace
 from pathlib import Path
 
 from election_extractor.election_config import ElectionConfiguration
@@ -174,3 +175,31 @@ def test_2017_and_2021_can_coexist_in_one_database() -> None:
 
     assert [row["election_year"] for row in payload.elections] == [2017, 2021]
     assert {row["election_year"] for row in payload.candidate_results} == {2017, 2021}
+
+
+def test_2013_can_join_existing_years_without_filling_division_values() -> None:
+    """2013 enters the shared database without receiving county-wide turnout."""
+
+    incomplete_2013 = replace(
+        record(2013, "Candidate 2013", "UK Independence Party"),
+        ballot_papers_issued=None,
+        turnout=None,
+        final_position=None,
+        missing_fields=("ballot_papers_issued", "turnout"),
+        extraction_status=ExtractionStatus.INCOMPLETE,
+    )
+    payload = build_master_database(
+        (
+            audited_input(2013, (incomplete_2013,)),
+            audited_input(2017, (record(2017, "Candidate 2017", "Conservative"),)),
+            audited_input(2021, (record(2021, "Candidate 2021", "Reform UK"),)),
+        )
+    )
+
+    division = next(
+        row for row in payload.divisions_and_wards if row["election_id"] == "surrey-county-council-2013"
+    )
+    assert [row["election_year"] for row in payload.elections] == [2013, 2017, 2021]
+    assert division["ballot_papers_issued"] is None
+    assert division["turnout"] is None
+    assert division["official_number_of_seats"] == 1

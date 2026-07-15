@@ -138,7 +138,8 @@ def run(election_id: str, output_directory: Path) -> tuple[Path, Path, Path, dic
     validations = validate_election_results(extraction.records, summaries)
 
     # Output names come from the configured election rather than a hard-coded
-    # year, while this task invokes the script only for the approved 2017 run.
+    # year, so the same validated orchestration can write separate audit files
+    # for each approved configured election.
     year = configuration.election_year
     workbook_path = output_directory / f"surrey_county_council_{year}.xlsx"
     audit_path = output_directory / f"{year}_extraction_audit.json"

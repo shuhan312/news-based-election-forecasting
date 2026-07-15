@@ -98,6 +98,7 @@ function columnLetter(columnNumber) {
 }
 
 const workbook = Workbook.create();
+const previewRanges = [];
 for (const [sheetName, tableName] of tableDefinitions) {
   const rows = payload[sheetName];
   if (!Array.isArray(rows) || rows.length === 0) {
@@ -116,6 +117,12 @@ for (const [sheetName, tableName] of tableDefinitions) {
   ];
   sheet.getRangeByIndexes(0, 0, matrix.length, headers.length).values = matrix;
   formatTable(sheet, rows.length, headers, tableName);
+  // Large candidate tables are checked through a representative top range so
+  // visual verification remains practical without altering the workbook data.
+  previewRanges.push({
+    sheetName,
+    range: `A1:${columnLetter(Math.min(headers.length, 8))}${Math.min(matrix.length, 20)}`,
+  });
 }
 
 await fs.mkdir(path.dirname(outputPath), { recursive: true });
@@ -129,3 +136,30 @@ const overview = await workbook.inspect({
   tableMaxCols: 8,
 });
 console.log(overview.ndjson);
+
+// The master database is value-based, but scan for standard Excel formula
+// errors before export so a future calculated column cannot silently ship a
+// broken reference in an otherwise valid workbook.
+const formulaErrors = await workbook.inspect({
+  kind: "match",
+  searchTerm: "#REF!|#DIV/0!|#VALUE!|#NAME\\?|#N/A",
+  options: { use_regex: true, max_results: 100 },
+  summary: "final formula error scan",
+});
+console.log(formulaErrors.ndjson);
+
+// Save one preview per populated worksheet so the generated workbook can be
+// visually checked after each audited election is added to the master dataset.
+for (const { sheetName, range } of previewRanges) {
+  const preview = await workbook.render({
+    sheetName,
+    range,
+    scale: 1,
+    format: "png",
+  });
+  const previewName = `preview_${sheetName.replaceAll(" ", "_")}.png`;
+  await fs.writeFile(
+    path.join(path.dirname(outputPath), previewName),
+    new Uint8Array(await preview.arrayBuffer()),
+  );
+}
