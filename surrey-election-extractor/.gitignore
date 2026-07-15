@@ -9,10 +9,16 @@ __pycache__/
 *.xls
 *.log
 
+# Reproducible intermediate election outputs are stored in OneDrive, not Git.
+outputs/*_full_extraction/
+outputs/*_archive_discovery_pilot/
+outputs/*_official_pilot/
+outputs/*_seats_diagnosis*/
+outputs/*_secondary_seats_audit/
+
 # Local secrets and API-key files
 .env
 .env.*
 *.key
 secrets.toml
 .streamlit/secrets.toml
-
