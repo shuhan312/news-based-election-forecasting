@@ -19,6 +19,7 @@ outputs/*_official_pilot/
 outputs/*_seats_diagnosis*/
 outputs/*_secondary_seats_audit/
 outputs/*_division_supplementary_audit/
+outputs/2026_compatibility_audit/*.json
 
 # Detailed generated JSON audits remain local or in OneDrive.
 outputs/*_layered_completeness/*.json
