@@ -9,7 +9,13 @@ class DiscoveryStatus(str, Enum):
 
     DISCOVERED = "discovered"
     MISSING_AREA_NAME = "missing_area_name"
-    MISSING_ELECTION_METADATA = "missing_election_metadata"
+
+
+class MetadataStatus(str, Enum):
+    """Describe whether published election metadata accompanies a result URL."""
+
+    COMPLETE = "complete"
+    MISSING = "missing"
 
 
 class AreaNameStatus(str, Enum):
@@ -58,6 +64,11 @@ class DiscoveredElectionArea:
     name_status: AreaNameStatus = AreaNameStatus.SEARCH_ONLY
     discovery_method: str = "indexed_search"
     official_index_url: str | None = None
+    # Link validity and metadata availability are separate facts. An official
+    # published result URL remains usable when its surrounding index omits the
+    # election name or year; those absent fields are retained explicitly.
+    metadata_status: MetadataStatus = MetadataStatus.COMPLETE
+    missing_metadata_fields: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)

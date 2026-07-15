@@ -22,6 +22,7 @@ from election_extractor.models import (
     DiscoveredElectionArea,
     DiscoveryReport,
     DiscoveryStatus,
+    MetadataStatus,
     SearchAttempt,
     SearchResult,
 )
@@ -204,6 +205,8 @@ class DiscoverySearchAttempt(SearchAttempt):
     discovered_name: str | None = None
     official_name: str | None = None
     name_status: AreaNameStatus | None = None
+    metadata_status: MetadataStatus | None = None
+    missing_metadata_fields: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -354,6 +357,22 @@ def _context_from_text(text: str) -> _ElectionContext:
     )
 
 
+def _metadata_audit(context: _ElectionContext) -> tuple[MetadataStatus, tuple[str, ...]]:
+    """Record missing published metadata without treating a valid URL as invalid."""
+    missing_fields = tuple(
+        field_name
+        for field_name, value in (
+            ("election_year", context.year),
+            ("election_name", context.name),
+        )
+        if value is None
+    )
+    return (
+        MetadataStatus.MISSING if missing_fields else MetadataStatus.COMPLETE,
+        missing_fields,
+    )
+
+
 def _extract_metadata(results: Iterable[SearchResult]) -> _ElectionContext:
     candidates = []
     for result in results:
@@ -440,6 +459,7 @@ def _official_attempt(
     name_status: AreaNameStatus | None = None,
 ) -> DiscoverySearchAttempt:
     """Create one method-labelled official audit record without credentials."""
+    metadata_status, missing_metadata_fields = _metadata_audit(context)
     return DiscoverySearchAttempt(
         query="",
         source_index_url=source_index_url,
@@ -460,6 +480,8 @@ def _official_attempt(
         discovered_name=division_ward_name,
         official_name=division_ward_name,
         name_status=name_status,
+        metadata_status=metadata_status,
+        missing_metadata_fields=missing_metadata_fields,
     )
 
 
@@ -672,25 +694,8 @@ def _discover_from_official_archive(
                     )
                 )
                 continue
-            if context.year is None or context.name is None:
-                attempts.append(
-                    _official_attempt(
-                        source_index_url=source_index_url,
-                        request_url=final_index_url,
-                        status="completed",
-                        result_count=1,
-                        context=context,
-                        discovered_url=result_url,
-                        division_ward_name=official_name,
-                        validation_result="rejected",
-                        rejection_reason="missing_election_metadata",
-                        excluded=1,
-                        name_status=area_name_status(official_name, official_name),
-                    )
-                )
-                continue
-
             name_status = area_name_status(official_name, official_name)
+            metadata_status, missing_metadata_fields = _metadata_audit(context)
             areas_by_result_id[result_id] = DiscoveredElectionArea(
                 election_year=context.year,
                 election_name=context.name,
@@ -703,6 +708,8 @@ def _discover_from_official_archive(
                 name_status=name_status,
                 discovery_method="official_archive",
                 official_index_url=final_index_url,
+                metadata_status=metadata_status,
+                missing_metadata_fields=missing_metadata_fields,
             )
             attempts.append(
                 _official_attempt(
@@ -713,7 +720,11 @@ def _discover_from_official_archive(
                     context=context,
                     discovered_url=result_url,
                     division_ward_name=official_name,
-                    validation_result="accepted",
+                    validation_result=(
+                        "accepted_metadata_missing"
+                        if metadata_status is MetadataStatus.MISSING
+                        else "accepted"
+                    ),
                     accepted=1,
                     name_status=name_status,
                 )
@@ -770,12 +781,11 @@ def _discover_from_indexed_search(
 
     evidence_by_url = _area_evidence(all_results, context)
     areas = []
+    metadata_status, missing_metadata_fields = _metadata_audit(context)
     for result_url in sorted(evidence_by_url):
         area_name = _best_area_name(evidence_by_url[result_url])
         if area_name is None:
             status = DiscoveryStatus.MISSING_AREA_NAME
-        elif context.year is None or context.name is None:
-            status = DiscoveryStatus.MISSING_ELECTION_METADATA
         else:
             status = DiscoveryStatus.DISCOVERED
         areas.append(
@@ -790,6 +800,8 @@ def _discover_from_indexed_search(
                 official_name=None,
                 name_status=area_name_status(area_name, None),
                 discovery_method="indexed_search",
+                metadata_status=metadata_status,
+                missing_metadata_fields=missing_metadata_fields,
             )
         )
 
@@ -820,6 +832,8 @@ def _discover_from_indexed_search(
                 excluded_result_count=len(run.results) - accepted,
                 discovery_method="indexed_search",
                 validation_result="search_fallback",
+                metadata_status=metadata_status,
+                missing_metadata_fields=missing_metadata_fields,
             )
         )
     return DiscoveryReport(canonical_index, tuple(areas), tuple(attempts))

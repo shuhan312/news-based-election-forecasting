@@ -11,7 +11,12 @@ from election_extractor.discovery import (
     build_search_queries,
     discover_election_areas,
 )
-from election_extractor.models import AreaNameStatus, DiscoveryStatus, SearchResult
+from election_extractor.models import (
+    AreaNameStatus,
+    DiscoveryStatus,
+    MetadataStatus,
+    SearchResult,
+)
 from election_extractor.search_providers.mock_provider import MockSearchProvider
 from election_extractor.search_providers.serpapi import SerpApiSearchProvider
 from election_extractor.url_utils import normalise_area_result_url, validate_index_url
@@ -302,6 +307,17 @@ def official_archive_page() -> str:
     """
 
 
+def official_archive_without_election_metadata() -> str:
+    """Model an official archive that links to results but omits election labels."""
+    return """
+    <html><body>
+      <a href="mgElectionElectionAreaResults.aspx?EID=16&RPID=453690863">
+        Election results by wards
+      </a>
+    </body></html>
+    """
+
+
 def official_area_index_page() -> str:
     return """
     <html><body>
@@ -315,10 +331,24 @@ def official_area_index_page() -> str:
     """
 
 
+def official_area_index_without_election_metadata() -> str:
+    """Model a valid official area index whose visible text omits election labels."""
+    return """
+    <html><body>
+      <h1>Election results by wards</h1>
+      <a href="mgElectionAreaResults.aspx?XXR=0&ID=301&RPID=999999999">Ash</a>
+    </body></html>
+    """
+
+
 def test_official_archive_discovers_all_published_area_links_before_search() -> None:
     client = MockOfficialArchiveClient(
         {
-            ARCHIVE_URL: OfficialArchiveResponse(200, ARCHIVE_URL, official_archive_page()),
+            ARCHIVE_URL: OfficialArchiveResponse(
+                200,
+                ARCHIVE_URL,
+                official_archive_without_election_metadata(),
+            ),
             OFFICIAL_INDEX_URL: OfficialArchiveResponse(
                 200,
                 OFFICIAL_INDEX_URL,
@@ -345,6 +375,82 @@ def test_official_archive_discovers_all_published_area_links_before_search() -> 
         attempt.rejection_reason == "duplicate_result_url"
         for attempt in report.search_attempts
     )
+
+
+def test_valid_official_result_url_without_metadata_remains_discovered() -> None:
+    client = MockOfficialArchiveClient(
+        {
+            ARCHIVE_URL: OfficialArchiveResponse(
+                200,
+                ARCHIVE_URL,
+                official_archive_without_election_metadata(),
+            ),
+            OFFICIAL_INDEX_URL: OfficialArchiveResponse(
+                200,
+                OFFICIAL_INDEX_URL,
+                official_area_index_without_election_metadata(),
+            ),
+        }
+    )
+
+    report = discover_election_areas(ARCHIVE_URL, MockSearchProvider({}), archive_client=client)
+
+    assert len(report.areas) == 1
+    area = report.areas[0]
+    assert area.result_url.endswith("ID=301&RPID=999999999&XXR=0")
+    assert area.discovery_status is DiscoveryStatus.DISCOVERED
+    assert area.election_year is None
+    assert area.election_name is None
+    assert area.metadata_status is MetadataStatus.MISSING
+    assert area.missing_metadata_fields == ("election_year", "election_name")
+    accepted_attempt = next(
+        attempt for attempt in report.search_attempts if attempt.discovered_url == area.result_url
+    )
+    assert accepted_attempt.validation_result == "accepted_metadata_missing"
+    assert accepted_attempt.missing_metadata_fields == area.missing_metadata_fields
+
+
+def test_valid_official_result_url_with_metadata_records_complete_metadata() -> None:
+    client = MockOfficialArchiveClient(
+        {
+            ARCHIVE_URL: OfficialArchiveResponse(200, ARCHIVE_URL, official_archive_page()),
+            OFFICIAL_INDEX_URL: OfficialArchiveResponse(
+                200,
+                OFFICIAL_INDEX_URL,
+                official_area_index_page(),
+            ),
+        }
+    )
+
+    report = discover_election_areas(ARCHIVE_URL, MockSearchProvider({}), archive_client=client)
+
+    assert all(area.discovery_status is DiscoveryStatus.DISCOVERED for area in report.areas)
+    assert all(area.metadata_status is MetadataStatus.COMPLETE for area in report.areas)
+    assert all(area.missing_metadata_fields == () for area in report.areas)
+
+
+def test_invalid_official_result_links_are_rejected() -> None:
+    report = discover_election_areas(
+        ARCHIVE_URL,
+        MockSearchProvider({}),
+        archive_client=MockOfficialArchiveClient(
+            {
+                ARCHIVE_URL: OfficialArchiveResponse(200, ARCHIVE_URL, official_archive_page()),
+                OFFICIAL_INDEX_URL: OfficialArchiveResponse(
+                    200,
+                    OFFICIAL_INDEX_URL,
+                    """
+                    <html><body>
+                      <a href="https://example.com/mgElectionAreaResults.aspx?ID=901">Outside Surrey</a>
+                      <a href="mgElectionAreaResults.aspx?ID=not-a-number">Invalid identifier</a>
+                    </body></html>
+                    """,
+                ),
+            }
+        ),
+    )
+
+    assert report.areas == ()
 
 
 def test_name_mismatch_is_explicit_and_does_not_silently_normalise_wards() -> None:
