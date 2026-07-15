@@ -1,3 +1,4 @@
-# Discovery uses only the Python standard library at runtime.
+# Workbook and evidence-audit dependencies.
 openpyxl>=3.1,<4
 pytest>=8,<9
+shapely>=2.0,<3

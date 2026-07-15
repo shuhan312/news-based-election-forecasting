@@ -25,6 +25,7 @@ outputs/2026_compatibility_audit/*.json
 outputs/*_layered_completeness/*.json
 outputs/final_position_provenance_audit/*.json
 outputs/geographic_mapping_audit/*.json
+outputs/geographic_overlap_audit/
 outputs/master_surrey_election_database/
 
 # Local secrets and API-key files

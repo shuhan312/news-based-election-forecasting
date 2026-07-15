@@ -1,0 +1,32 @@
+{
+  "audit_id": "surrey-historical-division-to-2026-ward-spatial-overlap",
+  "coordinate_reference_system": "EPSG:27700",
+  "minimum_reviewable_intersection_square_metres": 1.0,
+  "historical_source": {
+    "source_name": "Surrey County Council historic electoral divisions GIS layer",
+    "source_url": "https://sccmaps.surreycc.gov.uk/webmaps/rest/services/SCC_Data_ForSharedUse/AdminBoundaries/MapServer/7/query?where=1%3D1&outFields=name1_text%2Cgsscode&returnGeometry=true&outSR=27700&f=geojson",
+    "name_field": "name1_text",
+    "identifier_field": "gsscode"
+  },
+  "current_sources": [
+    {
+      "election_id": "surrey-county-council-2026-east-surrey",
+      "source_name": "Surrey County Council East Surrey Council wards GIS layer",
+      "source_url": "https://sccmaps.surreycc.gov.uk/webmaps/rest/services/Elections_map_2026/East_Surrey_Council_ward/MapServer/0/query?where=1%3D1&outFields=Name&returnGeometry=true&outSR=27700&f=geojson",
+      "name_field": "Name",
+      "identifier_field": "Name"
+    },
+    {
+      "election_id": "surrey-county-council-2026-west-surrey",
+      "source_name": "Surrey County Council West Surrey Council wards GIS layer",
+      "source_url": "https://sccmaps.surreycc.gov.uk/webmaps/rest/services/Elections_map_2026/West_Surrey_Council_wards/MapServer/0/query?where=1%3D1&outFields=Name&returnGeometry=true&outSR=27700&f=geojson",
+      "name_field": "Name",
+      "identifier_field": "Name"
+    }
+  ],
+  "legal_2026_source": {
+    "source_name": "Surrey (Structural Changes) Order 2026",
+    "source_url": "https://www.legislation.gov.uk/ukdsi/2026/9780348278507/pdfs/ukdsi_9780348278507_en.pdf",
+    "evidence_text": "Articles 47(2)(c) and 49(2)(c), with Schedules 1 and 2, define the East and West Surrey wards used at the 2026 election."
+  }
+}
