@@ -1,0 +1,38 @@
+{
+  "audit_id": "surrey-historical-to-2026-geographic-mapping",
+  "previous_election_ids": [
+    "surrey-county-council-2013",
+    "surrey-county-council-2017",
+    "surrey-county-council-2021"
+  ],
+  "current_election_ids": [
+    "surrey-county-council-2026-east-surrey",
+    "surrey-county-council-2026-west-surrey"
+  ],
+  "sources": [
+    {
+      "source_name": "Surrey County Council Local Government Reorganisation Hub",
+      "source_type": "Surrey County Council official reorganisation page",
+      "source_url": "https://www.surreycc.gov.uk/council-and-democracy/lgr",
+      "evidence_scope": "Surrey-wide local-government reorganisation structure",
+      "evidence_text": "The official page describes replacement of Surrey's existing councils by the new East Surrey and West Surrey unitary councils from April 2027.",
+      "direct_area_crosswalk_available": false
+    },
+    {
+      "source_name": "Surrey County Council Final Local Government Reorganisation Plan",
+      "source_type": "Surrey County Council official plan",
+      "source_url": "https://www.surreycc.gov.uk/council-and-democracy/lgr/plans/final",
+      "evidence_scope": "Proposed East and West electoral structure",
+      "evidence_text": "The official plan describes 36 East Surrey electoral divisions with 72 councillors and 45 West Surrey electoral divisions with 90 councillors.",
+      "direct_area_crosswalk_available": false
+    },
+    {
+      "source_name": "Surrey Structural Changes Order 2026 draft",
+      "source_type": "Official legislation draft order",
+      "source_url": "https://www.legislation.gov.uk/ukdsi/2026/9780348278507/pdfs/ukdsi_9780348278507_en.pdf",
+      "evidence_scope": "Legal establishment of East Surrey and West Surrey",
+      "evidence_text": "The draft order describes establishment of East Surrey and West Surrey as new unitary local-government areas, but is not a ward-to-division crosswalk.",
+      "direct_area_crosswalk_available": false
+    }
+  ]
+}

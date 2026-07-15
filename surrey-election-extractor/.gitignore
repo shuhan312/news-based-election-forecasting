@@ -24,6 +24,7 @@ outputs/2026_compatibility_audit/*.json
 # Detailed generated JSON audits remain local or in OneDrive.
 outputs/*_layered_completeness/*.json
 outputs/final_position_provenance_audit/*.json
+outputs/geographic_mapping_audit/*.json
 outputs/master_surrey_election_database/
 
 # Local secrets and API-key files
