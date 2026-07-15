@@ -6,13 +6,17 @@ from election_extractor.election_compatibility import (
     CompatibilityPageResponse,
     CompatibilityStatus,
     check_election_compatibility,
+    check_configured_election_compatibility,
     write_compatibility_reports,
 )
 from election_extractor.election_config import load_election_config
+from election_extractor.discovery import OfficialArchiveResponse
+from election_extractor.search_providers.mock_provider import MockSearchProvider
 
 
 ARCHIVE_URL = "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=16&RPID=0"
 RESULT_URL = "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=258&RPID=0"
+INDEX_URL = "https://mycouncil.surreycc.gov.uk/mgElectionElectionAreaResults.aspx?EID=16&RPID=1"
 
 
 class MockCompatibilityPageClient:
@@ -24,6 +28,16 @@ class MockCompatibilityPageClient:
 
     def fetch(self, url: str) -> CompatibilityPageResponse:
         self.requests.append(url)
+        return self.pages[url]
+
+
+class MockDiscoveryArchiveClient:
+    """Return official archive fixtures to exercise the existing discovery stage."""
+
+    def __init__(self, pages: dict[str, OfficialArchiveResponse]) -> None:
+        self.pages = pages
+
+    def fetch(self, url: str) -> OfficialArchiveResponse:
         return self.pages[url]
 
 
@@ -79,6 +93,28 @@ def client_for(*, include_seats: bool = True) -> MockCompatibilityPageClient:
     )
 
 
+def discovery_archive_client() -> MockDiscoveryArchiveClient:
+    """Provide an archive and an area index with one published result-page URL."""
+    archive_body = f"""
+    <html><body>
+      <h1>County Council Election 2021 - Thursday, 6 May 2021</h1>
+      <a href=\"{INDEX_URL}\">Election results by wards</a>
+    </body></html>
+    """
+    index_body = f"""
+    <html><body>
+      <h1>County Council Election 2021 - Thursday, 6 May 2021</h1>
+      <a href=\"{RESULT_URL}\">Addlestone</a>
+    </body></html>
+    """
+    return MockDiscoveryArchiveClient(
+        {
+            ARCHIVE_URL: OfficialArchiveResponse(200, ARCHIVE_URL, archive_body),
+            INDEX_URL: OfficialArchiveResponse(200, INDEX_URL, index_body),
+        }
+    )
+
+
 def test_valid_election_configuration_returns_compatible_status() -> None:
     report = check_election_compatibility(configured_2021(), client_for())
 
@@ -87,6 +123,25 @@ def test_valid_election_configuration_returns_compatible_status() -> None:
     assert report.discovery.duplicate_urls_removed == 1
     assert all(report.result_structure.candidate_fields_available.values())
     assert all(report.result_structure.summary_fields_available.values())
+
+
+def test_configured_checker_reuses_existing_official_discovery() -> None:
+    report = check_configured_election_compatibility(
+        configured_2021(),
+        MockSearchProvider({}),
+        discovery_archive_client(),
+        client_for(),
+    )
+
+    assert report.overall_status is CompatibilityStatus.COMPATIBLE
+    assert report.discovery.result_pages_found == 1
+    assert report.discovery.unique_divisions_found == 1
+    assert report.provenance["inspection_mode"] == (
+        "read_only_existing_discovery_and_representative_html"
+    )
+    assert report.structural_differences_from_2021 == (
+        "No candidate or non-Seats Voting Summary field difference was observed in the representative pages.",
+    )
 
 
 def test_invalid_archive_url_is_detected_without_fetching() -> None:

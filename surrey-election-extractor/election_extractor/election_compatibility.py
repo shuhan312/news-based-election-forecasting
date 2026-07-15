@@ -13,8 +13,10 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import parse_qsl, urlencode, urljoin, urlsplit, urlunsplit
 from urllib.request import Request, urlopen
 
+from election_extractor.discovery import DiscoveryReport, OfficialArchiveClient, discover_election_areas
 from election_extractor.election_config import ElectionConfiguration
 from election_extractor.official_source import parse_official_election_page
+from election_extractor.search_providers.base import SearchProvider
 
 
 class CompatibilityStatus(str, Enum):
@@ -106,6 +108,8 @@ class DiscoveryCompatibility:
     failed_urls: int
     url_patterns: tuple[str, ...]
     issues: tuple[str, ...]
+    unique_divisions_found: int = 0
+    accepted_divisions: int = 0
 
 
 @dataclass(frozen=True)
@@ -146,6 +150,7 @@ class ElectionCompatibilityReport:
     risks: tuple[str, ...]
     recommendation: str
     provenance: Mapping[str, object]
+    structural_differences_from_2021: tuple[str, ...] = ()
 
     def as_dict(self) -> dict[str, object]:
         """Return JSON-ready data while preserving enum values as readable text."""
@@ -242,6 +247,14 @@ def _normalise_discovered_url(url: str) -> str:
             "",
         )
     )
+
+
+def _result_identifier(url: str) -> str | None:
+    """Return the published result ID used by existing discovery for deduplication."""
+    identifiers = [
+        value for key, value in parse_qsl(urlsplit(url).query) if key.casefold() == "id"
+    ]
+    return identifiers[0] if len(identifiers) == 1 and identifiers[0].isdigit() else None
 
 
 def _archive_page_has_expected_election_information(
@@ -344,6 +357,279 @@ def _recommendation(status: CompatibilityStatus) -> str:
     )
 
 
+def _metadata_compatibility(structure: ResultStructureCompatibility) -> MetadataCompatibility:
+    """Describe Seats evidence needs without creating or inferring a Seats value."""
+    seats_observed = structure.summary_fields_available.get("seats", False)
+    return MetadataCompatibility(
+        seats_source="official_result_page" if seats_observed else "not_observed_in_representative_pages",
+        supplementary_metadata_required=not seats_observed,
+        evidence=(
+            "Seats was observed in a representative official Voting Summary."
+            if seats_observed
+            else (
+                "Seats was not observed in the representative official pages. No Seats value was "
+                "created; approved supplementary metadata may be required after a full audit."
+            )
+        ),
+    )
+
+
+def _structural_differences_from_2021(
+    structure: ResultStructureCompatibility,
+) -> tuple[str, ...]:
+    """Compare observed fields with the validated 2021 field structure only."""
+    differences = []
+    if structure.missing_candidate_fields:
+        differences.append(
+            "Candidate fields not observed relative to the 2021 baseline: "
+            + ", ".join(structure.missing_candidate_fields)
+            + "."
+        )
+    non_seat_summary_missing = [
+        field_name for field_name in structure.missing_summary_fields if field_name != "seats"
+    ]
+    if non_seat_summary_missing:
+        differences.append(
+            "Voting Summary fields not observed relative to the 2021 baseline: "
+            + ", ".join(non_seat_summary_missing)
+            + "."
+        )
+    if not differences:
+        differences.append(
+            "No candidate or non-Seats Voting Summary field difference was observed in the representative pages."
+        )
+    return tuple(differences)
+
+
+def _report_from_existing_discovery(
+    configuration: ElectionConfiguration,
+    archive: ArchiveCompatibility,
+    discovery_report: DiscoveryReport,
+    result_page_client: CompatibilityPageClient,
+    *,
+    sample_size: int,
+) -> ElectionCompatibilityReport:
+    """Assess accepted and rejected official links from the existing discovery audit."""
+    accepted_urls = tuple(area.result_url for area in discovery_report.areas)
+    accepted_identifiers = {
+        identifier
+        for url in accepted_urls
+        if (identifier := _result_identifier(url)) is not None
+    }
+    # Discovery itself treats a result ID as the stable area identity. Different
+    # RPID display parameters can therefore produce several literal URLs for
+    # one division, so compatibility counts use that same identity rule.
+    observed_by_identifier = {}
+    raw_result_link_count = 0
+    for attempt in discovery_report.search_attempts:
+        url = attempt.discovered_url
+        if not url or not _official_surrey_domain(url) or not _looks_like_legacy_result_page(url):
+            continue
+        raw_result_link_count += 1
+        identifier = _result_identifier(url)
+        if identifier is not None:
+            observed_by_identifier.setdefault(identifier, attempt)
+
+    observed_attempts = tuple(observed_by_identifier.values())
+    observed_urls = tuple(attempt.discovered_url for attempt in observed_attempts)
+    rejected_attempts = tuple(
+        attempt
+        for identifier, attempt in observed_by_identifier.items()
+        if identifier not in accepted_identifiers
+    )
+    rejected_urls = tuple(attempt.discovered_url for attempt in rejected_attempts)
+    result_urls_for_structure = accepted_urls or rejected_urls
+    rejection_reasons = {
+        attempt.rejection_reason for attempt in rejected_attempts if attempt.rejection_reason
+    }
+    discovery_issues = []
+    if rejected_urls:
+        discovery_issues.append(
+            f"{len(rejected_urls)} official result URLs were not accepted by discovery: "
+            + ", ".join(sorted(rejection_reasons))
+            + "."
+        )
+    if not observed_urls:
+        discovery_issues.append("Existing discovery did not find a supported official result-page URL.")
+
+    structure, structure_issues, inspected_urls = _inspect_result_structure(
+        result_urls_for_structure, result_page_client, sample_size
+    )
+    discovery = DiscoveryCompatibility(
+        result_pages_found=len(observed_urls),
+        raw_result_links_found=raw_result_link_count,
+        duplicate_urls_removed=raw_result_link_count - len(observed_urls),
+        failed_urls=len(rejected_urls),
+        url_patterns=tuple(sorted({urlsplit(url).path for url in observed_urls})),
+        issues=tuple(discovery_issues),
+        unique_divisions_found=len(observed_urls),
+        accepted_divisions=len(accepted_identifiers),
+    )
+    metadata = _metadata_compatibility(structure)
+    risks = list(discovery_issues) + list(structure_issues)
+    if not archive.expected_election_information_present:
+        risks.append("Archive page does not visibly contain the configured election year and election context.")
+    if not accepted_urls:
+        risks.append("Existing discovery did not accept any official division result URLs.")
+    if structure.missing_candidate_fields:
+        risks.append(
+            "Representative pages are missing candidate fields: "
+            + ", ".join(structure.missing_candidate_fields)
+            + "."
+        )
+    if metadata.supplementary_metadata_required:
+        risks.append("Official Seats was not observed; supplementary metadata may be required.")
+    non_seat_summary_missing = [
+        field_name for field_name in structure.missing_summary_fields if field_name != "seats"
+    ]
+    if non_seat_summary_missing:
+        risks.append(
+            "Representative pages are missing Voting Summary fields: "
+            + ", ".join(non_seat_summary_missing)
+            + "."
+        )
+
+    base_incompatible = (
+        not archive.expected_election_information_present
+        or not accepted_urls
+        or bool(structure.missing_candidate_fields)
+        or bool(structure_issues)
+    )
+    status = (
+        CompatibilityStatus.REQUIRES_CHANGES
+        if base_incompatible
+        else (
+            CompatibilityStatus.COMPATIBLE_WITH_METADATA
+            if metadata.supplementary_metadata_required
+            else CompatibilityStatus.COMPATIBLE
+        )
+    )
+    return ElectionCompatibilityReport(
+        configuration.election_id,
+        configuration.election_year,
+        configuration.election_name,
+        configuration.election_type,
+        configuration.official_url,
+        status,
+        archive,
+        discovery,
+        structure,
+        metadata,
+        tuple(risks),
+        _recommendation(status),
+        {
+            "archive_url": configuration.official_url,
+            "accepted_result_page_urls": accepted_urls,
+            "observed_result_page_urls": observed_urls,
+            "representative_result_page_urls": inspected_urls,
+            "inspection_mode": "read_only_existing_discovery_and_representative_html",
+        },
+        _structural_differences_from_2021(structure)
+        + (
+            (
+                "Discovery-level difference from the 2021 baseline: official result URLs were "
+                "observed but not accepted because the 2017 archive/index pages did not provide "
+                "election metadata in the format required by existing discovery."
+            ),
+        )
+        if rejected_urls and "missing_election_metadata" in rejection_reasons
+        else _structural_differences_from_2021(structure),
+    )
+
+
+def check_configured_election_compatibility(
+    configuration: ElectionConfiguration,
+    discovery_provider: SearchProvider,
+    archive_client: OfficialArchiveClient,
+    result_page_client: CompatibilityPageClient,
+    *,
+    sample_size: int = 3,
+) -> ElectionCompatibilityReport:
+    """Run existing discovery read-only, then inspect a bounded result-page sample.
+
+    This function does not call extraction.  If existing discovery rejects all
+    links, those official URLs may still be inspected for diagnosis, but they
+    remain rejected and the report remains ``requires_changes``.
+    """
+    if sample_size < 1:
+        raise ValueError("sample_size must be at least 1.")
+    if not _valid_public_url(configuration.official_url):
+        return check_election_compatibility(configuration, result_page_client, sample_size=sample_size)
+
+    try:
+        archive_response = archive_client.fetch(configuration.official_url)
+    except Exception as error:
+        archive_response = None
+        archive_error = type(error).__name__
+    else:
+        archive_error = None
+    archive_body = archive_response.body if archive_response else ""
+    parser = _ArchiveHTMLParser()
+    parser.feed(archive_body)
+    parser.close()
+    expected_information = _archive_page_has_expected_election_information(
+        " ".join(parser.visible_text), configuration
+    )
+    archive_accessible = archive_response is not None and archive_response.status_code == 200 and bool(archive_body)
+    archive = ArchiveCompatibility(
+        status="accessible" if archive_accessible else "unavailable",
+        url=configuration.official_url,
+        expected_election_information_present=expected_information,
+        evidence=(
+            f"HTTP status={archive_response.status_code if archive_response else None}; expected election information "
+            f"present={'yes' if expected_information else 'no'}; error={archive_error or 'none'}."
+        ),
+    )
+    if not archive_accessible:
+        return ElectionCompatibilityReport(
+            configuration.election_id,
+            configuration.election_year,
+            configuration.election_name,
+            configuration.election_type,
+            configuration.official_url,
+            CompatibilityStatus.REQUIRES_CHANGES,
+            archive,
+            DiscoveryCompatibility(0, 0, 0, 0, (), ("Archive page is unavailable.",), 0, 0),
+            ResultStructureCompatibility(0, {}, {}, (), (), ()),
+            MetadataCompatibility("not_checked", False, "Archive was unavailable."),
+            ("Archive page is unavailable.",),
+            _recommendation(CompatibilityStatus.REQUIRES_CHANGES),
+            {"archive_url": configuration.official_url},
+            (),
+        )
+
+    try:
+        discovery_report = discover_election_areas(
+            configuration.official_url,
+            discovery_provider,
+            archive_client=archive_client,
+        )
+    except ValueError as error:
+        return ElectionCompatibilityReport(
+            configuration.election_id,
+            configuration.election_year,
+            configuration.election_name,
+            configuration.election_type,
+            configuration.official_url,
+            CompatibilityStatus.REQUIRES_CHANGES,
+            archive,
+            DiscoveryCompatibility(0, 0, 0, 0, (), (str(error),), 0, 0),
+            ResultStructureCompatibility(0, {}, {}, (), (), ()),
+            MetadataCompatibility("not_checked", False, "Existing discovery rejected the configured URL."),
+            (str(error),),
+            _recommendation(CompatibilityStatus.REQUIRES_CHANGES),
+            {"archive_url": configuration.official_url},
+            (),
+        )
+    return _report_from_existing_discovery(
+        configuration,
+        archive,
+        discovery_report,
+        result_page_client,
+        sample_size=sample_size,
+    )
+
+
 def check_election_compatibility(
     configuration: ElectionConfiguration,
     client: CompatibilityPageClient,
@@ -427,6 +713,7 @@ def check_election_compatibility(
         failed_urls=0,
         url_patterns=patterns,
         issues=discovery_issues,
+        unique_divisions_found=len(result_urls),
     )
     structure, structure_issues, inspected_urls = _inspect_result_structure(
         result_urls, client, sample_size
@@ -444,19 +731,7 @@ def check_election_compatibility(
             + "."
         )
 
-    seats_observed = structure.summary_fields_available.get("seats", False)
-    metadata = MetadataCompatibility(
-        seats_source="official_result_page" if seats_observed else "not_observed_in_representative_pages",
-        supplementary_metadata_required=not seats_observed,
-        evidence=(
-            "Seats was observed in a representative official Voting Summary."
-            if seats_observed
-            else (
-                "Seats was not observed in the representative official pages. No Seats value was "
-                "created; approved supplementary metadata may be required after a full audit."
-            )
-        ),
-    )
+    metadata = _metadata_compatibility(structure)
     if metadata.supplementary_metadata_required:
         risks.append("Official Seats was not observed; supplementary metadata may be required.")
     non_seat_summary_missing = [
@@ -502,6 +777,7 @@ def check_election_compatibility(
             "representative_result_page_urls": inspected_urls,
             "inspection_mode": "read_only_representative_html",
         },
+        _structural_differences_from_2021(structure),
     )
 
 
@@ -537,6 +813,8 @@ def write_compatibility_reports(
         f"- Archive status: {report.archive.status}",
         f"- Archive evidence: {report.archive.evidence}",
         f"- Result pages found: {report.discovery.result_pages_found}",
+        f"- Unique divisions found: {report.discovery.unique_divisions_found}",
+        f"- Accepted divisions: {report.discovery.accepted_divisions}",
         f"- Duplicate URLs removed: {report.discovery.duplicate_urls_removed}",
         f"- URL patterns: {', '.join(report.discovery.url_patterns) or 'none'}",
         "",
@@ -545,6 +823,7 @@ def write_compatibility_reports(
         f"- Candidate fields available: {dict(candidate_fields)}",
         f"- Summary fields available: {dict(summary_fields)}",
         f"- HTML/table patterns: {' | '.join(report.result_structure.html_table_patterns) or 'none'}",
+        f"- Structural differences from 2021: {' | '.join(report.structural_differences_from_2021) or 'none'}",
         "",
         "## Seats metadata",
         "",

@@ -1,0 +1,160 @@
+{
+  "election_id": "surrey-county-council-2017",
+  "election_year": 2017,
+  "election_name": "Surrey County Council Election 2017",
+  "election_type": "County Council election",
+  "archive_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=10&RPID=0",
+  "overall_status": "requires_changes",
+  "archive": {
+    "status": "accessible",
+    "url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=10&RPID=0",
+    "expected_election_information_present": true,
+    "evidence": "HTTP status=200; expected election information present=yes; error=none."
+  },
+  "discovery": {
+    "result_pages_found": 81,
+    "raw_result_links_found": 243,
+    "duplicate_urls_removed": 162,
+    "failed_urls": 81,
+    "url_patterns": [
+      "/mgElectionAreaResults.aspx"
+    ],
+    "issues": [
+      "81 official result URLs were not accepted by discovery: missing_election_metadata."
+    ],
+    "unique_divisions_found": 81,
+    "accepted_divisions": 0
+  },
+  "result_structure": {
+    "representative_pages_inspected": 3,
+    "candidate_fields_available": {
+      "candidate name": true,
+      "party name": true,
+      "votes": true,
+      "vote share": true,
+      "elected status": true
+    },
+    "summary_fields_available": {
+      "seats": true,
+      "total votes": true,
+      "electorate": true,
+      "ballot papers issued": true,
+      "rejected ballots": true,
+      "turnout": true
+    },
+    "missing_candidate_fields": [],
+    "missing_summary_fields": [],
+    "html_table_patterns": [
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=173&RPID=453812759&XXR=0: candidate_rows=5; voting_summary_label=yes",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=174&RPID=453812759&XXR=0: candidate_rows=5; voting_summary_label=yes",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=175&RPID=453812759&XXR=0: candidate_rows=6; voting_summary_label=yes"
+    ]
+  },
+  "metadata": {
+    "seats_source": "official_result_page",
+    "supplementary_metadata_required": false,
+    "evidence": "Seats was observed in a representative official Voting Summary."
+  },
+  "risks": [
+    "81 official result URLs were not accepted by discovery: missing_election_metadata.",
+    "Existing discovery did not accept any official division result URLs."
+  ],
+  "recommendation": "Do not extract yet. Review the listed archive, discovery or page-structure risks before changing the pipeline.",
+  "provenance": {
+    "archive_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=10&RPID=0",
+    "accepted_result_page_urls": [],
+    "observed_result_page_urls": [
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=173&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=174&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=175&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=176&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=177&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=178&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=179&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=180&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=181&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=182&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=183&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=184&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=185&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=186&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=187&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=188&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=189&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=190&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=191&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=192&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=193&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=194&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=195&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=196&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=197&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=198&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=199&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=200&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=201&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=202&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=203&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=204&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=205&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=206&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=207&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=208&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=209&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=210&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=211&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=212&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=213&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=214&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=215&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=216&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=217&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=218&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=219&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=220&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=221&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=222&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=223&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=224&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=225&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=226&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=227&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=228&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=229&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=230&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=231&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=232&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=235&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=234&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=236&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=237&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=238&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=239&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=240&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=241&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=242&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=243&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=244&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=245&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=246&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=247&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=248&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=249&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=250&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=251&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=252&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=253&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=254&RPID=453812759&XXR=0"
+    ],
+    "representative_result_page_urls": [
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=173&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=174&RPID=453812759&XXR=0",
+      "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=175&RPID=453812759&XXR=0"
+    ],
+    "inspection_mode": "read_only_existing_discovery_and_representative_html"
+  },
+  "structural_differences_from_2021": [
+    "No candidate or non-Seats Voting Summary field difference was observed in the representative pages.",
+    "Discovery-level difference from the 2021 baseline: official result URLs were observed but not accepted because the 2017 archive/index pages did not provide election metadata in the format required by existing discovery."
+  ]
+}
