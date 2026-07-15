@@ -9,6 +9,7 @@ from enum import Enum
 
 from election_extractor.election_config import ElectionConfiguration
 from election_extractor.extraction import CandidateResultRecord
+from election_extractor.models import ElectionStructureMetadata
 
 
 class CompletenessStatus(str, Enum):
@@ -70,6 +71,19 @@ class DivisionCompleteness:
     status: CompletenessStatus
     fields: tuple[FieldCompleteness, ...]
     missing_fields: tuple[str, ...]
+    supplementary_seats: "SupplementarySeatsCompleteness | None" = None
+
+
+@dataclass(frozen=True)
+class SupplementarySeatsCompleteness:
+    """Expose additive Seats evidence without changing official page values."""
+
+    secondary_number_of_seats: int | None
+    source_type: str | None
+    source_url: str | None
+    evidence_text: str | None
+    confidence: str | None
+    notes: str | None
 
 
 @dataclass(frozen=True)
@@ -172,6 +186,47 @@ def _configuration_values(configuration: ElectionConfiguration) -> dict[str, obj
     }
 
 
+def _metadata_by_division(
+    metadata: Sequence[ElectionStructureMetadata],
+) -> dict[str, ElectionStructureMetadata]:
+    """Index secondary structure records by their published division name.
+
+    A duplicate name remains an explicit error rather than choosing a source.
+    This protects the separation between official page data and supplementary
+    election-structure evidence.
+    """
+    indexed: dict[str, ElectionStructureMetadata] = {}
+    for item in metadata:
+        key = item.division_or_ward_name.casefold()
+        if key in indexed:
+            raise ValueError(
+                "Election structure metadata contains duplicate division names: "
+                f"{item.division_or_ward_name}."
+            )
+        indexed[key] = item
+    return indexed
+
+
+def _supplementary_seats(
+    division_name: str | None,
+    metadata_by_division: Mapping[str, ElectionStructureMetadata],
+) -> SupplementarySeatsCompleteness | None:
+    """Return separate Seats provenance only for an exactly matching division."""
+    if not division_name:
+        return None
+    metadata = metadata_by_division.get(division_name.casefold())
+    if metadata is None:
+        return None
+    return SupplementarySeatsCompleteness(
+        secondary_number_of_seats=metadata.secondary_number_of_seats,
+        source_type=metadata.seat_source_type,
+        source_url=metadata.seat_source_url,
+        evidence_text=metadata.seat_evidence_text,
+        confidence=metadata.confidence,
+        notes=metadata.notes,
+    )
+
+
 def _election_field(
     field_name: str,
     configuration: ElectionConfiguration,
@@ -212,9 +267,11 @@ def assess_layered_completeness(
     records: Sequence[CandidateResultRecord],
     *,
     supplementary_metadata: Mapping[str, SupplementaryMetadataValue] | None = None,
+    election_structure_metadata: Sequence[ElectionStructureMetadata] = (),
 ) -> LayeredCompletenessReport:
     """Assess the three project data layers without mutating extraction output."""
     supplementary = supplementary_metadata or {}
+    metadata_by_division = _metadata_by_division(election_structure_metadata)
     election_fields = tuple(
         _election_field(field_name, configuration, records, supplementary)
         for field_name in ELECTION_FIELDS
@@ -241,6 +298,13 @@ def assess_layered_completeness(
         # also supplies the human-readable division label.
         division_status, division_missing = _status(fields)
         division_name = fields[0].value if isinstance(fields[0].value, str) else None
+        # This object is deliberately outside ``fields``. It documents a
+        # secondary Seats value but cannot make a missing official Seats field
+        # complete or alter the official extraction record.
+        supplementary_seats = _supplementary_seats(
+            division_name,
+            metadata_by_division,
+        )
         divisions.append(
             DivisionCompleteness(
                 division_ward_name=division_name,
@@ -248,6 +312,7 @@ def assess_layered_completeness(
                 status=division_status,
                 fields=fields,
                 missing_fields=division_missing,
+                supplementary_seats=supplementary_seats,
             )
         )
 

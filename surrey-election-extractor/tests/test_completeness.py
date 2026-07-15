@@ -9,6 +9,7 @@ from election_extractor.completeness import (
 )
 from election_extractor.election_config import ElectionConfiguration
 from election_extractor.extraction import CandidateResultRecord, ExtractionStatus
+from election_extractor.models import ElectionStructureMetadata
 
 
 CONFIGURATION = ElectionConfiguration(
@@ -98,3 +99,53 @@ def test_layered_assessment_does_not_overwrite_record_values() -> None:
     assert field(report.election, "election_name").value == CONFIGURATION.election_name
     assert original == before
     assert original.election_name == "Page-specific election title"
+
+
+def test_missing_official_seats_remain_separate_from_secondary_seats() -> None:
+    metadata = ElectionStructureMetadata(
+        election_year=2021,
+        election_name="County Council Election 2021",
+        authority="Surrey County Council",
+        division_or_ward_name="Addlestone",
+        official_number_of_seats=None,
+        secondary_number_of_seats=1,
+        seat_source_type="UK statutory instrument",
+        seat_source_url="https://www.legislation.gov.uk/uksi/2012/1872/contents/made",
+        seat_evidence_text="The division elects one councillor.",
+        confidence="High",
+    )
+    original = record(number_of_seats=None)
+    report = assess_layered_completeness(
+        CONFIGURATION,
+        (original,),
+        election_structure_metadata=(metadata,),
+    )
+
+    division = report.divisions[0]
+    assert field(division, "number_of_seats").value is None
+    assert division.status is CompletenessStatus.INCOMPLETE
+    assert division.supplementary_seats is not None
+    assert division.supplementary_seats.secondary_number_of_seats == 1
+    assert original.number_of_seats is None
+
+
+def test_final_position_remains_null_when_not_officially_published() -> None:
+    original = record(final_position=None)
+    report = assess_layered_completeness(CONFIGURATION, (original,))
+
+    assert report.candidates[0].status is CompletenessStatus.COMPLETE
+    assert original.final_position is None
+
+
+def test_ukip_and_reform_uk_remain_distinct_original_party_names() -> None:
+    records = (
+        record(candidate_name="Candidate UKIP", original_party_name="UKIP"),
+        record(candidate_name="Candidate Reform", original_party_name="Reform UK"),
+    )
+    report = assess_layered_completeness(CONFIGURATION, records)
+
+    published_names = [
+        field(candidate, "original_party_name").value
+        for candidate in report.candidates
+    ]
+    assert published_names == ["UKIP", "Reform UK"]
