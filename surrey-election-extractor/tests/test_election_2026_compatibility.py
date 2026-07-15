@@ -59,12 +59,15 @@ def result_html(authority: str) -> str:
     """Model the candidate table and official Voting Summary, not full results."""
 
     return f"""
+    <title>Election results for Example Ward, 7 May 2026</title>
     <h1>Election results for Example Ward</h1>
     <h2>{authority} - Thursday, 7 May 2026</h2>
     <table summary=\"Example Ward - results\">
       <caption>Example Ward - results</caption>
       <tr><th>Election Candidate</th><th>Party</th><th>Votes</th><th>%</th><th>Outcome</th></tr>
       <tr><td>Candidate One</td><td>Reform UK</td><td>100</td><td>50%</td><td>Elected</td></tr>
+      <tr><td>Candidate Two</td><td>Independent</td><td>90</td><td>45%</td><td>Elected</td></tr>
+      <tr><td>Candidate Three</td><td>Conservative</td><td>10</td><td>5%</td><td>Not elected</td></tr>
     </table>
     <table summary=\"Voting Summary\"><caption>Voting Summary</caption>
       <tr><th>Details</th><th>Number</th></tr>
@@ -83,10 +86,10 @@ def test_2026_audit_deduplicates_map_links_and_keeps_seats_evidence() -> None:
 
     client = MockClient(
         {
-            EAST_INDEX: index_html(EAST_RESULT, 36, "Reform UK"),
-            WEST_INDEX: index_html(WEST_RESULT, 45, "Independent"),
-            EAST_RESULT: result_html("East Surrey Council"),
-            WEST_RESULT: result_html("West Surrey Council"),
+            EAST_INDEX: index_html(EAST_RESULT, 1, "Reform UK"),
+            WEST_INDEX: index_html(WEST_RESULT, 1, "Independent"),
+            EAST_RESULT: result_html("Surrey County Council"),
+            WEST_RESULT: result_html("Surrey County Council"),
         }
     )
     audit = build_2026_compatibility_audit(
@@ -100,15 +103,21 @@ def test_2026_audit_deduplicates_map_links_and_keeps_seats_evidence() -> None:
 
     east = audit["east_and_west"][0]
     discovery = east["archive_and_discovery"]
-    assert audit["compatibility_status"] == "requires_changes"
-    assert discovery["raw_result_link_count"] == 2
+    assert audit["compatibility_status"] == "compatible"
+    assert discovery["raw_result_link_count"] == 3
     assert discovery["unique_result_page_count"] == 1
     assert discovery["duplicate_urls_removed"] == 1
-    assert len(discovery["invalid_result_links"]) == 1
+    assert len(discovery["rejected_result_links"]) == 1
+    assert discovery["output_can_be_consumed_by_extraction"] is True
     assert all(east["candidate_table_audit"]["required_fields_available_in_all_sampled_pages"].values())
     assert all(east["voting_summary_audit"]["fields_available_in_all_sampled_pages"].values())
     assert east["multi_seat_audit"]["official_seats_values_observed"] == ["2"]
-    assert east["party_structure_audit"]["published_map_key_party_names"] == ["Reform UK"]
+    assert east["multi_seat_audit"]["multiple_elected_candidates_observed"] is True
+    assert east["party_structure_audit"]["published_party_names_observed"] == [
+        "Reform UK",
+        "Independent",
+        "Conservative",
+    ]
     assert east["final_position_audit"]["official_field_present"] is False
 
 

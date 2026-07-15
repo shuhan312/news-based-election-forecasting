@@ -3,7 +3,15 @@
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
+
+# Allow the documented script to run directly from the project root as well as
+# through ``python -m``. This changes only Python's import path for this audit
+# runner; it does not alter discovery, extraction or generated election data.
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from election_extractor.election_2026_compatibility import (
     audit_markdown,
@@ -13,7 +21,6 @@ from election_extractor.election_compatibility import UrllibCompatibilityPageCli
 from election_extractor.election_config import load_election_config
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_DIRECTORY = PROJECT_ROOT / "outputs/2026_compatibility_audit"
 
 
