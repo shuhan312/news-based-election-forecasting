@@ -174,6 +174,69 @@ def test_original_party_names_are_preserved_without_merging() -> None:
     assert {row["standard_party_name"] for row in payload.political_parties} == party_names
 
 
+def test_reviewed_party_lookup_adds_fields_without_changing_published_names() -> None:
+    """Local labels remain separate while the lookup adds auditable grouping."""
+
+    payload = build_master_database(
+        (
+            audited_input(
+                2026,
+                (
+                    record(
+                        2026,
+                        "Local Candidate",
+                        "Farnham Residents",
+                    ),
+                    record(2026, "Reform Candidate", "Reform UK"),
+                ),
+            ),
+        )
+    )
+
+    local_row = next(
+        row
+        for row in payload.candidate_results
+        if row["candidate_name"] == "Local Candidate"
+    )
+    reform_row = next(
+        row
+        for row in payload.candidate_results
+        if row["candidate_name"] == "Reform Candidate"
+    )
+    assert local_row["original_party_name"] == "Farnham Residents"
+    assert local_row["standard_party_name"] == "Farnham Residents"
+    assert local_row["party_category"] == "local"
+    assert reform_row["standard_party_name"] == "Reform UK"
+    assert reform_row["standard_party_name"] != "UK Independence Party"
+
+
+def test_unmapped_or_missing_party_name_remains_unstandardised() -> None:
+    """Unknown and unpublished labels create review issues rather than guesses."""
+
+    unpublished = replace(record(2021, "No Party", "Conservative"), original_party_name=None)
+    payload = build_master_database(
+        (
+            audited_input(
+                2021,
+                (
+                    record(2021, "Unmapped Party", "Unreviewed Future Party"),
+                    unpublished,
+                ),
+            ),
+        )
+    )
+
+    rows = {row["candidate_name"]: row for row in payload.candidate_results}
+    assert rows["Unmapped Party"]["standard_party_name"] is None
+    assert rows["Unmapped Party"]["party_lookup_status"] == "unmapped"
+    assert rows["No Party"]["standard_party_name"] is None
+    assert rows["No Party"]["party_lookup_status"] == "missing_published_party_name"
+    assert {issue["issue_type"] for issue in payload.party_standardisation_issues} == {
+        "unmapped_published_party_name",
+        "missing_published_party_name",
+    }
+
+
 def test_official_and_secondary_seats_remain_separate() -> None:
     metadata = ElectionStructureMetadata(
         election_year=2021,

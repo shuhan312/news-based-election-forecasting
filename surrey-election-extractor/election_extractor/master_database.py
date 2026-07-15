@@ -24,6 +24,7 @@ from election_extractor.models import (
     ElectionStructureMetadata,
     SupplementaryMetadataRecord,
 )
+from election_extractor.party_lookup import PartyLookupEntry, load_party_lookup
 from election_extractor.supplementary_metadata import (
     load_supplementary_metadata,
     records_as_rows,
@@ -309,11 +310,53 @@ def _secondary_metadata_by_division(
     return {item.division_or_ward_name.casefold(): item for item in metadata}
 
 
+def _party_lookup_fields(
+    original_party_name: str | None,
+    party_lookup: Mapping[str, PartyLookupEntry],
+) -> dict[str, object]:
+    """Return reviewed party fields without changing the published party label.
+
+    A missing or unlisted source label stays unstandardised.  This makes any
+    later review visible in the workbook rather than applying a name-based
+    guess to Residents groups, Independent candidates, or new parties.
+    """
+
+    if original_party_name is None:
+        return {
+            "standard_party_name": None,
+            "party_category": None,
+            "party_lookup_status": "missing_published_party_name",
+            "party_lookup_notes": "Official candidate result did not publish a party name.",
+        }
+    entry = party_lookup.get(original_party_name)
+    if entry is None:
+        return {
+            "standard_party_name": None,
+            "party_category": None,
+            "party_lookup_status": "unmapped",
+            "party_lookup_notes": "No reviewed exact-label lookup entry exists; no mapping was applied.",
+        }
+    return {
+        "standard_party_name": entry.standard_party_name,
+        "party_category": entry.party_category,
+        "party_lookup_status": "reviewed_exact_label",
+        "party_lookup_notes": entry.notes,
+    }
+
+
 def build_master_database(
     elections: Sequence[AuditedElectionInput],
+    party_lookup: Mapping[str, PartyLookupEntry] | None = None,
 ) -> MasterDatabasePayload:
-    """Build all required tables from audited values and separate provenance layers."""
+    """Build all required tables from audited values and separate provenance layers.
 
+    ``party_lookup`` is optional so tests can inject a small reviewed register.
+    Normal production runs load the committed exact-label configuration.  It
+    controls only added lookup fields, never the original published party name.
+    """
+
+    if party_lookup is None:
+        party_lookup = load_party_lookup()
     candidate_ids = _candidate_ids(
         tuple(record for election in elections for record in election.records)
     )
@@ -363,6 +406,7 @@ def build_master_database(
         records_by_url: defaultdict[str, list[CandidateResultRecord]] = defaultdict(list)
         for record, assessment in zip(election.records, layered.candidates, strict=True):
             division_id = _division_id(configuration.election_id, record.source_url)
+            party_fields = _party_lookup_fields(record.original_party_name, party_lookup)
             candidate_rows.append(
                 {
                     "election_id": configuration.election_id,
@@ -372,6 +416,7 @@ def build_master_database(
                     "candidate_id": candidate_ids[record.candidate_name],
                     "candidate_name": record.candidate_name,
                     "original_party_name": record.original_party_name,
+                    **party_fields,
                     "votes": record.votes_received,
                     "vote_share": record.vote_share,
                     "outcome": record.outcome,
@@ -447,10 +492,7 @@ def build_master_database(
     parties = tuple(
         {
             "original_party_name": party_name,
-            # No party-name mapping is available yet, so this exact copy avoids
-            # unsupported merging while leaving a standardisation field ready.
-            "standard_party_name": party_name,
-            "party_category": None,
+            **_party_lookup_fields(party_name, party_lookup),
         }
         for party_name in sorted(party_years, key=lambda value: (value.casefold(), value))
     )
@@ -472,11 +514,23 @@ def build_master_database(
             party_years.items(), key=lambda item: (item[0].casefold(), item[0])
         )
     )
-    # Standardisation is deliberately not applied during database integration.
-    # This empty table provides an explicit reviewed location for future party
-    # aliases or local-group decisions without treating a proposed mapping as
-    # an established fact or altering original published party wording.
-    party_standardisation_issues: tuple[dict[str, object], ...] = ()
+    # Only labels with no published wording or no exact reviewed entry appear
+    # as issues.  A row asks for review; it is not a proposed party merger.
+    party_standardisation_issues = tuple(
+        {
+            "issue_id": f"party-issue:{index:03d}",
+            "election_id": None,
+            "original_party_name": party_name,
+            "issue_type": issue_type,
+            "proposed_standard_party_name": None,
+            "status": "requires_review",
+            "evidence_source": source,
+            "notes": notes,
+        }
+        for index, (party_name, issue_type, source, notes) in enumerate(
+            _party_standardisation_issues(candidate_rows), start=1
+        )
+    )
     # 2026 wards have not been evidenced as equivalent to earlier divisions.
     # An empty schema preserves that uncertainty and prevents downstream code
     # from silently joining results across boundary changes.
@@ -487,6 +541,7 @@ def build_master_database(
         division_rows=division_rows,
         supplementary_rows=supplementary_rows,
         layered_reports=layered_reports,
+        party_standardisation_issues=party_standardisation_issues,
     )
     return MasterDatabasePayload(
         elections=tuple(election_rows),
@@ -505,6 +560,52 @@ def build_master_database(
     )
 
 
+def _party_standardisation_issues(
+    candidate_rows: Sequence[Mapping[str, object]],
+) -> tuple[tuple[str | None, str, str, str], ...]:
+    """Create review rows only for party labels that no lookup safely resolves.
+
+    The source evidence is the already-audited candidate table.  This function
+    never suggests a replacement name, because deriving aliases from similar
+    wording would violate the requirement to preserve uncertainty.
+    """
+
+    evidence_by_label: defaultdict[str | None, set[str]] = defaultdict(set)
+    status_by_label: dict[str | None, str] = {}
+    for row in candidate_rows:
+        party_name = row["original_party_name"]
+        if party_name is not None and not isinstance(party_name, str):
+            raise ValueError("original_party_name must be text or null.")
+        status = str(row["party_lookup_status"])
+        if status == "reviewed_exact_label":
+            continue
+        evidence_by_label[party_name].add(str(row["election_id"]))
+        status_by_label[party_name] = status
+
+    issues = []
+    for party_name in sorted(
+        evidence_by_label,
+        key=lambda value: (value is None, "" if value is None else value.casefold()),
+    ):
+        status = status_by_label[party_name]
+        if status == "missing_published_party_name":
+            issue_type = "missing_published_party_name"
+            notes = "No original party wording was published; no standard party name was created."
+        else:
+            issue_type = "unmapped_published_party_name"
+            notes = "No exact reviewed lookup entry exists; no standard party name was created."
+        elections = ", ".join(sorted(evidence_by_label[party_name]))
+        issues.append(
+            (
+                party_name,
+                issue_type,
+                f"Audited Candidate Results for {elections}.",
+                notes,
+            )
+        )
+    return tuple(issues)
+
+
 def _audit_summary(
     *,
     elections: Sequence[AuditedElectionInput],
@@ -512,6 +613,7 @@ def _audit_summary(
     division_rows: Sequence[Mapping[str, object]],
     supplementary_rows: Sequence[Mapping[str, object]],
     layered_reports: Mapping[str, LayeredCompletenessReport],
+    party_standardisation_issues: Sequence[Mapping[str, object]],
 ) -> dict[str, object]:
     """Summarise coverage and missingness without presenting it as a repair."""
 
@@ -559,7 +661,7 @@ def _audit_summary(
             sorted(Counter(str(row["field_name"]) for row in supplementary_rows).items())
         ),
         "geographic_mapping_rows": 0,
-        "party_standardisation_issue_rows": 0,
+        "party_standardisation_issue_rows": len(party_standardisation_issues),
         "official_division_field_missing_counts": missing_division_values,
         "per_election": per_election,
         "data_integrity_note": (
@@ -594,6 +696,10 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("candidate_id", "Identifier for an exact published name; not identity matching.", "candidate name", "derived", "Never blank for a candidate row."),
             ("candidate_name", "Published candidate name.", "official result page", "official", "Never blank for extracted candidate rows."),
             ("original_party_name", "Published party wording without normalisation.", "official result page", "official", "NULL if not published."),
+            ("standard_party_name", "Reviewed standard name for an exact published party label.", "party standardisation lookup", "derived", "NULL when no approved exact-label mapping exists; never replaces original_party_name."),
+            ("party_category", "Reviewed project grouping: established, emerging, local or independent.", "party standardisation lookup", "derived", "NULL when no approved exact-label mapping exists."),
+            ("party_lookup_status", "Whether a reviewed exact-label party mapping was available.", "party standardisation lookup", "derived", "Never changes original_party_name or candidate completeness."),
+            ("party_lookup_notes", "Non-merger and scope note for the reviewed party mapping.", "party standardisation lookup", "derived", "NULL when no lookup note is available."),
             ("votes", "Published votes received.", "official result page", "official", "NULL if not published."),
             ("vote_share", "Published candidate vote share percentage.", "official result page", "official", "NULL if not published."),
             ("outcome", "Published candidate outcome text.", "official result page", "official", "NULL if not published."),
@@ -630,18 +736,20 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
         ],
         "Political Parties": [
             ("original_party_name", "Exact published party wording.", "official result pages", "official", "Never blank for observed parties."),
-            ("standard_party_name", "Current no-op standardisation retaining the exact published wording.", "original party name", "derived", "Never merges parties automatically."),
-            ("party_category", "Reserved for a separately evidenced classification.", "future enrichment", "derived", "NULL until a documented classification is added."),
+            ("standard_party_name", "Reviewed standard name for an exact published party label.", "party standardisation lookup", "derived", "NULL when no approved exact-label mapping exists; never merges parties automatically."),
+            ("party_category", "Reviewed project grouping: established, emerging, local or independent.", "party standardisation lookup", "derived", "NULL when no approved exact-label mapping exists."),
+            ("party_lookup_status", "Whether a reviewed exact-label party mapping was available.", "party standardisation lookup", "derived", "Never changes original_party_name."),
+            ("party_lookup_notes", "Non-merger and scope note for the reviewed party mapping.", "party standardisation lookup", "derived", "NULL when no lookup note is available."),
         ],
         "Party Standardisation Issues": [
             ("issue_id", "Stable identifier for one reviewed party-standardisation issue.", "party standardisation review", "derived", "No rows until a documented review identifies an issue."),
             ("election_id", "Configured election identifier in which the published party wording was observed.", "configuration", "configuration", "NULL only for a future cross-election issue."),
-            ("original_party_name", "Exact published party wording requiring review.", "official result page", "official", "Never normalised automatically."),
-            ("issue_type", "Reason a manual standardisation decision may be needed.", "party standardisation review", "derived", "NULL until a review is recorded."),
+            ("original_party_name", "Exact published party wording requiring review.", "official result page", "official", "NULL only when the official candidate record published no party wording."),
+            ("issue_type", "Reason an exact-label mapping could not be applied.", "party standardisation review", "derived", "Never proposes a party merge."),
             ("proposed_standard_party_name", "Potential standardised name pending documented approval.", "party standardisation review", "derived", "NULL until a documented mapping is approved; does not alter original_party_name."),
-            ("status", "Review status of the potential mapping.", "party standardisation review", "derived", "NULL until a review is recorded."),
-            ("evidence_source", "Source supporting a future standardisation decision.", "party standardisation review", "derived", "NULL until evidence is recorded."),
-            ("notes", "Scope or non-merger notes for a future review.", "party standardisation review", "derived", "NULL until a review is recorded."),
+            ("status", "Review status of the unresolved party label.", "party standardisation review", "derived", "Never changes candidate or division completeness."),
+            ("evidence_source", "Audited Candidate Results in which the issue was observed.", "candidate results", "derived", "Never asserts a party relationship."),
+            ("notes", "Reason no standardisation was applied.", "party standardisation review", "derived", "Never fills an unpublished party name."),
         ],
         "Geographic Mapping": [
             ("previous_election", "Configured identifier for the earlier election geography.", "future boundary mapping evidence", "derived", "No rows until an evidence-supported mapping is reviewed."),
