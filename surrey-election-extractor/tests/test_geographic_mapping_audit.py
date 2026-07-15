@@ -53,9 +53,26 @@ def audited_election(election_id: str, year: int, area_name: str) -> AuditedElec
     )
 
 
-def configuration(*, has_crosswalk: bool = False) -> GeographicMappingAuditConfiguration:
+def configuration(
+    *,
+    has_historical_crosswalk: bool = False,
+    has_reference_bridge: bool = False,
+    geometry_sources: int = 0,
+) -> GeographicMappingAuditConfiguration:
     """Create a source register that explicitly states its mapping capability."""
 
+    additional_geometry_source = (
+        MappingEvidenceSource(
+            source_name="Second official geometry source",
+            source_type="Official GIS source",
+            source_url="https://example.test/geometry",
+            evidence_scope="Reference geometry",
+            evidence_text="Provides official reference boundary geometry.",
+            direct_historical_to_current_crosswalk_available=False,
+            direct_current_to_reference_crosswalk_available=False,
+            official_boundary_geometry_available=True,
+        ),
+    ) if geometry_sources > 1 else ()
     return GeographicMappingAuditConfiguration(
         audit_id="mapping-audit",
         previous_election_ids=("surrey-county-council-2021",),
@@ -70,8 +87,11 @@ def configuration(*, has_crosswalk: bool = False) -> GeographicMappingAuditConfi
                 source_url="https://example.test/structure",
                 evidence_scope="Structure only",
                 evidence_text="Describes new councils but no ward crosswalk.",
-                direct_area_crosswalk_available=has_crosswalk,
+                direct_historical_to_current_crosswalk_available=has_historical_crosswalk,
+                direct_current_to_reference_crosswalk_available=has_reference_bridge,
+                official_boundary_geometry_available=geometry_sources > 0,
             ),
+            *additional_geometry_source,
         ),
     )
 
@@ -94,8 +114,8 @@ def test_structure_evidence_does_not_create_geographic_mappings() -> None:
     assert audit["current_election_coverage"][0]["area_count"] == 1
 
 
-def test_registered_crosswalk_still_requires_separate_manual_mapping_review() -> None:
-    """A source register cannot turn evidence availability into invented rows."""
+def test_2026_to_2024_legal_bridge_requires_historical_crosswalk_review() -> None:
+    """The legal bridge permits GIS work but never invents historic mapping rows."""
 
     audit = build_geographic_mapping_audit(
         (
@@ -103,9 +123,26 @@ def test_registered_crosswalk_still_requires_separate_manual_mapping_review() ->
             audited_election("surrey-county-council-2026-east-surrey", 2026, "Example Ward"),
             audited_election("surrey-county-council-2026-west-surrey", 2026, "Other Ward"),
         ),
-        configuration(has_crosswalk=True),
+        configuration(has_reference_bridge=True, geometry_sources=2),
+    )
+
+    assert audit["status"] == GeographicMappingAuditStatus.REFERENCE_BRIDGE_READY.value
+    assert audit["verified_geographic_mapping_rows"] == []
+    assert audit["assessment"]["historical_comparisons_allowed"] is False
+    assert audit["assessment"]["official_2026_to_2024_reference_bridge_available"] is True
+
+
+def test_direct_historical_crosswalk_requires_row_by_row_review() -> None:
+    """Even an explicit crosswalk source never inserts unreviewed mapping rows."""
+
+    audit = build_geographic_mapping_audit(
+        (
+            audited_election("surrey-county-council-2021", 2021, "Example Division"),
+            audited_election("surrey-county-council-2026-east-surrey", 2026, "Example Ward"),
+            audited_election("surrey-county-council-2026-west-surrey", 2026, "Other Ward"),
+        ),
+        configuration(has_historical_crosswalk=True),
     )
 
     assert audit["status"] == GeographicMappingAuditStatus.CROSSWALK_REVIEW_REQUIRED.value
     assert audit["verified_geographic_mapping_rows"] == []
-    assert audit["assessment"]["historical_comparisons_allowed"] is False

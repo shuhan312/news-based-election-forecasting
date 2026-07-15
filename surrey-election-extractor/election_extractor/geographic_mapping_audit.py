@@ -25,6 +25,7 @@ class GeographicMappingAuditStatus(str, Enum):
     """Describe whether reviewed sources justify writing any mapping rows."""
 
     REQUIRES_AUTHORITATIVE_CROSSWALK = "requires_authoritative_crosswalk"
+    REFERENCE_BRIDGE_READY = "reference_bridge_ready"
     CROSSWALK_REVIEW_REQUIRED = "crosswalk_review_required"
 
 
@@ -37,7 +38,12 @@ class MappingEvidenceSource:
     source_url: str
     evidence_scope: str
     evidence_text: str
-    direct_area_crosswalk_available: bool
+    # These three flags distinguish a legal 2026-to-2024 identity bridge from
+    # the still-unavailable 2013/2017/2021-to-2026 crosswalk.  Treating them as
+    # one generic "mapping source" would wrongly permit historical comparison.
+    direct_historical_to_current_crosswalk_available: bool
+    direct_current_to_reference_crosswalk_available: bool
+    official_boundary_geometry_available: bool
 
 
 @dataclass(frozen=True)
@@ -84,12 +90,19 @@ def load_geographic_mapping_audit_configuration(
     for item in raw_sources:
         if not isinstance(item, dict):
             raise ValueError("Geographic mapping audit source entries must be objects.")
-        direct_crosswalk = item.get("direct_area_crosswalk_available")
-        if not isinstance(direct_crosswalk, bool):
-            raise ValueError(
-                "Geographic mapping audit source entries require a boolean "
-                "direct_area_crosswalk_available."
-            )
+        capabilities = {}
+        for field_name in (
+            "direct_historical_to_current_crosswalk_available",
+            "direct_current_to_reference_crosswalk_available",
+            "official_boundary_geometry_available",
+        ):
+            value = item.get(field_name)
+            if not isinstance(value, bool):
+                raise ValueError(
+                    "Geographic mapping audit source entries require a boolean "
+                    f"{field_name}."
+                )
+            capabilities[field_name] = value
         sources.append(
             MappingEvidenceSource(
                 source_name=_required_text(item.get("source_name"), "source_name"),
@@ -97,7 +110,7 @@ def load_geographic_mapping_audit_configuration(
                 source_url=_required_text(item.get("source_url"), "source_url"),
                 evidence_scope=_required_text(item.get("evidence_scope"), "evidence_scope"),
                 evidence_text=_required_text(item.get("evidence_text"), "evidence_text"),
-                direct_area_crosswalk_available=direct_crosswalk,
+                **capabilities,
             )
         )
     return GeographicMappingAuditConfiguration(
@@ -157,13 +170,27 @@ def build_geographic_mapping_audit(
             + ", ".join(missing_ids)
         )
 
-    has_crosswalk = any(
-        source.direct_area_crosswalk_available for source in configuration.sources
+    has_historical_crosswalk = any(
+        source.direct_historical_to_current_crosswalk_available
+        for source in configuration.sources
+    )
+    has_reference_bridge = any(
+        source.direct_current_to_reference_crosswalk_available
+        for source in configuration.sources
+    )
+    # A spatial candidate crosswalk can be assessed only when both the old
+    # historic geometry and the legally referenced 2024 geometry are available.
+    geometry_sources = sum(
+        source.official_boundary_geometry_available for source in configuration.sources
     )
     status = (
         GeographicMappingAuditStatus.CROSSWALK_REVIEW_REQUIRED
-        if has_crosswalk
-        else GeographicMappingAuditStatus.REQUIRES_AUTHORITATIVE_CROSSWALK
+        if has_historical_crosswalk
+        else (
+            GeographicMappingAuditStatus.REFERENCE_BRIDGE_READY
+            if has_reference_bridge and geometry_sources >= 2
+            else GeographicMappingAuditStatus.REQUIRES_AUTHORITATIVE_CROSSWALK
+        )
     )
     return {
         "audit_id": configuration.audit_id,
@@ -182,7 +209,9 @@ def build_geographic_mapping_audit(
         # process records a specific previous/current pair with direct evidence.
         "verified_geographic_mapping_rows": [],
         "assessment": {
-            "direct_area_crosswalk_source_registered": has_crosswalk,
+            "direct_historical_to_2026_crosswalk_available": has_historical_crosswalk,
+            "official_2026_to_2024_reference_bridge_available": has_reference_bridge,
+            "official_boundary_geometry_source_count": geometry_sources,
             "historical_comparisons_allowed": False,
             "prohibited_inferences": [
                 "Do not map areas by similar names.",
@@ -191,9 +220,9 @@ def build_geographic_mapping_audit(
                 "Do not calculate vote change, previous winner, incumbency or candidate history.",
             ],
             "next_required_evidence": (
-                "An authoritative document or GIS crosswalk that identifies a "
-                "specific historical division and a specific 2026 ward, with the "
-                "relationship and source recorded for each proposed mapping."
+                "A reviewed GIS-overlay crosswalk, based on the official historical "
+                "division geometry and the official 2024 geometry, that records each "
+                "specific historical division/current ward overlap and source evidence."
             ),
         },
     }
@@ -236,7 +265,9 @@ def audit_markdown(audit: Mapping[str, Any]) -> str:
         assert isinstance(source, Mapping)
         lines.append(
             "- [{source_name}]({source_url}) — {evidence_text} "
-            "Direct area crosswalk available: `{direct_area_crosswalk_available}`.".format(
+            "Historical crosswalk: `{direct_historical_to_current_crosswalk_available}`; "
+            "2026-to-2024 bridge: `{direct_current_to_reference_crosswalk_available}`; "
+            "official geometry: `{official_boundary_geometry_available}`.".format(
                 **source
             )
         )
@@ -245,7 +276,7 @@ def audit_markdown(audit: Mapping[str, Any]) -> str:
             "",
             "## Decision",
             "",
-            "No source in the reviewed register identifies an individual historical Surrey County Council division and an individual 2026 East/West ward as the same or mapped geography. Therefore no Geographic Mapping rows have been written and no historical comparison or enrichment is permitted.",
+            "The 2026 Order provides an official legal bridge from each 2026 ward to a same-area 2024 electoral division. It does not identify an individual 2013, 2017 or 2021 division as the same geography as a 2026 ward. Therefore no historical Geographic Mapping rows have been written and no historical comparison or enrichment is permitted.",
             "",
             "## Required next evidence",
             "",

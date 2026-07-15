@@ -11,28 +11,34 @@
   ],
   "sources": [
     {
-      "source_name": "Surrey County Council Local Government Reorganisation Hub",
-      "source_type": "Surrey County Council official reorganisation page",
-      "source_url": "https://www.surreycc.gov.uk/council-and-democracy/lgr",
-      "evidence_scope": "Surrey-wide local-government reorganisation structure",
-      "evidence_text": "The official page describes replacement of Surrey's existing councils by the new East Surrey and West Surrey unitary councils from April 2027.",
-      "direct_area_crosswalk_available": false
-    },
-    {
-      "source_name": "Surrey County Council Final Local Government Reorganisation Plan",
-      "source_type": "Surrey County Council official plan",
-      "source_url": "https://www.surreycc.gov.uk/council-and-democracy/lgr/plans/final",
-      "evidence_scope": "Proposed East and West electoral structure",
-      "evidence_text": "The official plan describes 36 East Surrey electoral divisions with 72 councillors and 45 West Surrey electoral divisions with 90 councillors.",
-      "direct_area_crosswalk_available": false
-    },
-    {
-      "source_name": "Surrey Structural Changes Order 2026 draft",
-      "source_type": "Official legislation draft order",
+      "source_name": "Surrey (Structural Changes) Order 2026",
+      "source_type": "Official legislation",
       "source_url": "https://www.legislation.gov.uk/ukdsi/2026/9780348278507/pdfs/ukdsi_9780348278507_en.pdf",
-      "evidence_scope": "Legal establishment of East Surrey and West Surrey",
-      "evidence_text": "The draft order describes establishment of East Surrey and West Surrey as new unitary local-government areas, but is not a ward-to-division crosswalk.",
-      "direct_area_crosswalk_available": false
+      "evidence_scope": "Legal identity of each 2026 East/West ward and the same-named 2024 electoral division",
+      "evidence_text": "Articles 47(2)(c) and 49(2)(c), with Schedules 1 and 2, state that each new 2026 ward has the same area as the county council electoral division of that name under the 2024 Order.",
+      "direct_historical_to_current_crosswalk_available": false,
+      "direct_current_to_reference_crosswalk_available": true,
+      "official_boundary_geometry_available": false
+    },
+    {
+      "source_name": "LGBCE Surrey final mapping files, May 2024",
+      "source_type": "Local Government Boundary Commission for England official GIS source",
+      "source_url": "https://www.lgbce.org.uk/sites/default/files/2024-05/surrey_mapping_files.zip",
+      "evidence_scope": "Geometry of the 2024 Surrey electoral divisions referenced by the 2026 Order",
+      "evidence_text": "The completed LGBCE Surrey review publishes official final mapping files for the 2024 electoral divisions.",
+      "direct_historical_to_current_crosswalk_available": false,
+      "direct_current_to_reference_crosswalk_available": false,
+      "official_boundary_geometry_available": true
+    },
+    {
+      "source_name": "Surrey County Council Electoral Division GIS layer",
+      "source_type": "Surrey County Council official public GIS source",
+      "source_url": "https://sccmaps.surreycc.gov.uk/webmaps/rest/services/SCC_Data_ForSharedUse/AdminBoundaries/MapServer/7",
+      "evidence_scope": "Geometry and published names for the 81 historical Surrey electoral divisions used by the 2013, 2017 and 2021 result records",
+      "evidence_text": "The official public ArcGIS layer exposes 81 Electoral Division features with published names, geometry, version and availability fields.",
+      "direct_historical_to_current_crosswalk_available": false,
+      "direct_current_to_reference_crosswalk_available": false,
+      "official_boundary_geometry_available": true
     }
   ]
 }

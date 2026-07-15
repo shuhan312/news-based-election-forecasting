@@ -1,6 +1,6 @@
 # Surrey Historical-to-2026 Geographic Mapping Evidence Audit
 
-- Audit status: `requires_authoritative_crosswalk`
+- Audit status: `reference_bridge_ready`
 - Verified Geographic Mapping rows created: 0
 - Historical comparisons allowed: False
 
@@ -17,14 +17,14 @@
 
 ## Reviewed evidence
 
-- [Surrey County Council Local Government Reorganisation Hub](https://www.surreycc.gov.uk/council-and-democracy/lgr) — The official page describes replacement of Surrey's existing councils by the new East Surrey and West Surrey unitary councils from April 2027. Direct area crosswalk available: `False`.
-- [Surrey County Council Final Local Government Reorganisation Plan](https://www.surreycc.gov.uk/council-and-democracy/lgr/plans/final) — The official plan describes 36 East Surrey electoral divisions with 72 councillors and 45 West Surrey electoral divisions with 90 councillors. Direct area crosswalk available: `False`.
-- [Surrey Structural Changes Order 2026 draft](https://www.legislation.gov.uk/ukdsi/2026/9780348278507/pdfs/ukdsi_9780348278507_en.pdf) — The draft order describes establishment of East Surrey and West Surrey as new unitary local-government areas, but is not a ward-to-division crosswalk. Direct area crosswalk available: `False`.
+- [Surrey (Structural Changes) Order 2026](https://www.legislation.gov.uk/ukdsi/2026/9780348278507/pdfs/ukdsi_9780348278507_en.pdf) — Articles 47(2)(c) and 49(2)(c), with Schedules 1 and 2, state that each new 2026 ward has the same area as the county council electoral division of that name under the 2024 Order. Historical crosswalk: `False`; 2026-to-2024 bridge: `True`; official geometry: `False`.
+- [LGBCE Surrey final mapping files, May 2024](https://www.lgbce.org.uk/sites/default/files/2024-05/surrey_mapping_files.zip) — The completed LGBCE Surrey review publishes official final mapping files for the 2024 electoral divisions. Historical crosswalk: `False`; 2026-to-2024 bridge: `False`; official geometry: `True`.
+- [Surrey County Council Electoral Division GIS layer](https://sccmaps.surreycc.gov.uk/webmaps/rest/services/SCC_Data_ForSharedUse/AdminBoundaries/MapServer/7) — The official public ArcGIS layer exposes 81 Electoral Division features with published names, geometry, version and availability fields. Historical crosswalk: `False`; 2026-to-2024 bridge: `False`; official geometry: `True`.
 
 ## Decision
 
-No source in the reviewed register identifies an individual historical Surrey County Council division and an individual 2026 East/West ward as the same or mapped geography. Therefore no Geographic Mapping rows have been written and no historical comparison or enrichment is permitted.
+The 2026 Order provides an official legal bridge from each 2026 ward to a same-area 2024 electoral division. It does not identify an individual 2013, 2017 or 2021 division as the same geography as a 2026 ward. Therefore no historical Geographic Mapping rows have been written and no historical comparison or enrichment is permitted.
 
 ## Required next evidence
 
-An authoritative document or GIS crosswalk that identifies a specific historical division and a specific 2026 ward, with the relationship and source recorded for each proposed mapping.
+A reviewed GIS-overlay crosswalk, based on the official historical division geometry and the official 2024 geometry, that records each specific historical division/current ward overlap and source evidence.
