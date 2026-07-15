@@ -20,7 +20,7 @@ Permitted geographic levels are `election`, `division` and `candidate`. A divisi
 
 | Election | Field | Official availability | Supplementary evidence status | Storage decision |
 | --- | --- | --- | --- | --- |
-| 2013 | turnout | Division turnout is absent from the official result-page summaries. | Surrey County Council and the Electoral Commission independently support a 30% Surrey-wide turnout. | Two verified `secondary_election_turnout` records at election level; never copied to divisions. |
+| 2013 | turnout | Division turnout is absent from the official result-page summaries. | The Surrey Council announcement provides 80 named division turnout values; its county-wide 30% figure is also independently supported by the Electoral Commission. | 80 verified `secondary_division_turnout` records and two `secondary_election_turnout` records; none overwrite official division fields. |
 | 2013 | ballot_papers_issued | Absent from official division summaries. | Potential named Woking evidence was reviewed but has not been integrated division by division. | Remains NULL in official fields; no generic record yet. |
 | 2017 | rejected_ballots | Reigate's official page does not publish the value. | No approved supplementary evidence. | Remains NULL. |
 | 2021 | Seats | 28 official result pages do not publish Seats. | The Surrey (Electoral Changes) Order 2012 names the affected divisions and provides one councillor for each. | Existing verified division-level supplementary Seats records remain separate from official Seats. |
@@ -31,6 +31,7 @@ Permitted geographic levels are `election`, `division` and `candidate`. A divisi
 ### Turnout
 
 - Store official turnout only in the official division `turnout` field.
+- Store a named, explicitly stated division turnout only as a separate division-level metadata record.
 - Store election-wide supplementary turnout only as a separate election-level metadata record.
 - Never propagate election-wide turnout into division records or completeness.
 
@@ -54,9 +55,11 @@ Permitted geographic levels are `election`, `division` and `candidate`. A divisi
 
 ## Current approved integration
 
-The approved 2013 evidence register contains two verified, election-level records for `secondary_election_turnout = 30.0`:
+The approved 2013 evidence registers contain 80 verified division-level records for `secondary_division_turnout`, each tied to a named Surrey Council result section. Foxhills, Thorpe & Virginia Water remains unresolved because the named section displays a turnout label without a value. No `ballot_papers_issued` value is currently accepted.
+
+They also contain two verified, election-level records for `secondary_election_turnout = 30.0`:
 
 - Surrey County Council, *Election results declared*.
 - Electoral Commission, *Results and turnout at the May 2017 England local elections*.
 
-The master workbook's **Supplementary Metadata** tab shows both sources independently. The official `turnout` cells for all 81 2013 divisions remain blank, and their division completeness remains unchanged.
+The master workbook's **Supplementary Metadata** tab shows all approved evidence independently. The official `turnout` cells for all 81 2013 divisions remain blank, and their division completeness remains unchanged.

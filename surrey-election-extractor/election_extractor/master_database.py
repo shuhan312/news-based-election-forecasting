@@ -14,6 +14,9 @@ from election_extractor.completeness import (
     LayeredCompletenessReport,
     assess_layered_completeness,
 )
+from election_extractor.division_supplementary_audit import (
+    audit_2013_division_evidence,
+)
 from election_extractor.election_config import ElectionConfiguration, load_election_config
 from election_extractor.election_structure_metadata import load_secondary_seats_audit
 from election_extractor.extraction import CandidateResultRecord, ExtractionStatus
@@ -37,16 +40,23 @@ AUDITED_ELECTION_INPUTS = {
     "surrey-county-council-2013": {
         "audit_path": PROJECT_ROOT / "outputs/2013_full_extraction/2013_extraction_audit.json",
         "secondary_seats_audit": None,
+        # This small reviewed register contains only named Council turnout
+        # statements. It is additive evidence, not input to official extraction
+        # or layered completeness.
+        "division_turnout_evidence": PROJECT_ROOT
+        / "config/2013_division_turnout_evidence.json",
     },
     "surrey-county-council-2017": {
         "audit_path": PROJECT_ROOT / "outputs/2017_full_extraction/2017_extraction_audit.json",
         "secondary_seats_audit": None,
+        "division_turnout_evidence": None,
     },
     "surrey-county-council-2021": {
         "audit_path": PROJECT_ROOT
         / "outputs/2021_archive_discovery_pilot/2021_archive_discovery_pilot_audit.json",
         "secondary_seats_audit": PROJECT_ROOT
         / "outputs/2021_secondary_seats_audit/2021_secondary_seats_audit.json",
+        "division_turnout_evidence": None,
     },
 }
 
@@ -185,7 +195,8 @@ def load_audited_elections(
             for record in records
             if record.division_ward_name is not None
         }
-        supplementary_metadata = tuple(registered_metadata[configuration.election_id]) + (
+        supplementary_metadata = list(registered_metadata[configuration.election_id])
+        supplementary_metadata.extend(
             structure_metadata_as_records(
                 election_id=configuration.election_id,
                 metadata=metadata,
@@ -193,13 +204,24 @@ def load_audited_elections(
                 retrieval_date=SECONDARY_SEATS_AUDIT_RETRIEVAL_DATE,
             )
         )
+        division_turnout_evidence = paths.get("division_turnout_evidence")
+        if division_turnout_evidence is not None:
+            # The audit requires exact official division-name matching. Its
+            # records stay in Supplementary Metadata and are never supplied to
+            # ``assess_layered_completeness`` below.
+            supplementary_metadata.extend(
+                audit_2013_division_evidence(
+                    records,
+                    Path(division_turnout_evidence),
+                ).supplementary_records
+            )
         loaded.append(
             AuditedElectionInput(
                 configuration=configuration,
                 audit_path=audit_path,
                 records=records,
                 election_structure_metadata=metadata,
-                supplementary_metadata=supplementary_metadata,
+                supplementary_metadata=tuple(supplementary_metadata),
             )
         )
     return tuple(loaded)

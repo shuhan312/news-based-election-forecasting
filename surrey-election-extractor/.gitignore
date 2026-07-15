@@ -18,6 +18,7 @@ outputs/*_archive_discovery_pilot/
 outputs/*_official_pilot/
 outputs/*_seats_diagnosis*/
 outputs/*_secondary_seats_audit/
+outputs/*_division_supplementary_audit/
 
 # Detailed generated JSON audits remain local or in OneDrive.
 outputs/*_layered_completeness/*.json
