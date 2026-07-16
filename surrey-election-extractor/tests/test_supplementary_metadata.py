@@ -99,6 +99,7 @@ def test_approved_2013_metadata_loads_with_two_independent_sources() -> None:
         record
         for record in records
         if record.election_id == "surrey-county-council-2013"
+        and record.geographic_level is GeographicLevel.ELECTION
     )
     assert len(election_records) == 2
     assert {record.source_name for record in election_records} == {
@@ -107,6 +108,95 @@ def test_approved_2013_metadata_loads_with_two_independent_sources() -> None:
     }
     assert {record.value for record in election_records} == {30.0}
     assert {record.geographic_level for record in election_records} == {GeographicLevel.ELECTION}
+
+
+def test_lingfield_party_affiliation_is_candidate_scoped_and_does_not_fill_the_result() -> None:
+    """Keep the official blank Party cell separate from the Council announcement.
+
+    The source is a Surrey County Council publication, but it is not the
+    individual result table from which ``original_party_name`` was extracted.
+    It therefore belongs only in Supplementary Metadata, with an exact
+    candidate-and-division anchor.
+    """
+
+    project_root = Path(__file__).resolve().parents[1]
+    records = load_supplementary_metadata(
+        project_root / "config/supplementary_metadata.json",
+        permitted_election_ids={
+            "surrey-county-council-2013",
+            ADDLESTONE_BY_ELECTION_ID,
+            STAINES_BY_ELECTION_ID,
+        },
+    )
+    affiliation = next(
+        record
+        for record in records
+        if record.metadata_id.endswith("candidate-party-affiliation:davray-christopher-david")
+    )
+
+    assert affiliation.geographic_level is GeographicLevel.CANDIDATE
+    assert affiliation.division_id == "surrey-county-council-2013:result:137"
+    assert affiliation.candidate_name == "D'Avray, Christopher David"
+    assert affiliation.value == "No party affiliation"
+
+
+def test_candidate_metadata_must_match_an_exact_published_candidate_row() -> None:
+    """Reject a candidate-level claim if its source anchor names no candidate row."""
+
+    source_record = replace(official_record(), original_party_name=None)
+    unmatched = turnout_metadata(
+        metadata_id="surrey-county-council-2013:result:1:candidate-affiliation:test",
+        division_id="surrey-county-council-2013:result:1",
+        candidate_name="Different Candidate",
+        field_name="supplementary_candidate_party_affiliation",
+        value="No party affiliation",
+        geographic_level=GeographicLevel.CANDIDATE,
+        evidence_text="A separate official source names Different Candidate.",
+    )
+
+    with pytest.raises(ValueError, match="exact published candidate row"):
+        build_master_database(
+            (
+                AuditedElectionInput(
+                    configuration=configuration(),
+                    audit_path=Path(__file__),
+                    records=(source_record,),
+                    election_structure_metadata=(),
+                    supplementary_metadata=(unmatched,),
+                ),
+            )
+        )
+
+
+def test_candidate_affiliation_metadata_never_overwrites_official_party_fields() -> None:
+    """A verified affiliation note cannot turn a blank source Party cell into a label."""
+
+    source_record = replace(official_record(), original_party_name=None)
+    affiliation = turnout_metadata(
+        metadata_id="surrey-county-council-2013:result:1:candidate-affiliation:test",
+        division_id="surrey-county-council-2013:result:1",
+        candidate_name="Candidate One",
+        field_name="supplementary_candidate_party_affiliation",
+        value="No party affiliation",
+        geographic_level=GeographicLevel.CANDIDATE,
+        evidence_text="A separate official source names Candidate One with no party affiliation.",
+    )
+    payload = build_master_database(
+        (
+            AuditedElectionInput(
+                configuration=configuration(),
+                audit_path=Path(__file__),
+                records=(source_record,),
+                election_structure_metadata=(),
+                supplementary_metadata=(affiliation,),
+            ),
+        )
+    )
+
+    assert payload.candidate_results[0]["original_party_name"] is None
+    assert payload.candidate_results[0]["standard_party_name"] is None
+    assert payload.supplementary_metadata[0]["candidate_name"] == "Candidate One"
+    assert payload.supplementary_metadata[0]["value"] == "No party affiliation"
 
 
 def test_by_election_turnout_is_registered_as_separate_division_metadata() -> None:

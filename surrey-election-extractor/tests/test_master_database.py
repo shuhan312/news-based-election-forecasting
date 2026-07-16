@@ -559,3 +559,33 @@ def test_current_published_party_labels_have_reviewed_lookup_entries() -> None:
         and row["standard_party_name"] is None
     }
     assert unmapped_labels == set()
+
+
+def test_lingfield_2013_published_blank_party_remains_null() -> None:
+    """Do not turn an officially blank 2013 party cell into an assumption.
+
+    The indexed Surrey result table publishes D'Avray's name, votes, share and
+    outcome but leaves its Party column empty. The separate Surrey Council
+    announcement is recorded as supplementary evidence rather than changing
+    this field or treating “No party affiliation” as an Independent label.
+    """
+
+    payload = build_master_database(load_audited_elections())
+    candidate = next(
+        row
+        for row in payload.candidate_results
+        if row["election_id"] == "surrey-county-council-2013"
+        and row["division_name"] == "Lingfield"
+        and row["candidate_name"] == "D'Avray, Christopher David"
+    )
+
+    assert candidate["original_party_name"] is None
+    assert candidate["standard_party_name"] is None
+    assert candidate["party_category"] is None
+    affiliation = next(
+        row
+        for row in payload.supplementary_metadata
+        if row["metadata_id"].endswith("candidate-party-affiliation:davray-christopher-david")
+    )
+    assert affiliation["candidate_name"] == "D'Avray, Christopher David"
+    assert affiliation["value"] == "No party affiliation"

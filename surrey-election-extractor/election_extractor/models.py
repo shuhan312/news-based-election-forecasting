@@ -147,7 +147,10 @@ class SupplementaryMetadataRecord:
 
     ``value`` deliberately has no mapping to an official candidate or division
     field. Consumers must use this record as a separate provenance layer rather
-    than treating it as a fallback for missing official values.
+    than treating it as a fallback for missing official values. Candidate-level
+    evidence is additionally anchored to the exact published candidate name in
+    the same official division result; this is a source-location check, not a
+    claim that equally named candidates are the same person elsewhere.
     """
 
     metadata_id: str
@@ -164,6 +167,7 @@ class SupplementaryMetadataRecord:
     confidence: str
     notes: str | None
     validation_status: SupplementaryValidationStatus
+    candidate_name: str | None = None
 
     def __post_init__(self) -> None:
         """Reject untraceable or incorrectly scoped supplementary claims."""
@@ -186,10 +190,20 @@ class SupplementaryMetadataRecord:
             )
         if self.value is None:
             raise ValueError("Supplementary metadata value cannot be null.")
-        if self.geographic_level is GeographicLevel.DIVISION and not self.division_id:
-            raise ValueError("Division-level supplementary metadata requires division_id.")
-        if self.geographic_level is not GeographicLevel.DIVISION and self.division_id:
-            raise ValueError("Only division-level supplementary metadata may have division_id.")
+        if self.geographic_level in {GeographicLevel.DIVISION, GeographicLevel.CANDIDATE} and not self.division_id:
+            raise ValueError(
+                "Division-level and candidate-level supplementary metadata require division_id."
+            )
+        if self.geographic_level is GeographicLevel.ELECTION and self.division_id:
+            raise ValueError("Election-level supplementary metadata cannot have division_id.")
+        if self.geographic_level is GeographicLevel.CANDIDATE and not (
+            self.candidate_name and self.candidate_name.strip()
+        ):
+            raise ValueError("Candidate-level supplementary metadata requires candidate_name.")
+        if self.geographic_level is not GeographicLevel.CANDIDATE and (
+            self.candidate_name and self.candidate_name.strip()
+        ):
+            raise ValueError("Only candidate-level supplementary metadata may have candidate_name.")
 
         parsed_url = urlparse(self.source_url)
         if parsed_url.scheme not in {"http", "https"} or not parsed_url.netloc:

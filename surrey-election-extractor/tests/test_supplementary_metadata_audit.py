@@ -28,14 +28,15 @@ def test_election_turnout_is_secondary_and_has_higher_priority_evidence() -> Non
     assert approved["corroborating_source"] == ELECTORAL_COMMISSION_URL
 
 
-def test_division_values_remain_conditional_and_candidate_values_are_not_supplemented() -> None:
-    """The audit must not convert incomplete official records into secondary replacements."""
+def test_division_values_remain_conditional_and_candidate_fields_are_not_replaced() -> None:
+    """The audit permits evidence notes but never completes official candidate fields."""
 
     audit = build_2013_supplementary_metadata_audit()
 
     assert policy_for(audit, "turnout")["can_be_supplemented"] == "conditionally"
     assert policy_for(audit, "ballot_papers_issued")["can_be_supplemented"] == "conditionally"
     assert policy_for(audit, "candidate_name, original_party_name, votes, vote_share, outcome")["can_be_supplemented"] is False
+    assert policy_for(audit, "supplementary_candidate_party_affiliation")["can_be_supplemented"] == "conditionally"
     assert audit["approved_supplementary_policy"]["division_level_values"]["status"] == "Not integrated by this audit."
 
 

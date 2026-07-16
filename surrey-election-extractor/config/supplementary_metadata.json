@@ -63,6 +63,23 @@
       "confidence": "High",
       "notes": "The declaration names the same Surrey County Council by-election, candidates and votes as the official Surrey result page. This is supplementary division metadata only and does not populate the official result-page turnout field.",
       "validation_status": "verified"
+    },
+    {
+      "metadata_id": "surrey-county-council-2013:result:137:candidate-party-affiliation:davray-christopher-david",
+      "election_id": "surrey-county-council-2013",
+      "division_id": "surrey-county-council-2013:result:137",
+      "candidate_name": "D'Avray, Christopher David",
+      "field_name": "supplementary_candidate_party_affiliation",
+      "value": "No party affiliation",
+      "geographic_level": "candidate",
+      "source_type": "Surrey County Council official publication",
+      "source_name": "Surrey News: Election results declared",
+      "source_url": "https://news.surreycc.gov.uk/2013/05/03/election-results-special/",
+      "evidence_text": "RESULT – Lingfield; Christopher D’Avray, No party affiliation – 1,171.",
+      "retrieval_date": "2026-07-16",
+      "confidence": "High",
+      "notes": "The official individual Lingfield result page leaves the Party cell blank. This separate official Council announcement is recorded as candidate-level supplementary evidence only; it does not populate original_party_name, standard_party_name or party_category. Wikipedia labels the candidate Independent, but that lower-priority secondary label is not used.",
+      "validation_status": "verified"
     }
   ]
 }

@@ -71,9 +71,9 @@ def structure_metadata_as_records(
             )
         records.append(
             SupplementaryMetadataRecord(
-                metadata_id=f"{division_id}:secondary_number_of_seats",
-                election_id=election_id,
-                division_id=division_id,
+            metadata_id=f"{division_id}:secondary_number_of_seats",
+            election_id=election_id,
+            division_id=division_id,
                 field_name="secondary_number_of_seats",
                 value=item.secondary_number_of_seats,
                 geographic_level=GeographicLevel.DIVISION,
@@ -104,6 +104,9 @@ def records_as_rows(
             "metadata_id": record.metadata_id,
             "election_id": record.election_id,
             "division_id": record.division_id,
+            # Candidate evidence remains separate from Candidate Results, but
+            # the exact published name makes its source scope inspectable.
+            "candidate_name": record.candidate_name,
             "field_name": record.field_name,
             "value": record.value,
             "geographic_level": record.geographic_level.value,
@@ -130,6 +133,7 @@ def _record_from_mapping(item: object) -> SupplementaryMetadataRecord:
             metadata_id=str(item["metadata_id"]),
             election_id=str(item["election_id"]),
             division_id=_optional_text(item.get("division_id")),
+            candidate_name=_optional_text(item.get("candidate_name")),
             field_name=str(item["field_name"]),
             value=item["value"],
             geographic_level=GeographicLevel(str(item["geographic_level"])),

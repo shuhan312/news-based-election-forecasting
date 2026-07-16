@@ -529,6 +529,24 @@ def build_master_database(
             if record.original_party_name:
                 party_years[record.original_party_name].add(configuration.election_year)
 
+        # Candidate-level supplementary evidence is allowed only when it names
+        # an exact row from the same official result source. This guards against
+        # accidental identity matching across divisions or elections while
+        # keeping the evidence outside the official candidate fields.
+        published_candidate_scopes = {
+            (_division_id(configuration.election_id, record.source_url), record.candidate_name)
+            for record in election.records
+        }
+        for item in election.supplementary_metadata:
+            if item.geographic_level.value != "candidate":
+                continue
+            if (item.division_id, item.candidate_name) not in published_candidate_scopes:
+                raise ValueError(
+                    "Candidate-level supplementary metadata does not match an "
+                    "exact published candidate row for "
+                    f"{configuration.election_id}."
+                )
+
         for source_url, division_records in sorted(records_by_url.items()):
             representative = division_records[0]
             division_name = representative.division_ward_name
@@ -874,7 +892,8 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
         "Supplementary Metadata": [
             ("metadata_id", "Stable identifier for one reviewed external evidence record.", "supplementary metadata register", "supplementary", "Never blank; duplicate identifiers are rejected."),
             ("election_id", "Configured election identifier for the evidence claim.", "configuration", "supplementary", "Never blank for a supplementary record."),
-            ("division_id", "Official derived division identifier when evidence is division-level.", "official URL", "supplementary", "NULL for election- or candidate-level metadata; required for division-level metadata."),
+            ("division_id", "Official derived division identifier when evidence is division- or candidate-level.", "official URL", "supplementary", "NULL for election-level metadata; required for division- and candidate-level metadata."),
+            ("candidate_name", "Exact published candidate name that anchors candidate-level evidence.", "official result page", "supplementary", "NULL for election- or division-level metadata; required for candidate-level metadata and never used for cross-election identity matching."),
             ("field_name", "Name of the separate supplementary field supported by the source.", "supplementary metadata register", "supplementary", "Never blank; does not map automatically to an official field."),
             ("value", "Reviewed external value retained only in this evidence layer.", "supplementary source", "supplementary", "Never copied into official candidate or division fields."),
             ("geographic_level", "Scope of the evidence: election, division or candidate.", "supplementary metadata register", "supplementary", "Never blank; prevents election-wide values being treated as division data."),

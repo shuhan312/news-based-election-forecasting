@@ -185,6 +185,18 @@ def field_policies() -> list[dict[str, object]]:
             "recommended_storage_location": "official candidate-level fields",
             "policy": "Never replace official candidate-level values with a secondary source.",
         },
+        {
+            "field": "supplementary_candidate_party_affiliation",
+            "level": "candidate",
+            "official_status": "A result-page Party cell can be blank even when another official Council publication describes the candidate's affiliation.",
+            "can_be_supplemented": "conditionally",
+            "recommended_storage_location": "supplementary candidate metadata field",
+            "policy": (
+                "A separate official publication may be recorded only with the exact published candidate name, "
+                "the matching official division ID and supporting text. It never fills original_party_name or "
+                "creates a standardised party mapping."
+            ),
+        },
     ]
 
 
@@ -225,8 +237,9 @@ def build_2013_supplementary_metadata_audit() -> dict[str, object]:
             },
         },
         "candidate_data_policy": (
-            "Candidate-level values remain official-result-page data only. No secondary candidate "
-            "source is approved for replacement or completion."
+            "Candidate Results preserve only official result-page values. A separate official Council "
+            "publication may be recorded as supplementary candidate evidence only when it is exactly "
+            "anchored to the published candidate and division; it never replaces or completes a candidate field."
         ),
         "wikipedia_policy": (
             "Wikipedia was evaluated but is not used because higher-priority official Council and Electoral "
