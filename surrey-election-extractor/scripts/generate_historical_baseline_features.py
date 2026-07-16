@@ -3,7 +3,15 @@
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
+
+# Make the documented ``python scripts/...`` command work from the project
+# directory without requiring a local editable install or an environment-only
+# PYTHONPATH setting.  This affects import resolution only, never source data.
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from election_extractor.historical_baseline import (
     baseline_feature_dictionary_markdown,
@@ -12,7 +20,6 @@ from election_extractor.historical_baseline import (
 )
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_DIRECTORY = PROJECT_ROOT / "outputs/historical_baseline_features"
 
 

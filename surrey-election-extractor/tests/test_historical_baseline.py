@@ -95,8 +95,8 @@ def test_uk_independence_party_and_reform_uk_remain_separate() -> None:
     assert ("Reform UK", "Reform UK") in pairs
 
 
-def test_accepted_direct_is_the_only_status_with_historical_reference() -> None:
-    """Approved direct rows may reference history; every other status stays blocked."""
+def test_unpermitted_direct_mapping_cannot_transfer_historical_reference() -> None:
+    """A GIS match alone cannot bypass the crosswalk's explicit permission."""
 
     baseline = build_historical_baseline_features()
     rows = baseline["baseline_feature_table"]
@@ -104,11 +104,41 @@ def test_accepted_direct_is_the_only_status_with_historical_reference() -> None:
     blocked_rows = [row for row in rows if row["geographic_status"] != "accepted_direct"]
 
     assert len(direct_rows) == 22
-    assert all(row["historical_baseline_available"] is True for row in direct_rows)
+    assert all(row["historical_baseline_available"] is False for row in direct_rows)
     assert all(row["historical_baseline_available"] is False for row in blocked_rows)
     assert all(
         row["direct_historical_reference"]["previous_election_event_id"] is None
-        for row in blocked_rows
+        for row in rows
+    )
+    assert all("previous_winning_party" in row["blocked_features"] for row in direct_rows)
+
+
+def test_explicit_crosswalk_permission_enables_one_direct_reference(tmp_path: Path) -> None:
+    """Only a reviewed true permission can unlock the matching history fields."""
+
+    source_path = (
+        PROJECT_ROOT
+        / "outputs/geographic_crosswalk_resolution/geographic_crosswalk_resolution_dataset.json"
+    )
+    payload = json.loads(source_path.read_text(encoding="utf-8"))
+    for row in payload["resolution_rows"]:
+        if row.get("mapping_id") == "geographic-mapping-review:007":
+            row["previous_winner_allowed"] = True
+            break
+    else:
+        raise AssertionError("Expected Ashtead direct-mapping evidence is absent.")
+    permitted_path = tmp_path / "permitted_crosswalk.json"
+    permitted_path.write_text(json.dumps(payload), encoding="utf-8")
+
+    baseline = build_historical_baseline_features(crosswalk_resolution_path=permitted_path)
+    ashstead = _row_for_area(baseline, "Ashtead Ward")
+
+    assert ashstead["historical_baseline_available"] is True
+    assert ashstead["direct_historical_reference"]["previous_election_event_id"] == (
+        "surrey-county-council-2021"
+    )
+    assert ashstead["direct_historical_reference"]["previous_winning_party"] == (
+        "Ashtead Independent, working with Ashtead Residents"
     )
 
 

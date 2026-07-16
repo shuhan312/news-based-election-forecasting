@@ -6,7 +6,13 @@ This layer creates the election-history-only baseline needed for a later test of
 
 ## Geographic rule
 
-Only a single reviewed `accepted_direct` historical-to-2026 relationship can expose a prior-event reference. Partial crosswalk, not-comparable and requires-review relationships are retained in the readiness dataset as evidence, but cannot create prior-winner, prior-vote-share, turnout-comparison, candidate-transfer or incumbency features.
+Only a single reviewed `accepted_direct` historical-to-2026 relationship with
+`previous_winner_allowed=true` can expose a prior-event reference. This explicit
+permission is separate from the GIS decision: an accepted spatial match alone
+does not authorise election-history transfer. Partial crosswalk, not-comparable,
+requires-review and unpermitted direct relationships are retained in the
+readiness dataset as evidence, but cannot create prior-winner, prior-vote-share,
+turnout-comparison, candidate-transfer or incumbency features.
 
 ## Source and missing-value rule
 
