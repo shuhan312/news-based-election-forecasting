@@ -30,7 +30,7 @@ OUTPUT_DIRECTORY = PROJECT_ROOT / "outputs/geographic_mapping_decision"
 def generate_geographic_mapping_decision_outputs(
     output_directory: Path = OUTPUT_DIRECTORY,
 ) -> tuple[Path, Path, Path, dict[str, object]]:
-    """Regenerate GIS candidates, then document decisions without accepting any."""
+    """Regenerate GIS candidates, then document strict analytical decisions only."""
 
     # Regenerate the review dataset from configured official GIS sources so the
     # decision report cannot silently rely on a stale or manually edited file.
@@ -73,10 +73,10 @@ def main() -> None:
                 "json": str(json_path),
                 "report": str(report_path),
                 "methodology": str(methodology_path),
-                "accepted": summary["accepted_mappings"],
+                "accepted_direct": summary["accepted_direct_mappings"],
                 "requires_review": summary["requires_review_mappings"],
-                "final_geographic_mapping_rows": summary[
-                    "final_geographic_mapping_rows"
+                "approved_direct_mapping_rows": summary[
+                    "approved_direct_mapping_rows"
                 ],
             },
             indent=2,

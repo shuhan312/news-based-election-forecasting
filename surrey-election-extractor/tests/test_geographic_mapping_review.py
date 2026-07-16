@@ -33,6 +33,8 @@ def _candidate(
         "current_area_overlap_percent": current_overlap,
         "previous_geometry_source_url": "https://example.test/historic-gis",
         "current_geometry_source_url": "https://example.test/current-gis",
+        "previous_geometry_valid": True,
+        "current_geometry_valid": True,
     }
 
 

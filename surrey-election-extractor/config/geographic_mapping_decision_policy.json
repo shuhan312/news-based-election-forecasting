@@ -1,23 +1,30 @@
 {
   "framework_id": "surrey-historical-to-2026-geographic-mapping-decision-framework",
+  "analytical_direct_rules": {
+    "minimum_mutual_overlap_percentage": 99.9,
+    "maximum_competing_overlap_percentage": 0.1,
+    "require_valid_geometry": true,
+    "require_consistent_boundary_sources": true,
+    "explanation": "A direct analytical match requires at least 99.9% coverage in both directions and no competing historic or current area with 0.1% or more overlap. These thresholds are applied to GIS evidence only and do not claim administrative identity."
+  },
   "acceptance_rules": {
     "exact": {
-      "decision_without_direct_boundary_evidence": "requires_review",
+      "decision_without_direct_boundary_evidence": "accepted_direct_if_analytical_rules_pass",
       "required_evidence": [
         "Retained official GIS evidence for the individual pair",
-        "Direct official legal boundary evidence linking the historical division to the 2026 ward",
-        "Documented reviewer reasoning"
+        "Validated geometry and consistent configured boundary sources",
+        "Recorded analytical-decision reasoning"
       ],
-      "acceptance_threshold": "One-to-one relationship with mutual GIS overlap at or above 99.999%, no material split or merge, and direct legal evidence."
+      "acceptance_threshold": "One-to-one relationship meeting the configured direct analytical GIS rules. Administrative identity remains not_confirmed without direct legal evidence."
     },
     "near_exact": {
-      "decision_without_direct_boundary_evidence": "requires_review",
+      "decision_without_direct_boundary_evidence": "accepted_direct_if_analytical_rules_pass",
       "required_evidence": [
         "Retained official GIS evidence for the individual pair",
-        "Direct official legal boundary evidence linking the historical division to the 2026 ward",
-        "Manual justification explaining the remaining boundary difference"
+        "Validated geometry and consistent configured boundary sources",
+        "Recorded technical explanation for the small remaining difference"
       ],
-      "acceptance_threshold": "One-to-one relationship with mutual GIS overlap at or above 95%, no material split or merge, direct legal evidence, and documented manual justification."
+      "acceptance_threshold": "One-to-one relationship meeting the configured direct analytical GIS rules. Administrative identity remains not_confirmed without direct legal evidence."
     },
     "split": {
       "decision_without_direct_boundary_evidence": "requires_review",
@@ -43,6 +50,6 @@
     "Do not calculate vote change from unresolved mappings.",
     "Do not calculate incumbency from unresolved mappings.",
     "Do not calculate candidate history from unresolved mappings.",
-    "Do not convert a GIS overlap into a final Geographic Mapping row automatically."
+    "Do not convert a GIS overlap into a final Geographic Mapping row without every configured direct analytical criterion and recorded evidence."
   ]
 }

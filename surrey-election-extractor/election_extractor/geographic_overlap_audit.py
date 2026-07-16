@@ -82,6 +82,8 @@ class SpatialOverlapCandidate:
     review_status: str
     previous_geometry_source_url: str
     current_geometry_source_url: str
+    previous_geometry_valid: bool
+    current_geometry_valid: bool
     previous_source_feature_ids: tuple[str, ...]
     current_source_feature_ids: tuple[str, ...]
     notes: str
@@ -392,6 +394,12 @@ def calculate_spatial_overlap_candidates(
                     review_status="requires_manual_review",
                     previous_geometry_source_url=historical.source_url,
                     current_geometry_source_url=current.source_url,
+                    # ``BoundaryArea`` values are created only after the
+                    # official GeoJSON parser has checked non-empty, valid,
+                    # positive-area geometry. Store that verified state with
+                    # every candidate so direct analytical decisions can audit it.
+                    previous_geometry_valid=historical.geometry.is_valid,
+                    current_geometry_valid=current.geometry.is_valid,
                     previous_source_feature_ids=historical.source_feature_identifiers,
                     current_source_feature_ids=current.source_feature_identifiers,
                     notes=(

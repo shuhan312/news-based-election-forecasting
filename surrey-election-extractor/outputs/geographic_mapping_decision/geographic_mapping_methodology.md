@@ -1,27 +1,21 @@
 # Surrey Geographic Mapping Decision Methodology
 
-## Acceptance rules
+## Legal identity is not analytical comparability
 
-### exact
+A GIS direct match may be analytically comparable even where administrative identity is not_confirmed. This does not state that the areas are legally identical. A direct legal crosswalk would be required to set administrative identity to confirmed.
 
-One-to-one relationship with mutual GIS overlap at or above 99.999%, no material split or merge, and direct legal evidence.
+## Direct analytical acceptance rules
 
-### merged
+A direct analytical match requires at least 99.9% coverage in both directions and no competing historic or current area with 0.1% or more overlap. These thresholds are applied to GIS evidence only and do not claim administrative identity.
 
-No one-to-one mapping may be accepted. Any future aggregate relationship requires a separately approved methodology and direct evidence.
+Names are retained for audit but are never used as an acceptance criterion.
 
-### near_exact
+## Relationship handling
 
-One-to-one relationship with mutual GIS overlap at or above 95%, no material split or merge, direct legal evidence, and documented manual justification.
-
-### split
-
-No one-to-one mapping may be accepted. Any future aggregate relationship requires a separately approved methodology and direct evidence.
-
-### uncertain
-
-Remain unresolved unless new direct official boundary evidence and a documented review establish comparability.
+- exact and near_exact: may be accepted_direct only when every configured GIS rule passes.
+- split and merged: not comparable as one-to-one; separate aggregate methodology would be required.
+- uncertain and failed direct criteria: remain requires_review.
 
 ## Limitations
 
-GIS area overlap alone does not prove that two electoral geographies are equivalent, contain the same electorate, or support a direct historical comparison. Shared names and largest-overlap relationships are not evidence of equivalence. Only a future documented decision with direct boundary evidence may provide a mapping to a separately authorised enrichment stage.
+GIS overlap alone cannot establish legal identity, comparable electorates or a valid political comparison. This framework therefore exposes only accepted_direct rows to a future separately authorised enrichment stage and calculates no historical features.

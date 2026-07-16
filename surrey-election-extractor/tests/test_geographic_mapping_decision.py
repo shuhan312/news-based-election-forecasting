@@ -1,115 +1,137 @@
-"""Tests for evidence-gated geographic mapping decisions."""
+"""Tests for strict analytical decisions from the GIS review dataset."""
 
 from __future__ import annotations
 
-import pytest
-
 from election_extractor.geographic_mapping_decision import (
-    GeographicMappingReviewRow,
-    ManualMappingDecision,
     approved_mappings_for_future_enrichment,
     build_geographic_mapping_decisions,
     geographic_mapping_decision_dataset,
     load_mapping_decision_policy,
 )
+from election_extractor.geographic_mapping_review import GeographicMappingReviewRow
 
 
-def _review_row(mapping_type: str = "exact") -> GeographicMappingReviewRow:
-    """Create a GIS review row without claiming it has legal equivalence evidence."""
+def _review_row(
+    mapping_id: str,
+    *,
+    mapping_type: str = "near_exact",
+    previous_id: str = "H1",
+    current_id: str = "W1",
+    previous_overlap: float = 99.95,
+    current_overlap: float = 99.96,
+    geometry_valid: bool = True,
+    sources_consistent: bool = True,
+) -> GeographicMappingReviewRow:
+    """Create a source-complete candidate without using an area name as evidence."""
 
     return GeographicMappingReviewRow(
-        mapping_id="geographic-mapping-review:001",
+        mapping_id=mapping_id,
         previous_election="historical-surrey-county-council-divisions-2013-2021",
-        previous_area_id="H1",
-        previous_area_name="Historical Division",
+        previous_area_id=previous_id,
+        previous_area_name="Same-looking name is not used",
         current_election="surrey-county-council-2026-east-surrey",
-        current_area_id="W1",
-        current_area_name="2026 Ward",
+        current_area_id=current_id,
+        current_area_name="Completely different published name",
         overlap_area_m2=100.0,
-        previous_area_overlap_percentage=100.0,
-        current_area_overlap_percentage=100.0,
+        previous_area_overlap_percentage=previous_overlap,
+        current_area_overlap_percentage=current_overlap,
         mapping_type=mapping_type,
         decision="requires_review",
         confidence="high",
         gis_source="https://example.test/official-gis",
         legal_boundary_source="https://example.test/2026-order",
+        geometry_valid=geometry_valid,
+        boundary_sources_consistent=sources_consistent,
         notes="GIS candidate only.",
     )
 
 
-def test_unresolved_gis_row_remains_excluded_from_final_mapping() -> None:
-    """A GIS exact classification does not create a final row by itself."""
+def test_administrative_identity_and_analytical_comparability_are_separate() -> None:
+    """A strict GIS match may be analytically accepted without a legal identity claim."""
 
     policy = load_mapping_decision_policy()
-    decisions = build_geographic_mapping_decisions((_review_row(),), policy)
+    decisions = build_geographic_mapping_decisions((_review_row("review:1"),), policy)
+    decision = decisions[0]
 
-    assert decisions[0].decision == "requires_review"
-    assert decisions[0].confidence == "low"
-    assert approved_mappings_for_future_enrichment(decisions) == ()
-
-
-def test_accepted_mapping_requires_direct_boundary_evidence() -> None:
-    """Manual acceptance without pair-specific legal evidence is rejected."""
-
-    policy = load_mapping_decision_policy()
-    manual = ManualMappingDecision(
-        mapping_id="geographic-mapping-review:001",
-        decision="accepted",
-        confidence="high",
-        reviewer_reason="Reviewer considers the areas equivalent.",
-    )
-
-    with pytest.raises(ValueError, match="direct_boundary_evidence"):
-        build_geographic_mapping_decisions((_review_row(),), policy, (manual,))
+    assert decision.administrative_identity == "not_confirmed"
+    assert decision.analytical_comparability == "accepted_direct"
+    assert decision.decision == "accepted"
 
 
-def test_evidence_complete_exact_mapping_can_be_exposed_to_future_enrichment() -> None:
-    """Only an explicit, evidence-complete future approval can pass the guard."""
+def test_strong_gis_evidence_creates_accepted_direct_without_name_matching() -> None:
+    """The test deliberately uses different names to prove names are not a criterion."""
 
     policy = load_mapping_decision_policy()
-    manual = ManualMappingDecision(
-        mapping_id="geographic-mapping-review:001",
-        decision="accepted",
-        confidence="high",
-        reviewer_reason="Official order directly confirms the pair's equivalence.",
-        direct_boundary_evidence="https://example.test/direct-official-crosswalk",
-        evidence_summary="Article X explicitly links Historical Division and 2026 Ward.",
-    )
-    decisions = build_geographic_mapping_decisions((_review_row(),), policy, (manual,))
+    decisions = build_geographic_mapping_decisions((_review_row("review:1"),), policy)
     approved = approved_mappings_for_future_enrichment(decisions)
 
     assert len(approved) == 1
-    assert approved[0]["decision"] == "accepted"
-    assert approved[0]["boundary_source"] == "https://example.test/direct-official-crosswalk"
+    assert approved[0]["analytical_comparability"] == "accepted_direct"
+    assert approved[0]["administrative_identity"] == "not_confirmed"
 
 
-@pytest.mark.parametrize("mapping_type", ["split", "merged"])
-def test_split_and_merged_rows_cannot_be_accepted_for_future_enrichment(
-    mapping_type: str,
-) -> None:
-    """Multi-area relationships cannot become a one-to-one analytical bridge."""
+def test_split_merged_and_uncertain_rows_cannot_be_direct_mappings() -> None:
+    """Multi-area and uncertain relationships remain outside downstream input."""
 
     policy = load_mapping_decision_policy()
-    manual = ManualMappingDecision(
-        mapping_id="geographic-mapping-review:001",
-        decision="accepted",
-        confidence="high",
-        reviewer_reason="Attempted manual acceptance.",
-        direct_boundary_evidence="https://example.test/direct-crosswalk",
-        evidence_summary="Purported direct evidence.",
+    rows = (
+        _review_row("review:split", mapping_type="split"),
+        _review_row("review:merged", mapping_type="merged", previous_id="H2", current_id="W2"),
+        _review_row("review:uncertain", mapping_type="uncertain", previous_id="H3", current_id="W3"),
     )
+    decisions = build_geographic_mapping_decisions(rows, policy)
 
-    with pytest.raises(ValueError, match="Only exact or near_exact"):
-        build_geographic_mapping_decisions((_review_row(mapping_type),), policy, (manual,))
+    assert approved_mappings_for_future_enrichment(decisions) == ()
+    assert {row.analytical_comparability for row in decisions} == {
+        "not_comparable",
+        "requires_review",
+    }
 
 
-def test_decision_dataset_retains_methodology_and_creates_no_automatic_mapping() -> None:
-    """The report documents restrictions instead of generating electoral features."""
+def test_invalid_geometry_cannot_be_accepted_direct() -> None:
+    """A geometry-validation failure is an explicit direct-criteria failure."""
 
     policy = load_mapping_decision_policy()
-    decisions = build_geographic_mapping_decisions((_review_row("uncertain"),), policy)
+    invalid = _review_row("review:invalid", geometry_valid=False)
+    decision = build_geographic_mapping_decisions((invalid,), policy)[0]
+
+    assert decision.decision == "requires_review"
+    assert decision.analytical_comparability == "requires_review"
+    assert "invalid" in decision.reviewer_reason
+
+
+def test_significant_competitor_prevents_one_to_one_acceptance() -> None:
+    """Largest overlap is insufficient where another relationship is significant."""
+
+    policy = load_mapping_decision_policy()
+    primary = _review_row("review:primary", previous_overlap=99.95, current_overlap=99.95)
+    competing = _review_row(
+        "review:competing",
+        previous_id="H1",
+        current_id="W2",
+        previous_overlap=0.2,
+        current_overlap=0.2,
+        mapping_type="uncertain",
+    )
+    decision = build_geographic_mapping_decisions((primary, competing), policy)[0]
+
+    assert decision.analytical_comparability == "requires_review"
+    assert "competing overlap" in decision.reviewer_reason
+
+
+def test_all_review_rows_remain_traceable_in_decision_dataset() -> None:
+    """The decision layer retains every candidate even when only one is accepted."""
+
+    policy = load_mapping_decision_policy()
+    rows = (
+        _review_row("review:accepted"),
+        _review_row("review:unresolved", previous_id="H2", current_id="W2", previous_overlap=90, current_overlap=90),
+    )
+    decisions = build_geographic_mapping_decisions(rows, policy)
     dataset = geographic_mapping_decision_dataset(decisions, policy)
 
-    assert dataset["summary"]["final_geographic_mapping_rows"] == 0
-    assert dataset["summary"]["historical_features_generated"] is False
-    assert dataset["methodology"]["prohibited_actions"]
+    assert len(dataset["decision_rows"]) == 2
+    assert dataset["summary"]["accepted_direct_mappings"] == 1
+    assert dataset["summary"]["requires_review_mappings"] == 1
+    assert dataset["approved_direct_mappings"][0]["mapping_id"] == "review:accepted"
+    assert dataset["unresolved_mappings"][0]["mapping_id"] == "review:unresolved"

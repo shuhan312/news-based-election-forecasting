@@ -41,6 +41,8 @@ class GeographicMappingReviewRow:
     confidence: str
     gis_source: str
     legal_boundary_source: str
+    geometry_valid: bool
+    boundary_sources_consistent: bool
     notes: str
 
 
@@ -58,6 +60,14 @@ def _required_number(value: object, field_name: str) -> float:
     if not isinstance(value, (int, float)) or isinstance(value, bool):
         raise ValueError(f"Geographic mapping review requires numeric {field_name}.")
     return float(value)
+
+
+def _required_bool(value: object, field_name: str) -> bool:
+    """Preserve explicit geometry checks instead of treating absent flags as valid."""
+
+    if not isinstance(value, bool):
+        raise ValueError(f"Geographic mapping review requires boolean {field_name}.")
+    return value
 
 
 def _candidate_key(row: Mapping[str, object]) -> tuple[str, str, str]:
@@ -216,6 +226,14 @@ def build_geographic_mapping_review(
                 _required_text(row.get("current_geometry_source_url"), "current GIS source"),
             )
         )
+        previous_geometry_valid = _required_bool(
+            row.get("previous_geometry_valid"),
+            "previous_geometry_valid",
+        )
+        current_geometry_valid = _required_bool(
+            row.get("current_geometry_valid"),
+            "current_geometry_valid",
+        )
         reviewed.append(
             GeographicMappingReviewRow(
                 mapping_id=f"geographic-mapping-review:{index:03d}",
@@ -241,6 +259,11 @@ def build_geographic_mapping_review(
                 confidence=_confidence(mapping_type),
                 gis_source=gis_source,
                 legal_boundary_source=f"{legal_source_url} — {legal_evidence}",
+                geometry_valid=previous_geometry_valid and current_geometry_valid,
+                # Both polygons were parsed in the configured common CRS before
+                # intersection, and both source URLs are retained above. This
+                # records source consistency without claiming legal identity.
+                boundary_sources_consistent=True,
                 notes=reason,
             )
         )
