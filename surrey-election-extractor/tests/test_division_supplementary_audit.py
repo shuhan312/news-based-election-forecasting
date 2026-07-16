@@ -9,6 +9,7 @@ import pytest
 
 from election_extractor.division_supplementary_audit import (
     audit_2013_division_evidence,
+    audit_markdown,
 )
 from election_extractor.extraction import CandidateResultRecord, ExtractionStatus
 
@@ -105,6 +106,27 @@ def test_named_turnout_evidence_is_separate_from_official_fields() -> None:
     }
     assert all(record.turnout is None for record in records)
     assert all(record.ballot_papers_issued is None for record in records)
+
+
+def test_audit_source_inventory_includes_each_record_specific_official_source() -> None:
+    """The report index must not hide accepted Epsom result-page provenance."""
+
+    audit = audit_2013_division_evidence(_official_records())
+
+    source_urls = {item["source_url"] for item in audit.report["sources"]}
+    # Surrey's turnout announcement, Wikipedia, the shared Woking declaration
+    # and five distinct Epsom & Ewell result pages are all separately listed.
+    assert len(source_urls) == 8
+    assert (
+        "https://www.woking.gov.uk/sites/default/files/documents/"
+        "council-and-democracy/elections/ElectionResults/resultsscc.pdf"
+    ) in source_urls
+    assert (
+        "https://democracy.epsom-ewell.gov.uk/mgElectionAreaResults.aspx?"
+        "ID=500000002&RPID=0"
+    ) in source_urls
+    assert "https://en.wikipedia.org/wiki/2013_Surrey_County_Council_election" in source_urls
+    assert "Election results for Epsom West, 2 May 2013" in audit_markdown(audit.report)
 
 
 def test_cross_validated_wikipedia_turnout_is_separate_from_official_fields() -> None:

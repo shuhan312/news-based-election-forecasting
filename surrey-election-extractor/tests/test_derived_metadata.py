@@ -6,7 +6,9 @@ from pathlib import Path
 import pytest
 
 from election_extractor.derived_metadata import (
+    derive_records_from_rules,
     load_derived_metadata,
+    load_derived_metadata_rules,
     validate_derived_metadata,
 )
 from election_extractor.master_database import (
@@ -49,6 +51,16 @@ def official_urls() -> dict[str, str]:
     """Return the single official page required for both calculation inputs."""
 
     return {REIGATE_DIVISION_ID: REIGATE_URL}
+
+
+def issued_rule():
+    """Load the reviewed 2013 issued-ballot derivation rule from configuration."""
+
+    project_root = Path(__file__).resolve().parents[1]
+    return load_derived_metadata_rules(
+        project_root / "config/derived_metadata.json",
+        permitted_election_ids={"surrey-county-council-2013"},
+    )[0]
 
 
 def test_derived_record_requires_matching_official_inputs_and_formula() -> None:
@@ -122,3 +134,79 @@ def test_master_database_exports_derived_value_without_changing_reigate() -> Non
     assert reigate["division_completeness_status"] == "incomplete"
     assert derived["value"] == 0
     assert derived["official_inputs"] == "ballot_papers_issued=4109; total_votes=4109"
+
+
+def test_2013_rule_derives_issued_only_from_missing_target_and_same_page_inputs() -> None:
+    """The rule skips published targets and does not accept a missing input."""
+
+    rule = issued_rule()
+    generated = derive_records_from_rules(
+        (rule,),
+        official_values_by_division={
+            "division-a": {
+                "number_of_seats": 1,
+                "total_votes": 2891,
+                "rejected_ballots": 9,
+                "ballot_papers_issued": None,
+            },
+            "division-b": {
+                "number_of_seats": 1,
+                "total_votes": 3065,
+                "rejected_ballots": None,
+                "ballot_papers_issued": None,
+            },
+            "division-c": {
+                "number_of_seats": 1,
+                "total_votes": 1721,
+                "rejected_ballots": 16,
+                "ballot_papers_issued": 1737,
+            },
+            "division-d": {
+                "number_of_seats": 2,
+                "total_votes": 4000,
+                "rejected_ballots": 10,
+                "ballot_papers_issued": None,
+            },
+        },
+        official_source_urls_by_division={
+            "division-a": "https://example.test/result-a",
+            "division-b": "https://example.test/result-b",
+            "division-c": "https://example.test/result-c",
+            "division-d": "https://example.test/result-d",
+        },
+    )
+
+    assert len(generated) == 1
+    assert generated[0].division_id == "division-a"
+    assert generated[0].value == 2900
+    assert generated[0].source_url == "https://example.test/result-a"
+    assert generated[0].formula == "total_votes + rejected_ballots"
+
+
+def test_master_database_exports_all_2013_derived_issued_values_separately() -> None:
+    """All 81 values remain calculated metadata, not official source fields."""
+
+    payload = build_master_database(load_audited_elections())
+    derived = [
+        row
+        for row in payload.derived_metadata
+        if row["election_id"] == "surrey-county-council-2013"
+        and row["field_name"] == "derived_ballot_papers_issued"
+    ]
+    addlestone = next(
+        row
+        for row in payload.divisions_and_wards
+        if row["election_id"] == "surrey-county-council-2013"
+        and row["division_name"] == "Addlestone"
+    )
+    addlestone_derived = next(
+        row for row in derived if row["division_id"] == addlestone["division_id"]
+    )
+
+    assert len(derived) == 81
+    assert addlestone["ballot_papers_issued"] is None
+    assert addlestone["division_completeness_status"] == "incomplete"
+    assert addlestone_derived["value"] == 2900
+    assert addlestone_derived["official_inputs"] == (
+        "rejected_ballots=9; total_votes=2891"
+    )

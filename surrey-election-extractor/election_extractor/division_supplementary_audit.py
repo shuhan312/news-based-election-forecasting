@@ -152,7 +152,16 @@ def audit_2013_division_evidence(
             "Supplementary values remain separate from official division fields "
             "and do not change layered completeness."
         ),
-        "sources": [source] + ([wikipedia_turnout[0][4]] if wikipedia_turnout else []),
+        # The top-level report inventory must include record-specific sources
+        # (for example, the Epsom & Ewell result pages), not only the default
+        # Woking declaration source.  Individual metadata rows retain the
+        # authoritative provenance; this inventory makes the audit reviewable
+        # without hiding those additional official sources.
+        "sources": _audit_sources(
+            source,
+            wikipedia_turnout,
+            ballot_issued,
+        ),
         "summary": {
             "official_divisions_audited": len(divisions),
             "accepted_supplementary_division_turnout": len(turnout_records),
@@ -198,8 +207,49 @@ def audit_markdown(report: Mapping[str, object]) -> str:
         "- The Byfleets is accepted as supplementary evidence with a documented 10,016/10,019 electorate discrepancy; it does not alter the Surrey official electorate.",
         "- Official `turnout` and `ballot_papers_issued` values remain NULL, and division completeness is unchanged.",
         "",
+        "## Reviewed sources",
+        "",
     ]
+    sources = report.get("sources")
+    if not isinstance(sources, list):
+        raise ValueError("Audit report sources must be a list.")
+    for source in sources:
+        item = _mapping(source, "audit report source")
+        lines.append(
+            f"- [{_required_text(item, 'source_name')}]"
+            f"({_required_text(item, 'source_url')}) — "
+            f"{_required_text(item, 'source_type')}"
+        )
+    lines.append("")
     return "\n".join(lines)
+
+
+def _audit_sources(
+    default_turnout_source: Mapping[str, str],
+    wikipedia_turnout: Sequence[tuple[str, str, float, str, Mapping[str, str], str]],
+    ballot_issued: Sequence[
+        tuple[str, str, int, str, Mapping[str, str], int, int | None, str | None]
+    ],
+) -> list[dict[str, str]]:
+    """Return every reviewed source once, in a stable order for audit output.
+
+    Ballot evidence can use a per-record source instead of the register's
+    default source.  Deduplicating by both source ID and URL prevents a shared
+    declaration from appearing repeatedly while retaining every distinct page
+    used to support an accepted value.
+    """
+
+    candidates = [default_turnout_source]
+    candidates.extend(item[4] for item in wikipedia_turnout)
+    candidates.extend(item[4] for item in ballot_issued)
+    sources: list[dict[str, str]] = []
+    seen: set[tuple[str, str]] = set()
+    for source in candidates:
+        key = (source["source_id"], source["source_url"])
+        if key not in seen:
+            seen.add(key)
+            sources.append(dict(source))
+    return sources
 
 
 def _division_index(records: Sequence[CandidateResultRecord]) -> dict[str, str]:

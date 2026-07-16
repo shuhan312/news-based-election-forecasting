@@ -3,7 +3,15 @@
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
+
+# Allow the documented ``python scripts/...`` invocation from the project
+# directory.  This keeps the reporting script reproducible without requiring
+# callers to set PYTHONPATH manually or install the local package first.
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from election_extractor.division_supplementary_audit import (
     audit_2013_division_evidence,
@@ -12,7 +20,6 @@ from election_extractor.division_supplementary_audit import (
 from election_extractor.master_database import AUDITED_ELECTION_INPUTS, _record_from_audit
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_DIRECTORY = PROJECT_ROOT / "outputs/2013_division_supplementary_audit"
 
 

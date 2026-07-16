@@ -31,11 +31,12 @@ true:
 5. The record retains the official source URL, evidence text, retrieval date,
    confidence, input values, validation status and a non-overwrite note.
 
-At present the only approved formula is
-`ballot_papers_issued - total_votes`, stored as
-`derived_rejected_ballots`. It is permitted only after the checks above and is
-displayed in the separate **Derived Metadata** table. A new formula requires a
-code change, tests and review; it cannot be introduced by configuration alone.
+The approved formulas are `ballot_papers_issued - total_votes`, stored as
+`derived_rejected_ballots`, and `total_votes + rejected_ballots`, stored as
+`derived_ballot_papers_issued`. Both are permitted only after the checks above
+and are displayed in the separate **Derived Metadata** table. A new formula
+requires a code change, tests and review; it cannot be introduced by
+configuration alone.
 
 ## Reusable record design
 
@@ -48,7 +49,7 @@ Permitted geographic levels are `election`, `division` and `candidate`. Division
 | Election | Field | Official availability | Supplementary evidence status | Storage decision |
 | --- | --- | --- | --- | --- |
 | 2013 | turnout | Division turnout is absent from the official result-page summaries. | The Surrey Council announcement provides 80 named division turnout values. Wikipedia supplies Foxhills, Thorpe & Virginia Water's 27% only after ten other named Wikipedia values were checked against the Council publication; its county-wide 30% figure is also independently supported by the Electoral Commission. | 81 verified `secondary_division_turnout` records and two `secondary_election_turnout` records; none overwrite official division fields. |
-| 2013 | ballot_papers_issued | Absent from Surrey's official division summaries. | Woking Borough Council's signed declaration names seven Woking divisions; Epsom & Ewell Borough Council official result pages name five Epsom & Ewell divisions. All twelve sources have exact candidate-vote-list matches; The Byfleets retains an explicit three-voter electorate discrepancy and the Epsom & Ewell pages do not publish electorate. | Twelve verified `secondary_division_ballot_papers_issued` records; Surrey official fields remain NULL. All source limitations are retained in the supplementary evidence. |
+| 2013 | ballot_papers_issued | Absent from Surrey's official division summaries. | Woking Borough Council's signed declaration names seven Woking divisions; Epsom & Ewell Borough Council official result pages name five Epsom & Ewell divisions. All twelve sources have exact candidate-vote-list matches; The Byfleets retains an explicit three-voter electorate discrepancy and the Epsom & Ewell pages do not publish electorate. Surrey's own official pages publish `total_votes` and `rejected_ballots` for all 81 divisions. | Twelve verified `secondary_division_ballot_papers_issued` records, plus 81 separate `derived_ballot_papers_issued` records. Surrey official fields remain NULL. All source limitations are retained in the supplementary evidence. |
 | 2017 | rejected_ballots | Reigate's Surrey result page and the archived Reigate & Banstead 2017 results page do not publish the value. | No source containing a published rejected-ballot count was recovered from the reviewed Surrey, borough and Internet Archive source set. | Remains NULL; the scoped audit is documented in [2017 Reigate rejected-ballot audit](2017_reigate_rejected_ballots_audit.md). |
 | 2021 | Seats | 28 official result pages do not publish Seats. | The Surrey (Electoral Changes) Order 2012 names the affected divisions and provides one councillor for each. | Existing verified division-level supplementary Seats records remain separate from official Seats. |
 | 2016 and 2025 by-elections | Staines South & Ashford West and Addlestone turnout | The Surrey result pages do not publish turnout. | Spelthorne Borough Council explicitly reports 31.3% for Staines South & Ashford West; Runnymede Borough Council explicitly reports 24% for the same Addlestone County Division by-election. | Two verified `secondary_division_turnout` records; official turnout fields remain NULL. |
@@ -68,7 +69,11 @@ Permitted geographic levels are `election`, `division` and `candidate`. Division
 
 - Store an official published value in the official division field.
 - A future exact division-level external source may be recorded in supplementary metadata only after a named-division evidence audit.
-- Never replace or calculate an official value.
+- Never replace or calculate an official value. A distinct derived record may
+  use `total_votes + rejected_ballots` only when the same official result page
+  explicitly publishes `Seats = 1`, both exact inputs, and a missing official
+  issued field. It is never applied from an election-year assumption, and all
+  derived-layer validation rules above must pass.
 
 ### Final position
 
@@ -108,9 +113,11 @@ The [by-election supplementary metadata audit](by_election_supplementary_metadat
 ## Current derived calculation
 
 The [derived metadata register](../config/derived_metadata.json) contains one
-verified record for Reigate 2017. The official result page publishes both
-`ballot_papers_issued = 4,109` and `total_votes = 4,109`, while its official
-`rejected_ballots` field remains absent. The derived layer records
-`derived_rejected_ballots = 0` with the formula above. The official
-`rejected_ballots` column remains `NULL` and Reigate's division completeness
-remains unchanged.
+verified record for Reigate 2017 and one reviewed 2013 rule. Reigate's official
+result page publishes both `ballot_papers_issued = 4,109` and `total_votes =
+4,109`, while its official `rejected_ballots` field remains absent. The derived
+layer records `derived_rejected_ballots = 0`. The 2013 rule creates one
+`derived_ballot_papers_issued` record only where the same official Surrey page
+publishes `Seats = 1`, `total_votes` and `rejected_ballots`; all 81 pages
+currently satisfy those source-input checks. Neither calculation populates an
+official column or changes division completeness.

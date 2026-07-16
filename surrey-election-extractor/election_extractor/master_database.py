@@ -24,7 +24,10 @@ from election_extractor.division_supplementary_audit import (
     audit_2013_division_evidence,
 )
 from election_extractor.derived_metadata import (
+    DerivedMetadataRule,
+    derive_records_from_rules,
     load_derived_metadata,
+    load_derived_metadata_rules,
     records_as_rows as derived_records_as_rows,
     validate_derived_metadata,
 )
@@ -221,6 +224,12 @@ def load_audited_elections(
         permitted_election_ids=permitted_metadata_election_ids,
     ):
         registered_derived[item.election_id].append(item)
+    registered_derived_rules: defaultdict[str, list[DerivedMetadataRule]] = defaultdict(list)
+    for rule in load_derived_metadata_rules(
+        DERIVED_METADATA_PATH,
+        permitted_election_ids=permitted_metadata_election_ids,
+    ):
+        registered_derived_rules[rule.election_id].append(rule)
     loaded = []
     for election_id, paths in inputs.items():
         configuration = configurations[election_id]
@@ -270,6 +279,22 @@ def load_audited_elections(
                     Path(division_turnout_evidence),
                 ).supplementary_records
             )
+        # Rules are evaluated only from this election's audited official
+        # values.  They never use configuration or supplementary evidence as
+        # calculation inputs, and their output remains in Derived Metadata.
+        official_values, official_urls = _official_derived_context(
+            configuration.election_id,
+            records,
+        )
+        generated_derived = derive_records_from_rules(
+            registered_derived_rules[configuration.election_id],
+            official_values_by_division=official_values,
+            official_source_urls_by_division=official_urls,
+        )
+        derived_metadata = (
+            tuple(registered_derived[configuration.election_id]) + generated_derived
+        )
+        _validate_unique_derived_metadata(derived_metadata)
         loaded.append(
             AuditedElectionInput(
                 configuration=configuration,
@@ -277,7 +302,7 @@ def load_audited_elections(
                 records=records,
                 election_structure_metadata=metadata,
                 supplementary_metadata=tuple(supplementary_metadata),
-                derived_metadata=tuple(registered_derived[configuration.election_id]),
+                derived_metadata=derived_metadata,
             )
         )
     # Candidate rows for by-elections are available only where the existing
@@ -417,16 +442,47 @@ def _validate_election_derived_metadata(election: AuditedElectionInput) -> None:
     value is allowed to be used as a derivation input.
     """
 
+    official_values_by_division, official_source_urls_by_division = _official_derived_context(
+        election.configuration.election_id,
+        election.records,
+    )
+
+    validate_derived_metadata(
+        election.derived_metadata,
+        official_values_by_division=official_values_by_division,
+        official_source_urls_by_division=official_source_urls_by_division,
+    )
+
+
+def _validate_unique_derived_metadata(
+    records: Sequence[DerivedMetadataRecord],
+) -> None:
+    """Reject an explicit record that collides with a rule-generated record."""
+
+    identifiers = [record.metadata_id for record in records]
+    if len(identifiers) != len(set(identifiers)):
+        raise ValueError("Derived metadata contains duplicate metadata_id values.")
+
+
+def _official_derived_context(
+    election_id: str,
+    records: Sequence[CandidateResultRecord],
+) -> tuple[dict[str, dict[str, object]], dict[str, str]]:
+    """Collect one consensus Voting Summary and URL per official division page."""
+
     official_values_by_division: dict[str, dict[str, object]] = {}
     official_source_urls_by_division: dict[str, str] = {}
     records_by_source: defaultdict[str, list[CandidateResultRecord]] = defaultdict(list)
-    for record in election.records:
+    for record in records:
         records_by_source[record.source_url].append(record)
 
     for source_url, division_records in records_by_source.items():
-        division_id = _division_id(election.configuration.election_id, source_url)
+        division_id = _division_id(election_id, source_url)
         official_source_urls_by_division[division_id] = source_url
         official_values_by_division[division_id] = {
+            "number_of_seats": _consensus(
+                record.number_of_seats for record in division_records
+            ),
             "ballot_papers_issued": _consensus(
                 record.ballot_papers_issued for record in division_records
             ),
@@ -438,11 +494,7 @@ def _validate_election_derived_metadata(election: AuditedElectionInput) -> None:
             ),
         }
 
-    validate_derived_metadata(
-        election.derived_metadata,
-        official_values_by_division=official_values_by_division,
-        official_source_urls_by_division=official_source_urls_by_division,
-    )
+    return official_values_by_division, official_source_urls_by_division
 
 
 def _party_lookup_fields(
