@@ -271,6 +271,19 @@ def load_audited_elections(
         event_records = records_by_event.get(event.election_id, ())
         source_url = event_records[0].source_url if event_records else event.archive_source_url
         event_metadata = tuple(registered_metadata[event.election_id])
+        division_metadata = tuple(
+            item for item in event_metadata if item.division_id is not None
+        )
+        if division_metadata and not event_records:
+            # A division-level claim needs a verified official result source
+            # from which its deterministic division ID can be checked. Without
+            # that anchor, even a plausible-looking event ID could attach
+            # external evidence to the wrong place, so reject the claim rather
+            # than exporting unverified metadata.
+            raise ValueError(
+                "By-election division-level supplementary metadata requires "
+                f"verified official result evidence for {event.election_id}."
+            )
         if event_records:
             # A division-level external claim is acceptable only when its
             # identifier is the same deterministic identifier used for the
@@ -278,11 +291,8 @@ def load_audited_elections(
             # borough contest or similarly named event from being attached to
             # the County Council by-election by mistake.
             official_division_id = _division_id(event.election_id, source_url)
-            for item in event_metadata:
-                if (
-                    item.division_id is not None
-                    and item.division_id != official_division_id
-                ):
+            for item in division_metadata:
+                if item.division_id != official_division_id:
                     raise ValueError(
                         "By-election supplementary metadata does not match the "
                         f"official result division ID for {event.election_id}."

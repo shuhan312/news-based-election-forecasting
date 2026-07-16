@@ -49,9 +49,9 @@
       "validation_status": "verified"
     },
     {
-      "metadata_id": "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05:result:8:secondary_division_turnout:spelthorne",
+      "metadata_id": "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05:result:171:secondary_division_turnout:spelthorne",
       "election_id": "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05",
-      "division_id": "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05:result:8",
+      "division_id": "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05:result:171",
       "field_name": "secondary_division_turnout",
       "value": 31.3,
       "geographic_level": "division",

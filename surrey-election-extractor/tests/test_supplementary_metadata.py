@@ -131,7 +131,7 @@ def test_by_election_turnout_is_registered_as_separate_division_metadata() -> No
     staines = next(record for record in records if record.election_id == STAINES_BY_ELECTION_ID)
     assert staines.field_name == "secondary_division_turnout"
     assert staines.value == 31.3
-    assert staines.division_id == f"{STAINES_BY_ELECTION_ID}:result:8"
+    assert staines.division_id == f"{STAINES_BY_ELECTION_ID}:result:171"
     assert staines.geographic_level is GeographicLevel.DIVISION
 
 

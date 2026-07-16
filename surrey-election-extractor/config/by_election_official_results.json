@@ -4,7 +4,7 @@
   "results": [
     {
       "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
-      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=6&RPID=0",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=169&RPID=0",
       "source_title": "Election results for Weybridge, 7 May 2015",
       "source_publisher": "Surrey County Council",
       "source_format": "official_result_page",
@@ -36,7 +36,7 @@
     },
     {
       "election_id": "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05",
-      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=8&RPID=0",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=171&RPID=0",
       "source_title": "Election results for Staines South & Ashford West, 5 May 2016",
       "source_publisher": "Surrey County Council",
       "source_format": "official_result_page",

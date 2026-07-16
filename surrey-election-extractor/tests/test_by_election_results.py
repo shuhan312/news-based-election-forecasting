@@ -6,6 +6,7 @@ import json
 
 import pytest
 
+import election_extractor.master_database as master_database
 from election_extractor.by_election_results import (
     DEFAULT_RESULTS_PATH,
     by_election_records_by_id,
@@ -82,6 +83,7 @@ def test_weybridge_2015_result_page_keeps_unpublished_summary_fields_null() -> N
     assert winner.ballot_papers_issued is None
     assert winner.ballot_papers_rejected is None
     assert winner.turnout is None
+    assert winner.source_url.endswith("mgElectionAreaResults.aspx?ID=169&RPID=0")
 
 
 def test_result_evidence_rejects_a_non_public_source_url(tmp_path) -> None:
@@ -155,6 +157,46 @@ def test_staines_official_page_publishes_clarke_candidate_values() -> None:
     assert clarke.vote_share == 1
     assert clarke.final_position is None
     assert clarke.elected == "No"  # Explicit official Outcome, not a vote-rank inference.
+    assert clarke.source_url.endswith("mgElectionAreaResults.aspx?ID=171&RPID=0")
+
+
+def test_by_election_division_metadata_requires_verified_result_evidence(
+    tmp_path, monkeypatch
+) -> None:
+    """A division claim cannot attach to an archive-only by-election event."""
+
+    election_id = "surrey-county-council-by-election-weybridge-2015-05-07"
+    path = tmp_path / "supplementary_metadata.json"
+    path.write_text(
+        json.dumps(
+            {
+                "records": [
+                    {
+                        "metadata_id": f"{election_id}:result:169:test",
+                        "election_id": election_id,
+                        "division_id": f"{election_id}:result:169",
+                        "field_name": "secondary_division_turnout",
+                        "value": 67.0,
+                        "geographic_level": "division",
+                        "source_type": "Test official publication",
+                        "source_name": "Test source",
+                        "source_url": "https://example.org/result",
+                        "evidence_text": "A directly published test value.",
+                        "retrieval_date": "2026-07-16",
+                        "confidence": "High",
+                        "notes": "Test only.",
+                        "validation_status": "verified",
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(master_database, "SUPPLEMENTARY_METADATA_PATH", path)
+    monkeypatch.setattr(master_database, "by_election_records_by_id", lambda: {})
+
+    with pytest.raises(ValueError, match="requires verified official result evidence"):
+        master_database.load_audited_elections()
 
 
 def test_party_standardisation_preserves_ukip_and_reform_uk_as_distinct() -> None:

@@ -31,11 +31,11 @@ It cannot replace the official field or change completeness.
 
 | Event | Fields remaining NULL | Official/authoritative material checked | Decision |
 | --- | --- | --- | --- |
-| Weybridge, 7 May 2015 | ballot papers issued; rejected ballots; turnout | [Surrey official result page](https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=6&RPID=0); [Surrey News result announcement](https://news.surreycc.gov.uk/tag/county-council-elections/) | Neither reviewed source publishes the three fields. No secondary value is added. |
+| Weybridge, 7 May 2015 | ballot papers issued; rejected ballots; turnout | [Official Surrey detail page](https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=169&RPID=0); [Surrey News result announcement](https://news.surreycc.gov.uk/tag/county-council-elections/) | The canonical detail page and reviewed Surrey News source publish candidates, total votes and electorate but not the three fields. No secondary value is added. |
 | Epsom West, 19 November 2015 | total votes; candidate vote shares | [Epsom & Ewell official declaration](https://www.epsom-ewell.gov.uk/sites/default/files/documents/council/elections-and-voting/SCCDeclarationofResults19Nov2015.pdf); [Surrey News result announcement](https://news.surreycc.gov.uk/2015/11/20/karan-persand-wins-county-council-by-election/) | Both sources publish candidate votes but neither publishes a total or vote shares. The project must not calculate either field, so no supplementary value is added. |
 | Staines South & Ashford West, 5 May 2016 | electorate; ballot papers issued | [Official Surrey result page](https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=171&RPID=0); [Spelthorne Borough Council declaration](https://www.spelthorne.gov.uk/page/306/staines-south-and-ashford-west-election-5-may-2016) | The reviewed official page publishes seats, total votes and rejected ballots; the declaration separately supplies turnout but not electorate or issued ballot papers. No further value is added. |
-| Haslemere, 2 May 2019 | ballot papers issued; turnout | [Official Surrey result page](https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=15&RPID=0); [Surrey News announcement](https://news.surreycc.gov.uk/2019/05/03/nikki-barton-elected-in-haslemere-by-election/) | The news announcement links back to the official result page for turnout and spoiled-ballot detail; the reviewed page publishes rejected ballots but not issued papers or turnout. No secondary value is added. |
-| Addlestone, 21 August 2025 | ballot papers issued | [Official Surrey result page](https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=346&RPID=0); [Runnymede Borough Council announcement](https://www.runnymede.gov.uk/news/article/270/by-election-results-in-addlestone) | The official announcement supplies turnout only, not issued ballot papers. No calculation is permitted. |
+| Haslemere, 2 May 2019 | ballot papers issued; turnout | [Official Surrey result page](https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=15&RPID=0); [Surrey News announcement](https://news.surreycc.gov.uk/2019/05/03/nikki-barton-elected-in-haslemere-by-election/); [LGA First Political report](https://www.lgafirst.co.uk/wp-content/uploads/2019/06/First-637-July-2019.pdf) | The Council sources do not publish issued papers or turnout. The LGA report states 42.9% turnout, but that conflicts with the official total votes (4,087), rejected ballots (58) and electorate (9,536), so it is rejected rather than integrated. |
+| Addlestone, 21 August 2025 | ballot papers issued | [Official Surrey result page](https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=346&RPID=0); [Runnymede Borough Council announcement](https://www.runnymede.gov.uk/news/article/270/by-election-results-in-addlestone); [WhoCanIVoteFor result page](https://whocanivotefor.co.uk/elections/local.surrey.addlestone.by.2025-08-21/addlestone/) | The official announcement supplies turnout only, not issued ballot papers. WhoCanIVoteFor lists 2,726 issued papers, but this equals the official candidate-vote total while the official page also records 8 rejected ballots; it is internally inconsistent with the official evidence and is rejected. |
 
 ## Conclusion
 
@@ -45,3 +45,12 @@ within the documented reviewed sources. This is an evidence boundary, not a
 claim that a value can never be found in a future archive search. Any future
 addition must be a new supplementary record with division-specific evidence;
 it must not overwrite the original official `NULL`.
+
+## Archive-search boundary
+
+The corresponding returning-authority domains (Elmbridge, Waverley, Spelthorne
+and Runnymede) and public indexed results were searched. A public Internet
+Archive CDX query for 2015 Elmbridge pages timed out without a response, so it
+cannot support either a positive or negative conclusion. A future request to
+the relevant returning officer remains the only route to a stronger conclusion
+for values that were not published online.
