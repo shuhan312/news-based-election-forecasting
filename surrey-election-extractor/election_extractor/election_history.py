@@ -17,6 +17,11 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
 from election_extractor.election_config import ElectionConfiguration, load_election_config
+from election_extractor.by_election_results import (
+    DEFAULT_RESULTS_PATH as BY_ELECTION_RESULTS_PATH,
+    by_election_records_by_id,
+)
+from election_extractor.extraction import CandidateResultRecord
 from election_extractor.master_database import AUDITED_ELECTION_INPUTS
 from election_extractor.party_lookup import PartyLookupEntry, load_party_lookup
 
@@ -294,14 +299,27 @@ def _principal_event_areas(
     return tuple(event_areas), tuple(candidate_rows)
 
 
-def _by_election_areas(catalogue: Sequence[Mapping[str, object]]) -> tuple[ElectionEventArea, ...]:
-    """Represent evidenced by-election events without inventing absent candidates."""
+def _by_election_areas(
+    catalogue: Sequence[Mapping[str, object]],
+    records_by_event: Mapping[str, Sequence[CandidateResultRecord]],
+) -> tuple[tuple[ElectionEventArea, ...], tuple[dict[str, object], ...]]:
+    """Add verified by-election rows while keeping absent result pages unavailable.
+
+    The archive catalogue establishes that an event occurred. Candidate rows
+    are added only when the separate evidence register names an official result
+    page for that event; this function never infers candidates from the event
+    title, later elections, or a candidate name appearing elsewhere.
+    """
 
     events = []
+    candidates = []
     for item in catalogue:
         area_name = _required_text(item.get("area_name"), "area_name")
         election_id = _required_text(item.get("election_id"), "election_id")
-        source_url = _required_text(item.get("source_url"), "source_url")
+        archive_url = _required_text(item.get("source_url"), "source_url")
+        records = tuple(records_by_event.get(election_id, ()))
+        source_url = records[0].source_url if records else archive_url
+        area_id = _area_id(election_id, source_url, area_name)
         events.append(
             ElectionEventArea(
                 election_id=election_id,
@@ -309,18 +327,48 @@ def _by_election_areas(catalogue: Sequence[Mapping[str, object]]) -> tuple[Elect
                 election_type="by-election",
                 election_date=_required_text(item.get("election_date"), "election_date"),
                 authority=_optional_text(item.get("authority")),
-                area_id=_area_id(election_id, source_url, area_name),
+                area_id=area_id,
                 area_name=area_name,
                 geographic_identity_key=f"historical:{_normalise_area_name(area_name)}",
                 geographic_identity_basis="direct_historical_published_area_name",
-                candidate_row_count=None,
+                candidate_row_count=len(records) if records else None,
                 source_url=source_url,
-                source_coverage="official_archive_indexed_listing; candidate_results_not_extracted",
+                source_coverage=(
+                    "official_result_page_indexed_evidence"
+                    if records
+                    else "official_archive_indexed_listing; candidate_results_not_retrieved"
+                ),
                 provenance="source_reported",
                 evidence_text=_optional_text(item.get("evidence_text")),
             )
         )
-    return tuple(events)
+        for index, record in enumerate(records, start=1):
+            candidates.append(
+                {
+                    "candidate_result_id": f"{area_id}:candidate:{index:02d}",
+                    "election_id": election_id,
+                    "election_type": "by-election",
+                    "election_date": _required_text(item.get("election_date"), "election_date"),
+                    "authority": _optional_text(item.get("authority")),
+                    "area_id": area_id,
+                    "area_name": area_name,
+                    "seats": record.number_of_seats,
+                    "candidate_name": record.candidate_name,
+                    "original_party_name": record.original_party_name,
+                    "votes": record.votes_received,
+                    "vote_share": record.vote_share,
+                    "elected_status": record.outcome,
+                    "total_votes": record.total_votes,
+                    "electorate": record.electorate,
+                    "ballot_papers_issued": record.ballot_papers_issued,
+                    "ballot_papers_rejected": record.ballot_papers_rejected,
+                    "turnout": record.turnout,
+                    "source_url": record.source_url,
+                    "provenance": "source_reported",
+                    "source_missing_fields": list(record.missing_fields),
+                }
+            )
+    return tuple(events), tuple(candidates)
 
 
 def _standardise_party_rows(
@@ -523,18 +571,22 @@ def _coverage_report(
                 "election_type": event.election_type,
                 "election_date": event.election_date,
                 "area_count": len(event_group),
-                "candidate_row_count": candidate_by_event.get(event_id) if not by_election else None,
+                "candidate_row_count": (
+                    candidate_by_event.get(event_id)
+                    if event.candidate_row_count is not None
+                    else None
+                ),
                 "source_coverage": event.source_coverage,
                 "missing_election": False,
                 "missing_areas": [],
                 "missing_candidates": (
-                    ["candidate_results_not_extracted_from_official_event_result_page"]
-                    if by_election
+                    ["official_candidate_results_not_retrieved"]
+                    if by_election and event.candidate_row_count is None
                     else []
                 ),
                 "missing_fields": (
                     {"candidate_results": "unavailable"}
-                    if by_election
+                    if by_election and event.candidate_row_count is None
                     else dict(sorted(missing_fields_by_event[event_id].items()))
                 ),
                 "source_url": event.source_url,
@@ -586,7 +638,16 @@ def build_election_history(
         raw_candidates.extend(candidates)
         source_inputs.append(str(audit_path))
     catalogue = load_by_election_catalogue(catalogue_path)
-    event_areas.extend(_by_election_areas(catalogue))
+    by_election_areas, by_election_candidates = _by_election_areas(
+        catalogue,
+        by_election_records_by_id(),
+    )
+    event_areas.extend(by_election_areas)
+    raw_candidates.extend(by_election_candidates)
+    # The timeline names both by-election inputs explicitly: the archive
+    # catalogue proves the event, while the results register proves only the
+    # candidate rows that were actually available from an official page.
+    source_inputs.extend((str(Path(catalogue_path)), str(BY_ELECTION_RESULTS_PATH)))
     standardised_candidates = _standardise_party_rows(
         raw_candidates,
         party_lookup if party_lookup is not None else load_party_lookup(),
@@ -674,7 +735,7 @@ def event_coverage_markdown(coverage: Mapping[str, object]) -> str:
             "",
             "## Interpretation",
             "",
-            "By-election events are separate timeline records with official archive evidence. Their candidate rows remain NULL/unavailable until separately retrieved from an official event-result page; no zero-row result is created.",
+            "By-election events are separate timeline records with official archive evidence. Candidate rows are included only for events with separately verified official result-page evidence; other events remain NULL/unavailable and no zero-row result is created.",
             "",
         ]
     )

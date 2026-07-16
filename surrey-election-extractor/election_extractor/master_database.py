@@ -14,6 +14,11 @@ from election_extractor.completeness import (
     LayeredCompletenessReport,
     assess_layered_completeness,
 )
+from election_extractor.by_election_results import (
+    DEFAULT_RESULTS_PATH as BY_ELECTION_RESULTS_PATH,
+    by_election_records_by_id,
+    load_by_election_catalogue,
+)
 from election_extractor.division_supplementary_audit import (
     audit_2013_division_evidence,
 )
@@ -87,6 +92,11 @@ class AuditedElectionInput:
     records: tuple[CandidateResultRecord, ...]
     election_structure_metadata: tuple[ElectionStructureMetadata, ...]
     supplementary_metadata: tuple[SupplementaryMetadataRecord, ...] = ()
+    # Archive-catalogue values describe an event even where no official result
+    # page has been verified. They remain distinct from candidate-page fields.
+    event_date: str | None = None
+    event_authority: str | None = None
+    event_source_url: str | None = None
 
 
 @dataclass(frozen=True)
@@ -171,7 +181,7 @@ def _optional_float(value: object) -> float | None:
 def load_audited_elections(
     inputs: Mapping[str, Mapping[str, Path | None]] = AUDITED_ELECTION_INPUTS,
 ) -> tuple[AuditedElectionInput, ...]:
-    """Load only completed, audited 2013, 2017, 2021 and 2026 source outputs.
+    """Load audited principal elections and catalogued by-election events.
 
     This function deliberately has no network access and never calls discovery
     or extraction. It makes the master workbook reproducible from the audited
@@ -241,6 +251,32 @@ def load_audited_elections(
                 records=records,
                 election_structure_metadata=metadata,
                 supplementary_metadata=tuple(supplementary_metadata),
+            )
+        )
+    # Candidate rows for by-elections are available only where the existing
+    # archive catalogue has a separately verified official result-page entry.
+    # Every catalogued event is still included in Elections, so absence of a
+    # result page is visible rather than becoming an invented zero-row result.
+    records_by_event = by_election_records_by_id()
+    for event in load_by_election_catalogue():
+        event_records = records_by_event.get(event.election_id, ())
+        source_url = event_records[0].source_url if event_records else event.archive_source_url
+        loaded.append(
+            AuditedElectionInput(
+                configuration=ElectionConfiguration(
+                    election_id=event.election_id,
+                    election_name=event.election_name,
+                    election_year=int(event.election_date[:4]),
+                    election_type=event.election_type,
+                    official_url=source_url,
+                    official_url_field="official_url",
+                ),
+                audit_path=BY_ELECTION_RESULTS_PATH,
+                records=event_records,
+                election_structure_metadata=(),
+                event_date=event.election_date,
+                event_authority=event.authority,
+                event_source_url=source_url,
             )
         )
     return tuple(loaded)
@@ -386,8 +422,15 @@ def build_master_database(
             election_structure_metadata=election.election_structure_metadata,
         )
         layered_reports[configuration.election_id] = layered
+        # Fall back only to the existing official archive catalogue for an
+        # event-level date and authority. This does not populate individual
+        # candidate records and does not substitute a Voting Summary value.
         election_date = _consensus(record.election_date for record in election.records)
+        if election_date is None:
+            election_date = election.event_date
         authority = _consensus(record.authority for record in election.records)
+        if authority is None:
+            authority = election.event_authority
         election_rows.append(
             {
                 "election_id": configuration.election_id,
@@ -398,7 +441,7 @@ def build_master_database(
                 "authority": authority,
                 "source_type": "configuration; official",
                 "source_reference": (
-                    f"config/elections.json#{configuration.election_id}; "
+                    f"{('config/by_election_event_catalogue.json' if configuration.election_type == 'by-election' else 'config/elections.json')}#{configuration.election_id}; "
                     f"{election.audit_path.relative_to(PROJECT_ROOT)}"
                 ),
             }
@@ -681,10 +724,10 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
         "Elections": [
             ("election_id", "Stable configured election identifier.", "configuration", "configuration", "Never blank for configured elections."),
             ("election_name", "Configured election title.", "configuration", "configuration", "Never blank for configured elections."),
-            ("election_date", "Consensus published polling date in audited records.", "official result pages", "official", "NULL if the audited official pages disagree or omit it."),
+            ("election_date", "Published polling date from official result records or the official archive event catalogue.", "official result pages or official archive catalogue", "official", "NULL if the applicable official source is unavailable or conflicting."),
             ("election_year", "Configured calendar year.", "configuration", "configuration", "Never blank for configured elections."),
             ("election_type", "Configured election type.", "configuration", "configuration", "Never blank for configured elections."),
-            ("authority", "Consensus published authority in audited records.", "official result pages", "official", "NULL if unavailable or conflicting."),
+            ("authority", "Published authority from official result records or the official archive event catalogue.", "official result pages or official archive catalogue", "official", "NULL if the applicable official source is unavailable or conflicting."),
             ("source_type", "Source layers used by the election row.", "configuration and official", "derived", "Never used to replace field-level values."),
             ("source_reference", "Configuration key and audited input location.", "configuration and audit", "derived", "Never blank for loaded elections."),
         ],

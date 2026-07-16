@@ -38,8 +38,8 @@ def _event(event_id: str, election_date: str) -> ElectionEventArea:
     )
 
 
-def test_by_elections_are_separate_events_without_invented_candidate_rows() -> None:
-    """Archive-listed by-elections stay separate from principal election data."""
+def test_by_elections_use_only_verified_official_candidate_result_pages() -> None:
+    """Archive events receive rows only where separate official evidence exists."""
 
     history = build_election_history()
     by_elections = [
@@ -49,7 +49,9 @@ def test_by_elections_are_separate_events_without_invented_candidate_rows() -> N
     assert len(load_by_election_catalogue()) == 15
     assert len(by_elections) == 15
     assert len({row["election_id"] for row in by_elections}) == 15
-    assert all(row["candidate_row_count"] is None for row in by_elections)
+    assert sum(row["candidate_row_count"] is not None for row in by_elections) == 11
+    assert sum(row["candidate_row_count"] is None for row in by_elections) == 4
+    assert sum(row["candidate_row_count"] or 0 for row in by_elections) == 54
     assert all(row["evidence_text"] for row in by_elections)
 
 
@@ -152,11 +154,13 @@ def test_history_build_does_not_change_raw_official_audit_file() -> None:
     after = hashlib.sha256(audit_path.read_bytes()).hexdigest()
 
     assert before == after
-    assert history["coverage_report"]["summary"]["raw_candidate_rows_preserved"] == 1898
+    # The history layer preserves the 1,898 principal-election rows and adds
+    # only the 54 separately verified official by-election candidate rows.
+    assert history["coverage_report"]["summary"]["raw_candidate_rows_preserved"] == 1952
 
 
-def test_coverage_reports_all_expected_events_without_fabricated_by_election_rows() -> None:
-    """Coverage distinguishes catalogued events from extracted candidate records."""
+def test_coverage_reports_integrated_and_unavailable_by_election_results() -> None:
+    """Coverage distinguishes verified rows from archive-only event metadata."""
 
     history = build_election_history()
     report = history["coverage_report"]
@@ -164,5 +168,5 @@ def test_coverage_reports_all_expected_events_without_fabricated_by_election_row
 
     assert report["summary"]["events_required"] == 20
     assert report["summary"]["events_represented"] == 20
-    assert report["summary"]["by_elections_with_candidate_rows"] == 0
-    assert "candidate_results_not_extracted_from_official_event_result_page" in encoded
+    assert report["summary"]["by_elections_with_candidate_rows"] == 11
+    assert "official_candidate_results_not_retrieved" in encoded
