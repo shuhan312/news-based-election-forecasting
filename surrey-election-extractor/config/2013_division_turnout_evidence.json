@@ -125,6 +125,7 @@
   "unresolved": [],
   "ballot_papers_issued": {
     "source": {
+      "source_id": "woking-declaration-2013",
       "source_type": "Woking Borough Council official declaration",
       "source_name": "Election of Councillors for the Electoral Divisions of Surrey County Council: Summary of Results, 2 May 2013",
       "source_url": "https://www.woking.gov.uk/sites/default/files/documents/council-and-democracy/elections/ElectionResults/resultsscc.pdf",
@@ -146,8 +147,48 @@
         "source_electorate": 10016,
         "source_candidate_votes": [533, 98, 597, 231, 1476],
         "electorate_discrepancy_note": "The Woking Deputy Returning Officer declaration explicitly identifies The Byfleets on 2 May 2013, names the same five candidates with the same vote counts and winner as the Surrey result page, and publishes Ballot Papers Issued: 2,945. Its electorate is 10,016 while the Surrey result page publishes 10,019. This three-voter difference is retained as a source discrepancy; the supplementary issued-ballot value does not replace Surrey's official electorate."
+      },
+      {
+        "division_name": "Epsom Town & Downs",
+        "source_division_name": "Epsom Town & Downs",
+        "value": 3733,
+        "source_candidate_votes": [1448, 1060, 502, 423, 289],
+        "source_scope_note": "The official Epsom & Ewell result page explicitly identifies the 2 May 2013 Surrey County Council election and Epsom Town & Downs, but does not publish an electorate. Its complete candidate vote list matches the Surrey result page.",
+        "source": {"source_id": "epsom-ewell-epsom-town-downs-2013", "source_type": "Epsom & Ewell Borough Council official result page", "source_name": "Election results for Epsom Town & Downs, 2 May 2013", "source_url": "https://democracy.epsom-ewell.gov.uk/mgElectionAreaResults.aspx?ID=500000001", "retrieval_date": "2026-07-16", "confidence": "High", "validation_status": "verified"}
+      },
+      {
+        "division_name": "Epsom West",
+        "source_division_name": "Epsom West",
+        "value": 3060,
+        "source_candidate_votes": [854, 693, 616, 494, 389],
+        "source_scope_note": "The official Epsom & Ewell result page explicitly identifies the 2 May 2013 Surrey County Council election and Epsom West, but does not publish an electorate. Its complete candidate vote list matches the Surrey result page.",
+        "source": {"source_id": "epsom-ewell-epsom-west-2013", "source_type": "Epsom & Ewell Borough Council official result page", "source_name": "Election results for Epsom West, 2 May 2013", "source_url": "https://democracy.epsom-ewell.gov.uk/mgElectionAreaResults.aspx?ID=500000002&RPID=0", "retrieval_date": "2026-07-16", "confidence": "High", "validation_status": "verified"}
+      },
+      {
+        "division_name": "Ewell",
+        "source_division_name": "Ewell",
+        "value": 3282,
+        "source_candidate_votes": [2065, 539, 359, 148, 84, 76],
+        "source_scope_note": "The official Epsom & Ewell result page explicitly identifies the 2 May 2013 Surrey County Council election and Ewell, but does not publish an electorate. Its complete candidate vote list matches the Surrey result page.",
+        "source": {"source_id": "epsom-ewell-ewell-2013", "source_type": "Epsom & Ewell Borough Council official result page", "source_name": "Election results for Ewell, 2 May 2013", "source_url": "https://democracy.epsom-ewell.gov.uk/mgElectionAreaResults.aspx?ID=500000003", "retrieval_date": "2026-07-16", "confidence": "High", "validation_status": "verified"}
+      },
+      {
+        "division_name": "Ewell Court, Auriol & Cuddington",
+        "source_division_name": "Ewell Court, Auriol & Cuddington",
+        "value": 3466,
+        "source_candidate_votes": [2233, 624, 310, 206, 90],
+        "source_scope_note": "The official Epsom & Ewell result page explicitly identifies the 2 May 2013 Surrey County Council election and Ewell Court, Auriol & Cuddington, but does not publish an electorate. Its complete candidate vote list matches the Surrey result page.",
+        "source": {"source_id": "epsom-ewell-ewell-court-2013", "source_type": "Epsom & Ewell Borough Council official result page", "source_name": "Election results for Ewell Court, Auriol & Cuddington, 2 May 2013", "source_url": "https://democracy.epsom-ewell.gov.uk/mgElectionAreaResults.aspx?ID=500000004&RPID=0", "retrieval_date": "2026-07-16", "confidence": "High", "validation_status": "verified"}
+      },
+      {
+        "division_name": "West Ewell",
+        "source_division_name": "West Ewell",
+        "value": 2813,
+        "source_candidate_votes": [1373, 495, 419, 370, 145],
+        "source_scope_note": "The official Epsom & Ewell result page explicitly identifies the 2 May 2013 Surrey County Council election and West Ewell, but does not publish an electorate. Its complete candidate vote list matches the Surrey result page.",
+        "source": {"source_id": "epsom-ewell-west-ewell-2013", "source_type": "Epsom & Ewell Borough Council official result page", "source_name": "Election results for West Ewell, 2 May 2013", "source_url": "https://democracy.epsom-ewell.gov.uk/mgElectionAreaResults.aspx?ID=500000005", "retrieval_date": "2026-07-16", "confidence": "High", "validation_status": "verified"}
       }
     ],
-    "unresolved_reason": "No issued-ballot value is accepted without an exact official division-name match and an explicit named official declaration. If the declaration electorate differs from the Surrey result page, the record also requires a documented discrepancy note and an exact candidate-vote-list match. All remaining divisions have no reviewed named declaration."
+    "unresolved_reason": "No issued-ballot value is accepted without an exact official division-name match and an explicit named official result source. If the source electorate differs from, or is absent from, the Surrey result page, the record also requires a documented scope note and an exact candidate-vote-list match. All remaining divisions have no reviewed named official source."
   }
 }

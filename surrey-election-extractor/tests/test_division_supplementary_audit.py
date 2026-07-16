@@ -26,22 +26,26 @@ def _official_records() -> tuple[CandidateResultRecord, ...]:
     names.append(
         payload["wikipedia_cross_validated_turnout"]["accepted_record"]["division_name"]
     )
+    ballot_records = payload["ballot_papers_issued"]["accepted_records"]
     ballot_electorates = {
         item["division_name"]: item["source_electorate"]
-        for item in payload["ballot_papers_issued"]["accepted_records"]
+        for item in ballot_records
+        if isinstance(item.get("source_electorate"), int)
     }
     # The fixture preserves Surrey's published electorate. The Woking
     # declaration's separate electorate is intentionally not copied here.
     ballot_electorates["The Byfleets"] = 10019
-    byfleets_votes = payload["ballot_papers_issued"]["accepted_records"][-1][
-        "source_candidate_votes"
-    ]
+    source_votes_by_division = {
+        item["division_name"]: item["source_candidate_votes"]
+        for item in ballot_records
+        if "source_candidate_votes" in item
+    }
     records = []
     for index, name in enumerate(names, start=1):
         # A source-discrepancy record is accepted only after its complete vote
         # list matches the official candidate rows, so the fixture must model
         # every Byfleets candidate rather than a single placeholder row.
-        votes = byfleets_votes if name == "The Byfleets" else [100]
+        votes = source_votes_by_division.get(name, [100])
         for candidate_index, vote in enumerate(votes, start=1):
             records.append(
                 CandidateResultRecord(
@@ -82,10 +86,10 @@ def test_named_turnout_evidence_is_separate_from_official_fields() -> None:
         "accepted_official_division_turnout": 80,
         "accepted_cross_validated_wikipedia_division_turnout": 1,
         "unresolved_division_turnout": 0,
-        "accepted_supplementary_ballot_papers_issued": 7,
-        "unresolved_ballot_papers_issued": 74,
+        "accepted_supplementary_ballot_papers_issued": 12,
+        "unresolved_ballot_papers_issued": 69,
     }
-    assert len(audit.supplementary_records) == 88
+    assert len(audit.supplementary_records) == 93
     assert all(record.geographic_level.value == "division" for record in audit.supplementary_records)
     assert sum(
         record.field_name == "secondary_division_turnout"
@@ -96,7 +100,9 @@ def test_named_turnout_evidence_is_separate_from_official_fields() -> None:
         for record in audit.supplementary_records
         if record.field_name == "secondary_division_ballot_papers_issued"
     ]
-    assert {record.value for record in ballot_records} == {2796, 2945, 3198, 3336, 3642, 3728, 4062}
+    assert {record.value for record in ballot_records} == {
+        2796, 2813, 2945, 3060, 3198, 3282, 3336, 3466, 3642, 3728, 3733, 4062,
+    }
     assert all(record.turnout is None for record in records)
     assert all(record.ballot_papers_issued is None for record in records)
 
@@ -156,11 +162,16 @@ def test_byfleets_source_disagreement_is_retained_with_issued_value() -> None:
     assert "10,016" in byfleets["ballot_papers_issued_reason"]
 
 
-def test_conflicting_electorate_requires_complete_matching_vote_evidence(tmp_path: Path) -> None:
-    """A discrepancy cannot be accepted merely because its division name matches."""
+def test_source_limitation_requires_complete_matching_vote_evidence(tmp_path: Path) -> None:
+    """A source limitation cannot be accepted merely because its division name matches."""
 
     payload = json.loads(EVIDENCE_PATH.read_text(encoding="utf-8"))
-    del payload["ballot_papers_issued"]["accepted_records"][-1]["source_candidate_votes"]
+    record = next(
+        item
+        for item in payload["ballot_papers_issued"]["accepted_records"]
+        if item["division_name"] == "Epsom West"
+    )
+    del record["source_candidate_votes"]
     evidence_path = tmp_path / "missing-conflict-votes.json"
     evidence_path.write_text(json.dumps(payload), encoding="utf-8")
 

@@ -542,12 +542,12 @@ def test_current_by_election_corrections_flow_into_master_database() -> None:
     }
 
 
-def test_verified_woking_2013_issued_ballots_are_supplementary_only() -> None:
-    """Keep seven Woking declaration values outside official fields.
+def test_verified_2013_issued_ballots_are_supplementary_only() -> None:
+    """Keep verified local-authority values outside official Surrey fields.
 
-    The Woking declaration is a named official local-authority source, while
-    the Surrey result pages leave ballot papers issued blank. The exact values
-    are exported as evidence only and cannot change official completeness.
+    Woking and Epsom & Ewell publish named official local-authority results,
+    while the Surrey result pages leave ballot papers issued blank. The exact
+    values are exported as evidence only and cannot change official completeness.
     """
 
     payload = build_master_database(load_audited_elections())
@@ -557,8 +557,10 @@ def test_verified_woking_2013_issued_ballots_are_supplementary_only() -> None:
         if row["field_name"] == "secondary_division_ballot_papers_issued"
     ]
 
-    assert len(ballot_rows) == 7
-    assert {row["value"] for row in ballot_rows} == {2796, 2945, 3198, 3336, 3642, 3728, 4062}
+    assert len(ballot_rows) == 12
+    assert {row["value"] for row in ballot_rows} == {
+        2796, 2813, 2945, 3060, 3198, 3282, 3336, 3466, 3642, 3728, 3733, 4062,
+    }
     divisions = {
         row["division_name"]: row
         for row in payload.divisions_and_wards
