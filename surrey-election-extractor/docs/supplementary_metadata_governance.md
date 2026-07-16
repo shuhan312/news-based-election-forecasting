@@ -21,7 +21,7 @@ Permitted geographic levels are `election`, `division` and `candidate`. Division
 | Election | Field | Official availability | Supplementary evidence status | Storage decision |
 | --- | --- | --- | --- | --- |
 | 2013 | turnout | Division turnout is absent from the official result-page summaries. | The Surrey Council announcement provides 80 named division turnout values; its county-wide 30% figure is also independently supported by the Electoral Commission. | 80 verified `secondary_division_turnout` records and two `secondary_election_turnout` records; none overwrite official division fields. |
-| 2013 | ballot_papers_issued | Absent from official division summaries. | Potential named Woking evidence was reviewed but has not been integrated division by division. | Remains NULL in official fields; no generic record yet. |
+| 2013 | ballot_papers_issued | Absent from official division summaries. | Woking Borough Council's signed 2013 declaration explicitly names six Woking divisions and their issued ballot-paper counts; each declaration electorate matches the Surrey result page. | Six verified `secondary_division_ballot_papers_issued` records; official fields remain NULL. The Byfleets remains unresolved because the two official sources disagree on electorate. |
 | 2017 | rejected_ballots | Reigate's official page does not publish the value. | No approved supplementary evidence. | Remains NULL. |
 | 2021 | Seats | 28 official result pages do not publish Seats. | The Surrey (Electoral Changes) Order 2012 names the affected divisions and provides one councillor for each. | Existing verified division-level supplementary Seats records remain separate from official Seats. |
 | 2016 and 2025 by-elections | Staines South & Ashford West and Addlestone turnout | The Surrey result pages do not publish turnout. | Spelthorne Borough Council explicitly reports 31.3% for Staines South & Ashford West; Runnymede Borough Council explicitly reports 24% for the same Addlestone County Division by-election. | Two verified `secondary_division_turnout` records; official turnout fields remain NULL. |
@@ -71,5 +71,7 @@ They also contain two verified, election-level records for `secondary_election_t
 - Electoral Commission, *Results and turnout at the May 2017 England local elections*.
 
 The master workbook's **Supplementary Metadata** tab shows all approved evidence independently. The official `turnout` cells for all 81 2013 divisions remain blank, and their division completeness remains unchanged.
+
+The Woking declaration also supports six named 2013 `secondary_division_ballot_papers_issued` values: Goldsworth East and Horsell Village, Knaphill and Goldsworth West, Woking North, Woking South, Woking South East and Woking South West. Each source electorate is checked against the official Surrey result page before integration. The Byfleets is intentionally excluded: Woking's declaration states an electorate of 10,016, while the Surrey result page states 10,019. This unresolved disagreement is retained rather than choosing either source.
 
 The [by-election supplementary metadata audit](by_election_supplementary_metadata_audit.md) records the reviewed source scope for the remaining by-election gaps, including the separate Addlestone 2025 turnout evidence and one corrected official Staines candidate row.

@@ -542,6 +542,32 @@ def test_current_by_election_corrections_flow_into_master_database() -> None:
     }
 
 
+def test_verified_woking_2013_issued_ballots_are_supplementary_only() -> None:
+    """Keep six cross-checked Woking declaration values outside official fields.
+
+    The Woking declaration is a named official local-authority source, while
+    the Surrey result pages leave ballot papers issued blank. The exact values
+    are exported as evidence only and cannot change official completeness.
+    """
+
+    payload = build_master_database(load_audited_elections())
+    ballot_rows = [
+        row
+        for row in payload.supplementary_metadata
+        if row["field_name"] == "secondary_division_ballot_papers_issued"
+    ]
+
+    assert len(ballot_rows) == 6
+    assert {row["value"] for row in ballot_rows} == {2796, 3198, 3336, 3642, 3728, 4062}
+    divisions = {
+        row["division_name"]: row
+        for row in payload.divisions_and_wards
+        if row["election_id"] == "surrey-county-council-2013"
+    }
+    assert divisions["Woking North"]["ballot_papers_issued"] is None
+    assert divisions["The Byfleets"]["ballot_papers_issued"] is None
+
+
 def test_current_published_party_labels_have_reviewed_lookup_entries() -> None:
     """Require explicit review for every non-blank party label in current inputs.
 

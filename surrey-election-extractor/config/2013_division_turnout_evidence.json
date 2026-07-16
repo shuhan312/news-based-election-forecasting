@@ -101,7 +101,22 @@
     }
   ],
   "ballot_papers_issued": {
-    "accepted_records": [],
-    "reason": "No division-level ballot-papers-issued value was integrated because the prior Woking evidence source could not be re-accessed for this audit and no Surrey-wide source may be propagated to divisions."
+    "source": {
+      "source_type": "Woking Borough Council official declaration",
+      "source_name": "Election of Councillors for the Electoral Divisions of Surrey County Council: Summary of Results, 2 May 2013",
+      "source_url": "https://www.woking.gov.uk/sites/default/files/documents/council-and-democracy/elections/ElectionResults/resultsscc.pdf",
+      "retrieval_date": "2026-07-16",
+      "confidence": "High",
+      "validation_status": "verified"
+    },
+    "accepted_records": [
+      {"division_name": "Goldsworth East and Horsell Village", "source_division_name": "Goldsworth East & Horsell Village", "value": 3728, "source_electorate": 11295},
+      {"division_name": "Knaphill and Goldsworth West", "source_division_name": "Knaphill & Goldsworth West", "value": 3642, "source_electorate": 11021},
+      {"division_name": "Woking North", "source_division_name": "Woking North", "value": 4062, "source_electorate": 11018},
+      {"division_name": "Woking South", "source_division_name": "Woking South", "value": 3336, "source_electorate": 10834},
+      {"division_name": "Woking South East", "source_division_name": "Woking South East", "value": 3198, "source_electorate": 10177},
+      {"division_name": "Woking South West", "source_division_name": "Woking South West", "value": 2796, "source_electorate": 9563}
+    ],
+    "unresolved_reason": "No issued-ballot value is accepted without an exact division-name match and matching electorate in the official Surrey result page. The Byfleets is excluded because the Woking declaration states electorate 10,016 while the Surrey result page states 10,019; all remaining divisions have no reviewed named declaration."
   }
 }

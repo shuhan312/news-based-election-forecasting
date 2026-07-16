@@ -23,6 +23,14 @@ def _official_records() -> tuple[CandidateResultRecord, ...]:
     payload = json.loads(EVIDENCE_PATH.read_text(encoding="utf-8"))
     names = [item["division_name"] for item in payload["records"]]
     names.extend(item["division_name"] for item in payload["unresolved"])
+    ballot_electorates = {
+        item["division_name"]: item["source_electorate"]
+        for item in payload["ballot_papers_issued"]["accepted_records"]
+    }
+    # The Byfleets is intentionally not an accepted declaration record: this
+    # fixture uses the published Surrey electorate to exercise the discrepancy
+    # guard in a focused test below.
+    ballot_electorates["The Byfleets"] = 10019
     return tuple(
         CandidateResultRecord(
             election_name="Surrey County Council Election 2013",
@@ -35,7 +43,7 @@ def _official_records() -> tuple[CandidateResultRecord, ...]:
             votes_received=100,
             vote_share=50.0,
             outcome="Elected",
-            electorate=1000,
+            electorate=ballot_electorates.get(name, 1000),
             ballot_papers_issued=None,
             ballot_papers_rejected=2,
             turnout=None,
@@ -60,12 +68,21 @@ def test_named_turnout_evidence_is_separate_from_official_fields() -> None:
         "official_divisions_audited": 81,
         "accepted_supplementary_division_turnout": 80,
         "unresolved_division_turnout": 1,
-        "accepted_supplementary_ballot_papers_issued": 0,
-        "unresolved_ballot_papers_issued": 81,
+        "accepted_supplementary_ballot_papers_issued": 6,
+        "unresolved_ballot_papers_issued": 75,
     }
-    assert len(audit.supplementary_records) == 80
+    assert len(audit.supplementary_records) == 86
     assert all(record.geographic_level.value == "division" for record in audit.supplementary_records)
-    assert all(record.field_name == "secondary_division_turnout" for record in audit.supplementary_records)
+    assert sum(
+        record.field_name == "secondary_division_turnout"
+        for record in audit.supplementary_records
+    ) == 80
+    ballot_records = [
+        record
+        for record in audit.supplementary_records
+        if record.field_name == "secondary_division_ballot_papers_issued"
+    ]
+    assert {record.value for record in ballot_records} == {2796, 3198, 3336, 3642, 3728, 4062}
     assert all(record.turnout is None for record in records)
     assert all(record.ballot_papers_issued is None for record in records)
 
@@ -83,6 +100,20 @@ def test_unresolved_turnout_is_recorded_without_a_value() -> None:
     assert foxhills["supplementary_turnout_available"] is False
     assert foxhills["supplementary_turnout_value"] is None
     assert foxhills["turnout_status"] == "unresolved"
+
+
+def test_byfleets_source_disagreement_stays_unresolved() -> None:
+    """A conflicting official electorate prevents importing the issued count."""
+
+    audit = audit_2013_division_evidence(_official_records())
+    byfleets = next(
+        item for item in audit.report["records"] if item["division_name"] == "The Byfleets"
+    )
+
+    assert byfleets["supplementary_ballot_papers_issued_available"] is False
+    assert byfleets["supplementary_ballot_papers_issued"] is None
+    assert byfleets["ballot_papers_issued_status"] == "unresolved"
+    assert "10,016" in byfleets["ballot_papers_issued_reason"]
 
 
 def test_unreviewed_official_division_is_rejected() -> None:

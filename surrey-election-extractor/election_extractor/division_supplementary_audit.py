@@ -58,9 +58,27 @@ def audit_2013_division_evidence(
         )
         for division_name, division_id, value, source_division_name in accepted
     )
+    ballot_issued = _accepted_ballot_papers_issued(payload, divisions, records)
+    ballot_issued_records = tuple(
+        _ballot_papers_issued_metadata_record(
+            division_name=division_name,
+            division_id=division_id,
+            value=value,
+            source_division_name=source_division_name,
+            source=ballot_source,
+        )
+        for (
+            division_name,
+            division_id,
+            value,
+            source_division_name,
+            ballot_source,
+        ) in ballot_issued
+    )
     division_rows = []
     accepted_by_name = {item[0]: item for item in accepted}
     unresolved_by_name = {item[0]: item for item in unresolved}
+    ballot_issued_by_name = {item[0]: item for item in ballot_issued}
     for division_name, division_id in sorted(divisions.items()):
         turnout = accepted_by_name.get(division_name)
         unresolved_turnout = unresolved_by_name.get(division_name)
@@ -84,10 +102,22 @@ def audit_2013_division_evidence(
                     else unresolved_turnout[3]
                 ),
                 "official_ballot_papers_issued": None,
-                "supplementary_ballot_papers_issued_available": False,
-                "supplementary_ballot_papers_issued": None,
-                "ballot_papers_issued_status": "unresolved",
-                "ballot_papers_issued_reason": _ballot_reason(payload),
+                "supplementary_ballot_papers_issued_available": division_name
+                in ballot_issued_by_name,
+                "supplementary_ballot_papers_issued": (
+                    ballot_issued_by_name[division_name][2]
+                    if division_name in ballot_issued_by_name
+                    else None
+                ),
+                "ballot_papers_issued_status": (
+                    "accepted" if division_name in ballot_issued_by_name else "unresolved"
+                ),
+                "ballot_papers_issued_reason": (
+                    "Named official Woking declaration publishes this value and its "
+                    "electorate agrees with the official Surrey result page."
+                    if division_name in ballot_issued_by_name
+                    else _ballot_reason(payload)
+                ),
             }
         )
 
@@ -95,7 +125,7 @@ def audit_2013_division_evidence(
         "audit_title": "2013 Surrey County Council Division Supplementary Evidence Audit",
         "scope": (
             "Read-only review of the 81 official 2013 divisions. Only named, "
-            "explicit Council turnout statements become supplementary metadata."
+            "explicit Council values with verified division scope become supplementary metadata."
         ),
         "data_principle": (
             "Supplementary values remain separate from official division fields "
@@ -106,16 +136,19 @@ def audit_2013_division_evidence(
             "official_divisions_audited": len(divisions),
             "accepted_supplementary_division_turnout": len(turnout_records),
             "unresolved_division_turnout": len(divisions) - len(turnout_records),
-            "accepted_supplementary_ballot_papers_issued": 0,
-            "unresolved_ballot_papers_issued": len(divisions),
+            "accepted_supplementary_ballot_papers_issued": len(ballot_issued_records),
+            "unresolved_ballot_papers_issued": len(divisions) - len(ballot_issued_records),
         },
         "records": division_rows,
         "integration_rule": (
-            "Only the accepted turnout records may enter the Supplementary Metadata "
-            "table. Official turnout and ballot_papers_issued remain NULL."
+            "Only the accepted turnout and ballot-papers-issued records may enter the "
+            "Supplementary Metadata table. Official turnout and ballot_papers_issued remain NULL."
         ),
     }
-    return DivisionEvidenceAudit(report=report, supplementary_records=turnout_records)
+    return DivisionEvidenceAudit(
+        report=report,
+        supplementary_records=turnout_records + ballot_issued_records,
+    )
 
 
 def audit_markdown(report: Mapping[str, object]) -> str:
@@ -138,7 +171,8 @@ def audit_markdown(report: Mapping[str, object]) -> str:
         "- The Surrey Council announcement is treated as supplementary division evidence, not as a replacement for the official individual result pages.",
         "- Every accepted turnout record has a named Council result section and a stated value.",
         "- Foxhills, Thorpe & Virginia Water remains unresolved because its Council result section labels turnout but gives no number.",
-        "- No ballot-papers-issued values were accepted because no named source was re-verified for this audit.",
+        "- Only named ballot-papers-issued values whose official Woking declaration electorate agrees with the Surrey result page are accepted.",
+        "- The Byfleets remains unresolved: the Woking declaration states an electorate of 10,016 whereas the Surrey result page states 10,019.",
         "- Official `turnout` and `ballot_papers_issued` values remain NULL, and division completeness is unchanged.",
         "",
     ]
@@ -230,6 +264,81 @@ def _unresolved_evidence(
     return tuple(unresolved)
 
 
+def _accepted_ballot_papers_issued(
+    payload: Mapping[str, object],
+    divisions: Mapping[str, str],
+    records: Sequence[CandidateResultRecord],
+) -> tuple[tuple[str, str, int, str, Mapping[str, str]], ...]:
+    """Accept only declaration values anchored by an exact name and electorate.
+
+    A local returning-officer declaration can be authoritative for its own
+    divisions, but it must still agree with the County result page on the
+    published electorate. A disagreement leaves the value unresolved instead
+    of assuming that either source's ballot-paper count is transferable.
+    """
+
+    ballot_section = _mapping(payload.get("ballot_papers_issued"), "ballot_papers_issued")
+    source = _mapping(ballot_section.get("source"), "ballot_papers_issued source")
+    raw_records = ballot_section.get("accepted_records")
+    if not isinstance(raw_records, list):
+        raise ValueError("Ballot-papers-issued evidence must contain an accepted_records list.")
+    electorates = _official_electorates(records)
+    accepted = []
+    seen_names: set[str] = set()
+    for item in raw_records:
+        record = _mapping(item, "ballot-papers-issued evidence record")
+        division_name = _required_text(record, "division_name")
+        if division_name not in divisions:
+            raise ValueError(
+                "Ballot-papers-issued evidence does not use an exact official division name: "
+                f"{division_name}."
+            )
+        if division_name in seen_names:
+            raise ValueError(f"Duplicate ballot-papers-issued evidence for {division_name}.")
+        value = record.get("value")
+        source_electorate = record.get("source_electorate")
+        if not isinstance(value, int) or value < 0:
+            raise ValueError(f"Ballot-papers-issued value must be a non-negative integer for {division_name}.")
+        if not isinstance(source_electorate, int) or source_electorate < 1:
+            raise ValueError(f"Source electorate must be a positive integer for {division_name}.")
+        if electorates[division_name] != source_electorate:
+            raise ValueError(
+                "Ballot-papers-issued evidence electorate conflicts with the official "
+                f"Surrey result page for {division_name}."
+            )
+        seen_names.add(division_name)
+        accepted.append(
+            (
+                division_name,
+                divisions[division_name],
+                value,
+                _required_text(record, "source_division_name"),
+                {key: _required_text(source, key) for key in (
+                    "source_type", "source_name", "source_url", "retrieval_date", "confidence", "validation_status"
+                )},
+            )
+        )
+    return tuple(accepted)
+
+
+def _official_electorates(
+    records: Sequence[CandidateResultRecord],
+) -> dict[str, int]:
+    """Return one shared published electorate for each official division page."""
+
+    values_by_name: defaultdict[str, set[int]] = defaultdict(set)
+    for record in records:
+        if record.division_ward_name is None or record.electorate is None:
+            raise ValueError("Ballot evidence requires published official division names and electorates.")
+        values_by_name[record.division_ward_name].add(record.electorate)
+    electorates = {}
+    for division_name, values in values_by_name.items():
+        if len(values) != 1:
+            raise ValueError(f"Division {division_name} has conflicting official electorates.")
+        electorates[division_name] = next(iter(values))
+    return electorates
+
+
 def _validate_coverage(
     divisions: Mapping[str, str],
     accepted: Sequence[tuple[str, str, float, str]],
@@ -281,11 +390,47 @@ def _turnout_metadata_record(
     )
 
 
+def _ballot_papers_issued_metadata_record(
+    *,
+    division_name: str,
+    division_id: str,
+    value: int,
+    source_division_name: str,
+    source: Mapping[str, str],
+) -> SupplementaryMetadataRecord:
+    """Create additive ballot-paper evidence without changing the official cell."""
+
+    return SupplementaryMetadataRecord(
+        metadata_id=f"{division_id}:secondary_division_ballot_papers_issued:woking",
+        election_id="surrey-county-council-2013",
+        division_id=division_id,
+        field_name="secondary_division_ballot_papers_issued",
+        value=value,
+        geographic_level=GeographicLevel.DIVISION,
+        source_type=source["source_type"],
+        source_name=source["source_name"],
+        source_url=source["source_url"],
+        evidence_text=(
+            f"The official Woking declaration for {source_division_name} states "
+            f"‘Ballot Papers Issued: {value:,}’."
+        ),
+        retrieval_date=source["retrieval_date"],
+        confidence=source["confidence"],
+        notes=(
+            "Supplementary division evidence only. The named Woking declaration's "
+            "electorate was cross-checked against the official Surrey result page; "
+            "this value does not populate the official ballot_papers_issued field or "
+            "change division completeness."
+        ),
+        validation_status=SupplementaryValidationStatus(source["validation_status"]),
+    )
+
+
 def _ballot_reason(payload: Mapping[str, object]) -> str:
     """Keep the evidence-register reason in every unresolved ballot field row."""
 
     ballot_section = _mapping(payload.get("ballot_papers_issued"), "ballot_papers_issued")
-    return _required_text(ballot_section, "reason")
+    return _required_text(ballot_section, "unresolved_reason")
 
 
 def _division_id(source_url: str) -> str:
