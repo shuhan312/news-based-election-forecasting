@@ -14,10 +14,10 @@
     },
     {
       "election_id": "surrey-county-council-by-election-epsom-west-2015-11-19",
-      "result_evidence_status": "complete_official_declaration_integrated",
+      "result_evidence_status": "official_declaration_integrated",
       "source_type": "Epsom & Ewell Borough Council declaration of result",
       "source_url": "https://www.epsom-ewell.gov.uk/sites/default/files/documents/council/elections-and-voting/SCCDeclarationofResults19Nov2015.pdf",
-      "evidence_text": "The official declaration publishes all six candidates, party descriptions, votes, the elected candidate, one vacant seat, electorate, ballot papers issued, rejected ballots and turnout.",
+      "evidence_text": "The official declaration publishes all six candidates, party descriptions, votes, the elected candidate, one vacant seat, electorate, ballot papers issued, rejected ballots and turnout. It does not publish candidate vote shares or total votes.",
       "candidate_results_integrated": true,
       "missing_official_information": ["published candidate vote shares", "published total votes"],
       "notes": "Vote shares and total votes were not calculated from the declaration; their fields remain null."

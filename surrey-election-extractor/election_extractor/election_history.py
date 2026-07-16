@@ -303,11 +303,11 @@ def _by_election_areas(
     catalogue: Sequence[Mapping[str, object]],
     records_by_event: Mapping[str, Sequence[CandidateResultRecord]],
 ) -> tuple[tuple[ElectionEventArea, ...], tuple[dict[str, object], ...]]:
-    """Add verified by-election rows while keeping absent result pages unavailable.
+    """Add verified by-election rows while keeping absent result sources unavailable.
 
     The archive catalogue establishes that an event occurred. Candidate rows
-    are added only when the separate evidence register names an official result
-    page for that event; this function never infers candidates from the event
+    are added only when the separate evidence register names published official
+    candidate-result evidence for that event; this function never infers candidates from the event
     title, later elections, or a candidate name appearing elsewhere.
     """
 
@@ -334,7 +334,7 @@ def _by_election_areas(
                 candidate_row_count=len(records) if records else None,
                 source_url=source_url,
                 source_coverage=(
-                    "official_result_page_indexed_evidence"
+                    "official_candidate_result_evidence"
                     if records
                     else "official_archive_indexed_listing; candidate_results_not_retrieved"
                 ),
@@ -735,7 +735,7 @@ def event_coverage_markdown(coverage: Mapping[str, object]) -> str:
             "",
             "## Interpretation",
             "",
-            "By-election events are separate timeline records with official archive evidence. Candidate rows are included only for events with separately verified official result-page evidence; other events remain NULL/unavailable and no zero-row result is created.",
+            "By-election events are separate timeline records with official archive evidence. Candidate rows are included only for events with separately verified official candidate-result evidence; other events remain NULL/unavailable and no zero-row result is created.",
             "",
         ]
     )
@@ -747,13 +747,13 @@ def data_dictionary_markdown() -> str:
 
     rows = [
         ("election_events.election_id", "Canonical event identifier", "source reported / deterministically derived", "Never merged across events."),
-        ("election_events.candidate_row_count", "Published candidate rows available for an event", "deterministically derived", "NULL for catalogued by-elections without result-page data."),
+        ("election_events.candidate_row_count", "Published candidate rows available for an event", "deterministically derived", "NULL for catalogued by-elections without verified candidate-result evidence."),
         ("canonical_candidate_results.original_party_name", "Exact published party wording", "source reported", "Never overwritten by standardisation."),
         ("canonical_candidate_results.standardised_party_name", "Reviewed lookup label", "manually confirmed", "NULL when no approved lookup exists; Reform UK and UKIP stay separate."),
         ("election_chronology.previous_election_event_id", "Prior event in the same valid geographic identity", "deterministically derived", "NULL for unavailable mappings or same-date ambiguity."),
         ("safe_enrichment.candidate_appeared_before", "Candidate appearance history", "unavailable", "No name-only matching; explicit identity evidence is required."),
         ("safe_enrichment.party_history", "Party appearance and previous contests", "deterministically derived", "Uses approved standard-party labels only."),
-        ("safe_enrichment.number_of_candidates", "Candidate count in a published result page", "deterministically derived", "NULL when candidate rows are unavailable."),
+        ("safe_enrichment.number_of_candidates", "Candidate count in published candidate-result evidence", "deterministically derived", "NULL when candidate rows are unavailable."),
         ("safe_enrichment.previous_winner", "Prior winner", "unavailable", "Blocked pending approved geographic comparison rules."),
         ("safe_enrichment.vote_share_change", "Change in party or candidate vote share", "unavailable", "Blocked; no geographic redistribution or comparison is performed."),
         ("safe_enrichment.incumbency", "Incumbency or predecessor transfer", "unavailable", "Blocked; no candidate history crosses partial or unresolved mappings."),

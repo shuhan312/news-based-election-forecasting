@@ -2,7 +2,7 @@
 
 This reporting script only reads the reviewed event catalogue and official-page
 evidence register. It does not retrieve pages, modify raw extraction records,
-or create values for catalogue events without a verified result page.
+or create values for catalogue events without verified candidate-result evidence.
 """
 
 from __future__ import annotations
@@ -69,7 +69,7 @@ def run(output_directory: Path = OUTPUT_DIRECTORY) -> dict[str, Path]:
         "event_provenance": audit_rows,
     }
     validation_payload = {
-        "scope": "Read-only validation of candidate rows with official result-page evidence.",
+        "scope": "Read-only validation of candidate rows with published official candidate-result evidence.",
         "validation_results": _json_value(validation_results),
         "summary": {
             "passed": sum(item.validation_status.value == "Passed" for item in validation_results),

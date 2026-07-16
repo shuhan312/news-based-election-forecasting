@@ -6,7 +6,9 @@
       "election_id": "surrey-county-council-by-election-epsom-west-2015-11-19",
       "source_url": "https://www.epsom-ewell.gov.uk/sites/default/files/documents/council/elections-and-voting/SCCDeclarationofResults19Nov2015.pdf",
       "source_title": "Declaration of Result of Poll: Epsom West, 19 November 2015",
-      "evidence_text": "Official Epsom & Ewell Borough Council declaration of the Surrey County Council Epsom West by-election result. It publishes all candidates, party descriptions, votes, the elected candidate, seats, electorate, ballot papers issued, rejected ballots and turnout.",
+      "source_publisher": "Epsom & Ewell Borough Council",
+      "source_format": "official_declaration",
+      "evidence_text": "Official Epsom & Ewell Borough Council declaration of the Surrey County Council Epsom West by-election result. It publishes all candidates, party descriptions, votes, the elected candidate, seats, electorate, ballot papers issued, rejected ballots and turnout. The declaration states that the word 'Elected' appears against elected candidates; only Persand is marked Elected.",
       "voting_summary": {"seats": 1, "total_votes": null, "electorate": 10548, "ballot_papers_issued": 2602, "rejected_ballots": 7, "turnout": 24.7},
       "candidates": [
         {"candidate_name": "CHINN, Katherine Mary", "original_party_name": "Labour Party Candidate", "votes": 578, "vote_share": null, "elected_status": "Not elected"},
@@ -21,6 +23,8 @@
       "election_id": "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05",
       "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=8&RPID=0",
       "source_title": "Election results for Staines South & Ashford West, 5 May 2016",
+      "source_publisher": "Surrey County Council",
+      "source_format": "official_result_page",
       "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
       "voting_summary": {"seats": 1, "total_votes": 3383, "electorate": null, "ballot_papers_issued": null, "rejected_ballots": 21, "turnout": null},
       "candidates": [
@@ -36,6 +40,8 @@
       "election_id": "surrey-county-council-by-election-the-byfleets-2018-12-06",
       "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=11&RPID=0",
       "source_title": "Election results for The Byfleets, 6 December 2018",
+      "source_publisher": "Surrey County Council",
+      "source_format": "official_result_page",
       "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
       "voting_summary": {"seats": 1, "total_votes": 2320, "electorate": 10028, "ballot_papers_issued": 2326, "rejected_ballots": 6, "turnout": 23},
       "candidates": [
@@ -49,6 +55,8 @@
       "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
       "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=256",
       "source_title": "Election results for Warlingham, 31 January 2019",
+      "source_publisher": "Surrey County Council",
+      "source_format": "official_result_page",
       "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
       "voting_summary": {"seats": 1, "total_votes": 2491, "electorate": 10088, "ballot_papers_issued": 2492, "rejected_ballots": 1, "turnout": 25},
       "candidates": [
@@ -62,6 +70,8 @@
       "election_id": "surrey-county-council-by-election-haslemere-2019-05-02",
       "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=15&RPID=0",
       "source_title": "Election results for Haslemere, 2 May 2019",
+      "source_publisher": "Surrey County Council",
+      "source_format": "official_result_page",
       "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
       "voting_summary": {"seats": 1, "total_votes": 4087, "electorate": 9536, "ballot_papers_issued": null, "rejected_ballots": 58, "turnout": null},
       "candidates": [
@@ -74,6 +84,8 @@
       "election_id": "surrey-county-council-by-election-horsleys-2023-10-19",
       "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=39&RPID=0",
       "source_title": "Election results for Horsleys, 19 October 2023",
+      "source_publisher": "Surrey County Council",
+      "source_format": "official_result_page",
       "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
       "voting_summary": {"seats": 1, "total_votes": 2786, "electorate": 9879, "ballot_papers_issued": 2791, "rejected_ballots": 4, "turnout": 28},
       "candidates": [
@@ -87,6 +99,8 @@
       "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
       "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=346",
       "source_title": "Election results for Addlestone, 21 August 2025",
+      "source_publisher": "Surrey County Council",
+      "source_format": "official_result_page",
       "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
       "voting_summary": {"seats": 1, "total_votes": 2726, "electorate": 11360, "ballot_papers_issued": null, "rejected_ballots": 8, "turnout": null},
       "candidates": [
@@ -101,6 +115,8 @@
       "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
       "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=347",
       "source_title": "Election results for Hinchley Wood, Claygate & Oxshott, 21 August 2025",
+      "source_publisher": "Surrey County Council",
+      "source_format": "official_result_page",
       "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
       "voting_summary": {"seats": 1, "total_votes": 4344, "electorate": 12796, "ballot_papers_issued": 4349, "rejected_ballots": 2, "turnout": 34},
       "candidates": [
@@ -116,6 +132,8 @@
       "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
       "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=350",
       "source_title": "Election results for Camberley West, 16 October 2025",
+      "source_publisher": "Surrey County Council",
+      "source_format": "official_result_page",
       "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
       "voting_summary": {"seats": 1, "total_votes": 3268, "electorate": 12034, "ballot_papers_issued": 3283, "rejected_ballots": 15, "turnout": 27},
       "candidates": [
@@ -129,6 +147,8 @@
       "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
       "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=349",
       "source_title": "Election results for Caterham Valley, 16 October 2025",
+      "source_publisher": "Surrey County Council",
+      "source_format": "official_result_page",
       "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
       "voting_summary": {"seats": 1, "total_votes": 2458, "electorate": 9803, "ballot_papers_issued": 2463, "rejected_ballots": 5, "turnout": 25},
       "candidates": [
@@ -144,6 +164,8 @@
       "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
       "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=351&RPID=0",
       "source_title": "Election results for Guildford South-East, 16 October 2025",
+      "source_publisher": "Surrey County Council",
+      "source_format": "official_result_page",
       "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
       "voting_summary": {"seats": 1, "total_votes": 3456, "electorate": 10544, "ballot_papers_issued": 3465, "rejected_ballots": 10, "turnout": 33},
       "candidates": [
@@ -159,6 +181,8 @@
       "election_id": "surrey-county-council-by-election-warlingham-2026-05-07",
       "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=52&RPID=0",
       "source_title": "Election results for Warlingham by-election, 7 May 2026",
+      "source_publisher": "Surrey County Council",
+      "source_format": "official_result_page",
       "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
       "voting_summary": {"seats": 1, "total_votes": 5029, "electorate": 10344, "ballot_papers_issued": 5070, "rejected_ballots": 41, "turnout": 49},
       "candidates": [

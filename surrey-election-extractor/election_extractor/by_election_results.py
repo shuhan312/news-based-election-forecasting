@@ -1,7 +1,7 @@
 """Load evidence-backed Surrey County Council by-election candidate results.
 
 The official archive catalogue and the candidate-result evidence are separate
-inputs.  An archive-listed event with no verified official result page remains
+inputs.  An archive-listed event with no verified official candidate-result source remains
 an event with zero *known* candidate records, rather than becoming a guessed
 zero-candidate contest.  This module has no network access and does not alter
 the completed principal-election extraction pipeline.
@@ -14,6 +14,7 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import urlsplit
 
 from election_extractor.extraction import (
     CandidateResultRecord,
@@ -45,11 +46,13 @@ class ByElectionEvent:
 
 @dataclass(frozen=True)
 class ByElectionResultEvidence:
-    """Store one official-page snapshot used to create candidate records."""
+    """Store one published official source used to create candidate records."""
 
     election_id: str
     source_url: str
     source_title: str
+    source_publisher: str
+    source_format: str
     evidence_text: str
     records: tuple[CandidateResultRecord, ...]
 
@@ -80,6 +83,21 @@ def _optional_float(value: object) -> float | None:
     if isinstance(value, bool) or not isinstance(value, (int, float)):
         raise ValueError("By-election percentage values must be numeric or null.")
     return float(value)
+
+
+def _official_public_url(value: object) -> str:
+    """Accept a public HTTP(S) evidence URL without credentials or fragments."""
+
+    url = _required_text(value, "source_url")
+    parsed = urlsplit(url)
+    if (
+        parsed.scheme not in {"http", "https"}
+        or not parsed.netloc
+        or parsed.username is not None
+        or parsed.password is not None
+    ):
+        raise ValueError("By-election official evidence requires a public HTTP(S) source_url.")
+    return url
 
 
 def load_by_election_catalogue(
@@ -144,20 +162,22 @@ def _field_evidence(
     *,
     source_url: str,
     source_title: str,
+    source_publisher: str,
+    source_format: str,
     evidence_text: str,
     values: Mapping[str, object],
 ) -> tuple[FieldEvidence, ...]:
-    """Attach official-page provenance to every non-null record field."""
+    """Attach source-specific official provenance to every non-null field."""
 
     return tuple(
         FieldEvidence(
             field_name=name,
             published_value=str(value),
             source_url=source_url,
-            search_query="Official Surrey result page indexed evidence",
+            search_query="Official published election-result evidence",
             search_result_title=source_title,
             search_result_snippet=evidence_text,
-            evidence_source="Official Surrey result page indexed snapshot",
+            evidence_source=f"{source_publisher} {source_format.replace('_', ' ')}",
             source_type=EvidenceSourceType.OFFICIAL,
         )
         for name, value in values.items()
@@ -170,7 +190,7 @@ def load_by_election_result_evidence(
     catalogue: Sequence[ByElectionEvent] | None = None,
     path: str | Path = DEFAULT_RESULTS_PATH,
 ) -> tuple[ByElectionResultEvidence, ...]:
-    """Load only event results with an identified official Surrey result page."""
+    """Load only event results with identified published official evidence."""
 
     events = catalogue if catalogue is not None else load_by_election_catalogue()
     events_by_id = {event.election_id: event for event in events}
@@ -185,8 +205,12 @@ def load_by_election_result_evidence(
         if election_id not in events_by_id:
             raise ValueError("By-election result evidence references an event outside the catalogue.")
         event = events_by_id[election_id]
-        source_url = _required_text(raw_result.get("source_url"), "source_url")
+        source_url = _official_public_url(raw_result.get("source_url"))
         source_title = _required_text(raw_result.get("source_title"), "source_title")
+        source_publisher = _required_text(raw_result.get("source_publisher"), "source_publisher")
+        source_format = _required_text(raw_result.get("source_format"), "source_format")
+        if source_format not in {"official_result_page", "official_declaration"}:
+            raise ValueError("By-election result evidence has an unsupported source_format.")
         evidence_text = _required_text(raw_result.get("evidence_text"), "evidence_text")
         summary = raw_result.get("voting_summary")
         candidates = raw_result.get("candidates")
@@ -245,6 +269,8 @@ def load_by_election_result_evidence(
                     field_evidence=_field_evidence(
                         source_url=source_url,
                         source_title=source_title,
+                        source_publisher=source_publisher,
+                        source_format=source_format,
                         evidence_text=evidence_text,
                         values=candidate_values,
                     ),
@@ -261,6 +287,8 @@ def load_by_election_result_evidence(
                 election_id=election_id,
                 source_url=source_url,
                 source_title=source_title,
+                source_publisher=source_publisher,
+                source_format=source_format,
                 evidence_text=evidence_text,
                 records=tuple(records),
             )
@@ -284,7 +312,7 @@ def unavailable_by_election_ids(
     catalogue: Sequence[ByElectionEvent] | None = None,
     evidence: Sequence[ByElectionResultEvidence] | None = None,
 ) -> tuple[str, ...]:
-    """Expose catalogued events lacking verified result-page evidence for audit."""
+    """Expose catalogued events lacking verified candidate-result evidence for audit."""
 
     events = catalogue if catalogue is not None else load_by_election_catalogue()
     records = evidence if evidence is not None else load_by_election_result_evidence(catalogue=events)
@@ -310,10 +338,12 @@ def evidence_audit_rows(
             "division_name": event.division_name,
             "archive_source_url": event.archive_source_url,
             "result_source_url": results_by_id[event.election_id].source_url if event.election_id in results_by_id else None,
+            "result_source_publisher": results_by_id[event.election_id].source_publisher if event.election_id in results_by_id else None,
+            "result_source_format": results_by_id[event.election_id].source_format if event.election_id in results_by_id else None,
             "candidate_record_count": len(results_by_id[event.election_id].records) if event.election_id in results_by_id else None,
             "extraction_status": "official_result_evidence_available" if event.election_id in results_by_id else "official_result_evidence_not_retrieved",
             "provenance": "official_indexed_page" if event.election_id in results_by_id else "official_archive_catalogue_only",
-            "notes": None if event.election_id in results_by_id else "No verified official candidate-result page evidence was available to this run; no candidate rows were created.",
+            "notes": None if event.election_id in results_by_id else "No verified official candidate-result evidence was available to this run; no candidate rows were created.",
         }
         for event in events
     )

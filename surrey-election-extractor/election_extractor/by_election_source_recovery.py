@@ -24,7 +24,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SOURCE_RECOVERY_PATH = PROJECT_ROOT / "config/by_election_source_recovery_audit.json"
 RECOVERY_STATUSES = {
     "official_winner_confirmation_only",
-    "complete_official_declaration_integrated",
+    "official_declaration_integrated",
     "official_archive_event_only",
 }
 
@@ -88,9 +88,9 @@ def load_by_election_source_recovery_audit(
         integrated = raw.get("candidate_results_integrated")
         if not isinstance(integrated, bool):
             raise ValueError("candidate_results_integrated must be true or false.")
-        # Only a complete declaration can justify integration. This check
-        # prevents a later edit from turning a winner-only source into rows.
-        if integrated != (status == "complete_official_declaration_integrated"):
+        # Only an official declaration with a candidate list can justify
+        # integration. This does not claim that every possible field is present.
+        if integrated != (status == "official_declaration_integrated"):
             raise ValueError("Recovery status and integration decision conflict.")
         missing = raw.get("missing_official_information")
         if not isinstance(missing, list) or not all(isinstance(item, str) and item for item in missing):

@@ -2,7 +2,12 @@
 
 from __future__ import annotations
 
+import json
+
+import pytest
+
 from election_extractor.by_election_results import (
+    DEFAULT_RESULTS_PATH,
     by_election_records_by_id,
     evidence_audit_rows,
     load_by_election_catalogue,
@@ -51,6 +56,22 @@ def test_epsom_west_uses_the_official_declaration_without_calculating_vote_share
     assert winner.vote_share is None
     assert winner.number_of_seats == 1
     assert winner.source_url.endswith("SCCDeclarationofResults19Nov2015.pdf")
+    assert all(
+        field.evidence_source == "Epsom & Ewell Borough Council official declaration"
+        for field in winner.field_evidence
+    )
+
+
+def test_result_evidence_rejects_a_non_public_source_url(tmp_path) -> None:
+    """Evidence inputs cannot introduce a local path or credential-bearing URL."""
+
+    payload = json.loads(DEFAULT_RESULTS_PATH.read_text(encoding="utf-8"))
+    payload["results"][0]["source_url"] = "file:///private/election-result.pdf"
+    path = tmp_path / "invalid_source.json"
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="public HTTP\\(S\\)"):
+        load_by_election_result_evidence(path=path)
 
 
 def test_missing_source_values_stay_null_and_do_not_create_a_winner() -> None:
@@ -124,7 +145,7 @@ def test_source_recovery_audit_distinguishes_complete_and_winner_only_evidence()
     unresolved = unresolved_source_recovery_ids(tuple(recovery.values()))
 
     assert epsom.candidate_results_integrated is True
-    assert epsom.result_evidence_status == "complete_official_declaration_integrated"
+    assert epsom.result_evidence_status == "official_declaration_integrated"
     assert len(unresolved) == 3
     assert "surrey-county-council-by-election-weybridge-2015-05-07" in unresolved
     assert recovery["surrey-county-council-by-election-weybridge-2015-05-07"].candidate_results_integrated is False
