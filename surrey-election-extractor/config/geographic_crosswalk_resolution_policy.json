@@ -1,0 +1,18 @@
+{
+  "framework_id": "surrey-historical-to-2026-geographic-crosswalk-resolution",
+  "structural_overlap_percentage": 5.0,
+  "low_overlap_not_comparable_percentage": 5.0,
+  "weighting_assessment": {
+    "electorate_weighted": "unavailable",
+    "population_weighted": "unavailable",
+    "residential_weighted": "unavailable",
+    "area_weighted": "not_recommended",
+    "reason": "No election-specific electorate, population or residential crosswalk source has been audited for these historical divisions and 2026 wards. Area overlap is retained as GIS evidence only and must not be treated as a vote-redistribution weight."
+  },
+  "prohibited_actions": [
+    "Do not redistribute historical votes through a partial crosswalk.",
+    "Do not calculate vote-share change through a partial crosswalk.",
+    "Do not transfer candidate history, incumbency or previous-winner status through a partial crosswalk.",
+    "Do not create a numeric weight unless a separately audited source explicitly supports it."
+  ]
+}

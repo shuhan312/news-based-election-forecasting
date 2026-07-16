@@ -28,6 +28,7 @@ outputs/geographic_mapping_audit/*.json
 outputs/geographic_overlap_audit/
 outputs/geographic_mapping_review/*.json
 outputs/geographic_mapping_decision/*.json
+outputs/geographic_crosswalk_resolution/*.json
 outputs/master_surrey_election_database/
 
 # Local secrets and API-key files
