@@ -255,9 +255,9 @@ def load_audited_elections(
             )
         )
     # Candidate rows for by-elections are available only where the existing
-    # archive catalogue has a separately verified official result-page entry.
+    # archive catalogue has separately verified official candidate-result evidence.
     # Every catalogued event is still included in Elections, so absence of a
-    # result page is visible rather than becoming an invented zero-row result.
+    # result source is visible rather than becoming an invented zero-row result.
     records_by_event = by_election_records_by_id()
     for event in load_by_election_catalogue():
         event_records = records_by_event.get(event.election_id, ())

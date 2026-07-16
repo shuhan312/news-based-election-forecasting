@@ -336,7 +336,7 @@ def _by_election_areas(
                 source_coverage=(
                     "official_candidate_result_evidence"
                     if records
-                    else "official_archive_indexed_listing; candidate_results_not_retrieved"
+                    else "official_archive_indexed_listing; complete_candidate_results_not_available"
                 ),
                 provenance="source_reported",
                 evidence_text=_optional_text(item.get("evidence_text")),

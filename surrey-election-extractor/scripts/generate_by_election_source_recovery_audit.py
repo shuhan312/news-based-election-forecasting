@@ -28,10 +28,11 @@ def _markdown(records: list[dict[str, object]]) -> str:
         "| --- | --- | --- | --- | --- |",
     ]
     for record in records:
+        missing = ", ".join(record["missing_official_information"]) or "None"
         lines.append(
             "| {election_id} | {result_evidence_status} | {candidate_results_integrated} | {source_url} | {missing} |".format(
                 **record,
-                missing=", ".join(record["missing_official_information"]),
+                missing=missing,
             )
         )
     return "\n".join(lines) + "\n"

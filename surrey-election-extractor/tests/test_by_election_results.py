@@ -29,14 +29,18 @@ def test_catalogue_and_official_result_evidence_remain_separate() -> None:
     evidence = load_by_election_result_evidence(catalogue=catalogue)
 
     assert len(catalogue) == 15
-    assert len(evidence) == 12
-    assert sum(len(item.records) for item in evidence) == 60
-    assert len(unavailable_by_election_ids(catalogue, evidence)) == 3
-    # Surrey is the primary source. Epsom West is the documented exception:
-    # its complete declaration is published by the relevant local authority.
+    assert len(evidence) == 14
+    assert sum(len(item.records) for item in evidence) == 69
+    assert len(unavailable_by_election_ids(catalogue, evidence)) == 1
+    # Surrey is the primary source. Epsom West and Haslemere are documented
+    # local-authority publication routes for Surrey County Council contests.
     assert all(
         item.source_url.startswith(
-            ("https://mycouncil.surreycc.gov.uk/", "https://www.epsom-ewell.gov.uk/")
+            (
+                "https://mycouncil.surreycc.gov.uk/",
+                "https://www.epsom-ewell.gov.uk/",
+                "https://modgov.waverley.gov.uk/",
+            )
         )
         for item in evidence
     )
@@ -72,6 +76,52 @@ def test_result_evidence_rejects_a_non_public_source_url(tmp_path) -> None:
 
     with pytest.raises(ValueError, match="public HTTP\\(S\\)"):
         load_by_election_result_evidence(path=path)
+
+
+def test_result_evidence_rejects_a_publisher_domain_mismatch(tmp_path) -> None:
+    """A recognised publisher cannot be paired with an unrelated public host."""
+
+    payload = json.loads(DEFAULT_RESULTS_PATH.read_text(encoding="utf-8"))
+    payload["results"][0]["source_url"] = "https://example.com/result.pdf"
+    path = tmp_path / "mismatched_source.json"
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="does not match its reviewed publisher"):
+        load_by_election_result_evidence(path=path)
+
+
+def test_haslemere_2026_official_waverley_result_page_is_integrated() -> None:
+    """The recovered County result page supplies all published result fields."""
+
+    records = by_election_records_by_id()[
+        "surrey-county-council-by-election-haslemere-2026-07-07"
+    ]
+    winner = next(record for record in records if record.outcome == "Elected")
+
+    assert len(records) == 4
+    assert winner.candidate_name == "Terry Weldon"
+    assert winner.votes_received == 1181
+    assert winner.vote_share == 47.8
+    assert winner.total_votes == 2471
+    assert winner.turnout == 24.8
+    assert winner.source_url.startswith("https://modgov.waverley.gov.uk/")
+
+
+def test_farnham_south_2016_official_waverley_result_page_is_integrated() -> None:
+    """The recovered County result page supplies all published result fields."""
+
+    records = by_election_records_by_id()[
+        "surrey-county-council-by-election-farnham-south-2016-08-18"
+    ]
+    winner = next(record for record in records if record.outcome == "Elected")
+
+    assert len(records) == 5
+    assert winner.candidate_name == "Robert Wyatt Ramsdale"
+    assert winner.votes_received == 932
+    assert winner.vote_share == 61.9
+    assert winner.total_votes == 1506
+    assert winner.turnout == 22.8
+    assert winner.source_url.startswith("https://modgov.waverley.gov.uk/")
 
 
 def test_missing_source_values_stay_null_and_do_not_create_a_winner() -> None:
@@ -115,7 +165,7 @@ def test_master_database_includes_events_and_candidate_rows_without_identity_inf
     ]
 
     assert len([row for row in database.elections if row["election_id"] in by_election_ids]) == 15
-    assert len(by_election_rows) == 60
+    assert len(by_election_rows) == 69
     assert all(row["final_position"] is None for row in by_election_rows)
     assert any(
         row["division_id"].startswith(
@@ -132,7 +182,7 @@ def test_event_audit_keeps_archive_only_events_explicitly_unavailable() -> None:
     missing = [row for row in rows if row["candidate_record_count"] is None]
 
     assert len(rows) == 15
-    assert len(missing) == 3
+    assert len(missing) == 1
     assert all(row["result_source_url"] is None for row in missing)
     assert all(row["provenance"] == "official_archive_catalogue_only" for row in missing)
 
@@ -146,6 +196,14 @@ def test_source_recovery_audit_distinguishes_complete_and_winner_only_evidence()
 
     assert epsom.candidate_results_integrated is True
     assert epsom.result_evidence_status == "official_declaration_integrated"
-    assert len(unresolved) == 3
-    assert "surrey-county-council-by-election-weybridge-2015-05-07" in unresolved
+    haslemere = recovery["surrey-county-council-by-election-haslemere-2026-07-07"]
+    farnham = recovery["surrey-county-council-by-election-farnham-south-2016-08-18"]
+    assert haslemere.result_evidence_status == "official_result_page_integrated"
+    assert haslemere.candidate_results_integrated is True
+    assert haslemere.missing_official_information == ()
+    assert farnham.result_evidence_status == "official_result_page_integrated"
+    assert farnham.candidate_results_integrated is True
+    assert farnham.missing_official_information == ()
+    assert len(unresolved) == 1
+    assert unresolved == ("surrey-county-council-by-election-weybridge-2015-05-07",)
     assert recovery["surrey-county-council-by-election-weybridge-2015-05-07"].candidate_results_integrated is False

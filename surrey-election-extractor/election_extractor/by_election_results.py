@@ -29,6 +29,16 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CATALOGUE_PATH = PROJECT_ROOT / "config/by_election_event_catalogue.json"
 DEFAULT_RESULTS_PATH = PROJECT_ROOT / "config/by_election_official_results.json"
 
+# The reviewed local authorities that publish the evidence used in this
+# bounded by-election register.  A publisher label is accepted only with its
+# corresponding official host, so a configuration edit cannot relabel an
+# unrelated public website as an official election source.
+OFFICIAL_SOURCE_DOMAINS = {
+    "Surrey County Council": {"mycouncil.surreycc.gov.uk"},
+    "Epsom & Ewell Borough Council": {"www.epsom-ewell.gov.uk"},
+    "Waverley Borough Council": {"modgov.waverley.gov.uk"},
+}
+
 
 @dataclass(frozen=True)
 class ByElectionEvent:
@@ -85,8 +95,8 @@ def _optional_float(value: object) -> float | None:
     return float(value)
 
 
-def _official_public_url(value: object) -> str:
-    """Accept a public HTTP(S) evidence URL without credentials or fragments."""
+def _official_public_url(value: object, source_publisher: str) -> str:
+    """Accept only a reviewed publisher's public HTTP(S) evidence URL."""
 
     url = _required_text(value, "source_url")
     parsed = urlsplit(url)
@@ -97,6 +107,9 @@ def _official_public_url(value: object) -> str:
         or parsed.password is not None
     ):
         raise ValueError("By-election official evidence requires a public HTTP(S) source_url.")
+    allowed_domains = OFFICIAL_SOURCE_DOMAINS.get(source_publisher)
+    if allowed_domains is None or parsed.hostname not in allowed_domains:
+        raise ValueError("By-election official evidence URL does not match its reviewed publisher.")
     return url
 
 
@@ -205,9 +218,9 @@ def load_by_election_result_evidence(
         if election_id not in events_by_id:
             raise ValueError("By-election result evidence references an event outside the catalogue.")
         event = events_by_id[election_id]
-        source_url = _official_public_url(raw_result.get("source_url"))
         source_title = _required_text(raw_result.get("source_title"), "source_title")
         source_publisher = _required_text(raw_result.get("source_publisher"), "source_publisher")
+        source_url = _official_public_url(raw_result.get("source_url"), source_publisher)
         source_format = _required_text(raw_result.get("source_format"), "source_format")
         if source_format not in {"official_result_page", "official_declaration"}:
             raise ValueError("By-election result evidence has an unsupported source_format.")
@@ -341,9 +354,9 @@ def evidence_audit_rows(
             "result_source_publisher": results_by_id[event.election_id].source_publisher if event.election_id in results_by_id else None,
             "result_source_format": results_by_id[event.election_id].source_format if event.election_id in results_by_id else None,
             "candidate_record_count": len(results_by_id[event.election_id].records) if event.election_id in results_by_id else None,
-            "extraction_status": "official_result_evidence_available" if event.election_id in results_by_id else "official_result_evidence_not_retrieved",
-            "provenance": "official_indexed_page" if event.election_id in results_by_id else "official_archive_catalogue_only",
-            "notes": None if event.election_id in results_by_id else "No verified official candidate-result evidence was available to this run; no candidate rows were created.",
+            "extraction_status": "official_result_evidence_available" if event.election_id in results_by_id else "official_complete_candidate_result_not_available",
+            "provenance": "published_official_candidate_result" if event.election_id in results_by_id else "official_archive_catalogue_only",
+            "notes": None if event.election_id in results_by_id else "No verified complete official candidate-result source was available to this run; no candidate rows were created.",
         }
         for event in events
     )

@@ -37,6 +37,22 @@
       ]
     },
     {
+      "election_id": "surrey-county-council-by-election-farnham-south-2016-08-18",
+      "source_url": "https://modgov.waverley.gov.uk/mgElectionResults.aspx?ID=6&RPID=0",
+      "source_title": "Election results for Farnham South, 18 August 2016",
+      "source_publisher": "Waverley Borough Council",
+      "source_format": "official_result_page",
+      "evidence_text": "Official Waverley Borough Council County Farnham South by-election result page. It publishes the candidate table and Voting Summary, including seats, total votes, electorate, ballot papers issued, rejected ballots and turnout.",
+      "voting_summary": {"seats": 1, "total_votes": 1506, "electorate": 9952, "ballot_papers_issued": 2267, "rejected_ballots": 7, "turnout": 22.8},
+      "candidates": [
+        {"candidate_name": "Robert Wyatt Ramsdale", "original_party_name": "The Conservative Party", "votes": 932, "vote_share": 61.9, "elected_status": "Elected"},
+        {"candidate_name": "Jo Aylwin", "original_party_name": "Liberal Democrats", "votes": 269, "vote_share": 17.9, "elected_status": "Not elected"},
+        {"candidate_name": "Mark Edward Westcott", "original_party_name": "Independent", "votes": 139, "vote_share": 9.2, "elected_status": "Not elected"},
+        {"candidate_name": "Paul John Chapman", "original_party_name": "UKIP", "votes": 89, "vote_share": 5.9, "elected_status": "Not elected"},
+        {"candidate_name": "Fabian Benjamin Wood", "original_party_name": "Labour Party", "votes": 77, "vote_share": 5.1, "elected_status": "Not elected"}
+      ]
+    },
+    {
       "election_id": "surrey-county-council-by-election-the-byfleets-2018-12-06",
       "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=11&RPID=0",
       "source_title": "Election results for The Byfleets, 6 December 2018",
@@ -192,6 +208,21 @@
         {"candidate_name": "Sarah Jane Stewart", "original_party_name": "Green", "votes": 329, "vote_share": 7, "elected_status": "Not elected"},
         {"candidate_name": "Martin Arthur Haley", "original_party_name": "Independent", "votes": 308, "vote_share": 6, "elected_status": "Not elected"},
         {"candidate_name": "Andrew Gerald Waters", "original_party_name": "Labour", "votes": 171, "vote_share": 3, "elected_status": "Not elected"}
+      ]
+    },
+    {
+      "election_id": "surrey-county-council-by-election-haslemere-2026-07-07",
+      "source_url": "https://modgov.waverley.gov.uk/mgElectionResults.aspx?ID=93&RPID=0",
+      "source_title": "Election results for Haslemere, 7 July 2026",
+      "source_publisher": "Waverley Borough Council",
+      "source_format": "official_result_page",
+      "evidence_text": "Official Waverley Borough Council County Haslemere by-election result page. It publishes the candidate table and Voting Summary, including seats, total votes, electorate, ballot papers issued, rejected ballots and turnout.",
+      "voting_summary": {"seats": 1, "total_votes": 2471, "electorate": 9978, "ballot_papers_issued": 2474, "rejected_ballots": 3, "turnout": 24.8},
+      "candidates": [
+        {"candidate_name": "Terry Weldon", "original_party_name": "Liberal Democrats", "votes": 1181, "vote_share": 47.8, "elected_status": "Elected"},
+        {"candidate_name": "Toby Byfield", "original_party_name": "The Conservative Party", "votes": 797, "vote_share": 32.3, "elected_status": "Not elected"},
+        {"candidate_name": "Thomas Oliver Shrive", "original_party_name": "Green Party", "votes": 280, "vote_share": 11.3, "elected_status": "Not elected"},
+        {"candidate_name": "Barb Witt", "original_party_name": "Reform UK", "votes": 213, "vote_share": 8.6, "elected_status": "Not elected"}
       ]
     }
   ]

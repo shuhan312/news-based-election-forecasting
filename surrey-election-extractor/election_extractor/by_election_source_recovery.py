@@ -25,7 +25,12 @@ DEFAULT_SOURCE_RECOVERY_PATH = PROJECT_ROOT / "config/by_election_source_recover
 RECOVERY_STATUSES = {
     "official_winner_confirmation_only",
     "official_declaration_integrated",
+    "official_result_page_integrated",
     "official_archive_event_only",
+}
+INTEGRATED_RECOVERY_STATUSES = {
+    "official_declaration_integrated",
+    "official_result_page_integrated",
 }
 
 
@@ -88,13 +93,15 @@ def load_by_election_source_recovery_audit(
         integrated = raw.get("candidate_results_integrated")
         if not isinstance(integrated, bool):
             raise ValueError("candidate_results_integrated must be true or false.")
-        # Only an official declaration with a candidate list can justify
-        # integration. This does not claim that every possible field is present.
-        if integrated != (status == "official_declaration_integrated"):
+        # Only a published official result source with candidate rows can
+        # justify integration. This does not claim every possible field exists.
+        if integrated != (status in INTEGRATED_RECOVERY_STATUSES):
             raise ValueError("Recovery status and integration decision conflict.")
         missing = raw.get("missing_official_information")
+        # A complete official result page may publish every field requested by
+        # this audit, so an empty list is a meaningful, permitted value.
         if not isinstance(missing, list) or not all(isinstance(item, str) and item for item in missing):
-            raise ValueError("missing_official_information must be a non-empty text list.")
+            raise ValueError("missing_official_information must be a text list.")
         parsed.append(
             ByElectionSourceRecovery(
                 election_id=election_id,
