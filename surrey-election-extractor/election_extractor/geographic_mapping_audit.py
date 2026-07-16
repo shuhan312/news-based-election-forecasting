@@ -276,7 +276,7 @@ def audit_markdown(audit: Mapping[str, Any]) -> str:
             "",
             "## Decision",
             "",
-            "The 2026 Order provides an official legal bridge from each 2026 ward to a same-area 2024 electoral division. It does not identify an individual 2013, 2017 or 2021 division as the same geography as a 2026 ward. Therefore no historical Geographic Mapping rows have been written and no historical comparison or enrichment is permitted.",
+            "The 2026 Order provides an official legal bridge from each 2026 ward to a same-area 2024 electoral division. This preliminary legal-source audit does not itself identify an individual 2013, 2017 or 2021 division as the same geography as a 2026 ward, so it creates no Geographic Mapping rows. Any later reviewed GIS pair must be recorded separately with its own source evidence and must not enable enrichment automatically.",
             "",
             "## Required next evidence",
             "",

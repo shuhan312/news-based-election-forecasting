@@ -17,6 +17,7 @@ from urllib.request import Request, urlopen
 
 from shapely.geometry import shape
 from shapely.geometry.base import BaseGeometry
+from shapely.ops import unary_union
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -32,6 +33,9 @@ class BoundarySource:
     source_url: str
     name_field: str
     identifier_field: str
+    expected_feature_count: int
+    expected_area_count: int
+    detached_name_suffix: str | None = None
     election_id: str | None = None
 
 
@@ -42,6 +46,7 @@ class OverlapAuditConfiguration:
     audit_id: str
     coordinate_reference_system: str
     minimum_reviewable_intersection_square_metres: float
+    minimum_mutual_overlap_percent: float
     historical_source: BoundarySource
     current_sources: tuple[BoundarySource, ...]
     legal_2026_source_name: str
@@ -57,6 +62,7 @@ class BoundaryArea:
     area_identifier: str
     geometry: BaseGeometry
     source_url: str
+    source_feature_identifiers: tuple[str, ...] = ()
     election_id: str | None = None
 
 
@@ -76,6 +82,8 @@ class SpatialOverlapCandidate:
     review_status: str
     previous_geometry_source_url: str
     current_geometry_source_url: str
+    previous_source_feature_ids: tuple[str, ...]
+    current_source_feature_ids: tuple[str, ...]
     notes: str
 
 
@@ -106,11 +114,42 @@ def _load_boundary_source(payload: object, *, requires_election_id: bool) -> Bou
         election_id = _required_text(election_id, "election_id")
     elif election_id is not None:
         raise ValueError("Historical GIS source must not define an election_id.")
+    expected_feature_count = payload.get("expected_feature_count")
+    if not isinstance(expected_feature_count, int) or isinstance(expected_feature_count, bool):
+        raise ValueError(
+            "Geographic overlap audit boundary sources require an integer "
+            "expected_feature_count."
+        )
+    if expected_feature_count <= 0:
+        raise ValueError(
+            "Geographic overlap audit boundary-source expected_feature_count "
+            "must be greater than zero."
+        )
+    expected_area_count = payload.get("expected_area_count")
+    if not isinstance(expected_area_count, int) or isinstance(expected_area_count, bool):
+        raise ValueError(
+            "Geographic overlap audit boundary sources require an integer "
+            "expected_area_count."
+        )
+    if expected_area_count <= 0 or expected_area_count > expected_feature_count:
+        raise ValueError(
+            "Geographic overlap audit boundary-source expected_area_count must be "
+            "greater than zero and no greater than expected_feature_count."
+        )
+    detached_name_suffix = payload.get("detached_name_suffix")
+    if detached_name_suffix is not None:
+        detached_name_suffix = _required_text(
+            detached_name_suffix,
+            "detached_name_suffix",
+        )
     return BoundarySource(
         source_name=_required_text(payload.get("source_name"), "source_name"),
         source_url=_valid_url(payload.get("source_url"), "source_url"),
         name_field=_required_text(payload.get("name_field"), "name_field"),
         identifier_field=_required_text(payload.get("identifier_field"), "identifier_field"),
+        expected_feature_count=expected_feature_count,
+        expected_area_count=expected_area_count,
+        detached_name_suffix=detached_name_suffix,
         election_id=election_id if isinstance(election_id, str) else None,
     )
 
@@ -146,6 +185,19 @@ def load_overlap_audit_configuration(
             "Geographic overlap audit minimum_reviewable_intersection_square_metres "
             "must be greater than zero."
         )
+    minimum_mutual_overlap = payload.get("minimum_mutual_overlap_percent")
+    if not isinstance(minimum_mutual_overlap, (int, float)) or isinstance(
+        minimum_mutual_overlap,
+        bool,
+    ):
+        raise ValueError(
+            "Geographic overlap audit requires numeric minimum_mutual_overlap_percent."
+        )
+    if not 0 < float(minimum_mutual_overlap) <= 100:
+        raise ValueError(
+            "Geographic overlap audit minimum_mutual_overlap_percent must be between "
+            "zero and 100."
+        )
     return OverlapAuditConfiguration(
         audit_id=_required_text(payload.get("audit_id"), "audit_id"),
         coordinate_reference_system=_required_text(
@@ -153,6 +205,7 @@ def load_overlap_audit_configuration(
             "coordinate_reference_system",
         ),
         minimum_reviewable_intersection_square_metres=float(minimum_intersection),
+        minimum_mutual_overlap_percent=float(minimum_mutual_overlap),
         historical_source=_load_boundary_source(
             payload.get("historical_source"),
             requires_election_id=False,
@@ -199,7 +252,7 @@ def boundary_areas_from_geojson(
     if not isinstance(raw_features, list) or not raw_features:
         raise ValueError(f"{source.source_name} did not provide any boundary features.")
 
-    areas: list[BoundaryArea] = []
+    raw_areas: list[tuple[str, str, BaseGeometry]] = []
     identifiers: set[str] = set()
     for index, feature in enumerate(raw_features, start=1):
         if not isinstance(feature, dict):
@@ -219,16 +272,70 @@ def boundary_areas_from_geojson(
         if geometry.is_empty or not geometry.is_valid or geometry.area <= 0:
             raise ValueError(f"{source.source_name} feature {identifier!r} has invalid geometry.")
         identifiers.add(identifier)
+        raw_areas.append((name, identifier, geometry))
+    if len(raw_areas) != source.expected_feature_count:
+        raise ValueError(
+            f"{source.source_name} returned {len(raw_areas)} features; expected "
+            f"{source.expected_feature_count}."
+        )
+
+    grouped: dict[str, list[tuple[str, str, BaseGeometry]]] = {}
+    for name, identifier, geometry in raw_areas:
+        canonical_name = name
+        if source.detached_name_suffix and name.endswith(source.detached_name_suffix):
+            # ONS marks the isolated Lightwater feature as ``(DET)``. It is a
+            # second polygon for the same published division, not a new
+            # division. Combining it prevents its population area being lost.
+            canonical_name = name[: -len(source.detached_name_suffix)].rstrip()
+        grouped.setdefault(canonical_name, []).append((name, identifier, geometry))
+
+    areas: list[BoundaryArea] = []
+    for canonical_name, features in grouped.items():
+        detached_features = [
+            feature
+            for feature in features
+            if source.detached_name_suffix and feature[0].endswith(source.detached_name_suffix)
+        ]
+        primary_features = [
+            feature
+            for feature in features
+            if not (
+                source.detached_name_suffix
+                and feature[0].endswith(source.detached_name_suffix)
+            )
+        ]
+        if len(primary_features) != 1:
+            raise ValueError(
+                f"{source.source_name} has ambiguous feature grouping for "
+                f"{canonical_name!r}."
+            )
+        if detached_features and (len(detached_features) != 1 or len(features) != 2):
+            raise ValueError(
+                f"{source.source_name} has unsupported detached geometry for "
+                f"{canonical_name!r}."
+            )
+        primary_name, primary_identifier, _ = primary_features[0]
+        merged_geometry = unary_union([feature[2] for feature in features])
+        if merged_geometry.is_empty or not merged_geometry.is_valid or merged_geometry.area <= 0:
+            raise ValueError(
+                f"{source.source_name} feature group {canonical_name!r} has invalid geometry."
+            )
         areas.append(
             BoundaryArea(
-                area_name=name,
-                area_identifier=identifier,
-                geometry=geometry,
+                area_name=primary_name,
+                area_identifier=primary_identifier,
+                geometry=merged_geometry,
                 source_url=source.source_url,
+                source_feature_identifiers=tuple(feature[1] for feature in features),
                 election_id=source.election_id,
             )
         )
-    return tuple(areas)
+    if len(areas) != source.expected_area_count:
+        raise ValueError(
+            f"{source.source_name} represents {len(areas)} areas; expected "
+            f"{source.expected_area_count}."
+        )
+    return tuple(sorted(areas, key=lambda area: area.area_name.casefold()))
 
 
 def calculate_spatial_overlap_candidates(
@@ -236,8 +343,9 @@ def calculate_spatial_overlap_candidates(
     current_areas: Sequence[BoundaryArea],
     *,
     minimum_intersection_square_metres: float = MINIMUM_REVIEWABLE_INTERSECTION_SQUARE_METRES,
+    minimum_mutual_overlap_percent: float = 0.01,
 ) -> tuple[SpatialOverlapCandidate, ...]:
-    """Calculate all non-zero intersections without selecting a 'winning' mapping.
+    """Calculate all review-threshold intersections without choosing a mapping.
 
     The function intentionally reports every reviewable overlap. Selecting only
     the largest percentage would turn an automated spatial calculation into an
@@ -248,6 +356,8 @@ def calculate_spatial_overlap_candidates(
 
     if minimum_intersection_square_metres <= 0:
         raise ValueError("minimum_intersection_square_metres must be greater than zero.")
+    if not 0 < minimum_mutual_overlap_percent <= 100:
+        raise ValueError("minimum_mutual_overlap_percent must be between zero and 100.")
     candidates: list[SpatialOverlapCandidate] = []
     for historical in historical_areas:
         for current in current_areas:
@@ -260,6 +370,14 @@ def calculate_spatial_overlap_candidates(
             # configured precision tolerance is recorded in every audit report.
             if intersection.is_empty or intersection_area < minimum_intersection_square_metres:
                 continue
+            previous_overlap_percent = intersection_area / historical.geometry.area * 100
+            current_overlap_percent = intersection_area / current.geometry.area * 100
+            # A shared boundary can create a measurable geometry sliver without
+            # representing a usable relationship.  A candidate must cover at
+            # least the configured percentage of *both* areas.  The threshold
+            # defines review scope only; it never accepts a mapping.
+            if min(previous_overlap_percent, current_overlap_percent) < minimum_mutual_overlap_percent:
+                continue
             candidates.append(
                 SpatialOverlapCandidate(
                     previous_area_name=historical.area_name,
@@ -268,18 +386,14 @@ def calculate_spatial_overlap_candidates(
                     current_area_name=current.area_name,
                     current_area_id=current.area_identifier,
                     intersection_area_square_metres=round(intersection_area, 3),
-                    previous_area_overlap_percent=round(
-                        intersection_area / historical.geometry.area * 100,
-                        6,
-                    ),
-                    current_area_overlap_percent=round(
-                        intersection_area / current.geometry.area * 100,
-                        6,
-                    ),
+                    previous_area_overlap_percent=round(previous_overlap_percent, 6),
+                    current_area_overlap_percent=round(current_overlap_percent, 6),
                     mapping_type="official_gis_spatial_overlap_candidate",
                     review_status="requires_manual_review",
                     previous_geometry_source_url=historical.source_url,
                     current_geometry_source_url=current.source_url,
+                    previous_source_feature_ids=historical.source_feature_identifiers,
+                    current_source_feature_ids=current.source_feature_identifiers,
                     notes=(
                         "Spatial intersection is an evidence candidate only. "
                         "It is not a final geographic equivalence or a basis for "
@@ -315,6 +429,7 @@ def build_geographic_overlap_audit(
         minimum_intersection_square_metres=(
             configuration.minimum_reviewable_intersection_square_metres
         ),
+        minimum_mutual_overlap_percent=configuration.minimum_mutual_overlap_percent,
     )
     represented_historical = {candidate.previous_area_id for candidate in candidates}
     represented_current = {
@@ -327,6 +442,7 @@ def build_geographic_overlap_audit(
         "minimum_reviewable_intersection_square_metres": (
             configuration.minimum_reviewable_intersection_square_metres
         ),
+        "minimum_mutual_overlap_percent": configuration.minimum_mutual_overlap_percent,
         "historical_source": asdict(configuration.historical_source),
         "current_sources": [asdict(source) for source in configuration.current_sources],
         "legal_2026_source": {
@@ -377,6 +493,8 @@ def geographic_overlap_markdown(audit: Mapping[str, Any]) -> str:
         f"- Coordinate reference system: `{audit['coordinate_reference_system']}`",
         "- Minimum reviewable intersection: "
         f"{audit['minimum_reviewable_intersection_square_metres']} m²",
+        "- Minimum mutual overlap: "
+        f"{audit['minimum_mutual_overlap_percent']}% of both areas",
         f"- Historical areas loaded: {coverage['historical_areas_loaded']}",
         f"- 2026 wards loaded: {coverage['current_areas_loaded']}",
         f"- Candidate overlap rows: {coverage['candidate_overlap_rows']}",

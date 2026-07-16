@@ -31,11 +31,11 @@
       "official_boundary_geometry_available": true
     },
     {
-      "source_name": "Surrey County Council Electoral Division GIS layer",
-      "source_type": "Surrey County Council official public GIS source",
-      "source_url": "https://sccmaps.surreycc.gov.uk/webmaps/rest/services/SCC_Data_ForSharedUse/AdminBoundaries/MapServer/7",
-      "evidence_scope": "Geometry and published names for the 81 historical Surrey electoral divisions used by the 2013, 2017 and 2021 result records",
-      "evidence_text": "The official public ArcGIS layer exposes 81 Electoral Division features with published names, geometry, version and availability fields.",
+      "source_name": "Office for National Statistics County Electoral Division (May 2023) Boundaries EN BFC",
+      "source_type": "Office for National Statistics official public GIS source",
+      "source_url": "https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services/County_Electoral_Division_May_2023_Boundaries_EN_BFC/FeatureServer",
+      "evidence_scope": "Geometry and published codes for the 81 Surrey county electoral divisions in force after the 2012 Order and before the 2024 boundary review implementation",
+      "evidence_text": "The ONS May 2023 boundary dataset provides the historical county electoral division geometry. The ONS Surrey lookup identifies the 81 Surrey CED codes; the 2012 Order introduced the 81 divisions used at the 2013 election.",
       "direct_historical_to_current_crosswalk_available": false,
       "direct_current_to_reference_crosswalk_available": false,
       "official_boundary_geometry_available": true

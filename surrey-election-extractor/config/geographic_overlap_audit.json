@@ -2,11 +2,15 @@
   "audit_id": "surrey-historical-division-to-2026-ward-spatial-overlap",
   "coordinate_reference_system": "EPSG:27700",
   "minimum_reviewable_intersection_square_metres": 1.0,
+  "minimum_mutual_overlap_percent": 0.01,
   "historical_source": {
-    "source_name": "Surrey County Council historic electoral divisions GIS layer",
-    "source_url": "https://sccmaps.surreycc.gov.uk/webmaps/rest/services/SCC_Data_ForSharedUse/AdminBoundaries/MapServer/7/query?where=1%3D1&outFields=name1_text%2Cgsscode&returnGeometry=true&outSR=27700&f=geojson",
-    "name_field": "name1_text",
-    "identifier_field": "gsscode"
+    "source_name": "Office for National Statistics County Electoral Division (May 2023) Boundaries EN BFC",
+    "source_url": "https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services/County_Electoral_Division_May_2023_Boundaries_EN_BFC/FeatureServer/0/query?where=CED23CD%20BETWEEN%20%27E58001460%27%20AND%20%27E58001541%27&outFields=CED23NM%2CCED23CD&returnGeometry=true&outSR=27700&f=geojson",
+    "name_field": "CED23NM",
+    "identifier_field": "CED23CD",
+    "expected_feature_count": 82,
+    "expected_area_count": 81,
+    "detached_name_suffix": " (DET)"
   },
   "current_sources": [
     {
@@ -14,14 +18,18 @@
       "source_name": "Surrey County Council East Surrey Council wards GIS layer",
       "source_url": "https://sccmaps.surreycc.gov.uk/webmaps/rest/services/Elections_map_2026/East_Surrey_Council_ward/MapServer/0/query?where=1%3D1&outFields=Name&returnGeometry=true&outSR=27700&f=geojson",
       "name_field": "Name",
-      "identifier_field": "Name"
+      "identifier_field": "Name",
+      "expected_feature_count": 36,
+      "expected_area_count": 36
     },
     {
       "election_id": "surrey-county-council-2026-west-surrey",
       "source_name": "Surrey County Council West Surrey Council wards GIS layer",
       "source_url": "https://sccmaps.surreycc.gov.uk/webmaps/rest/services/Elections_map_2026/West_Surrey_Council_wards/MapServer/0/query?where=1%3D1&outFields=Name&returnGeometry=true&outSR=27700&f=geojson",
       "name_field": "Name",
-      "identifier_field": "Name"
+      "identifier_field": "Name",
+      "expected_feature_count": 45,
+      "expected_area_count": 45
     }
   ],
   "legal_2026_source": {

@@ -353,6 +353,11 @@ def build_master_database(
     ``party_lookup`` is optional so tests can inject a small reviewed register.
     Normal production runs load the committed exact-label configuration.  It
     controls only added lookup fields, never the original published party name.
+
+    The final Geographic Mapping table deliberately remains empty here.  GIS
+    overlap candidates are exported to a separate review dataset and cannot
+    enter this database until a future, evidence-backed approval process is
+    explicitly implemented.
     """
 
     if party_lookup is None:
@@ -531,10 +536,6 @@ def build_master_database(
             _party_standardisation_issues(candidate_rows), start=1
         )
     )
-    # 2026 wards have not been evidenced as equivalent to earlier divisions.
-    # An empty schema preserves that uncertainty and prevents downstream code
-    # from silently joining results across boundary changes.
-    geographic_mapping: tuple[dict[str, object], ...] = ()
     summary = _audit_summary(
         elections=elections,
         candidate_rows=candidate_rows,
@@ -551,7 +552,7 @@ def build_master_database(
         political_parties=parties,
         party_history_and_new_entrants=party_history,
         party_standardisation_issues=party_standardisation_issues,
-        geographic_mapping=geographic_mapping,
+        geographic_mapping=(),
         supplementary_metadata=tuple(
             sorted(supplementary_rows, key=lambda row: str(row["metadata_id"]))
         ),
@@ -667,9 +668,8 @@ def _audit_summary(
         "data_integrity_note": (
             "Null values preserve unavailable official information. Supplementary "
             "evidence is stored separately and does not replace official fields or "
-            "change layered completeness. The 2026 East and West wards remain "
-            "unmapped to historical divisions, so no historical comparisons are "
-            "calculated."
+            "change layered completeness. No final boundary mappings have been "
+            "approved, so no historical comparisons are calculated."
         ),
     }
 

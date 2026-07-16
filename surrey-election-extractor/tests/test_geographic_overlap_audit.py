@@ -45,11 +45,14 @@ def _configuration(tmp_path: Path):
                 "audit_id": "test-overlap",
                 "coordinate_reference_system": "EPSG:27700",
                 "minimum_reviewable_intersection_square_metres": 1.0,
+                "minimum_mutual_overlap_percent": 0.01,
                 "historical_source": {
                     "source_name": "Historic source",
                     "source_url": "https://example.test/historic",
                     "name_field": "name",
                     "identifier_field": "id",
+                    "expected_feature_count": 1,
+                    "expected_area_count": 1,
                 },
                 "current_sources": [
                     {
@@ -58,6 +61,8 @@ def _configuration(tmp_path: Path):
                         "source_url": "https://example.test/east",
                         "name_field": "name",
                         "identifier_field": "id",
+                        "expected_feature_count": 1,
+                        "expected_area_count": 1,
                     },
                     {
                         "election_id": "west-2026",
@@ -65,6 +70,8 @@ def _configuration(tmp_path: Path):
                         "source_url": "https://example.test/west",
                         "name_field": "name",
                         "identifier_field": "id",
+                        "expected_feature_count": 1,
+                        "expected_area_count": 1,
                     },
                 ],
                 "legal_2026_source": {
@@ -130,6 +137,8 @@ def test_geojson_parser_preserves_published_values_and_rejects_duplicate_ids() -
         source_url="https://example.test/source",
         name_field="Name",
         identifier_field="Code",
+        expected_feature_count=1,
+        expected_area_count=1,
         election_id="east-2026",
     )
     payload = {
@@ -153,6 +162,45 @@ def test_geojson_parser_preserves_published_values_and_rejects_duplicate_ids() -
     payload["features"].append(payload["features"][0])
     with pytest.raises(ValueError, match="duplicate identifier"):
         boundary_areas_from_geojson(payload, source)
+
+
+def test_geojson_parser_merges_a_documented_detached_feature() -> None:
+    source = BoundarySource(
+        source_name="Mock historical source",
+        source_url="https://example.test/historical",
+        name_field="Name",
+        identifier_field="Code",
+        expected_feature_count=2,
+        expected_area_count=1,
+        detached_name_suffix=" (DET)",
+    )
+    payload = {
+        "type": "FeatureCollection",
+        "features": [
+            {
+                "type": "Feature",
+                "properties": {"Name": "Historic ED", "Code": "H1"},
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [[[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]],
+                },
+            },
+            {
+                "type": "Feature",
+                "properties": {"Name": "Historic ED (DET)", "Code": "H2"},
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [[[2, 0], [3, 0], [3, 1], [2, 1], [2, 0]]],
+                },
+            },
+        ],
+    }
+
+    areas = boundary_areas_from_geojson(payload, source)
+    assert len(areas) == 1
+    assert areas[0].area_identifier == "H1"
+    assert areas[0].source_feature_identifiers == ("H1", "H2")
+    assert areas[0].geometry.area == 2
 
 
 def test_configuration_requires_distinct_current_election_ids(tmp_path: Path) -> None:

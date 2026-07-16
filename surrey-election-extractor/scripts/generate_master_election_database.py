@@ -3,7 +3,15 @@
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
+
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    # Running this file directly should use the checked-out project package,
+    # not depend on an external installation or an editor-specific PYTHONPATH.
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from election_extractor.master_database import (
     PROJECT_ROOT,
@@ -30,7 +38,10 @@ def generate_master_database_outputs(
 
     # Input loading is intentionally limited to audited local files. No source
     # website is requested and no published election value is recalculated.
-    payload = build_master_database(load_audited_elections())
+    elections = load_audited_elections()
+    # A master build is intentionally independent of the GIS review dataset.
+    # No geographic relationship may be promoted to the final table here.
+    payload = build_master_database(elections)
     output_directory.mkdir(parents=True, exist_ok=True)
     payload_path = output_directory / "master_election_database_payload.json"
     summary_path = output_directory / "master_election_database_audit_summary.md"
