@@ -86,6 +86,33 @@ def test_weybridge_2015_result_page_keeps_unpublished_summary_fields_null() -> N
     assert winner.source_url.endswith("mgElectionAreaResults.aspx?ID=169&RPID=0")
 
 
+def test_surrey_by_election_evidence_uses_canonical_division_result_pages() -> None:
+    """Keep record provenance on the page that publishes each division result.
+
+    Some older Surrey archive links lead to an event-level results route that
+    happens to render the same data.  The candidate records instead retain the
+    canonical ``mgElectionAreaResults`` URLs so a reviewer can reach the exact
+    official division page without relying on that route's redirect behaviour.
+    """
+
+    expected_urls = {
+        "surrey-county-council-by-election-the-byfleets-2018-12-06": (
+            "mgElectionAreaResults.aspx?ID=255&RPID=0"
+        ),
+        "surrey-county-council-by-election-haslemere-2019-05-02": (
+            "mgElectionAreaResults.aspx?ID=257&RPID=0"
+        ),
+        "surrey-county-council-by-election-warlingham-2026-05-07": (
+            "mgElectionAreaResults.aspx?ID=443&RPID=0"
+        ),
+    }
+
+    records_by_event = by_election_records_by_id()
+    for election_id, url_suffix in expected_urls.items():
+        assert records_by_event[election_id]
+        assert all(record.source_url.endswith(url_suffix) for record in records_by_event[election_id])
+
+
 def test_result_evidence_rejects_a_non_public_source_url(tmp_path) -> None:
     """Evidence inputs cannot introduce a local path or credential-bearing URL."""
 

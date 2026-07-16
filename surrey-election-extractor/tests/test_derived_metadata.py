@@ -210,3 +210,32 @@ def test_master_database_exports_all_2013_derived_issued_values_separately() -> 
     assert addlestone_derived["official_inputs"] == (
         "rejected_ballots=9; total_votes=2891"
     )
+
+
+def test_2013_derived_issued_values_match_direct_borough_official_evidence() -> None:
+    """Cross-check the formula against every separately published 2013 value.
+
+    The twelve borough-issued values are not used as inputs to the derivation.
+    They are independent official supplementary evidence, so agreement detects
+    a future mapping or formula regression without changing either layer.
+    """
+
+    payload = build_master_database(load_audited_elections())
+    derived_by_division = {
+        row["division_id"]: row["value"]
+        for row in payload.derived_metadata
+        if row["election_id"] == "surrey-county-council-2013"
+        and row["field_name"] == "derived_ballot_papers_issued"
+    }
+    direct_official_values = [
+        row
+        for row in payload.supplementary_metadata
+        if row["election_id"] == "surrey-county-council-2013"
+        and row["field_name"] == "secondary_division_ballot_papers_issued"
+    ]
+
+    assert len(direct_official_values) == 12
+    assert all(
+        derived_by_division[row["division_id"]] == row["value"]
+        for row in direct_official_values
+    )

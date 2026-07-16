@@ -69,7 +69,7 @@
     },
     {
       "election_id": "surrey-county-council-by-election-the-byfleets-2018-12-06",
-      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=11&RPID=0",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=255&RPID=0",
       "source_title": "Election results for The Byfleets, 6 December 2018",
       "source_publisher": "Surrey County Council",
       "source_format": "official_result_page",
@@ -99,7 +99,7 @@
     },
     {
       "election_id": "surrey-county-council-by-election-haslemere-2019-05-02",
-      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=15&RPID=0",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=257&RPID=0",
       "source_title": "Election results for Haslemere, 2 May 2019",
       "source_publisher": "Surrey County Council",
       "source_format": "official_result_page",
@@ -210,7 +210,7 @@
     },
     {
       "election_id": "surrey-county-council-by-election-warlingham-2026-05-07",
-      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=52&RPID=0",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=443&RPID=0",
       "source_title": "Election results for Warlingham by-election, 7 May 2026",
       "source_publisher": "Surrey County Council",
       "source_format": "official_result_page",
