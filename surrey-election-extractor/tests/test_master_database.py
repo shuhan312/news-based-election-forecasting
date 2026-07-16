@@ -156,6 +156,30 @@ def test_candidate_results_have_one_row_per_candidate() -> None:
     }
 
 
+def test_geographic_mapping_schema_requires_decision_and_evidence_fields() -> None:
+    """The empty final table still documents the evidence-gated mapping contract."""
+
+    payload = build_master_database(
+        (audited_input(2017, (record(2017, "Candidate One", "Conservative"),)),)
+    )
+    fields = {
+        row["field_name"]
+        for row in payload.data_dictionary
+        if row["table"] == "Geographic Mapping"
+    }
+
+    assert payload.geographic_mapping == ()
+    assert {
+        "mapping_id",
+        "previous_election_id",
+        "current_election_id",
+        "decision",
+        "GIS_source",
+        "boundary_source",
+        "evidence_notes",
+    } <= fields
+
+
 def test_original_party_names_are_preserved_without_merging() -> None:
     payload = build_master_database(
         (

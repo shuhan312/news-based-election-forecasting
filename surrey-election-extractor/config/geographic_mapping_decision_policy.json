@@ -1,0 +1,48 @@
+{
+  "framework_id": "surrey-historical-to-2026-geographic-mapping-decision-framework",
+  "acceptance_rules": {
+    "exact": {
+      "decision_without_direct_boundary_evidence": "requires_review",
+      "required_evidence": [
+        "Retained official GIS evidence for the individual pair",
+        "Direct official legal boundary evidence linking the historical division to the 2026 ward",
+        "Documented reviewer reasoning"
+      ],
+      "acceptance_threshold": "One-to-one relationship with mutual GIS overlap at or above 99.999%, no material split or merge, and direct legal evidence."
+    },
+    "near_exact": {
+      "decision_without_direct_boundary_evidence": "requires_review",
+      "required_evidence": [
+        "Retained official GIS evidence for the individual pair",
+        "Direct official legal boundary evidence linking the historical division to the 2026 ward",
+        "Manual justification explaining the remaining boundary difference"
+      ],
+      "acceptance_threshold": "One-to-one relationship with mutual GIS overlap at or above 95%, no material split or merge, direct legal evidence, and documented manual justification."
+    },
+    "split": {
+      "decision_without_direct_boundary_evidence": "requires_review",
+      "rejection_reason": "A historical division overlaps multiple material 2026 wards and cannot be represented as one-to-one.",
+      "acceptance_threshold": "No one-to-one mapping may be accepted. Any future aggregate relationship requires a separately approved methodology and direct evidence."
+    },
+    "merged": {
+      "decision_without_direct_boundary_evidence": "requires_review",
+      "rejection_reason": "A 2026 ward overlaps multiple material historical divisions and cannot be represented as one-to-one.",
+      "acceptance_threshold": "No one-to-one mapping may be accepted. Any future aggregate relationship requires a separately approved methodology and direct evidence."
+    },
+    "uncertain": {
+      "decision_without_direct_boundary_evidence": "requires_review",
+      "rejection_reason": "GIS evidence does not establish a comparable one-to-one geography.",
+      "acceptance_threshold": "Remain unresolved unless new direct official boundary evidence and a documented review establish comparability."
+    }
+  },
+  "current_evidence_assessment": {
+    "direct_historical_to_2026_boundary_crosswalk_available": false,
+    "reason": "The reviewed 2026 legal source defines the 2026 wards and their relationship to 2024 electoral divisions, but does not provide an individual historical-division-to-2026-ward crosswalk."
+  },
+  "prohibited_actions": [
+    "Do not calculate vote change from unresolved mappings.",
+    "Do not calculate incumbency from unresolved mappings.",
+    "Do not calculate candidate history from unresolved mappings.",
+    "Do not convert a GIS overlap into a final Geographic Mapping row automatically."
+  ]
+}
