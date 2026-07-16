@@ -23,10 +23,16 @@ from election_extractor.by_election_results import (
 from election_extractor.division_supplementary_audit import (
     audit_2013_division_evidence,
 )
+from election_extractor.derived_metadata import (
+    load_derived_metadata,
+    records_as_rows as derived_records_as_rows,
+    validate_derived_metadata,
+)
 from election_extractor.election_config import ElectionConfiguration, load_election_config
 from election_extractor.election_structure_metadata import load_secondary_seats_audit
 from election_extractor.extraction import CandidateResultRecord, ExtractionStatus
 from election_extractor.models import (
+    DerivedMetadataRecord,
     ElectionStructureMetadata,
     SupplementaryMetadataRecord,
 )
@@ -40,6 +46,7 @@ from election_extractor.supplementary_metadata import (
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SUPPLEMENTARY_METADATA_PATH = PROJECT_ROOT / "config/supplementary_metadata.json"
+DERIVED_METADATA_PATH = PROJECT_ROOT / "config/derived_metadata.json"
 # This is the date on which the existing statutory Seats audit was reviewed
 # into the generic metadata layer. It does not claim a date for the statute.
 SECONDARY_SEATS_AUDIT_RETRIEVAL_DATE = "2026-07-15"
@@ -93,6 +100,9 @@ class AuditedElectionInput:
     records: tuple[CandidateResultRecord, ...]
     election_structure_metadata: tuple[ElectionStructureMetadata, ...]
     supplementary_metadata: tuple[SupplementaryMetadataRecord, ...] = ()
+    # Calculated records are distinct from both official values and external
+    # supplementary evidence. They never enter extraction or completeness.
+    derived_metadata: tuple[DerivedMetadataRecord, ...] = ()
     # Archive-catalogue values describe an event even where no official result
     # page has been verified. They remain distinct from candidate-page fields.
     event_date: str | None = None
@@ -113,6 +123,7 @@ class MasterDatabasePayload:
     party_standardisation_issues: tuple[dict[str, object], ...]
     geographic_mapping: tuple[dict[str, object], ...]
     supplementary_metadata: tuple[dict[str, object], ...]
+    derived_metadata: tuple[dict[str, object], ...]
     data_dictionary: tuple[dict[str, object], ...]
     audit_summary: dict[str, object]
 
@@ -204,6 +215,12 @@ def load_audited_elections(
         permitted_election_ids=permitted_metadata_election_ids,
     ):
         registered_metadata[item.election_id].append(item)
+    registered_derived: defaultdict[str, list[DerivedMetadataRecord]] = defaultdict(list)
+    for item in load_derived_metadata(
+        DERIVED_METADATA_PATH,
+        permitted_election_ids=permitted_metadata_election_ids,
+    ):
+        registered_derived[item.election_id].append(item)
     loaded = []
     for election_id, paths in inputs.items():
         configuration = configurations[election_id]
@@ -260,6 +277,7 @@ def load_audited_elections(
                 records=records,
                 election_structure_metadata=metadata,
                 supplementary_metadata=tuple(supplementary_metadata),
+                derived_metadata=tuple(registered_derived[configuration.election_id]),
             )
         )
     # Candidate rows for by-elections are available only where the existing
@@ -311,6 +329,7 @@ def load_audited_elections(
                 records=event_records,
                 election_structure_metadata=(),
                 supplementary_metadata=event_metadata,
+                derived_metadata=tuple(registered_derived[event.election_id]),
                 event_date=event.election_date,
                 event_authority=event.authority,
                 event_source_url=source_url,
@@ -390,6 +409,42 @@ def _secondary_metadata_by_division(
     return {item.division_or_ward_name.casefold(): item for item in metadata}
 
 
+def _validate_election_derived_metadata(election: AuditedElectionInput) -> None:
+    """Check derived records against one election's untouched official values.
+
+    Candidate records repeat their division summary fields.  Consensus first
+    confirms that the official page supplied one unambiguous value before that
+    value is allowed to be used as a derivation input.
+    """
+
+    official_values_by_division: dict[str, dict[str, object]] = {}
+    official_source_urls_by_division: dict[str, str] = {}
+    records_by_source: defaultdict[str, list[CandidateResultRecord]] = defaultdict(list)
+    for record in election.records:
+        records_by_source[record.source_url].append(record)
+
+    for source_url, division_records in records_by_source.items():
+        division_id = _division_id(election.configuration.election_id, source_url)
+        official_source_urls_by_division[division_id] = source_url
+        official_values_by_division[division_id] = {
+            "ballot_papers_issued": _consensus(
+                record.ballot_papers_issued for record in division_records
+            ),
+            "total_votes": _consensus(
+                record.total_votes for record in division_records
+            ),
+            "rejected_ballots": _consensus(
+                record.ballot_papers_rejected for record in division_records
+            ),
+        }
+
+    validate_derived_metadata(
+        election.derived_metadata,
+        official_values_by_division=official_values_by_division,
+        official_source_urls_by_division=official_source_urls_by_division,
+    )
+
+
 def _party_lookup_fields(
     original_party_name: str | None,
     party_lookup: Mapping[str, PartyLookupEntry],
@@ -449,6 +504,7 @@ def build_master_database(
     candidate_rows: list[dict[str, object]] = []
     division_rows: list[dict[str, object]] = []
     supplementary_rows: list[dict[str, object]] = []
+    derived_rows: list[dict[str, object]] = []
     party_years: defaultdict[str, set[int]] = defaultdict(set)
     layered_reports: dict[str, LayeredCompletenessReport] = {}
 
@@ -457,6 +513,11 @@ def build_master_database(
         # Supplementary evidence is exported as its own table. It is never an
         # input to candidate or division completeness assessment below.
         supplementary_rows.extend(records_as_rows(election.supplementary_metadata))
+        # A derived record must be reproducible from the same immutable official
+        # result page. Validation occurs before exporting any calculated value,
+        # and does not write into the candidate or division record collections.
+        _validate_election_derived_metadata(election)
+        derived_rows.extend(derived_records_as_rows(election.derived_metadata))
         # Layered completeness is read-only: it selects metadata sources for
         # assessment but never writes configuration or supplementary values
         # back into official candidate records.
@@ -646,6 +707,7 @@ def build_master_database(
         candidate_rows=candidate_rows,
         division_rows=division_rows,
         supplementary_rows=supplementary_rows,
+        derived_rows=derived_rows,
         layered_reports=layered_reports,
         party_standardisation_issues=party_standardisation_issues,
     )
@@ -660,6 +722,9 @@ def build_master_database(
         geographic_mapping=(),
         supplementary_metadata=tuple(
             sorted(supplementary_rows, key=lambda row: str(row["metadata_id"]))
+        ),
+        derived_metadata=tuple(
+            sorted(derived_rows, key=lambda row: str(row["metadata_id"]))
         ),
         data_dictionary=tuple(_data_dictionary_rows()),
         audit_summary=summary,
@@ -718,6 +783,7 @@ def _audit_summary(
     candidate_rows: Sequence[Mapping[str, object]],
     division_rows: Sequence[Mapping[str, object]],
     supplementary_rows: Sequence[Mapping[str, object]],
+    derived_rows: Sequence[Mapping[str, object]],
     layered_reports: Mapping[str, LayeredCompletenessReport],
     party_standardisation_issues: Sequence[Mapping[str, object]],
 ) -> dict[str, object]:
@@ -766,14 +832,18 @@ def _audit_summary(
         "supplementary_metadata_by_field": dict(
             sorted(Counter(str(row["field_name"]) for row in supplementary_rows).items())
         ),
+        "derived_metadata_records": len(derived_rows),
+        "derived_metadata_by_field": dict(
+            sorted(Counter(str(row["field_name"]) for row in derived_rows).items())
+        ),
         "geographic_mapping_rows": 0,
         "party_standardisation_issue_rows": len(party_standardisation_issues),
         "official_division_field_missing_counts": missing_division_values,
         "per_election": per_election,
         "data_integrity_note": (
             "Null values preserve unavailable official information. Supplementary "
-            "evidence is stored separately and does not replace official fields or "
-            "change layered completeness. No final boundary mappings have been "
+            "evidence and documented calculations are stored separately and do not "
+            "replace official fields or change layered completeness. No final boundary mappings have been "
             "approved, so no historical comparisons are calculated."
         ),
     }
@@ -906,6 +976,22 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("notes", "Scope restriction or handling note for the external evidence.", "supplementary metadata register", "supplementary", "NULL when no additional note is required."),
             ("validation_status", "Review decision for the evidence record.", "supplementary metadata register", "supplementary", "Never blank; does not alter official completeness."),
         ],
+        "Derived Metadata": [
+            ("metadata_id", "Stable identifier for one approved calculation.", "derived metadata register", "derived", "Never blank; duplicate identifiers are rejected."),
+            ("election_id", "Configured election identifier for the calculation.", "configuration", "derived", "Never blank."),
+            ("division_id", "Identifier of the exact official result page supplying all inputs.", "official URL", "derived", "Never blank; must match the source URL."),
+            ("field_name", "Separate calculated field name.", "derived metadata register", "derived", "Never maps automatically into an official field."),
+            ("value", "Calculated value after official-input validation.", "documented formula", "derived", "Never copied into the official target field."),
+            ("target_official_field", "Official field intentionally left unchanged by the calculation.", "derived metadata register", "derived", "Must remain NULL for this calculation to be accepted."),
+            ("formula", "Allow-listed calculation formula.", "derived metadata register", "derived", "Must reproduce value exactly from named official inputs."),
+            ("official_inputs", "Published official values used by the formula.", "official result page", "derived", "Every value must match the same official source URL."),
+            ("source_url", "Single official result page containing all calculation inputs.", "official result page", "official", "Never blank; must match the audited division source URL."),
+            ("evidence_text", "Precise description of the published inputs and missing target field.", "derived metadata register", "derived", "Never blank."),
+            ("retrieval_date", "Date the official inputs were reviewed.", "derived metadata register", "derived", "ISO YYYY-MM-DD required."),
+            ("confidence", "Confidence in the calculation after source validation.", "derived metadata register", "derived", "Never blank."),
+            ("notes", "Scope and non-overwrite restriction.", "derived metadata register", "derived", "NULL when no note is required."),
+            ("validation_status", "Result of formula and official-source validation.", "derived metadata register", "derived", "Never changes official or completeness values."),
+        ],
     }
     rows = []
     for table, fields in definitions.items():
@@ -936,6 +1022,7 @@ def payload_as_dict(payload: MasterDatabasePayload) -> dict[str, object]:
         "Party Standardisation Issues": list(payload.party_standardisation_issues),
         "Geographic Mapping": list(payload.geographic_mapping),
         "Supplementary Metadata": list(payload.supplementary_metadata),
+        "Derived Metadata": list(payload.derived_metadata),
         "Data Dictionary": list(payload.data_dictionary),
         "audit_summary": payload.audit_summary,
     }
@@ -955,6 +1042,8 @@ def audit_summary_markdown(payload: MasterDatabasePayload) -> str:
         f"- Divisions with supplementary Seats evidence: {summary['divisions_with_secondary_seats']}",
         f"- Supplementary metadata records: {summary['supplementary_metadata_records']}",
         f"- Supplementary metadata by field: {summary['supplementary_metadata_by_field']}",
+        f"- Derived metadata records: {summary['derived_metadata_records']}",
+        f"- Derived metadata by field: {summary['derived_metadata_by_field']}",
         f"- Geographic Mapping rows: {summary['geographic_mapping_rows']}",
         f"- Party Standardisation Issues rows: {summary['party_standardisation_issue_rows']}",
         f"- Official division-field missing counts: {summary['official_division_field_missing_counts']}",

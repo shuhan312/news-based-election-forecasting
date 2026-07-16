@@ -23,6 +23,7 @@ const tableDefinitions = [
   ["Party Standardisation Issues", "PartyStandardisationIssuesTable"],
   ["Geographic Mapping", "GeographicMappingTable"],
   ["Supplementary Metadata", "SupplementaryMetadataTable"],
+  ["Derived Metadata", "DerivedMetadataTable"],
   ["Data Dictionary", "DataDictionaryTable"],
 ];
 
@@ -74,6 +75,9 @@ const longTextColumns = new Set([
   "official_source_url",
   "secondary_seats_source_url",
   "secondary_seats_evidence",
+  "formula",
+  "official_inputs",
+  "evidence_text",
   "definition",
   "missing_value_policy",
   "notes",
@@ -86,6 +90,7 @@ const wholeNumberColumns = new Set([
   "electorate",
   "ballot_papers_issued",
   "rejected_ballots",
+  "value",
   "total_votes",
   "votes",
   "first_observed_year",
@@ -192,9 +197,9 @@ const overview = await workbook.inspect({
 });
 console.log(overview.ndjson);
 
-// The new generic evidence table has provenance columns beyond the standard
-// preview width, so inspect its complete header and the two approved 2013
-// turnout records before exporting the workbook.
+// The evidence and calculation tables have provenance columns beyond the
+// standard preview width. Inspect their complete headers so a new field cannot
+// silently lose its formula or source URL during workbook generation.
 const supplementaryCheck = await workbook.inspect({
   kind: "table",
   range: "Supplementary Metadata!A1:N3",
@@ -203,6 +208,15 @@ const supplementaryCheck = await workbook.inspect({
   maxChars: 5000,
 });
 console.log(supplementaryCheck.ndjson);
+
+const derivedCheck = await workbook.inspect({
+  kind: "table",
+  range: "Derived Metadata!A1:N3",
+  tableMaxRows: 3,
+  tableMaxCols: 14,
+  maxChars: 5000,
+});
+console.log(derivedCheck.ndjson);
 
 // The master database is value-based, but scan for standard Excel formula
 // errors before export so a future calculated column cannot silently ship a
