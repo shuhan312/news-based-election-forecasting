@@ -80,6 +80,9 @@ def audit_2013_division_evidence(
             value=value,
             source_division_name=source_division_name,
             source=ballot_source,
+            official_electorate=official_electorate,
+            source_electorate=source_electorate,
+            electorate_discrepancy_note=discrepancy_note,
         )
         for (
             division_name,
@@ -87,6 +90,9 @@ def audit_2013_division_evidence(
             value,
             source_division_name,
             ballot_source,
+            official_electorate,
+            source_electorate,
+            discrepancy_note,
         ) in ballot_issued
     )
     division_rows = []
@@ -124,11 +130,12 @@ def audit_2013_division_evidence(
                     else None
                 ),
                 "ballot_papers_issued_status": (
-                    "accepted" if division_name in ballot_issued_by_name else "unresolved"
+                    _ballot_acceptance_status(ballot_issued_by_name[division_name])
+                    if division_name in ballot_issued_by_name
+                    else "unresolved"
                 ),
                 "ballot_papers_issued_reason": (
-                    "Named official Woking declaration publishes this value and its "
-                    "electorate agrees with the official Surrey result page."
+                    _ballot_acceptance_reason(ballot_issued_by_name[division_name])
                     if division_name in ballot_issued_by_name
                     else _ballot_reason(payload)
                 ),
@@ -187,8 +194,8 @@ def audit_markdown(report: Mapping[str, object]) -> str:
         "- The Surrey Council announcement is treated as supplementary division evidence, not as a replacement for the official individual result pages.",
         "- Eighty accepted turnout records have a named Council result section and a stated value.",
         "- Foxhills, Thorpe & Virginia Water uses a separate Wikipedia secondary record only after ten named Wikipedia turnout values were checked against the Surrey Council publication.",
-        "- Only named ballot-papers-issued values whose official Woking declaration electorate agrees with the Surrey result page are accepted.",
-        "- The Byfleets remains unresolved: the Woking declaration states an electorate of 10,016 whereas the Surrey result page states 10,019.",
+        "- A named ballot-papers-issued declaration is accepted when its division scope is verified. An electorate discrepancy additionally requires an exact candidate-vote-list match and a retained conflict note.",
+        "- The Byfleets is accepted as supplementary evidence with a documented 10,016/10,019 electorate discrepancy; it does not alter the Surrey official electorate.",
         "- Official `turnout` and `ballot_papers_issued` values remain NULL, and division completeness is unchanged.",
         "",
     ]
@@ -360,13 +367,15 @@ def _accepted_ballot_papers_issued(
     payload: Mapping[str, object],
     divisions: Mapping[str, str],
     records: Sequence[CandidateResultRecord],
-) -> tuple[tuple[str, str, int, str, Mapping[str, str]], ...]:
-    """Accept only declaration values anchored by an exact name and electorate.
+) -> tuple[tuple[str, str, int, str, Mapping[str, str], int, int, str | None], ...]:
+    """Accept named official declaration values while retaining source conflicts.
 
-    A local returning-officer declaration can be authoritative for its own
-    divisions, but it must still agree with the County result page on the
-    published electorate. A disagreement leaves the value unresolved instead
-    of assuming that either source's ballot-paper count is transferable.
+    Exact division scope is always required. An electorate mismatch does not
+    make a separately published issued-ballot count disappear, but it may be
+    accepted only when the evidence register records the discrepancy and the
+    declaration's complete candidate-vote list exactly matches the official
+    Surrey candidate results. The supplementary value never overwrites either
+    source's electorate.
     """
 
     ballot_section = _mapping(payload.get("ballot_papers_issued"), "ballot_papers_issued")
@@ -393,11 +402,29 @@ def _accepted_ballot_papers_issued(
             raise ValueError(f"Ballot-papers-issued value must be a non-negative integer for {division_name}.")
         if not isinstance(source_electorate, int) or source_electorate < 1:
             raise ValueError(f"Source electorate must be a positive integer for {division_name}.")
-        if electorates[division_name] != source_electorate:
-            raise ValueError(
-                "Ballot-papers-issued evidence electorate conflicts with the official "
-                f"Surrey result page for {division_name}."
+        official_electorate = electorates[division_name]
+        discrepancy_note: str | None = None
+        if official_electorate != source_electorate:
+            discrepancy_note = _required_text(record, "electorate_discrepancy_note")
+            source_votes = record.get("source_candidate_votes")
+            if not isinstance(source_votes, list) or not all(
+                isinstance(item, int) and item >= 0 for item in source_votes
+            ):
+                raise ValueError(
+                    "Conflicting electorate evidence requires a source_candidate_votes list "
+                    f"for {division_name}."
+                )
+            official_votes = sorted(
+                item.votes_received
+                for item in records
+                if item.division_ward_name == division_name
+                and isinstance(item.votes_received, int)
             )
+            if sorted(source_votes) != official_votes:
+                raise ValueError(
+                    "Conflicting electorate evidence has a candidate-vote list that does "
+                    f"not match the official Surrey result page for {division_name}."
+                )
         seen_names.add(division_name)
         accepted.append(
             (
@@ -408,6 +435,9 @@ def _accepted_ballot_papers_issued(
                 {key: _required_text(source, key) for key in (
                     "source_type", "source_name", "source_url", "retrieval_date", "confidence", "validation_status"
                 )},
+                official_electorate,
+                source_electorate,
+                discrepancy_note,
             )
         )
     return tuple(accepted)
@@ -490,8 +520,18 @@ def _ballot_papers_issued_metadata_record(
     value: int,
     source_division_name: str,
     source: Mapping[str, str],
+    official_electorate: int,
+    source_electorate: int,
+    electorate_discrepancy_note: str | None,
 ) -> SupplementaryMetadataRecord:
-    """Create additive ballot-paper evidence without changing the official cell."""
+    """Create additive ballot evidence, including any retained source discrepancy."""
+
+    discrepancy = ""
+    if electorate_discrepancy_note:
+        discrepancy = (
+            f" The declaration electorate is {source_electorate:,}; the Surrey result "
+            f"page electorate is {official_electorate:,}. {electorate_discrepancy_note}"
+        )
 
     return SupplementaryMetadataRecord(
         metadata_id=f"{division_id}:secondary_division_ballot_papers_issued:woking",
@@ -505,15 +545,23 @@ def _ballot_papers_issued_metadata_record(
         source_url=source["source_url"],
         evidence_text=(
             f"The official Woking declaration for {source_division_name} states "
-            f"‘Ballot Papers Issued: {value:,}’."
+            f"‘Ballot Papers Issued: {value:,}’.{discrepancy}"
         ),
         retrieval_date=source["retrieval_date"],
         confidence=source["confidence"],
         notes=(
-            "Supplementary division evidence only. The named Woking declaration's "
-            "electorate was cross-checked against the official Surrey result page; "
-            "this value does not populate the official ballot_papers_issued field or "
-            "change division completeness."
+            "Supplementary division evidence only. This value does not populate the "
+            "official ballot_papers_issued field or change division completeness."
+            + (
+                " The electorate discrepancy is retained as source provenance."
+                if electorate_discrepancy_note
+                else " The declaration electorate agrees with the official Surrey result page."
+            )
+            + (
+                f" Woking declaration electorate: {source_electorate:,}; Surrey result-page electorate: {official_electorate:,}."
+                if electorate_discrepancy_note
+                else ""
+            )
         ),
         validation_status=SupplementaryValidationStatus(source["validation_status"]),
     )
@@ -524,6 +572,24 @@ def _ballot_reason(payload: Mapping[str, object]) -> str:
 
     ballot_section = _mapping(payload.get("ballot_papers_issued"), "ballot_papers_issued")
     return _required_text(ballot_section, "unresolved_reason")
+
+
+def _ballot_acceptance_status(
+    evidence: tuple[str, str, int, str, Mapping[str, str], int, int, str | None],
+) -> str:
+    """Expose a discrepancy explicitly instead of concealing it as ordinary acceptance."""
+
+    return "accepted_with_source_discrepancy" if evidence[7] else "accepted"
+
+
+def _ballot_acceptance_reason(
+    evidence: tuple[str, str, int, str, Mapping[str, str], int, int, str | None],
+) -> str:
+    """Keep source-scope evidence visible in the human-readable audit report."""
+
+    if evidence[7]:
+        return evidence[7]
+    return "Named official Woking declaration publishes this value and its electorate agrees with the official Surrey result page."
 
 
 def _division_id(source_url: str) -> str:

@@ -30,35 +30,44 @@ def _official_records() -> tuple[CandidateResultRecord, ...]:
         item["division_name"]: item["source_electorate"]
         for item in payload["ballot_papers_issued"]["accepted_records"]
     }
-    # The Byfleets is intentionally not an accepted declaration record: this
-    # fixture uses the published Surrey electorate to exercise the discrepancy
-    # guard in a focused test below.
+    # The fixture preserves Surrey's published electorate. The Woking
+    # declaration's separate electorate is intentionally not copied here.
     ballot_electorates["The Byfleets"] = 10019
-    return tuple(
-        CandidateResultRecord(
-            election_name="Surrey County Council Election 2013",
-            election_date="2 May 2013",
-            authority="Surrey County Council",
-            division_ward_name=name,
-            number_of_seats=1,
-            candidate_name=f"Candidate {index}",
-            original_party_name="Example Party",
-            votes_received=100,
-            vote_share=50.0,
-            outcome="Elected",
-            electorate=ballot_electorates.get(name, 1000),
-            ballot_papers_issued=None,
-            ballot_papers_rejected=2,
-            turnout=None,
-            source_url=(
-                "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx"
-                f"?ID={index}&RPID=5"
-            ),
-            extraction_status=ExtractionStatus.INCOMPLETE,
-            missing_fields=("ballot_papers_issued", "turnout"),
-        )
-        for index, name in enumerate(names, start=1)
-    )
+    byfleets_votes = payload["ballot_papers_issued"]["accepted_records"][-1][
+        "source_candidate_votes"
+    ]
+    records = []
+    for index, name in enumerate(names, start=1):
+        # A source-discrepancy record is accepted only after its complete vote
+        # list matches the official candidate rows, so the fixture must model
+        # every Byfleets candidate rather than a single placeholder row.
+        votes = byfleets_votes if name == "The Byfleets" else [100]
+        for candidate_index, vote in enumerate(votes, start=1):
+            records.append(
+                CandidateResultRecord(
+                    election_name="Surrey County Council Election 2013",
+                    election_date="2 May 2013",
+                    authority="Surrey County Council",
+                    division_ward_name=name,
+                    number_of_seats=1,
+                    candidate_name=f"Candidate {index}-{candidate_index}",
+                    original_party_name="Example Party",
+                    votes_received=vote,
+                    vote_share=50.0,
+                    outcome="Elected",
+                    electorate=ballot_electorates.get(name, 1000),
+                    ballot_papers_issued=None,
+                    ballot_papers_rejected=2,
+                    turnout=None,
+                    source_url=(
+                        "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx"
+                        f"?ID={index}&RPID=5"
+                    ),
+                    extraction_status=ExtractionStatus.INCOMPLETE,
+                    missing_fields=("ballot_papers_issued", "turnout"),
+                )
+            )
+    return tuple(records)
 
 
 def test_named_turnout_evidence_is_separate_from_official_fields() -> None:
@@ -73,10 +82,10 @@ def test_named_turnout_evidence_is_separate_from_official_fields() -> None:
         "accepted_official_division_turnout": 80,
         "accepted_cross_validated_wikipedia_division_turnout": 1,
         "unresolved_division_turnout": 0,
-        "accepted_supplementary_ballot_papers_issued": 6,
-        "unresolved_ballot_papers_issued": 75,
+        "accepted_supplementary_ballot_papers_issued": 7,
+        "unresolved_ballot_papers_issued": 74,
     }
-    assert len(audit.supplementary_records) == 87
+    assert len(audit.supplementary_records) == 88
     assert all(record.geographic_level.value == "division" for record in audit.supplementary_records)
     assert sum(
         record.field_name == "secondary_division_turnout"
@@ -87,7 +96,7 @@ def test_named_turnout_evidence_is_separate_from_official_fields() -> None:
         for record in audit.supplementary_records
         if record.field_name == "secondary_division_ballot_papers_issued"
     ]
-    assert {record.value for record in ballot_records} == {2796, 3198, 3336, 3642, 3728, 4062}
+    assert {record.value for record in ballot_records} == {2796, 2945, 3198, 3336, 3642, 3728, 4062}
     assert all(record.turnout is None for record in records)
     assert all(record.ballot_papers_issued is None for record in records)
 
@@ -133,18 +142,30 @@ def test_wikipedia_turnout_requires_ten_matching_official_cross_checks(
         audit_2013_division_evidence(_official_records(), evidence_path)
 
 
-def test_byfleets_source_disagreement_stays_unresolved() -> None:
-    """A conflicting official electorate prevents importing the issued count."""
+def test_byfleets_source_disagreement_is_retained_with_issued_value() -> None:
+    """A documented conflict is visible without suppressing named official evidence."""
 
     audit = audit_2013_division_evidence(_official_records())
     byfleets = next(
         item for item in audit.report["records"] if item["division_name"] == "The Byfleets"
     )
 
-    assert byfleets["supplementary_ballot_papers_issued_available"] is False
-    assert byfleets["supplementary_ballot_papers_issued"] is None
-    assert byfleets["ballot_papers_issued_status"] == "unresolved"
+    assert byfleets["supplementary_ballot_papers_issued_available"] is True
+    assert byfleets["supplementary_ballot_papers_issued"] == 2945
+    assert byfleets["ballot_papers_issued_status"] == "accepted_with_source_discrepancy"
     assert "10,016" in byfleets["ballot_papers_issued_reason"]
+
+
+def test_conflicting_electorate_requires_complete_matching_vote_evidence(tmp_path: Path) -> None:
+    """A discrepancy cannot be accepted merely because its division name matches."""
+
+    payload = json.loads(EVIDENCE_PATH.read_text(encoding="utf-8"))
+    del payload["ballot_papers_issued"]["accepted_records"][-1]["source_candidate_votes"]
+    evidence_path = tmp_path / "missing-conflict-votes.json"
+    evidence_path.write_text(json.dumps(payload), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="source_candidate_votes"):
+        audit_2013_division_evidence(_official_records(), evidence_path)
 
 
 def test_unreviewed_official_division_is_rejected() -> None:

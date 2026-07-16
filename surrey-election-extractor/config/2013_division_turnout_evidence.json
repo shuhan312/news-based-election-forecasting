@@ -138,8 +138,16 @@
       {"division_name": "Woking North", "source_division_name": "Woking North", "value": 4062, "source_electorate": 11018},
       {"division_name": "Woking South", "source_division_name": "Woking South", "value": 3336, "source_electorate": 10834},
       {"division_name": "Woking South East", "source_division_name": "Woking South East", "value": 3198, "source_electorate": 10177},
-      {"division_name": "Woking South West", "source_division_name": "Woking South West", "value": 2796, "source_electorate": 9563}
+      {"division_name": "Woking South West", "source_division_name": "Woking South West", "value": 2796, "source_electorate": 9563},
+      {
+        "division_name": "The Byfleets",
+        "source_division_name": "The Byfleets",
+        "value": 2945,
+        "source_electorate": 10016,
+        "source_candidate_votes": [533, 98, 597, 231, 1476],
+        "electorate_discrepancy_note": "The Woking Deputy Returning Officer declaration explicitly identifies The Byfleets on 2 May 2013, names the same five candidates with the same vote counts and winner as the Surrey result page, and publishes Ballot Papers Issued: 2,945. Its electorate is 10,016 while the Surrey result page publishes 10,019. This three-voter difference is retained as a source discrepancy; the supplementary issued-ballot value does not replace Surrey's official electorate."
+      }
     ],
-    "unresolved_reason": "No issued-ballot value is accepted without an exact division-name match and matching electorate in the official Surrey result page. The Byfleets is excluded because the Woking declaration states electorate 10,016 while the Surrey result page states 10,019; all remaining divisions have no reviewed named declaration."
+    "unresolved_reason": "No issued-ballot value is accepted without an exact official division-name match and an explicit named official declaration. If the declaration electorate differs from the Surrey result page, the record also requires a documented discrepancy note and an exact candidate-vote-list match. All remaining divisions have no reviewed named declaration."
   }
 }
