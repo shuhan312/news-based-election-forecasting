@@ -5,7 +5,11 @@ from pathlib import Path
 
 from election_extractor.election_config import ElectionConfiguration
 from election_extractor.extraction import CandidateResultRecord, ExtractionStatus
-from election_extractor.master_database import AuditedElectionInput, build_master_database
+from election_extractor.master_database import (
+    AuditedElectionInput,
+    build_master_database,
+    load_audited_elections,
+)
 from election_extractor.models import ElectionStructureMetadata, SupplementaryMetadataRecord
 
 
@@ -484,3 +488,74 @@ def test_2026_integration_does_not_change_historical_source_records() -> None:
     assert historical == before
     assert historical_row["original_party_name"] == "Conservative"
     assert historical_row["final_position"] is None
+
+
+def test_current_by_election_corrections_flow_into_master_database() -> None:
+    """Guard the reviewed local inputs against a stale master-database build.
+
+    The official Staines correction and the two turnout supplements are loaded
+    from configuration, but supplementary values must never fill the official
+    Voting Summary fields in the division table.
+    """
+
+    payload = build_master_database(load_audited_elections())
+
+    clarke = next(
+        row
+        for row in payload.candidate_results
+        if row["candidate_name"] == "Clarke Matthew David"
+    )
+    assert clarke["original_party_name"] == "Trade Unionist and Socialist Coalition"
+    assert clarke["votes"] == 33
+    assert clarke["vote_share"] == 1.0
+    assert clarke["source_url"].endswith("ID=171&RPID=0")
+
+    supplement_rows = {
+        (row["election_id"], row["field_name"]): row
+        for row in payload.supplementary_metadata
+    }
+    assert supplement_rows[
+        (
+            "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05",
+            "secondary_division_turnout",
+        )
+    ]["value"] == 31.3
+    assert supplement_rows[
+        (
+            "surrey-county-council-by-election-addlestone-2025-08-21",
+            "secondary_division_turnout",
+        )
+    ]["value"] == 24.0
+
+    official_turnout = {
+        row["election_id"]: row["turnout"]
+        for row in payload.divisions_and_wards
+        if row["election_id"]
+        in {
+            "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05",
+            "surrey-county-council-by-election-addlestone-2025-08-21",
+        }
+    }
+    assert official_turnout == {
+        "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05": None,
+        "surrey-county-council-by-election-addlestone-2025-08-21": None,
+    }
+
+
+def test_current_published_party_labels_have_reviewed_lookup_entries() -> None:
+    """Require explicit review for every non-blank party label in current inputs.
+
+    A future source label must become an auditable lookup decision rather than
+    being categorised by a heuristic. An officially blank party remains blank
+    and is intentionally outside this exact-label review.
+    """
+
+    payload = build_master_database(load_audited_elections())
+
+    unmapped_labels = {
+        row["original_party_name"]
+        for row in payload.candidate_results
+        if row["original_party_name"] is not None
+        and row["standard_party_name"] is None
+    }
+    assert unmapped_labels == set()
