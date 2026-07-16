@@ -3,6 +3,21 @@
   "evidence_scope": "Official Surrey County Council result-page evidence and, where applicable, an official relevant local-authority declaration reviewed 2026-07-16. Null values mean that the reviewed official evidence did not publish or did not expose that field.",
   "results": [
     {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=6&RPID=0",
+      "source_title": "Election results for Weybridge, 7 May 2015",
+      "source_publisher": "Surrey County Council",
+      "source_format": "official_result_page",
+      "evidence_text": "Official Surrey County Council Weybridge by-election result page. It publishes the candidate table, seats, total votes and electorate; ballot papers issued, rejected ballots and turnout are not published in its Voting Summary.",
+      "voting_summary": {"seats": 1, "total_votes": 7678, "electorate": 11460, "ballot_papers_issued": null, "rejected_ballots": null, "turnout": null},
+      "candidates": [
+        {"candidate_name": "Ramon Gray", "original_party_name": "Conservative", "votes": 4190, "vote_share": 55, "elected_status": "Elected"},
+        {"candidate_name": "Peter Michael Harman", "original_party_name": "Weybridge Independents", "votes": 1899, "vote_share": 25, "elected_status": "Not elected"},
+        {"candidate_name": "Elinor Mair Jones", "original_party_name": "Labour", "votes": 967, "vote_share": 13, "elected_status": "Not elected"},
+        {"candidate_name": "Joe Branco", "original_party_name": "UK Independence Party", "votes": 622, "vote_share": 8, "elected_status": "Not elected"}
+      ]
+    },
+    {
       "election_id": "surrey-county-council-by-election-epsom-west-2015-11-19",
       "source_url": "https://www.epsom-ewell.gov.uk/sites/default/files/documents/council/elections-and-voting/SCCDeclarationofResults19Nov2015.pdf",
       "source_title": "Declaration of Result of Poll: Epsom West, 19 November 2015",

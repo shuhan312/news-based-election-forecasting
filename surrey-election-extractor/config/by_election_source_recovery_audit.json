@@ -4,13 +4,13 @@
   "records": [
     {
       "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
-      "result_evidence_status": "official_winner_confirmation_only",
-      "source_type": "Surrey County Council meeting minutes and indexed official result announcement",
-      "source_url": "https://mycouncil.surreycc.gov.uk/ieListDocuments.aspx?CId=121&MId=3685",
-      "evidence_text": "The official Council minutes confirm Ramon Gray was elected for Weybridge following the 7 May 2015 by-election. An indexed Surrey County Council news announcement additionally reports Ramon Gray received 4,190 votes and Peter Harman was the nearest rival, 2,291 votes behind; the reviewed accessible evidence does not provide a complete candidate table.",
-      "candidate_results_integrated": false,
-      "missing_official_information": ["complete candidate list", "published party descriptions", "candidate votes", "vote shares", "voting summary"],
-      "notes": "The original official Surrey News announcement is now redirected: https://news.surreycc.gov.uk/2015/05/08/ramon-gray-wins-county-council-by-election/. Partial winner and runner-up information is not treated as a complete candidate-level result. No candidate rows were created."
+      "result_evidence_status": "official_result_page_integrated",
+      "source_type": "Surrey County Council official result page",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=6&RPID=0",
+      "evidence_text": "The official Surrey County Council result page publishes four candidates, party descriptions, votes, vote shares, outcomes, one seat, total votes and electorate for the Weybridge by-election on 7 May 2015. It does not publish ballot papers issued, rejected ballots or turnout.",
+      "candidate_results_integrated": true,
+      "missing_official_information": ["published ballot papers issued", "published rejected ballots", "published turnout"],
+      "notes": "The result page is integrated. Its unpublished Voting Summary fields remain null and are not calculated."
     },
     {
       "election_id": "surrey-county-council-by-election-epsom-west-2015-11-19",

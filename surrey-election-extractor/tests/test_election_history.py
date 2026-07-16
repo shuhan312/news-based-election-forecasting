@@ -38,7 +38,7 @@ def _event(event_id: str, election_date: str) -> ElectionEventArea:
     )
 
 
-def test_by_elections_use_only_verified_official_candidate_result_pages() -> None:
+def test_by_elections_use_only_verified_official_candidate_result_sources() -> None:
     """Archive events receive rows only where separate official evidence exists."""
 
     history = build_election_history()
@@ -49,9 +49,9 @@ def test_by_elections_use_only_verified_official_candidate_result_pages() -> Non
     assert len(load_by_election_catalogue()) == 15
     assert len(by_elections) == 15
     assert len({row["election_id"] for row in by_elections}) == 15
-    assert sum(row["candidate_row_count"] is not None for row in by_elections) == 14
-    assert sum(row["candidate_row_count"] is None for row in by_elections) == 1
-    assert sum(row["candidate_row_count"] or 0 for row in by_elections) == 69
+    assert sum(row["candidate_row_count"] is not None for row in by_elections) == 15
+    assert sum(row["candidate_row_count"] is None for row in by_elections) == 0
+    assert sum(row["candidate_row_count"] or 0 for row in by_elections) == 73
     assert all(row["evidence_text"] for row in by_elections)
 
 
@@ -78,8 +78,8 @@ def test_chronology_orders_only_distinct_published_dates() -> None:
     ]
 
 
-def test_missing_by_election_values_remain_null_and_comparison_features_blocked() -> None:
-    """Unavailable archive detail must not become a zero or a comparison value."""
+def test_missing_by_election_summary_values_remain_null_without_zero_filling() -> None:
+    """A complete candidate result keeps unpublished summary values unavailable."""
 
     history = build_election_history()
     row = next(
@@ -88,10 +88,22 @@ def test_missing_by_election_values_remain_null_and_comparison_features_blocked(
         if item["election_id"] == "surrey-county-council-by-election-weybridge-2015-05-07"
     )
 
-    assert row["number_of_candidates"] is None
-    assert row["number_of_seats"] is None
-    assert row["contest_has_multiple_candidates"] is None
-    assert all(feature["value"] is None for feature in row["blocked_comparison_features"].values())
+    assert row["number_of_candidates"] == 4
+    assert row["number_of_seats"] == 1
+    assert row["contest_has_multiple_candidates"] is True
+    # Raw published summary values belong to the canonical candidate-result
+    # layer. The safe enrichment layer intentionally exposes only approved
+    # comparison features and must not duplicate source fields.
+    candidate = next(
+        item
+        for item in history["canonical_candidate_results"]
+        if item["election_id"] == "surrey-county-council-by-election-weybridge-2015-05-07"
+    )
+    assert candidate["total_votes"] == 7678
+    assert candidate["electorate"] == 11460
+    assert candidate["ballot_papers_issued"] is None
+    assert candidate["ballot_papers_rejected"] is None
+    assert candidate["turnout"] is None
 
 
 def test_ukip_and_reform_uk_remain_distinct_standardised_parties() -> None:
@@ -155,8 +167,8 @@ def test_history_build_does_not_change_raw_official_audit_file() -> None:
 
     assert before == after
     # The history layer preserves the 1,898 principal-election rows and adds
-    # only the 69 separately verified official by-election candidate rows.
-    assert history["coverage_report"]["summary"]["raw_candidate_rows_preserved"] == 1967
+    # only the 73 separately verified official by-election candidate rows.
+    assert history["coverage_report"]["summary"]["raw_candidate_rows_preserved"] == 1971
 
 
 def test_coverage_reports_integrated_and_unavailable_by_election_results() -> None:
@@ -168,5 +180,5 @@ def test_coverage_reports_integrated_and_unavailable_by_election_results() -> No
 
     assert report["summary"]["events_required"] == 20
     assert report["summary"]["events_represented"] == 20
-    assert report["summary"]["by_elections_with_candidate_rows"] == 14
-    assert "complete_candidate_results_not_available" in encoded
+    assert report["summary"]["by_elections_with_candidate_rows"] == 15
+    assert "complete_candidate_results_not_available" not in encoded

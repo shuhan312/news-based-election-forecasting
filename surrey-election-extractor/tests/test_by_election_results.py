@@ -29,9 +29,9 @@ def test_catalogue_and_official_result_evidence_remain_separate() -> None:
     evidence = load_by_election_result_evidence(catalogue=catalogue)
 
     assert len(catalogue) == 15
-    assert len(evidence) == 14
-    assert sum(len(item.records) for item in evidence) == 69
-    assert len(unavailable_by_election_ids(catalogue, evidence)) == 1
+    assert len(evidence) == 15
+    assert sum(len(item.records) for item in evidence) == 73
+    assert len(unavailable_by_election_ids(catalogue, evidence)) == 0
     # Surrey is the primary source. Epsom West and Haslemere are documented
     # local-authority publication routes for Surrey County Council contests.
     assert all(
@@ -64,6 +64,24 @@ def test_epsom_west_uses_the_official_declaration_without_calculating_vote_share
         field.evidence_source == "Epsom & Ewell Borough Council official declaration"
         for field in winner.field_evidence
     )
+
+
+def test_weybridge_2015_result_page_keeps_unpublished_summary_fields_null() -> None:
+    """A complete candidate table does not justify filling absent Voting Summary values."""
+
+    records = by_election_records_by_id()[
+        "surrey-county-council-by-election-weybridge-2015-05-07"
+    ]
+    winner = next(record for record in records if record.outcome == "Elected")
+
+    assert len(records) == 4
+    assert winner.candidate_name == "Ramon Gray"
+    assert winner.votes_received == 4190
+    assert winner.total_votes == 7678
+    assert winner.electorate == 11460
+    assert winner.ballot_papers_issued is None
+    assert winner.ballot_papers_rejected is None
+    assert winner.turnout is None
 
 
 def test_result_evidence_rejects_a_non_public_source_url(tmp_path) -> None:
@@ -165,7 +183,7 @@ def test_master_database_includes_events_and_candidate_rows_without_identity_inf
     ]
 
     assert len([row for row in database.elections if row["election_id"] in by_election_ids]) == 15
-    assert len(by_election_rows) == 69
+    assert len(by_election_rows) == 73
     assert all(row["final_position"] is None for row in by_election_rows)
     assert any(
         row["division_id"].startswith(
@@ -175,16 +193,16 @@ def test_master_database_includes_events_and_candidate_rows_without_identity_inf
     )
 
 
-def test_event_audit_keeps_archive_only_events_explicitly_unavailable() -> None:
-    """The provenance audit must not encode unavailable records as zero rows."""
+def test_event_audit_reports_complete_candidate_source_coverage() -> None:
+    """Every catalogued event now has a verified official candidate-result source."""
 
     rows = evidence_audit_rows()
     missing = [row for row in rows if row["candidate_record_count"] is None]
 
     assert len(rows) == 15
-    assert len(missing) == 1
-    assert all(row["result_source_url"] is None for row in missing)
-    assert all(row["provenance"] == "official_archive_catalogue_only" for row in missing)
+    assert missing == []
+    assert all(row["result_source_url"] for row in rows)
+    assert all(row["provenance"] == "published_official_candidate_result" for row in rows)
 
 
 def test_source_recovery_audit_distinguishes_complete_and_winner_only_evidence() -> None:
@@ -192,6 +210,7 @@ def test_source_recovery_audit_distinguishes_complete_and_winner_only_evidence()
 
     recovery = {item.election_id: item for item in load_by_election_source_recovery_audit()}
     epsom = recovery["surrey-county-council-by-election-epsom-west-2015-11-19"]
+    weybridge = recovery["surrey-county-council-by-election-weybridge-2015-05-07"]
     unresolved = unresolved_source_recovery_ids(tuple(recovery.values()))
 
     assert epsom.candidate_results_integrated is True
@@ -204,6 +223,11 @@ def test_source_recovery_audit_distinguishes_complete_and_winner_only_evidence()
     assert farnham.result_evidence_status == "official_result_page_integrated"
     assert farnham.candidate_results_integrated is True
     assert farnham.missing_official_information == ()
-    assert len(unresolved) == 1
-    assert unresolved == ("surrey-county-council-by-election-weybridge-2015-05-07",)
-    assert recovery["surrey-county-council-by-election-weybridge-2015-05-07"].candidate_results_integrated is False
+    assert weybridge.result_evidence_status == "official_result_page_integrated"
+    assert weybridge.candidate_results_integrated is True
+    assert weybridge.missing_official_information == (
+        "published ballot papers issued",
+        "published rejected ballots",
+        "published turnout",
+    )
+    assert unresolved == ()
