@@ -24,6 +24,7 @@ Permitted geographic levels are `election`, `division` and `candidate`. A divisi
 | 2013 | ballot_papers_issued | Absent from official division summaries. | Potential named Woking evidence was reviewed but has not been integrated division by division. | Remains NULL in official fields; no generic record yet. |
 | 2017 | rejected_ballots | Reigate's official page does not publish the value. | No approved supplementary evidence. | Remains NULL. |
 | 2021 | Seats | 28 official result pages do not publish Seats. | The Surrey (Electoral Changes) Order 2012 names the affected divisions and provides one councillor for each. | Existing verified division-level supplementary Seats records remain separate from official Seats. |
+| 2016 and 2025 by-elections | Staines South & Ashford West and Addlestone turnout | The Surrey result pages do not publish turnout. | Spelthorne Borough Council explicitly reports 31.3% for Staines South & Ashford West; Runnymede Borough Council explicitly reports 24% for the same Addlestone County Division by-election. | Two verified `secondary_division_turnout` records; official turnout fields remain NULL. |
 | 2013, 2017, 2021 | final_position | Not published in the official candidate result tables. | No secondary evidence is approved for ranking. | Remains NULL; never calculated from votes. |
 
 ## Field policies
@@ -63,3 +64,5 @@ They also contain two verified, election-level records for `secondary_election_t
 - Electoral Commission, *Results and turnout at the May 2017 England local elections*.
 
 The master workbook's **Supplementary Metadata** tab shows all approved evidence independently. The official `turnout` cells for all 81 2013 divisions remain blank, and their division completeness remains unchanged.
+
+The [by-election supplementary metadata audit](by_election_supplementary_metadata_audit.md) records the reviewed source scope for the remaining by-election gaps, including the separate Addlestone 2025 turnout evidence and one corrected official Staines candidate row.

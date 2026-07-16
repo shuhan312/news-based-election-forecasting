@@ -142,18 +142,19 @@ def test_farnham_south_2016_official_waverley_result_page_is_integrated() -> Non
     assert winner.source_url.startswith("https://modgov.waverley.gov.uk/")
 
 
-def test_missing_source_values_stay_null_and_do_not_create_a_winner() -> None:
-    """An incomplete official row remains incomplete rather than being repaired."""
+def test_staines_official_page_publishes_clarke_candidate_values() -> None:
+    """Correct a configuration omission only when the official table states the values."""
 
     records = by_election_records_by_id()[
         "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05"
     ]
-    incomplete = next(record for record in records if record.candidate_name == "Clarke Matthew David")
+    clarke = next(record for record in records if record.candidate_name == "Clarke Matthew David")
 
-    assert incomplete.original_party_name is None
-    assert incomplete.votes_received is None
-    assert incomplete.final_position is None
-    assert incomplete.elected == "No"  # Explicit official Outcome, not a vote-rank inference.
+    assert clarke.original_party_name == "Trade Unionist and Socialist Coalition"
+    assert clarke.votes_received == 33
+    assert clarke.vote_share == 1
+    assert clarke.final_position is None
+    assert clarke.elected == "No"  # Explicit official Outcome, not a vote-rank inference.
 
 
 def test_party_standardisation_preserves_ukip_and_reform_uk_as_distinct() -> None:
@@ -191,6 +192,28 @@ def test_master_database_includes_events_and_candidate_rows_without_identity_inf
         )
         for row in by_election_rows
     )
+
+
+def test_addlestone_secondary_turnout_is_separate_from_official_turnout() -> None:
+    """A verified local-authority turnout claim cannot repair the official field."""
+
+    database = build_master_database(load_audited_elections())
+    election_id = "surrey-county-council-by-election-addlestone-2025-08-21"
+    metadata = next(
+        row
+        for row in database.supplementary_metadata
+        if row["election_id"] == election_id
+        and row["field_name"] == "secondary_division_turnout"
+    )
+    division = next(
+        row
+        for row in database.divisions_and_wards
+        if row["election_id"] == election_id
+    )
+
+    assert metadata["value"] == 24.0
+    assert metadata["division_id"] == division["division_id"]
+    assert division["turnout"] is None
 
 
 def test_event_audit_reports_complete_candidate_source_coverage() -> None:

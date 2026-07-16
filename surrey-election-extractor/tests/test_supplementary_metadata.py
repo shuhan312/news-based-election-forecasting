@@ -18,6 +18,8 @@ from election_extractor.supplementary_metadata import load_supplementary_metadat
 
 
 SURREY_TURNOUT_URL = "https://news.surreycc.gov.uk/2013/05/03/election-results-special/"
+ADDLESTONE_BY_ELECTION_ID = "surrey-county-council-by-election-addlestone-2025-08-21"
+STAINES_BY_ELECTION_ID = "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05"
 
 
 def turnout_metadata(**changes: object) -> SupplementaryMetadataRecord:
@@ -81,21 +83,56 @@ def official_record() -> CandidateResultRecord:
 
 
 def test_approved_2013_metadata_loads_with_two_independent_sources() -> None:
-    """The approved register preserves Council and Commission provenance separately."""
+    """The 2013 register preserves Council and Commission provenance separately."""
 
     project_root = Path(__file__).resolve().parents[1]
     records = load_supplementary_metadata(
         project_root / "config/supplementary_metadata.json",
-        permitted_election_ids={"surrey-county-council-2013"},
+        permitted_election_ids={
+            "surrey-county-council-2013",
+            ADDLESTONE_BY_ELECTION_ID,
+            STAINES_BY_ELECTION_ID,
+        },
     )
 
-    assert len(records) == 2
-    assert {record.source_name for record in records} == {
+    election_records = tuple(
+        record
+        for record in records
+        if record.election_id == "surrey-county-council-2013"
+    )
+    assert len(election_records) == 2
+    assert {record.source_name for record in election_records} == {
         "Surrey News: Election results declared",
         "Electoral Commission: Results and turnout at the May 2017 England local elections",
     }
-    assert {record.value for record in records} == {30.0}
-    assert {record.geographic_level for record in records} == {GeographicLevel.ELECTION}
+    assert {record.value for record in election_records} == {30.0}
+    assert {record.geographic_level for record in election_records} == {GeographicLevel.ELECTION}
+
+
+def test_by_election_turnout_is_registered_as_separate_division_metadata() -> None:
+    """Each reviewed local-authority turnout claim keeps its own event and result scope."""
+
+    project_root = Path(__file__).resolve().parents[1]
+    records = load_supplementary_metadata(
+        project_root / "config/supplementary_metadata.json",
+        permitted_election_ids={
+            "surrey-county-council-2013",
+            ADDLESTONE_BY_ELECTION_ID,
+            STAINES_BY_ELECTION_ID,
+        },
+    )
+    addlestone = next(record for record in records if record.election_id == ADDLESTONE_BY_ELECTION_ID)
+
+    assert addlestone.field_name == "secondary_division_turnout"
+    assert addlestone.value == 24.0
+    assert addlestone.division_id == f"{ADDLESTONE_BY_ELECTION_ID}:result:346"
+    assert addlestone.geographic_level is GeographicLevel.DIVISION
+
+    staines = next(record for record in records if record.election_id == STAINES_BY_ELECTION_ID)
+    assert staines.field_name == "secondary_division_turnout"
+    assert staines.value == 31.3
+    assert staines.division_id == f"{STAINES_BY_ELECTION_ID}:result:8"
+    assert staines.geographic_level is GeographicLevel.DIVISION
 
 
 def test_supplementary_turnout_coexists_without_populating_official_division_field() -> None:

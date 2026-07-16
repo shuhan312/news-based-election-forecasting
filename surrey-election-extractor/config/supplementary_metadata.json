@@ -31,6 +31,38 @@
       "confidence": "High",
       "notes": "Independent election-level corroboration only. It is not copied to any division turnout field.",
       "validation_status": "verified"
+    },
+    {
+      "metadata_id": "surrey-county-council-by-election-addlestone-2025-08-21:result:346:secondary_division_turnout:runnymede",
+      "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+      "division_id": "surrey-county-council-by-election-addlestone-2025-08-21:result:346",
+      "field_name": "secondary_division_turnout",
+      "value": 24.0,
+      "geographic_level": "division",
+      "source_type": "Runnymede Borough Council official publication",
+      "source_name": "Runnymede Borough Council: By-election results in Addlestone",
+      "source_url": "https://www.runnymede.gov.uk/news/article/270/by-election-results-in-addlestone",
+      "evidence_text": "The turnout for this by-election was 24 per cent.",
+      "retrieval_date": "2026-07-16",
+      "confidence": "High",
+      "notes": "The article explicitly identifies the one-seat Surrey County Council Addlestone Division by-election. This is supplementary division metadata only and does not populate the official result-page turnout field.",
+      "validation_status": "verified"
+    },
+    {
+      "metadata_id": "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05:result:8:secondary_division_turnout:spelthorne",
+      "election_id": "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05",
+      "division_id": "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05:result:8",
+      "field_name": "secondary_division_turnout",
+      "value": 31.3,
+      "geographic_level": "division",
+      "source_type": "Spelthorne Borough Council official publication",
+      "source_name": "Spelthorne Borough Council: Staines South and Ashford West By-election - 5 May 2016",
+      "source_url": "https://www.spelthorne.gov.uk/page/306/staines-south-and-ashford-west-election-5-may-2016",
+      "evidence_text": "The total number of votes recorded represented 31.3% of the registered electors.",
+      "retrieval_date": "2026-07-16",
+      "confidence": "High",
+      "notes": "The declaration names the same Surrey County Council by-election, candidates and votes as the official Surrey result page. This is supplementary division metadata only and does not populate the official result-page turnout field.",
+      "validation_status": "verified"
     }
   ]
 }

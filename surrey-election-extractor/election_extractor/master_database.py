@@ -190,10 +190,18 @@ def load_audited_elections(
     """
 
     configurations = {item.election_id: item for item in load_election_config()}
+    # By-elections are archive-catalogued events rather than entries in
+    # ``elections.json``.  Their identifiers are nevertheless valid targets
+    # for supplementary evidence, provided that the evidence remains in the
+    # separate metadata table and is tied to the event's official result URL.
+    by_election_catalogue = load_by_election_catalogue()
+    permitted_metadata_election_ids = set(configurations) | {
+        event.election_id for event in by_election_catalogue
+    }
     registered_metadata: defaultdict[str, list[SupplementaryMetadataRecord]] = defaultdict(list)
     for item in load_supplementary_metadata(
         SUPPLEMENTARY_METADATA_PATH,
-        permitted_election_ids=configurations,
+        permitted_election_ids=permitted_metadata_election_ids,
     ):
         registered_metadata[item.election_id].append(item)
     loaded = []
@@ -259,9 +267,26 @@ def load_audited_elections(
     # Every catalogued event is still included in Elections, so absence of a
     # result source is visible rather than becoming an invented zero-row result.
     records_by_event = by_election_records_by_id()
-    for event in load_by_election_catalogue():
+    for event in by_election_catalogue:
         event_records = records_by_event.get(event.election_id, ())
         source_url = event_records[0].source_url if event_records else event.archive_source_url
+        event_metadata = tuple(registered_metadata[event.election_id])
+        if event_records:
+            # A division-level external claim is acceptable only when its
+            # identifier is the same deterministic identifier used for the
+            # verified official result source.  This prevents a nearby ward,
+            # borough contest or similarly named event from being attached to
+            # the County Council by-election by mistake.
+            official_division_id = _division_id(event.election_id, source_url)
+            for item in event_metadata:
+                if (
+                    item.division_id is not None
+                    and item.division_id != official_division_id
+                ):
+                    raise ValueError(
+                        "By-election supplementary metadata does not match the "
+                        f"official result division ID for {event.election_id}."
+                    )
         loaded.append(
             AuditedElectionInput(
                 configuration=ElectionConfiguration(
@@ -275,6 +300,7 @@ def load_audited_elections(
                 audit_path=BY_ELECTION_RESULTS_PATH,
                 records=event_records,
                 election_structure_metadata=(),
+                supplementary_metadata=event_metadata,
                 event_date=event.election_date,
                 event_authority=event.authority,
                 event_source_url=source_url,
