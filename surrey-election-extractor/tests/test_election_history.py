@@ -49,9 +49,9 @@ def test_by_elections_use_only_verified_official_candidate_result_pages() -> Non
     assert len(load_by_election_catalogue()) == 15
     assert len(by_elections) == 15
     assert len({row["election_id"] for row in by_elections}) == 15
-    assert sum(row["candidate_row_count"] is not None for row in by_elections) == 11
-    assert sum(row["candidate_row_count"] is None for row in by_elections) == 4
-    assert sum(row["candidate_row_count"] or 0 for row in by_elections) == 54
+    assert sum(row["candidate_row_count"] is not None for row in by_elections) == 12
+    assert sum(row["candidate_row_count"] is None for row in by_elections) == 3
+    assert sum(row["candidate_row_count"] or 0 for row in by_elections) == 60
     assert all(row["evidence_text"] for row in by_elections)
 
 
@@ -155,8 +155,8 @@ def test_history_build_does_not_change_raw_official_audit_file() -> None:
 
     assert before == after
     # The history layer preserves the 1,898 principal-election rows and adds
-    # only the 54 separately verified official by-election candidate rows.
-    assert history["coverage_report"]["summary"]["raw_candidate_rows_preserved"] == 1952
+    # only the 60 separately verified official by-election candidate rows.
+    assert history["coverage_report"]["summary"]["raw_candidate_rows_preserved"] == 1958
 
 
 def test_coverage_reports_integrated_and_unavailable_by_election_results() -> None:
@@ -168,5 +168,5 @@ def test_coverage_reports_integrated_and_unavailable_by_election_results() -> No
 
     assert report["summary"]["events_required"] == 20
     assert report["summary"]["events_represented"] == 20
-    assert report["summary"]["by_elections_with_candidate_rows"] == 11
+    assert report["summary"]["by_elections_with_candidate_rows"] == 12
     assert "official_candidate_results_not_retrieved" in encoded

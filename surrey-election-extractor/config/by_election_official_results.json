@@ -1,7 +1,22 @@
 {
   "schema_version": "1.0",
-  "evidence_scope": "Official Surrey County Council indexed result-page evidence reviewed 2026-07-16. Null values mean that the reviewed official evidence did not publish or did not expose that field.",
+  "evidence_scope": "Official Surrey County Council result-page evidence and, where applicable, an official relevant local-authority declaration reviewed 2026-07-16. Null values mean that the reviewed official evidence did not publish or did not expose that field.",
   "results": [
+    {
+      "election_id": "surrey-county-council-by-election-epsom-west-2015-11-19",
+      "source_url": "https://www.epsom-ewell.gov.uk/sites/default/files/documents/council/elections-and-voting/SCCDeclarationofResults19Nov2015.pdf",
+      "source_title": "Declaration of Result of Poll: Epsom West, 19 November 2015",
+      "evidence_text": "Official Epsom & Ewell Borough Council declaration of the Surrey County Council Epsom West by-election result. It publishes all candidates, party descriptions, votes, the elected candidate, seats, electorate, ballot papers issued, rejected ballots and turnout.",
+      "voting_summary": {"seats": 1, "total_votes": null, "electorate": 10548, "ballot_papers_issued": 2602, "rejected_ballots": 7, "turnout": 24.7},
+      "candidates": [
+        {"candidate_name": "CHINN, Katherine Mary", "original_party_name": "Labour Party Candidate", "votes": 578, "vote_share": null, "elected_status": "Not elected"},
+        {"candidate_name": "CROOK, Christopher", "original_party_name": "Green Party", "votes": 58, "vote_share": null, "elected_status": "Not elected"},
+        {"candidate_name": "DALLEN, Neil Andrew", "original_party_name": "Residents Associations of Epsom and Ewell", "votes": 591, "vote_share": null, "elected_status": "Not elected"},
+        {"candidate_name": "LEACH, Robert", "original_party_name": "UK Independence Party (UKIP)", "votes": 168, "vote_share": null, "elected_status": "Not elected"},
+        {"candidate_name": "MORRIS, Julie Anne", "original_party_name": "Liberal Democrat", "votes": 588, "vote_share": null, "elected_status": "Not elected"},
+        {"candidate_name": "PERSAND, Karandeo", "original_party_name": "Local Conservatives", "votes": 612, "vote_share": null, "elected_status": "Elected"}
+      ]
+    },
     {
       "election_id": "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05",
       "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=8&RPID=0",

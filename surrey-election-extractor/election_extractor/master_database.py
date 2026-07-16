@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from hashlib import sha256
 from collections import Counter, defaultdict
 from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass
@@ -299,12 +300,19 @@ def _consensus(values: Iterable[object | None]) -> object | None:
 
 
 def _division_id(election_id: str, source_url: str) -> str:
-    """Create a stable derived identifier from the official result-page ID."""
+    """Create a stable identifier from an official result ID or source URL.
+
+    Surrey result pages normally expose an ``ID`` query parameter. An official
+    declaration PDF may not, so it receives a deterministic URL digest instead.
+    The digest identifies the source document only; it does not assert a new
+    division, a geographic relationship, or any candidate identity.
+    """
 
     result_id = parse_qs(urlsplit(source_url).query).get("ID", [None])[0]
-    if not result_id:
-        raise ValueError(f"Official result URL has no ID parameter: {source_url}")
-    return f"{election_id}:result:{result_id}"
+    if result_id:
+        return f"{election_id}:result:{result_id}"
+    source_digest = sha256(source_url.encode("utf-8")).hexdigest()[:12]
+    return f"{election_id}:official-document:{source_digest}"
 
 
 def _elected_yes_no(outcome: str | None) -> str | None:
@@ -734,7 +742,7 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
         "Candidate Results": [
             ("election_id", "Configured election identifier.", "configuration", "configuration", "Never blank."),
             ("election_year", "Configured calendar year.", "configuration", "configuration", "Never blank."),
-            ("division_id", "Derived stable identifier from the official result-page ID.", "official URL", "derived", "Never blank for verified official URLs."),
+            ("division_id", "Derived stable identifier from an official result-page ID, or from the official source URL when no result ID is published.", "official URL", "derived", "Never blank for verified official sources; does not claim geographic identity."),
             ("division_name", "Published division or ward name.", "official result page", "official", "NULL only if not published."),
             ("candidate_id", "Identifier for an exact published name; not identity matching.", "candidate name", "derived", "Never blank for a candidate row."),
             ("candidate_name", "Published candidate name.", "official result page", "official", "Never blank for extracted candidate rows."),
@@ -756,7 +764,7 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
         ],
         "Divisions and Wards": [
             ("election_id", "Configured election identifier.", "configuration", "configuration", "Never blank."),
-            ("division_id", "Derived stable identifier from the official result-page ID.", "official URL", "derived", "Never blank for verified official URLs."),
+            ("division_id", "Derived stable identifier from an official result-page ID, or from the official source URL when no result ID is published.", "official URL", "derived", "Never blank for verified official sources; does not claim geographic identity."),
             ("division_name", "Published division or ward name.", "official result page", "official", "NULL only if not published."),
             ("official_number_of_seats", "Seats explicitly published on the official result page.", "official result page", "official", "NULL when not published; never inferred."),
             ("secondary_number_of_seats", "Seats confirmed by separate supplementary evidence.", "supplementary metadata", "supplementary", "NULL unless documented secondary evidence exists; never overwrites official Seats."),

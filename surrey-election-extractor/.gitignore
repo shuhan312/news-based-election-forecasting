@@ -33,6 +33,7 @@ outputs/master_surrey_election_database/
 outputs/election_event_timeline/*.json
 outputs/historical_baseline_features/*.json
 outputs/by_election_integration/*.json
+outputs/by_election_source_recovery/*.json
 
 # Local secrets and API-key files
 .env
