@@ -43,20 +43,34 @@ def audit_2013_division_evidence(
 
     payload = json.loads(Path(evidence_path).read_text(encoding="utf-8"))
     divisions = _division_index(records)
-    accepted = _accepted_evidence(payload, divisions)
+    source = _source(payload.get("source"), "source")
+    official_turnout = _accepted_evidence(payload, divisions, source)
+    wikipedia_turnout = _accepted_wikipedia_turnout_evidence(
+        payload,
+        divisions,
+        official_turnout,
+    )
+    accepted = official_turnout + wikipedia_turnout
     unresolved = _unresolved_evidence(payload, divisions)
     _validate_coverage(divisions, accepted, unresolved)
 
-    source = _mapping(payload.get("source"), "source")
     turnout_records = tuple(
         _turnout_metadata_record(
             division_name=division_name,
             division_id=division_id,
             value=value,
             source_division_name=source_division_name,
+            evidence_text=evidence_text,
             source=source,
         )
-        for division_name, division_id, value, source_division_name in accepted
+        for (
+            division_name,
+            division_id,
+            value,
+            source_division_name,
+            source,
+            evidence_text,
+        ) in accepted
     )
     ballot_issued = _accepted_ballot_papers_issued(payload, divisions, records)
     ballot_issued_records = tuple(
@@ -92,12 +106,12 @@ def audit_2013_division_evidence(
                 "turnout_source_division_name": turnout[3] if turnout else (
                     unresolved_turnout[1] if unresolved_turnout else None
                 ),
-                "turnout_source_url": source["source_url"] if turnout else (
+                "turnout_source_url": turnout[4]["source_url"] if turnout else (
                     unresolved_turnout[2] if unresolved_turnout else None
                 ),
                 "turnout_status": "accepted" if turnout else "unresolved",
                 "turnout_reason": (
-                    "Named official Council result section states the turnout value."
+                    turnout[5]
                     if turnout
                     else unresolved_turnout[3]
                 ),
@@ -131,10 +145,12 @@ def audit_2013_division_evidence(
             "Supplementary values remain separate from official division fields "
             "and do not change layered completeness."
         ),
-        "sources": [source],
+        "sources": [source] + ([wikipedia_turnout[0][4]] if wikipedia_turnout else []),
         "summary": {
             "official_divisions_audited": len(divisions),
             "accepted_supplementary_division_turnout": len(turnout_records),
+            "accepted_official_division_turnout": len(official_turnout),
+            "accepted_cross_validated_wikipedia_division_turnout": len(wikipedia_turnout),
             "unresolved_division_turnout": len(divisions) - len(turnout_records),
             "accepted_supplementary_ballot_papers_issued": len(ballot_issued_records),
             "unresolved_ballot_papers_issued": len(divisions) - len(ballot_issued_records),
@@ -169,8 +185,8 @@ def audit_markdown(report: Mapping[str, object]) -> str:
         "## Source boundary",
         "",
         "- The Surrey Council announcement is treated as supplementary division evidence, not as a replacement for the official individual result pages.",
-        "- Every accepted turnout record has a named Council result section and a stated value.",
-        "- Foxhills, Thorpe & Virginia Water remains unresolved because its Council result section labels turnout but gives no number.",
+        "- Eighty accepted turnout records have a named Council result section and a stated value.",
+        "- Foxhills, Thorpe & Virginia Water uses a separate Wikipedia secondary record only after ten named Wikipedia turnout values were checked against the Surrey Council publication.",
         "- Only named ballot-papers-issued values whose official Woking declaration electorate agrees with the Surrey result page are accepted.",
         "- The Byfleets remains unresolved: the Woking declaration states an electorate of 10,016 whereas the Surrey result page states 10,019.",
         "- Official `turnout` and `ballot_papers_issued` values remain NULL, and division completeness is unchanged.",
@@ -200,7 +216,8 @@ def _division_index(records: Sequence[CandidateResultRecord]) -> dict[str, str]:
 def _accepted_evidence(
     payload: Mapping[str, object],
     divisions: Mapping[str, str],
-) -> tuple[tuple[str, str, float, str], ...]:
+    source: Mapping[str, str],
+) -> tuple[tuple[str, str, float, str, Mapping[str, str], str], ...]:
     """Validate manually reviewed evidence without normalising names automatically."""
 
     raw_records = payload.get("records")
@@ -230,9 +247,84 @@ def _accepted_evidence(
                 divisions[division_name],
                 float(value),
                 _required_text(record, "source_division_name"),
+                source,
+                (
+                    f"The official result section ‘RESULT - "
+                    f"{_required_text(record, 'source_division_name')}’ states "
+                    f"‘Turnout {float(value):g}%’."
+                ),
             )
         )
     return tuple(accepted)
+
+
+def _accepted_wikipedia_turnout_evidence(
+    payload: Mapping[str, object],
+    divisions: Mapping[str, str],
+    official_turnout: Sequence[tuple[str, str, float, str, Mapping[str, str], str]],
+) -> tuple[tuple[str, str, float, str, Mapping[str, str], str], ...]:
+    """Accept Wikipedia only after its named values pass the supervisor's cross-check.
+
+    The target value is never calculated from candidate votes.  The rule here
+    checks that at least ten *other* named Wikipedia turnout values agree with
+    values explicitly published by Surrey County Council before accepting the
+    one division whose Council announcement omitted the number.
+    """
+
+    section = _mapping(
+        payload.get("wikipedia_cross_validated_turnout"),
+        "wikipedia_cross_validated_turnout",
+    )
+    source = _source(section.get("source"), "Wikipedia turnout source")
+    minimum = section.get("minimum_cross_validation_records")
+    if not isinstance(minimum, int) or minimum < 10:
+        raise ValueError("Wikipedia turnout evidence requires at least ten cross-checks.")
+    raw_cross_checks = section.get("cross_validation_records")
+    if not isinstance(raw_cross_checks, list):
+        raise ValueError("Wikipedia turnout evidence must contain cross_validation_records.")
+    official_values = {item[0]: item[2] for item in official_turnout}
+    checked_names: set[str] = set()
+    for item in raw_cross_checks:
+        check = _mapping(item, "Wikipedia turnout cross-check")
+        division_name = _required_text(check, "division_name")
+        value = check.get("value")
+        if division_name in checked_names:
+            raise ValueError(f"Duplicate Wikipedia turnout cross-check for {division_name}.")
+        if not isinstance(value, (int, float)):
+            raise ValueError(f"Wikipedia turnout cross-check must be numeric for {division_name}.")
+        if division_name not in official_values or float(value) != official_values[division_name]:
+            raise ValueError(
+                "Wikipedia turnout cross-check does not agree with the Surrey Council "
+                f"publication for {division_name}."
+            )
+        checked_names.add(division_name)
+    if len(checked_names) < minimum:
+        raise ValueError(
+            "Wikipedia turnout evidence has fewer verified cross-checks than required."
+        )
+
+    record = _mapping(section.get("accepted_record"), "Wikipedia turnout accepted_record")
+    division_name = _required_text(record, "division_name")
+    value = record.get("value")
+    if division_name not in divisions:
+        raise ValueError(
+            "Wikipedia turnout evidence does not use an exact official division name: "
+            f"{division_name}."
+        )
+    if division_name in official_values:
+        raise ValueError("Wikipedia turnout target must be absent from official turnout evidence.")
+    if not isinstance(value, (int, float)) or not 0 <= float(value) <= 100:
+        raise ValueError(f"Wikipedia turnout value is outside 0-100 for {division_name}.")
+    return (
+        (
+            division_name,
+            divisions[division_name],
+            float(value),
+            _required_text(record, "source_division_name"),
+            source,
+            _required_text(record, "evidence_text"),
+        ),
+    )
 
 
 def _unresolved_evidence(
@@ -341,7 +433,7 @@ def _official_electorates(
 
 def _validate_coverage(
     divisions: Mapping[str, str],
-    accepted: Sequence[tuple[str, str, float, str]],
+    accepted: Sequence[tuple[str, str, float, str, Mapping[str, str], str]],
     unresolved: Sequence[tuple[str, str, str, str]],
 ) -> None:
     """Require every official division to be accepted or explicitly unresolved."""
@@ -362,12 +454,15 @@ def _turnout_metadata_record(
     division_id: str,
     value: float,
     source_division_name: str,
+    evidence_text: str,
     source: Mapping[str, str],
 ) -> SupplementaryMetadataRecord:
     """Create an additive record with an explicit source heading and value."""
 
     return SupplementaryMetadataRecord(
-        metadata_id=f"{division_id}:secondary_division_turnout:surrey-council",
+        metadata_id=(
+            f"{division_id}:secondary_division_turnout:{source['source_id']}"
+        ),
         election_id="surrey-county-council-2013",
         division_id=division_id,
         field_name="secondary_division_turnout",
@@ -376,15 +471,13 @@ def _turnout_metadata_record(
         source_type=source["source_type"],
         source_name=source["source_name"],
         source_url=source["source_url"],
-        evidence_text=(
-            f"The official result section ‘RESULT - {source_division_name}’ "
-            f"states ‘Turnout {value:g}%’."
-        ),
+        evidence_text=evidence_text,
         retrieval_date=source["retrieval_date"],
         confidence=source["confidence"],
         notes=(
             "Supplementary division evidence only. It does not populate the "
-            "official turnout field or change division completeness."
+            "official turnout field or change division completeness. "
+            f"Source division heading: {source_division_name}."
         ),
         validation_status=SupplementaryValidationStatus(source["validation_status"]),
     )
@@ -448,6 +541,22 @@ def _mapping(value: object, label: str) -> Mapping[str, object]:
     if not isinstance(value, Mapping):
         raise ValueError(f"{label} must be an object.")
     return value
+
+
+def _source(value: object, label: str) -> Mapping[str, str]:
+    """Validate source provenance before it is copied into metadata records."""
+
+    source = _mapping(value, label)
+    required = (
+        "source_id",
+        "source_type",
+        "source_name",
+        "source_url",
+        "retrieval_date",
+        "confidence",
+        "validation_status",
+    )
+    return {key: _required_text(source, key) for key in required}
 
 
 def _required_text(record: Mapping[str, object], field_name: str) -> str:

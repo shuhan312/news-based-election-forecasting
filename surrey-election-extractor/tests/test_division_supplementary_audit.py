@@ -23,6 +23,9 @@ def _official_records() -> tuple[CandidateResultRecord, ...]:
     payload = json.loads(EVIDENCE_PATH.read_text(encoding="utf-8"))
     names = [item["division_name"] for item in payload["records"]]
     names.extend(item["division_name"] for item in payload["unresolved"])
+    names.append(
+        payload["wikipedia_cross_validated_turnout"]["accepted_record"]["division_name"]
+    )
     ballot_electorates = {
         item["division_name"]: item["source_electorate"]
         for item in payload["ballot_papers_issued"]["accepted_records"]
@@ -66,17 +69,19 @@ def test_named_turnout_evidence_is_separate_from_official_fields() -> None:
 
     assert audit.report["summary"] == {
         "official_divisions_audited": 81,
-        "accepted_supplementary_division_turnout": 80,
-        "unresolved_division_turnout": 1,
+        "accepted_supplementary_division_turnout": 81,
+        "accepted_official_division_turnout": 80,
+        "accepted_cross_validated_wikipedia_division_turnout": 1,
+        "unresolved_division_turnout": 0,
         "accepted_supplementary_ballot_papers_issued": 6,
         "unresolved_ballot_papers_issued": 75,
     }
-    assert len(audit.supplementary_records) == 86
+    assert len(audit.supplementary_records) == 87
     assert all(record.geographic_level.value == "division" for record in audit.supplementary_records)
     assert sum(
         record.field_name == "secondary_division_turnout"
         for record in audit.supplementary_records
-    ) == 80
+    ) == 81
     ballot_records = [
         record
         for record in audit.supplementary_records
@@ -87,8 +92,8 @@ def test_named_turnout_evidence_is_separate_from_official_fields() -> None:
     assert all(record.ballot_papers_issued is None for record in records)
 
 
-def test_unresolved_turnout_is_recorded_without_a_value() -> None:
-    """A named section without a published number cannot create metadata."""
+def test_cross_validated_wikipedia_turnout_is_separate_from_official_fields() -> None:
+    """Wikipedia is accepted only as a separate record after ten cross-checks."""
 
     audit = audit_2013_division_evidence(_official_records())
     foxhills = next(
@@ -97,9 +102,35 @@ def test_unresolved_turnout_is_recorded_without_a_value() -> None:
         if item["division_name"] == "Foxhills, Thorpe & Virginia Water"
     )
 
-    assert foxhills["supplementary_turnout_available"] is False
-    assert foxhills["supplementary_turnout_value"] is None
-    assert foxhills["turnout_status"] == "unresolved"
+    assert foxhills["supplementary_turnout_available"] is True
+    assert foxhills["supplementary_turnout_value"] == 27.0
+    assert foxhills["turnout_status"] == "accepted"
+    assert "wikipedia.org" in foxhills["turnout_source_url"]
+    metadata = next(
+        record
+        for record in audit.supplementary_records
+        if record.division_id == "surrey-county-council-2013:result:81"
+        and record.field_name == "secondary_division_turnout"
+    )
+    assert metadata.value == 27.0
+    assert metadata.source_type == "Wikipedia secondary election table"
+    assert all(record.turnout is None for record in _official_records())
+
+
+def test_wikipedia_turnout_requires_ten_matching_official_cross_checks(
+    tmp_path: Path,
+) -> None:
+    """A changed Wikipedia value cannot be accepted without the required audit trail."""
+
+    payload = json.loads(EVIDENCE_PATH.read_text(encoding="utf-8"))
+    payload["wikipedia_cross_validated_turnout"]["cross_validation_records"] = payload[
+        "wikipedia_cross_validated_turnout"
+    ]["cross_validation_records"][:9]
+    evidence_path = tmp_path / "insufficient-cross-checks.json"
+    evidence_path.write_text(json.dumps(payload), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="fewer verified cross-checks"):
+        audit_2013_division_evidence(_official_records(), evidence_path)
 
 
 def test_byfleets_source_disagreement_stays_unresolved() -> None:

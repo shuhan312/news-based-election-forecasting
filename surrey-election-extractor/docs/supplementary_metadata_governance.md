@@ -20,7 +20,7 @@ Permitted geographic levels are `election`, `division` and `candidate`. Division
 
 | Election | Field | Official availability | Supplementary evidence status | Storage decision |
 | --- | --- | --- | --- | --- |
-| 2013 | turnout | Division turnout is absent from the official result-page summaries. | The Surrey Council announcement provides 80 named division turnout values; its county-wide 30% figure is also independently supported by the Electoral Commission. | 80 verified `secondary_division_turnout` records and two `secondary_election_turnout` records; none overwrite official division fields. |
+| 2013 | turnout | Division turnout is absent from the official result-page summaries. | The Surrey Council announcement provides 80 named division turnout values. Wikipedia supplies Foxhills, Thorpe & Virginia Water's 27% only after ten other named Wikipedia values were checked against the Council publication; its county-wide 30% figure is also independently supported by the Electoral Commission. | 81 verified `secondary_division_turnout` records and two `secondary_election_turnout` records; none overwrite official division fields. |
 | 2013 | ballot_papers_issued | Absent from official division summaries. | Woking Borough Council's signed 2013 declaration explicitly names six Woking divisions and their issued ballot-paper counts; each declaration electorate matches the Surrey result page. | Six verified `secondary_division_ballot_papers_issued` records; official fields remain NULL. The Byfleets remains unresolved because the two official sources disagree on electorate. |
 | 2017 | rejected_ballots | Reigate's official page does not publish the value. | No approved supplementary evidence. | Remains NULL. |
 | 2021 | Seats | 28 official result pages do not publish Seats. | The Surrey (Electoral Changes) Order 2012 names the affected divisions and provides one councillor for each. | Existing verified division-level supplementary Seats records remain separate from official Seats. |
@@ -63,7 +63,7 @@ Permitted geographic levels are `election`, `division` and `candidate`. Division
 
 ## Current approved integration
 
-The approved 2013 evidence registers contain 80 verified division-level records for `secondary_division_turnout`, each tied to a named Surrey Council result section. Foxhills, Thorpe & Virginia Water remains unresolved because the named section displays a turnout label without a value. No `ballot_papers_issued` value is currently accepted.
+The approved 2013 evidence registers contain 81 verified division-level records for `secondary_division_turnout`. Eighty are tied directly to named Surrey Council result sections. The remaining Foxhills, Thorpe & Virginia Water value of 27% is a separate Wikipedia secondary record: its table reproduces the named division and turnout, and ten other named Wikipedia turnout values were checked against the Surrey Council publication before acceptance. No `ballot_papers_issued` value is currently accepted for Foxhills.
 
 They also contain two verified, election-level records for `secondary_election_turnout = 30.0`:
 

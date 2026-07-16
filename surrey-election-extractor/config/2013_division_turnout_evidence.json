@@ -1,5 +1,6 @@
 {
   "source": {
+    "source_id": "surrey-council-announcement",
     "source_type": "Surrey County Council official publication",
     "source_name": "Surrey News: Election results declared",
     "source_url": "https://news.surreycc.gov.uk/2013/05/03/election-results-special/",
@@ -91,15 +92,37 @@
     {"division_name": "Woodham and New Haw", "source_division_name": "Woodham and New Haw", "value": 28.0},
     {"division_name": "Worplesdon", "source_division_name": "Worplesdon", "value": 32.0}
   ],
-  "unresolved": [
-    {
+  "wikipedia_cross_validated_turnout": {
+    "source": {
+      "source_id": "wikipedia-cross-validated",
+      "source_type": "Wikipedia secondary election table",
+      "source_name": "2013 Surrey County Council election: Runnymede results",
+      "source_url": "https://en.wikipedia.org/wiki/2013_Surrey_County_Council_election",
+      "retrieval_date": "2026-07-16",
+      "confidence": "Medium",
+      "validation_status": "verified"
+    },
+    "minimum_cross_validation_records": 10,
+    "cross_validation_records": [
+      {"division_name": "Addlestone", "value": 26.0},
+      {"division_name": "Chertsey", "value": 28.0},
+      {"division_name": "Egham", "value": 21.0},
+      {"division_name": "Englefield Green", "value": 19.5},
+      {"division_name": "Staines", "value": 26.0},
+      {"division_name": "Woking North", "value": 36.0},
+      {"division_name": "Woking South", "value": 30.0},
+      {"division_name": "Woking South East", "value": 31.0},
+      {"division_name": "Woking South West", "value": 29.0},
+      {"division_name": "Woodham and New Haw", "value": 28.0}
+    ],
+    "accepted_record": {
       "division_name": "Foxhills, Thorpe & Virginia Water",
       "source_division_name": "Foxhills, Thorpe and Virginia Water",
-      "field_name": "secondary_division_turnout",
-      "reason": "The official Surrey Council announcement contains the named result but shows 'Turnout:' with no value.",
-      "source_url": "https://news.surreycc.gov.uk/2013/05/03/election-results-special/"
+      "value": 27.0,
+      "evidence_text": "Wikipedia's named Runnymede result table reports turnout of 27% for Foxhills, Thorpe and Virginia Water. The same table's turnout values for ten other named divisions were checked against the Surrey County Council Election results declared publication and matched exactly."
     }
-  ],
+  },
+  "unresolved": [],
   "ballot_papers_issued": {
     "source": {
       "source_type": "Woking Borough Council official declaration",

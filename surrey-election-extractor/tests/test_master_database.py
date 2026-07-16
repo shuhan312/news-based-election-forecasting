@@ -568,6 +568,35 @@ def test_verified_woking_2013_issued_ballots_are_supplementary_only() -> None:
     assert divisions["The Byfleets"]["ballot_papers_issued"] is None
 
 
+def test_cross_validated_foxhills_turnout_is_supplementary_only() -> None:
+    """Keep the approved Wikipedia turnout outside the official 2013 field.
+
+    The individual Surrey result page omits its turnout number. The master
+    database may expose the separately cross-validated evidence record, but
+    must not make the official division field look published or complete.
+    """
+
+    payload = build_master_database(load_audited_elections())
+    foxhills = next(
+        row
+        for row in payload.divisions_and_wards
+        if row["election_id"] == "surrey-county-council-2013"
+        and row["division_name"] == "Foxhills, Thorpe & Virginia Water"
+    )
+    supplementary = next(
+        row
+        for row in payload.supplementary_metadata
+        if row["metadata_id"].endswith(
+            "secondary_division_turnout:wikipedia-cross-validated"
+        )
+    )
+
+    assert foxhills["turnout"] is None
+    assert supplementary["division_id"] == foxhills["division_id"]
+    assert supplementary["value"] == 27.0
+    assert supplementary["source_type"] == "Wikipedia secondary election table"
+
+
 def test_current_published_party_labels_have_reviewed_lookup_entries() -> None:
     """Require explicit review for every non-blank party label in current inputs.
 
