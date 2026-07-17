@@ -1,7 +1,10 @@
 """Tests for the source-preserving multi-election master database payload."""
 
 from dataclasses import replace
+from datetime import date
 from pathlib import Path
+
+import pytest
 
 from election_extractor.election_config import ElectionConfiguration
 from election_extractor.extraction import CandidateResultRecord, ExtractionStatus
@@ -9,6 +12,11 @@ from election_extractor.master_database import (
     AuditedElectionInput,
     build_master_database,
     load_audited_elections,
+)
+from election_extractor.candidate_continuity_evidence import (
+    CandidateContinuityEvidence,
+    PriorOfficialElection,
+    candidate_evidence_key,
 )
 from election_extractor.models import ElectionStructureMetadata, SupplementaryMetadataRecord
 
@@ -813,3 +821,96 @@ def test_identity_incumbency_and_vote_change_are_explicitly_unresolved() -> None
     assert candidate["incumbency_status"] == "unresolved_no_authoritative_linkage"
     assert candidate["change_in_vote_share"] is None
     assert candidate["change_in_vote_share_status"] == "blocked_by_design"
+
+
+def test_verified_member_profile_can_add_positive_person_level_fields() -> None:
+    """An exact official profile link can support True without name matching."""
+
+    source = (
+        "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=2017&RPID=1"
+    )
+    evidence = CandidateContinuityEvidence(
+        evidence_id="example:verified-profile",
+        election_id="surrey-county-council-2017",
+        candidate_name="Candidate One",
+        division_name="Example Division",
+        candidate_source_url=(
+            "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=2017"
+        ),
+        member_profile_url="https://mycouncil.surreycc.gov.uk/mgUserInfo.aspx?UID=192",
+        member_uid="192",
+        term_start=date(2013, 5, 3),
+        profile_linked_result_urls=(
+            "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=2013",
+            "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=2017",
+        ),
+        prior_official_elections=(
+            PriorOfficialElection(
+                election_id="surrey-county-council-2013",
+                election_date=date(2013, 5, 2),
+                source_url=(
+                    "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=2013"
+                ),
+            ),
+        ),
+        candidate_previously_stood=True,
+        incumbent_candidate=True,
+        incumbent_party="Conservative",
+        evidence_text="Official profile directly links both official result pages.",
+        retrieval_date="2026-07-17",
+        confidence="High",
+        notes=None,
+    )
+    payload = build_master_database(
+        (audited_input(2017, (record(2017, "Candidate One", "Conservative"),)),),
+        candidate_continuity_evidence={
+            candidate_evidence_key("surrey-county-council-2017", source, "Candidate One"): evidence
+        },
+    )
+    candidate = payload.candidate_results[0]
+
+    assert candidate["candidate_previously_stood"] is True
+    assert candidate["incumbent_candidate"] is True
+    assert candidate["incumbent_party"] == "Conservative"
+    assert candidate["candidate_history_status"] == "verified_official_member_profile"
+    assert candidate["candidate_continuity_evidence_id"] == "example:verified-profile"
+
+
+def test_unmatched_profile_evidence_is_rejected_not_name_matched() -> None:
+    """A register entry for another published name cannot be silently reused."""
+
+    evidence = CandidateContinuityEvidence(
+        evidence_id="example:wrong-name",
+        election_id="surrey-county-council-2017",
+        candidate_name="Different Candidate",
+        division_name="Example Division",
+        candidate_source_url=(
+            "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=2017"
+        ),
+        member_profile_url="https://mycouncil.surreycc.gov.uk/mgUserInfo.aspx?UID=192",
+        member_uid="192",
+        term_start=date(2013, 5, 3),
+        profile_linked_result_urls=(
+            "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=2013",
+            "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=2017",
+        ),
+        prior_official_elections=(),
+        candidate_previously_stood=True,
+        incumbent_candidate=True,
+        incumbent_party="Conservative",
+        evidence_text="This object is intentionally unmatched.",
+        retrieval_date="2026-07-17",
+        confidence="High",
+        notes=None,
+    )
+    evidence_key = candidate_evidence_key(
+        "surrey-county-council-2017",
+        evidence.candidate_source_url,
+        evidence.candidate_name,
+    )
+
+    with pytest.raises(ValueError, match="does not match an exact audited candidate row"):
+        build_master_database(
+            (audited_input(2017, (record(2017, "Candidate One", "Conservative"),)),),
+            candidate_continuity_evidence={evidence_key: evidence},
+        )

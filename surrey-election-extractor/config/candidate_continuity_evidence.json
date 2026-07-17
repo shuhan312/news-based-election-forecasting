@@ -1,0 +1,69 @@
+{
+  "records": [
+    {
+      "evidence_id": "surrey-county-council-2017:result:187:hazel-watson:official-member-profile",
+      "election_id": "surrey-county-council-2017",
+      "candidate_name": "Hazel Valerie Ann Watson",
+      "division_name": "Dorking Hills",
+      "candidate_source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=187&RPID=454155221&XXR=0",
+      "candidate_election_date": "2017-05-04",
+      "member_profile_url": "https://mycouncil.surreycc.gov.uk/mgUserInfo.aspx?UID=192",
+      "member_uid": "192",
+      "term_start": "1993-05-06",
+      "profile_linked_result_urls": [
+        "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=101",
+        "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=187",
+        "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=272"
+      ],
+      "prior_official_elections": [
+        {
+          "election_id": "surrey-county-council-2013",
+          "election_date": "2013-05-02",
+          "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=101"
+        }
+      ],
+      "candidate_previously_stood": true,
+      "incumbent_candidate": true,
+      "incumbent_party": "Liberal Democrats",
+      "evidence_text": "The official Surrey County Council profile for member UID 192 gives Hazel Watson's term of office as 06/05/1993 onward and lists the 2013, 2017 and 2021 County Council elections. Its direct 2017 election link is the official Dorking Hills result page, where Hazel Valerie Ann Watson is marked Elected for Liberal Democrats.",
+      "retrieval_date": "2026-07-17",
+      "confidence": "High",
+      "notes": "This is a manually reviewed official member-profile link, not a name-based candidate match. It establishes only this published candidate row's prior participation and incumbency at the 2017 election."
+    },
+    {
+      "evidence_id": "surrey-county-council-2021:result:272:hazel-watson:official-member-profile",
+      "election_id": "surrey-county-council-2021",
+      "candidate_name": "Hazel Valerie Ann Watson",
+      "division_name": "Dorking Hills",
+      "candidate_source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=272&RPID=453722837&XXR=0",
+      "candidate_election_date": "2021-05-06",
+      "member_profile_url": "https://mycouncil.surreycc.gov.uk/mgUserInfo.aspx?UID=192",
+      "member_uid": "192",
+      "term_start": "1993-05-06",
+      "profile_linked_result_urls": [
+        "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=101",
+        "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=187",
+        "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=272"
+      ],
+      "prior_official_elections": [
+        {
+          "election_id": "surrey-county-council-2013",
+          "election_date": "2013-05-02",
+          "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=101"
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "election_date": "2017-05-04",
+          "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=187"
+        }
+      ],
+      "candidate_previously_stood": true,
+      "incumbent_candidate": true,
+      "incumbent_party": "Liberal Democrats",
+      "evidence_text": "The official Surrey County Council profile for member UID 192 gives Hazel Watson's term of office as 06/05/1993 onward and lists the 2013, 2017 and 2021 County Council elections. Its direct 2021 election link is the official Dorking Hills result page, where Hazel Valerie Ann Watson is marked Elected for Liberal Democrats.",
+      "retrieval_date": "2026-07-17",
+      "confidence": "High",
+      "notes": "This is a manually reviewed official member-profile link, not a name-based candidate match. It establishes only this published candidate row's prior participation and incumbency at the 2021 election."
+    }
+  ]
+}

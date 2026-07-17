@@ -33,8 +33,8 @@ to the separate 22-relationship geographic permission audit.
 | First appearance of party in area / party previously contested | Materialised for exact original party labels in the approved direct lineage. | It is first observed appearance in the project’s permitted lineage, not a claim about a party's real-world origin. |
 | Previous party vote share | Remains NULL. | The result pages provide candidate shares, not a documented division-level party-total series; no party-total reconstruction is allowed. |
 | Change in vote share / swing | Remains NULL. | Requires a permitted party-total comparison; the project forbids party-total reconstruction, redistribution and cross-boundary swing. |
-| Candidate previously stood | Remains NULL. | Official councillor pages can provide person-specific information for some elected members, but completed election records contain no shared candidate identifier. Name-only joining is prohibited. |
-| Incumbent candidate / incumbent party | Remains NULL. | A division link alone does not establish that a named current candidate is the same person as a prior elected member. An explicit, manually reviewed person-level evidence register would be required. |
+| Candidate previously stood | Materialised as `True` only for rows in the reviewed official member-profile register; otherwise remains NULL. | The register requires a stable Surrey profile UID directly linking the exact target result page and an earlier official result page. Name-only joining remains prohibited. |
+| Incumbent candidate / incumbent party | Materialised only for the same reviewed profile rows; otherwise remains NULL. | The register additionally requires a published term beginning before the target election. Incumbent party preserves the target row's exact published party label and does not infer historical affiliation. |
 | Winning margin | Remains NULL. | No audited official margin field has been identified, and calculating it from candidate vote order is not permitted. |
 
 ## Conclusion
@@ -42,9 +42,12 @@ to the separate 22-relationship geographic permission audit.
 The implemented legal-continuity audit resolves a real avoidable gap: it makes
 the 2013→2017 and 2017→2021 historical references available without weakening
 the existing 2026 crosswalk rules. It does **not** turn the remaining personal,
-party-total or swing fields into missing-data failures. They stay visibly NULL
-until an authoritative source supports each field under a separately reviewed
-method.
+party-total or swing fields into missing-data failures. Candidate history and
+incumbency can now be added only through the separately reviewed official
+member-profile register documented in
+[`candidate_and_incumbency_evidence_audit.md`](candidate_and_incumbency_evidence_audit.md).
+All other records stay visibly NULL until an authoritative source supports each
+field under that method.
 
 This is a statement about the evidence reviewed and the project’s permitted
 methods, not a claim that no additional archival or returning-officer evidence

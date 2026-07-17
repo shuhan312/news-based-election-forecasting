@@ -22,6 +22,10 @@ from election_extractor.master_database import (
     payload_as_dict,
     schema_documentation_markdown,
 )
+from election_extractor.candidate_continuity_evidence import (
+    evidence_by_candidate_key,
+    load_candidate_continuity_evidence,
+)
 from election_extractor.historical_baseline import (
     build_historical_baseline_features,
     load_crosswalk_resolution,
@@ -227,6 +231,16 @@ def generate_master_database_outputs(
     # website is requested and no published election value is recalculated.
     elections = load_audited_elections()
     division_references, party_references = reviewed_historical_reference_inputs()
+    # Personal history is opt-in.  The committed register contains only
+    # manually reviewed official profile links and is passed separately so a
+    # rebuild cannot silently create identity or incumbency claims.
+    continuity_evidence = evidence_by_candidate_key(
+        load_candidate_continuity_evidence(
+            permitted_election_ids=(
+                election.configuration.election_id for election in elections
+            )
+        )
+    )
     # The workbook includes only the separately audited, explicitly approved
     # direct relationships.  The complete GIS review remains external so a
     # partial relationship cannot be mistaken for an electoral comparison.
@@ -235,6 +249,7 @@ def generate_master_database_outputs(
         geographic_mapping=reviewed_geographic_mapping_rows(),
         historical_division_references=division_references,
         party_history_references=party_references,
+        candidate_continuity_evidence=continuity_evidence,
     )
     output_directory.mkdir(parents=True, exist_ok=True)
     payload_path = output_directory / "master_election_database_payload.json"
