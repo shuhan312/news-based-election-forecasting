@@ -95,8 +95,8 @@ def test_uk_independence_party_and_reform_uk_remain_separate() -> None:
     assert ("Reform UK", "Reform UK") in pairs
 
 
-def test_unpermitted_direct_mapping_cannot_transfer_historical_reference() -> None:
-    """A GIS match alone cannot bypass the crosswalk's explicit permission."""
+def test_officially_permitted_direct_mappings_enable_limited_history_only() -> None:
+    """GIS matching and official-boundary permission are both required."""
 
     baseline = build_historical_baseline_features()
     rows = baseline["baseline_feature_table"]
@@ -104,33 +104,43 @@ def test_unpermitted_direct_mapping_cannot_transfer_historical_reference() -> No
     blocked_rows = [row for row in rows if row["geographic_status"] != "accepted_direct"]
 
     assert len(direct_rows) == 22
-    assert all(row["historical_baseline_available"] is False for row in direct_rows)
+    assert all(row["historical_baseline_available"] is True for row in direct_rows)
     assert all(row["historical_baseline_available"] is False for row in blocked_rows)
     assert all(
-        row["direct_historical_reference"]["previous_election_event_id"] is None
-        for row in rows
+        row["direct_historical_reference"]["previous_election_event_id"] is not None
+        for row in direct_rows
     )
-    assert all("previous_winning_party" in row["blocked_features"] for row in direct_rows)
+    assert all("previous_winning_party" in row["blocked_features"] for row in blocked_rows)
+    assert all("incumbency_transfer" in row["blocked_features"] for row in direct_rows)
 
 
-def test_explicit_crosswalk_permission_enables_one_direct_reference(tmp_path: Path) -> None:
-    """Only a reviewed true permission can unlock the matching history fields."""
+def test_explicit_permission_audit_enables_only_one_direct_reference(tmp_path: Path) -> None:
+    """Removing an approval blocks all other GIS matches without reclassification."""
 
     source_path = (
         PROJECT_ROOT
         / "outputs/geographic_crosswalk_resolution/geographic_crosswalk_resolution_dataset.json"
     )
     payload = json.loads(source_path.read_text(encoding="utf-8"))
-    for row in payload["resolution_rows"]:
-        if row.get("mapping_id") == "geographic-mapping-review:007":
-            row["previous_winner_allowed"] = True
-            break
-    else:
-        raise AssertionError("Expected Ashtead direct-mapping evidence is absent.")
-    permitted_path = tmp_path / "permitted_crosswalk.json"
-    permitted_path.write_text(json.dumps(payload), encoding="utf-8")
+    resolution_path = tmp_path / "crosswalk.json"
+    resolution_path.write_text(json.dumps(payload), encoding="utf-8")
+    permission_payload = json.loads(
+        (PROJECT_ROOT / "config/historical_reference_permissions.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    permission_payload["approved_mappings"] = [
+        row
+        for row in permission_payload["approved_mappings"]
+        if row["mapping_id"] == "geographic-mapping-review:007"
+    ]
+    permitted_path = tmp_path / "permitted_permissions.json"
+    permitted_path.write_text(json.dumps(permission_payload), encoding="utf-8")
 
-    baseline = build_historical_baseline_features(crosswalk_resolution_path=permitted_path)
+    baseline = build_historical_baseline_features(
+        crosswalk_resolution_path=resolution_path,
+        historical_reference_permission_path=permitted_path,
+    )
     ashstead = _row_for_area(baseline, "Ashtead Ward")
 
     assert ashstead["historical_baseline_available"] is True
@@ -172,7 +182,18 @@ def test_not_comparable_mapping_file_leaves_target_baseline_blocked(tmp_path: Pa
         ),
         encoding="utf-8",
     )
-    baseline = build_historical_baseline_features(crosswalk_resolution_path=resolution_path)
+    permission_payload = json.loads(
+        (PROJECT_ROOT / "config/historical_reference_permissions.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    permission_payload["approved_mappings"] = []
+    permission_path = tmp_path / "no_direct_permissions.json"
+    permission_path.write_text(json.dumps(permission_payload), encoding="utf-8")
+    baseline = build_historical_baseline_features(
+        crosswalk_resolution_path=resolution_path,
+        historical_reference_permission_path=permission_path,
+    )
     ashstead = _row_for_area(baseline, "Ashtead Ward")
 
     assert ashstead["geographic_status"] == "not_comparable"

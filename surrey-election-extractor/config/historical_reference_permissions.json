@@ -1,0 +1,103 @@
+{
+  "framework_id": "surrey-official-boundary-evidence-historical-reference-permissions",
+  "purpose": "Record explicit, source-backed permission to use a one-to-one historical Surrey division as a 2026 ward's analytical reference without asserting legal succession or transferring candidate identities.",
+  "source_registry": [
+    {
+      "source_id": "surrey-structural-changes-order-2026",
+      "source_type": "Official legislation",
+      "source_url": "https://www.legislation.gov.uk/ukdsi/2026/9780348278507/pdfs/ukdsi_9780348278507_en.pdf",
+      "evidence_text": "Articles 47(2)(c) and 49(2)(c) state that each 2026 East or West Surrey ward has the same area as the county council electoral division of that name under the 2024 Order.",
+      "scope": "Legal identity of the 2026 ward with its same-named 2024 county electoral division."
+    },
+    {
+      "source_id": "surrey-electoral-changes-order-2024",
+      "source_type": "Official legislation",
+      "source_url": "https://www.legislation.gov.uk/ukdsi/2024/9780348262599/pdfs/ukdsi_9780348262599_en.pdf",
+      "evidence_text": "Article 3 and Schedule 1 establish the 81 2024 Surrey county electoral divisions and the Order map defines each division's area.",
+      "scope": "Legal definition of the 2024 divisions referenced by the 2026 Order."
+    },
+    {
+      "source_id": "lgbce-surrey-final-recommendations-2024",
+      "source_type": "Local Government Boundary Commission for England official report",
+      "source_url": "https://www.lgbce.org.uk/sites/default/files/2024-05/surrey_fr_long_report_-_final.pdf",
+      "evidence_text": "Paragraph 11 states that 24 Surrey division boundaries would stay the same; the report directs readers to the large PDF or digital mapping for the intended boundary detail.",
+      "scope": "Independent official review context and authoritative mapping publication."
+    },
+    {
+      "source_id": "ons-surrey-county-electoral-divisions-may-2023",
+      "source_type": "Office for National Statistics official GIS",
+      "source_url": "https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services/County_Electoral_Division_May_2023_Boundaries_EN_BFC/FeatureServer/0/query?where=CED23CD%20BETWEEN%20%27E58001460%27%20AND%20%27E58001541%27&outFields=CED23NM%2CCED23CD&returnGeometry=true&outSR=27700&f=geojson",
+      "evidence_text": "The official ONS May 2023 County Electoral Division geometry supplies the historical Surrey division code, name and boundary used by the 2013, 2017 and 2021 result records before the 2024 review took effect.",
+      "scope": "Historic division geometry and identifiers."
+    },
+    {
+      "source_id": "surrey-east-wards-gis-2026",
+      "source_type": "Surrey County Council official GIS",
+      "source_url": "https://sccmaps.surreycc.gov.uk/webmaps/rest/services/Elections_map_2026/East_Surrey_Council_ward/MapServer/0/query?where=1%3D1&outFields=Name&returnGeometry=true&outSR=27700&f=geojson",
+      "evidence_text": "The Surrey County Council East Surrey Council ward layer publishes the 2026 ward geometry and name used in the election.",
+      "scope": "Current East Surrey ward geometry."
+    },
+    {
+      "source_id": "surrey-west-wards-gis-2026",
+      "source_type": "Surrey County Council official GIS",
+      "source_url": "https://sccmaps.surreycc.gov.uk/webmaps/rest/services/Elections_map_2026/West_Surrey_Council_wards/MapServer/0/query?where=1%3D1&outFields=Name&returnGeometry=true&outSR=27700&f=geojson",
+      "evidence_text": "The Surrey County Council West Surrey Council wards layer publishes the 2026 ward geometry and name used in the election.",
+      "scope": "Current West Surrey ward geometry."
+    }
+  ],
+  "approval_rule": {
+    "required_crosswalk_status": "accepted_direct",
+    "required_sources": [
+      "surrey-structural-changes-order-2026",
+      "surrey-electoral-changes-order-2024",
+      "lgbce-surrey-final-recommendations-2024",
+      "ons-surrey-county-electoral-divisions-may-2023"
+    ],
+    "minimum_mutual_overlap_percentage": 99.9,
+    "maximum_competing_overlap_percentage": 0.1,
+    "permitted_features": [
+      "previous_election_event",
+      "previous_winner_status",
+      "previous_winning_candidate_name_source_reported_only",
+      "previous_winning_party",
+      "previous_winning_candidate_vote_share",
+      "previous_turnout",
+      "previous_competitiveness",
+      "previous_electorate",
+      "area_specific_exact_party_history"
+    ],
+    "prohibited_features": [
+      "candidate_identity_transfer",
+      "incumbency_transfer",
+      "predecessor_councillor_transfer",
+      "party_vote_share_change",
+      "party_swing",
+      "vote_redistribution"
+    ],
+    "limitation": "Approval establishes analytical geographic continuity only. It does not claim that the historic and current electoral divisions have the same legal identity, and it never authorises a candidate-identity or vote-redistribution inference."
+  },
+  "approved_mappings": [
+    {"mapping_id": "geographic-mapping-review:006", "previous_area_id": "E58001462", "previous_area_name": "Ashford ED", "current_election_id": "surrey-county-council-2026-west-surrey", "current_area_id": "Ashford", "current_area_name": "Ashford", "current_geometry_source_id": "surrey-west-wards-gis-2026"},
+    {"mapping_id": "geographic-mapping-review:007", "previous_area_id": "E58001463", "previous_area_name": "Ashtead ED", "current_election_id": "surrey-county-council-2026-east-surrey", "current_area_id": "Ashtead", "current_area_name": "Ashtead", "current_geometry_source_id": "surrey-east-wards-gis-2026"},
+    {"mapping_id": "geographic-mapping-review:008", "previous_area_id": "E58001464", "previous_area_name": "Bagshot, Windlesham and Chobham ED", "current_election_id": "surrey-county-council-2026-west-surrey", "current_area_id": "Bagshot, Windlesham & Chobham", "current_area_name": "Bagshot, Windlesham & Chobham", "current_geometry_source_id": "surrey-west-wards-gis-2026"},
+    {"mapping_id": "geographic-mapping-review:010", "previous_area_id": "E58001465", "previous_area_name": "Banstead, Woodmansterne and Chipstead ED", "historical_event_area_name": "Banstead, Woodmansterne & Chipstead", "current_election_id": "surrey-county-council-2026-east-surrey", "current_area_id": "Banstead, Woodmansterne & Chipstead", "current_area_name": "Banstead, Woodmansterne & Chipstead", "current_geometry_source_id": "surrey-east-wards-gis-2026"},
+    {"mapping_id": "geographic-mapping-review:020", "previous_area_id": "E58001469", "previous_area_name": "Caterham Hill ED", "current_election_id": "surrey-county-council-2026-east-surrey", "current_area_id": "Caterham Hill", "current_area_name": "Caterham Hill", "current_geometry_source_id": "surrey-east-wards-gis-2026"},
+    {"mapping_id": "geographic-mapping-review:022", "previous_area_id": "E58001470", "previous_area_name": "Caterham Valley ED", "current_election_id": "surrey-county-council-2026-east-surrey", "current_area_id": "Caterham Valley", "current_area_name": "Caterham Valley", "current_geometry_source_id": "surrey-east-wards-gis-2026"},
+    {"mapping_id": "geographic-mapping-review:030", "previous_area_id": "E58001473", "previous_area_name": "Cranleigh and Ewhurst ED", "historical_event_area_name": "Cranleigh & Ewhurst", "current_election_id": "surrey-county-council-2026-west-surrey", "current_area_id": "Cranleigh & Ewhurst", "current_area_name": "Cranleigh & Ewhurst", "current_geometry_source_id": "surrey-west-wards-gis-2026"},
+    {"mapping_id": "geographic-mapping-review:049", "previous_area_id": "E58001481", "previous_area_name": "Epsom Town and Downs ED", "historical_event_area_name": "Epsom Town & Downs", "current_election_id": "surrey-county-council-2026-east-surrey", "current_area_id": "Epsom Town & Downs", "current_area_name": "Epsom Town & Downs", "current_geometry_source_id": "surrey-east-wards-gis-2026"},
+    {"mapping_id": "geographic-mapping-review:055", "previous_area_id": "E58001484", "previous_area_name": "Ewell ED", "current_election_id": "surrey-county-council-2026-east-surrey", "current_area_id": "Ewell Village, Stoneleigh & Nonsuch", "current_area_name": "Ewell Village, Stoneleigh & Nonsuch", "current_geometry_source_id": "surrey-east-wards-gis-2026"},
+    {"mapping_id": "geographic-mapping-review:056", "previous_area_id": "E58001485", "previous_area_name": "Farnham Central ED", "current_election_id": "surrey-county-council-2026-west-surrey", "current_area_id": "Farnham Central", "current_area_name": "Farnham Central", "current_geometry_source_id": "surrey-west-wards-gis-2026"},
+    {"mapping_id": "geographic-mapping-review:057", "previous_area_id": "E58001486", "previous_area_name": "Farnham North ED", "current_election_id": "surrey-county-council-2026-west-surrey", "current_area_id": "Farnham North", "current_area_name": "Farnham North", "current_geometry_source_id": "surrey-west-wards-gis-2026"},
+    {"mapping_id": "geographic-mapping-review:059", "previous_area_id": "E58001487", "previous_area_name": "Farnham South ED", "current_election_id": "surrey-county-council-2026-west-surrey", "current_area_id": "Farnham South", "current_area_name": "Farnham South", "current_geometry_source_id": "surrey-west-wards-gis-2026"},
+    {"mapping_id": "geographic-mapping-review:063", "previous_area_id": "E58001489", "previous_area_name": "Frimley Green and Mytchett ED", "current_election_id": "surrey-county-council-2026-west-surrey", "current_area_id": "Frimley Green & Mytchett", "current_area_name": "Frimley Green & Mytchett", "current_geometry_source_id": "surrey-west-wards-gis-2026"},
+    {"mapping_id": "geographic-mapping-review:084", "previous_area_id": "E58001499", "previous_area_name": "Haslemere ED", "current_election_id": "surrey-county-council-2026-west-surrey", "current_area_id": "Haslemere", "current_area_name": "Haslemere", "current_geometry_source_id": "surrey-west-wards-gis-2026"},
+    {"mapping_id": "geographic-mapping-review:102", "previous_area_id": "E58001507", "previous_area_name": "Laleham and Shepperton ED", "current_election_id": "surrey-county-council-2026-west-surrey", "current_area_id": "Laleham & Shepperton", "current_area_name": "Laleham & Shepperton", "current_geometry_source_id": "surrey-west-wards-gis-2026"},
+    {"mapping_id": "geographic-mapping-review:105", "previous_area_id": "E58001509", "previous_area_name": "Lightwater, West End and Bisley ED", "current_election_id": "surrey-county-council-2026-west-surrey", "current_area_id": "Lightwater, West End & Bisley", "current_area_name": "Lightwater, West End & Bisley", "current_geometry_source_id": "surrey-west-wards-gis-2026"},
+    {"mapping_id": "geographic-mapping-review:108", "previous_area_id": "E58001512", "previous_area_name": "Lower Sunbury and Halliford ED", "current_election_id": "surrey-county-council-2026-west-surrey", "current_area_id": "Lower Sunbury & Halliford", "current_area_name": "Lower Sunbury & Halliford", "current_geometry_source_id": "surrey-west-wards-gis-2026"},
+    {"mapping_id": "geographic-mapping-review:132", "previous_area_id": "E58001522", "previous_area_name": "Staines South and Ashford West ED", "current_election_id": "surrey-county-council-2026-west-surrey", "current_area_id": "Staines South & Ashford West", "current_area_name": "Staines South & Ashford West", "current_geometry_source_id": "surrey-west-wards-gis-2026"},
+    {"mapping_id": "geographic-mapping-review:133", "previous_area_id": "E58001523", "previous_area_name": "Stanwell and Stanwell Moor ED", "current_election_id": "surrey-county-council-2026-west-surrey", "current_area_id": "Stanwell, Stanwell Moor & Ashford North", "current_area_name": "Stanwell, Stanwell Moor & Ashford North", "current_geometry_source_id": "surrey-west-wards-gis-2026"},
+    {"mapping_id": "geographic-mapping-review:134", "previous_area_id": "E58001524", "previous_area_name": "Sunbury Common and Ashford Common ED", "historical_event_area_name": "Sunbury Common & Ashford Common", "current_election_id": "surrey-county-council-2026-west-surrey", "current_area_id": "Sunbury Common & Ashford Common", "current_area_name": "Sunbury Common & Ashford Common", "current_geometry_source_id": "surrey-west-wards-gis-2026"},
+    {"mapping_id": "geographic-mapping-review:146", "previous_area_id": "E58001530", "previous_area_name": "Warlingham ED", "current_election_id": "surrey-county-council-2026-east-surrey", "current_area_id": "Warlingham", "current_area_name": "Warlingham", "current_geometry_source_id": "surrey-east-wards-gis-2026"},
+    {"mapping_id": "geographic-mapping-review:147", "previous_area_id": "E58001531", "previous_area_name": "Waverley Eastern Villages ED", "current_election_id": "surrey-county-council-2026-west-surrey", "current_area_id": "Waverley Eastern Villages", "current_area_name": "Waverley Eastern Villages", "current_geometry_source_id": "surrey-west-wards-gis-2026"}
+  ]
+}

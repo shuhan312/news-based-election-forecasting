@@ -5,10 +5,11 @@ This component prepares the historical-election-only comparison baseline require
 The layer is read-only over completed official election extraction, party standardisation and geographic crosswalk outputs. It creates structure features, exact-label party-presence features, candidate-history infrastructure and a 2026 ward readiness dataset. It does not collect news, train a model or predict an outcome.
 
 An `accepted_direct` geographic relationship is necessary but not sufficient for
-direct historical-reference features. The reviewed row must also explicitly set
-`previous_winner_allowed=true`; this keeps a technical GIS decision separate
-from permission to transfer electoral history. `partial_crosswalk_available`,
-`not_comparable`, `requires_review` and unpermitted direct relationships remain
+direct historical-reference features. The exact mapping must also have an
+`approved_for_historical_reference` record in the Official Boundary Evidence
+Historical Reference Permission Audit. This keeps a technical GIS decision
+separate from permission to use limited electoral history. `partial_crosswalk_available`,
+`not_comparable`, `requires_review` and unapproved direct relationships remain
 documented but block electoral comparisons. No votes are redistributed and no
 candidate, incumbent or predecessor relationship is inferred from names.
 

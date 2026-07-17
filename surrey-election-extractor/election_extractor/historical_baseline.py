@@ -17,6 +17,12 @@ from collections.abc import Iterable, Mapping, Sequence
 from pathlib import Path
 
 from election_extractor.election_history import build_election_history
+from election_extractor.historical_reference_permissions import (
+    APPROVED_STATUS,
+    DEFAULT_PERMISSION_CONFIGURATION_PATH,
+    build_historical_reference_permission_audit,
+    permission_records_by_mapping_id,
+)
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -157,9 +163,9 @@ FEATURE_SCHEMA: tuple[dict[str, str], ...] = (
         "feature_name": "historical_baseline_available",
         "feature_group": "source_governance",
         "definition": "Whether direct historical comparison fields may be used for a target ward.",
-        "source": "Reviewed Geographic Crosswalk Resolution Layer.",
-        "derivation_logic": "True only for exactly one accepted_direct mapping with explicit previous-winner permission.",
-        "geographic_requirements": "Exactly one accepted_direct mapping and previous_winner_allowed=true.",
+        "source": "Reviewed Geographic Crosswalk Resolution Layer plus Official Boundary Evidence Historical Reference Permission Audit.",
+        "derivation_logic": "True only for exactly one accepted_direct mapping with an explicit approved official-boundary permission record.",
+        "geographic_requirements": "Exactly one accepted_direct mapping and approved_for_historical_reference status.",
         "missing_value_behaviour": "False for all blocked, ambiguous or unmapped relationships.",
     },
     {
@@ -168,7 +174,7 @@ FEATURE_SCHEMA: tuple[dict[str, str], ...] = (
         "definition": "Latest prior principal election for the approved directly matching historical area.",
         "source": "Official historical result data plus accepted_direct geographic evidence.",
         "derivation_logic": "Select the latest earlier principal event for exactly the mapped historical area.",
-        "geographic_requirements": "Exactly one accepted_direct mapping with explicit previous-winner permission.",
+        "geographic_requirements": "Exactly one accepted_direct mapping with approved official-boundary permission.",
         "missing_value_behaviour": "NULL for partial, not comparable, requires-review or absent mappings.",
     },
     {
@@ -177,7 +183,7 @@ FEATURE_SCHEMA: tuple[dict[str, str], ...] = (
         "definition": "Original published party label of one source-reported elected candidate in the prior event.",
         "source": "Official historical candidate outcome and party fields.",
         "derivation_logic": "Expose only when exactly one source-reported elected candidate exists; no vote ranking is calculated.",
-        "geographic_requirements": "Exactly one accepted_direct mapping with explicit previous-winner permission.",
+        "geographic_requirements": "Exactly one accepted_direct mapping with approved official-boundary permission.",
         "missing_value_behaviour": "NULL if geography or winner evidence is not unambiguous.",
     },
     {
@@ -186,7 +192,7 @@ FEATURE_SCHEMA: tuple[dict[str, str], ...] = (
         "definition": "Published vote share of the source-reported elected candidate in the prior event.",
         "source": "Official historical candidate result row.",
         "derivation_logic": "Copied from the selected elected candidate; no change or swing is calculated.",
-        "geographic_requirements": "Exactly one accepted_direct mapping with explicit previous-winner permission.",
+        "geographic_requirements": "Exactly one accepted_direct mapping with approved official-boundary permission.",
         "missing_value_behaviour": "Remain NULL when unavailable.",
     },
     {
@@ -195,7 +201,7 @@ FEATURE_SCHEMA: tuple[dict[str, str], ...] = (
         "definition": "Official turnout published for the latest earlier principal event in the mapped area.",
         "source": "Official historical Voting Summary.",
         "derivation_logic": "Retain one shared source value across the earlier event's candidate rows.",
-        "geographic_requirements": "Exactly one accepted_direct mapping with explicit previous-winner permission.",
+        "geographic_requirements": "Exactly one accepted_direct mapping with approved official-boundary permission.",
         "missing_value_behaviour": "Remain NULL if the official source did not publish turnout.",
     },
     {
@@ -204,7 +210,7 @@ FEATURE_SCHEMA: tuple[dict[str, str], ...] = (
         "definition": "Candidate and party counts for the latest earlier principal event in the mapped area.",
         "source": "Official historical candidate rows.",
         "derivation_logic": "Count published rows and exact original party labels; no vote ordering is calculated.",
-        "geographic_requirements": "Exactly one accepted_direct mapping with explicit previous-winner permission.",
+        "geographic_requirements": "Exactly one accepted_direct mapping with approved official-boundary permission.",
         "missing_value_behaviour": "Remain NULL if earlier candidate rows are unavailable.",
     },
     {
@@ -213,7 +219,7 @@ FEATURE_SCHEMA: tuple[dict[str, str], ...] = (
         "definition": "Whether the exact original party label previously contested in the directly mapped historical area.",
         "source": "Official target and prior candidate party labels.",
         "derivation_logic": "Compare exact labels across earlier principal events in one approved direct lineage.",
-        "geographic_requirements": "Exactly one accepted_direct mapping with explicit previous-winner permission.",
+        "geographic_requirements": "Exactly one accepted_direct mapping with approved official-boundary permission.",
         "missing_value_behaviour": "NULL rather than false where geography is unresolved.",
     },
     {
@@ -231,7 +237,7 @@ FEATURE_SCHEMA: tuple[dict[str, str], ...] = (
         "definition": "Whether an exact original party label has no earlier recorded contest in the approved direct lineage.",
         "source": "Official target and earlier candidate party labels.",
         "derivation_logic": "Compare exact original labels across earlier principal events only.",
-        "geographic_requirements": "Exactly one accepted_direct mapping.",
+        "geographic_requirements": "Exactly one accepted_direct mapping with approved official-boundary permission.",
         "missing_value_behaviour": "NULL rather than true/false where geography is unresolved.",
     },
     {
@@ -466,12 +472,18 @@ def _direct_reference_features(
         "source_result_url": None,
         "geographic_mapping_id": None,
         "geographic_evidence": None,
+        "historical_reference_status": None,
+        "permission_source_urls": None,
+        "permission_evidence": None,
         "derivation_method": "unavailable_without_one_accepted_direct_mapping",
         "provenance": "unavailable",
     }
     if direct_mapping is None:
         return unavailable, ()
-    previous_name = direct_mapping.get("previous_area_name")
+    # A permission record may preserve a verified official result-page label
+    # where the ONS geometry uses a different punctuation convention.  It is
+    # an explicit audit field, never a fuzzy name match.
+    previous_name = direct_mapping.get("historical_event_area_name")
     target_date = target_event.get("election_date")
     if not isinstance(previous_name, str) or not isinstance(target_date, str):
         raise ValueError("Accepted direct mapping and target event require published area names and dates.")
@@ -484,6 +496,9 @@ def _direct_reference_features(
             "previous_area_name": previous_name,
             "geographic_mapping_id": direct_mapping.get("mapping_id"),
             "geographic_evidence": direct_mapping.get("evidence_summary"),
+            "historical_reference_status": direct_mapping.get("historical_reference_status"),
+            "permission_source_urls": direct_mapping.get("permission_source_urls"),
+            "permission_evidence": direct_mapping.get("permission_evidence"),
             "derivation_method": "accepted_direct_mapping_has_no_prior_principal_event",
         }, ()
     previous_event = candidates[-1]
@@ -520,6 +535,9 @@ def _direct_reference_features(
             "source_result_url": previous_event.get("source_url"),
             "geographic_mapping_id": direct_mapping.get("mapping_id"),
             "geographic_evidence": direct_mapping.get("evidence_summary"),
+            "historical_reference_status": direct_mapping.get("historical_reference_status"),
+            "permission_source_urls": direct_mapping.get("permission_source_urls"),
+            "permission_evidence": direct_mapping.get("permission_evidence"),
             "derivation_method": "latest_prior_principal_event_in_one_accepted_direct_historical_area",
             "source_value_provenance": "source_reported",
             "provenance": "deterministically_derived",
@@ -636,11 +654,17 @@ def build_historical_baseline_features(
     *,
     history: Mapping[str, object] | None = None,
     crosswalk_resolution_path: str | Path = DEFAULT_CROSSWALK_RESOLUTION_PATH,
+    historical_reference_permission_path: str | Path = DEFAULT_PERMISSION_CONFIGURATION_PATH,
 ) -> dict[str, object]:
     """Build 2026 historical baseline features under all project safeguards."""
 
     event_history = history if history is not None else build_election_history()
     crosswalk_rows = load_crosswalk_resolution(crosswalk_resolution_path)
+    permission_audit = build_historical_reference_permission_audit(
+        crosswalk_rows,
+        configuration_path=historical_reference_permission_path,
+    )
+    permission_by_mapping_id = permission_records_by_mapping_id(permission_audit)
     target_relationships = _relationships_by_target(crosswalk_rows)
     records_by_area = _records_by_area(event_history)
 
@@ -655,15 +679,31 @@ def build_historical_baseline_features(
         direct_rows = [
             row for row in relationships if row.get("analytical_status") == DIRECT_STATUS
         ]
-        # GIS comparability and permission to transfer election-history fields
-        # are distinct decisions.  ``accepted_direct`` means that the spatial
-        # criteria passed; the crosswalk still requires an explicit true value
-        # for ``previous_winner_allowed`` before this layer exposes a prior
-        # winner, turnout or party-history value.  This prevents a technical
-        # boundary decision from silently becoming an electoral assumption.
-        permitted_direct_rows = [
-            row for row in direct_rows if row.get("previous_winner_allowed") is True
-        ]
+        # GIS comparability and electoral-reference permission are separate.
+        # The crosswalk itself deliberately makes no election-history claim;
+        # only a matching record in the official-boundary permission audit may
+        # expose prior winner, turnout or party-history fields.
+        permitted_direct_rows = []
+        for row in direct_rows:
+            mapping_id = row.get("mapping_id")
+            permission = (
+                permission_by_mapping_id.get(mapping_id)
+                if isinstance(mapping_id, str)
+                else None
+            )
+            if permission and permission.get("historical_reference_status") == APPROVED_STATUS:
+                permitted_direct_rows.append(
+                    {
+                        **row,
+                        "historical_reference_status": permission["historical_reference_status"],
+                        "permission_source_ids": permission["source_ids"],
+                        "permission_source_urls": permission["source_urls"],
+                        "permission_evidence": permission["evidence_summary"],
+                        "historical_event_area_name": permission[
+                            "historical_event_area_name"
+                        ],
+                    }
+                )
         # One and only one explicitly permitted direct row is required.
         # Multiple candidates are a mapping ambiguity, not a choice to resolve.
         direct_mapping = (
@@ -686,6 +726,20 @@ def build_historical_baseline_features(
                 "evidence_summary": row.get("evidence_summary"),
                 "GIS_source": row.get("GIS_source"),
                 "boundary_source": row.get("boundary_source"),
+                "historical_reference_status": (
+                    permission_by_mapping_id.get(str(row.get("mapping_id")), {}).get(
+                        "historical_reference_status"
+                    )
+                    if row.get("analytical_status") == DIRECT_STATUS
+                    else None
+                ),
+                "historical_reference_evidence": (
+                    permission_by_mapping_id.get(str(row.get("mapping_id")), {}).get(
+                        "evidence_summary"
+                    )
+                    if row.get("analytical_status") == DIRECT_STATUS
+                    else None
+                ),
             }
             for row in relationships
         ]
@@ -757,8 +811,9 @@ def build_historical_baseline_features(
         "party_history_features": party_rows,
         "candidate_history_infrastructure": candidate_rows,
         "baseline_readiness_dataset": readiness_rows,
+        "historical_reference_permission_audit_summary": permission_audit["summary"],
         "safeguards": {
-            "direct_geographic_requirement": "Only one accepted_direct relationship with previous_winner_allowed=true can enable historical comparison features.",
+            "direct_geographic_requirement": "Only one accepted_direct relationship with an approved official-boundary permission record can enable historical comparison features.",
             "blocked_geographic_statuses": [PARTIAL_STATUS, NOT_COMPARABLE_STATUS, REQUIRES_REVIEW_STATUS],
             "always_blocked_features": list(ALWAYS_BLOCKED_FEATURES),
             "candidate_identity_rule": "No candidate history is created from an identical name alone.",
@@ -786,7 +841,7 @@ def baseline_feature_dictionary_markdown() -> str:
     lines.extend(
         [
             "",
-            "`accepted_direct` is necessary but not sufficient for direct historical comparison: the reviewed row must also have `previous_winner_allowed=true`. `partial_crosswalk_available`, `not_comparable`, `requires_review`, and unpermitted direct rows remain visible as evidence but leave comparison features NULL. Candidate names are never used as identity keys; UK Independence Party and Reform UK are separate exact party labels.",
+            "`accepted_direct` is necessary but not sufficient for direct historical comparison: the exact mapping must also have an `approved_for_historical_reference` record in the Official Boundary Evidence Historical Reference Permission Audit. `partial_crosswalk_available`, `not_comparable`, `requires_review`, and unapproved direct rows remain visible as evidence but leave comparison features NULL. Candidate names are never used as identity keys; UK Independence Party and Reform UK are separate exact party labels.",
             "",
         ]
     )
@@ -805,12 +860,13 @@ This layer creates the election-history-only baseline needed for a later test of
 ## Geographic rule
 
 Only a single reviewed `accepted_direct` historical-to-2026 relationship with
-`previous_winner_allowed=true` can expose a prior-event reference. This explicit
-permission is separate from the GIS decision: an accepted spatial match alone
-does not authorise election-history transfer. Partial crosswalk, not-comparable,
-requires-review and unpermitted direct relationships are retained in the
-readiness dataset as evidence, but cannot create prior-winner, prior-vote-share,
-turnout-comparison, candidate-transfer or incumbency features.
+an `approved_for_historical_reference` record in the Official Boundary Evidence
+Historical Reference Permission Audit can expose a prior-event reference. This
+explicit permission is separate from the GIS decision: an accepted spatial
+match alone does not authorise election-history transfer. Partial crosswalk,
+not-comparable, requires-review and unapproved direct relationships are
+retained in the readiness dataset as evidence, but cannot create prior-winner,
+prior-vote-share, turnout-comparison, candidate-transfer or incumbency features.
 
 ## Source and missing-value rule
 
