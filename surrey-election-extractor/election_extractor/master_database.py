@@ -354,6 +354,20 @@ def load_audited_elections(
                         "By-election supplementary metadata does not match the "
                         f"official result division ID for {event.election_id}."
                     )
+        # By-election derivations use exactly the same safeguards as principal
+        # elections: inputs must be published on the one official result page,
+        # the target official field must remain missing, and the result stays
+        # in Derived Metadata.  This is intentionally evaluated per event,
+        # because an archive listing alone never supplies calculation inputs.
+        official_values, official_urls = _official_derived_context(
+            event.election_id,
+            event_records,
+        )
+        generated_derived = derive_records_from_rules(
+            registered_derived_rules[event.election_id],
+            official_values_by_division=official_values,
+            official_source_urls_by_division=official_urls,
+        )
         loaded.append(
             AuditedElectionInput(
                 configuration=ElectionConfiguration(
@@ -368,7 +382,9 @@ def load_audited_elections(
                 records=event_records,
                 election_structure_metadata=(),
                 supplementary_metadata=event_metadata,
-                derived_metadata=tuple(registered_derived[event.election_id]),
+                derived_metadata=(
+                    tuple(registered_derived[event.election_id]) + generated_derived
+                ),
                 event_date=event.election_date,
                 event_authority=event.authority,
                 event_source_url=source_url,

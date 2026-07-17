@@ -59,7 +59,14 @@ def issued_rule():
     project_root = Path(__file__).resolve().parents[1]
     return load_derived_metadata_rules(
         project_root / "config/derived_metadata.json",
-        permitted_election_ids={"surrey-county-council-2013"},
+        # The configuration is validated as one register, so include every
+        # configured rule target even though this helper returns the 2013 rule.
+        permitted_election_ids={
+            "surrey-county-council-2013",
+            "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05",
+            "surrey-county-council-by-election-haslemere-2019-05-02",
+            "surrey-county-council-by-election-addlestone-2025-08-21",
+        },
     )[0]
 
 
@@ -239,3 +246,33 @@ def test_2013_derived_issued_values_match_direct_borough_official_evidence() -> 
         derived_by_division[row["division_id"]] == row["value"]
         for row in direct_official_values
     )
+
+
+def test_by_election_issued_values_are_derived_only_from_same_page_official_summaries() -> None:
+    """Three one-seat by-elections meet the governed issued-ballot rule.
+
+    Weybridge is deliberately absent: its official page does not publish
+    rejected ballots, so a value cannot be calculated from candidate votes.
+    """
+
+    payload = build_master_database(load_audited_elections())
+    derived = {
+        (row["election_id"], row["field_name"]): row
+        for row in payload.derived_metadata
+        if row["field_name"] == "derived_ballot_papers_issued"
+    }
+    expected = {
+        "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05": 3404,
+        "surrey-county-council-by-election-haslemere-2019-05-02": 4145,
+        "surrey-county-council-by-election-addlestone-2025-08-21": 2734,
+    }
+
+    for election_id, issued_value in expected.items():
+        row = derived[(election_id, "derived_ballot_papers_issued")]
+        assert row["value"] == issued_value
+        assert row["formula"] == "total_votes + rejected_ballots"
+
+    assert (
+        "surrey-county-council-by-election-weybridge-2015-05-07",
+        "derived_ballot_papers_issued",
+    ) not in derived

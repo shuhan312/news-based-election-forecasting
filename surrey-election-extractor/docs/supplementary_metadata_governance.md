@@ -108,16 +108,19 @@ The Woking declaration supports seven named 2013 `secondary_division_ballot_pape
 
 Epsom & Ewell Borough Council's official result pages support five additional values: Epsom Town & Downs, Epsom West, Ewell, Ewell Court, Auriol & Cuddington, and West Ewell. Each page identifies the 2013 Surrey County Council election, its named division and complete candidate vote list. These pages do not publish electorate, so each supplementary record explicitly records that source limitation and is accepted only after its complete vote list matches Surrey's official page; see the [Epsom & Ewell issued-ballots audit](2013_epsom_ewell_issued_ballots_audit.md).
 
-The [by-election supplementary metadata audit](by_election_supplementary_metadata_audit.md) records the reviewed source scope for the remaining by-election gaps, including the separate Addlestone 2025 turnout evidence and one corrected official Staines candidate row.
+The [by-election supplementary metadata audit](by_election_supplementary_metadata_audit.md) records the reviewed source scope for the remaining by-election gaps, including the separate Addlestone 2025 turnout evidence, one corrected official Staines candidate row, and three strictly governed derived issued-ballot values.
 
 ## Current derived calculation
 
 The [derived metadata register](../config/derived_metadata.json) contains one
-verified record for Reigate 2017 and one reviewed 2013 rule. Reigate's official
+verified record for Reigate 2017, one reviewed 2013 rule, and three reviewed
+one-seat by-election rules. Reigate's official
 result page publishes both `ballot_papers_issued = 4,109` and `total_votes =
 4,109`, while its official `rejected_ballots` field remains absent. The derived
 layer records `derived_rejected_ballots = 0`. The 2013 rule creates one
 `derived_ballot_papers_issued` record only where the same official Surrey page
 publishes `Seats = 1`, `total_votes` and `rejected_ballots`; all 81 pages
-currently satisfy those source-input checks. Neither calculation populates an
-official column or changes division completeness.
+currently satisfy those source-input checks. The three by-election rules apply
+the same one-seat safeguard to Staines South & Ashford West 2016, Haslemere
+2019 and Addlestone 2025. Neither calculation populates an official column or
+changes division completeness.

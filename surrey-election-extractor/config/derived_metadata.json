@@ -36,6 +36,51 @@
       "confidence": "High",
       "notes": "Calculated only where the same official Surrey result page publishes Seats=1, Total votes and Number of ballot papers rejected. This is not an officially published issued-ballot value, does not populate ballot_papers_issued, and does not change completeness.",
       "validation_status": "verified"
+    },
+    {
+      "rule_id": "surrey-by-election-staines-2016-issued-from-official-voting-summary",
+      "election_id": "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05",
+      "field_name": "derived_ballot_papers_issued",
+      "target_official_field": "ballot_papers_issued",
+      "geographic_level": "division",
+      "formula": "total_votes + rejected_ballots",
+      "required_official_values": [
+        {"field_name": "number_of_seats", "value": 1}
+      ],
+      "retrieval_date": "2026-07-17",
+      "confidence": "High",
+      "notes": "The same official Surrey Voting Summary publishes Seats=1, Total votes=3,383 and Number of ballot papers rejected=21. The calculated issued-ballot value is separate metadata and does not populate the official field or completeness.",
+      "validation_status": "verified"
+    },
+    {
+      "rule_id": "surrey-by-election-haslemere-2019-issued-from-official-voting-summary",
+      "election_id": "surrey-county-council-by-election-haslemere-2019-05-02",
+      "field_name": "derived_ballot_papers_issued",
+      "target_official_field": "ballot_papers_issued",
+      "geographic_level": "division",
+      "formula": "total_votes + rejected_ballots",
+      "required_official_values": [
+        {"field_name": "number_of_seats", "value": 1}
+      ],
+      "retrieval_date": "2026-07-17",
+      "confidence": "High",
+      "notes": "The same official Surrey Voting Summary publishes Seats=1, Total votes=4,087 and Number of ballot papers rejected=58. The calculated issued-ballot value is separate metadata and does not populate the official field or completeness.",
+      "validation_status": "verified"
+    },
+    {
+      "rule_id": "surrey-by-election-addlestone-2025-issued-from-official-voting-summary",
+      "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+      "field_name": "derived_ballot_papers_issued",
+      "target_official_field": "ballot_papers_issued",
+      "geographic_level": "division",
+      "formula": "total_votes + rejected_ballots",
+      "required_official_values": [
+        {"field_name": "number_of_seats", "value": 1}
+      ],
+      "retrieval_date": "2026-07-17",
+      "confidence": "High",
+      "notes": "The same official Surrey Voting Summary publishes Seats=1, Total votes=2,726 and Number of ballot papers rejected=8. The calculated issued-ballot value is separate metadata and does not populate the official field or completeness.",
+      "validation_status": "verified"
     }
   ]
 }
