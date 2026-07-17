@@ -762,6 +762,39 @@ def test_approved_history_is_materialised_only_for_exact_permitted_ward() -> Non
     )
 
 
+def test_pre_2024_legal_continuity_is_an_explicit_second_approval_path() -> None:
+    """Pre-2024 continuity must be audited, not accepted from a name alone."""
+
+    legal_continuity_reference = {
+        "historical_reference_status": "approved_pre_2024_legal_continuity",
+        "previous_election_event_id": "surrey-county-council-2013",
+        "previous_election_date": "2 May 2013",
+        "previous_area_name": "Example Division",
+        "previous_winning_candidate_name": "Earlier Winner",
+        "previous_winning_party": "Conservative",
+        "previous_winning_candidate_vote_share": 52.0,
+        "previous_turnout": None,
+        "previous_electorate": 1000,
+        "source_result_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=1",
+        "geographic_mapping_id": "surrey-principal-2013-to-2017:Example Division",
+        "permission_evidence": "Configured statutory continuity evidence.",
+        "permission_source_urls": ("https://www.legislation.gov.uk/example",),
+    }
+    payload = build_master_database(
+        (audited_input(2017, (record(2017, "Candidate One", "Conservative"),)),),
+        historical_division_references={
+            ("surrey-county-council-2017", "Example Division"): legal_continuity_reference
+        },
+    )
+
+    division = payload.divisions_and_wards[0]
+    assert division["historical_reference_status"] == (
+        "approved_pre_2024_legal_continuity"
+    )
+    assert division["previous_winning_party"] == "Conservative"
+    assert division["previous_party_vote_share"] is None
+
+
 def test_identity_incumbency_and_vote_change_are_explicitly_unresolved() -> None:
     """The materialised schema must not convert missing personal evidence into a claim."""
 

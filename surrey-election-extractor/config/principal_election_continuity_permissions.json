@@ -1,0 +1,69 @@
+{
+  "framework_id": "surrey-principal-election-pre-2024-legal-continuity",
+  "purpose": "Record the limited, source-backed continuity of Surrey County Council divisions between the 2013, 2017 and 2021 principal elections. This is separate from the 2021-to-2026 geographic crosswalk and does not authorise personal identity or party-swing inference.",
+  "source_registry": [
+    {
+      "source_id": "surrey-electoral-changes-order-2012",
+      "source_type": "Official legislation",
+      "source_url": "https://www.legislation.gov.uk/uksi/2012/1872/contents/made",
+      "evidence_text": "The Surrey (Electoral Changes) Order 2012 provided the existing County Council divisions that remained in use before the later 2024 review.",
+      "scope": "Statutory source for the pre-2024 Surrey County Council division arrangements."
+    },
+    {
+      "source_id": "surrey-electoral-changes-order-2024-explanatory-memorandum",
+      "source_type": "Official explanatory memorandum",
+      "source_url": "https://www.legislation.gov.uk/uksi/2024/1177/pdfs/uksiem_20241177_en_001.pdf",
+      "evidence_text": "Paragraphs 4.1 and 5.1 state that the new arrangements were scheduled for May 2025 and that the existing divisions provided under the 2012 Order would be replaced by 81 new divisions.",
+      "scope": "Timing and replacement of the pre-2024 statutory arrangements."
+    },
+    {
+      "source_id": "lgbce-surrey-final-recommendations-2024",
+      "source_type": "Local Government Boundary Commission for England official report",
+      "source_url": "https://www.lgbce.org.uk/sites/default/files/2024-05/surrey_fr_long_report_-_final.pdf",
+      "evidence_text": "Paragraphs 7 to 11 state that Surrey's last review was completed in 2012 and that the 2024 review proposed changes to most divisions.",
+      "scope": "Independent official confirmation of the review chronology and boundary-change context."
+    }
+  ],
+  "approval_rule": {
+    "required_sources": [
+      "surrey-electoral-changes-order-2012",
+      "surrey-electoral-changes-order-2024-explanatory-memorandum",
+      "lgbce-surrey-final-recommendations-2024"
+    ],
+    "matching_rule": "exact_published_area_name",
+    "permitted_features": [
+      "previous_election_event",
+      "previous_winner_status",
+      "previous_winning_candidate_name_source_reported_only",
+      "previous_winning_party",
+      "previous_winning_candidate_vote_share",
+      "previous_turnout",
+      "previous_electorate",
+      "area_specific_exact_party_history"
+    ],
+    "prohibited_features": [
+      "candidate_identity_transfer",
+      "incumbency_transfer",
+      "predecessor_councillor_transfer",
+      "party_vote_share_change",
+      "party_swing",
+      "vote_redistribution",
+      "winning_margin_from_vote_order"
+    ],
+    "limitation": "Approval applies only to exact published division names within the statutory pre-2024 arrangements. It does not establish a person-level link, reconstruct party totals, calculate swing, or authorise use of the changed 2024/2026 boundaries."
+  },
+  "approved_transitions": [
+    {
+      "transition_id": "surrey-principal-2013-to-2017",
+      "previous_election_id": "surrey-county-council-2013",
+      "current_election_id": "surrey-county-council-2017",
+      "expected_exact_area_count": 81
+    },
+    {
+      "transition_id": "surrey-principal-2017-to-2021",
+      "previous_election_id": "surrey-county-council-2017",
+      "current_election_id": "surrey-county-council-2021",
+      "expected_exact_area_count": 81
+    }
+  ]
+}

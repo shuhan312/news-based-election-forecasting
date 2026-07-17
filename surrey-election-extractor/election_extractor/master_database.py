@@ -53,7 +53,16 @@ DERIVED_METADATA_PATH = PROJECT_ROOT / "config/derived_metadata.json"
 # This is the date on which the existing statutory Seats audit was reviewed
 # into the generic metadata layer. It does not claim a date for the statute.
 SECONDARY_SEATS_AUDIT_RETRIEVAL_DATE = "2026-07-15"
-APPROVED_HISTORICAL_REFERENCE_STATUS = "approved_for_historical_reference"
+# The 2021-to-2026 GIS permissions and pre-2024 statutory-continuity audit
+# are deliberately distinct evidence paths. Both are allowed only after their
+# own audit has created an explicit reference row; a matching name alone is
+# never enough.
+APPROVED_HISTORICAL_REFERENCE_STATUSES = frozenset(
+    {
+        "approved_for_historical_reference",
+        "approved_pre_2024_legal_continuity",
+    }
+)
 AUDITED_ELECTION_INPUTS = {
     "surrey-county-council-2013": {
         "audit_path": PROJECT_ROOT / "outputs/2013_full_extraction/2013_extraction_audit.json",
@@ -645,13 +654,14 @@ def _historical_reference_fields(
     reference = references.get((election_id, division_name))
     if reference is None:
         return _unavailable_historical_reference()
-    if reference.get("historical_reference_status") != APPROVED_HISTORICAL_REFERENCE_STATUS:
+    status = reference.get("historical_reference_status")
+    if status not in APPROVED_HISTORICAL_REFERENCE_STATUSES:
         raise ValueError("Historical references must have explicit approval.")
     source_urls = reference.get("permission_source_urls")
     if isinstance(source_urls, (tuple, list)):
         source_urls = "; ".join(str(url) for url in source_urls)
     return {
-        "historical_reference_status": APPROVED_HISTORICAL_REFERENCE_STATUS,
+        "historical_reference_status": status,
         "previous_election_id": reference.get("previous_election_event_id"),
         "previous_election_date": reference.get("previous_election_date"),
         "previous_division_name": reference.get("previous_area_name"),
@@ -1121,7 +1131,7 @@ def _audit_summary(
         ),
         "approved_historical_reference_rows": sum(
             row["historical_reference_status"]
-            == APPROVED_HISTORICAL_REFERENCE_STATUS
+            in APPROVED_HISTORICAL_REFERENCE_STATUSES
             for row in division_rows
         ),
         "candidate_rows_with_approved_party_history": sum(
@@ -1186,7 +1196,7 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("change_in_vote_share_status", "Governance status for vote-share change.", "historical-reference permission policy", "derived", "Blocked by design; no value is inferred."),
             ("party_previously_contested", "Whether the exact original party label was present in an approved prior direct lineage.", "historical baseline feature layer", "derived", "NULL where no explicit geographic permission exists; never uses party-name similarity."),
             ("first_appearance_of_party_in_area", "Whether the exact original party label has no earlier recorded contest in an approved direct lineage.", "historical baseline feature layer", "derived", "NULL where geography is unresolved; this is not a claim about a party's overall origin."),
-            ("party_history_status", "Permission status for area-specific party history.", "historical-reference permission audit", "derived", "Only approved_direct_exact_label permits an area-specific value."),
+            ("party_history_status", "Permission status for area-specific party history.", "historical reference audit", "derived", "Only an explicit approved exact-label lineage permits an area-specific value."),
             ("election_completeness_status", "Read-only election-level completeness result.", "layered completeness", "derived", "Does not alter source fields."),
             ("division_completeness_status", "Read-only division-level completeness result.", "layered completeness", "derived", "Does not alter source fields."),
             ("candidate_completeness_status", "Read-only candidate-level completeness result.", "layered completeness", "derived", "Does not alter source fields."),
@@ -1216,10 +1226,10 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("outcome_summary_status", "Whether the official page reports one, multiple or no elected candidates.", "official candidate outcomes", "derived", "Never ranks candidates or predicts a winner."),
             ("winning_margin", "Published or separately audited winning margin.", "not yet audited", "unavailable", "NULL until a source-backed value or approved derived rule exists; never calculated from vote ranking."),
             ("winning_margin_status", "Governance status for the winning-margin field.", "margin provenance policy", "derived", "Current status requires_source_audit; no value is inferred."),
-            ("historical_reference_status", "Whether limited prior-election values may be shown for this ward.", "official boundary permission audit", "derived", "Only approved_for_historical_reference exposes prior values."),
-            ("previous_election_id", "Identifier of the permitted earlier principal election.", "historical baseline feature layer", "derived", "NULL without explicit geographic permission."),
-            ("previous_election_date", "Published date of the permitted earlier principal election.", "historical baseline feature layer", "derived", "NULL without explicit geographic permission."),
-            ("previous_division_name", "Published historical division name in the permitted direct relationship.", "historical baseline feature layer", "derived", "NULL without explicit geographic permission."),
+            ("historical_reference_status", "Whether limited prior-election values may be shown for this ward.", "historical reference audit", "derived", "Only approved_for_historical_reference or approved_pre_2024_legal_continuity exposes prior values."),
+            ("previous_election_id", "Identifier of the permitted earlier principal election.", "historical reference audit", "derived", "NULL without explicit geographic or legal-continuity permission."),
+            ("previous_election_date", "Published date of the permitted earlier principal election.", "historical reference audit", "derived", "NULL without explicit geographic or legal-continuity permission."),
+            ("previous_division_name", "Published historical division name in the permitted direct relationship.", "historical reference audit", "derived", "NULL without explicit geographic or legal-continuity permission."),
             ("previous_winning_candidate_name", "Single source-reported elected candidate in the permitted prior event.", "official historical candidate outcome", "derived", "NULL where the prior event has multiple elected candidates or geography is not approved."),
             ("previous_winning_party", "Original published party label of the single source-reported prior winner.", "official historical candidate outcome", "derived", "NULL where winner evidence or geography is ambiguous."),
             ("previous_winning_candidate_vote_share", "Published vote share of the single source-reported prior winner.", "official historical candidate result", "derived", "Not a party-total vote share and never used to calculate swing."),
@@ -1228,9 +1238,9 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("previous_turnout", "Official turnout of the permitted previous event.", "official historical Voting Summary", "derived", "NULL when unavailable in the historical source."),
             ("previous_electorate", "Official electorate of the permitted previous event.", "official historical Voting Summary", "derived", "NULL when unavailable in the historical source."),
             ("historical_source_url", "Official historical result page used for the permitted prior values.", "official historical result page", "official", "NULL without explicit geographic permission."),
-            ("historical_mapping_id", "Reviewed geographic mapping that permits the historical reference.", "official boundary permission audit", "derived", "NULL without explicit permission; does not establish legal succession."),
-            ("historical_reference_notes", "Boundary-evidence explanation for the permitted reference.", "official boundary permission audit", "derived", "NULL without explicit permission."),
-            ("historical_permission_source_urls", "Official legal and GIS sources authorising the limited historical reference.", "official boundary permission audit", "derived", "NULL without explicit permission."),
+            ("historical_mapping_id", "Reviewed geographic mapping or legal-continuity ID that permits the historical reference.", "historical reference audit", "derived", "NULL without explicit permission; does not establish person-level succession."),
+            ("historical_reference_notes", "Boundary or statutory-continuity explanation for the permitted reference.", "historical reference audit", "derived", "NULL without explicit permission."),
+            ("historical_permission_source_urls", "Official legal and GIS sources authorising the limited historical reference.", "historical reference audit", "derived", "NULL without explicit permission."),
             ("division_completeness_status", "Read-only division-level completeness result.", "layered completeness", "derived", "Does not fill official missing values."),
         ],
         "Candidates": [

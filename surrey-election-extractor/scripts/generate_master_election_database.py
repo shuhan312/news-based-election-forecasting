@@ -30,6 +30,9 @@ from election_extractor.historical_reference_permissions import (
     build_historical_reference_permission_audit,
     permission_records_by_mapping_id,
 )
+from election_extractor.principal_election_continuity import (
+    build_principal_election_continuity_audit,
+)
 
 
 OUTPUT_DIRECTORY = PROJECT_ROOT / "outputs/master_surrey_election_database"
@@ -130,11 +133,11 @@ def reviewed_historical_reference_inputs() -> tuple[
 ]:
     """Return only permission-approved historical values for the master tables.
 
-    The historical baseline layer already applies the geographic and official
-    boundary permission rules.  This adapter copies only its approved direct
-    reference rows into exact election-and-ward lookup keys.  It deliberately
-    does not attempt to match candidate names, reconstruct party totals, or
-    expose a feature for the 59 wards without direct approval.
+    The historical baseline layer supplies the 22 separately reviewed
+    2021-to-2026 relationships.  The legal-continuity audit supplies the
+    explicit 2013-to-2017 and 2017-to-2021 relationships.  Both inputs remain
+    evidence-gated, are keyed by exact published area names and deliberately
+    do not attempt candidate matching or party-total reconstruction.
     """
 
     baseline = build_historical_baseline_features()
@@ -169,6 +172,41 @@ def reviewed_historical_reference_inputs() -> tuple[
         if area_key is None or area_key not in division_references:
             raise ValueError("Approved party history requires an approved division reference.")
         key = (*area_key, party_name)
+        if key in party_references:
+            raise ValueError(f"Duplicate approved party-history reference for {key}.")
+        party_references[key] = dict(row)
+
+    # Pre-2024 principal elections are not a GIS shortcut for the 2026
+    # crosswalk.  Their own statutory continuity audit proves only the two
+    # adjacent transitions whose exact published division names are verified.
+    continuity = build_principal_election_continuity_audit()
+    continuity_references = continuity["division_references"]
+    if not isinstance(continuity_references, list):
+        raise ValueError("Principal-election continuity audit requires division references.")
+    for row in continuity_references:
+        if not isinstance(row, dict):
+            raise ValueError("Principal-election continuity references must be objects.")
+        election_id = row.get("current_election_id")
+        area_name = row.get("current_area_name")
+        if not isinstance(election_id, str) or not isinstance(area_name, str):
+            raise ValueError("Principal-election continuity references require election and area names.")
+        key = (election_id, area_name)
+        if key in division_references:
+            raise ValueError(f"Duplicate approved historical reference for {key}.")
+        division_references[key] = dict(row)
+
+    continuity_party_references = continuity["party_history_references"]
+    if not isinstance(continuity_party_references, list):
+        raise ValueError("Principal-election continuity audit requires party-history references.")
+    for row in continuity_party_references:
+        if not isinstance(row, dict):
+            raise ValueError("Principal-election party-history references must be objects.")
+        election_id = row.get("current_election_id")
+        area_name = row.get("current_area_name")
+        party_name = row.get("original_party_name")
+        if not all(isinstance(value, str) for value in (election_id, area_name, party_name)):
+            raise ValueError("Principal-election party-history references require election, area and party names.")
+        key = (election_id, area_name, party_name)
         if key in party_references:
             raise ValueError(f"Duplicate approved party-history reference for {key}.")
         party_references[key] = dict(row)
