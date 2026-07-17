@@ -35,6 +35,10 @@ from election_extractor.derived_metadata import (
     records_as_rows as derived_records_as_rows,
     validate_derived_metadata,
 )
+from election_extractor.derived_winning_margin import (
+    derive_single_member_winning_margins,
+    records_as_rows as derived_winning_margin_rows,
+)
 from election_extractor.election_config import ElectionConfiguration, load_election_config
 from election_extractor.election_structure_metadata import load_secondary_seats_audit
 from election_extractor.extraction import CandidateResultRecord, ExtractionStatus
@@ -850,6 +854,21 @@ def build_master_database(
         # and does not write into the candidate or division record collections.
         _validate_election_derived_metadata(election)
         derived_rows.extend(derived_records_as_rows(election.derived_metadata))
+        # A single-seat winning margin needs explicit official candidate
+        # outcomes as well as candidate votes, so it uses a specialised audited
+        # derivation. It remains a separate Derived Metadata row and never
+        # changes the official winning_margin column below.
+        derived_margin_records = derive_single_member_winning_margins(
+            election_id=configuration.election_id,
+            records=election.records,
+            division_id_for_source_url=lambda source_url: _division_id(
+                configuration.election_id, source_url
+            ),
+        )
+        derived_rows.extend(derived_winning_margin_rows(derived_margin_records))
+        derived_margin_division_ids = {
+            record.division_id for record in derived_margin_records
+        }
         # Layered completeness is read-only: it selects metadata sources for
         # assessment but never writes configuration or supplementary values
         # back into official candidate records.
@@ -973,10 +992,11 @@ def build_master_database(
                 historical_division_references,
             )
             outcome_summary = _official_outcome_summary(division_records)
+            division_id = _division_id(configuration.election_id, source_url)
             division_rows.append(
                 {
                     "election_id": configuration.election_id,
-                    "division_id": _division_id(configuration.election_id, source_url),
+                    "division_id": division_id,
                     "division_name": division_name,
                     "official_number_of_seats": _consensus(
                         record.number_of_seats for record in division_records
@@ -1000,11 +1020,15 @@ def build_master_database(
                     "secondary_seats_evidence": secondary.seat_evidence_text if secondary else None,
                     "secondary_seats_confidence": secondary.confidence if secondary else None,
                     **outcome_summary,
-                    # A margin is not derived from a vote ordering. It remains
-                    # NULL until a source-backed margin field or separately
-                    # approved derived rule has been audited.
+                    # The official field remains NULL unless a source page
+                    # publishes it. A separate audited calculation can only
+                    # exist for a fully evidenced, explicit single-seat result.
                     "winning_margin": None,
-                    "winning_margin_status": "requires_source_audit",
+                    "winning_margin_status": (
+                        "derived_single_member_margin_available"
+                        if division_id in derived_margin_division_ids
+                        else "not_derived_multi_member_or_incomplete_official_evidence"
+                    ),
                     **historical_reference_fields,
                     "division_completeness_status": assessment.status.value,
                 }
@@ -1318,8 +1342,8 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("winning_candidate_name", "Single official winning candidate where exactly one candidate is marked Elected.", "official candidate outcomes", "derived", "NULL for multi-member wards; use official_elected_candidate_names instead."),
             ("winning_party_name", "Published party of the single official winning candidate.", "official candidate outcomes", "derived", "NULL for multi-member wards; use official_elected_party_names instead."),
             ("outcome_summary_status", "Whether the official page reports one, multiple or no elected candidates.", "official candidate outcomes", "derived", "Never ranks candidates or predicts a winner."),
-            ("winning_margin", "Published or separately audited winning margin.", "not yet audited", "unavailable", "NULL until a source-backed value or approved derived rule exists; never calculated from vote ranking."),
-            ("winning_margin_status", "Governance status for the winning-margin field.", "margin provenance policy", "derived", "Current status requires_source_audit; no value is inferred."),
+            ("winning_margin", "Official winning margin, when a source publishes it.", "official result page", "official", "NULL when an official page does not publish a margin; a separate derived value never overwrites it."),
+            ("winning_margin_status", "Evidence state for an official or separate derived winning margin.", "official outcomes and audited derived-margin policy", "derived", "derived_single_member_margin_available means the separate Derived Metadata worksheet holds a reproducible calculation; multi-member contests are not assigned an arbitrary margin."),
             ("historical_reference_status", "Whether limited prior-election values may be shown for this ward.", "historical reference audit", "derived", "Only approved_for_historical_reference or approved_pre_2024_legal_continuity exposes prior values."),
             ("previous_election_id", "Identifier of the permitted earlier principal election.", "historical reference audit", "derived", "NULL without explicit geographic or legal-continuity permission."),
             ("previous_election_date", "Published date of the permitted earlier principal election.", "historical reference audit", "derived", "NULL without explicit geographic or legal-continuity permission."),

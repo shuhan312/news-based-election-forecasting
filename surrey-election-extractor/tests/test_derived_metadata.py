@@ -144,6 +144,36 @@ def test_master_database_exports_derived_value_without_changing_reigate() -> Non
     assert derived["official_inputs"] == "ballot_papers_issued=4109; total_votes=4109"
 
 
+def test_master_database_exports_single_member_margins_without_filling_official_field() -> None:
+    """Every single-seat margin is separate from the official NULL column."""
+
+    payload = build_master_database(load_audited_elections())
+    derived = [
+        row for row in payload.derived_metadata
+        if row["field_name"] == "derived_winning_margin"
+    ]
+    reigate = next(
+        row
+        for row in payload.divisions_and_wards
+        if row["election_id"] == REIGATE_ELECTION_ID
+        and row["division_name"] == "Reigate"
+    )
+    east_ward = next(
+        row for row in payload.divisions_and_wards
+        if row["election_id"] == "surrey-county-council-2026-east-surrey"
+    )
+
+    # Official single-seat evidence supports 230 calculations. The remaining
+    # 28 one-seat 2021 divisions have only supplementary Seats evidence, which
+    # is deliberately not accepted as a same-page input to a derived margin.
+    # 2026 two-seat wards are not assigned a single margin by convention.
+    assert len(derived) == 230
+    assert reigate["winning_margin"] is None
+    assert reigate["winning_margin_status"] == "derived_single_member_margin_available"
+    assert east_ward["winning_margin"] is None
+    assert east_ward["winning_margin_status"] == "not_derived_multi_member_or_incomplete_official_evidence"
+
+
 def test_2013_rule_derives_issued_only_from_missing_target_and_same_page_inputs() -> None:
     """The rule skips published targets and does not accept a missing input."""
 

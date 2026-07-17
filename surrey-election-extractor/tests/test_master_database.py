@@ -707,7 +707,10 @@ def test_official_outcome_summary_keeps_all_multi_member_elected_candidates() ->
     assert division["winning_party_name"] is None
     assert division["outcome_summary_status"] == "multiple_official_elected_candidates"
     assert division["winning_margin"] is None
-    assert division["winning_margin_status"] == "requires_source_audit"
+    assert (
+        division["winning_margin_status"]
+        == "not_derived_multi_member_or_incomplete_official_evidence"
+    )
 
 
 def test_approved_history_is_materialised_only_for_exact_permitted_ward() -> None:
