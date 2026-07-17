@@ -35,6 +35,7 @@ outputs/historical_baseline_features/*.json
 outputs/historical_reference_permissions/*.json
 outputs/by_election_integration/*.json
 outputs/by_election_source_recovery/*.json
+outputs/final_election_data_release_audit/
 
 # Local secrets and API-key files
 .env

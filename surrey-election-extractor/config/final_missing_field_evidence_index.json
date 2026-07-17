@@ -1,0 +1,85 @@
+{
+  "audit_id": "surrey-final-missing-field-evidence-index-2026-07-18",
+  "scope": "Only fields with no accepted official, supplementary, or governed derived value in the 20-event Surrey master database. This register documents reviewed public sources; it does not claim that an unindexed historic document cannot exist.",
+  "entries": [
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "division_name": "Weybridge",
+      "field_name": "ballot_papers_issued",
+      "record_count": 1,
+      "official_source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=169&RPID=0",
+      "reviewed_source_urls": [
+        "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=169&RPID=0",
+        "https://news.surreycc.gov.uk/tag/county-council-elections/"
+      ],
+      "reviewed_documentation": "docs/by_election_supplementary_metadata_audit.md",
+      "decision": "The reviewed County Council result page and Council result announcement publish candidates, total votes and electorate but do not publish ballot papers issued. No derived value is permitted because the required rejected-ballot input is also unavailable."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "division_name": "Weybridge",
+      "field_name": "rejected_ballots",
+      "record_count": 1,
+      "official_source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=169&RPID=0",
+      "reviewed_source_urls": [
+        "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=169&RPID=0",
+        "https://news.surreycc.gov.uk/tag/county-council-elections/"
+      ],
+      "reviewed_documentation": "docs/by_election_supplementary_metadata_audit.md",
+      "decision": "Neither reviewed Council source publishes rejected ballots. Equal or unequal totals are not used to guess a rejected-ballot figure."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "division_name": "Weybridge",
+      "field_name": "turnout",
+      "record_count": 1,
+      "official_source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=169&RPID=0",
+      "reviewed_source_urls": [
+        "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=169&RPID=0",
+        "https://news.surreycc.gov.uk/tag/county-council-elections/"
+      ],
+      "reviewed_documentation": "docs/by_election_supplementary_metadata_audit.md",
+      "decision": "Neither reviewed Council source publishes turnout. It is not calculated from total votes and electorate because total votes are not necessarily issued ballots."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05",
+      "division_name": "Staines South & Ashford West",
+      "field_name": "electorate",
+      "record_count": 1,
+      "official_source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=171&RPID=0",
+      "reviewed_source_urls": [
+        "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=171&RPID=0",
+        "https://www.spelthorne.gov.uk/page/306/staines-south-and-ashford-west-election-5-may-2016"
+      ],
+      "reviewed_documentation": "docs/by_election_supplementary_metadata_audit.md",
+      "decision": "The Surrey page and Spelthorne declaration support candidate rows, a governed issued-ballot calculation, and supplementary turnout, but neither publishes electorate."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-haslemere-2019-05-02",
+      "division_name": "Haslemere",
+      "field_name": "turnout",
+      "record_count": 1,
+      "official_source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=257&RPID=0",
+      "reviewed_source_urls": [
+        "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=257&RPID=0",
+        "https://news.surreycc.gov.uk/2019/05/03/nikki-barton-elected-in-haslemere-by-election/",
+        "https://www.lgafirst.co.uk/wp-content/uploads/2019/06/First-637-July-2019.pdf"
+      ],
+      "reviewed_documentation": "docs/by_election_supplementary_metadata_audit.md",
+      "decision": "Council sources do not publish turnout. The reviewed LGA report gives a conflicting percentage, so it is explicitly rejected rather than integrated."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-epsom-west-2015-11-19",
+      "division_name": "Epsom West",
+      "field_name": "vote_share",
+      "record_count": 6,
+      "official_source_url": "https://www.epsom-ewell.gov.uk/sites/default/files/documents/council/elections-and-voting/SCCDeclarationofResults19Nov2015.pdf",
+      "reviewed_source_urls": [
+        "https://www.epsom-ewell.gov.uk/sites/default/files/documents/council/elections-and-voting/SCCDeclarationofResults19Nov2015.pdf",
+        "https://news.surreycc.gov.uk/2015/11/20/karan-persand-wins-county-council-by-election/"
+      ],
+      "reviewed_documentation": "docs/by_election_supplementary_metadata_audit.md",
+      "decision": "The official declaration publishes candidate votes and outcome but no candidate percentages. Vote shares are not calculated into the official field."
+    }
+  ]
+}
