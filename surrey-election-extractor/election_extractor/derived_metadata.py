@@ -29,6 +29,13 @@ _FORMULA_SPECS = {
         "ballot_papers_issued",
         "total_votes + rejected_ballots",
     ): frozenset({"total_votes", "rejected_ballots"}),
+    (
+        "derived_total_votes",
+        "total_votes",
+        # The rule register additionally requires Seats=1 before this formula
+        # can be used: one valid ballot then contributes one candidate vote.
+        "ballot_papers_issued - rejected_ballots",
+    ): frozenset({"ballot_papers_issued", "rejected_ballots"}),
 }
 
 
@@ -342,6 +349,8 @@ def _calculate(formula: str, inputs: Mapping[str, int]) -> int:
         return inputs["ballot_papers_issued"] - inputs["total_votes"]
     if formula == "total_votes + rejected_ballots":
         return inputs["total_votes"] + inputs["rejected_ballots"]
+    if formula == "ballot_papers_issued - rejected_ballots":
+        return inputs["ballot_papers_issued"] - inputs["rejected_ballots"]
     raise ValueError(f"Unsupported derived metadata formula: {formula}.")
 
 

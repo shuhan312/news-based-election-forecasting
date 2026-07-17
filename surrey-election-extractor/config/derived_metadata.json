@@ -81,6 +81,21 @@
       "confidence": "High",
       "notes": "The same official Surrey Voting Summary publishes Seats=1, Total votes=2,726 and Number of ballot papers rejected=8. The calculated issued-ballot value is separate metadata and does not populate the official field or completeness.",
       "validation_status": "verified"
+    },
+    {
+      "rule_id": "surrey-by-election-epsom-west-2015-total-from-official-ballot-account",
+      "election_id": "surrey-county-council-by-election-epsom-west-2015-11-19",
+      "field_name": "derived_total_votes",
+      "target_official_field": "total_votes",
+      "geographic_level": "division",
+      "formula": "ballot_papers_issued - rejected_ballots",
+      "required_official_values": [
+        {"field_name": "number_of_seats", "value": 1}
+      ],
+      "retrieval_date": "2026-07-17",
+      "confidence": "High",
+      "notes": "The same signed official Epsom & Ewell declaration publishes Vacant Seats=1, Ballot Papers Issued=2,602 and Total rejected=7. The calculated valid-vote total is separate metadata; it does not populate total_votes, vote_share or completeness.",
+      "validation_status": "verified"
     }
   ]
 }

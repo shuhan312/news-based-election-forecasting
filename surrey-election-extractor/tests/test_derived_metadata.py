@@ -66,6 +66,7 @@ def issued_rule():
             "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05",
             "surrey-county-council-by-election-haslemere-2019-05-02",
             "surrey-county-council-by-election-addlestone-2025-08-21",
+            "surrey-county-council-by-election-epsom-west-2015-11-19",
         },
     )[0]
 
@@ -276,3 +277,41 @@ def test_by_election_issued_values_are_derived_only_from_same_page_official_summ
         "surrey-county-council-by-election-weybridge-2015-05-07",
         "derived_ballot_papers_issued",
     ) not in derived
+
+
+def test_epsom_west_total_votes_are_derived_from_one_official_ballot_account() -> None:
+    """The declaration's issued and rejected counts support a valid-vote total.
+
+    The one-seat condition is a rule precondition.  It prevents this calculation
+    from being applied to multi-seat contests, where a candidate-vote total can
+    represent more than one vote per ballot paper.
+    """
+
+    payload = build_master_database(load_audited_elections())
+    derived = next(
+        row
+        for row in payload.derived_metadata
+        if row["election_id"]
+        == "surrey-county-council-by-election-epsom-west-2015-11-19"
+        and row["field_name"] == "derived_total_votes"
+    )
+    epsom_west = next(
+        row
+        for row in payload.divisions_and_wards
+        if row["election_id"]
+        == "surrey-county-council-by-election-epsom-west-2015-11-19"
+    )
+    candidate_votes = [
+        row["votes"]
+        for row in payload.candidate_results
+        if row["election_id"]
+        == "surrey-county-council-by-election-epsom-west-2015-11-19"
+    ]
+
+    assert derived["value"] == 2595
+    assert derived["formula"] == "ballot_papers_issued - rejected_ballots"
+    assert derived["official_inputs"] == "ballot_papers_issued=2602; rejected_ballots=7"
+    # Candidate votes are a separate published table. Their agreement is a
+    # regression check only; the derivation itself uses the ballot-account fields.
+    assert sum(candidate_votes) == derived["value"]
+    assert epsom_west["total_votes"] is None

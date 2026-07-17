@@ -113,8 +113,9 @@ The [by-election supplementary metadata audit](by_election_supplementary_metadat
 ## Current derived calculation
 
 The [derived metadata register](../config/derived_metadata.json) contains one
-verified record for Reigate 2017, one reviewed 2013 rule, and three reviewed
-one-seat by-election rules. Reigate's official
+verified record for Reigate 2017, one reviewed 2013 rule, three reviewed
+one-seat by-election issued-ballot rules, and one one-seat by-election
+total-vote rule. Reigate's official
 result page publishes both `ballot_papers_issued = 4,109` and `total_votes =
 4,109`, while its official `rejected_ballots` field remains absent. The derived
 layer records `derived_rejected_ballots = 0`. The 2013 rule creates one
@@ -122,5 +123,7 @@ layer records `derived_rejected_ballots = 0`. The 2013 rule creates one
 publishes `Seats = 1`, `total_votes` and `rejected_ballots`; all 81 pages
 currently satisfy those source-input checks. The three by-election rules apply
 the same one-seat safeguard to Staines South & Ashford West 2016, Haslemere
-2019 and Addlestone 2025. Neither calculation populates an official column or
+2019 and Addlestone 2025. Epsom West 2015 separately derives total votes as
+issued ballot papers minus rejected papers from its signed declaration. Neither
+calculation populates an official column, produces a candidate vote share or
 changes division completeness.
