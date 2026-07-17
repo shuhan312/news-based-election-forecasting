@@ -66,6 +66,13 @@ const emptyTableSchemas = {
     "evidence_notes",
     "reviewer_reason",
     "evidence_summary",
+    "historical_reference_status",
+    "previous_winner_allowed",
+    "candidate_history_allowed",
+    "incumbency_allowed",
+    "party_vote_share_change_allowed",
+    "permission_source_urls",
+    "permission_uncertainty",
   ],
 };
 
@@ -77,9 +84,11 @@ const longTextColumns = new Set([
   "secondary_seats_evidence",
   "formula",
   "official_inputs",
-  "evidence_text",
-  "definition",
-  "missing_value_policy",
+    "evidence_text",
+    "definition",
+    "missing_value_policy",
+    "permission_source_urls",
+    "permission_uncertainty",
   "notes",
   "source",
 ]);

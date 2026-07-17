@@ -53,6 +53,7 @@ DERIVED_METADATA_PATH = PROJECT_ROOT / "config/derived_metadata.json"
 # This is the date on which the existing statutory Seats audit was reviewed
 # into the generic metadata layer. It does not claim a date for the statute.
 SECONDARY_SEATS_AUDIT_RETRIEVAL_DATE = "2026-07-15"
+APPROVED_HISTORICAL_REFERENCE_STATUS = "approved_for_historical_reference"
 AUDITED_ELECTION_INPUTS = {
     "surrey-county-council-2013": {
         "audit_path": PROJECT_ROOT / "outputs/2013_full_extraction/2013_extraction_audit.json",
@@ -531,9 +532,186 @@ def _party_lookup_fields(
     }
 
 
+def _joined_unique_text(values: Iterable[object]) -> str | None:
+    """Preserve the source order while representing multiple official winners.
+
+    A multi-member ward can have more than one official elected candidate.  This
+    helper creates a display value only from explicit published strings; it
+    never uses vote order to select, rank, or remove a candidate.
+    """
+
+    observed: list[str] = []
+    for value in values:
+        if not isinstance(value, str) or not value.strip():
+            continue
+        if value not in observed:
+            observed.append(value)
+    return "; ".join(observed) if observed else None
+
+
+def _official_outcome_summary(
+    records: Sequence[CandidateResultRecord],
+) -> dict[str, object]:
+    """Summarise explicit official elected outcomes without constructing a rank.
+
+    The supervisor's requested winner field is singular, but 2026 wards may
+    elect multiple candidates.  Singular winner fields are therefore populated
+    only where one candidate is explicitly marked Elected.  The complete list
+    of source-reported elected candidates remains available in separate plural
+    fields for multi-member wards.
+    """
+
+    elected_records = [
+        record for record in records if _elected_yes_no(record.outcome) == "Yes"
+    ]
+    elected_names = _joined_unique_text(record.candidate_name for record in elected_records)
+    elected_parties = _joined_unique_text(
+        record.original_party_name for record in elected_records
+    )
+    if len(elected_records) == 1:
+        return {
+            "official_elected_candidate_names": elected_names,
+            "official_elected_party_names": elected_parties,
+            "official_elected_candidate_count": 1,
+            "winning_candidate_name": elected_records[0].candidate_name,
+            "winning_party_name": elected_records[0].original_party_name,
+            "outcome_summary_status": "single_official_elected_candidate",
+        }
+    if elected_records:
+        return {
+            "official_elected_candidate_names": elected_names,
+            "official_elected_party_names": elected_parties,
+            "official_elected_candidate_count": len(elected_records),
+            "winning_candidate_name": None,
+            "winning_party_name": None,
+            "outcome_summary_status": "multiple_official_elected_candidates",
+        }
+    return {
+        "official_elected_candidate_names": None,
+        "official_elected_party_names": None,
+        "official_elected_candidate_count": 0,
+        "winning_candidate_name": None,
+        "winning_party_name": None,
+        "outcome_summary_status": "no_explicit_official_elected_candidate",
+    }
+
+
+def _source_notes(record: CandidateResultRecord) -> str | None:
+    """Expose audited source-page gaps as Notes without changing source values."""
+
+    if not record.missing_fields:
+        return None
+    return "Recorded missing fields: " + ", ".join(record.missing_fields)
+
+
+def _unavailable_historical_reference() -> dict[str, object]:
+    """Return the explicit NULL state for a relationship without permission."""
+
+    return {
+        "historical_reference_status": "not_approved_or_not_applicable",
+        "previous_election_id": None,
+        "previous_election_date": None,
+        "previous_division_name": None,
+        "previous_winning_candidate_name": None,
+        "previous_winning_party": None,
+        # Candidate vote share is intentionally distinct from a party total.
+        # The project does not reconstruct a party total from candidate rows.
+        "previous_winning_candidate_vote_share": None,
+        "previous_party_vote_share": None,
+        "previous_party_vote_share_status": "not_materialised_without_published_party_total",
+        "previous_turnout": None,
+        "previous_electorate": None,
+        "historical_source_url": None,
+        "historical_mapping_id": None,
+        "historical_reference_notes": None,
+    }
+
+
+def _historical_reference_fields(
+    election_id: str,
+    division_name: str | None,
+    references: Mapping[tuple[str, str], Mapping[str, object]],
+) -> dict[str, object]:
+    """Expose only an explicitly approved historical division reference.
+
+    The caller supplies rows from the existing permission-audited baseline.
+    Exact election ID and exact published ward name are required.  A missing
+    match is a deliberate NULL result, not an opportunity to use fuzzy names
+    or a GIS overlap to create an unapproved comparison.
+    """
+
+    if division_name is None:
+        return _unavailable_historical_reference()
+    reference = references.get((election_id, division_name))
+    if reference is None:
+        return _unavailable_historical_reference()
+    if reference.get("historical_reference_status") != APPROVED_HISTORICAL_REFERENCE_STATUS:
+        raise ValueError("Historical references must have explicit approval.")
+    source_urls = reference.get("permission_source_urls")
+    if isinstance(source_urls, (tuple, list)):
+        source_urls = "; ".join(str(url) for url in source_urls)
+    return {
+        "historical_reference_status": APPROVED_HISTORICAL_REFERENCE_STATUS,
+        "previous_election_id": reference.get("previous_election_event_id"),
+        "previous_election_date": reference.get("previous_election_date"),
+        "previous_division_name": reference.get("previous_area_name"),
+        "previous_winning_candidate_name": reference.get(
+            "previous_winning_candidate_name"
+        ),
+        "previous_winning_party": reference.get("previous_winning_party"),
+        "previous_winning_candidate_vote_share": reference.get(
+            "previous_winning_candidate_vote_share"
+        ),
+        "previous_party_vote_share": None,
+        "previous_party_vote_share_status": "not_materialised_without_published_party_total",
+        "previous_turnout": reference.get("previous_turnout"),
+        "previous_electorate": reference.get("previous_electorate"),
+        "historical_source_url": reference.get("source_result_url"),
+        "historical_mapping_id": reference.get("geographic_mapping_id"),
+        "historical_reference_notes": reference.get("permission_evidence"),
+        "historical_permission_source_urls": source_urls,
+    }
+
+
+def _party_history_fields(
+    election_id: str,
+    division_name: str | None,
+    original_party_name: str | None,
+    references: Mapping[tuple[str, str, str], Mapping[str, object]],
+) -> dict[str, object]:
+    """Attach exact-label party history only from an approved direct lineage."""
+
+    unavailable = {
+        "party_previously_contested": None,
+        "first_appearance_of_party_in_area": None,
+        "party_history_status": "not_approved_or_not_applicable",
+    }
+    if division_name is None or original_party_name is None:
+        return unavailable
+    reference = references.get((election_id, division_name, original_party_name))
+    if reference is None:
+        return unavailable
+    if reference.get("provenance") != "deterministically_derived":
+        raise ValueError("Party-history fields require an approved direct lineage.")
+    return {
+        "party_previously_contested": reference.get("party_previously_contested"),
+        "first_appearance_of_party_in_area": reference.get(
+            "first_observed_appearance"
+        ),
+        "party_history_status": "approved_direct_exact_label",
+    }
+
+
 def build_master_database(
     elections: Sequence[AuditedElectionInput],
     party_lookup: Mapping[str, PartyLookupEntry] | None = None,
+    geographic_mapping: Sequence[Mapping[str, object]] = (),
+    historical_division_references: Mapping[
+        tuple[str, str], Mapping[str, object]
+    ] | None = None,
+    party_history_references: Mapping[
+        tuple[str, str, str], Mapping[str, object]
+    ] | None = None,
 ) -> MasterDatabasePayload:
     """Build all required tables from audited values and separate provenance layers.
 
@@ -541,14 +719,22 @@ def build_master_database(
     Normal production runs load the committed exact-label configuration.  It
     controls only added lookup fields, never the original published party name.
 
-    The final Geographic Mapping table deliberately remains empty here.  GIS
-    overlap candidates are exported to a separate review dataset and cannot
-    enter this database until a future, evidence-backed approval process is
-    explicitly implemented.
+    ``geographic_mapping`` is optional and accepts only already-reviewed
+    mapping rows.  It is intentionally supplied by the reporting layer rather
+    than calculated here: this election-data builder must not reclassify GIS
+    relationships or promote a name match into a historical comparison.
+
+    The two historical-reference inputs are also optional, read-only products
+    of the existing permission-audited baseline.  They can expose limited
+    source-backed history for approved 2026 wards, but they never permit
+    candidate identity, incumbency, party swing, or vote redistribution.
     """
 
     if party_lookup is None:
         party_lookup = load_party_lookup()
+    geographic_rows = tuple(dict(row) for row in geographic_mapping)
+    historical_division_references = historical_division_references or {}
+    party_history_references = party_history_references or {}
     candidate_ids = _candidate_ids(
         tuple(record for election in elections for record in election.records)
     )
@@ -612,6 +798,12 @@ def build_master_database(
         for record, assessment in zip(election.records, layered.candidates, strict=True):
             division_id = _division_id(configuration.election_id, record.source_url)
             party_fields = _party_lookup_fields(record.original_party_name, party_lookup)
+            party_history_fields = _party_history_fields(
+                configuration.election_id,
+                record.division_ward_name,
+                record.original_party_name,
+                party_history_references,
+            )
             candidate_rows.append(
                 {
                     "election_id": configuration.election_id,
@@ -631,6 +823,19 @@ def build_master_database(
                     "final_position": record.final_position,
                     "source_url": record.source_url,
                     "source_type": _source_type(record.source_type),
+                    "notes": _source_notes(record),
+                    # These fields are deliberately visible rather than absent
+                    # from the schema.  No name-only matching or unverified
+                    # incumbency source is used to turn their NULL values into
+                    # Yes/No claims.
+                    "candidate_previously_stood": None,
+                    "candidate_history_status": "unresolved_no_explicit_identifier",
+                    "incumbent_candidate": None,
+                    "incumbent_party": None,
+                    "incumbency_status": "unresolved_no_authoritative_linkage",
+                    "change_in_vote_share": None,
+                    "change_in_vote_share_status": "blocked_by_design",
+                    **party_history_fields,
                     "election_completeness_status": layered.election.status.value,
                     "division_completeness_status": division_assessments[
                         record.source_url
@@ -667,6 +872,12 @@ def build_master_database(
                 raise ValueError(f"No published division name for {source_url}")
             assessment = division_assessments[source_url]
             secondary = secondary_by_name.get(division_name.casefold())
+            historical_reference_fields = _historical_reference_fields(
+                configuration.election_id,
+                division_name,
+                historical_division_references,
+            )
+            outcome_summary = _official_outcome_summary(division_records)
             division_rows.append(
                 {
                     "election_id": configuration.election_id,
@@ -693,6 +904,13 @@ def build_master_database(
                     "secondary_seats_source_url": secondary.seat_source_url if secondary else None,
                     "secondary_seats_evidence": secondary.seat_evidence_text if secondary else None,
                     "secondary_seats_confidence": secondary.confidence if secondary else None,
+                    **outcome_summary,
+                    # A margin is not derived from a vote ordering. It remains
+                    # NULL until a source-backed margin field or separately
+                    # approved derived rule has been audited.
+                    "winning_margin": None,
+                    "winning_margin_status": "requires_source_audit",
+                    **historical_reference_fields,
                     "division_completeness_status": assessment.status.value,
                 }
             )
@@ -762,6 +980,7 @@ def build_master_database(
         derived_rows=derived_rows,
         layered_reports=layered_reports,
         party_standardisation_issues=party_standardisation_issues,
+        geographic_mapping_rows=geographic_rows,
     )
     return MasterDatabasePayload(
         elections=tuple(election_rows),
@@ -771,7 +990,9 @@ def build_master_database(
         political_parties=parties,
         party_history_and_new_entrants=party_history,
         party_standardisation_issues=party_standardisation_issues,
-        geographic_mapping=(),
+        # These rows are read-only audit decisions.  They do not alter election
+        # result fields, approve vote redistribution, or identify candidates.
+        geographic_mapping=geographic_rows,
         supplementary_metadata=tuple(
             sorted(supplementary_rows, key=lambda row: str(row["metadata_id"]))
         ),
@@ -838,6 +1059,7 @@ def _audit_summary(
     derived_rows: Sequence[Mapping[str, object]],
     layered_reports: Mapping[str, LayeredCompletenessReport],
     party_standardisation_issues: Sequence[Mapping[str, object]],
+    geographic_mapping_rows: Sequence[Mapping[str, object]],
 ) -> dict[str, object]:
     """Summarise coverage and missingness without presenting it as a repair."""
 
@@ -888,15 +1110,35 @@ def _audit_summary(
         "derived_metadata_by_field": dict(
             sorted(Counter(str(row["field_name"]) for row in derived_rows).items())
         ),
-        "geographic_mapping_rows": 0,
+        "geographic_mapping_rows": len(geographic_mapping_rows),
+        "divisions_with_single_official_winner": sum(
+            row["outcome_summary_status"] == "single_official_elected_candidate"
+            for row in division_rows
+        ),
+        "divisions_with_multiple_official_winners": sum(
+            row["outcome_summary_status"] == "multiple_official_elected_candidates"
+            for row in division_rows
+        ),
+        "approved_historical_reference_rows": sum(
+            row["historical_reference_status"]
+            == APPROVED_HISTORICAL_REFERENCE_STATUS
+            for row in division_rows
+        ),
+        "candidate_rows_with_approved_party_history": sum(
+            row["party_history_status"] == "approved_direct_exact_label"
+            for row in candidate_rows
+        ),
         "party_standardisation_issue_rows": len(party_standardisation_issues),
         "official_division_field_missing_counts": missing_division_values,
         "per_election": per_election,
         "data_integrity_note": (
             "Null values preserve unavailable official information. Supplementary "
             "evidence and documented calculations are stored separately and do not "
-            "replace official fields or change layered completeness. No final boundary mappings have been "
-            "approved, so no historical comparisons are calculated."
+            "replace official fields or change layered completeness. Geographic "
+            "mapping rows, when supplied, are read-only reviewed evidence and do "
+            "not change source extraction fields. Official elected outcomes and "
+            "explicitly approved historical references are materialised separately "
+            "without candidate identity, incumbency, margin or swing inference."
         ),
     }
 
@@ -934,6 +1176,17 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("final_position", "Official candidate rank or placing if published.", "official result page", "official", "NULL when not published; never calculated from votes."),
             ("source_url", "Official result page for the candidate row.", "official result page", "official", "Never blank for extracted records."),
             ("source_type", "Evidence tier recorded by extraction.", "extraction audit", "official", "Preserved from the audited record."),
+            ("notes", "Recorded source-page limitation for this candidate row.", "extraction audit", "derived", "NULL where no record-specific source limitation was recorded; never used to fill a source field."),
+            ("candidate_previously_stood", "Whether the person stood in an earlier election.", "not collected", "unavailable", "Always NULL until an authoritative person-level identifier supports the claim; never matched from a name."),
+            ("candidate_history_status", "Why personal candidate history is available or unresolved.", "candidate-history policy", "derived", "Current status is unresolved_no_explicit_identifier; it is not evidence of absence."),
+            ("incumbent_candidate", "Whether the candidate is an incumbent.", "not collected", "unavailable", "Always NULL until an authoritative incumbency source is linked."),
+            ("incumbent_party", "Party of an officially verified incumbent.", "not collected", "unavailable", "Always NULL until an authoritative incumbency source is linked."),
+            ("incumbency_status", "Why incumbency is available or unresolved.", "incumbency policy", "derived", "Current status is unresolved_no_authoritative_linkage; it is not evidence of no incumbency."),
+            ("change_in_vote_share", "Change in party vote share between elections.", "not generated", "unavailable", "Always NULL: the project does not calculate swing across altered boundaries or reconstruct party totals."),
+            ("change_in_vote_share_status", "Governance status for vote-share change.", "historical-reference permission policy", "derived", "Blocked by design; no value is inferred."),
+            ("party_previously_contested", "Whether the exact original party label was present in an approved prior direct lineage.", "historical baseline feature layer", "derived", "NULL where no explicit geographic permission exists; never uses party-name similarity."),
+            ("first_appearance_of_party_in_area", "Whether the exact original party label has no earlier recorded contest in an approved direct lineage.", "historical baseline feature layer", "derived", "NULL where geography is unresolved; this is not a claim about a party's overall origin."),
+            ("party_history_status", "Permission status for area-specific party history.", "historical-reference permission audit", "derived", "Only approved_direct_exact_label permits an area-specific value."),
             ("election_completeness_status", "Read-only election-level completeness result.", "layered completeness", "derived", "Does not alter source fields."),
             ("division_completeness_status", "Read-only division-level completeness result.", "layered completeness", "derived", "Does not alter source fields."),
             ("candidate_completeness_status", "Read-only candidate-level completeness result.", "layered completeness", "derived", "Does not alter source fields."),
@@ -955,6 +1208,29 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("secondary_seats_source_url", "URL for supplementary Seats source.", "supplementary metadata", "supplementary", "NULL without secondary Seats evidence."),
             ("secondary_seats_evidence", "Supporting text for supplementary Seats.", "supplementary metadata", "supplementary", "NULL without secondary Seats evidence."),
             ("secondary_seats_confidence", "Recorded confidence of supplementary Seats evidence.", "supplementary metadata", "supplementary", "NULL without secondary Seats evidence."),
+            ("official_elected_candidate_names", "All candidates explicitly marked Elected on the official result page.", "official candidate outcomes", "derived", "Preserves every official elected candidate; never selected from vote order."),
+            ("official_elected_party_names", "Published party labels of all candidates explicitly marked Elected.", "official candidate outcomes", "derived", "Preserves exact original party labels and supports multi-member wards."),
+            ("official_elected_candidate_count", "Count of candidates explicitly marked Elected.", "official candidate outcomes", "derived", "Counted only from explicit official outcomes; never inferred from seats."),
+            ("winning_candidate_name", "Single official winning candidate where exactly one candidate is marked Elected.", "official candidate outcomes", "derived", "NULL for multi-member wards; use official_elected_candidate_names instead."),
+            ("winning_party_name", "Published party of the single official winning candidate.", "official candidate outcomes", "derived", "NULL for multi-member wards; use official_elected_party_names instead."),
+            ("outcome_summary_status", "Whether the official page reports one, multiple or no elected candidates.", "official candidate outcomes", "derived", "Never ranks candidates or predicts a winner."),
+            ("winning_margin", "Published or separately audited winning margin.", "not yet audited", "unavailable", "NULL until a source-backed value or approved derived rule exists; never calculated from vote ranking."),
+            ("winning_margin_status", "Governance status for the winning-margin field.", "margin provenance policy", "derived", "Current status requires_source_audit; no value is inferred."),
+            ("historical_reference_status", "Whether limited prior-election values may be shown for this ward.", "official boundary permission audit", "derived", "Only approved_for_historical_reference exposes prior values."),
+            ("previous_election_id", "Identifier of the permitted earlier principal election.", "historical baseline feature layer", "derived", "NULL without explicit geographic permission."),
+            ("previous_election_date", "Published date of the permitted earlier principal election.", "historical baseline feature layer", "derived", "NULL without explicit geographic permission."),
+            ("previous_division_name", "Published historical division name in the permitted direct relationship.", "historical baseline feature layer", "derived", "NULL without explicit geographic permission."),
+            ("previous_winning_candidate_name", "Single source-reported elected candidate in the permitted prior event.", "official historical candidate outcome", "derived", "NULL where the prior event has multiple elected candidates or geography is not approved."),
+            ("previous_winning_party", "Original published party label of the single source-reported prior winner.", "official historical candidate outcome", "derived", "NULL where winner evidence or geography is ambiguous."),
+            ("previous_winning_candidate_vote_share", "Published vote share of the single source-reported prior winner.", "official historical candidate result", "derived", "Not a party-total vote share and never used to calculate swing."),
+            ("previous_party_vote_share", "Published previous party-total vote share.", "not materialised", "unavailable", "NULL because the completed sources provide candidate shares, not a party-total series."),
+            ("previous_party_vote_share_status", "Reason previous party-total vote share is unavailable.", "historical baseline policy", "derived", "No party-total reconstruction is permitted."),
+            ("previous_turnout", "Official turnout of the permitted previous event.", "official historical Voting Summary", "derived", "NULL when unavailable in the historical source."),
+            ("previous_electorate", "Official electorate of the permitted previous event.", "official historical Voting Summary", "derived", "NULL when unavailable in the historical source."),
+            ("historical_source_url", "Official historical result page used for the permitted prior values.", "official historical result page", "official", "NULL without explicit geographic permission."),
+            ("historical_mapping_id", "Reviewed geographic mapping that permits the historical reference.", "official boundary permission audit", "derived", "NULL without explicit permission; does not establish legal succession."),
+            ("historical_reference_notes", "Boundary-evidence explanation for the permitted reference.", "official boundary permission audit", "derived", "NULL without explicit permission."),
+            ("historical_permission_source_urls", "Official legal and GIS sources authorising the limited historical reference.", "official boundary permission audit", "derived", "NULL without explicit permission."),
             ("division_completeness_status", "Read-only division-level completeness result.", "layered completeness", "derived", "Does not fill official missing values."),
         ],
         "Candidates": [
@@ -1003,6 +1279,13 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("evidence_notes", "Evidence limitation or boundary-change qualification.", "geographic mapping decision framework", "derived", "Required for an accepted_direct mapping."),
             ("reviewer_reason", "Why the relationship passed or failed direct analytical criteria.", "geographic mapping decision framework", "derived", "Never uses a name match as evidence."),
             ("evidence_summary", "Recorded overlap, competitor, geometry and source-consistency evidence.", "geographic mapping decision framework", "derived", "Required for every decision row."),
+            ("historical_reference_status", "Whether this reviewed direct relationship is explicitly approved for limited historical reference.", "official boundary permission audit", "derived", "Never transfers candidate identity, incumbency, swing or redistributed votes."),
+            ("previous_winner_allowed", "Whether the source-reported previous winner may be exposed as a limited historical reference.", "official boundary permission audit", "derived", "True only for an explicitly approved direct relationship."),
+            ("candidate_history_allowed", "Whether personal candidate history can be transferred across the boundary relationship.", "official boundary permission audit", "derived", "Always false without an explicit person-level identifier."),
+            ("incumbency_allowed", "Whether incumbency may be transferred across the boundary relationship.", "official boundary permission audit", "derived", "Always false in the current project."),
+            ("party_vote_share_change_allowed", "Whether party vote-share change may be calculated across the relationship.", "official boundary permission audit", "derived", "Always false in the current project."),
+            ("permission_source_urls", "Official legal and GIS sources used by the permission audit.", "official boundary permission audit", "derived", "Blank when no explicit permission record exists."),
+            ("permission_uncertainty", "Scope limitation recorded by the permission audit.", "official boundary permission audit", "derived", "Never interpreted as legal succession."),
         ],
         "Party History and New Entrants": [
             ("party_name", "Observed published party name.", "Candidate Results", "derived", "Never blank for observed parties."),

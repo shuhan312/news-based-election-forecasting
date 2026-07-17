@@ -188,6 +188,27 @@ def test_geographic_mapping_schema_requires_decision_and_evidence_fields() -> No
     } <= fields
 
 
+def test_reviewed_geographic_mapping_rows_are_exported_without_reclassification() -> None:
+    """A supplied approval row is preserved as evidence, not recalculated here."""
+
+    mapping = {
+        "mapping_id": "review:001",
+        "analytical_comparability": "accepted_direct",
+        "historical_reference_status": "approved_for_historical_reference",
+        "previous_winner_allowed": True,
+        "candidate_history_allowed": False,
+        "incumbency_allowed": False,
+        "party_vote_share_change_allowed": False,
+    }
+    payload = build_master_database(
+        (audited_input(2017, (record(2017, "Candidate One", "Conservative"),)),),
+        geographic_mapping=(mapping,),
+    )
+
+    assert payload.geographic_mapping == (mapping,)
+    assert payload.audit_summary["geographic_mapping_rows"] == 1
+
+
 def test_original_party_names_are_preserved_without_merging() -> None:
     payload = build_master_database(
         (
@@ -656,3 +677,106 @@ def test_lingfield_2013_published_blank_party_remains_null() -> None:
     )
     assert affiliation["candidate_name"] == "D'Avray, Christopher David"
     assert affiliation["value"] == "No party affiliation"
+
+
+def test_official_outcome_summary_keeps_all_multi_member_elected_candidates() -> None:
+    """Multi-member outcomes retain every official Elected row without ranking votes."""
+
+    elected_one = record(2026, "Candidate One", "Conservative")
+    elected_two = record(2026, "Candidate Two", "Labour")
+    not_elected = replace(
+        record(2026, "Candidate Three", "Green Party"), outcome="Not elected"
+    )
+    payload = build_master_database(
+        (audited_input(2026, (elected_one, elected_two, not_elected)),)
+    )
+
+    division = payload.divisions_and_wards[0]
+    assert division["official_elected_candidate_names"] == "Candidate One; Candidate Two"
+    assert division["official_elected_party_names"] == "Conservative; Labour"
+    assert division["official_elected_candidate_count"] == 2
+    assert division["winning_candidate_name"] is None
+    assert division["winning_party_name"] is None
+    assert division["outcome_summary_status"] == "multiple_official_elected_candidates"
+    assert division["winning_margin"] is None
+    assert division["winning_margin_status"] == "requires_source_audit"
+
+
+def test_approved_history_is_materialised_only_for_exact_permitted_ward() -> None:
+    """Historical values require both the approved reference and exact ward key."""
+
+    approved_reference = {
+        "historical_reference_status": "approved_for_historical_reference",
+        "previous_election_event_id": "surrey-county-council-2021",
+        "previous_election_date": "6 May 2021",
+        "previous_area_name": "Earlier Example Division",
+        "previous_winning_candidate_name": "Earlier Winner",
+        "previous_winning_party": "Conservative",
+        "previous_winning_candidate_vote_share": 52.0,
+        "previous_turnout": 44.0,
+        "previous_electorate": 1000,
+        "source_result_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=1",
+        "geographic_mapping_id": "review:001",
+        "permission_evidence": "Explicit official boundary permission.",
+        "permission_source_urls": ("https://www.legislation.gov.uk/example",),
+    }
+    approved_party_history = {
+        "provenance": "deterministically_derived",
+        "party_previously_contested": True,
+        "first_observed_appearance": False,
+    }
+    payload = build_master_database(
+        (audited_input(2026, (record(2026, "Candidate One", "Conservative"),)),),
+        historical_division_references={
+            ("surrey-county-council-2026", "Example Division"): approved_reference
+        },
+        party_history_references={
+            (
+                "surrey-county-council-2026",
+                "Example Division",
+                "Conservative",
+            ): approved_party_history
+        },
+    )
+
+    division = payload.divisions_and_wards[0]
+    candidate = payload.candidate_results[0]
+    assert division["previous_winning_party"] == "Conservative"
+    assert division["previous_winning_candidate_vote_share"] == 52.0
+    assert division["previous_party_vote_share"] is None
+    assert division["previous_party_vote_share_status"] == (
+        "not_materialised_without_published_party_total"
+    )
+    assert candidate["party_previously_contested"] is True
+    assert candidate["first_appearance_of_party_in_area"] is False
+
+    unmatched = build_master_database(
+        (audited_input(2026, (record(2026, "Candidate One", "Conservative"),)),),
+        historical_division_references={
+            ("surrey-county-council-2026", "A Different Division"): approved_reference
+        },
+    )
+    assert unmatched.divisions_and_wards[0]["previous_winning_party"] is None
+    assert unmatched.divisions_and_wards[0]["historical_reference_status"] == (
+        "not_approved_or_not_applicable"
+    )
+
+
+def test_identity_incumbency_and_vote_change_are_explicitly_unresolved() -> None:
+    """The materialised schema must not convert missing personal evidence into a claim."""
+
+    incomplete = replace(
+        record(2017, "Candidate One", "Conservative"),
+        missing_fields=("final_position",),
+    )
+    payload = build_master_database((audited_input(2017, (incomplete,)),))
+    candidate = payload.candidate_results[0]
+
+    assert candidate["notes"] == "Recorded missing fields: final_position"
+    assert candidate["candidate_previously_stood"] is None
+    assert candidate["candidate_history_status"] == "unresolved_no_explicit_identifier"
+    assert candidate["incumbent_candidate"] is None
+    assert candidate["incumbent_party"] is None
+    assert candidate["incumbency_status"] == "unresolved_no_authoritative_linkage"
+    assert candidate["change_in_vote_share"] is None
+    assert candidate["change_in_vote_share_status"] == "blocked_by_design"
