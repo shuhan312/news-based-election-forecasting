@@ -4,11 +4,20 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+
+# Permit `python scripts/audit_final_position_provenance.py` from the project
+# root without requiring an environment-specific PYTHONPATH setting. This only
+# exposes the local package; it does not alter extraction behaviour.
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from election_extractor.official_source import (
     UrllibOfficialPageClient,
@@ -18,10 +27,25 @@ from election_extractor.official_source import (
 )
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
+# This is intentionally the complete principal-election scope already held in
+# the master database.  It lets the report distinguish "not published in the
+# inspected official tables" from a conclusion based on only one baseline year.
 ELECTION_AUDITS = {
-    "2017": PROJECT_ROOT / "outputs/2017_full_extraction/2017_extraction_audit.json",
-    "2021": PROJECT_ROOT / "outputs/2021_archive_discovery_pilot/2021_archive_discovery_pilot_audit.json",
+    "Surrey County Council Election 2013": (
+        PROJECT_ROOT / "outputs/2013_full_extraction/2013_extraction_audit.json"
+    ),
+    "Surrey County Council Election 2017": (
+        PROJECT_ROOT / "outputs/2017_full_extraction/2017_extraction_audit.json"
+    ),
+    "Surrey County Council Election 2021": (
+        PROJECT_ROOT / "outputs/2021_archive_discovery_pilot/2021_archive_discovery_pilot_audit.json"
+    ),
+    "East Surrey Council Election 2026": (
+        PROJECT_ROOT / "outputs/2026_east_full_extraction/2026_extraction_audit.json"
+    ),
+    "West Surrey Council Election 2026": (
+        PROJECT_ROOT / "outputs/2026_west_full_extraction/2026_extraction_audit.json"
+    ),
 }
 OUTPUT_DIRECTORY = PROJECT_ROOT / "outputs/final_position_provenance_audit"
 
@@ -96,7 +120,31 @@ def _inspect_page(division_name: str, source_url: str) -> dict[str, Any]:
     }
 
 
-def _inspect_election(year: str, audit_path: Path) -> dict[str, Any]:
+def _final_position_conclusion(
+    pages: list[dict[str, Any]],
+    position_pages: list[dict[str, Any]],
+) -> str:
+    """Return absence only after every intended official table was inspected.
+
+    A temporary access failure is not evidence that a rank field is absent.
+    This guard prevents a rerun during an anti-bot block from silently turning
+    unavailable pages into a negative provenance conclusion.
+    """
+
+    unavailable = [
+        page for page in pages if page["page_classification"] != "valid_election_result_page"
+    ]
+    if unavailable:
+        return (
+            "Inconclusive: one or more official pages could not be inspected in this run; "
+            "existing final_position values must remain unchanged."
+        )
+    if position_pages:
+        return "A. Official final_position evidence was found and should be reviewed for extraction."
+    return "B. Official final_position is not published in the checked candidate result tables and should remain NULL."
+
+
+def _inspect_election(election_name: str, audit_path: Path) -> dict[str, Any]:
     """Fetch every recorded official result page using ordinary public HTTP."""
     divisions = _load_divisions(audit_path)
     # Limited concurrency keeps the public audit practical without using browser
@@ -112,7 +160,7 @@ def _inspect_election(year: str, audit_path: Path) -> dict[str, Any]:
     position_pages = [page for page in pages if page["official_position_headers"]]
     classification = Counter(page["page_classification"] for page in pages)
     return {
-        "election_year": int(year),
+        "election_name": election_name,
         "official_audit_source": str(audit_path),
         "divisions_checked": len(pages),
         "official_result_urls_checked": len(pages),
@@ -121,11 +169,7 @@ def _inspect_election(year: str, audit_path: Path) -> dict[str, Any]:
         "candidate_table_header_patterns": dict(sorted(header_sets.items())),
         "pages_with_official_position_field": len(position_pages),
         "position_field_evidence": position_pages,
-        "conclusion": (
-            "B. Official final_position is not published in the checked candidate result tables and should remain NULL."
-            if not position_pages
-            else "A. Official final_position evidence was found and should be reviewed for extraction."
-        ),
+        "conclusion": _final_position_conclusion(pages, position_pages),
         "pages": pages,
     }
 
@@ -141,7 +185,7 @@ def _markdown_report(report: dict[str, Any]) -> str:
     for election in report["elections"]:
         lines.extend(
             [
-                f"## {election['election_year']} Surrey County Council Election",
+                f"## {election['election_name']}",
                 "",
                 f"- Divisions checked: {election['divisions_checked']}",
                 f"- Official result URLs checked: {election['official_result_urls_checked']}",
@@ -159,11 +203,19 @@ def _markdown_report(report: dict[str, Any]) -> str:
             for page in election["pages"][:3]
         )
         lines.append("")
+    all_absent = all(
+        election["conclusion"].startswith("B.") for election in report["elections"]
+    )
+    overall_conclusion = (
+        "**B. Official final_position is not published in every successfully checked candidate result table and should remain NULL.**"
+        if all_absent
+        else "**No dataset-wide absence conclusion is made until every intended official candidate table can be inspected successfully.**"
+    )
     lines.extend(
         [
             "## Overall conclusion",
             "",
-            "**B. Official final_position is not published in the checked 2017 or 2021 Surrey candidate result tables and should remain NULL.**",
+            overall_conclusion,
             "",
             "Candidate display order was observed but is not an official rank field and was not converted into final position.",
             "",
@@ -183,8 +235,8 @@ def main() -> None:
         "generated_at": datetime.now(UTC).isoformat(),
         "method": "Ordinary public HTTP inspection of candidate table headers; no browser automation or ranking calculation.",
         "elections": [
-            _inspect_election(year, audit_path)
-            for year, audit_path in ELECTION_AUDITS.items()
+            _inspect_election(election_name, audit_path)
+            for election_name, audit_path in ELECTION_AUDITS.items()
         ],
     }
     args.output_directory.mkdir(parents=True, exist_ok=True)
