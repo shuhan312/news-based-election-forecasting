@@ -32,16 +32,23 @@ cannot be used as evidence that final position is absent.
 `final_position` remains `NULL`: it is never calculated by sorting votes, and
 candidate display order is never treated as a rank.
 
+The separate `derived_final_position` is available for all 1,971 candidate
+rows because every audited result page contains a complete official vote table.
+It is a competition rank, retains eight tied rows through an explicit tie flag
+and has passed the outcome/order QA checks. It must not be renamed or written
+back as the official field.
+
 ## Longitudinal fields
 
 The master database exposes historical values only where the geography and the
 source both support the relation.
 
 - `previous_winning_party` and the previous winning candidate's published
-  share are available for 184 permitted relations: 81 from 2013 to 2017, 81
-  from 2017 to 2021, and 22 from 2021 to 2026.
-- `previous_party_vote_share` is materialised only for approved exact-label
-  references. `change_in_vote_share` is then available as a post-election
+  share are available for 201 permitted relations: 81 from 2013 to 2017, 81
+  from 2017 to 2021, 15 by-election relations and 24 from 2021 to 2026.
+- `previous_party_vote_share` is materialised for 1,021 candidate rows under
+  approved exact-label references. `change_in_vote_share` is available for 775
+  rows as a post-election
   percentage-point diagnostic for comparable single-member contests. It is
   never a no-news predictor, and multi-member or altered-boundary party swing
   remains prohibited.
@@ -62,6 +69,10 @@ collision boundary, not an unreported failed search. Candidate-history `No`
 means no exact complete published identifier exists anywhere in the complete
 earlier in-scope official candidate universe; it is not a claim about elections
 before 2013 or outside Surrey County Council.
+
+The current release has 344 candidate-history `True`, 1,269 `False` and 358
+`NULL` values; every `NULL` is a 2013 first-period record. Candidate incumbency
+has 113 Yes, 1,500 No and the same 358 first-period Unknown records.
 
 ## Sources
 

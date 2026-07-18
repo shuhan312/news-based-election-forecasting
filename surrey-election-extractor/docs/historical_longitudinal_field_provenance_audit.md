@@ -1,54 +1,59 @@
-# Historical and Longitudinal Fields: Provenance Audit
+# Historical and longitudinal fields: provenance audit
 
 ## Purpose
 
-This audit separates values that can be exposed from completed official election
-records from values that would require an unsupported inference. It is an
-additive review of the historical-field layer; it does not change extraction,
-official NULLs or the 2021-to-2026 geographic-crosswalk decision.
+This audit records which longitudinal values are available, which evidence
+authorises them and which inferences remain prohibited. It does not overwrite
+official source fields or permit vote redistribution across changed geography.
 
-## Official sources reviewed
+## Authoritative continuity evidence
 
 - [The Surrey (Electoral Changes) Order 2012](https://www.legislation.gov.uk/uksi/2012/1872/contents/made)
 - [The Surrey (Electoral Changes) Order 2024 explanatory memorandum](https://www.legislation.gov.uk/uksi/2024/1177/pdfs/uksiem_20241177_en_001.pdf)
 - [LGBCE final recommendations for Surrey (May 2024)](https://www.lgbce.org.uk/sites/default/files/2024-05/surrey_fr_long_report_-_final.pdf)
-- [Surrey County Council 2017 official results announcement](https://news.surreycc.gov.uk/2017/05/05/live-election-results-declared/)
-- [Surrey County Council 2021 official results announcement](https://news.surreycc.gov.uk/2021/05/07/2021-election-results/)
+- Official Surrey principal-election and by-election result pages retained in
+  the master payload.
 
-The 2024 explanatory memorandum identifies the 2012 arrangements as the
-existing divisions that would be replaced at the May 2025 elections. The
-configured audit therefore verifies two separate adjacent transitions,
-2013→2017 and 2017→2021, using exactly matching published division names:
-81 matches in each transition. The changed 2024/2026 boundaries remain subject
-to the separate 22-relationship geographic permission audit.
+The release contains 201 approved predecessor relations: 81 for 2013→2017, 81
+for 2017→2021, 15 same-statutory-division by-election relations and 24 reviewed
+2021→2026 direct geographic relations. Partial, unapproved or non-comparable
+crosswalks remain blocked.
 
 ## Field decisions
 
-| Supervisor field | Decision | Evidence boundary |
+| Supervisor field | Current release | Evidence boundary |
 | --- | --- | --- |
-| Previous winning party | Materialised for 184 explicitly approved references: 81 for 2017, 81 for 2021 and 22 existing 2026 references. | Taken only from an official prior candidate row explicitly marked `Elected`; never selected by vote order. |
-| Previous winning candidate | Materialised only for the same references when exactly one official `Elected` row exists. | This is a prior-result fact, not a claim that the person is a current candidate or incumbent. |
-| Previous winner's candidate vote share | Materialised where the selected official elected row publishes a share. | It is a *candidate* share, never a party-total share. |
-| Previous electorate and turnout | Materialised only where the permitted prior official result page publishes the value. | Missing source values remain NULL. |
-| First appearance of party in area / party previously contested | Materialised for exact original party labels in the approved direct lineage. | It is first observed appearance in the project’s permitted lineage, not a claim about a party's real-world origin. |
-| Previous party vote share | Remains NULL. | The result pages provide candidate shares, not a documented division-level party-total series; no party-total reconstruction is allowed. |
-| Change in vote share / swing | Materialised for 775 approved exact-label single-member candidate rows as a post-election diagnostic. | Current analysis share minus approved previous share in percentage points. Excluded from the no-news baseline; multi-member, unapproved-boundary and reconstructed party-total comparisons remain NULL. |
-| Candidate previously stood | Materialised as `True` only for rows in the reviewed official member-profile register; otherwise remains NULL. | The register requires a stable Surrey profile UID directly linking the exact target result page and an earlier official result page. Name-only joining remains prohibited. |
-| Incumbent candidate / incumbent party | Materialised only for the same reviewed profile rows; otherwise remains NULL. | The register additionally requires a published term beginning before the target election. Incumbent party preserves the target row's exact published party label and does not infer historical affiliation. |
-| Winning margin | Official field remains NULL; all 339 areas have a separate last-seat analysis margin. | Official outcomes identify the elected and non-elected groups. The value is the lowest elected total minus the highest non-elected total: the runner-up gap for one seat and final-seat cutoff gap for multiple seats. Twenty-eight 2021 areas use separately cited statutory Seats evidence. |
+| Previous winning party | 201/339 area rows | Single prior official candidate row explicitly marked `Elected` under an approved relation; never selected by vote order. |
+| Previous winning candidate | Same approved relations when exactly one prior elected row exists | A prior-result fact, not automatic proof of current identity. |
+| Previous winner candidate share | Published share of that prior elected row | Candidate share, not reconstructed multi-candidate party total. |
+| Previous electorate and turnout | Available only where the approved prior official result publishes the value; no-news turnout may use separately cited supplementary official evidence | Missing source values remain `NULL`. |
+| Previous party vote share | 1,021/1,971 candidate rows | The unique prior candidate share for the current row's exact published party label in an approved single-member lineage. A zero is allowed only when the complete prior candidate table proves label absence. No party aggregation or fuzzy label mapping. |
+| Change in vote share | 775/1,971 candidate rows | Current analysis share minus approved prior exact-label share. Post-election diagnostic only; excluded from the no-news baseline. |
+| Party previously contested / first observed appearance | 1,039/1,971 candidate rows | Exact published labels inside approved lineages. “First” means first observed in that permitted project lineage. |
+| Candidate previously stood | 344 True; 1,269 False; 358 Unknown | Complete chronological prior official candidate universe with exact complete-name linkage; no fuzzy matching. All Unknown rows are 2013 first-period records. |
+| Incumbent candidate | 113 Yes; 1,500 No; 358 Unknown | Complete official pre-election councillor roster reconstructed from principal results and intervening by-elections. All Unknown rows are 2013. |
+| Incumbent party | 167 Yes; 614 No; 1,190 Unknown | Exact current/prior party label comparison only for an approved comparable area. Two-member or altered geography remains Unknown. |
+| Winning margin | 0 official; 339 labelled analysis values | 258 single-seat runner-up gaps and 81 two-member final-seat cutoff gaps. Twenty-eight 2021 areas use separately cited statutory Seats evidence. |
+| Final position | 0 official; 1,971 derived competition ranks | Complete same-page official votes; eight tied rows retain tie flags. Derived rank never becomes official rank. |
+
+## Modelling boundary
+
+`previous_party_vote_share`, previous winner information, previous turnout and
+previous electorate are lagged features. `change_in_vote_share`, current vote
+share, current outcome, rank and winning margin contain the target election
+result and are prohibited from the no-news predictor.
+
+The current division-level no-news export contains 201 eligible predecessor
+rows and 138 rows without an approved predecessor. It does not yet publish the
+candidate/party-level lagged-share table, so no-news publication remains a
+separate downstream task even though the election master contains the required
+1,021 values.
 
 ## Conclusion
 
-The implemented legal-continuity audit resolves a real avoidable gap: it makes
-the 2013→2017 and 2017→2021 historical references available without weakening
-the existing 2026 crosswalk rules. It does **not** turn the remaining personal,
-party-total or swing fields into missing-data failures. Candidate history and
-incumbency can now be added only through the separately reviewed official
-member-profile register documented in
-[`candidate_and_incumbency_evidence_audit.md`](candidate_and_incumbency_evidence_audit.md).
-All other records stay visibly NULL until an authoritative source supports each
-field under that method.
-
-This is a statement about the evidence reviewed and the project’s permitted
-methods, not a claim that no additional archival or returning-officer evidence
-could ever exist.
+The election master now exposes the maximum defensible longitudinal coverage
+within its declared 2013--2026 scope. Remaining `NULL` values are first-period,
+identity, source-publication or geographic-comparability boundaries. Additional
+values require new authoritative evidence or an explicitly approved method;
+they must not be created by fuzzy identity matching, party merging or boundary
+vote redistribution.

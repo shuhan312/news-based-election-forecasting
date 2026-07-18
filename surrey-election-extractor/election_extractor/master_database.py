@@ -1898,6 +1898,36 @@ def _audit_summary(
         "candidate_rows_with_change_in_vote_share": sum(
             row["change_in_vote_share"] is not None for row in candidate_rows
         ),
+        "candidate_rows_with_previous_party_vote_share": sum(
+            row["previous_party_vote_share"] is not None for row in candidate_rows
+        ),
+        "candidate_previously_stood_true": sum(
+            row["candidate_previously_stood"] is True for row in candidate_rows
+        ),
+        "candidate_previously_stood_false": sum(
+            row["candidate_previously_stood"] is False for row in candidate_rows
+        ),
+        "candidate_previously_stood_unknown": sum(
+            row["candidate_previously_stood"] is None for row in candidate_rows
+        ),
+        "incumbent_candidate_yes": sum(
+            row["incumbent_candidate_yes_no"] == "Yes" for row in candidate_rows
+        ),
+        "incumbent_candidate_no": sum(
+            row["incumbent_candidate_yes_no"] == "No" for row in candidate_rows
+        ),
+        "incumbent_candidate_unknown": sum(
+            row["incumbent_candidate_yes_no"] == "Unknown" for row in candidate_rows
+        ),
+        "incumbent_party_yes": sum(
+            row["incumbent_party_yes_no"] == "Yes" for row in candidate_rows
+        ),
+        "incumbent_party_no": sum(
+            row["incumbent_party_yes_no"] == "No" for row in candidate_rows
+        ),
+        "incumbent_party_unknown": sum(
+            row["incumbent_party_yes_no"] == "Unknown" for row in candidate_rows
+        ),
         "candidate_rows_change_blocked_multi_member": sum(
             row["change_in_vote_share_status"]
             == "not_calculated_current_contest_not_single_member"
@@ -2054,8 +2084,8 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("previous_winning_candidate_name", "Single source-reported elected candidate in the permitted prior event.", "official historical candidate outcome", "derived", "NULL where the prior event has multiple elected candidates or geography is not approved."),
             ("previous_winning_party", "Original published party label of the single source-reported prior winner.", "official historical candidate outcome", "derived", "NULL where winner evidence or geography is ambiguous."),
             ("previous_winning_candidate_vote_share", "Published vote share of the single source-reported prior winner.", "official historical candidate result", "derived", "Not a party-total vote share and never used to calculate swing."),
-            ("previous_party_vote_share", "Published previous party-total vote share.", "not materialised", "unavailable", "NULL because the completed sources provide candidate shares, not a party-total series."),
-            ("previous_party_vote_share_status", "Reason previous party-total vote share is unavailable.", "historical baseline policy", "derived", "No party-total reconstruction is permitted."),
+            ("previous_party_vote_share", "Division-level placeholder retained for backward schema compatibility; the meaningful exact-label value is candidate-level.", "candidate-level historical baseline policy", "not applicable at division level", "Always NULL in Divisions and Wards because a division row has no current party label. Use Candidate Results.previous_party_vote_share, available for approved exact-label references; no party-total reconstruction is permitted."),
+            ("previous_party_vote_share_status", "Reason the division-level placeholder is not used.", "historical baseline policy", "derived", "Directs users to the governed candidate-level field and prevents a NULL division placeholder from being misreported as zero project-wide coverage."),
             ("previous_turnout", "Official turnout of the permitted previous event.", "official historical Voting Summary", "derived", "NULL when unavailable in the historical source."),
             ("previous_electorate", "Official electorate of the permitted previous event.", "official historical Voting Summary", "derived", "NULL when unavailable in the historical source."),
             ("historical_source_url", "Official historical result page used for the permitted prior values.", "official historical result page", "official", "NULL without explicit geographic permission."),
@@ -2222,9 +2252,13 @@ def audit_summary_markdown(payload: MasterDatabasePayload) -> str:
         f"- Candidate rows with official vote_share: {summary['candidate_rows_with_official_vote_share']}",
         f"- Candidate rows with analysis_vote_share: {summary['candidate_rows_with_analysis_vote_share']}",
         f"- Candidate rows with governed-derived analysis_vote_share: {summary['candidate_rows_with_derived_analysis_vote_share']}",
+        f"- Candidate rows with previous_party_vote_share: {summary['candidate_rows_with_previous_party_vote_share']}",
         f"- Candidate rows with post-election change_in_vote_share: {summary['candidate_rows_with_change_in_vote_share']}",
         f"- Candidate rows with change blocked for a multi-member current contest: {summary['candidate_rows_change_blocked_multi_member']}",
         f"- Candidate rows with no approved previous exact-label share: {summary['candidate_rows_change_without_approved_previous_share']}",
+        f"- Candidate previously stood: True={summary['candidate_previously_stood_true']}; False={summary['candidate_previously_stood_false']}; Unknown={summary['candidate_previously_stood_unknown']}",
+        f"- Incumbent candidate: Yes={summary['incumbent_candidate_yes']}; No={summary['incumbent_candidate_no']}; Unknown={summary['incumbent_candidate_unknown']}",
+        f"- Incumbent party: Yes={summary['incumbent_party_yes']}; No={summary['incumbent_party_no']}; Unknown={summary['incumbent_party_unknown']}",
         f"- Divisions with analysis_winning_margin: {summary['divisions_with_analysis_winning_margin']}",
         f"- Divisions without an unambiguous analysis_winning_margin: {summary['divisions_without_unambiguous_analysis_winning_margin']}",
         f"- Divisions with supplementary Seats evidence: {summary['divisions_with_secondary_seats']}",

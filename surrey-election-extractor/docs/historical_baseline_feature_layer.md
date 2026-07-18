@@ -1,16 +1,36 @@
-# Historical Baseline Feature Layer
+# Historical baseline feature layer
 
-This component prepares the historical-election-only comparison baseline required before any later news-context experiment. Its purpose is to make a future model comparison meaningful: a news-aware model must be compared with what election history already provides.
+This component prepares election-history-only information for the supervisor's
+comparison between a no-news model and later news-aware models. It is read-only
+over official extraction, party standardisation and approved historical
+permissions; it does not collect news, train a model or predict an outcome.
 
-The layer is read-only over completed official election extraction, party standardisation and geographic crosswalk outputs. It creates structure features, exact-label party-presence features, candidate-history infrastructure and a 2026 ward readiness dataset. It does not collect news, train a model or predict an outcome.
+The master contains 201 approved historical area references and 1,021
+candidate-level exact-label previous-party shares. An `accepted_direct` GIS
+relationship is not sufficient by itself: the relation must also be approved
+by the official boundary-evidence audit. Partial, non-comparable, review-pending
+and unapproved relationships block electoral transfer. Votes are never
+redistributed and Reform UK is never merged with UKIP.
 
-An `accepted_direct` geographic relationship is necessary but not sufficient for
-direct historical-reference features. The exact mapping must also have an
-`approved_for_historical_reference` record in the Official Boundary Evidence
-Historical Reference Permission Audit. This keeps a technical GIS decision
-separate from permission to use limited electoral history. `partial_crosswalk_available`,
-`not_comparable`, `requires_review` and unapproved direct relationships remain
-documented but block electoral comparisons. No votes are redistributed and no
-candidate, incumbent or predecessor relationship is inferred from names.
+The current no-news publication has 339 division-level rows. Of these, 201 have
+an approved predecessor and 138 do not. Previous turnout is available for all
+201 eligible rows: 116 from official result pages and 85 from separately cited
+supplementary official evidence. Runtime checks prohibit current vote share,
+outcome, rank, margin and change-in-share fields.
 
-Run `PYTHONPATH=surrey-election-extractor .venv/bin/python surrey-election-extractor/scripts/generate_historical_baseline_features.py` from the repository root to recreate the local baseline outputs.
+This division-level publication is leakage-safe but is not yet the complete
+party/candidate modelling table: the 1,021 candidate-level previous-party-share
+values still need a separately keyed baseline export. See
+[`no_news_electoral_baseline.md`](no_news_electoral_baseline.md).
+
+## Reproduction
+
+From the repository root (`irp-sl1425`):
+
+```bash
+PYTHONPATH=surrey-election-extractor .venv/bin/python \
+  surrey-election-extractor/scripts/generate_historical_baseline_features.py
+
+PYTHONPATH=surrey-election-extractor .venv/bin/python \
+  surrey-election-extractor/scripts/generate_no_news_electoral_baseline.py
+```
