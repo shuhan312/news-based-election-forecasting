@@ -1072,6 +1072,9 @@ def build_master_database(
             )
             outcome_summary = _official_outcome_summary(division_records)
             division_id = _division_id(configuration.election_id, source_url)
+            official_winning_margin = _consensus(
+                record.winning_margin for record in division_records
+            )
             division_rows.append(
                 {
                     "election_id": configuration.election_id,
@@ -1099,14 +1102,18 @@ def build_master_database(
                     "secondary_seats_evidence": secondary.seat_evidence_text if secondary else None,
                     "secondary_seats_confidence": secondary.confidence if secondary else None,
                     **outcome_summary,
-                    # The official field remains NULL unless a source page
-                    # publishes it. A separate audited calculation can only
-                    # exist for a fully evidenced, explicit single-seat result.
-                    "winning_margin": None,
+                    # Preserve a published official margin if a future source
+                    # supplies one. Current audited pages supply none, so the
+                    # present release remains NULL in the official field.
+                    "winning_margin": official_winning_margin,
                     "winning_margin_status": (
-                        "derived_single_member_margin_available"
-                        if division_id in derived_margin_division_ids
-                        else "not_derived_multi_member_or_incomplete_official_evidence"
+                        "official_winning_margin_retained"
+                        if official_winning_margin is not None
+                        else (
+                            "derived_single_member_margin_available"
+                            if division_id in derived_margin_division_ids
+                            else "analysis_last_seat_margin_available"
+                        )
                     ),
                     **historical_reference_fields,
                     "division_completeness_status": assessment.status.value,
@@ -1177,6 +1184,9 @@ def build_master_database(
             _party_standardisation_issues(candidate_rows), start=1
         )
     )
+    analysis_voting_summary = build_analysis_voting_summary(
+        division_rows, supplementary_rows, derived_rows, candidate_rows
+    )
     summary = _audit_summary(
         elections=elections,
         candidate_rows=candidate_rows,
@@ -1187,8 +1197,19 @@ def build_master_database(
         party_standardisation_issues=party_standardisation_issues,
         geographic_mapping_rows=geographic_rows,
     )
-    analysis_voting_summary = build_analysis_voting_summary(
-        division_rows, supplementary_rows, derived_rows
+    analysis_margin_rows = tuple(
+        row
+        for row in analysis_voting_summary
+        if row["field_name"] == "analysis_winning_margin"
+    )
+    # Report analysis-facing closure separately from official and same-page
+    # derived fields. Multi-member values are final-seat cutoff margins, not
+    # claims that an official margin was published.
+    summary["divisions_with_analysis_winning_margin"] = sum(
+        row["value"] is not None for row in analysis_margin_rows
+    )
+    summary["divisions_without_unambiguous_analysis_winning_margin"] = sum(
+        row["value"] is None for row in analysis_margin_rows
     )
     return MasterDatabasePayload(
         elections=tuple(election_rows),
@@ -1458,7 +1479,7 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("winning_party_name", "Published party of the single official winning candidate.", "official candidate outcomes", "derived", "NULL for multi-member wards; use official_elected_party_names instead."),
             ("outcome_summary_status", "Whether the official page reports one, multiple or no elected candidates.", "official candidate outcomes", "derived", "Never ranks candidates or predicts a winner."),
             ("winning_margin", "Official winning margin, when a source publishes it.", "official result page", "official", "NULL when an official page does not publish a margin; a separate derived value never overwrites it."),
-            ("winning_margin_status", "Evidence state for an official or separate derived winning margin.", "official outcomes and audited derived-margin policy", "derived", "derived_single_member_margin_available means the separate Derived Metadata worksheet holds a reproducible calculation; multi-member contests are not assigned an arbitrary margin."),
+            ("winning_margin_status", "Evidence state for an official or separate derived/analysis winning margin.", "official outcomes and audited winning-margin policies", "derived", "Official values take precedence. Same-page single-seat calculations remain in Derived Metadata; the analysis table additionally publishes a labelled final-seat cutoff margin for every eligible contest."),
             ("historical_reference_status", "Whether limited prior-election values may be shown for this ward.", "historical reference audit", "derived", "Only approved_for_historical_reference or approved_pre_2024_legal_continuity exposes prior values."),
             ("previous_election_id", "Identifier of the permitted earlier principal election.", "historical reference audit", "derived", "NULL without explicit geographic or legal-continuity permission."),
             ("previous_election_date", "Published date of the permitted earlier principal election.", "historical reference audit", "derived", "NULL without explicit geographic or legal-continuity permission."),
@@ -1570,6 +1591,17 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("notes", "Scope and non-overwrite restriction.", "derived metadata register", "derived", "NULL when no note is required."),
             ("validation_status", "Result of formula and official-source validation.", "derived metadata register", "derived", "Never changes official or completeness values."),
         ],
+        "Analysis Voting Summary": [
+            ("election_id", "Configured election identifier.", "configuration", "configuration", "Never blank."),
+            ("division_id", "Stable identifier of the analysed division or ward.", "official result URL", "derived", "Never blank for an audited area."),
+            ("division_name", "Exact published division or ward name.", "official result page", "official", "Never blank for an audited area."),
+            ("field_name", "Name of the analysis-facing voting-summary field.", "analysis selection policy", "analysis", "Never blank."),
+            ("value", "Strongest permitted analysis value with its source layer retained.", "official, supplementary or governed-derived evidence", "analysis", "NULL where the evidence does not support one unambiguous value."),
+            ("provenance_layer", "Layer and rule that supplied the analysis value.", "analysis selection policy", "derived", "For analysis_winning_margin, distinguishes official Seats from supplementary statutory Seats. Multi-member values use the documented final-seat cutoff definition."),
+            ("source_metadata_id", "Identifier of supplementary or derived evidence used by the selection.", "supplementary or derived metadata", "derived", "NULL when the official result page alone supplies the analysis value."),
+            ("official_field_name", "Official field preserved alongside the analysis value.", "analysis selection policy", "derived", "Never blank."),
+            ("official_value", "Unchanged value extracted from the official result field.", "official result page", "official", "NULL remains visible even when a separate analysis value is available."),
+        ],
     }
     rows = []
     for table, fields in definitions.items():
@@ -1623,6 +1655,8 @@ def audit_summary_markdown(payload: MasterDatabasePayload) -> str:
         f"- Candidate rows with official vote_share: {summary['candidate_rows_with_official_vote_share']}",
         f"- Candidate rows with analysis_vote_share: {summary['candidate_rows_with_analysis_vote_share']}",
         f"- Candidate rows with governed-derived analysis_vote_share: {summary['candidate_rows_with_derived_analysis_vote_share']}",
+        f"- Divisions with analysis_winning_margin: {summary['divisions_with_analysis_winning_margin']}",
+        f"- Divisions without an unambiguous analysis_winning_margin: {summary['divisions_without_unambiguous_analysis_winning_margin']}",
         f"- Divisions with supplementary Seats evidence: {summary['divisions_with_secondary_seats']}",
         f"- Supplementary metadata records: {summary['supplementary_metadata_records']}",
         f"- Supplementary metadata by field: {summary['supplementary_metadata_by_field']}",

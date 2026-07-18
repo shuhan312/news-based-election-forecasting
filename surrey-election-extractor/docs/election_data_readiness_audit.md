@@ -27,7 +27,7 @@ audit only; it does not collect or classify news.
 | Turnout | 254 official plus 83 supplementary records | Weybridge 2015 and Haslemere 2019 remain unresolved in the reviewed source scope. |
 | Total votes | 338 official plus one separate derived value | Coverage is complete without overwriting an official field. |
 | Winning candidate and party | 258 single-winner areas; all 81 two-seat 2026 wards retain every official elected candidate rather than selecting one | Multi-member wards do not receive an arbitrary single winner. |
-| Winning margin | 230 separately governed single-seat derived records | Official margin remains `NULL` because no dedicated official margin field is published. 81 multi-member wards and 28 2021 pages without official Seats are excluded. |
+| Winning margin | 230 same-page single-seat derived records; 339/339 analysis-ready last-seat margins | Official margin remains `NULL`. The analysis layer adds 28 single-seat 2021 divisions using statutory Seats evidence and 81 two-member wards using the explicitly labelled final-seat cutoff gap. |
 | Final position | No official position column in the audited formats | All values remain `NULL`; row display order and vote ordering are never converted to rank. |
 
 ## Historical and candidate-history fields

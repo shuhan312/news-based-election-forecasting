@@ -9,7 +9,13 @@ tables. This policy therefore creates a **separate derived metadata value**
 only where a single, reproducible official-page calculation is possible.
 
 The official `winning_margin` field remains `NULL` unless an official page
-publishes that field directly. Derived metadata never overwrites it.
+publishes that field directly. Derived metadata never overwrites it. A separate
+`analysis_winning_margin` may additionally use already audited statutory Seats
+evidence, with that supplementary provenance kept explicit. Its governed
+definition is the **last-seat winning margin**: the lowest vote total among
+officially elected candidates minus the highest officially non-elected total.
+For one seat this is the ordinary winner/runner-up margin; for multiple seats
+it is the cutoff gap for the final available seat.
 
 ## Eligibility rule
 
@@ -34,19 +40,24 @@ candidate after the official outcome has been checked.
 
 ## Exclusions
 
-- Two-seat 2026 wards do not receive an arbitrary single winning margin.
-- The 28 Surrey 2021 divisions whose official result pages omit `Seats` do not
-  receive a derived margin. Their statutory supplementary Seats evidence is
-  deliberately not treated as a same-page official calculation input.
+- Two-seat 2026 wards use the explicitly documented final-seat cutoff margin;
+  this is not presented as the first-placed candidate's lead.
+- The 28 Surrey 2021 divisions whose result pages omit `Seats` remain excluded
+  from the same-page `derived_winning_margin`. They do receive a separate
+  `analysis_winning_margin` because audited statutory evidence establishes
+  that each contest had one seat; the calculation still uses only candidate
+  outcomes and votes from the exact official result page.
 - Missing votes, missing/other outcomes, or an outcome-vote contradiction
   prevent calculation.
 
 ## Current audited coverage
 
-The current dataset creates 230 separate, high-confidence derived margin
-records: 81 for 2013, 81 for 2017, 53 for 2021 and 15 County Council
-by-elections. The remaining 109 areas are excluded by the rules above, not
-filled with estimates.
+The current dataset creates 230 same-page derived-margin records: 81 for 2013,
+81 for 2017, 53 for 2021 and 15 County Council by-elections. The analysis layer
+adds the remaining 28 single-seat 2021 divisions using audited statutory Seats
+evidence. It also applies the same last-seat formula to all 81 two-member 2026
+wards. All 339 areas therefore have an analysis margin; the 2026 values mean
+the final-seat cutoff gap, not the leading candidate's margin over second place.
 
 This preserves the project's evidence layers: official source data, cited
 supplementary evidence, transparent derived values, and genuinely missing

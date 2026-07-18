@@ -710,7 +710,7 @@ def test_official_outcome_summary_keeps_all_multi_member_elected_candidates() ->
     assert division["winning_margin"] is None
     assert (
         division["winning_margin_status"]
-        == "not_derived_multi_member_or_incomplete_official_evidence"
+        == "analysis_last_seat_margin_available"
     )
 
 

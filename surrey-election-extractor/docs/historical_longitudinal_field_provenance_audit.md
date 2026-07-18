@@ -35,7 +35,7 @@ to the separate 22-relationship geographic permission audit.
 | Change in vote share / swing | Remains NULL. | Requires a permitted party-total comparison; the project forbids party-total reconstruction, redistribution and cross-boundary swing. |
 | Candidate previously stood | Materialised as `True` only for rows in the reviewed official member-profile register; otherwise remains NULL. | The register requires a stable Surrey profile UID directly linking the exact target result page and an earlier official result page. Name-only joining remains prohibited. |
 | Incumbent candidate / incumbent party | Materialised only for the same reviewed profile rows; otherwise remains NULL. | The register additionally requires a published term beginning before the target election. Incumbent party preserves the target row's exact published party label and does not infer historical affiliation. |
-| Winning margin | Remains NULL. | No audited official margin field has been identified, and calculating it from candidate vote order is not permitted. |
+| Winning margin | Official field remains NULL; all 339 areas have a separate last-seat analysis margin. | Official outcomes identify the elected and non-elected groups. The value is the lowest elected total minus the highest non-elected total: the runner-up gap for one seat and final-seat cutoff gap for multiple seats. Twenty-eight 2021 areas use separately cited statutory Seats evidence. |
 
 ## Conclusion
 

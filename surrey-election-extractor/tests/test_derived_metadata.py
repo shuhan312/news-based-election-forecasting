@@ -166,12 +166,13 @@ def test_master_database_exports_single_member_margins_without_filling_official_
     # Official single-seat evidence supports 230 calculations. The remaining
     # 28 one-seat 2021 divisions have only supplementary Seats evidence, which
     # is deliberately not accepted as a same-page input to a derived margin.
-    # 2026 two-seat wards are not assigned a single margin by convention.
+    # The same-page derived table remains deliberately single-seat. The
+    # separate analysis layer handles the documented multi-seat cutoff margin.
     assert len(derived) == 230
     assert reigate["winning_margin"] is None
     assert reigate["winning_margin_status"] == "derived_single_member_margin_available"
     assert east_ward["winning_margin"] is None
-    assert east_ward["winning_margin_status"] == "not_derived_multi_member_or_incomplete_official_evidence"
+    assert east_ward["winning_margin_status"] == "analysis_last_seat_margin_available"
 
 
 def test_2013_rule_derives_issued_only_from_missing_target_and_same_page_inputs() -> None:

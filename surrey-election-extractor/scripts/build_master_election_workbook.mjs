@@ -26,6 +26,10 @@ const tableDefinitions = [
   ["Geographic Mapping", "GeographicMappingTable"],
   ["Supplementary Metadata", "SupplementaryMetadataTable"],
   ["Derived Metadata", "DerivedMetadataTable"],
+  // Analysis-ready values stay in a distinct long-form table so official
+  // NULLs remain visible in their source sheets and every selected value keeps
+  // its official, supplementary or governed-derived provenance.
+  ["Analysis Voting Summary", "AnalysisVotingSummaryTable"],
   // The supervisor requires 2026 East and West results on separate tabs.
   // These are filtered, read-only views of the unified candidate table: they
   // do not join the new wards to historical divisions or change any value.
@@ -106,11 +110,14 @@ const wholeNumberColumns = new Set([
   "electorate",
   "ballot_papers_issued",
   "rejected_ballots",
-  "value",
   "total_votes",
   "votes",
   "first_observed_year",
 ]);
+// Metadata and analysis tables share a generic value column containing both
+// counts and percentages. Preserve its stored precision instead of forcing
+// every value to display as a whole number.
+const flexibleNumberColumns = new Set(["value"]);
 const percentageColumns = new Set(["vote_share", "analysis_vote_share", "turnout"]);
 const identifierColumns = new Set(["metadata_id", "division_id", "candidate_id"]);
 
@@ -118,7 +125,11 @@ function widthFor(fieldName) {
   if (longTextColumns.has(fieldName)) return 48;
   if (identifierColumns.has(fieldName)) return 28;
   if (fieldName.endsWith("_status") || fieldName === "source_type") return 24;
-  if (wholeNumberColumns.has(fieldName) || percentageColumns.has(fieldName)) return 16;
+  if (
+    wholeNumberColumns.has(fieldName)
+    || flexibleNumberColumns.has(fieldName)
+    || percentageColumns.has(fieldName)
+  ) return 16;
   if (fieldName.includes("name") || fieldName.includes("party")) return 28;
   return Math.min(Math.max(14, fieldName.length + 3), 28);
 }
@@ -216,6 +227,18 @@ for (const [sheetName, tableName] of tableDefinitions) {
   ];
   sheet.getRangeByIndexes(0, 0, matrix.length, headers.length).values = matrix;
   formatTable(sheet, rows.length, headers, tableName);
+  if (sheetName === "Analysis Voting Summary") {
+    const valueColumnIndex = headers.indexOf("value");
+    // The long-form value column mixes percentages and counts. Apply formats
+    // from the explicit field name so stored numeric values remain typed while
+    // turnout is visibly a percentage and Seats/margins remain whole counts.
+    rows.forEach((row, rowIndex) => {
+      const valueCell = sheet.getCell(rowIndex + 1, valueColumnIndex);
+      valueCell.format.numberFormat = row.field_name === "analysis_turnout"
+        ? '0.0"%"'
+        : "#,##0";
+    });
+  }
   // Excel tables require a data row.  Schema-only sheets therefore retain
   // styled, frozen headers but no table object until evidence-backed rows are
   // added by a later approved mapping or party-standardisation review.
@@ -259,6 +282,15 @@ const derivedCheck = await workbook.inspect({
   maxChars: 5000,
 });
 console.log(derivedCheck.ndjson);
+
+const analysisCheck = await workbook.inspect({
+  kind: "table",
+  range: "Analysis Voting Summary!A1:I8",
+  tableMaxRows: 8,
+  tableMaxCols: 9,
+  maxChars: 6000,
+});
+console.log(analysisCheck.ndjson);
 
 // The master database is value-based, but scan for standard Excel formula
 // errors before export so a future calculated column cannot silently ship a
