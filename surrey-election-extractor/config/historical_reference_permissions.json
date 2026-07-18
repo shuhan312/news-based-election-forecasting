@@ -64,7 +64,8 @@
       "previous_turnout",
       "previous_competitiveness",
       "previous_electorate",
-      "area_specific_exact_party_history"
+      "area_specific_exact_party_history",
+      "single_member_exact_label_previous_party_vote_share"
     ],
     "prohibited_features": [
       "candidate_identity_transfer",
@@ -74,7 +75,7 @@
       "party_swing",
       "vote_redistribution"
     ],
-    "limitation": "Approval establishes analytical geographic continuity only. It does not claim that the historic and current electoral divisions have the same legal identity, and it never authorises a candidate-identity or vote-redistribution inference."
+    "limitation": "Approval establishes analytical geographic continuity only. For an accepted-direct mapping, a unique exact-label candidate share from the single-member 2021 contest may be retained as the previous party vote share; this is a lagged baseline, not a 2026 party total or swing calculation. Approval does not claim legal identity and never authorises candidate-identity or vote-redistribution inference."
   },
   "approved_mappings": [
     {"mapping_id": "geographic-mapping-review:006", "previous_area_id": "E58001462", "previous_area_name": "Ashford ED", "current_election_id": "surrey-county-council-2026-west-surrey", "current_area_id": "Ashford", "current_area_name": "Ashford", "current_geometry_source_id": "surrey-west-wards-gis-2026"},

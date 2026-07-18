@@ -606,6 +606,30 @@ def _party_history_features(
             key=lambda item: (item[1], item[0]),
         )
         first = prior_events[0] if prior_events else None
+        # The accepted-direct GIS permission establishes that the historical
+        # area is a valid analytical baseline.  The 2021 source contest is
+        # single-member, so one exact-label candidate share is also that
+        # label's party share.  This value may be repeated for a unique 2026
+        # label as a lagged predictor; it is never treated as a current
+        # multi-member party total and is never used to calculate swing.
+        previous_party_vote_share = None
+        generic_independent_label = original_party.strip().casefold() == "independent"
+        previous_party_vote_share_status = (
+            "not_derived_generic_independent_label_not_identifying"
+            if generic_independent_label
+            else "not_derived_prior_exact_label_not_unique"
+        )
+        if not generic_independent_label and len(prior) <= 1:
+            # A two-member ward normally publishes two candidates for the same
+            # registered party.  Both legitimately receive the same lagged
+            # party-level predictor.  The generic label ``Independent`` is
+            # excluded because it does not identify one party or organisation.
+            previous_party_vote_share = prior[0].get("vote_share") if prior else 0.0
+            previous_party_vote_share_status = (
+                "derived_single_member_exact_label_prior_candidate_share"
+                if previous_party_vote_share is not None
+                else "not_derived_matching_prior_share_missing"
+            )
         rows.append(
             {
                 "area_id": target_event["area_id"],
@@ -618,6 +642,8 @@ def _party_history_features(
                 "first_observed_appearance": not prior_events,
                 "first_observed_event_id": first[0] if first else None,
                 "first_observed_event_date": first[1] if first else None,
+                "previous_party_vote_share": previous_party_vote_share,
+                "previous_party_vote_share_status": previous_party_vote_share_status,
                 "provenance": "deterministically_derived",
                 "source_value_provenance": "source_reported",
                 "reason": "exact_original_party_label_in_accepted_direct_historical_lineage",

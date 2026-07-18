@@ -288,26 +288,12 @@ def _party_history_for_exact_area(
 ) -> tuple[dict[str, object], ...]:
     """Derive exact-label party history without collapsing similar party names."""
 
-    previous_labels = {
-        row.get("original_party_name")
-        for row in previous_rows
-        if isinstance(row.get("original_party_name"), str) and row["original_party_name"].strip()
-    }
-    # A candidate's published share can stand for an exact party label only in
-    # a single-member contest with at most one candidate using that label.  It
-    # is deliberately unavailable for multi-member contests or duplicate
-    # labels: summing candidate shares would be a new party-total construction.
-    single_member_exact_label_share_allowed = (
-        {row.get("seats") for row in current_rows} == {1}
-        and {row.get("seats") for row in previous_rows} == {1}
-        and all(row.get("vote_share") is not None for row in previous_rows)
-        and len(previous_labels) == len(previous_rows)
-    )
-    previous_share_by_label = {
-        str(row["original_party_name"]): row["vote_share"]
-        for row in previous_rows
-        if isinstance(row.get("original_party_name"), str)
-    }
+    previous_label_rows: defaultdict[str, list[Mapping[str, object]]] = defaultdict(list)
+    for row in previous_rows:
+        label = row.get("original_party_name")
+        if isinstance(label, str) and label.strip():
+            previous_label_rows[label].append(row)
+    previous_labels = set(previous_label_rows)
     current_label_counts = defaultdict(int)
     for row in current_rows:
         if isinstance(row.get("original_party_name"), str) and row["original_party_name"].strip():
@@ -325,15 +311,24 @@ def _party_history_for_exact_area(
         assert isinstance(party_name, str)
         previously_contested = party_name in previous_labels
         previous_party_vote_share = None
-        previous_party_vote_share_status = "not_derived_not_single_member_or_exact_label"
-        if single_member_exact_label_share_allowed and current_label_counts[party_name] == 1:
+        previous_party_vote_share_status = "not_derived_current_exact_label_not_unique"
+        if current_label_counts[party_name] == 1 and len(previous_label_rows[party_name]) <= 1:
             # Absence from a complete official prior candidate table is a
             # genuine exact-label zero, not an imputed vote share. Labels are
-            # never standardised or merged for this comparison.
-            previous_party_vote_share = previous_share_by_label.get(party_name, 0.0)
+            # never standardised or merged for this comparison.  Uniqueness is
+            # tested per target label: an unrelated duplicated label must not
+            # suppress otherwise identifiable parties on the same result page.
+            prior_matches = previous_label_rows[party_name]
+            previous_party_vote_share = (
+                prior_matches[0].get("vote_share") if prior_matches else 0.0
+            )
             previous_party_vote_share_status = (
                 "derived_single_member_exact_label_prior_candidate_share"
+                if previous_party_vote_share is not None
+                else "not_derived_matching_prior_share_missing"
             )
+        elif current_label_counts[party_name] == 1:
+            previous_party_vote_share_status = "not_derived_prior_exact_label_not_unique"
         result.append(
             {
                 "original_party_name": party_name,

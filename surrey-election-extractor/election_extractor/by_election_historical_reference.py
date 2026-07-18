@@ -6,6 +6,7 @@ import json
 from collections import Counter, defaultdict
 from collections.abc import Mapping, Sequence
 from pathlib import Path
+from urllib.parse import urlsplit
 
 from election_extractor.election_history import build_election_history
 
@@ -69,8 +70,15 @@ def build_by_election_historical_reference_audit(
         previous_rows = rows_by_event_area.get((previous_id, previous_name))
         if previous_rows is None:
             raise ValueError(f"Approved by-election predecessor is unavailable: {event_id}.")
-        _validate_single_member_exact_label_rows(target_rows, previous_rows, event_id)
-        previous_labels = {str(row["original_party_name"]): row for row in previous_rows}
+        _validate_single_member_exact_label_rows(
+            target_rows,
+            previous_rows,
+            event_id,
+            single_member_evidence_url=decision.get("single_member_evidence_url"),
+        )
+        previous_labels: defaultdict[str, list[Mapping[str, object]]] = defaultdict(list)
+        for row in previous_rows:
+            previous_labels[str(row["original_party_name"])].append(row)
         prior_source = _shared(previous_rows, "source_url")
         winner = [row for row in previous_rows if row.get("elected_status") == "Elected"]
         division_references.append({
@@ -83,17 +91,34 @@ def build_by_election_historical_reference_audit(
             "previous_winning_candidate_vote_share": winner[0].get("vote_share") if len(winner) == 1 else None,
             "previous_turnout": _shared(previous_rows, "turnout"), "previous_electorate": _shared(previous_rows, "electorate"),
             "source_result_url": prior_source, "geographic_mapping_id": f"{event_id}:prior:{previous_id}:{previous_name}",
-            "permission_evidence": str(decision["reason"]), "permission_source_urls": (str(prior_source),),
+            "permission_evidence": str(decision["reason"]),
+            "permission_source_urls": tuple(
+                dict.fromkeys(
+                    [str(prior_source)]
+                    + ([str(decision["continuity_evidence_url"])] if decision.get("continuity_evidence_url") else [])
+                    + ([str(decision["single_member_evidence_url"])] if decision.get("single_member_evidence_url") else [])
+                )
+            ),
         })
         for row in target_rows:
             label = str(row["original_party_name"])
+            prior_matches = previous_labels[label]
+            prior_share = None
+            status = "not_derived_prior_exact_label_not_unique"
+            if len(prior_matches) <= 1:
+                prior_share = prior_matches[0].get("vote_share") if prior_matches else 0.0
+                status = (
+                    "derived_single_member_exact_label_prior_candidate_share"
+                    if prior_share is not None
+                    else "not_derived_matching_prior_share_missing"
+                )
             party_references.append({
                 "current_election_id": event_id, "current_area_name": target_name,
                 "original_party_name": label, "provenance": "deterministically_derived",
-                "party_previously_contested": label in previous_labels,
-                "first_observed_appearance": label not in previous_labels,
-                "previous_party_vote_share": previous_labels[label]["vote_share"] if label in previous_labels else 0.0,
-                "previous_party_vote_share_status": "derived_single_member_exact_label_prior_candidate_share",
+                "party_previously_contested": bool(prior_matches),
+                "first_observed_appearance": not prior_matches,
+                "previous_party_vote_share": prior_share,
+                "previous_party_vote_share_status": status,
             })
         audit_rows.append(audit_row)
     if seen != by_election_ids:
@@ -101,13 +126,42 @@ def build_by_election_historical_reference_audit(
     return {"audit_rows": tuple(audit_rows), "division_references": tuple(division_references), "party_history_references": tuple(party_references), "summary": dict(sorted(Counter(str(row['decision']) for row in audit_rows).items()))}
 
 
-def _validate_single_member_exact_label_rows(target: Sequence[Mapping[str, object]], previous: Sequence[Mapping[str, object]], event_id: str) -> None:
-    if {row.get("seats") for row in target} != {1} or {row.get("seats") for row in previous} != {1}:
+def _validate_single_member_exact_label_rows(
+    target: Sequence[Mapping[str, object]],
+    previous: Sequence[Mapping[str, object]],
+    event_id: str,
+    *,
+    single_member_evidence_url: object = None,
+) -> None:
+    """Check contest structure while allowing a cited statutory seat source.
+
+    A missing Seats cell on an official result page is an extraction/source
+    limitation, not evidence that the division was multi-member.  A configured
+    HTTPS statutory source may therefore establish the prior contest structure;
+    it never fills or overwrites the official Seats field.
+    """
+
+    prior_single_member = {row.get("seats") for row in previous} == {1}
+    if not prior_single_member and isinstance(single_member_evidence_url, str):
+        parsed = urlsplit(single_member_evidence_url)
+        # The only configured substitute for a missing source-page Seats cell
+        # is the statutory instrument that created the pre-2024 divisions and
+        # specified one councillor for each. An arbitrary HTTPS page cannot
+        # satisfy this structural gate.
+        prior_single_member = (
+            parsed.scheme == "https"
+            and parsed.netloc == "www.legislation.gov.uk"
+            and parsed.path.startswith("/uksi/2012/1872/")
+        )
+    if {row.get("seats") for row in target} != {1} or not prior_single_member:
         raise ValueError(f"Approved by-election is not evidenced as single-member: {event_id}.")
     for rows in (target, previous):
         labels = [row.get("original_party_name") for row in rows]
-        if any(not isinstance(label, str) or not label.strip() for label in labels) or len(labels) != len(set(labels)):
-            raise ValueError(f"Approved by-election has non-unique exact party labels: {event_id}.")
+        if any(not isinstance(label, str) or not label.strip() for label in labels):
+            raise ValueError(f"Approved by-election has a blank party label: {event_id}.")
+    target_labels = [str(row["original_party_name"]) for row in target]
+    if len(target_labels) != len(set(target_labels)):
+        raise ValueError(f"Approved by-election has duplicate current party labels: {event_id}.")
     if any(row.get("vote_share") is None for row in previous):
         raise ValueError(f"Approved by-election prior shares are incomplete: {event_id}.")
 

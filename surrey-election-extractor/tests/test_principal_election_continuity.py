@@ -101,6 +101,19 @@ def test_single_member_exact_label_prior_share_is_separate_from_swing() -> None:
     )
 
 
+def test_unrelated_duplicate_prior_label_does_not_block_unique_party() -> None:
+    """Eligibility is label-specific, so one duplicate cannot blank a whole page."""
+
+    audit = build_principal_election_continuity_audit()
+    rows = [
+        row for row in audit["party_history_references"]
+        if row["current_election_id"] == "surrey-county-council-2017"
+        and row["current_area_name"] == "Farnham South"
+    ]
+    conservative = next(row for row in rows if row["original_party_name"] == "Conservative")
+    assert conservative["previous_party_vote_share"] == 50.0
+
+
 def test_configuration_rejects_non_https_legal_source(tmp_path: Path) -> None:
     """An opaque or local evidence reference cannot approve continuity."""
 

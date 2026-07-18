@@ -114,6 +114,33 @@ def test_officially_permitted_direct_mappings_enable_limited_history_only() -> N
     assert all("incumbency_transfer" in row["blocked_features"] for row in direct_rows)
 
 
+def test_direct_mapping_exposes_only_unique_exact_label_prior_share() -> None:
+    """The 2021 share is a lagged baseline, never a reconstructed 2026 total."""
+
+    baseline = build_historical_baseline_features()
+    direct_area_ids = {
+        row["area_id"]
+        for row in baseline["baseline_feature_table"]
+        if row["historical_baseline_available"] is True
+    }
+    party_rows = [
+        row for row in baseline["party_history_features"]
+        if row["area_id"] in direct_area_ids
+    ]
+
+    assert any(row["previous_party_vote_share"] is not None for row in party_rows)
+    assert all(
+        row["previous_party_vote_share_status"]
+        in {
+            "derived_single_member_exact_label_prior_candidate_share",
+            "not_derived_generic_independent_label_not_identifying",
+            "not_derived_prior_exact_label_not_unique",
+            "not_derived_matching_prior_share_missing",
+        }
+        for row in party_rows
+    )
+
+
 def test_explicit_permission_audit_enables_only_one_direct_reference(tmp_path: Path) -> None:
     """Removing an approval blocks all other GIS matches without reclassification."""
 

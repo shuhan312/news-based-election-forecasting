@@ -218,8 +218,10 @@ def reviewed_historical_reference_inputs() -> tuple[
             raise ValueError(f"Duplicate approved party-history reference for {key}.")
         party_references[key] = dict(row)
     # Every by-election receives a recorded eligibility decision. Only the
-    # five evidence-validated same-statutory-division cases are added here;
-    # excluded cases stay visibly unavailable in the master database.
+    # evidence-validated same-statutory-division cases are added here;
+    # excluded cases stay visibly unavailable in the master database. A case
+    # may still carry a label-specific NULL where the prior exact label is not
+    # unique (for example, two prior Independent candidates).
     by_election_audit = build_by_election_historical_reference_audit()
     for row in by_election_audit["division_references"]:
         key = (str(row["current_election_id"]), str(row["current_area_name"]))
