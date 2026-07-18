@@ -39,6 +39,7 @@ from election_extractor.derived_winning_margin import (
     derive_single_member_winning_margins,
     records_as_rows as derived_winning_margin_rows,
 )
+from election_extractor.derived_final_position import derive_final_positions
 from election_extractor.election_config import ElectionConfiguration, load_election_config
 from election_extractor.election_structure_metadata import load_secondary_seats_audit
 from election_extractor.extraction import CandidateResultRecord, ExtractionStatus
@@ -881,6 +882,23 @@ def build_master_database(
         derived_margin_division_ids = {
             record.division_id for record in derived_margin_records
         }
+        # Candidate rank uses a narrower, candidate-page-only rule than the
+        # division-level margin calculation.  It needs neither a winner nor a
+        # Seats value: complete official candidate votes are sufficient to
+        # describe vote order, while official Final Position remains untouched.
+        # A vote rank is a distinct analytical calculation, not a claim that
+        # the official page omitted a rank.  Complete official candidate votes
+        # on the same page are sufficient for this calculation; if an official
+        # rank was extracted, derive_final_positions deliberately yields no
+        # duplicate and final_position remains the authoritative field.
+        derived_positions = derive_final_positions(
+            election_id=configuration.election_id,
+            records=election.records,
+        )
+        derived_position_by_row = {
+            (position.source_url, position.candidate_name): position
+            for position in derived_positions
+        }
         # Layered completeness is read-only: it selects metadata sources for
         # assessment but never writes configuration or supplementary values
         # back into official candidate records.
@@ -936,6 +954,9 @@ def build_master_database(
             )
             if continuity_key is not None:
                 used_candidate_continuity_evidence.add(continuity_key)
+            position = derived_position_by_row.get(
+                (record.source_url, record.candidate_name)
+            )
             candidate_rows.append(
                 {
                     "election_id": configuration.election_id,
@@ -953,6 +974,16 @@ def build_master_database(
                     # Outcome, not a rank or a prediction from vote totals.
                     "elected_yes_no": _elected_yes_no(record.outcome),
                     "final_position": record.final_position,
+                    # This is deliberately a new field.  It is present only
+                    # when the complete official candidate table permits an
+                    # auditable vote ordering; it never fills final_position.
+                    "derived_final_position": position.value if position else None,
+                    "derived_final_position_tied": position.tied if position else None,
+                    "derived_final_position_status": (
+                        "derived_competition_rank_from_complete_official_votes"
+                        if position
+                        else "not_derived_missing_votes_duplicate_name_or_official_rank"
+                    ),
                     "source_url": record.source_url,
                     "source_type": _source_type(record.source_type),
                     "notes": _source_notes(record),
@@ -1237,6 +1268,15 @@ def _audit_summary(
         "candidate_rows_with_null_final_position": sum(
             row["final_position"] is None for row in candidate_rows
         ),
+        # Keep official absence and analytical availability side by side.  A
+        # complete derived count must never be read as a claim that an official
+        # ranking column was published by the Returning Officer.
+        "candidate_rows_with_derived_final_position": sum(
+            row["derived_final_position"] is not None for row in candidate_rows
+        ),
+        "candidate_rows_with_tied_derived_final_position": sum(
+            row["derived_final_position_tied"] is True for row in candidate_rows
+        ),
         "divisions_with_secondary_seats": sum(
             row["secondary_number_of_seats"] is not None for row in division_rows
         ),
@@ -1312,6 +1352,9 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("outcome", "Published candidate outcome text.", "official result page", "official", "NULL if not published."),
             ("elected_yes_no", "Yes/No recoding of explicit published Outcome only.", "official outcome", "derived", "NULL unless Outcome is exactly Elected or Not elected."),
             ("final_position", "Official candidate rank or placing if published.", "official result page", "official", "NULL when not published; never calculated from votes."),
+            ("derived_final_position", "Competition rank calculated from all published candidate vote totals on the same official result page.", "official candidate votes on one result page", "derived", "NULL unless every candidate vote is published and no official Final Position is extracted. Never overwrites final_position."),
+            ("derived_final_position_tied", "Whether the candidate shares the derived vote total with another candidate on the same result page.", "official candidate votes on one result page", "derived", "NULL when derived_final_position is unavailable; TRUE preserves a tie rather than imposing page-order tie-breaking."),
+            ("derived_final_position_status", "Reason a separate candidate vote rank is available or unavailable.", "derived-final-position policy", "derived", "A rank is created only from a complete single-page official candidate table; it is not an official placement or outcome."),
             ("source_url", "Official result page for the candidate row.", "official result page", "official", "Never blank for extracted records."),
             ("source_type", "Evidence tier recorded by extraction.", "extraction audit", "official", "Preserved from the audited record."),
             ("notes", "Recorded source-page limitation for this candidate row.", "extraction audit", "derived", "NULL where no record-specific source limitation was recorded; never used to fill a source field."),
@@ -1516,6 +1559,8 @@ def audit_summary_markdown(payload: MasterDatabasePayload) -> str:
         f"- Candidate-result rows: {summary['candidate_rows']}",
         f"- Division rows: {summary['division_rows']}",
         f"- Candidate rows with NULL final_position: {summary['candidate_rows_with_null_final_position']}",
+        f"- Candidate rows with separate derived_final_position: {summary['candidate_rows_with_derived_final_position']}",
+        f"- Candidate rows tied on derived_final_position: {summary['candidate_rows_with_tied_derived_final_position']}",
         f"- Divisions with supplementary Seats evidence: {summary['divisions_with_secondary_seats']}",
         f"- Supplementary metadata records: {summary['supplementary_metadata_records']}",
         f"- Supplementary metadata by field: {summary['supplementary_metadata_by_field']}",
