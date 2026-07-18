@@ -43,6 +43,7 @@ from election_extractor.derived_final_position import (
     derive_final_positions,
     validate_final_positions_against_official_outcomes,
 )
+from election_extractor.analysis_voting_summary import build_analysis_voting_summary
 from election_extractor.election_config import ElectionConfiguration, load_election_config
 from election_extractor.election_structure_metadata import load_secondary_seats_audit
 from election_extractor.extraction import CandidateResultRecord, ExtractionStatus
@@ -149,6 +150,7 @@ class MasterDatabasePayload:
     geographic_mapping: tuple[dict[str, object], ...]
     supplementary_metadata: tuple[dict[str, object], ...]
     derived_metadata: tuple[dict[str, object], ...]
+    analysis_voting_summary: tuple[dict[str, object], ...]
     data_dictionary: tuple[dict[str, object], ...]
     audit_summary: dict[str, object]
 
@@ -1162,6 +1164,9 @@ def build_master_database(
         party_standardisation_issues=party_standardisation_issues,
         geographic_mapping_rows=geographic_rows,
     )
+    analysis_voting_summary = build_analysis_voting_summary(
+        division_rows, supplementary_rows, derived_rows
+    )
     return MasterDatabasePayload(
         elections=tuple(election_rows),
         candidate_results=tuple(candidate_rows),
@@ -1179,6 +1184,9 @@ def build_master_database(
         derived_metadata=tuple(
             sorted(derived_rows, key=lambda row: str(row["metadata_id"]))
         ),
+        # This publication layer is analysis-facing only. It never writes into
+        # the official fields above and every selected value reports its layer.
+        analysis_voting_summary=analysis_voting_summary,
         data_dictionary=tuple(_data_dictionary_rows()),
         audit_summary=summary,
     )
@@ -1554,6 +1562,7 @@ def payload_as_dict(payload: MasterDatabasePayload) -> dict[str, object]:
         "Geographic Mapping": list(payload.geographic_mapping),
         "Supplementary Metadata": list(payload.supplementary_metadata),
         "Derived Metadata": list(payload.derived_metadata),
+        "Analysis Voting Summary": list(payload.analysis_voting_summary),
         "Data Dictionary": list(payload.data_dictionary),
         "audit_summary": payload.audit_summary,
     }
