@@ -8,7 +8,7 @@ filled without name matching. It is separate from division continuity and the
 
 ## Evidence rule
 
-A candidate receives `candidate_previously_stood = True` only when one of two
+A candidate receives `candidate_previously_stood = True` only when one of three
 reviewed official routes is recorded in
 `config/candidate_continuity_evidence.json`:
 
@@ -21,22 +21,30 @@ reviewed official routes is recorded in
    candidate name and is retained in the evidence register. An official borough
    declaration or nomination document may be used for the earlier source when
    its public authority, URL and candidate-name evidence are recorded.
+3. **Official Council-record route.** The exact prior and target official
+   result pages are reviewed with a dated official Council record that
+   explicitly names the person as taking the relevant County Council office.
+   The recorded term start and Council-record date must both predate the target
+   election. This route does not invent a member-profile URL or UID.
 
-`incumbent_candidate = True` is stricter under either route: the reviewed
-profile must also publish a term start before the target election date, and the
-target row must retain the reviewed published party label.
+`incumbent_candidate = True` is stricter under every route: the reviewed
+official evidence must establish a term start before the target election date,
+and the target row must retain the reviewed published party label.
 
 No missing profile, similar name, party label, division name, winner status or
 vote total is treated as evidence that a candidate previously stood or was not
 an incumbent. Those records remain `NULL`.
 
-## First verified records
+## Verified person-level records
 
 | Target election | Division | Candidate row | Verified fields | Official evidence |
 | --- | --- | --- | --- | --- |
-| 2017 | Dorking Hills | Hazel Valerie Ann Watson | `candidate_previously_stood = True`; `incumbent_candidate = True`; `incumbent_party = Liberal Democrats` | Surrey [member profile UID 192](https://mycouncil.surreycc.gov.uk/mgUserInfo.aspx?UID=192), which records a term from 06/05/1993 and lists the 2013, 2017 and 2021 elections; linked [2013 result](https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=101) and [2017 result](https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=187). |
-| 2021 | Dorking Hills | Hazel Valerie Ann Watson | `candidate_previously_stood = True`; `incumbent_candidate = True`; `incumbent_party = Liberal Democrats` | The same profile directly links the earlier 2013 and 2017 results and the [2021 result](https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=272). |
-| 2021 | Farnham Central | Andy MacLeod | `candidate_previously_stood = True`; `incumbent_candidate = True`; `incumbent_party = Farnham Residents` | Reviewed multi-source evidence: Surrey [member profile UID 2251](https://mycouncil.surreycc.gov.uk/mgUserInfo.aspx?UID=2251) gives a term from 08/05/2017 and lists the elections; the exact official [2017 result](https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=198) and [2021 result](https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=283) both publish Andy MacLeod for Farnham Residents. |
+| 2017 | Dorking Hills | Hazel Valerie Ann Watson | `candidate_previously_stood = True`; `incumbent_candidate_yes_no = Yes` | Surrey [member profile UID 192](https://mycouncil.surreycc.gov.uk/mgUserInfo.aspx?UID=192), which records a term from 06/05/1993 and lists the 2013, 2017 and 2021 elections; linked [2013 result](https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=101) and [2017 result](https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=187). |
+| 2021 | Dorking Hills | Hazel Valerie Ann Watson | `candidate_previously_stood = True`; `incumbent_candidate_yes_no = Yes` | The same profile directly links the earlier 2013 and 2017 results and the [2021 result](https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=272). |
+| 2021 | Farnham Central | Andy MacLeod | `candidate_previously_stood = True`; `incumbent_candidate_yes_no = Yes` | Reviewed multi-source evidence: Surrey [member profile UID 2251](https://mycouncil.surreycc.gov.uk/mgUserInfo.aspx?UID=2251) gives a term from 08/05/2017 and lists the elections; the exact official [2017 result](https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=198) and [2021 result](https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=283) both publish Andy MacLeod for Farnham Residents. |
+| 2021 | Woking South West | Ayesha Azad | `candidate_previously_stood = True`; `incumbent_candidate_yes_no = Yes` | Surrey [member profile UID 2216](https://mycouncil.surreycc.gov.uk/mgUserInfo.aspx?UID=2216) gives a term beginning 08/05/2017 and lists the 2017 and 2021 elections; the exact official [2017 result](https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=252) and [2021 result](https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=336) both publish Ayesha Azad for Conservative as Elected. |
+| 2021 | Warlingham | Becky Rush | `candidate_previously_stood = True`; `incumbent_candidate_yes_no = Yes` | Reviewed Council-record evidence: official [2019 by-election result](https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=256), [Council minutes](https://mycouncil.surreycc.gov.uk/documents/s55233/Minutes%20Public%20Pack%2005022019%20Council.pdf) dated 5 February 2019, and the exact [2021 result](https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=327). The minutes explicitly identify Becky Rush as the new County Councillor after the 31 January 2019 by-election. |
+| 2021 | The Byfleets | Amanda Jayne Boote | `candidate_previously_stood = True`; `incumbent_candidate_yes_no = Yes` | Reviewed Council-record evidence: official [2018 by-election result](https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=255), [Council minutes](https://mycouncil.surreycc.gov.uk/ieListDocuments.aspx?CId=121&MId=5844) dated 11 December 2018, and the exact [2021 result](https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=323). The minutes explicitly identify Amanda Jayne Boote as the new County Councillor after the 6 December 2018 by-election. |
 
 The [official 2017 County Council minutes](https://mycouncil.surreycc.gov.uk/documents/s38257/item%2002%20-%20MinutesAGM230517.pdf)
 also describe Hazel Watson as Surrey's longest-serving County Councillor and
@@ -49,15 +57,19 @@ replace, the profile-to-result-link evidence.
 | --- | --- | --- |
 | Previous winner's candidate vote share | Already materialised for 184 approved division references. | It comes from a prior official candidate row explicitly marked `Elected`; it is not a party-total share. |
 | Previous party vote share | Remains `NULL`. | No audited division-level party-total series exists; candidate shares are not aggregated. |
-| Candidate previously stood | `True` only for the reviewed direct-profile or multi-source official records above; otherwise `NULL`. | The register proves a person-level link without relying on automated name matching. |
-| Incumbent candidate | `True` only where the reviewed profile also supplies a term predating the target election; otherwise `NULL`. | A repeated candidate name or a current role is not projected backwards as incumbency. |
-| Incumbent party | Populated only with `incumbent_candidate = True` and preserves the target row's original published party label. | It makes no claim about a past party affiliation or party switch. |
+| Candidate previously stood | `True` only for a reviewed direct-profile, multi-source official, or Council-record record; otherwise `NULL`. | The register proves a person-level link without relying on automated name matching. |
+| Incumbent candidate, Yes or No | `incumbent_candidate_yes_no = Yes` only where reviewed official evidence establishes a term before the target election; otherwise `Unknown`. | The separate boolean/NULL evidence value is retained for machine use. A repeated name or unsuccessful search cannot prove `No`. |
+| Incumbent party, Yes or No | `incumbent_party_yes_no = Yes/No` when an approved, comparable single-member history identifies the prior official winning party; otherwise `Unknown`. | This is an area/party comparison, not a person-identity claim. It uses exact published labels and does not transfer incumbency across changed or multi-member geography. |
+| Incumbent party name | `incumbent_party_name` retains the exact prior winning-party label whenever the party Yes/No comparison is decidable. | Keeping the name separate prevents a party label from being mistaken for the supervisor's required Yes/No answer. |
 | Change in vote share | Available separately for approved exact-label single-member comparisons. | It is a post-election diagnostic, never candidate-identity evidence or a no-news predictor. Party-total reconstruction and cross-boundary swing remain prohibited. |
 
 ## Limitation and next extension
 
-This register remains deliberately small: it demonstrates the direct-profile
-and multi-source official routes without treating repeated names as identity
-proof. It does not claim that other candidates were new or non-incumbent.
-Future additions must be reviewed one record at a time and retain their public
-official source URLs and evidence notes.
+The person-level register is necessarily narrower than the party-incumbency
+field. Official profile discovery can add further positive candidate records,
+but the absence of a surviving profile cannot be converted into `No`. Future
+additions must be reviewed one record at a time and retain public official
+source URLs, evidence notes and—where a Council record is used—a dated record
+between the cited prior election and the target election. In contrast, party
+incumbency is deterministically materialised for every candidate in an approved
+comparable single-member historical reference.

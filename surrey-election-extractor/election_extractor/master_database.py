@@ -779,7 +779,6 @@ def _candidate_continuity_fields(
         "candidate_previously_stood": None,
         "candidate_history_status": "unresolved_no_explicit_identifier",
         "incumbent_candidate": None,
-        "incumbent_party": None,
         "incumbency_status": "unresolved_no_authoritative_linkage",
         "candidate_continuity_evidence_id": None,
         "candidate_continuity_profile_url": None,
@@ -803,24 +802,90 @@ def _candidate_continuity_fields(
         raise ValueError(
             "Candidate continuity evidence must retain the exact published party label."
         )
-    status = (
-        "verified_official_member_profile"
-        if evidence.evidence_method == "official_member_profile"
-        else "verified_multi_source_official_evidence"
-    )
+    # Keep the reviewed route visible in the database.  This is provenance,
+    # not a confidence score: every route has already passed its own strict
+    # validation in candidate_continuity_evidence.py.
+    status_by_method = {
+        "official_member_profile": "verified_official_member_profile",
+        "official_multi_source_match": "verified_multi_source_official_evidence",
+        "official_council_record_match": "verified_official_council_record_evidence",
+    }
+    status = status_by_method[evidence.evidence_method]
     return {
         "candidate_previously_stood": True,
         "candidate_history_status": status,
         "incumbent_candidate": evidence.incumbent_candidate,
-        "incumbent_party": evidence.incumbent_party if evidence.incumbent_candidate else None,
         "incumbency_status": status if evidence.incumbent_candidate else "unknown_no_incumbency_claim",
         "candidate_continuity_evidence_id": evidence.evidence_id,
+        # A stable profile is retained when available. The separate
+        # Council-record route deliberately keeps this NULL rather than
+        # fabricating a member UID or profile URL.
         "candidate_continuity_profile_url": evidence.member_profile_url,
         "candidate_continuity_evidence_method": evidence.evidence_method,
         "candidate_continuity_source_urls": "; ".join(
             source.source_url for source in evidence.supporting_sources
         ) or evidence.member_profile_url,
     }, key
+
+
+def _supervisor_incumbency_fields(
+    *,
+    incumbent_candidate: object,
+    incumbent_candidate_status: object,
+    current_party_name: str | None,
+    current_number_of_seats: int | None,
+    historical_reference_fields: Mapping[str, object],
+) -> dict[str, object]:
+    """Materialise the supervisor's two incumbency questions as tri-state fields.
+
+    Candidate incumbency is a person-identity claim, so only reviewed official
+    continuity evidence can produce ``Yes``.  Missing evidence remains
+    ``Unknown``; it is never converted to ``No`` merely because a profile was
+    not found.
+
+    Party incumbency is a different, area-level question.  For an approved
+    comparable single-member contest, the prior official winning party is the
+    incumbent party and an exact published-label comparison can therefore
+    produce ``Yes`` or ``No`` for every current candidate row.  Changed or
+    multi-member geography remains ``Unknown`` because that comparison would
+    otherwise transfer incumbency across a structure the project has not
+    authorised.
+    """
+
+    candidate_yes_no = "Yes" if incumbent_candidate is True else "Unknown"
+    prior_winning_party = historical_reference_fields.get("previous_winning_party")
+    historical_status = historical_reference_fields.get("historical_reference_status")
+
+    if historical_status not in APPROVED_HISTORICAL_REFERENCE_STATUSES:
+        party_yes_no = "Unknown"
+        party_name = None
+        party_status = "unknown_no_approved_historical_reference"
+    elif current_number_of_seats != 1:
+        party_yes_no = "Unknown"
+        party_name = None
+        party_status = "unknown_not_comparable_single_member_contest"
+    elif not isinstance(prior_winning_party, str) or not prior_winning_party.strip():
+        party_yes_no = "Unknown"
+        party_name = None
+        party_status = "unknown_previous_winning_party_unavailable"
+    elif not isinstance(current_party_name, str) or not current_party_name.strip():
+        party_yes_no = "Unknown"
+        party_name = prior_winning_party
+        party_status = "unknown_current_published_party_unavailable"
+    else:
+        # Exact published labels are intentional: party standardisation must
+        # not silently turn a renamed or related party into an incumbent.
+        party_yes_no = "Yes" if current_party_name == prior_winning_party else "No"
+        party_name = prior_winning_party
+        party_status = "derived_from_approved_previous_official_winner_exact_label"
+
+    return {
+        "incumbent_candidate_yes_no": candidate_yes_no,
+        "incumbent_candidate_yes_no_status": incumbent_candidate_status,
+        "incumbent_party_yes_no": party_yes_no,
+        "incumbent_party_name": party_name,
+        "incumbent_party_yes_no_status": party_status,
+    }
 
 
 def build_master_database(
@@ -916,6 +981,14 @@ def build_master_database(
             election_id=configuration.election_id,
             records=election.records,
         )
+        # This is an independent consistency check, not a ranking input.  It
+        # fails the build if published Elected/Not elected outcomes contradict
+        # the vote ordering, so a source-row mismatch cannot silently enter the
+        # analytical database as a plausible-looking rank.
+        validate_final_positions_against_official_outcomes(
+            records=election.records,
+            positions=derived_positions,
+        )
         derived_position_by_row = {
             (position.source_url, position.candidate_name): position
             for position in derived_positions
@@ -928,14 +1001,6 @@ def build_master_database(
         # Layered completeness is read-only: it selects metadata sources for
         # assessment but never writes configuration or supplementary values
         # back into official candidate records.
-        # This is an independent consistency check, not a ranking input.  It
-        # fails the build if published Elected/Not elected outcomes contradict
-        # the vote ordering, so a source-row mismatch cannot silently enter the
-        # analytical database as a plausible-looking rank.
-        validate_final_positions_against_official_outcomes(
-            records=election.records,
-            positions=derived_positions,
-        )
         layered = assess_layered_completeness(
             configuration,
             election.records,
@@ -981,6 +1046,11 @@ def build_master_database(
                 record.original_party_name,
                 party_history_references,
             )
+            historical_reference_fields = _historical_reference_fields(
+                configuration.election_id,
+                record.division_ward_name,
+                historical_division_references,
+            )
             continuity_fields, continuity_key = _candidate_continuity_fields(
                 election_id=configuration.election_id,
                 record=record,
@@ -1010,6 +1080,13 @@ def build_master_database(
                     if secondary_structure is not None
                     else None
                 )
+            )
+            supervisor_incumbency_fields = _supervisor_incumbency_fields(
+                incumbent_candidate=continuity_fields["incumbent_candidate"],
+                incumbent_candidate_status=continuity_fields["incumbency_status"],
+                current_party_name=record.original_party_name,
+                current_number_of_seats=analysis_number_of_seats,
+                historical_reference_fields=historical_reference_fields,
             )
             vote_share_change = change_in_vote_share_fields(
                 current_vote_share=analysis_vote_share["analysis_vote_share"],
@@ -1058,6 +1135,10 @@ def build_master_database(
                     # The default remains explicit NULL.  A positive value is
                     # possible only through the reviewed profile register above.
                     **continuity_fields,
+                    # The supervisor asks two Yes/No questions. They are kept
+                    # separate because person identity and prior winning-party
+                    # status require different official evidence chains.
+                    **supervisor_incumbency_fields,
                     # This is a post-election diagnostic outcome. It must never
                     # enter the no-news predictor because it contains the
                     # current election's vote share.
@@ -1482,14 +1563,18 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("source_url", "Official result page for the candidate row.", "official result page", "official", "Never blank for extracted records."),
             ("source_type", "Evidence tier recorded by extraction.", "extraction audit", "official", "Preserved from the audited record."),
             ("notes", "Recorded source-page limitation for this candidate row.", "extraction audit", "derived", "NULL where no record-specific source limitation was recorded; never used to fill a source field."),
-            ("candidate_previously_stood", "Whether the person stood in an earlier election.", "reviewed official continuity evidence", "derived", "TRUE only after manual review of either direct official profile links or a profile plus exact target and prior official result pages. Never generated from a name."),
-            ("candidate_history_status", "Why personal candidate history is available or unresolved.", "candidate-history evidence register", "derived", "verified_official_member_profile and verified_multi_source_official_evidence mean the reviewed register supports TRUE. unresolved_no_explicit_identifier is not evidence of absence."),
-            ("incumbent_candidate", "Whether the candidate is an incumbent.", "reviewed official continuity evidence", "derived", "TRUE only when reviewed official evidence also gives an eligible term start before the election; otherwise NULL. No current role is projected backwards without term evidence."),
-            ("incumbent_party", "Party of an officially verified incumbent.", "published candidate party plus reviewed official evidence", "derived", "Populated only when incumbent_candidate is TRUE and preserves the candidate row's exact published party label."),
-            ("incumbency_status", "Why incumbency is available or unresolved.", "incumbency evidence register", "derived", "verified_official_member_profile and verified_multi_source_official_evidence mean the reviewed register supports TRUE. unresolved_no_authoritative_linkage is not evidence of no incumbency."),
+            ("candidate_previously_stood", "Whether the person stood in an earlier election.", "reviewed official continuity evidence", "derived", "TRUE only after manual review of direct profile links, a profile plus exact target and prior result pages, or exact target/prior result pages plus an official Council record that explicitly identifies the person taking office. Never generated from a name."),
+            ("candidate_history_status", "Why personal candidate history is available or unresolved.", "candidate-history evidence register", "derived", "verified_official_member_profile, verified_multi_source_official_evidence and verified_official_council_record_evidence mean the reviewed register supports TRUE. unresolved_no_explicit_identifier is not evidence of absence."),
+            ("incumbent_candidate", "Machine-readable person-level incumbency evidence value.", "reviewed official continuity evidence", "derived", "TRUE only when reviewed official evidence gives an eligible term start before the election; otherwise NULL. This evidence value underlies the supervisor-facing tri-state field."),
+            ("incumbent_candidate_yes_no", "Supervisor-facing answer to whether this candidate was an incumbent at the election.", "reviewed official continuity evidence", "derived", "Yes only with positive official person-level evidence; Unknown where the evidence register cannot decide. No is reserved for explicit official negative evidence and is not inferred from a failed search."),
+            ("incumbent_candidate_yes_no_status", "Evidence status supporting incumbent_candidate_yes_no.", "candidate continuity evidence register", "derived", "Separates a verified positive from an unresolved identity claim; Unknown is not No."),
+            ("incumbent_party_yes_no", "Whether this candidate's exact published party was the approved prior winning party in the area.", "approved historical reference and prior official result", "derived", "Yes or No only for a comparable single-member contest with an approved historical reference and published prior winner; otherwise Unknown."),
+            ("incumbent_party_name", "Exact published name of the prior winning party used for incumbent_party_yes_no.", "approved historical reference and prior official result", "derived", "Retained for both Yes and No comparisons; NULL when party incumbency is not decidable. This is not the party name of a person inferred to be an incumbent."),
+            ("incumbent_party_yes_no_status", "Reason incumbent_party_yes_no is decidable or Unknown.", "historical-reference incumbency policy", "derived", "Exact-label comparison is allowed only within an approved comparable single-member lineage; no fuzzy party mapping or boundary transfer."),
+            ("incumbency_status", "Why incumbency is available or unresolved.", "incumbency evidence register", "derived", "verified_official_member_profile, verified_multi_source_official_evidence and verified_official_council_record_evidence mean the reviewed register supports TRUE. unresolved_no_authoritative_linkage is not evidence of no incumbency."),
             ("candidate_continuity_evidence_id", "Identifier for the reviewed person-level continuity record.", "candidate continuity evidence register", "derived", "NULL when no person-level evidence is approved; never generated from a name."),
-            ("candidate_continuity_profile_url", "Public official member-profile URL supporting an approved continuity record.", "Surrey County Council member profile", "official", "NULL when no person-level evidence is approved; no contact or address data is copied."),
-            ("candidate_continuity_evidence_method", "Reviewed method used for a person-level continuity claim.", "candidate continuity evidence register", "derived", "official_member_profile requires direct profile links. official_multi_source_match requires a reviewed profile, exact target result and earlier official result page."),
+            ("candidate_continuity_profile_url", "Public official member-profile URL supporting an approved continuity record.", "Surrey County Council member profile", "official", "NULL when a Council-record route is used or when no person-level evidence is approved; no profile URL or member UID is fabricated."),
+            ("candidate_continuity_evidence_method", "Reviewed method used for a person-level continuity claim.", "candidate continuity evidence register", "derived", "official_member_profile requires direct profile links. official_multi_source_match requires a reviewed profile, exact target result and earlier official result page. official_council_record_match requires exact target and prior results plus a dated Council record naming the person and office."),
             ("candidate_continuity_source_urls", "Public source URLs reviewed for the continuity claim.", "candidate continuity evidence register", "derived", "Retained only for an approved record so reviewers can reproduce the decision; no source is selected by name matching."),
             ("change_in_vote_share", "Current minus previous exact-label vote share in percentage points.", "analysis vote share and approved historical exact-label reference", "outcome diagnostic", "Available only for comparable single-member contests; never reconstructed across changed boundaries or multi-member ballots."),
             ("change_in_vote_share_status", "Reason a post-election share change is available or unavailable.", "vote-share-change policy", "derived", "Requires an approved exact-label previous share, one current seat and a current analysis share."),

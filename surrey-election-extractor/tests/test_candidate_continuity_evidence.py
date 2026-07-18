@@ -182,6 +182,123 @@ def test_multi_source_review_rejects_two_sources_only(tmp_path) -> None:
         load_one(tmp_path, payload)
 
 
+def test_council_record_route_accepts_explicit_person_to_office_evidence(tmp_path) -> None:
+    """An official Council record may replace a profile only when it names the office.
+
+    The test models an archival by-election route. It still requires the exact
+    prior and target result pages, so a repeated name cannot create a claim.
+    """
+
+    payload = valid_record()
+    payload["evidence_method"] = "official_council_record_match"
+    payload["office_record_date"] = "2017-05-05"
+    payload.pop("member_profile_url")
+    payload.pop("member_uid")
+    payload["profile_linked_result_urls"] = []
+    payload["supporting_sources"] = [
+        {
+            "source_type": "official_result_page",
+            "source_authority": "Surrey County Council",
+            "source_url": payload["candidate_source_url"],
+            "published_candidate_name": "Example Candidate",
+            "evidence_text": "The target official result publishes the candidate.",
+        },
+        {
+            "source_type": "official_result_page",
+            "source_authority": "Surrey County Council",
+            "source_url": payload["prior_official_elections"][0]["source_url"],
+            "published_candidate_name": "Example Candidate",
+            "evidence_text": "The earlier official result publishes the candidate.",
+        },
+        {
+            "source_type": "official_council_record",
+            "source_authority": "Surrey County Council",
+            "source_url": "https://mycouncil.surreycc.gov.uk/ieListDocuments.aspx?CId=121&MId=1",
+            "published_candidate_name": "Example Candidate",
+            "evidence_text": "The official Council record identifies the named person as taking office.",
+        },
+    ]
+
+    evidence = load_one(tmp_path, payload)[0]
+
+    assert evidence.member_profile_url is None
+    assert evidence.incumbent_candidate is True
+
+
+def test_council_record_route_rejects_missing_council_record(tmp_path) -> None:
+    """Two result pages alone must never become a person-level match."""
+
+    payload = valid_record()
+    payload["evidence_method"] = "official_council_record_match"
+    payload["office_record_date"] = "2017-05-05"
+    payload.pop("member_profile_url")
+    payload.pop("member_uid")
+    payload["profile_linked_result_urls"] = []
+    payload["supporting_sources"] = [
+        {
+            "source_type": "official_result_page",
+            "source_authority": "Surrey County Council",
+            "source_url": payload["candidate_source_url"],
+            "published_candidate_name": "Example Candidate",
+            "evidence_text": "The target official result publishes the candidate.",
+        },
+        {
+            "source_type": "official_result_page",
+            "source_authority": "Surrey County Council",
+            "source_url": payload["prior_official_elections"][0]["source_url"],
+            "published_candidate_name": "Example Candidate",
+            "evidence_text": "The earlier official result publishes the candidate.",
+        },
+        {
+            "source_type": "official_declaration",
+            "source_authority": "Surrey County Council",
+            "source_url": "https://mycouncil.surreycc.gov.uk/documents/example.pdf",
+            "published_candidate_name": "Example Candidate",
+            "evidence_text": "A declaration without a Council person-to-office record.",
+        },
+    ]
+
+    with pytest.raises(ValueError, match="Council record"):
+        load_one(tmp_path, payload)
+
+
+def test_council_record_route_requires_a_dated_record_before_target(tmp_path) -> None:
+    """An undated or post-election Council record cannot establish incumbency."""
+
+    payload = valid_record()
+    payload["evidence_method"] = "official_council_record_match"
+    payload.pop("member_profile_url")
+    payload.pop("member_uid")
+    payload["profile_linked_result_urls"] = []
+    payload["office_record_date"] = "2021-05-06"
+    payload["supporting_sources"] = [
+        {
+            "source_type": "official_result_page",
+            "source_authority": "Surrey County Council",
+            "source_url": payload["candidate_source_url"],
+            "published_candidate_name": "Example Candidate",
+            "evidence_text": "The target official result publishes the candidate.",
+        },
+        {
+            "source_type": "official_result_page",
+            "source_authority": "Surrey County Council",
+            "source_url": payload["prior_official_elections"][0]["source_url"],
+            "published_candidate_name": "Example Candidate",
+            "evidence_text": "The earlier official result publishes the candidate.",
+        },
+        {
+            "source_type": "official_council_record",
+            "source_authority": "Surrey County Council",
+            "source_url": "https://mycouncil.surreycc.gov.uk/ieListDocuments.aspx?CId=121&MId=1",
+            "published_candidate_name": "Example Candidate",
+            "evidence_text": "The official Council record identifies the named person as taking office.",
+        },
+    ]
+
+    with pytest.raises(ValueError, match="before the target election"):
+        load_one(tmp_path, payload)
+
+
 def test_multi_source_review_can_retain_another_authoritys_official_declaration(tmp_path) -> None:
     """A reviewed council declaration may corroborate a Surrey profile record.
 

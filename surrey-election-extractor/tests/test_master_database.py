@@ -10,6 +10,7 @@ from election_extractor.election_config import ElectionConfiguration
 from election_extractor.extraction import CandidateResultRecord, ExtractionStatus
 from election_extractor.master_database import (
     AuditedElectionInput,
+    _supervisor_incumbency_fields,
     build_master_database,
     load_audited_elections,
 )
@@ -821,7 +822,9 @@ def test_identity_incumbency_and_unapproved_vote_change_are_explicitly_unresolve
     assert candidate["candidate_previously_stood"] is None
     assert candidate["candidate_history_status"] == "unresolved_no_explicit_identifier"
     assert candidate["incumbent_candidate"] is None
-    assert candidate["incumbent_party"] is None
+    assert candidate["incumbent_candidate_yes_no"] == "Unknown"
+    assert candidate["incumbent_party_yes_no"] == "Unknown"
+    assert candidate["incumbent_party_name"] is None
     assert candidate["incumbency_status"] == "unresolved_no_authoritative_linkage"
     assert candidate["change_in_vote_share"] is None
     assert candidate["change_in_vote_share_status"] == (
@@ -881,9 +884,47 @@ def test_verified_member_profile_can_add_positive_person_level_fields() -> None:
 
     assert candidate["candidate_previously_stood"] is True
     assert candidate["incumbent_candidate"] is True
-    assert candidate["incumbent_party"] == "Conservative"
+    assert candidate["incumbent_candidate_yes_no"] == "Yes"
     assert candidate["candidate_history_status"] == "verified_official_member_profile"
     assert candidate["candidate_continuity_evidence_id"] == "example:verified-profile"
+
+
+def test_supervisor_party_incumbency_is_yes_or_no_only_with_approved_comparison() -> None:
+    """Party incumbency uses prior official outcomes, not personal identity evidence."""
+
+    approved_history = {
+        "historical_reference_status": "approved_pre_2024_legal_continuity",
+        "previous_winning_party": "Conservative",
+    }
+    incumbent_party = _supervisor_incumbency_fields(
+        incumbent_candidate=None,
+        incumbent_candidate_status="unresolved_no_authoritative_linkage",
+        current_party_name="Conservative",
+        current_number_of_seats=1,
+        historical_reference_fields=approved_history,
+    )
+    challenging_party = _supervisor_incumbency_fields(
+        incumbent_candidate=None,
+        incumbent_candidate_status="unresolved_no_authoritative_linkage",
+        current_party_name="Liberal Democrats",
+        current_number_of_seats=1,
+        historical_reference_fields=approved_history,
+    )
+    changed_structure = _supervisor_incumbency_fields(
+        incumbent_candidate=True,
+        incumbent_candidate_status="verified_official_member_profile",
+        current_party_name="Conservative",
+        current_number_of_seats=2,
+        historical_reference_fields=approved_history,
+    )
+
+    assert incumbent_party["incumbent_candidate_yes_no"] == "Unknown"
+    assert incumbent_party["incumbent_party_yes_no"] == "Yes"
+    assert incumbent_party["incumbent_party_name"] == "Conservative"
+    assert challenging_party["incumbent_party_yes_no"] == "No"
+    assert changed_structure["incumbent_candidate_yes_no"] == "Yes"
+    assert changed_structure["incumbent_party_yes_no"] == "Unknown"
+    assert changed_structure["incumbent_party_name"] is None
 
 
 def test_verified_multi_source_evidence_adds_history_without_name_matching() -> None:

@@ -9,6 +9,11 @@ name.  The register permits two reviewed methods:
   official profile, the exact target result page, and at least one earlier
   official result page are manually reviewed together.  It is useful where a
   profile names the elections but does not retain direct links to every page.
+* ``official_council_record_match`` permits a narrowly defined archival case:
+  an official Council record explicitly records the named candidate taking up
+  the prior office, alongside exact target and prior official result pages.
+  It is not a fallback to matching names; the Council record must provide the
+  person-to-office link that a stable profile would otherwise provide.
 
 Both methods require explicit source URLs and exact published names.  They are
 evidence registers, not matching algorithms: repeated names in the database
@@ -78,8 +83,8 @@ class CandidateContinuityEvidence:
     candidate_name: str
     division_name: str
     candidate_source_url: str
-    member_profile_url: str
-    member_uid: str
+    member_profile_url: str | None
+    member_uid: str | None
     term_start: date
     profile_linked_result_urls: tuple[str, ...]
     prior_official_elections: tuple[PriorOfficialElection, ...]
@@ -94,6 +99,10 @@ class CandidateContinuityEvidence:
     # multi-source records make every reviewed source visible in this field.
     evidence_method: str = "official_member_profile"
     supporting_sources: tuple[OfficialEvidenceSource, ...] = ()
+    # Council minutes and declarations need their own publication date.  This
+    # prevents a later Council record from being used to claim incumbency at
+    # an earlier election.
+    office_record_date: date | None = None
 
 
 def result_page_identity(url: str) -> str:
@@ -231,6 +240,7 @@ def _record_from_mapping(item: object) -> CandidateContinuityEvidence:
     if evidence_method not in {
         "official_member_profile",
         "official_multi_source_match",
+        "official_council_record_match",
     }:
         raise ValueError("Candidate continuity evidence has an unsupported evidence_method.")
 
@@ -255,11 +265,23 @@ def _record_from_mapping(item: object) -> CandidateContinuityEvidence:
     if any(prior.election_date >= target_date for prior in prior_elections):
         raise ValueError("Prior official election dates must predate the candidate election.")
 
-    profile_url = _validate_profile_url(
-        str(item.get("member_profile_url", "")), str(item.get("member_uid", ""))
-    )
-    member_uid = str(item["member_uid"])
+    # A member profile is mandatory for the two profile-based routes. The
+    # archival Council-record route has no invented UID: it instead requires
+    # an explicit official record that names the councillor and office.
+    if evidence_method == "official_council_record_match":
+        profile_url = None
+        member_uid = None
+    else:
+        profile_url = _validate_profile_url(
+            str(item.get("member_profile_url", "")), str(item.get("member_uid", ""))
+        )
+        member_uid = str(item["member_uid"])
     term_start = _iso_date(item.get("term_start"), "term_start")
+    office_record_date = (
+        _iso_date(item.get("office_record_date"), "office_record_date")
+        if evidence_method == "official_council_record_match"
+        else None
+    )
     linked_urls = tuple(
         result_page_identity(str(url))
         for url in item.get("profile_linked_result_urls", [])
@@ -284,12 +306,21 @@ def _record_from_mapping(item: object) -> CandidateContinuityEvidence:
             )
         if any(prior.source_url not in linked_urls for prior in prior_elections):
             raise ValueError("Each prior result page must be directly listed by the member profile.")
-    else:
+    elif evidence_method == "official_multi_source_match":
         _validate_multi_source_match(
             supporting_sources=supporting_sources,
             profile_url=profile_url,
             candidate_source_url=source_identity,
             prior_elections=prior_elections,
+        )
+    else:
+        _validate_council_record_match(
+            supporting_sources=supporting_sources,
+            candidate_source_url=source_identity,
+            prior_elections=prior_elections,
+            office_record_date=office_record_date,
+            term_start=term_start,
+            target_date=target_date,
         )
 
     incumbent_party = _optional_text(item.get("incumbent_party"))
@@ -320,11 +351,12 @@ def _record_from_mapping(item: object) -> CandidateContinuityEvidence:
         notes=_optional_text(item.get("notes")),
         evidence_method=evidence_method,
         supporting_sources=supporting_sources,
+        office_record_date=office_record_date,
     )
 
 
 def _official_source_from_mapping(
-    item: object, *, candidate_name: str, member_uid: str
+    item: object, *, candidate_name: str, member_uid: str | None
 ) -> OfficialEvidenceSource:
     """Validate one explicitly reviewed official source in a multi-source claim."""
 
@@ -354,6 +386,8 @@ def _official_source_from_mapping(
         raise ValueError("Supporting source must contain a manual evidence note.")
     if source_type == "official_member_profile":
         # The caller compares this canonical URL with the declared stable UID.
+        if member_uid is None:
+            raise ValueError("Council-record evidence cannot include an undeclared member profile.")
         source_url = _validate_profile_url(source_url, member_uid)
     else:
         source_url = official_election_source_identity(source_url)
@@ -369,7 +403,7 @@ def _official_source_from_mapping(
 def _validate_multi_source_match(
     *,
     supporting_sources: tuple[OfficialEvidenceSource, ...],
-    profile_url: str,
+    profile_url: str | None,
     candidate_source_url: str,
     prior_elections: tuple[PriorOfficialElection, ...],
 ) -> None:
@@ -382,6 +416,8 @@ def _validate_multi_source_match(
     member profiles must retain every historical hyperlink.
     """
 
+    if profile_url is None:
+        raise ValueError("Multi-source evidence requires an official member profile.")
     if len(supporting_sources) < 3:
         raise ValueError("Multi-source evidence requires at least three official sources.")
     profile_sources = {
@@ -400,6 +436,57 @@ def _validate_multi_source_match(
         raise ValueError(
             "Multi-source evidence must include the exact target and prior official result pages."
         )
+    if len({(source.source_type, source.source_url) for source in supporting_sources}) != len(
+        supporting_sources
+    ):
+        raise ValueError("Supporting official sources must be unique.")
+
+
+def _validate_council_record_match(
+    *,
+    supporting_sources: tuple[OfficialEvidenceSource, ...],
+    candidate_source_url: str,
+    prior_elections: tuple[PriorOfficialElection, ...],
+    office_record_date: date | None,
+    term_start: date,
+    target_date: date,
+) -> None:
+    """Require an official person-to-office record where no profile is available.
+
+    A declaration alone proves only that an identically named candidate won a
+    prior contest.  This route additionally requires a Council-published
+    record that explicitly identifies the named person as having taken the
+    office.  It is intentionally limited to the exact target result and dated
+    prior results listed in the register.
+    """
+
+    if len(supporting_sources) < 3:
+        raise ValueError("Council-record evidence requires target, prior and Council-record sources.")
+    if office_record_date is None:
+        raise ValueError("Council-record evidence requires an office_record_date.")
+    if not (term_start <= office_record_date < target_date):
+        raise ValueError(
+            "Council-record dates must place the verified term before the target election."
+        )
+    if any(prior.election_date > office_record_date for prior in prior_elections):
+        raise ValueError(
+            "Council-record evidence must be published on or after each cited prior election."
+        )
+    council_records = {
+        source.source_url
+        for source in supporting_sources
+        if source.source_type == "official_council_record"
+    }
+    result_sources = {
+        source.source_url
+        for source in supporting_sources
+        if source.source_type in {"official_result_page", "official_declaration"}
+    }
+    if not council_records:
+        raise ValueError("Council-record evidence requires an official Council record.")
+    required_results = {candidate_source_url, *(prior.source_url for prior in prior_elections)}
+    if not required_results.issubset(result_sources):
+        raise ValueError("Council-record evidence must include the exact target and prior result pages.")
     if len({(source.source_type, source.source_url) for source in supporting_sources}) != len(
         supporting_sources
     ):

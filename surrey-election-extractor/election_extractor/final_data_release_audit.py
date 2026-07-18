@@ -264,6 +264,9 @@ def build_final_data_release_audit(
             "change_in_vote_share",
             "change_in_vote_share_provenance",
             "change_in_vote_share_model_role",
+            "incumbent_candidate_yes_no",
+            "incumbent_party_yes_no",
+            "incumbent_party_name",
         },
         "divisions_and_wards": {
             "winning_candidate_name",
@@ -306,6 +309,14 @@ def build_final_data_release_audit(
             ),
             "candidate_change_in_vote_share_diagnostics": sum(
                 row.get("change_in_vote_share") is not None
+                for row in payload.candidate_results
+            ),
+            "verified_incumbent_candidate_yes": sum(
+                row.get("incumbent_candidate_yes_no") == "Yes"
+                for row in payload.candidate_results
+            ),
+            "decidable_incumbent_party_yes_no": sum(
+                row.get("incumbent_party_yes_no") in {"Yes", "No"}
                 for row in payload.candidate_results
             ),
             "missing_columns": missing_materialised,

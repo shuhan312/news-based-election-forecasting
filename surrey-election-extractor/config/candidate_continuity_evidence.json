@@ -1,6 +1,154 @@
 {
   "records": [
     {
+      "evidence_id": "surrey-county-council-2021:result:336:ayesha-azad:official-multi-source",
+      "election_id": "surrey-county-council-2021",
+      "candidate_name": "Ayesha Azad",
+      "division_name": "Woking South West",
+      "candidate_source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=336&RPID=453722837&XXR=0",
+      "candidate_election_date": "2021-05-06",
+      "member_profile_url": "https://mycouncil.surreycc.gov.uk/mgUserInfo.aspx?UID=2216",
+      "member_uid": "2216",
+      "term_start": "2017-05-08",
+      "profile_linked_result_urls": [],
+      "prior_official_elections": [
+        {
+          "election_id": "surrey-county-council-2017",
+          "election_date": "2017-05-04",
+          "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=252"
+        }
+      ],
+      "candidate_previously_stood": true,
+      "incumbent_candidate": true,
+      "incumbent_party": "Conservative",
+      "evidence_method": "official_multi_source_match",
+      "supporting_sources": [
+        {
+          "source_type": "official_member_profile",
+          "source_authority": "Surrey County Council",
+          "source_url": "https://mycouncil.surreycc.gov.uk/mgUserInfo.aspx?UID=2216",
+          "published_candidate_name": "Ayesha Azad",
+          "evidence_text": "The official Surrey County Council profile is headed Ayesha Azad, identifies Woking South West, gives a term beginning 08/05/2017 and lists the 2017 and 2021 County Council elections."
+        },
+        {
+          "source_type": "official_result_page",
+          "source_authority": "Surrey County Council",
+          "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=252",
+          "published_candidate_name": "Ayesha Azad",
+          "evidence_text": "The official 2017 Woking South West result page publishes Ayesha Azad for Conservative as Elected."
+        },
+        {
+          "source_type": "official_result_page",
+          "source_authority": "Surrey County Council",
+          "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=336",
+          "published_candidate_name": "Ayesha Azad",
+          "evidence_text": "The official 2021 Woking South West result page publishes Ayesha Azad for Conservative as Elected."
+        }
+      ],
+      "evidence_text": "The stable official member profile and exact official 2017 and 2021 result pages jointly establish the person, prior elected term and target candidacy. This is a reviewed official-source decision, not an automated repeated-name match.",
+      "retrieval_date": "2026-07-18",
+      "confidence": "High",
+      "notes": "This supports prior participation and incumbency only for the published 2021 Ayesha Azad row."
+    },
+    {
+      "evidence_id": "surrey-county-council-2021:result:327:becky-rush:official-council-record",
+      "election_id": "surrey-county-council-2021",
+      "candidate_name": "Becky Rush",
+      "division_name": "Warlingham",
+      "candidate_source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=327&RPID=453722837&XXR=0",
+      "candidate_election_date": "2021-05-06",
+      "term_start": "2019-01-31",
+      "office_record_date": "2019-02-05",
+      "profile_linked_result_urls": [],
+      "prior_official_elections": [
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "election_date": "2019-01-31",
+          "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=256"
+        }
+      ],
+      "candidate_previously_stood": true,
+      "incumbent_candidate": true,
+      "incumbent_party": "Conservative",
+      "evidence_method": "official_council_record_match",
+      "supporting_sources": [
+        {
+          "source_type": "official_result_page",
+          "source_authority": "Surrey County Council",
+          "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=256",
+          "published_candidate_name": "Becky Rush",
+          "evidence_text": "The official Warlingham by-election result page, dated 31 January 2019, publishes Becky Rush as Conservative and Elected."
+        },
+        {
+          "source_type": "official_council_record",
+          "source_authority": "Surrey County Council",
+          "source_url": "https://mycouncil.surreycc.gov.uk/documents/s55233/Minutes%20Public%20Pack%2005022019%20Council.pdf",
+          "published_candidate_name": "Becky Rush",
+          "evidence_text": "The official Council minutes record that Mrs Becky Rush was duly elected as the new County Councillor for the Warlingham division following the 31 January 2019 by-election."
+        },
+        {
+          "source_type": "official_result_page",
+          "source_authority": "Surrey County Council",
+          "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=327&RPID=453722837&XXR=0",
+          "published_candidate_name": "Becky Rush",
+          "evidence_text": "The official 2021 Warlingham result page publishes Becky Rush as Conservative and Elected."
+        }
+      ],
+      "evidence_text": "Three public official Surrey County Council sources were reviewed together. The 2019 by-election result and Council minutes identify Becky Rush as the elected County Councillor for Warlingham, and the exact 2021 result page publishes her again as Conservative and Elected. The Council record supplies the person-to-office link; this is not an inference from repeated names.",
+      "retrieval_date": "2026-07-18",
+      "confidence": "High",
+      "notes": "This supports prior participation and incumbency only for the published 2021 Becky Rush row. No claim is extended to another same-name row."
+    },
+    {
+      "evidence_id": "surrey-county-council-2021:result:323:amanda-boote:official-council-record",
+      "election_id": "surrey-county-council-2021",
+      "candidate_name": "Amanda Jayne Boote",
+      "division_name": "The Byfleets",
+      "candidate_source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=323&RPID=453722837&XXR=0",
+      "candidate_election_date": "2021-05-06",
+      "term_start": "2018-12-06",
+      "office_record_date": "2018-12-11",
+      "profile_linked_result_urls": [],
+      "prior_official_elections": [
+        {
+          "election_id": "surrey-county-council-by-election-the-byfleets-2018-12-06",
+          "election_date": "2018-12-06",
+          "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=255&RPID=0"
+        }
+      ],
+      "candidate_previously_stood": true,
+      "incumbent_candidate": true,
+      "incumbent_party": "Independent",
+      "evidence_method": "official_council_record_match",
+      "supporting_sources": [
+        {
+          "source_type": "official_result_page",
+          "source_authority": "Surrey County Council",
+          "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=255&RPID=0",
+          "published_candidate_name": "Amanda Jayne Boote",
+          "evidence_text": "The official The Byfleets by-election result page, dated 6 December 2018, publishes Amanda Jayne Boote as Independent and Elected."
+        },
+        {
+          "source_type": "official_council_record",
+          "source_authority": "Surrey County Council",
+          "source_url": "https://mycouncil.surreycc.gov.uk/ieListDocuments.aspx?CId=121&MId=5844",
+          "published_candidate_name": "Amanda Jayne Boote",
+          "evidence_text": "The official Council minutes record that Mrs Amanda Jayne Boote was duly elected as the new County Councillor for The Byfleets division following the 6 December 2018 by-election."
+        },
+        {
+          "source_type": "official_result_page",
+          "source_authority": "Surrey County Council",
+          "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=323&RPID=453722837&XXR=0",
+          "published_candidate_name": "Amanda Jayne Boote",
+          "evidence_text": "The official 2021 The Byfleets result page publishes Amanda Jayne Boote as Independent and Elected."
+        }
+      ],
+      "evidence_text": "Three public official Surrey County Council sources were reviewed together. The 2018 by-election result and Council minutes identify Amanda Jayne Boote as the elected County Councillor for The Byfleets, and the exact 2021 result page publishes her again as Independent and Elected. The Council record supplies the person-to-office link; this is not an inference from repeated names.",
+      "retrieval_date": "2026-07-18",
+      "confidence": "High",
+      "notes": "This supports prior participation and incumbency only for the published 2021 Amanda Jayne Boote row. No claim is extended to any other same-name row."
+    },
+    {
       "evidence_id": "surrey-county-council-2021:result:283:andy-macleod:official-multi-source",
       "election_id": "surrey-county-council-2021",
       "candidate_name": "Andy MacLeod",
