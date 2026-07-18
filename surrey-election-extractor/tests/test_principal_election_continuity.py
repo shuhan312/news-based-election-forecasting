@@ -85,6 +85,22 @@ def test_party_history_uses_exact_published_labels_without_party_merging() -> No
     )
 
 
+def test_single_member_exact_label_prior_share_is_separate_from_swing() -> None:
+    """Prior share is allowed only under the narrow configured baseline rule."""
+
+    audit = build_principal_election_continuity_audit()
+    reference = next(
+        row for row in audit["party_history_references"]
+        if row["current_election_id"] == "surrey-county-council-2017"
+        and row["current_area_name"] == "Addlestone"
+        and row["original_party_name"] == "Conservative"
+    )
+    assert reference["previous_party_vote_share"] == 40.0
+    assert reference["previous_party_vote_share_status"] == (
+        "derived_single_member_exact_label_prior_candidate_share"
+    )
+
+
 def test_configuration_rejects_non_https_legal_source(tmp_path: Path) -> None:
     """An opaque or local evidence reference cannot approve continuity."""
 

@@ -37,6 +37,9 @@ from election_extractor.historical_reference_permissions import (
 from election_extractor.principal_election_continuity import (
     build_principal_election_continuity_audit,
 )
+from election_extractor.by_election_historical_reference import (
+    build_by_election_historical_reference_audit,
+)
 
 
 OUTPUT_DIRECTORY = PROJECT_ROOT / "outputs/master_surrey_election_database"
@@ -213,6 +216,20 @@ def reviewed_historical_reference_inputs() -> tuple[
         key = (election_id, area_name, party_name)
         if key in party_references:
             raise ValueError(f"Duplicate approved party-history reference for {key}.")
+        party_references[key] = dict(row)
+    # Every by-election receives a recorded eligibility decision. Only the
+    # five evidence-validated same-statutory-division cases are added here;
+    # excluded cases stay visibly unavailable in the master database.
+    by_election_audit = build_by_election_historical_reference_audit()
+    for row in by_election_audit["division_references"]:
+        key = (str(row["current_election_id"]), str(row["current_area_name"]))
+        if key in division_references:
+            raise ValueError(f"Duplicate by-election historical reference for {key}.")
+        division_references[key] = dict(row)
+    for row in by_election_audit["party_history_references"]:
+        key = (str(row["current_election_id"]), str(row["current_area_name"]), str(row["original_party_name"]))
+        if key in party_references:
+            raise ValueError(f"Duplicate by-election party history for {key}.")
         party_references[key] = dict(row)
     return division_references, party_references
 

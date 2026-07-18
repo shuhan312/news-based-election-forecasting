@@ -293,6 +293,26 @@ def _party_history_for_exact_area(
         for row in previous_rows
         if isinstance(row.get("original_party_name"), str) and row["original_party_name"].strip()
     }
+    # A candidate's published share can stand for an exact party label only in
+    # a single-member contest with at most one candidate using that label.  It
+    # is deliberately unavailable for multi-member contests or duplicate
+    # labels: summing candidate shares would be a new party-total construction.
+    single_member_exact_label_share_allowed = (
+        {row.get("seats") for row in current_rows} == {1}
+        and {row.get("seats") for row in previous_rows} == {1}
+        and all(row.get("vote_share") is not None for row in previous_rows)
+        and len(previous_labels) == len(previous_rows)
+    )
+    previous_share_by_label = {
+        str(row["original_party_name"]): row["vote_share"]
+        for row in previous_rows
+        if isinstance(row.get("original_party_name"), str)
+    }
+    current_label_counts = defaultdict(int)
+    for row in current_rows:
+        if isinstance(row.get("original_party_name"), str) and row["original_party_name"].strip():
+            current_label_counts[str(row["original_party_name"])] += 1
+
     result = []
     for party_name in sorted(
         {
@@ -304,12 +324,24 @@ def _party_history_for_exact_area(
     ):
         assert isinstance(party_name, str)
         previously_contested = party_name in previous_labels
+        previous_party_vote_share = None
+        previous_party_vote_share_status = "not_derived_not_single_member_or_exact_label"
+        if single_member_exact_label_share_allowed and current_label_counts[party_name] == 1:
+            # Absence from a complete official prior candidate table is a
+            # genuine exact-label zero, not an imputed vote share. Labels are
+            # never standardised or merged for this comparison.
+            previous_party_vote_share = previous_share_by_label.get(party_name, 0.0)
+            previous_party_vote_share_status = (
+                "derived_single_member_exact_label_prior_candidate_share"
+            )
         result.append(
             {
                 "original_party_name": party_name,
                 "party_previously_contested": previously_contested,
                 "first_observed_appearance": not previously_contested,
                 "provenance": "deterministically_derived",
+                "previous_party_vote_share": previous_party_vote_share,
+                "previous_party_vote_share_status": previous_party_vote_share_status,
             }
         )
     return tuple(result)

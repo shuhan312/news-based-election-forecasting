@@ -39,7 +39,8 @@
       "previous_winning_candidate_vote_share",
       "previous_turnout",
       "previous_electorate",
-      "area_specific_exact_party_history"
+      "area_specific_exact_party_history",
+      "single_member_exact_label_previous_party_vote_share"
     ],
     "prohibited_features": [
       "candidate_identity_transfer",
@@ -50,7 +51,7 @@
       "vote_redistribution",
       "winning_margin_from_vote_order"
     ],
-    "limitation": "Approval applies only to exact published division names within the statutory pre-2024 arrangements. It does not establish a person-level link, reconstruct party totals, calculate swing, or authorise use of the changed 2024/2026 boundaries."
+    "limitation": "Approval applies only to exact published division names within the statutory pre-2024 arrangements. A prior party-share baseline is permitted only when both contests are single-member, every prior candidate share is published, and the exact published party label occurs at most once in each contest. It does not establish a person-level link, reconstruct multi-candidate party totals, calculate swing, or authorise use of the changed 2024/2026 boundaries."
   },
   "approved_transitions": [
     {

@@ -36,6 +36,7 @@ outputs/geographic_crosswalk_resolution/*.json
 outputs/master_surrey_election_database/
 outputs/election_event_timeline/*.json
 outputs/historical_baseline_features/*.json
+outputs/no_news_electoral_baseline/
 outputs/historical_reference_permissions/*.json
 outputs/by_election_integration/*.json
 outputs/by_election_source_recovery/*.json

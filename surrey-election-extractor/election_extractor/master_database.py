@@ -74,6 +74,9 @@ APPROVED_HISTORICAL_REFERENCE_STATUSES = frozenset(
     {
         "approved_for_historical_reference",
         "approved_pre_2024_legal_continuity",
+        # A separately audited by-election may use the same limited history
+        # only after exact statutory-division and single-member checks.
+        "approved_same_statutory_division",
     }
 )
 AUDITED_ELECTION_INPUTS = {
@@ -725,6 +728,11 @@ def _party_history_fields(
         "party_previously_contested": None,
         "first_appearance_of_party_in_area": None,
         "party_history_status": "not_approved_or_not_applicable",
+        # This candidate-level feature is the supervisor's Previous party
+        # vote share. It stays separate from the division-level placeholder,
+        # which has no current-party label and therefore cannot be meaningful.
+        "previous_party_vote_share": None,
+        "previous_party_vote_share_status": "not_derived_no_approved_exact_label_reference",
     }
     if division_name is None or original_party_name is None:
         return unavailable
@@ -739,6 +747,11 @@ def _party_history_fields(
             "first_observed_appearance"
         ),
         "party_history_status": "approved_direct_exact_label",
+        "previous_party_vote_share": reference.get("previous_party_vote_share"),
+        "previous_party_vote_share_status": reference.get(
+            "previous_party_vote_share_status",
+            "not_derived_not_single_member_or_exact_label",
+        ),
     }
 
 
@@ -1391,6 +1404,8 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("party_previously_contested", "Whether the exact original party label was present in an approved prior direct lineage.", "historical baseline feature layer", "derived", "NULL where no explicit geographic permission exists; never uses party-name similarity."),
             ("first_appearance_of_party_in_area", "Whether the exact original party label has no earlier recorded contest in an approved direct lineage.", "historical baseline feature layer", "derived", "NULL where geography is unresolved; this is not a claim about a party's overall origin."),
             ("party_history_status", "Permission status for area-specific party history.", "historical reference audit", "derived", "Only an explicit approved exact-label lineage permits an area-specific value."),
+            ("previous_party_vote_share", "Prior vote share for this candidate's exact published party label.", "official prior candidate share under approved continuity policy", "derived", "Available only for an approved exact-name single-member contest with one candidate per label, including reviewed same-statutory-division by-elections. A zero means the exact label is absent from a complete prior official candidate table; never aggregates candidates or maps labels across parties."),
+            ("previous_party_vote_share_status", "Reason the candidate-level prior party share is available or blocked.", "principal and by-election historical-reference audits", "derived", "Does not authorise change in vote share, party swing, candidate identity transfer or 2026 cross-boundary comparison."),
             ("election_completeness_status", "Read-only election-level completeness result.", "layered completeness", "derived", "Does not alter source fields."),
             ("division_completeness_status", "Read-only division-level completeness result.", "layered completeness", "derived", "Does not alter source fields."),
             ("candidate_completeness_status", "Read-only candidate-level completeness result.", "layered completeness", "derived", "Does not alter source fields."),
