@@ -264,6 +264,10 @@ def build_final_data_release_audit(
             "change_in_vote_share",
             "change_in_vote_share_provenance",
             "change_in_vote_share_model_role",
+            "candidate_previously_stood",
+            "candidate_history_status",
+            "candidate_history_source_urls",
+            "candidate_history_event_ids",
             "incumbent_candidate_yes_no",
             "incumbent_candidate_yes_no_source_urls",
             "incumbent_party_yes_no",
@@ -310,6 +314,18 @@ def build_final_data_release_audit(
             ),
             "candidate_change_in_vote_share_diagnostics": sum(
                 row.get("change_in_vote_share") is not None
+                for row in payload.candidate_results
+            ),
+            "candidate_previously_stood_yes": sum(
+                row.get("candidate_previously_stood") is True
+                for row in payload.candidate_results
+            ),
+            "candidate_previously_stood_no": sum(
+                row.get("candidate_previously_stood") is False
+                for row in payload.candidate_results
+            ),
+            "candidate_previously_stood_unknown": sum(
+                row.get("candidate_previously_stood") is None
                 for row in payload.candidate_results
             ),
             "verified_incumbent_candidate_yes": sum(

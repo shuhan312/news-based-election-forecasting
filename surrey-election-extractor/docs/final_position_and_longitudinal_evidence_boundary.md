@@ -45,16 +45,23 @@ source both support the relation.
   percentage-point diagnostic for comparable single-member contests. It is
   never a no-news predictor, and multi-member or altered-boundary party swing
   remains prohibited.
-- `candidate_previously_stood`, `incumbent_candidate` and `incumbent_party`
-  are positive-only fields. They use either the direct profile route, or a
-  reviewed multi-source official route that retains a stable profile, the exact
-  target result page and an earlier exact result page. Incumbency additionally
-  requires a published term start before the election. The reviewed register
-  currently contains three verified rows; none was created by automated name
-  matching.
+- `candidate_previously_stood` is a tri-state, in-scope candidature-history
+  field. After the complete 2013 candidate result establishes the observation
+  window, it uses exact complete-name deterministic linkage across all earlier
+  audited official result tables. It never drops name tokens or uses fuzzy
+  similarity. Absence from that complete prior universe supports `False`;
+  2013 remains `NULL`. An exact-name collision requires resolution through the
+  chronological official officeholder roster, a stable official profile or a
+  dated Council record.
+- `incumbent_candidate` and its supervisor-facing Yes/No/Unknown field use the
+  separate chronological elected-member roster. `incumbent_party_yes_no` uses
+  an approved comparable historical area and exact published party labels.
 
-This method deliberately does not join candidates by name, party or area.  A
-missing entry means **not yet verified**, not `No`.
+Candidate-history `NULL` therefore means a declared first-period or identity
+collision boundary, not an unreported failed search. Candidate-history `No`
+means no exact complete published identifier exists anywhere in the complete
+earlier in-scope official candidate universe; it is not a claim about elections
+before 2013 or outside Surrey County Council.
 
 ## Sources
 

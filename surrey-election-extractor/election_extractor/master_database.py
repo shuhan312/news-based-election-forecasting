@@ -1135,6 +1135,113 @@ def _pre_election_incumbency_roster_fields(
     return output
 
 
+def _pre_election_candidate_history_fields(
+    elections: Sequence[AuditedElectionInput],
+) -> dict[tuple[str, str, str], dict[str, object]]:
+    """Classify prior candidature against the complete earlier result universe.
+
+    This is a deterministic record-linkage layer, not fuzzy person matching.
+    It compares the complete published name after only the documented 2013
+    surname-first presentation normalisation.  It never removes initials or
+    name tokens and never uses similarity scores.
+
+    Once the complete 2013 principal result has established the observation
+    window, absence from *all* earlier audited candidate tables can support No
+    within the project's 2013--2026 scope.  A repeated exact identifier can
+    support Yes unless the identifier represented multiple candidates on the
+    same earlier election date.  Such a collision remains Unknown unless the
+    separate manually reviewed evidence register resolves it.  Same-day events
+    share an opening history snapshot, preventing outcome leakage.
+    """
+
+    principal_ids = {
+        "surrey-county-council-2013",
+        "surrey-county-council-2017",
+        "surrey-county-council-2021",
+    }
+    events_by_date: defaultdict[str, list[AuditedElectionInput]] = defaultdict(list)
+    for election in elections:
+        events_by_date[_event_date_text(election)].append(election)
+
+    # canonical complete name -> prior official appearances
+    history: defaultdict[str, list[tuple[str, str, str, str]]] = defaultdict(list)
+    history_known = False
+    contributing_event_ids: list[str] = []
+    ambiguous_names: set[str] = set()
+    output: dict[tuple[str, str, str], dict[str, object]] = {}
+
+    for event_date in sorted(events_by_date):
+        same_day = events_by_date[event_date]
+        for election in same_day:
+            election_id = election.configuration.election_id
+            for record in election.records:
+                row_key = (election_id, record.source_url, record.candidate_name)
+                if not history_known:
+                    output[row_key] = {
+                        "candidate_previously_stood": None,
+                        "candidate_history_status": (
+                            "unknown_no_complete_pre_2013_candidate_history"
+                        ),
+                        "candidate_history_source_urls": None,
+                        "candidate_history_event_ids": None,
+                    }
+                    continue
+
+                name_key = _canonical_official_candidate_name(record.candidate_name)
+                matches = history[name_key]
+                if name_key in ambiguous_names:
+                    value = None
+                    status = "unknown_ambiguous_complete_name_in_prior_official_results"
+                    source_urls = "; ".join(sorted({item[2] for item in matches})) or None
+                elif matches:
+                    value = True
+                    status = "verified_in_prior_complete_official_candidate_results"
+                    source_urls = "; ".join(sorted({item[2] for item in matches}))
+                else:
+                    value = False
+                    status = "verified_absent_from_prior_complete_official_candidate_results"
+                    source_urls = record.source_url
+                output[row_key] = {
+                    "candidate_previously_stood": value,
+                    "candidate_history_status": status,
+                    "candidate_history_source_urls": source_urls,
+                    "candidate_history_event_ids": "; ".join(contributing_event_ids),
+                }
+
+        # Add current candidates only after every simultaneous event has been
+        # classified. Record exact-name collisions within the same date so a
+        # later row cannot silently treat two people as one identity.
+        names_on_date: defaultdict[str, set[str]] = defaultdict(set)
+        for election in same_day:
+            election_id = election.configuration.election_id
+            for record in election.records:
+                name_key = _canonical_official_candidate_name(record.candidate_name)
+                names_on_date[name_key].add(record.source_url)
+                history[name_key].append(
+                    (election_id, record.candidate_name, record.source_url, event_date)
+                )
+        ambiguous_names.update(
+            name_key for name_key, source_urls in names_on_date.items()
+            if len(source_urls) > 1
+        )
+
+        for election in same_day:
+            election_id = election.configuration.election_id
+            if election_id not in contributing_event_ids:
+                contributing_event_ids.append(election_id)
+            if election_id in principal_ids:
+                elected_count = sum(
+                    record.outcome == "Elected" for record in election.records
+                )
+                # A small unit-test fixture must not claim that it constitutes
+                # the complete historical search universe. Production
+                # principal elections contain all 81 official elected rows.
+                if elected_count == 81:
+                    history_known = True
+
+    return output
+
+
 def build_master_database(
     elections: Sequence[AuditedElectionInput],
     party_lookup: Mapping[str, PartyLookupEntry] | None = None,
@@ -1193,6 +1300,7 @@ def build_master_database(
     # rows then receive a pre-election value without querying a later profile
     # or allowing the current result to change its own predictor.
     incumbency_roster_by_row = _pre_election_incumbency_roster_fields(elections)
+    candidate_history_by_row = _pre_election_candidate_history_fields(elections)
 
     for election in elections:
         configuration = election.configuration
@@ -1309,6 +1417,67 @@ def build_master_database(
             )
             if continuity_key is not None:
                 used_candidate_continuity_evidence.add(continuity_key)
+            candidate_history_fields = dict(
+                candidate_history_by_row[
+                    (
+                        configuration.election_id,
+                        record.source_url,
+                        record.candidate_name,
+                    )
+                ]
+            )
+            if continuity_fields["candidate_previously_stood"] is True:
+                # Manually reviewed person-level evidence outranks deterministic
+                # record linkage, particularly if a complete published name is
+                # shared by more than one earlier candidate.
+                evidence = candidate_continuity_evidence[continuity_key]
+                candidate_history_fields.update(
+                    {
+                        "candidate_previously_stood": True,
+                        "candidate_history_status": continuity_fields[
+                            "candidate_history_status"
+                        ],
+                        "candidate_history_source_urls": continuity_fields[
+                            "candidate_continuity_source_urls"
+                        ],
+                        "candidate_history_event_ids": "; ".join(
+                            prior.election_id
+                            for prior in evidence.prior_official_elections
+                        ),
+                    }
+                )
+            roster_fields = incumbency_roster_by_row[
+                (
+                    configuration.election_id,
+                    record.source_url,
+                    record.candidate_name,
+                )
+            ]
+            if (
+                candidate_history_fields["candidate_previously_stood"] is None
+                and candidate_history_fields["candidate_history_status"]
+                == "unknown_ambiguous_complete_name_in_prior_official_results"
+                and roster_fields.get("incumbent_candidate_roster_yes_no") == "Yes"
+            ):
+                # A complete chronological officeholder roster can resolve an
+                # otherwise ambiguous historical full name. In the production
+                # data this handles the two 2021 David John Lewis winners: the
+                # 2025 Camberley West by-election removes one officeholder, so
+                # only the Cobham result remains in the 2026 opening roster.
+                candidate_history_fields.update(
+                    {
+                        "candidate_previously_stood": True,
+                        "candidate_history_status": (
+                            "verified_in_unique_pre_election_official_roster"
+                        ),
+                        "candidate_history_source_urls": roster_fields[
+                            "incumbent_candidate_roster_source_urls"
+                        ],
+                        "candidate_history_event_ids": roster_fields[
+                            "incumbent_candidate_roster_event_ids"
+                        ],
+                    }
+                )
             position = derived_position_by_row.get(
                 (record.source_url, record.candidate_name)
             )
@@ -1335,13 +1504,7 @@ def build_master_database(
             supervisor_incumbency_fields = _supervisor_incumbency_fields(
                 incumbent_candidate=continuity_fields["incumbent_candidate"],
                 incumbent_candidate_status=continuity_fields["incumbency_status"],
-                roster_fields=incumbency_roster_by_row[
-                    (
-                        configuration.election_id,
-                        record.source_url,
-                        record.candidate_name,
-                    )
-                ],
+                roster_fields=roster_fields,
                 current_candidate_name=record.candidate_name,
                 current_source_url=record.source_url,
                 current_party_name=record.original_party_name,
@@ -1392,9 +1555,15 @@ def build_master_database(
                     "source_url": record.source_url,
                     "source_type": _source_type(record.source_type),
                     "notes": _source_notes(record),
-                    # The default remains explicit NULL.  A positive value is
-                    # possible only through the reviewed profile register above.
+                    # Retain the narrow manually reviewed person-evidence
+                    # fields. The broader supervisor candidature-history
+                    # classification is applied immediately afterwards.
                     **continuity_fields,
+                    # The supervisor-facing candidature-history value uses the
+                    # complete prior official candidate universe. The original
+                    # manual evidence fields remain alongside it as a stronger
+                    # person-identity provenance route where available.
+                    **candidate_history_fields,
                     # The supervisor asks two Yes/No questions. They are kept
                     # separate because person identity and prior winning-party
                     # status require different official evidence chains.
@@ -1823,8 +1992,10 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("source_url", "Official result page for the candidate row.", "official result page", "official", "Never blank for extracted records."),
             ("source_type", "Evidence tier recorded by extraction.", "extraction audit", "official", "Preserved from the audited record."),
             ("notes", "Recorded source-page limitation for this candidate row.", "extraction audit", "derived", "NULL where no record-specific source limitation was recorded; never used to fill a source field."),
-            ("candidate_previously_stood", "Whether the person stood in an earlier election.", "reviewed official continuity evidence", "derived", "TRUE only after manual review of direct profile links, a profile plus exact target and prior result pages, or exact target/prior result pages plus an official Council record that explicitly identifies the person taking office. Never generated from a name."),
-            ("candidate_history_status", "Why personal candidate history is available or unresolved.", "candidate-history evidence register", "derived", "verified_official_member_profile, verified_multi_source_official_evidence and verified_official_council_record_evidence mean the reviewed register supports TRUE. unresolved_no_explicit_identifier is not evidence of absence."),
+            ("candidate_previously_stood", "Whether the candidate appeared in an earlier audited Surrey County Council election within the project observation window.", "complete chronological official candidate-result universe, pre-election officeholder roster and reviewed person-level evidence", "derived", "TRUE requires a deterministic complete-name link across separate earlier official results, a unique roster resolution, or stronger reviewed person evidence. FALSE means absent from every earlier complete in-scope candidate table. NULL is retained before the 2013 observation boundary or for an unresolved exact-name collision; no fuzzy matching is used."),
+            ("candidate_history_status", "Why candidate_previously_stood is True, False or unresolved.", "chronological official candidate-result universe, officeholder roster and candidate-history evidence register", "derived", "Distinguishes prior exact-result presence, absence from a complete prior search universe, unique-roster collision resolution, stronger reviewed person evidence, the first-period boundary and ambiguous exact-name collisions."),
+            ("candidate_history_source_urls", "Official result or reviewed evidence URLs supporting the candidature-history classification.", "prior and current official candidate results or reviewed continuity evidence", "official provenance", "TRUE retains earlier supporting result URLs. FALSE retains the current result URL and is interpreted with candidate_history_event_ids, which defines the complete searched universe."),
+            ("candidate_history_event_ids", "Earlier audited election events searched for candidate_previously_stood.", "chronological master event sequence", "derived provenance", "NULL before a complete prior observation window exists. Same-day events are excluded from one another to prevent temporal leakage."),
             ("incumbent_candidate", "Machine-readable person-level incumbency evidence value.", "reviewed official continuity evidence", "derived", "TRUE only when reviewed official evidence gives an eligible term start before the election; otherwise NULL. This evidence value underlies the supervisor-facing tri-state field."),
             ("incumbent_candidate_yes_no", "Supervisor-facing answer to whether this candidate held Surrey County Council office immediately before the election.", "chronological official election-result roster plus reviewed person-level evidence", "derived", "Yes/No follows the complete pre-election roster reconstructed from full principal results and every audited intervening by-election. The 2013 rows remain Unknown because no complete audited 2009 roster is in scope."),
             ("incumbent_candidate_yes_no_status", "Evidence status supporting incumbent_candidate_yes_no.", "pre-election incumbency roster and candidate continuity evidence register", "derived", "Distinguishes roster presence, roster absence, reviewed profile/Council evidence and a genuinely unavailable prior roster; an unsuccessful profile search is never treated as No."),

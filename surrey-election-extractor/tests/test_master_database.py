@@ -820,7 +820,9 @@ def test_identity_incumbency_and_unapproved_vote_change_are_explicitly_unresolve
 
     assert candidate["notes"] == "Recorded missing fields: final_position"
     assert candidate["candidate_previously_stood"] is None
-    assert candidate["candidate_history_status"] == "unresolved_no_explicit_identifier"
+    assert candidate["candidate_history_status"] == (
+        "unknown_no_complete_pre_2013_candidate_history"
+    )
     assert candidate["incumbent_candidate"] is None
     assert candidate["incumbent_candidate_yes_no"] == "Unknown"
     assert candidate["incumbent_party_yes_no"] == "Unknown"
@@ -1001,6 +1003,63 @@ def test_full_official_event_sequence_closes_post_2013_candidate_incumbency() ->
         row["election_year"] == 2013
         for row in payload.candidate_results
         if row["incumbent_candidate_yes_no"] == "Unknown"
+    )
+
+
+def test_full_official_event_sequence_classifies_prior_candidature() -> None:
+    """Complete earlier result tables support Yes/No without fuzzy matching."""
+
+    payload = build_master_database(load_audited_elections())
+    counts = {
+        "Yes": sum(
+            row["candidate_previously_stood"] is True
+            for row in payload.candidate_results
+        ),
+        "No": sum(
+            row["candidate_previously_stood"] is False
+            for row in payload.candidate_results
+        ),
+        "Unknown": sum(
+            row["candidate_previously_stood"] is None
+            for row in payload.candidate_results
+        ),
+    }
+
+    assert counts == {"Yes": 344, "No": 1269, "Unknown": 358}
+    unknown = [
+        row for row in payload.candidate_results
+        if row["candidate_previously_stood"] is None
+    ]
+    assert all(row["election_year"] == 2013 for row in unknown)
+    resolved_collision = next(
+        row for row in payload.candidate_results
+        if row["election_year"] == 2026
+        and row["candidate_name"] == "David John Lewis"
+    )
+    assert resolved_collision["candidate_previously_stood"] is True
+    assert resolved_collision["candidate_history_status"] == (
+        "verified_in_unique_pre_election_official_roster"
+    )
+
+
+def test_candidate_history_no_requires_a_complete_prior_candidate_universe() -> None:
+    """A small fixture cannot turn lack of a prior name into False."""
+
+    payload = build_master_database(
+        (
+            audited_input(2013, (record(2013, "Earlier Candidate", "Labour"),)),
+            audited_input(2017, (record(2017, "New Candidate", "Conservative"),)),
+        )
+    )
+
+    assert all(
+        row["candidate_previously_stood"] is None
+        for row in payload.candidate_results
+    )
+    assert all(
+        row["candidate_history_status"]
+        == "unknown_no_complete_pre_2013_candidate_history"
+        for row in payload.candidate_results
     )
 
 

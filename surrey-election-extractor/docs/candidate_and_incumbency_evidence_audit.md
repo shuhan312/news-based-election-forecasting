@@ -2,15 +2,34 @@
 
 ## Purpose
 
-This audit tests whether the currently empty personal-history fields can be
-filled without name matching. It is separate from division continuity and the
+This audit defines reproducible candidate-history and incumbency fields without
+fuzzy identity matching. It is separate from division continuity and the
 2021-to-2026 geographic permission audit.
 
 ## Evidence rule
 
-A candidate receives `candidate_previously_stood = True` only when one of three
-reviewed official routes is recorded in
-`config/candidate_continuity_evidence.json`:
+`candidate_previously_stood` means that the candidate appeared in an earlier
+audited Surrey County Council election within the project's 2013--2026
+observation window. After the complete 2013 candidate tables establish that
+window, every later row is checked against every earlier official candidate
+table available before its polling date.
+
+The deterministic route normalises only the documented 2013 `Surname, Given`
+presentation and case, accents and punctuation. It requires every complete
+name token to agree. It does not remove initials, accept shortened names,
+calculate similarity, use party membership as identity evidence, or allow a
+same-day result to enter another event's history. Therefore:
+
+- `True` means the same complete published identifier occurs on a separate,
+  earlier official result page;
+- `False` means that identifier is absent from the complete earlier in-scope
+  official candidate universe;
+- `NULL` means no earlier complete observation window exists, or that an exact
+  complete-name collision cannot be resolved by the chronological official
+  officeholder roster.
+
+Three stronger reviewed official routes can override a collision and are
+recorded in `config/candidate_continuity_evidence.json`:
 
 1. **Direct member-profile route.** A public Surrey County Council profile has
    a stable numeric `UID` and directly links the exact target and earlier
@@ -31,9 +50,10 @@ reviewed official routes is recorded in
 official evidence must establish a term start before the target election date,
 and the target row must retain the reviewed published party label.
 
-No missing profile, similar name, party label, division name, winner status or
-vote total is treated as evidence that a candidate previously stood or was not
-an incumbent. Those records remain `NULL`.
+No missing profile, similar or partial name, party label, division name, winner
+status or vote total is treated as identity evidence. Candidate-history `No`
+is supported only by absence from the complete chronological candidate-result
+universe; candidate incumbency uses the separate complete councillor roster.
 
 ## Verified person-level records
 
@@ -57,7 +77,7 @@ replace, the profile-to-result-link evidence.
 | --- | --- | --- |
 | Previous winner's candidate vote share | Already materialised for 184 approved division references. | It comes from a prior official candidate row explicitly marked `Elected`; it is not a party-total share. |
 | Previous party vote share | Remains `NULL`. | No audited division-level party-total series exists; candidate shares are not aggregated. |
-| Candidate previously stood | `True` only for a reviewed direct-profile, multi-source official, or Council-record record; otherwise `NULL`. | The register proves a person-level link without relying on automated name matching. |
+| Candidate previously stood | `True/False` after the 2013 observation boundary; `NULL` for 2013 or an unresolved exact-name collision. | Every earlier audited official candidate table is searched chronologically using complete-name deterministic linkage. A unique pre-election official roster entry or stronger reviewed profile/Council evidence can resolve a collision. |
 | Incumbent candidate, Yes or No | `incumbent_candidate_yes_no = Yes` only where reviewed official evidence establishes a term before the target election; otherwise `Unknown`. | The separate boolean/NULL evidence value is retained for machine use. A repeated name or unsuccessful search cannot prove `No`. |
 | Incumbent party, Yes or No | `incumbent_party_yes_no = Yes/No` when an approved, comparable single-member history identifies the prior official winning party; otherwise `Unknown`. | This is an area/party comparison, not a person-identity claim. It uses exact published labels and does not transfer incumbency across changed or multi-member geography. |
 | Incumbent party name | `incumbent_party_name` retains the exact prior winning-party label whenever the party Yes/No comparison is decidable. | Keeping the name separate prevents a party label from being mistaken for the supervisor's required Yes/No answer. |
@@ -84,13 +104,14 @@ manual guess. Two 2021 official result rows publish `David John Lewis`, but the
 poll. The remaining Cobham officeholder is therefore unique in the official
 pre-election roster.
 
-## Limitation and next extension
+## Candidate-history boundary
 
-The person-level register is necessarily narrower than the party-incumbency
-field. Official profile discovery can add further positive candidate records,
-but the absence of a surviving profile cannot be converted into `No`. Future
-additions must be reviewed one record at a time and retain public official
-source URLs, evidence notes and—where a Council record is used—a dated record
-between the cited prior election and the target election. In contrast, party
-incumbency is deterministically materialised for every candidate in an approved
-comparable single-member historical reference.
+The classification is complete for the declared 2013--2026 project window; it
+is not a claim about candidatures before 2013 or elections outside Surrey County
+Council. The 2013 rows therefore remain first-period `NULL`, rather than being
+mislabelled `False` because 2009 is outside the extracted scope. An unresolved
+exact-name collision also remains `NULL` unless the chronological official
+roster, a stable official profile or a dated Council record identifies the
+person. In the current payload the roster resolves the only post-2013 collision,
+so all 358 remaining `NULL` values are 2013 first-period records. These are
+explicit design boundaries, not unrecorded search failures.
