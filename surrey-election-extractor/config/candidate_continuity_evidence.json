@@ -1,6 +1,56 @@
 {
   "records": [
     {
+      "evidence_id": "surrey-county-council-2021:result:283:andy-macleod:official-multi-source",
+      "election_id": "surrey-county-council-2021",
+      "candidate_name": "Andy MacLeod",
+      "division_name": "Farnham Central",
+      "candidate_source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=283&RPID=453722837&XXR=0",
+      "candidate_election_date": "2021-05-06",
+      "member_profile_url": "https://mycouncil.surreycc.gov.uk/mgUserInfo.aspx?UID=2251",
+      "member_uid": "2251",
+      "term_start": "2017-05-08",
+      "profile_linked_result_urls": [],
+      "prior_official_elections": [
+        {
+          "election_id": "surrey-county-council-2017",
+          "election_date": "2017-05-04",
+          "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=198"
+        }
+      ],
+      "candidate_previously_stood": true,
+      "incumbent_candidate": true,
+      "incumbent_party": "Farnham Residents",
+      "evidence_method": "official_multi_source_match",
+      "supporting_sources": [
+        {
+          "source_type": "official_member_profile",
+          "source_authority": "Surrey County Council",
+          "source_url": "https://mycouncil.surreycc.gov.uk/mgUserInfo.aspx?UID=2251",
+          "published_candidate_name": "Andy MacLeod",
+          "evidence_text": "The public Surrey County Council profile is headed Andy MacLeod, identifies Farnham Central, gives a term of office beginning 08/05/2017, and lists the 2017 and 2021 County Council elections."
+        },
+        {
+          "source_type": "official_result_page",
+          "source_authority": "Surrey County Council",
+          "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=198",
+          "published_candidate_name": "Andy MacLeod",
+          "evidence_text": "The official 2017 Farnham Central result page publishes Andy MacLeod for Farnham Residents as Elected."
+        },
+        {
+          "source_type": "official_result_page",
+          "source_authority": "Surrey County Council",
+          "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=283",
+          "published_candidate_name": "Andy MacLeod",
+          "evidence_text": "The official 2021 Farnham Central result page publishes Andy MacLeod for Farnham Residents as Elected."
+        }
+      ],
+      "evidence_text": "Three public official Surrey County Council sources were manually reviewed together: the stable member profile identifies Andy MacLeod and a term beginning after the 2017 election; the exact 2017 and 2021 Farnham Central result pages both publish Andy MacLeod for Farnham Residents. The profile does not need to directly retain every result hyperlink under the multi-source method because all three URLs are retained here for audit.",
+      "retrieval_date": "2026-07-18",
+      "confidence": "High",
+      "notes": "This is a reviewed multi-source identity decision, not an automatic match of repeated names. It supports prior participation and incumbency only for the published 2021 candidate row."
+    },
+    {
       "evidence_id": "surrey-county-council-2017:result:187:hazel-watson:official-member-profile",
       "election_id": "surrey-county-council-2017",
       "candidate_name": "Hazel Valerie Ann Watson",

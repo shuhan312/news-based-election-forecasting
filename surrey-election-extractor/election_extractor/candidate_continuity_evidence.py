@@ -1,11 +1,18 @@
-"""Load explicit official evidence for candidate history and incumbency.
+"""Load explicit evidence for candidate history and incumbency.
 
 This module deliberately does not try to discover a person from a candidate
-name.  A record is permitted only when a Surrey County Council member profile
-with a stable UID directly links to the exact official result page concerned,
-and its earlier official-election links and term information support the two
-claims.  The small reviewed register is therefore evidence, not a matching
-algorithm.
+name.  The register permits two reviewed methods:
+
+* ``official_member_profile`` is the strongest route: one stable Surrey member
+  profile directly links the target and earlier official result pages.
+* ``official_multi_source_match`` is a high-confidence alternative: a stable
+  official profile, the exact target result page, and at least one earlier
+  official result page are manually reviewed together.  It is useful where a
+  profile names the elections but does not retain direct links to every page.
+
+Both methods require explicit source URLs and exact published names.  They are
+evidence registers, not matching algorithms: repeated names in the database
+never create a history or incumbency claim by themselves.
 """
 
 from __future__ import annotations
@@ -15,9 +22,13 @@ from collections.abc import Iterable, Mapping
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
-from urllib.parse import parse_qs, urlsplit
+from urllib.parse import parse_qs, parse_qsl, urlencode, urlsplit, urlunsplit
 
-from election_extractor.url_utils import SURREY_HOST, normalise_area_result_url
+from election_extractor.url_utils import (
+    SURREY_HOST,
+    TRACKING_PARAMETERS,
+    normalise_area_result_url,
+)
 
 
 DEFAULT_EVIDENCE_PATH = (
@@ -34,6 +45,22 @@ class PriorOfficialElection:
     election_id: str
     election_date: date
     source_url: str
+
+
+@dataclass(frozen=True)
+class OfficialEvidenceSource:
+    """Describe one public official source used in a manual review.
+
+    ``published_candidate_name`` records the exact visible name reviewed on a
+    result page or member profile.  It lets a reviewer check the human
+    identity decision without the code trying to resolve names automatically.
+    """
+
+    source_url: str
+    source_type: str
+    source_authority: str
+    published_candidate_name: str
+    evidence_text: str
 
 
 @dataclass(frozen=True)
@@ -57,12 +84,16 @@ class CandidateContinuityEvidence:
     profile_linked_result_urls: tuple[str, ...]
     prior_official_elections: tuple[PriorOfficialElection, ...]
     candidate_previously_stood: bool
-    incumbent_candidate: bool
+    incumbent_candidate: bool | None
     incumbent_party: str | None
     evidence_text: str
     retrieval_date: str
     confidence: str
     notes: str | None
+    # Existing profile records keep their original compact shape.  New
+    # multi-source records make every reviewed source visible in this field.
+    evidence_method: str = "official_member_profile"
+    supporting_sources: tuple[OfficialEvidenceSource, ...] = ()
 
 
 def result_page_identity(url: str) -> str:
@@ -80,6 +111,36 @@ def result_page_identity(url: str) -> str:
     if len(result_id) != 1:
         raise ValueError("Official area-result URL must contain one ID.")
     return f"{parsed.scheme}://{parsed.netloc}{parsed.path}?ID={result_id[0]}"
+
+
+def official_election_source_identity(url: str) -> str:
+    """Return a stable identity for an audited public election source.
+
+    Surrey result pages keep the published area-result ``ID`` identity. Other
+    manually reviewed public-authority pages or declarations may be PDFs or
+    use another council's URL structure, so they retain their HTTPS path and
+    meaningful query values instead. The evidence register, rather than URL
+    shape alone, records which public authority published the source.
+    """
+
+    try:
+        return result_page_identity(url)
+    except ValueError:
+        pass
+    parsed = urlsplit(url.strip())
+    if parsed.scheme.casefold() != "https" or not parsed.hostname:
+        raise ValueError("Official election evidence must use a public HTTPS URL.")
+    if parsed.username or parsed.password:
+        raise ValueError("Official election evidence URL must not contain credentials.")
+    query = sorted(
+        {
+            (name, value)
+            for name, value in parse_qsl(parsed.query, keep_blank_values=True)
+            if not (name.casefold().startswith("utm_") or name.casefold() in TRACKING_PARAMETERS)
+        },
+        key=lambda item: (item[0].casefold(), item[1]),
+    )
+    return urlunsplit(("https", parsed.hostname.casefold(), parsed.path, urlencode(query), ""))
 
 
 def load_candidate_continuity_evidence(
@@ -143,7 +204,7 @@ def candidate_evidence_key(
 ) -> tuple[str, str, str]:
     """Build a key that cannot match records from a different result page."""
 
-    return (election_id, result_page_identity(candidate_source_url), candidate_name)
+    return (election_id, official_election_source_identity(candidate_source_url), candidate_name)
 
 
 def _record_from_mapping(item: object) -> CandidateContinuityEvidence:
@@ -157,10 +218,6 @@ def _record_from_mapping(item: object) -> CandidateContinuityEvidence:
         "candidate_name",
         "division_name",
         "candidate_source_url",
-        "member_profile_url",
-        "member_uid",
-        "term_start",
-        "profile_linked_result_urls",
         "prior_official_elections",
         "evidence_text",
         "retrieval_date",
@@ -170,28 +227,23 @@ def _record_from_mapping(item: object) -> CandidateContinuityEvidence:
         if field_name not in item:
             raise ValueError(f"Candidate continuity evidence is missing {field_name}.")
 
+    evidence_method = str(item.get("evidence_method", "official_member_profile"))
+    if evidence_method not in {
+        "official_member_profile",
+        "official_multi_source_match",
+    }:
+        raise ValueError("Candidate continuity evidence has an unsupported evidence_method.")
+
     candidate_previously_stood = item.get("candidate_previously_stood")
     incumbent_candidate = item.get("incumbent_candidate")
     # This register makes only positive, directly evidenced claims. Omission
     # means unknown, rather than an unsupported assertion that the answer is No.
-    if candidate_previously_stood is not True or incumbent_candidate is not True:
+    if candidate_previously_stood is not True or incumbent_candidate not in {True, None}:
         raise ValueError(
-            "Candidate continuity evidence may record only directly verified True values."
+            "Candidate continuity evidence may record only directly verified True values or unknown incumbency."
         )
     candidate_source_url = str(item["candidate_source_url"])
-    source_identity = result_page_identity(candidate_source_url)
-    profile_url = _validate_profile_url(str(item["member_profile_url"]), str(item["member_uid"]))
-    linked_urls = tuple(
-        result_page_identity(str(url))
-        for url in _required_list(item["profile_linked_result_urls"], "profile_linked_result_urls")
-    )
-    if source_identity not in linked_urls:
-        raise ValueError(
-            "Candidate source URL must be directly listed by the official member profile."
-        )
-    if len(set(linked_urls)) != len(linked_urls):
-        raise ValueError("Profile-linked official result URLs must be unique.")
-
+    source_identity = official_election_source_identity(candidate_source_url)
     prior_elections = tuple(
         _prior_election_from_mapping(value) for value in _required_list(
             item["prior_official_elections"], "prior_official_elections"
@@ -200,17 +252,54 @@ def _record_from_mapping(item: object) -> CandidateContinuityEvidence:
     target_date = _iso_date(item.get("candidate_election_date"), "candidate_election_date")
     if not prior_elections:
         raise ValueError("Candidate continuity evidence requires an earlier official election.")
-    if any(prior.source_url not in linked_urls for prior in prior_elections):
-        raise ValueError("Each prior result page must be directly listed by the member profile.")
     if any(prior.election_date >= target_date for prior in prior_elections):
         raise ValueError("Prior official election dates must predate the candidate election.")
-    term_start = _iso_date(item["term_start"], "term_start")
-    if term_start >= target_date:
-        raise ValueError("An incumbent term must start before the candidate election.")
+
+    profile_url = _validate_profile_url(
+        str(item.get("member_profile_url", "")), str(item.get("member_uid", ""))
+    )
+    member_uid = str(item["member_uid"])
+    term_start = _iso_date(item.get("term_start"), "term_start")
+    linked_urls = tuple(
+        result_page_identity(str(url))
+        for url in item.get("profile_linked_result_urls", [])
+    )
+    if len(set(linked_urls)) != len(linked_urls):
+        raise ValueError("Profile-linked official result URLs must be unique.")
+
+    supporting_sources = tuple(
+        _official_source_from_mapping(
+            value,
+            candidate_name=str(item["candidate_name"]),
+            member_uid=member_uid,
+        )
+        for value in item.get("supporting_sources", [])
+    )
+    if evidence_method == "official_member_profile":
+        if not linked_urls:
+            raise ValueError("Official member-profile evidence requires profile_linked_result_urls.")
+        if source_identity not in linked_urls:
+            raise ValueError(
+                "Candidate source URL must be directly listed by the official member profile."
+            )
+        if any(prior.source_url not in linked_urls for prior in prior_elections):
+            raise ValueError("Each prior result page must be directly listed by the member profile.")
+    else:
+        _validate_multi_source_match(
+            supporting_sources=supporting_sources,
+            profile_url=profile_url,
+            candidate_source_url=source_identity,
+            prior_elections=prior_elections,
+        )
 
     incumbent_party = _optional_text(item.get("incumbent_party"))
-    if incumbent_party is None:
-        raise ValueError("Verified incumbent evidence requires the published incumbent party.")
+    if incumbent_candidate is True:
+        if term_start >= target_date:
+            raise ValueError("An incumbent term must start before the candidate election.")
+        if incumbent_party is None:
+            raise ValueError("Verified incumbent evidence requires the published incumbent party.")
+    elif incumbent_party is not None:
+        raise ValueError("incumbent_party must remain missing when incumbency is unknown.")
     return CandidateContinuityEvidence(
         evidence_id=str(item["evidence_id"]),
         election_id=str(item["election_id"]),
@@ -218,18 +307,103 @@ def _record_from_mapping(item: object) -> CandidateContinuityEvidence:
         division_name=str(item["division_name"]),
         candidate_source_url=source_identity,
         member_profile_url=profile_url,
-        member_uid=str(item["member_uid"]),
+        member_uid=member_uid,
         term_start=term_start,
         profile_linked_result_urls=linked_urls,
         prior_official_elections=prior_elections,
         candidate_previously_stood=True,
-        incumbent_candidate=True,
+        incumbent_candidate=incumbent_candidate,
         incumbent_party=incumbent_party,
         evidence_text=str(item["evidence_text"]),
         retrieval_date=str(item["retrieval_date"]),
         confidence=str(item["confidence"]),
         notes=_optional_text(item.get("notes")),
+        evidence_method=evidence_method,
+        supporting_sources=supporting_sources,
     )
+
+
+def _official_source_from_mapping(
+    item: object, *, candidate_name: str, member_uid: str
+) -> OfficialEvidenceSource:
+    """Validate one explicitly reviewed official source in a multi-source claim."""
+
+    if not isinstance(item, Mapping):
+        raise ValueError("Each supporting official source must be an object.")
+    try:
+        source_type = str(item["source_type"])
+        source_url = str(item["source_url"])
+        source_authority = str(item["source_authority"])
+        published_name = str(item["published_candidate_name"])
+        evidence_text = str(item["evidence_text"])
+    except KeyError as exc:
+        raise ValueError(f"Supporting official source is missing {exc.args[0]}.") from exc
+    if source_type not in {
+        "official_member_profile",
+        "official_result_page",
+        "official_declaration",
+        "official_nomination",
+        "official_council_record",
+    }:
+        raise ValueError("Supporting source must be an approved public official source type.")
+    if not source_authority.strip():
+        raise ValueError("Supporting source must identify its public authority.")
+    if published_name != candidate_name:
+        raise ValueError("Supporting source must retain the exact published candidate name.")
+    if not evidence_text.strip():
+        raise ValueError("Supporting source must contain a manual evidence note.")
+    if source_type == "official_member_profile":
+        # The caller compares this canonical URL with the declared stable UID.
+        source_url = _validate_profile_url(source_url, member_uid)
+    else:
+        source_url = official_election_source_identity(source_url)
+    return OfficialEvidenceSource(
+        source_url=source_url,
+        source_type=source_type,
+        source_authority=source_authority,
+        published_candidate_name=published_name,
+        evidence_text=evidence_text,
+    )
+
+
+def _validate_multi_source_match(
+    *,
+    supporting_sources: tuple[OfficialEvidenceSource, ...],
+    profile_url: str,
+    candidate_source_url: str,
+    prior_elections: tuple[PriorOfficialElection, ...],
+) -> None:
+    """Require three explicit official sources before relaxing direct-link evidence.
+
+    The target and previous official result pages establish published-name
+    continuity.  The stable profile independently establishes the public
+    councillor identity and term.  This is deliberately stricter than a
+    repeated-name heuristic, while avoiding a false requirement that old
+    member profiles must retain every historical hyperlink.
+    """
+
+    if len(supporting_sources) < 3:
+        raise ValueError("Multi-source evidence requires at least three official sources.")
+    profile_sources = {
+        source.source_url for source in supporting_sources if source.source_type == "official_member_profile"
+    }
+    result_sources = {
+        source.source_url
+        for source in supporting_sources
+        if source.source_type
+        in {"official_result_page", "official_declaration", "official_nomination", "official_council_record"}
+    }
+    if profile_sources != {profile_url}:
+        raise ValueError("Multi-source evidence must include its declared official member profile.")
+    required_results = {candidate_source_url, *(prior.source_url for prior in prior_elections)}
+    if not required_results.issubset(result_sources):
+        raise ValueError(
+            "Multi-source evidence must include the exact target and prior official result pages."
+        )
+    if len({(source.source_type, source.source_url) for source in supporting_sources}) != len(
+        supporting_sources
+    ):
+        raise ValueError("Supporting official sources must be unique.")
 
 
 def _prior_election_from_mapping(item: object) -> PriorOfficialElection:
@@ -241,7 +415,7 @@ def _prior_election_from_mapping(item: object) -> PriorOfficialElection:
         return PriorOfficialElection(
             election_id=str(item["election_id"]),
             election_date=_iso_date(item["election_date"], "prior election_date"),
-            source_url=result_page_identity(str(item["source_url"])),
+            source_url=official_election_source_identity(str(item["source_url"])),
         )
     except KeyError as exc:
         raise ValueError(f"Prior official election is missing {exc.args[0]}.") from exc

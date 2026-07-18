@@ -44,10 +44,12 @@ source both support the relation.
   the source tables publish candidate shares, not a verified party-total
   series.  Reconstructing a party total would be an unrecorded calculation.
 - `candidate_previously_stood`, `incumbent_candidate` and `incumbent_party`
-  are positive-only fields.  They are populated only where a stable official
-  Surrey member profile directly links both the exact target result page and
-  an earlier official election page, and where the term start supports
-  incumbency.  The reviewed register currently contains two verified rows.
+  are positive-only fields. They use either the direct profile route, or a
+  reviewed multi-source official route that retains a stable profile, the exact
+  target result page and an earlier exact result page. Incumbency additionally
+  requires a published term start before the election. The reviewed register
+  currently contains three verified rows; none was created by automated name
+  matching.
 
 This method deliberately does not join candidates by name, party or area.  A
 missing entry means **not yet verified**, not `No`.

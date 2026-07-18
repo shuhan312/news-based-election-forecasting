@@ -113,3 +113,113 @@ def test_profile_uid_must_match_its_public_url(tmp_path) -> None:
 
     with pytest.raises(ValueError, match="matching numeric UID"):
         load_one(tmp_path, payload)
+
+
+def test_multi_source_review_accepts_profile_and_two_exact_result_pages(tmp_path) -> None:
+    """A reviewed profile plus target and prior results may evidence continuity.
+
+    The profile does not need to retain direct historical hyperlinks under this
+    method, but the register must retain all three public official sources.
+    """
+
+    payload = valid_record()
+    payload["evidence_method"] = "official_multi_source_match"
+    payload["profile_linked_result_urls"] = []
+    payload["supporting_sources"] = [
+        {
+            "source_type": "official_member_profile",
+            "source_authority": "Surrey County Council",
+            "source_url": payload["member_profile_url"],
+            "published_candidate_name": "Example Candidate",
+            "evidence_text": "The official profile uses the same published name and term.",
+        },
+        {
+            "source_type": "official_result_page",
+            "source_authority": "Surrey County Council",
+            "source_url": payload["candidate_source_url"],
+            "published_candidate_name": "Example Candidate",
+            "evidence_text": "The official target result page publishes the candidate name.",
+        },
+        {
+            "source_type": "official_result_page",
+            "source_authority": "Surrey County Council",
+            "source_url": payload["prior_official_elections"][0]["source_url"],
+            "published_candidate_name": "Example Candidate",
+            "evidence_text": "The earlier official result page publishes the same name.",
+        },
+    ]
+
+    evidence = load_one(tmp_path, payload)[0]
+
+    assert evidence.evidence_method == "official_multi_source_match"
+    assert len(evidence.supporting_sources) == 3
+
+
+def test_multi_source_review_rejects_two_sources_only(tmp_path) -> None:
+    """Two URLs are not enough to turn a repeated name into a personal claim."""
+
+    payload = valid_record()
+    payload["evidence_method"] = "official_multi_source_match"
+    payload["profile_linked_result_urls"] = []
+    payload["supporting_sources"] = [
+        {
+            "source_type": "official_member_profile",
+            "source_authority": "Surrey County Council",
+            "source_url": payload["member_profile_url"],
+            "published_candidate_name": "Example Candidate",
+            "evidence_text": "The official profile uses the same published name.",
+        },
+        {
+            "source_type": "official_result_page",
+            "source_authority": "Surrey County Council",
+            "source_url": payload["candidate_source_url"],
+            "published_candidate_name": "Example Candidate",
+            "evidence_text": "The official target result publishes the candidate name.",
+        },
+    ]
+
+    with pytest.raises(ValueError, match="at least three"):
+        load_one(tmp_path, payload)
+
+
+def test_multi_source_review_can_retain_another_authoritys_official_declaration(tmp_path) -> None:
+    """A reviewed council declaration may corroborate a Surrey profile record.
+
+    The register accepts an explicitly named public authority, but it still
+    requires the target result page, stable profile and earlier dated source.
+    """
+
+    payload = valid_record()
+    payload["evidence_method"] = "official_multi_source_match"
+    payload["profile_linked_result_urls"] = []
+    declaration_url = "https://elections.example.gov.uk/declarations/2017.pdf?utm_source=a"
+    payload["prior_official_elections"][0]["source_url"] = declaration_url
+    payload["supporting_sources"] = [
+        {
+            "source_type": "official_member_profile",
+            "source_authority": "Surrey County Council",
+            "source_url": payload["member_profile_url"],
+            "published_candidate_name": "Example Candidate",
+            "evidence_text": "The official profile uses the candidate name and term.",
+        },
+        {
+            "source_type": "official_result_page",
+            "source_authority": "Surrey County Council",
+            "source_url": payload["candidate_source_url"],
+            "published_candidate_name": "Example Candidate",
+            "evidence_text": "The official target result publishes the candidate name.",
+        },
+        {
+            "source_type": "official_declaration",
+            "source_authority": "Example Borough Council",
+            "source_url": declaration_url,
+            "published_candidate_name": "Example Candidate",
+            "evidence_text": "The official declaration publishes the same candidate name.",
+        },
+    ]
+
+    evidence = load_one(tmp_path, payload)[0]
+
+    assert evidence.prior_official_elections[0].source_url == (
+        "https://elections.example.gov.uk/declarations/2017.pdf"
+    )

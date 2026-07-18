@@ -15,6 +15,7 @@ from election_extractor.master_database import (
 )
 from election_extractor.candidate_continuity_evidence import (
     CandidateContinuityEvidence,
+    OfficialEvidenceSource,
     PriorOfficialElection,
     candidate_evidence_key,
 )
@@ -877,6 +878,85 @@ def test_verified_member_profile_can_add_positive_person_level_fields() -> None:
     assert candidate["incumbent_party"] == "Conservative"
     assert candidate["candidate_history_status"] == "verified_official_member_profile"
     assert candidate["candidate_continuity_evidence_id"] == "example:verified-profile"
+
+
+def test_verified_multi_source_evidence_adds_history_without_name_matching() -> None:
+    """A manual three-source review may be used when profile links are absent."""
+
+    source = (
+        "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=2017&RPID=1"
+    )
+    profile_url = "https://mycouncil.surreycc.gov.uk/mgUserInfo.aspx?UID=192"
+    evidence = CandidateContinuityEvidence(
+        evidence_id="example:verified-multi-source",
+        election_id="surrey-county-council-2017",
+        candidate_name="Candidate One",
+        division_name="Example Division",
+        candidate_source_url=(
+            "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=2017"
+        ),
+        member_profile_url=profile_url,
+        member_uid="192",
+        term_start=date(2013, 5, 3),
+        profile_linked_result_urls=(),
+        prior_official_elections=(
+            PriorOfficialElection(
+                election_id="surrey-county-council-2013",
+                election_date=date(2013, 5, 2),
+                source_url=(
+                    "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=2013"
+                ),
+            ),
+        ),
+        candidate_previously_stood=True,
+        incumbent_candidate=True,
+        incumbent_party="Conservative",
+        evidence_text="Three public official sources were manually reviewed.",
+        retrieval_date="2026-07-18",
+        confidence="High",
+        notes=None,
+        evidence_method="official_multi_source_match",
+        supporting_sources=(
+            OfficialEvidenceSource(
+                source_url=profile_url,
+                source_type="official_member_profile",
+                source_authority="Surrey County Council",
+                published_candidate_name="Candidate One",
+                evidence_text="Official profile uses the candidate name and term.",
+            ),
+            OfficialEvidenceSource(
+                source_url=(
+                    "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=2017"
+                ),
+                source_type="official_result_page",
+                source_authority="Surrey County Council",
+                published_candidate_name="Candidate One",
+                evidence_text="Official target result uses the candidate name.",
+            ),
+            OfficialEvidenceSource(
+                source_url=(
+                    "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=2013"
+                ),
+                source_type="official_result_page",
+                source_authority="Surrey County Council",
+                published_candidate_name="Candidate One",
+                evidence_text="Official earlier result uses the candidate name.",
+            ),
+        ),
+    )
+    payload = build_master_database(
+        (audited_input(2017, (record(2017, "Candidate One", "Conservative"),)),),
+        candidate_continuity_evidence={
+            candidate_evidence_key("surrey-county-council-2017", source, "Candidate One"): evidence
+        },
+    )
+    candidate = payload.candidate_results[0]
+
+    assert candidate["candidate_previously_stood"] is True
+    assert candidate["incumbent_candidate"] is True
+    assert candidate["candidate_history_status"] == "verified_multi_source_official_evidence"
+    assert candidate["candidate_continuity_evidence_method"] == "official_multi_source_match"
+    assert "ID=2013" in candidate["candidate_continuity_source_urls"]
 
 
 def test_unmatched_profile_evidence_is_rejected_not_name_matched() -> None:
