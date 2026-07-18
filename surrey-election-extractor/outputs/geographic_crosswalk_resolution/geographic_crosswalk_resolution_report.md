@@ -3,10 +3,10 @@
 ## Resolution outcome
 
 - Relationships reviewed: 167
-- Accepted direct mappings: 22
+- Accepted direct mappings: 24
 - Partial crosswalk relationships: 75
 - Not comparable relationships: 43
-- Requires-review relationships: 27
+- Requires-review relationships: 25
 - Crosswalk topology components: 10
 - Historical features generated: False
 
@@ -25,7 +25,7 @@ A partial crosswalk preserves split, merged and many-to-many GIS topology. It ne
 ## Structured unresolved reasons
 
 - non_structural_insufficient_overlap: 43
-- one_to_one_direct_criteria_unmet: 27
+- one_to_one_direct_criteria_unmet: 25
 - structural_partial_crosswalk: 75
 
 ## Weighting position

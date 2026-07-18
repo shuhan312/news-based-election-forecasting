@@ -37,18 +37,18 @@ def _configuration_payload() -> dict[str, object]:
     return json.loads(CONFIGURATION_PATH.read_text(encoding="utf-8"))
 
 
-def test_all_22_configured_direct_mappings_have_official_boundary_permission() -> None:
+def test_all_24_configured_direct_mappings_have_official_boundary_permission() -> None:
     """Every configured approval must be exact, sourced and limited in scope."""
 
     audit = build_historical_reference_permission_audit(_crosswalk_rows())
     records = audit["permission_records"]
     assert audit["summary"] == {
-        "accepted_direct_relationships_reviewed": 22,
-        "approved_for_historical_reference": 22,
+        "accepted_direct_relationships_reviewed": 24,
+        "approved_for_historical_reference": 24,
         "insufficient_official_evidence": 0,
-        "other_crosswalk_relationships_retained_without_reclassification": 145,
+        "other_crosswalk_relationships_retained_without_reclassification": 143,
     }
-    assert len(records) == 22
+    assert len(records) == 24
     assert all(record["historical_reference_status"] == APPROVED_STATUS for record in records)
     assert all(record["previous_winner_allowed"] is True for record in records)
     assert all(len(record["source_urls"]) == 5 for record in records)

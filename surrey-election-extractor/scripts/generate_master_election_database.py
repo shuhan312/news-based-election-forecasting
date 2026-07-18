@@ -53,7 +53,7 @@ def reviewed_geographic_mapping_rows() -> tuple[dict[str, object], ...]:
     """Return only audited direct historical-reference decisions for the workbook.
 
     The detailed crosswalk remains in its own GIS audit output.  This workbook
-    receives the 22 relationships with explicit official-boundary permission,
+    receives the 24 relationships with explicit official-boundary permission,
     together with the original GIS evidence fields and explicit prohibitions.
     No partial relationship is upgraded and no candidate or vote value changes.
     """
@@ -140,7 +140,7 @@ def reviewed_historical_reference_inputs() -> tuple[
 ]:
     """Return only permission-approved historical values for the master tables.
 
-    The historical baseline layer supplies the 22 separately reviewed
+    The historical baseline layer supplies the 24 separately reviewed
     2021-to-2026 relationships.  The legal-continuity audit supplies the
     explicit 2013-to-2017 and 2017-to-2021 relationships.  Both inputs remain
     evidence-gated, are keyed by exact published area names and deliberately
@@ -182,7 +182,6 @@ def reviewed_historical_reference_inputs() -> tuple[
         if key in party_references:
             raise ValueError(f"Duplicate approved party-history reference for {key}.")
         party_references[key] = dict(row)
-
     # Pre-2024 principal elections are not a GIS shortcut for the 2026
     # crosswalk.  Their own statutory continuity audit proves only the two
     # adjacent transitions whose exact published division names are verified.
@@ -217,6 +216,7 @@ def reviewed_historical_reference_inputs() -> tuple[
         if key in party_references:
             raise ValueError(f"Duplicate approved party-history reference for {key}.")
         party_references[key] = dict(row)
+
     # Every by-election receives a recorded eligibility decision. Only the
     # evidence-validated same-statutory-division cases are added here;
     # excluded cases stay visibly unavailable in the master database. A case

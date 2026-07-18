@@ -206,6 +206,10 @@ def _direct_failures(
     """List the precise failed direct criteria for an auditable unresolved decision."""
 
     failures = []
+    # This tolerance is an evidence-policy boundary, not a rounding shortcut.
+    # The configured value is calibrated to LGBCE's published count of 24
+    # unchanged Surrey divisions; the competitor gates still prevent split or
+    # merged geographies from passing only because their largest overlap is high.
     if row.mapping_type not in {"exact", "near_exact"}:
         failures.append(f"relationship type is {row.mapping_type}, not a one-to-one candidate")
     if _overlap_percentage(row) < policy.minimum_mutual_overlap_percentage:

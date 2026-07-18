@@ -103,7 +103,9 @@ def test_officially_permitted_direct_mappings_enable_limited_history_only() -> N
     direct_rows = [row for row in rows if row["geographic_status"] == "accepted_direct"]
     blocked_rows = [row for row in rows if row["geographic_status"] != "accepted_direct"]
 
-    assert len(direct_rows) == 22
+    # The calibrated GIS tolerance recovers the 24 unchanged divisions
+    # reported by LGBCE while retaining the competing-overlap safeguard.
+    assert len(direct_rows) == 24
     assert all(row["historical_baseline_available"] is True for row in direct_rows)
     assert all(row["historical_baseline_available"] is False for row in blocked_rows)
     assert all(
