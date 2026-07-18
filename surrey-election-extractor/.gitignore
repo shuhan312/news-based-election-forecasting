@@ -36,6 +36,9 @@ outputs/historical_reference_permissions/*.json
 outputs/by_election_integration/*.json
 outputs/by_election_source_recovery/*.json
 outputs/final_election_data_release_audit/
+# The repeated-name review queue can contain hundreds of candidate appearances.
+# Keep this generated audit local or in OneDrive; the script reproduces it.
+outputs/candidate_continuity_review/
 
 # Local secrets and API-key files
 .env
