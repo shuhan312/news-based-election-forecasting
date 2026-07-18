@@ -39,7 +39,10 @@ from election_extractor.derived_winning_margin import (
     derive_single_member_winning_margins,
     records_as_rows as derived_winning_margin_rows,
 )
-from election_extractor.derived_final_position import derive_final_positions
+from election_extractor.derived_final_position import (
+    derive_final_positions,
+    validate_final_positions_against_official_outcomes,
+)
 from election_extractor.election_config import ElectionConfiguration, load_election_config
 from election_extractor.election_structure_metadata import load_secondary_seats_audit
 from election_extractor.extraction import CandidateResultRecord, ExtractionStatus
@@ -902,6 +905,14 @@ def build_master_database(
         # Layered completeness is read-only: it selects metadata sources for
         # assessment but never writes configuration or supplementary values
         # back into official candidate records.
+        # This is an independent consistency check, not a ranking input.  It
+        # fails the build if published Elected/Not elected outcomes contradict
+        # the vote ordering, so a source-row mismatch cannot silently enter the
+        # analytical database as a plausible-looking rank.
+        validate_final_positions_against_official_outcomes(
+            records=election.records,
+            positions=derived_positions,
+        )
         layered = assess_layered_completeness(
             configuration,
             election.records,

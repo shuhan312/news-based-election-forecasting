@@ -1,11 +1,23 @@
 """Tests for the separate, tie-preserving candidate vote-rank layer."""
 
-from election_extractor.derived_final_position import derive_final_positions
+import pytest
+
+from election_extractor.derived_final_position import (
+    derive_final_positions,
+    validate_final_positions_against_official_outcomes,
+)
 from election_extractor.extraction import CandidateResultRecord, ExtractionStatus
 from election_extractor.master_database import build_master_database, load_audited_elections
 
 
-def _record(name: str, votes: int | None, *, final_position: int | None = None):
+def _record(
+    name: str,
+    votes: int | None,
+    *,
+    outcome: str = "Not elected",
+    seats: int | None = 2,
+    final_position: int | None = None,
+):
     """Create one official candidate row without relying on network access."""
 
     return CandidateResultRecord(
@@ -13,12 +25,12 @@ def _record(name: str, votes: int | None, *, final_position: int | None = None):
         election_date="1 May 2026",
         authority="Surrey County Council",
         division_ward_name="Example Division",
-        number_of_seats=2,
+        number_of_seats=seats,
         candidate_name=name,
         original_party_name="Example Party",
         votes_received=votes,
         vote_share=None,
-        outcome="Not elected",
+        outcome=outcome,
         electorate=None,
         ballot_papers_issued=None,
         ballot_papers_rejected=None,
@@ -58,6 +70,34 @@ def test_incomplete_or_officially_ranked_pages_are_not_rederived() -> None:
         election_id="example-election",
         records=(_record("A", 100), _record("B", None)),
     ) == ()
+
+
+def test_outcome_validation_accepts_a_tied_cutoff_but_rejects_a_contradiction() -> None:
+    """Outcome checks validate ranks without using outcome to calculate them."""
+
+    tied_records = (
+        _record("Winner", 100, outcome="Elected", seats=1),
+        _record("Tied challenger", 100, seats=1),
+        _record("Third", 50, seats=1),
+    )
+    validate_final_positions_against_official_outcomes(
+        records=tied_records,
+        positions=derive_final_positions(
+            election_id="example-election", records=tied_records
+        ),
+    )
+
+    contradictory_records = (
+        _record("Published winner", 90, outcome="Elected", seats=1),
+        _record("Higher non-winner", 95, seats=1),
+    )
+    with pytest.raises(ValueError, match="contradicts the derived candidate vote order"):
+        validate_final_positions_against_official_outcomes(
+            records=contradictory_records,
+            positions=derive_final_positions(
+                election_id="example-election", records=contradictory_records
+            ),
+        )
     assert derive_final_positions(
         election_id="example-election",
         records=(_record("A", 100, final_position=1), _record("B", 80)),

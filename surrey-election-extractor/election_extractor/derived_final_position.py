@@ -62,6 +62,83 @@ def derive_final_positions(
     return tuple(derived)
 
 
+def validate_final_positions_against_official_outcomes(
+    *,
+    records: Iterable[CandidateResultRecord],
+    positions: Iterable[DerivedFinalPosition],
+) -> None:
+    """Fail closed when a derived vote order contradicts official outcomes.
+
+    ``Outcome`` is not used to create a rank: ranks always come only from
+    published votes.  It is a valuable independent check, however, because a
+    row-level extraction error could otherwise attach a correct vote to the
+    wrong candidate.  A tie at the final seat is allowed: the lowest elected
+    vote may equal the highest non-elected vote, because the official process
+    can resolve a tie without changing the published totals.
+
+    Pages with incomplete or non-standard Outcome values are not rejected here.
+    They may still have a valid descriptive vote rank, but cannot support this
+    additional outcome-consistency check.
+    """
+
+    records_by_url: defaultdict[str, list[CandidateResultRecord]] = defaultdict(list)
+    for record in records:
+        records_by_url[record.source_url].append(record)
+    positions_by_key = {
+        (position.source_url, position.candidate_name): position
+        for position in positions
+    }
+
+    for source_url, contest_records in records_by_url.items():
+        contest_positions = [
+            positions_by_key.get((source_url, record.candidate_name))
+            for record in contest_records
+        ]
+        # A missing position means this page was deliberately ineligible for
+        # derivation (for example an absent vote or published official rank).
+        if not any(contest_positions):
+            continue
+        if any(position is None for position in contest_positions):
+            raise ValueError("Final-position derivation is incomplete for one official page.")
+        if any(record.outcome not in {"Elected", "Not elected"} for record in contest_records):
+            continue
+
+        elected = [record for record in contest_records if record.outcome == "Elected"]
+        not_elected = [record for record in contest_records if record.outcome == "Not elected"]
+        if not elected or not not_elected:
+            continue
+        # derive_final_positions already guarantees these are non-null integers.
+        lowest_elected_votes = min(record.votes_received for record in elected)
+        highest_not_elected_votes = max(record.votes_received for record in not_elected)
+        if lowest_elected_votes < highest_not_elected_votes:
+            raise ValueError(
+                "Official outcome contradicts the derived candidate vote order: "
+                f"{source_url}."
+            )
+
+        # When a page explicitly publishes Seats, every elected candidate must
+        # lie at or above that vote-rank cutoff. Equal vote totals can share the
+        # cutoff rank, so equality is intentionally permitted.
+        seat_values = {record.number_of_seats for record in contest_records}
+        if len(seat_values) != 1 or next(iter(seat_values)) is None:
+            continue
+        seats = next(iter(seat_values))
+        assert isinstance(seats, int)
+        if len(elected) > seats:
+            # A Seats/outcome disagreement is a separate election-structure
+            # issue already retained by the completeness layer.  Do not turn
+            # it into a false final-position failure; the outcome-vote check
+            # above remains valid, while this optional cutoff check is skipped.
+            continue
+        for record in elected:
+            position = positions_by_key[(source_url, record.candidate_name)]
+            if position.value > seats:
+                raise ValueError(
+                    "Official elected candidate falls below the published seat cutoff: "
+                    f"{source_url}."
+                )
+
+
 def _positions_from_complete_official_contest(
     *,
     election_id: str,
