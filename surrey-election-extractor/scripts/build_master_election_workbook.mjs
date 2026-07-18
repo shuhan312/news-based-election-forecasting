@@ -118,7 +118,14 @@ const wholeNumberColumns = new Set([
 // counts and percentages. Preserve its stored precision instead of forcing
 // every value to display as a whole number.
 const flexibleNumberColumns = new Set(["value"]);
-const percentageColumns = new Set(["vote_share", "analysis_vote_share", "turnout"]);
+const percentageColumns = new Set([
+  "vote_share",
+  "analysis_vote_share",
+  "previous_party_vote_share",
+  "previous_winning_candidate_vote_share",
+  "change_in_vote_share",
+  "turnout",
+]);
 const identifierColumns = new Set(["metadata_id", "division_id", "candidate_id"]);
 
 function widthFor(fieldName) {
@@ -292,6 +299,24 @@ const analysisCheck = await workbook.inspect({
 });
 console.log(analysisCheck.ndjson);
 
+const candidateRows = payload["Candidate Results"];
+const firstChangeIndex = candidateRows.findIndex(
+  (row) => row.change_in_vote_share !== null && row.change_in_vote_share !== undefined,
+);
+if (firstChangeIndex < 0) {
+  throw new Error("Candidate Results has no governed change_in_vote_share value.");
+}
+const firstChangeExcelRow = firstChangeIndex + 2;
+const changeRange = `AI${firstChangeExcelRow}:AP${Math.min(firstChangeExcelRow + 5, candidateRows.length + 1)}`;
+const changeCheck = await workbook.inspect({
+  kind: "table",
+  range: `Candidate Results!${changeRange}`,
+  tableMaxRows: 6,
+  tableMaxCols: 8,
+  maxChars: 7000,
+});
+console.log(changeCheck.ndjson);
+
 // The master database is value-based, but scan for standard Excel formula
 // errors before export so a future calculated column cannot silently ship a
 // broken reference in an otherwise valid workbook.
@@ -318,3 +343,16 @@ for (const { sheetName, range } of previewRanges) {
     new Uint8Array(await preview.arrayBuffer()),
   );
 }
+
+// Render the outcome-diagnostic columns separately because they sit beyond
+// the first eight columns used by the general Candidate Results preview.
+const changePreview = await workbook.render({
+  sheetName: "Candidate Results",
+  range: changeRange,
+  scale: 1,
+  format: "png",
+});
+await fs.writeFile(
+  path.join(path.dirname(outputPath), "preview_Candidate_Results_change_in_vote_share.png"),
+  new Uint8Array(await changePreview.arrayBuffer()),
+);

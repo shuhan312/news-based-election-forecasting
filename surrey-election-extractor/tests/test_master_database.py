@@ -807,7 +807,7 @@ def test_pre_2024_legal_continuity_is_an_explicit_second_approval_path() -> None
     assert division["previous_party_vote_share"] is None
 
 
-def test_identity_incumbency_and_vote_change_are_explicitly_unresolved() -> None:
+def test_identity_incumbency_and_unapproved_vote_change_are_explicitly_unresolved() -> None:
     """The materialised schema must not convert missing personal evidence into a claim."""
 
     incomplete = replace(
@@ -824,7 +824,13 @@ def test_identity_incumbency_and_vote_change_are_explicitly_unresolved() -> None
     assert candidate["incumbent_party"] is None
     assert candidate["incumbency_status"] == "unresolved_no_authoritative_linkage"
     assert candidate["change_in_vote_share"] is None
-    assert candidate["change_in_vote_share_status"] == "blocked_by_design"
+    assert candidate["change_in_vote_share_status"] == (
+        "not_calculated_no_approved_exact_label_previous_share"
+    )
+    assert candidate["change_in_vote_share_provenance"] == "unavailable"
+    assert candidate["change_in_vote_share_model_role"] == (
+        "post_election_outcome_diagnostic_not_baseline_predictor"
+    )
 
 
 def test_verified_member_profile_can_add_positive_person_level_fields() -> None:

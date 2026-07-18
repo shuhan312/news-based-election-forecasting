@@ -40,9 +40,11 @@ source both support the relation.
 - `previous_winning_party` and the previous winning candidate's published
   share are available for 184 permitted relations: 81 from 2013 to 2017, 81
   from 2017 to 2021, and 22 from 2021 to 2026.
-- `previous_party_vote_share` and `change_in_vote_share` remain `NULL` because
-  the source tables publish candidate shares, not a verified party-total
-  series.  Reconstructing a party total would be an unrecorded calculation.
+- `previous_party_vote_share` is materialised only for approved exact-label
+  references. `change_in_vote_share` is then available as a post-election
+  percentage-point diagnostic for comparable single-member contests. It is
+  never a no-news predictor, and multi-member or altered-boundary party swing
+  remains prohibited.
 - `candidate_previously_stood`, `incumbent_candidate` and `incumbent_party`
   are positive-only fields. They use either the direct profile route, or a
   reviewed multi-source official route that retains a stable profile, the exact

@@ -74,6 +74,7 @@ def test_final_audit_checks_materialised_fields_and_event_samples() -> None:
     assert materialised["single_official_winners"] == 258
     assert materialised["multi_member_elected_name_lists"] == 81
     assert materialised["separate_derived_winning_margins"] == 230
+    assert materialised["candidate_change_in_vote_share_diagnostics"] == 775
     assert reconciliation["event_samples"] == 20
     assert reconciliation["candidate_field_checks_passed"] == 20
     assert reconciliation["source_url_checks_passed"] == 20
@@ -88,4 +89,5 @@ def test_final_audit_markdown_includes_rendered_scope_counts() -> None:
 
     markdown = final_data_release_audit_markdown(report)
     assert "- Election events: 20" in markdown
+    assert "Post-election change-in-vote-share diagnostics: 775" in markdown
     assert "{election_events}" not in markdown

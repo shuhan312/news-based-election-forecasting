@@ -23,6 +23,23 @@ _APPROVED_REFERENCE_STATUSES = frozenset(
     }
 )
 
+# These fields are observed only after the target election. Keeping the deny
+# list beside baseline construction makes target leakage a runtime invariant,
+# rather than a convention that a later modeller could accidentally overlook.
+POST_ELECTION_FIELDS_FORBIDDEN_FROM_BASELINE = frozenset(
+    {
+        "vote_share",
+        "analysis_vote_share",
+        "change_in_vote_share",
+        "outcome",
+        "elected_yes_no",
+        "final_position",
+        "derived_final_position",
+        "winning_margin",
+        "analysis_winning_margin",
+    }
+)
+
 
 def build_no_news_electoral_baseline(
     payload: MasterDatabasePayload,
@@ -89,7 +106,19 @@ def build_no_news_electoral_baseline(
         summary["division_rows"] += 1
         summary[f"baseline_{row['baseline_eligibility']}"] += 1
         summary[f"previous_turnout_{row['analysis_previous_turnout_provenance']}"] += 1
+    _assert_no_target_leakage(rows)
     return tuple(rows), dict(sorted(summary.items()))
+
+
+def _assert_no_target_leakage(rows: list[dict[str, object]]) -> None:
+    """Fail publication if a current-election outcome enters baseline rows."""
+
+    leaked = set().union(*(set(row) for row in rows)) & POST_ELECTION_FIELDS_FORBIDDEN_FROM_BASELINE
+    if leaked:
+        raise ValueError(
+            "No-news baseline contains post-election target leakage fields: "
+            f"{sorted(leaked)!r}."
+        )
 
 
 def _previous_turnout(

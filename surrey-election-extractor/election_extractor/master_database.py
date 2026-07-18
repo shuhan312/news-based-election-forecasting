@@ -45,6 +45,7 @@ from election_extractor.derived_final_position import (
 )
 from election_extractor.analysis_voting_summary import build_analysis_voting_summary
 from election_extractor.analysis_vote_share import build_analysis_vote_share_rows
+from election_extractor.change_in_vote_share import change_in_vote_share_fields
 from election_extractor.election_config import ElectionConfiguration, load_election_config
 from election_extractor.election_structure_metadata import load_secondary_seats_audit
 from election_extractor.extraction import CandidateResultRecord, ExtractionStatus
@@ -850,7 +851,8 @@ def build_master_database(
     The two historical-reference inputs are also optional, read-only products
     of the existing permission-audited baseline.  They can expose limited
     source-backed history for approved 2026 wards, but they never permit
-    candidate identity, incumbency, party swing, or vote redistribution.
+    candidate identity, incumbency, cross-boundary swing or vote redistribution.
+    A same-lineage single-member outcome diagnostic is governed separately.
 
     ``candidate_continuity_evidence`` is a separately reviewed official
     member-profile register. It can add only a positive, source-linked claim
@@ -992,6 +994,36 @@ def build_master_database(
             analysis_vote_share = analysis_vote_share_by_row[
                 (record.source_url, record.candidate_name)
             ]
+            secondary_structure = (
+                secondary_by_name.get(record.division_ward_name.casefold())
+                if record.division_ward_name is not None
+                else None
+            )
+            # Use the same governed Seats precedence as the analysis layer.
+            # Supplementary statutory Seats can establish that a 2021 contest
+            # was single-member without filling the official Seats field.
+            analysis_number_of_seats = (
+                record.number_of_seats
+                if record.number_of_seats is not None
+                else (
+                    secondary_structure.secondary_number_of_seats
+                    if secondary_structure is not None
+                    else None
+                )
+            )
+            vote_share_change = change_in_vote_share_fields(
+                current_vote_share=analysis_vote_share["analysis_vote_share"],
+                current_vote_share_provenance=analysis_vote_share[
+                    "analysis_vote_share_provenance"
+                ],
+                current_number_of_seats=analysis_number_of_seats,
+                previous_party_vote_share=party_history_fields[
+                    "previous_party_vote_share"
+                ],
+                previous_party_vote_share_status=party_history_fields[
+                    "previous_party_vote_share_status"
+                ],
+            )
             candidate_rows.append(
                 {
                     "election_id": configuration.election_id,
@@ -1026,8 +1058,10 @@ def build_master_database(
                     # The default remains explicit NULL.  A positive value is
                     # possible only through the reviewed profile register above.
                     **continuity_fields,
-                    "change_in_vote_share": None,
-                    "change_in_vote_share_status": "blocked_by_design",
+                    # This is a post-election diagnostic outcome. It must never
+                    # enter the no-news predictor because it contains the
+                    # current election's vote share.
+                    **vote_share_change,
                     **party_history_fields,
                     "election_completeness_status": layered.election.status.value,
                     "division_completeness_status": division_assessments[
@@ -1351,6 +1385,19 @@ def _audit_summary(
             == "governed_derived_from_official_candidate_votes"
             for row in candidate_rows
         ),
+        "candidate_rows_with_change_in_vote_share": sum(
+            row["change_in_vote_share"] is not None for row in candidate_rows
+        ),
+        "candidate_rows_change_blocked_multi_member": sum(
+            row["change_in_vote_share_status"]
+            == "not_calculated_current_contest_not_single_member"
+            for row in candidate_rows
+        ),
+        "candidate_rows_change_without_approved_previous_share": sum(
+            row["change_in_vote_share_status"]
+            == "not_calculated_no_approved_exact_label_previous_share"
+            for row in candidate_rows
+        ),
         "divisions_with_secondary_seats": sum(
             row["secondary_number_of_seats"] is not None for row in division_rows
         ),
@@ -1390,7 +1437,7 @@ def _audit_summary(
             "mapping rows, when supplied, are read-only reviewed evidence and do "
             "not change source extraction fields. Official elected outcomes and "
             "explicitly approved historical references are materialised separately "
-            "without candidate identity, incumbency, margin or swing inference."
+            "without unsupported candidate identity, incumbency, margin or cross-boundary swing inference."
         ),
     }
 
@@ -1444,13 +1491,15 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("candidate_continuity_profile_url", "Public official member-profile URL supporting an approved continuity record.", "Surrey County Council member profile", "official", "NULL when no person-level evidence is approved; no contact or address data is copied."),
             ("candidate_continuity_evidence_method", "Reviewed method used for a person-level continuity claim.", "candidate continuity evidence register", "derived", "official_member_profile requires direct profile links. official_multi_source_match requires a reviewed profile, exact target result and earlier official result page."),
             ("candidate_continuity_source_urls", "Public source URLs reviewed for the continuity claim.", "candidate continuity evidence register", "derived", "Retained only for an approved record so reviewers can reproduce the decision; no source is selected by name matching."),
-            ("change_in_vote_share", "Change in party vote share between elections.", "not generated", "unavailable", "Always NULL: the project does not calculate swing across altered boundaries or reconstruct party totals."),
-            ("change_in_vote_share_status", "Governance status for vote-share change.", "historical-reference permission policy", "derived", "Blocked by design; no value is inferred."),
+            ("change_in_vote_share", "Current minus previous exact-label vote share in percentage points.", "analysis vote share and approved historical exact-label reference", "outcome diagnostic", "Available only for comparable single-member contests; never reconstructed across changed boundaries or multi-member ballots."),
+            ("change_in_vote_share_status", "Reason a post-election share change is available or unavailable.", "vote-share-change policy", "derived", "Requires an approved exact-label previous share, one current seat and a current analysis share."),
+            ("change_in_vote_share_provenance", "Evidence layers used by the share-change calculation.", "vote-share-change policy", "derived", "Identifies whether the current share was official or governed-derived; unavailable rows remain explicit."),
+            ("change_in_vote_share_model_role", "Permitted modelling role of change_in_vote_share.", "target-leakage policy", "governance", "Always post_election_outcome_diagnostic_not_baseline_predictor because the value contains the current-election outcome."),
             ("party_previously_contested", "Whether the exact original party label was present in an approved prior direct lineage.", "historical baseline feature layer", "derived", "NULL where no explicit geographic permission exists; never uses party-name similarity."),
             ("first_appearance_of_party_in_area", "Whether the exact original party label has no earlier recorded contest in an approved direct lineage.", "historical baseline feature layer", "derived", "NULL where geography is unresolved; this is not a claim about a party's overall origin."),
             ("party_history_status", "Permission status for area-specific party history.", "historical reference audit", "derived", "Only an explicit approved exact-label lineage permits an area-specific value."),
             ("previous_party_vote_share", "Prior vote share for this candidate's exact published party label.", "official prior candidate share under approved continuity policy", "derived", "Available only for an approved exact-name single-member contest with one candidate per label, including reviewed same-statutory-division by-elections. A zero means the exact label is absent from a complete prior official candidate table; never aggregates candidates or maps labels across parties."),
-            ("previous_party_vote_share_status", "Reason the candidate-level prior party share is available or blocked.", "principal and by-election historical-reference audits", "derived", "Does not authorise change in vote share, party swing, candidate identity transfer or 2026 cross-boundary comparison."),
+            ("previous_party_vote_share_status", "Reason the candidate-level prior party share is available or blocked.", "principal and by-election historical-reference audits", "derived", "Supports a separate outcome-diagnostic change only when the current contest is also single-member; never authorises candidate identity transfer, multi-member swing or an unapproved boundary comparison."),
             ("election_completeness_status", "Read-only election-level completeness result.", "layered completeness", "derived", "Does not alter source fields."),
             ("division_completeness_status", "Read-only division-level completeness result.", "layered completeness", "derived", "Does not alter source fields."),
             ("candidate_completeness_status", "Read-only candidate-level completeness result.", "layered completeness", "derived", "Does not alter source fields."),
@@ -1655,6 +1704,9 @@ def audit_summary_markdown(payload: MasterDatabasePayload) -> str:
         f"- Candidate rows with official vote_share: {summary['candidate_rows_with_official_vote_share']}",
         f"- Candidate rows with analysis_vote_share: {summary['candidate_rows_with_analysis_vote_share']}",
         f"- Candidate rows with governed-derived analysis_vote_share: {summary['candidate_rows_with_derived_analysis_vote_share']}",
+        f"- Candidate rows with post-election change_in_vote_share: {summary['candidate_rows_with_change_in_vote_share']}",
+        f"- Candidate rows with change blocked for a multi-member current contest: {summary['candidate_rows_change_blocked_multi_member']}",
+        f"- Candidate rows with no approved previous exact-label share: {summary['candidate_rows_change_without_approved_previous_share']}",
         f"- Divisions with analysis_winning_margin: {summary['divisions_with_analysis_winning_margin']}",
         f"- Divisions without an unambiguous analysis_winning_margin: {summary['divisions_without_unambiguous_analysis_winning_margin']}",
         f"- Divisions with supplementary Seats evidence: {summary['divisions_with_secondary_seats']}",

@@ -257,7 +257,14 @@ def build_final_data_release_audit(
     candidate_headers = set(payload.candidate_results[0]) if payload.candidate_results else set()
     division_headers = set(payload.divisions_and_wards[0]) if payload.divisions_and_wards else set()
     required_materialised = {
-        "candidate_results": {"notes", "source_url", "elected_yes_no"},
+        "candidate_results": {
+            "notes",
+            "source_url",
+            "elected_yes_no",
+            "change_in_vote_share",
+            "change_in_vote_share_provenance",
+            "change_in_vote_share_model_role",
+        },
         "divisions_and_wards": {
             "winning_candidate_name",
             "winning_party_name",
@@ -297,6 +304,10 @@ def build_final_data_release_audit(
                 row.get("field_name") == "derived_winning_margin"
                 for row in payload.derived_metadata
             ),
+            "candidate_change_in_vote_share_diagnostics": sum(
+                row.get("change_in_vote_share") is not None
+                for row in payload.candidate_results
+            ),
             "missing_columns": missing_materialised,
         },
         "residual_missing_after_all_permitted_layers": list(unresolved),
@@ -305,7 +316,7 @@ def build_final_data_release_audit(
             "final_position_candidate_rows": sum(row.get("final_position") is None for row in payload.candidate_results),
             "previous_party_vote_share_not_materialised": sum(row.get("previous_party_vote_share") is None for row in payload.divisions_and_wards),
             "change_in_vote_share_not_materialised": sum(row.get("change_in_vote_share") is None for row in payload.candidate_results),
-            "reason": "These fields are not reconstructed from candidate order, name matching, party-share aggregation, or altered geography.",
+            "reason": "Change is available only as a post-election diagnostic for approved exact-label single-member comparisons. Residual values are not reconstructed from name matching, party-share aggregation, multi-member candidate shares or altered geography.",
         },
         "source_to_database_reconciliation_samples": list(samples),
         "reconciliation_summary": {
@@ -344,6 +355,7 @@ def final_data_release_audit_markdown(report: Mapping[str, object]) -> str:
         f"- Single official winner/party summaries: {materialised['single_official_winners']}",
         f"- Multi-member official elected-name lists: {materialised['multi_member_elected_name_lists']}",
         f"- Separate governed derived winning margins: {materialised['separate_derived_winning_margins']}",
+        f"- Post-election change-in-vote-share diagnostics: {materialised['candidate_change_in_vote_share_diagnostics']}",
         "",
         "## Residual values after all permitted layers",
         "",
@@ -367,7 +379,7 @@ def final_data_release_audit_markdown(report: Mapping[str, object]) -> str:
             "## Fields intentionally not reconstructed",
             "",
             f"- Final position: {unavailable['final_position_candidate_rows']} candidate rows remain NULL because audited source tables do not publish rank.",
-            "- Previous party vote share and change in vote share remain unmaterialised where the reviewed data has no permitted party-total, geographically comparable basis.",
+            f"- Change in vote share: {unavailable['change_in_vote_share_not_materialised']} candidate rows remain NULL where no exact-label single-member comparison is permitted; available values are outcome diagnostics and excluded from the no-news baseline.",
             "- Candidate continuity and incumbency remain NULL without an exact reviewed authoritative link; names alone are never matched.",
             "",
             "## Source-to-database review pack",

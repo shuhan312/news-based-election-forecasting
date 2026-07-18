@@ -36,9 +36,11 @@ audit only; it does not collect or classify news.
   81 from 2013 to 2017, 81 from 2017 to 2021 and 22 from 2021 to 2026.
   These can expose prior winner, published winner share, turnout and electorate
   only as allowed by the reviewed permissions.
-- `previous_party_vote_share` and `change_in_vote_share` remain unavailable.
-  The source tables contain candidate shares, not a reviewed party-total series,
-  and the geographic permissions prohibit party swing or vote redistribution.
+- `previous_party_vote_share` is available for 1,021 candidate rows. A separate
+  post-election `change_in_vote_share` diagnostic is available for 775 comparable
+  single-member rows. It is excluded from the no-news baseline because it
+  contains the current result. The 246 otherwise referenced 2026 rows remain
+  NULL because multi-member candidate shares are not comparable party swing.
 - Two candidate rows have positive, official-profile-backed continuity and
   incumbency evidence. All other candidates remain `NULL`, rather than being
   matched by name.

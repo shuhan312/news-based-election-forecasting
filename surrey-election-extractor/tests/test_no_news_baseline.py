@@ -2,7 +2,13 @@
 
 from types import SimpleNamespace
 
-from election_extractor.no_news_baseline import build_no_news_electoral_baseline
+import pytest
+
+from election_extractor.no_news_baseline import (
+    POST_ELECTION_FIELDS_FORBIDDEN_FROM_BASELINE,
+    _assert_no_target_leakage,
+    build_no_news_electoral_baseline,
+)
 
 
 def test_baseline_uses_supplementary_official_prior_turnout_without_overwriting_it() -> None:
@@ -34,3 +40,13 @@ def test_baseline_uses_supplementary_official_prior_turnout_without_overwriting_
     assert row["analysis_previous_turnout_provenance"] == "supplementary_official_evidence"
     assert row["analysis_previous_turnout_source_metadata_id"] == "2013:a:turnout"
     assert coverage["baseline_approved_historical_reference"] == 1
+
+
+def test_no_news_baseline_rejects_current_election_outcome_leakage() -> None:
+    """Current share change is descriptive output, never a baseline predictor."""
+
+    with pytest.raises(ValueError, match="target leakage"):
+        _assert_no_target_leakage(
+            [{"division_id": "d", "change_in_vote_share": 2.5}]
+        )
+    assert "change_in_vote_share" in POST_ELECTION_FIELDS_FORBIDDEN_FROM_BASELINE

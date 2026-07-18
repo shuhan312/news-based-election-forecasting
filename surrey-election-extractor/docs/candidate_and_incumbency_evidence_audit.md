@@ -52,7 +52,7 @@ replace, the profile-to-result-link evidence.
 | Candidate previously stood | `True` only for the reviewed direct-profile or multi-source official records above; otherwise `NULL`. | The register proves a person-level link without relying on automated name matching. |
 | Incumbent candidate | `True` only where the reviewed profile also supplies a term predating the target election; otherwise `NULL`. | A repeated candidate name or a current role is not projected backwards as incumbency. |
 | Incumbent party | Populated only with `incumbent_candidate = True` and preserves the target row's original published party label. | It makes no claim about a past party affiliation or party switch. |
-| Change in vote share | Remains `NULL`. | Party-total reconstruction and cross-boundary swing remain prohibited. |
+| Change in vote share | Available separately for approved exact-label single-member comparisons. | It is a post-election diagnostic, never candidate-identity evidence or a no-news predictor. Party-total reconstruction and cross-boundary swing remain prohibited. |
 
 ## Limitation and next extension
 
