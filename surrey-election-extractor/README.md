@@ -41,6 +41,9 @@ PYTHONPATH=surrey-election-extractor .venv/bin/python \
 PYTHONPATH=surrey-election-extractor .venv/bin/python \
   surrey-election-extractor/scripts/generate_no_news_electoral_baseline.py
 
+PYTHONPATH=surrey-election-extractor .venv/bin/python \
+  surrey-election-extractor/scripts/generate_no_news_party_contests.py
+
 .venv/bin/python -m pytest surrey-election-extractor/tests -q
 ```
 
@@ -51,6 +54,8 @@ The primary generated files are:
 - `outputs/master_surrey_election_database/master_election_database_audit_summary.md`
 - `outputs/final_election_data_release_audit/final_election_data_release_audit.json`
 - `outputs/no_news_electoral_baseline/no_news_electoral_baseline.json`
+- `outputs/no_news_party_contests/no_news_party_contest_features.json`
+- `outputs/no_news_party_contests/no_news_party_contest_targets.json`
 
 Generated workbooks and large research outputs are stored outside Git in the
 university OneDrive. The extraction code, configuration, tests and compact
@@ -66,6 +71,8 @@ are retained. Fuzzy candidate matching, UKIP/Reform merging, unapproved
 boundary transfer and vote redistribution are prohibited.
 
 The election master is release-ready with visible evidence boundaries. The
-current no-news division-level export is leakage-safe, but a separate
-candidate/party-level lagged-share export remains necessary before the complete
-party-vote-share baseline can be called model-ready.
+no-news input release now includes both the 339-row division history table and
+a separate 1,603-row party-contest publication. Predictors and target-election
+outcomes are stored separately; 775 single-member party contests have an
+approved lagged party share for the primary baseline experiment. Model fitting,
+temporal evaluation and release of baseline predictions remain downstream.

@@ -8,6 +8,7 @@ from election_extractor.candidate_continuity_evidence import (
 )
 from election_extractor.master_database import build_master_database, load_audited_elections
 from election_extractor.no_news_baseline import build_no_news_electoral_baseline
+from election_extractor.no_news_party_contest import build_no_news_party_contests
 from scripts.generate_master_election_database import (
     reviewed_geographic_mapping_rows,
     reviewed_historical_reference_inputs,
@@ -88,3 +89,25 @@ def test_no_news_documentation_matches_export_coverage() -> None:
         "prior-turnout"
         in text
     )
+
+
+def test_party_contest_documentation_matches_release_coverage() -> None:
+    """Keep the modelling-cohort claims tied to generated party rows."""
+
+    payload = _release_payload()
+    features, targets, coverage = build_no_news_party_contests(payload)
+    text = (PROJECT_ROOT / "docs/no_news_electoral_baseline.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert len(features) == len(targets) == coverage["party_contest_rows"]
+    for key in (
+        "party_contest_rows",
+        "structure_single_member",
+        "previous_party_vote_share_available",
+        "eligibility_eligible_primary_single_member_party_share",
+        "eligibility_excluded_no_approved_historical_area_reference",
+        "eligibility_excluded_no_approved_exact_label_previous_party_share",
+        "structure_multi_member",
+    ):
+        assert f"{coverage[key]:,}" in text

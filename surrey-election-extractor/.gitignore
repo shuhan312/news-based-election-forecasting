@@ -37,6 +37,10 @@ outputs/master_surrey_election_database/
 outputs/election_event_timeline/*.json
 outputs/historical_baseline_features/*.json
 outputs/no_news_electoral_baseline/
+# Party-contest predictors, targets and counts are deterministic generated
+# modelling inputs. Keep code/tests/docs in Git and publish bulky JSON locally
+# or through the approved research-data store.
+outputs/no_news_party_contests/
 outputs/historical_reference_permissions/*.json
 outputs/by_election_integration/*.json
 outputs/by_election_source_recovery/*.json
