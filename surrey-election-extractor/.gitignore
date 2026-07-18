@@ -24,6 +24,10 @@ outputs/2026_compatibility_audit/*.json
 # Detailed generated JSON audits remain local or in OneDrive.
 outputs/*_layered_completeness/*.json
 outputs/final_position_provenance_audit/*.json
+# The final-position release package is regenerated from tracked code and
+# evidence configuration. Keep its JSON/CSV reports in OneDrive or local
+# storage rather than inflating the repository with generated outputs.
+outputs/final_position_qa/
 outputs/geographic_mapping_audit/*.json
 outputs/geographic_overlap_audit/
 outputs/geographic_mapping_review/*.json

@@ -1,0 +1,195 @@
+{
+  "schema_version": 1,
+  "purpose": "Independent official corroboration for high-risk derived-final-position pages. These records do not replace the primary official result page.",
+  "reviews": [
+    {
+      "election_id": "surrey-county-council-2013",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=105&RPID=454305731&XXR=0",
+      "second_official_source_url": "https://news.surreycc.gov.uk/2013/05/03/election-results-special/",
+      "second_source_type": "official Surrey County Council election-results announcement",
+      "review_status": "verified",
+      "reviewed_fields": ["candidate_roster", "candidate_votes", "elected_outcome", "seat_cutoff"],
+      "review_notes": "The council announcement independently lists the complete East Molesey and Esher candidate table, vote totals and elected outcome."
+    },
+    {
+      "election_id": "surrey-county-council-2013",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=113&RPID=454305731&XXR=0",
+      "second_official_source_url": "https://news.surreycc.gov.uk/2013/05/03/election-results-special/",
+      "second_source_type": "official Surrey County Council election-results announcement",
+      "review_status": "verified",
+      "reviewed_fields": ["candidate_roster", "candidate_votes", "elected_outcome", "seat_cutoff"],
+      "review_notes": "The council announcement independently lists the complete Farnham North candidate table, vote totals and elected outcome."
+    },
+    {
+      "election_id": "surrey-county-council-2013",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=119&RPID=454305731&XXR=0",
+      "second_official_source_url": "https://news.surreycc.gov.uk/2013/05/03/election-results-special/",
+      "second_source_type": "official Surrey County Council election-results announcement",
+      "review_status": "verified",
+      "reviewed_fields": ["candidate_roster", "candidate_votes", "elected_outcome", "seat_cutoff"],
+      "review_notes": "The council announcement independently lists the complete Godstone candidate table, vote totals and elected outcome."
+    },
+    {
+      "election_id": "surrey-county-council-2013",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=126&RPID=454305731&XXR=0",
+      "second_official_source_url": "https://news.surreycc.gov.uk/2013/05/03/election-results-special/",
+      "second_source_type": "official Surrey County Council election-results announcement",
+      "review_status": "verified",
+      "reviewed_fields": ["candidate_roster", "candidate_votes", "elected_outcome", "seat_cutoff"],
+      "review_notes": "The council announcement independently lists the complete Haslemere candidate table, vote totals and elected outcome."
+    },
+    {
+      "election_id": "surrey-county-council-2013",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=148&RPID=454305731&XXR=0",
+      "second_official_source_url": "https://news.surreycc.gov.uk/2013/05/03/election-results-special/",
+      "second_source_type": "official Surrey County Council election-results announcement",
+      "review_status": "verified",
+      "reviewed_fields": ["candidate_roster", "candidate_votes", "elected_outcome", "seat_cutoff"],
+      "review_notes": "The council announcement independently lists the complete Staines South and Ashford West candidate table, vote totals and elected outcome."
+    },
+    {
+      "election_id": "surrey-county-council-2013",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=93&RPID=454305731&XXR=0",
+      "second_official_source_url": "https://news.surreycc.gov.uk/2013/05/03/election-results-special/",
+      "second_source_type": "official Surrey County Council election-results announcement",
+      "review_status": "verified",
+      "reviewed_fields": ["candidate_roster", "candidate_votes", "elected_outcome", "seat_cutoff"],
+      "review_notes": "The council announcement independently lists the complete Bookham and Fetcham West candidate table, vote totals and elected outcome."
+    },
+    {
+      "election_id": "surrey-county-council-2013",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=114&RPID=454305731&XXR=0",
+      "second_official_source_url": "https://news.surreycc.gov.uk/2013/05/03/election-results-special/",
+      "second_source_type": "official Surrey County Council election-results announcement",
+      "review_status": "verified",
+      "reviewed_fields": ["candidate_roster", "candidate_votes", "elected_outcome", "tied_vote_total"],
+      "review_notes": "The council announcement independently lists the Farnham South candidates, their vote totals and the declared winner; the two 542-vote candidates are corroborated as a tie."
+    },
+    {
+      "election_id": "surrey-county-council-2017",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=218&RPID=454155221&XXR=0",
+      "second_official_source_url": "https://news.surreycc.gov.uk/2017/05/05/live-election-results-declared/",
+      "second_source_type": "official Surrey County Council election-results announcement",
+      "review_status": "verified",
+      "reviewed_fields": ["candidate_roster", "candidate_votes", "elected_outcome", "tied_vote_total"],
+      "review_notes": "The council announcement independently lists the Horsleys candidates, vote totals and declared winner; the two 108-vote candidates are corroborated as a tie."
+    },
+    {
+      "election_id": "surrey-county-council-2017",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=182&RPID=454155221&XXR=0",
+      "second_official_source_url": "https://news.surreycc.gov.uk/2017/05/05/live-election-results-declared/",
+      "second_source_type": "official Surrey County Council election-results announcement",
+      "review_status": "verified",
+      "reviewed_fields": ["candidate_roster", "candidate_votes", "elected_outcome", "seat_cutoff"],
+      "review_notes": "The council announcement independently lists the complete Caterham Hill candidate table, vote totals and elected outcome."
+    },
+    {
+      "election_id": "surrey-county-council-2017",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=245&RPID=454155221&XXR=0",
+      "second_official_source_url": "https://news.surreycc.gov.uk/2017/05/05/live-election-results-declared/",
+      "second_source_type": "official Surrey County Council election-results announcement",
+      "review_status": "verified",
+      "reviewed_fields": ["candidate_roster", "candidate_votes", "elected_outcome", "seat_cutoff"],
+      "review_notes": "The council announcement independently lists the complete Waverley Western Villages candidate table, vote totals and elected outcome."
+    },
+    {
+      "election_id": "surrey-county-council-2026-east-surrey",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?EID=2037&ID=363",
+      "second_official_source_url": "https://www10.surreycc.gov.uk/electionmap/EastSurrey/363",
+      "second_source_type": "official East Surrey Council election map",
+      "review_status": "verified",
+      "reviewed_fields": ["candidate_roster", "candidate_votes", "elected_outcome", "tied_vote_total", "seat_cutoff"],
+      "review_notes": "The official election map independently identifies both 2,538-vote candidates as elected and displays the complete ward vote table."
+    },
+    {
+      "election_id": "surrey-county-council-2026-east-surrey",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?EID=2037&ID=381",
+      "second_official_source_url": "https://www10.surreycc.gov.uk/electionmap/EastSurrey/381",
+      "second_source_type": "official East Surrey Council election map",
+      "review_status": "verified",
+      "reviewed_fields": ["candidate_roster", "candidate_votes", "elected_outcome", "seat_cutoff"],
+      "review_notes": "The official election map independently displays the complete Thames Ditton and East Molesey ward vote table and both elected candidates."
+    },
+    {
+      "election_id": "surrey-county-council-2026-west-surrey",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?EID=2007&ID=415",
+      "second_official_source_url": "https://www10.surreycc.gov.uk/electionmap/WestSurrey/415",
+      "second_source_type": "official West Surrey Council election map",
+      "review_status": "verified",
+      "reviewed_fields": ["candidate_roster", "candidate_votes", "elected_outcome", "tied_vote_total", "seat_cutoff"],
+      "review_notes": "The official election map independently displays the complete ward vote table, both elected candidates and the 288-vote tied pair."
+    },
+    {
+      "election_id": "surrey-county-council-2026-west-surrey",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?EID=2007&ID=417",
+      "second_official_source_url": "https://www10.surreycc.gov.uk/electionmap/WestSurrey/417",
+      "second_source_type": "official West Surrey Council election map",
+      "review_status": "verified",
+      "reviewed_fields": ["candidate_roster", "candidate_votes", "elected_outcome", "seat_cutoff"],
+      "review_notes": "The official election map independently displays the complete Shalford ward vote table and both elected candidates."
+    },
+    {
+      "election_id": "surrey-county-council-2021",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=279&RPID=453722837&XXR=0",
+      "second_official_source_url": "https://news.surreycc.gov.uk/2021/05/07/2021-election-results/",
+      "second_source_type": "official Surrey County Council election-results announcement",
+      "review_status": "official_outcome_only",
+      "reviewed_fields": ["elected_outcome", "elected_candidate_votes"],
+      "review_notes": "The council announcement independently confirms the Epsom Town and Downs winner and winning vote total, but does not publish the complete candidate table. Rank remains supported by the primary official result page only."
+    },
+    {
+      "election_id": "surrey-county-council-2021",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=293&RPID=453722837&XXR=0",
+      "second_official_source_url": "https://news.surreycc.gov.uk/2021/05/07/2021-election-results/",
+      "second_source_type": "official Surrey County Council election-results announcement",
+      "review_status": "official_outcome_only",
+      "reviewed_fields": ["elected_outcome", "elected_candidate_votes"],
+      "review_notes": "The council announcement independently confirms the Guildford North winner and winning vote total, but does not publish the complete candidate table. Rank remains supported by the primary official result page only."
+    },
+    {
+      "election_id": "surrey-county-council-2021",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=309&RPID=453722837&XXR=0",
+      "second_official_source_url": "https://news.surreycc.gov.uk/2021/05/07/2021-election-results/",
+      "second_source_type": "official Surrey County Council election-results announcement",
+      "review_status": "official_outcome_only",
+      "reviewed_fields": ["elected_outcome", "elected_candidate_votes"],
+      "review_notes": "The council announcement independently confirms the Lower Sunbury and Halliford winner and winning vote total, but does not publish the complete candidate table. Rank remains supported by the primary official result page only."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=169&RPID=0",
+      "second_official_source_url": "https://news.surreycc.gov.uk/tag/county-council-elections/",
+      "second_source_type": "official Surrey County Council by-election announcement",
+      "review_status": "verified",
+      "reviewed_fields": ["candidate_roster", "candidate_votes", "elected_outcome", "seat_cutoff"],
+      "review_notes": "The official council announcement for Ramon Gray's Weybridge by-election win independently publishes the candidate vote results and declared outcome."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-epsom-west-2015-11-19",
+      "source_url": "https://www.epsom-ewell.gov.uk/sites/default/files/documents/council/elections-and-voting/SCCDeclarationofResults19Nov2015.pdf",
+      "second_official_source_url": "https://news.surreycc.gov.uk/2015/11/20/karan-persand-wins-county-council-by-election/",
+      "second_source_type": "official Surrey County Council by-election announcement",
+      "review_status": "verified",
+      "reviewed_fields": ["candidate_roster", "candidate_votes", "elected_outcome", "seat_cutoff"],
+      "review_notes": "The council announcement independently publishes the complete Epsom West candidate vote table and declared outcome."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-farnham-south-2016-08-18",
+      "source_url": "https://modgov.waverley.gov.uk/mgElectionResults.aspx?ID=6&RPID=0",
+      "second_official_source_url": "https://news.surreycc.gov.uk/tag/by-election/",
+      "second_source_type": "official Surrey County Council by-election announcement",
+      "review_status": "verified",
+      "reviewed_fields": ["candidate_roster", "candidate_votes", "elected_outcome", "seat_cutoff"],
+      "review_notes": "The official council announcement for Wyatt Ramsdale's Farnham South by-election win independently publishes the candidate results and outcome."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-horsleys-2023-10-19",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=39&RPID=0",
+      "second_official_source_url": "https://www.guildford.gov.uk/article/26908/Surrey-County-Council-Horsleys-Division-by-election-2023",
+      "second_source_type": "official Guildford Borough Council declaration of result",
+      "review_status": "verified",
+      "reviewed_fields": ["candidate_roster", "candidate_votes", "elected_outcome", "seat_cutoff"],
+      "review_notes": "The borough council declaration independently publishes the complete Horsleys candidate table, vote totals and declared outcome."
+    }
+  ]
+}
