@@ -13,6 +13,8 @@ if (!payloadPath || !outputPath) {
 }
 
 const payload = JSON.parse(await fs.readFile(payloadPath, "utf8"));
+const EAST_SURREY_2026_ELECTION_ID = "surrey-county-council-2026-east-surrey";
+const WEST_SURREY_2026_ELECTION_ID = "surrey-county-council-2026-west-surrey";
 const tableDefinitions = [
   ["Elections", "ElectionsTable"],
   ["Candidate Results", "CandidateResultsTable"],
@@ -24,6 +26,11 @@ const tableDefinitions = [
   ["Geographic Mapping", "GeographicMappingTable"],
   ["Supplementary Metadata", "SupplementaryMetadataTable"],
   ["Derived Metadata", "DerivedMetadataTable"],
+  // The supervisor requires 2026 East and West results on separate tabs.
+  // These are filtered, read-only views of the unified candidate table: they
+  // do not join the new wards to historical divisions or change any value.
+  ["2026 East Surrey", "Results2026EastSurreyTable"],
+  ["2026 West Surrey", "Results2026WestSurreyTable"],
   ["Data Dictionary", "DataDictionaryTable"],
 ];
 
@@ -160,10 +167,36 @@ function columnLetter(columnNumber) {
   return output;
 }
 
+function rowsForWorkbookSheet(sheetName) {
+  // Return the audited rows assigned to one workbook sheet.
+  if (sheetName === "2026 East Surrey") {
+    return candidateRowsForElection(EAST_SURREY_2026_ELECTION_ID, sheetName);
+  }
+  if (sheetName === "2026 West Surrey") {
+    return candidateRowsForElection(WEST_SURREY_2026_ELECTION_ID, sheetName);
+  }
+  return payload[sheetName];
+}
+
+function candidateRowsForElection(electionId, sheetName) {
+  // Create a separate 2026 view without mutating the unified candidate data.
+  const candidateRows = payload["Candidate Results"];
+  if (!Array.isArray(candidateRows)) {
+    throw new Error("Workbook payload has no Candidate Results row array.");
+  }
+  const rows = candidateRows.filter((row) => row.election_id === electionId);
+  if (rows.length === 0) {
+    // An empty 2026 sheet would look like a completed extraction. Fail loudly
+    // instead, so the separate-tab requirement cannot hide a missing region.
+    throw new Error(`${sheetName} has no audited candidate records for ${electionId}.`);
+  }
+  return rows;
+}
+
 const workbook = Workbook.create();
 const previewRanges = [];
 for (const [sheetName, tableName] of tableDefinitions) {
-  const rows = payload[sheetName];
+  const rows = rowsForWorkbookSheet(sheetName);
   if (!Array.isArray(rows)) {
     throw new Error(`Workbook payload has no row array for ${sheetName}.`);
   }
