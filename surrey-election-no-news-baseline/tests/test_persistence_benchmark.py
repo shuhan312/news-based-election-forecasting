@@ -1,0 +1,90 @@
+"""Tests for the direct previous-result no-news benchmark."""
+
+import pytest
+
+from no_news_baseline.persistence_benchmark import (
+    evaluate_previous_result_persistence,
+)
+
+
+def _feature(
+    contest_id: str,
+    area: str,
+    party: str,
+    previous_share: float,
+    was_previous_winner: bool,
+) -> dict[str, object]:
+    return {
+        "party_contest_id": contest_id,
+        "election_id": "2017",
+        "election_year": 2017,
+        "election_type": "County Council election",
+        "division_id": area,
+        "division_name": area,
+        "standard_party_name": party,
+        "contest_structure": "single_member",
+        "geographic_reference_eligibility": "approved_historical_reference",
+        "party_identity_scope": "reviewed_standard_party",
+        "baseline_eligibility": "eligible_primary_single_member_party_share",
+        "previous_party_vote_share": previous_share,
+        "party_was_previous_winner": was_previous_winner,
+        "historical_source_url": "https://official.example/previous",
+    }
+
+
+def _target(
+    contest_id: str, party: str, share: float, elected: str
+) -> dict[str, object]:
+    return {
+        "party_contest_id": contest_id,
+        "target_party_vote_share": share,
+        "target_party_elected": elected,
+        "target_source_urls": "https://official.example/current",
+    }
+
+
+def test_persistence_benchmark_scores_share_and_unique_previous_winner() -> None:
+    features = (
+        _feature("a-a", "area-a", "Party A", 60.0, True),
+        _feature("a-b", "area-a", "Party B", 40.0, False),
+    )
+    targets = (
+        _target("a-a", "Party A", 45.0, "No"),
+        _target("a-b", "Party B", 55.0, "Yes"),
+    )
+
+    predictions, metrics, audit = evaluate_previous_result_persistence(features, targets)
+
+    assert len(predictions) == 2
+    assert metrics["overall"]["party_share_mae_percentage_points"] == 15.0
+    assert metrics["overall"]["winner_area_accuracy"] == 0.0
+    assert metrics["overall"]["winner_party_row_accuracy"] == 0.0
+    assert audit["primary_single_member_areas"] == 1
+
+
+def test_missing_previous_winner_on_current_ballot_is_visible_and_unscored() -> None:
+    features = (
+        _feature("b-a", "area-b", "Party A", 30.0, False),
+        _feature("b-b", "area-b", "Party B", 20.0, False),
+    )
+    targets = (
+        _target("b-a", "Party A", 35.0, "Yes"),
+        _target("b-b", "Party B", 25.0, "No"),
+    )
+
+    predictions, metrics, audit = evaluate_previous_result_persistence(features, targets)
+
+    assert {row["predicted_party_elected"] for row in predictions} == {"Unknown"}
+    assert all(row["winner_prediction_correct"] is None for row in predictions)
+    assert metrics["overall"]["winner_areas_scored"] == 0
+    assert audit[
+        "winner_area_status_unavailable_previous_winner_not_uniquely_on_current_ballot"
+    ] == 1
+
+
+def test_feature_and_target_identifiers_must_match() -> None:
+    features = (_feature("a", "area", "Party A", 50.0, True),)
+    targets = (_target("different", "Party A", 50.0, "Yes"),)
+
+    with pytest.raises(ValueError, match="identifiers do not match"):
+        evaluate_previous_result_persistence(features, targets)

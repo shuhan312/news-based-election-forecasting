@@ -1,0 +1,11 @@
+# Generated predictions, metrics and plots are reproducible research outputs.
+outputs/
+
+# Local Python state.
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local editor and operating-system files.
+.DS_Store
