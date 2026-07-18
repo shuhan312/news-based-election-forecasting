@@ -3,10 +3,13 @@
 from __future__ import annotations
 
 import json
+import re
+import unicodedata
 from hashlib import sha256
 from collections import Counter, defaultdict
 from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
@@ -832,6 +835,9 @@ def _supervisor_incumbency_fields(
     *,
     incumbent_candidate: object,
     incumbent_candidate_status: object,
+    roster_fields: Mapping[str, object],
+    current_candidate_name: str | None,
+    current_source_url: str | None,
     current_party_name: str | None,
     current_number_of_seats: int | None,
     historical_reference_fields: Mapping[str, object],
@@ -852,9 +858,52 @@ def _supervisor_incumbency_fields(
     authorised.
     """
 
-    candidate_yes_no = "Yes" if incumbent_candidate is True else "Unknown"
+    prior_winning_candidate = historical_reference_fields.get(
+        "previous_winning_candidate_name"
+    )
+    prior_source_url = historical_reference_fields.get("historical_source_url")
     prior_winning_party = historical_reference_fields.get("previous_winning_party")
     historical_status = historical_reference_fields.get("historical_reference_status")
+
+    if incumbent_candidate is True:
+        candidate_yes_no = "Yes"
+        candidate_status = incumbent_candidate_status
+        candidate_sources = None
+    elif roster_fields.get("incumbent_candidate_roster_yes_no") in {"Yes", "No"}:
+        # A complete election-date roster can prove both presence and absence.
+        # This is stronger and more scalable than treating an unsuccessful
+        # individual profile search as evidence of No.
+        candidate_yes_no = str(
+            roster_fields["incumbent_candidate_roster_yes_no"]
+        )
+        candidate_status = roster_fields["incumbent_candidate_roster_status"]
+        candidate_sources = roster_fields[
+            "incumbent_candidate_roster_source_urls"
+        ]
+    elif (
+        historical_status in APPROVED_HISTORICAL_REFERENCE_STATUSES
+        and isinstance(current_candidate_name, str)
+        and isinstance(prior_winning_candidate, str)
+        and _canonical_official_candidate_name(current_candidate_name)
+        == _canonical_official_candidate_name(prior_winning_candidate)
+        and isinstance(current_source_url, str)
+        and isinstance(prior_source_url, str)
+        and current_source_url != prior_source_url
+    ):
+        # This is more than a database-wide name match: two distinct official
+        # result pages identify the same complete published name, the earlier
+        # page explicitly marks that person Elected, and a separate statutory
+        # audit approves the area continuity.  The narrow route can support a
+        # positive incumbency claim, but never a negative one.
+        candidate_yes_no = "Yes"
+        candidate_status = (
+            "verified_consecutive_official_results_approved_area_continuity"
+        )
+        candidate_sources = f"{prior_source_url}; {current_source_url}"
+    else:
+        candidate_yes_no = "Unknown"
+        candidate_status = incumbent_candidate_status
+        candidate_sources = None
 
     if historical_status not in APPROVED_HISTORICAL_REFERENCE_STATUSES:
         party_yes_no = "Unknown"
@@ -881,11 +930,209 @@ def _supervisor_incumbency_fields(
 
     return {
         "incumbent_candidate_yes_no": candidate_yes_no,
-        "incumbent_candidate_yes_no_status": incumbent_candidate_status,
+        "incumbent_candidate_yes_no_status": candidate_status,
+        "incumbent_candidate_yes_no_source_urls": candidate_sources,
+        "incumbent_candidate_roster_event_ids": roster_fields.get(
+            "incumbent_candidate_roster_event_ids"
+        ),
         "incumbent_party_yes_no": party_yes_no,
         "incumbent_party_name": party_name,
         "incumbent_party_yes_no_status": party_status,
     }
+
+
+def _canonical_official_candidate_name(value: str) -> str:
+    """Normalise only presentation differences in a complete official name.
+
+    The 2013 result pages publish names as ``Surname, Given names`` whereas
+    later pages publish ``Given names Surname``.  This function reverses that
+    explicit comma format and normalises case, accents and punctuation.  It
+    does not drop initials, titles or name tokens and therefore cannot turn a
+    partial or similar name into an identity match.
+    """
+
+    compact = " ".join(value.split())
+    if compact.count(",") == 1:
+        surname, given_names = compact.split(",", 1)
+        compact = f"{given_names.strip()} {surname.strip()}"
+    ascii_name = unicodedata.normalize("NFKD", compact).encode(
+        "ascii", "ignore"
+    ).decode("ascii")
+    return " ".join(re.findall(r"[a-z0-9]+", ascii_name.casefold()))
+
+
+def _event_date_text(election: AuditedElectionInput) -> str:
+    """Return one audited ISO event date for chronological roster updates."""
+
+    values = {
+        _normalise_event_date(
+            value.isoformat() if hasattr(value, "isoformat") else str(value)
+        )
+        for value in (record.election_date for record in election.records)
+        if value is not None
+    }
+    if election.event_date is not None:
+        values.add(_normalise_event_date(str(election.event_date)))
+    if len(values) != 1:
+        raise ValueError(
+            f"Election {election.configuration.election_id} requires one event date "
+            "before an incumbency roster can be reconstructed."
+        )
+    return next(iter(values))
+
+
+def _normalise_event_date(value: str) -> str:
+    """Canonicalise the two official date presentations before sorting."""
+
+    for pattern in ("%Y-%m-%d", "%d %B %Y", "%d/%m/%Y"):
+        try:
+            return datetime.strptime(value.strip(), pattern).date().isoformat()
+        except ValueError:
+            continue
+    raise ValueError(f"Unsupported audited election date: {value!r}.")
+
+
+def _canonical_area_name(value: str) -> str:
+    """Normalise only published ``and``/ampersand and punctuation variants."""
+
+    return " ".join(
+        re.findall(r"[a-z0-9]+", value.casefold().replace("&", " and "))
+    )
+
+
+def _pre_election_incumbency_roster_fields(
+    elections: Sequence[AuditedElectionInput],
+) -> dict[tuple[str, str, str], dict[str, object]]:
+    """Reconstruct the complete official councillor roster before each event.
+
+    The 2013, 2017 and 2021 principal results each elect the complete 81-seat
+    Surrey County Council. Every audited by-election then replaces exactly one
+    vacant division. Processing those official outcomes chronologically creates
+    an election-date roster without relying on retrospective biographies.
+
+    A by-election's vacant division is removed before its candidates are
+    classified. Elections held on the same date all use the same opening
+    snapshot, preventing one simultaneous result from influencing another.
+    The 2026 East/West shadow-authority elections read the continuing Surrey
+    roster but never replace it. No roster is asserted for 2013 because the
+    project does not contain a complete audited 2009 result set.
+    """
+
+    principal_ids = {
+        "surrey-county-council-2013",
+        "surrey-county-council-2017",
+        "surrey-county-council-2021",
+    }
+    events_by_date: defaultdict[str, list[AuditedElectionInput]] = defaultdict(list)
+    for election in elections:
+        events_by_date[_event_date_text(election)].append(election)
+
+    # area key -> (canonical candidate name, published name, official URL)
+    roster: dict[str, tuple[str, str, str]] = {}
+    roster_known = False
+    output: dict[tuple[str, str, str], dict[str, object]] = {}
+    contributing_event_ids: list[str] = []
+
+    for event_date in sorted(events_by_date):
+        same_day = events_by_date[event_date]
+        for election in same_day:
+            configuration = election.configuration
+            event_roster = dict(roster)
+            if configuration.election_type == "by-election" and roster_known:
+                contested_areas = {
+                    _canonical_area_name(record.division_ward_name)
+                    for record in election.records
+                    if record.division_ward_name
+                }
+                for area_key in contested_areas:
+                    # The official archive's by-election event establishes a
+                    # vacancy. Remove that office before testing its candidates.
+                    event_roster.pop(area_key, None)
+
+            active_by_name: defaultdict[
+                str, list[tuple[str, str, str]]
+            ] = defaultdict(list)
+            for member in event_roster.values():
+                active_by_name[member[0]].append(member)
+
+            for record in election.records:
+                key = (
+                    configuration.election_id,
+                    record.source_url,
+                    record.candidate_name,
+                )
+                if not roster_known:
+                    output[key] = {
+                        "incumbent_candidate_roster_yes_no": "Unknown",
+                        "incumbent_candidate_roster_status": (
+                            "unknown_no_complete_pre_2013_official_roster"
+                        ),
+                        "incumbent_candidate_roster_source_urls": None,
+                        "incumbent_candidate_roster_event_ids": None,
+                    }
+                    continue
+
+                matches = active_by_name[
+                    _canonical_official_candidate_name(record.candidate_name)
+                ]
+                if len(matches) > 1:
+                    value = "Unknown"
+                    status = "unknown_duplicate_complete_name_in_official_roster"
+                    source_urls = None
+                elif len(matches) == 1:
+                    value = "Yes"
+                    status = "verified_in_complete_pre_election_official_roster"
+                    source_urls = f"{matches[0][2]}; {record.source_url}"
+                else:
+                    value = "No"
+                    status = "verified_absent_from_complete_pre_election_official_roster"
+                    source_urls = record.source_url
+                output[key] = {
+                    "incumbent_candidate_roster_yes_no": value,
+                    "incumbent_candidate_roster_status": status,
+                    "incumbent_candidate_roster_source_urls": source_urls,
+                    "incumbent_candidate_roster_event_ids": "; ".join(
+                        contributing_event_ids
+                    ),
+                }
+
+        # Apply all same-day outcomes only after every same-day snapshot has
+        # been classified.
+        for election in same_day:
+            configuration = election.configuration
+            elected = [
+                record for record in election.records if record.outcome == "Elected"
+            ]
+            if configuration.election_id in principal_ids:
+                # Small unit-test or direct-page payloads deliberately do not
+                # pretend to be a complete roster. Production inputs contain
+                # all 81 official divisions and therefore enter this branch.
+                if len(elected) != 81:
+                    continue
+                roster = {
+                    _canonical_area_name(record.division_ward_name): (
+                        _canonical_official_candidate_name(record.candidate_name),
+                        record.candidate_name,
+                        record.source_url,
+                    )
+                    for record in elected
+                    if record.division_ward_name
+                }
+                roster_known = True
+                contributing_event_ids = [configuration.election_id]
+            elif configuration.election_type == "by-election":
+                if len(elected) != 1:
+                    continue
+                winner = elected[0]
+                if roster_known and winner.division_ward_name:
+                    roster[_canonical_area_name(winner.division_ward_name)] = (
+                        _canonical_official_candidate_name(winner.candidate_name),
+                        winner.candidate_name,
+                        winner.source_url,
+                    )
+                    contributing_event_ids.append(configuration.election_id)
+
+    return output
 
 
 def build_master_database(
@@ -942,6 +1189,10 @@ def build_master_database(
     derived_rows: list[dict[str, object]] = []
     party_years: defaultdict[str, set[int]] = defaultdict(set)
     layered_reports: dict[str, LayeredCompletenessReport] = {}
+    # Reconstruct once from the complete audited event sequence. Candidate
+    # rows then receive a pre-election value without querying a later profile
+    # or allowing the current result to change its own predictor.
+    incumbency_roster_by_row = _pre_election_incumbency_roster_fields(elections)
 
     for election in elections:
         configuration = election.configuration
@@ -1084,6 +1335,15 @@ def build_master_database(
             supervisor_incumbency_fields = _supervisor_incumbency_fields(
                 incumbent_candidate=continuity_fields["incumbent_candidate"],
                 incumbent_candidate_status=continuity_fields["incumbency_status"],
+                roster_fields=incumbency_roster_by_row[
+                    (
+                        configuration.election_id,
+                        record.source_url,
+                        record.candidate_name,
+                    )
+                ],
+                current_candidate_name=record.candidate_name,
+                current_source_url=record.source_url,
                 current_party_name=record.original_party_name,
                 current_number_of_seats=analysis_number_of_seats,
                 historical_reference_fields=historical_reference_fields,
@@ -1566,8 +1826,10 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("candidate_previously_stood", "Whether the person stood in an earlier election.", "reviewed official continuity evidence", "derived", "TRUE only after manual review of direct profile links, a profile plus exact target and prior result pages, or exact target/prior result pages plus an official Council record that explicitly identifies the person taking office. Never generated from a name."),
             ("candidate_history_status", "Why personal candidate history is available or unresolved.", "candidate-history evidence register", "derived", "verified_official_member_profile, verified_multi_source_official_evidence and verified_official_council_record_evidence mean the reviewed register supports TRUE. unresolved_no_explicit_identifier is not evidence of absence."),
             ("incumbent_candidate", "Machine-readable person-level incumbency evidence value.", "reviewed official continuity evidence", "derived", "TRUE only when reviewed official evidence gives an eligible term start before the election; otherwise NULL. This evidence value underlies the supervisor-facing tri-state field."),
-            ("incumbent_candidate_yes_no", "Supervisor-facing answer to whether this candidate was an incumbent at the election.", "reviewed official continuity evidence", "derived", "Yes only with positive official person-level evidence; Unknown where the evidence register cannot decide. No is reserved for explicit official negative evidence and is not inferred from a failed search."),
-            ("incumbent_candidate_yes_no_status", "Evidence status supporting incumbent_candidate_yes_no.", "candidate continuity evidence register", "derived", "Separates a verified positive from an unresolved identity claim; Unknown is not No."),
+            ("incumbent_candidate_yes_no", "Supervisor-facing answer to whether this candidate held Surrey County Council office immediately before the election.", "chronological official election-result roster plus reviewed person-level evidence", "derived", "Yes/No follows the complete pre-election roster reconstructed from full principal results and every audited intervening by-election. The 2013 rows remain Unknown because no complete audited 2009 roster is in scope."),
+            ("incumbent_candidate_yes_no_status", "Evidence status supporting incumbent_candidate_yes_no.", "pre-election incumbency roster and candidate continuity evidence register", "derived", "Distinguishes roster presence, roster absence, reviewed profile/Council evidence and a genuinely unavailable prior roster; an unsuccessful profile search is never treated as No."),
+            ("incumbent_candidate_yes_no_source_urls", "Official source URLs supporting the candidate incumbency decision.", "prior official winning result and current official candidate result", "official provenance", "Yes retains the prior officeholder and current candidate URLs. No retains the current candidate URL and is supported by the complete roster event IDs. Profile and Council-record URLs remain in candidate_continuity_source_urls."),
+            ("incumbent_candidate_roster_event_ids", "Chronological official events contributing to the pre-election councillor roster.", "complete principal results and audited by-election results", "derived provenance", "NULL only where no complete prior roster exists. Same-day events cannot influence one another; 2026 shadow-authority results do not overwrite the continuing Surrey County Council roster."),
             ("incumbent_party_yes_no", "Whether this candidate's exact published party was the approved prior winning party in the area.", "approved historical reference and prior official result", "derived", "Yes or No only for a comparable single-member contest with an approved historical reference and published prior winner; otherwise Unknown."),
             ("incumbent_party_name", "Exact published name of the prior winning party used for incumbent_party_yes_no.", "approved historical reference and prior official result", "derived", "Retained for both Yes and No comparisons; NULL when party incumbency is not decidable. This is not the party name of a person inferred to be an incumbent."),
             ("incumbent_party_yes_no_status", "Reason incumbent_party_yes_no is decidable or Unknown.", "historical-reference incumbency policy", "derived", "Exact-label comparison is allowed only within an approved comparable single-member lineage; no fuzzy party mapping or boundary transfer."),

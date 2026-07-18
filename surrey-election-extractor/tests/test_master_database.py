@@ -899,6 +899,9 @@ def test_supervisor_party_incumbency_is_yes_or_no_only_with_approved_comparison(
     incumbent_party = _supervisor_incumbency_fields(
         incumbent_candidate=None,
         incumbent_candidate_status="unresolved_no_authoritative_linkage",
+        roster_fields={"incumbent_candidate_roster_yes_no": "Unknown"},
+        current_candidate_name="Candidate One",
+        current_source_url="https://example.gov/current",
         current_party_name="Conservative",
         current_number_of_seats=1,
         historical_reference_fields=approved_history,
@@ -906,6 +909,9 @@ def test_supervisor_party_incumbency_is_yes_or_no_only_with_approved_comparison(
     challenging_party = _supervisor_incumbency_fields(
         incumbent_candidate=None,
         incumbent_candidate_status="unresolved_no_authoritative_linkage",
+        roster_fields={"incumbent_candidate_roster_yes_no": "Unknown"},
+        current_candidate_name="Candidate Two",
+        current_source_url="https://example.gov/current",
         current_party_name="Liberal Democrats",
         current_number_of_seats=1,
         historical_reference_fields=approved_history,
@@ -913,6 +919,9 @@ def test_supervisor_party_incumbency_is_yes_or_no_only_with_approved_comparison(
     changed_structure = _supervisor_incumbency_fields(
         incumbent_candidate=True,
         incumbent_candidate_status="verified_official_member_profile",
+        roster_fields={"incumbent_candidate_roster_yes_no": "Unknown"},
+        current_candidate_name="Candidate One",
+        current_source_url="https://example.gov/current",
         current_party_name="Conservative",
         current_number_of_seats=2,
         historical_reference_fields=approved_history,
@@ -925,6 +934,74 @@ def test_supervisor_party_incumbency_is_yes_or_no_only_with_approved_comparison(
     assert changed_structure["incumbent_candidate_yes_no"] == "Yes"
     assert changed_structure["incumbent_party_yes_no"] == "Unknown"
     assert changed_structure["incumbent_party_name"] is None
+
+
+def test_consecutive_official_winner_can_support_positive_candidate_incumbency() -> None:
+    """Two official results plus approved continuity support a narrow Yes claim."""
+
+    fields = _supervisor_incumbency_fields(
+        incumbent_candidate=None,
+        incumbent_candidate_status="unresolved_no_authoritative_linkage",
+        roster_fields={"incumbent_candidate_roster_yes_no": "Unknown"},
+        current_candidate_name="John Raymond Furey",
+        current_source_url="https://mycouncil.surreycc.gov.uk/result/current",
+        current_party_name="Conservative",
+        current_number_of_seats=1,
+        historical_reference_fields={
+            "historical_reference_status": "approved_pre_2024_legal_continuity",
+            "previous_winning_candidate_name": "Furey, John Raymond",
+            "previous_winning_party": "Conservative",
+            "historical_source_url": "https://mycouncil.surreycc.gov.uk/result/prior",
+        },
+    )
+
+    assert fields["incumbent_candidate_yes_no"] == "Yes"
+    assert fields["incumbent_candidate_yes_no_status"] == (
+        "verified_consecutive_official_results_approved_area_continuity"
+    )
+    assert fields["incumbent_candidate_yes_no_source_urls"] == (
+        "https://mycouncil.surreycc.gov.uk/result/prior; "
+        "https://mycouncil.surreycc.gov.uk/result/current"
+    )
+
+
+def test_consecutive_result_route_never_turns_a_different_name_into_no() -> None:
+    """A non-match stays Unknown because an incumbent may move divisions."""
+
+    fields = _supervisor_incumbency_fields(
+        incumbent_candidate=None,
+        incumbent_candidate_status="unresolved_no_authoritative_linkage",
+        roster_fields={"incumbent_candidate_roster_yes_no": "Unknown"},
+        current_candidate_name="Another Candidate",
+        current_source_url="https://mycouncil.surreycc.gov.uk/result/current",
+        current_party_name="Conservative",
+        current_number_of_seats=1,
+        historical_reference_fields={
+            "historical_reference_status": "approved_pre_2024_legal_continuity",
+            "previous_winning_candidate_name": "Prior Winner",
+            "previous_winning_party": "Conservative",
+            "historical_source_url": "https://mycouncil.surreycc.gov.uk/result/prior",
+        },
+    )
+
+    assert fields["incumbent_candidate_yes_no"] == "Unknown"
+    assert fields["incumbent_candidate_yes_no_source_urls"] is None
+
+
+def test_full_official_event_sequence_closes_post_2013_candidate_incumbency() -> None:
+    """The complete roster yields no post-2013 Unknown candidate values."""
+
+    payload = build_master_database(load_audited_elections())
+    counts = {value: 0 for value in ("Yes", "No", "Unknown")}
+    for row in payload.candidate_results:
+        counts[str(row["incumbent_candidate_yes_no"])] += 1
+
+    assert counts == {"Yes": 113, "No": 1500, "Unknown": 358}
+    assert all(
+        row["election_year"] == 2013
+        for row in payload.candidate_results
+        if row["incumbent_candidate_yes_no"] == "Unknown"
+    )
 
 
 def test_verified_multi_source_evidence_adds_history_without_name_matching() -> None:

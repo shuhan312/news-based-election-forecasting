@@ -63,6 +63,27 @@ replace, the profile-to-result-link evidence.
 | Incumbent party name | `incumbent_party_name` retains the exact prior winning-party label whenever the party Yes/No comparison is decidable. | Keeping the name separate prevents a party label from being mistaken for the supervisor's required Yes/No answer. |
 | Change in vote share | Available separately for approved exact-label single-member comparisons. | It is a post-election diagnostic, never candidate-identity evidence or a no-news predictor. Party-total reconstruction and cross-boundary swing remain prohibited. |
 
+## Complete pre-election roster method
+
+The supervisor-facing `incumbent_candidate_yes_no` is now determined from a
+chronological official roster rather than from success or failure in finding an
+individual profile. The complete 2013, 2017 and 2021 results establish each
+81-member Council; every audited intervening by-election removes the vacant
+seat and installs the newly elected official winner. Each later event is then
+compared with the roster that existed immediately before its polling date.
+
+This permits both `Yes` and `No` after 2013. `No` means absent from a complete
+official pre-election roster, not “no profile found”. Same-day elections use the
+same opening snapshot, and the 2026 East/West results do not overwrite the
+continuing Surrey County Council roster. The 2013 candidate rows remain
+`Unknown` because a complete audited 2009 roster is not present in the project.
+
+The chronological update also resolves repeated complete names without a
+manual guess. Two 2021 official result rows publish `David John Lewis`, but the
+2025 Camberley West by-election replaces one of those seats before the 2026
+poll. The remaining Cobham officeholder is therefore unique in the official
+pre-election roster.
+
 ## Limitation and next extension
 
 The person-level register is necessarily narrower than the party-incumbency

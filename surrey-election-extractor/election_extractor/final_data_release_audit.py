@@ -265,6 +265,7 @@ def build_final_data_release_audit(
             "change_in_vote_share_provenance",
             "change_in_vote_share_model_role",
             "incumbent_candidate_yes_no",
+            "incumbent_candidate_yes_no_source_urls",
             "incumbent_party_yes_no",
             "incumbent_party_name",
         },
@@ -313,6 +314,19 @@ def build_final_data_release_audit(
             ),
             "verified_incumbent_candidate_yes": sum(
                 row.get("incumbent_candidate_yes_no") == "Yes"
+                for row in payload.candidate_results
+            ),
+            "verified_incumbent_candidate_no": sum(
+                row.get("incumbent_candidate_yes_no") == "No"
+                for row in payload.candidate_results
+            ),
+            "unresolved_incumbent_candidate_unknown": sum(
+                row.get("incumbent_candidate_yes_no") == "Unknown"
+                for row in payload.candidate_results
+            ),
+            "incumbent_candidate_yes_from_consecutive_official_results": sum(
+                row.get("incumbent_candidate_yes_no_status")
+                == "verified_consecutive_official_results_approved_area_continuity"
                 for row in payload.candidate_results
             ),
             "decidable_incumbent_party_yes_no": sum(
