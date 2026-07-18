@@ -111,7 +111,7 @@ const wholeNumberColumns = new Set([
   "votes",
   "first_observed_year",
 ]);
-const percentageColumns = new Set(["vote_share", "turnout"]);
+const percentageColumns = new Set(["vote_share", "analysis_vote_share", "turnout"]);
 const identifierColumns = new Set(["metadata_id", "division_id", "candidate_id"]);
 
 function widthFor(fieldName) {

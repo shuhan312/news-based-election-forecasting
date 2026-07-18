@@ -44,6 +44,7 @@ from election_extractor.derived_final_position import (
     validate_final_positions_against_official_outcomes,
 )
 from election_extractor.analysis_voting_summary import build_analysis_voting_summary
+from election_extractor.analysis_vote_share import build_analysis_vote_share_rows
 from election_extractor.election_config import ElectionConfiguration, load_election_config
 from election_extractor.election_structure_metadata import load_secondary_seats_audit
 from election_extractor.extraction import CandidateResultRecord, ExtractionStatus
@@ -917,6 +918,11 @@ def build_master_database(
             (position.source_url, position.candidate_name): position
             for position in derived_positions
         }
+        # Vote share has its own candidate-level publication layer. Published
+        # percentages pass through unchanged; a missing value is calculated
+        # only from a complete single-member candidate table on the same
+        # official source page. The official vote_share field remains NULL.
+        analysis_vote_share_by_row = build_analysis_vote_share_rows(election.records)
         # Layered completeness is read-only: it selects metadata sources for
         # assessment but never writes configuration or supplementary values
         # back into official candidate records.
@@ -983,6 +989,9 @@ def build_master_database(
             position = derived_position_by_row.get(
                 (record.source_url, record.candidate_name)
             )
+            analysis_vote_share = analysis_vote_share_by_row[
+                (record.source_url, record.candidate_name)
+            ]
             candidate_rows.append(
                 {
                     "election_id": configuration.election_id,
@@ -995,6 +1004,7 @@ def build_master_database(
                     **party_fields,
                     "votes": record.votes_received,
                     "vote_share": record.vote_share,
+                    **analysis_vote_share,
                     "outcome": record.outcome,
                     # This is a transparent recoding of an explicit official
                     # Outcome, not a rank or a prediction from vote totals.
@@ -1309,6 +1319,17 @@ def _audit_summary(
         "candidate_rows_with_tied_derived_final_position": sum(
             row["derived_final_position_tied"] is True for row in candidate_rows
         ),
+        "candidate_rows_with_official_vote_share": sum(
+            row["vote_share"] is not None for row in candidate_rows
+        ),
+        "candidate_rows_with_analysis_vote_share": sum(
+            row["analysis_vote_share"] is not None for row in candidate_rows
+        ),
+        "candidate_rows_with_derived_analysis_vote_share": sum(
+            row["analysis_vote_share_provenance"]
+            == "governed_derived_from_official_candidate_votes"
+            for row in candidate_rows
+        ),
         "divisions_with_secondary_seats": sum(
             row["secondary_number_of_seats"] is not None for row in division_rows
         ),
@@ -1381,6 +1402,9 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("party_lookup_notes", "Non-merger and scope note for the reviewed party mapping.", "party standardisation lookup", "derived", "NULL when no lookup note is available."),
             ("votes", "Published votes received.", "official result page", "official", "NULL if not published."),
             ("vote_share", "Published candidate vote share percentage.", "official result page", "official", "NULL if not published."),
+            ("analysis_vote_share", "Analysis-ready candidate vote share percentage.", "official vote share or governed calculation from one complete official candidate table", "analysis", "Uses the official percentage when published. Otherwise available only for a complete, positive-total, single-member official candidate table; never overwrites vote_share."),
+            ("analysis_vote_share_provenance", "Evidence layer selected for analysis_vote_share.", "analysis vote-share policy", "derived", "Either official_result_page, governed_derived_from_official_candidate_votes or unavailable."),
+            ("analysis_vote_share_status", "Reason analysis_vote_share is available or unavailable.", "analysis vote-share policy", "derived", "A derived value requires complete non-negative candidate votes, one seat, a positive total and a unique candidate name on one source page."),
             ("outcome", "Published candidate outcome text.", "official result page", "official", "NULL if not published."),
             ("elected_yes_no", "Yes/No recoding of explicit published Outcome only.", "official outcome", "derived", "NULL unless Outcome is exactly Elected or Not elected."),
             ("final_position", "Official candidate rank or placing if published.", "official result page", "official", "NULL when not published; never calculated from votes."),
@@ -1596,6 +1620,9 @@ def audit_summary_markdown(payload: MasterDatabasePayload) -> str:
         f"- Candidate rows with NULL final_position: {summary['candidate_rows_with_null_final_position']}",
         f"- Candidate rows with separate derived_final_position: {summary['candidate_rows_with_derived_final_position']}",
         f"- Candidate rows tied on derived_final_position: {summary['candidate_rows_with_tied_derived_final_position']}",
+        f"- Candidate rows with official vote_share: {summary['candidate_rows_with_official_vote_share']}",
+        f"- Candidate rows with analysis_vote_share: {summary['candidate_rows_with_analysis_vote_share']}",
+        f"- Candidate rows with governed-derived analysis_vote_share: {summary['candidate_rows_with_derived_analysis_vote_share']}",
         f"- Divisions with supplementary Seats evidence: {summary['divisions_with_secondary_seats']}",
         f"- Supplementary metadata records: {summary['supplementary_metadata_records']}",
         f"- Supplementary metadata by field: {summary['supplementary_metadata_by_field']}",
