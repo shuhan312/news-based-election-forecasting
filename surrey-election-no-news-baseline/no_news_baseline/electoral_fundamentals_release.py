@@ -25,6 +25,7 @@ from no_news_baseline.electoral_fundamentals_schema import (
     IDENTIFIER_COLUMNS,
     PREDICTOR_COLUMNS,
     PROVENANCE_COLUMNS,
+    ROW_KEY_COLUMNS,
 )
 
 
@@ -53,6 +54,11 @@ DEFAULT_METADATA_PATH = (
     Path(__file__).resolve().parents[1] / "config/electoral_feature_metadata.csv"
 )
 
+# Increment this label only when a published construction or evaluation method
+# changes. Input hashes alone cannot distinguish two methods run on the same
+# official data, so the quality report records both dimensions.
+RELEASE_METHOD_VERSION = "electoral-fundamentals-v2-multi-member-top-vote"
+
 
 def create_electoral_fundamentals_release(
     feature_path: Path,
@@ -70,7 +76,8 @@ def create_electoral_fundamentals_release(
     overlap = _load_json_object(overlap_path)
     targets = _load_rows_payload(target_path)
     rows = build_electoral_fundamentals_features(party_features, master, overlap)
-    released_rows = _attach_evaluation_columns(rows, targets)
+    candidates = _payload_table(master, "Candidate Results")
+    released_rows = _attach_evaluation_columns(rows, targets, candidates)
 
     output_directory.mkdir(parents=True, exist_ok=True)
     full_path = output_directory / "electoral_fundamentals_features.csv"
@@ -90,6 +97,7 @@ def create_electoral_fundamentals_release(
             released_rows,
             (feature_path, target_path, master_path, overlap_path),
             generated_at or datetime.now(UTC),
+            RELEASE_METHOD_VERSION,
         ),
         encoding="utf-8",
     )
@@ -145,8 +153,19 @@ def _expected_dictionary_role(field: str) -> tuple[str, str]:
 def _attach_evaluation_columns(
     rows: Sequence[Mapping[str, object]],
     targets: Sequence[Mapping[str, object]],
+    candidates: Sequence[Mapping[str, object]],
 ) -> tuple[dict[str, object], ...]:
-    """Join target outcomes only after every predictor has been constructed."""
+    """Join target outcomes only after every predictor has been constructed.
+
+    Single-member shares come from the extractor target contract. For a
+    multi-member ward there is no separate party ballot: voters cast candidate
+    votes and may use fewer votes than vacancies. The primary party outcome
+    therefore follows the conventional UK reporting rule documented in House
+    of Commons Standard Note SN05064: take each party's best-placed candidate
+    and normalise those party values within the ward. An average-candidate
+    alternative discussed by Ware et al. (Electoral Studies, 2006,
+    doi:10.1016/j.electstud.2005.04.003) is released for sensitivity analysis.
+    """
 
     by_id: dict[str, Mapping[str, object]] = {}
     for target in targets:
@@ -156,6 +175,7 @@ def _attach_evaluation_columns(
         by_id[contest_id] = target
 
     used_ids: set[str] = set()
+    multi_member_shares = _multi_member_party_shares(rows, candidates)
     released: list[dict[str, object]] = []
     for row in rows:
         source_ids = tuple(str(value) for value in row["source_party_contest_ids"])
@@ -165,11 +185,104 @@ def _attach_evaluation_columns(
                 raise ValueError(f"No evaluation target for source row {source_id!r}.")
             components.append(by_id[source_id])
             used_ids.add(source_id)
-        released.append({**row, **_aggregate_targets(components)})
+        outcomes = _aggregate_targets(components)
+        if int(row["number_of_seats"]) > 1:
+            key = tuple(str(row[column]) for column in ROW_KEY_COLUMNS)
+            primary_share, sensitivity_share = multi_member_shares[key]
+            outcomes.update(
+                {
+                    "evaluation_current_party_vote_share": primary_share,
+                    "evaluation_party_vote_share_method": (
+                        "multi_member_best_placed_candidate_normalised"
+                    ),
+                    "evaluation_current_party_vote_share_average_candidate_sensitivity": sensitivity_share,
+                    "evaluation_party_vote_share_sensitivity_gap_pp": abs(
+                        primary_share - sensitivity_share
+                    ),
+                }
+            )
+        else:
+            current_share = outcomes["evaluation_current_party_vote_share"]
+            outcomes.update(
+                {
+                    "evaluation_party_vote_share_method": (
+                        "single_member_candidate_share"
+                        if current_share is not None
+                        else None
+                    ),
+                    "evaluation_current_party_vote_share_average_candidate_sensitivity": current_share,
+                    "evaluation_party_vote_share_sensitivity_gap_pp": (
+                        0.0 if current_share is not None else None
+                    ),
+                }
+            )
+        released.append({**row, **outcomes})
 
     if used_ids != set(by_id):
         raise ValueError("Feature and target contracts do not contain identical source IDs.")
     return tuple(released)
+
+
+def _multi_member_party_shares(
+    rows: Sequence[Mapping[str, object]],
+    candidates: Sequence[Mapping[str, object]],
+) -> dict[tuple[str, str, str], tuple[float, float]]:
+    """Calculate primary and sensitivity shares from complete candidate votes.
+
+    Both definitions are normalised separately within a ward, so each set of
+    party shares sums to 100%. Votes are never averaged or summed across wards.
+    Generic Independent records follow the declared standardised-party row
+    unit and retain their component IDs for audit in the full release.
+    """
+
+    multi_area_keys = {
+        (str(row["election_id"]), str(row["area_id"]))
+        for row in rows
+        if int(row["number_of_seats"]) > 1
+    }
+    votes_by_party: dict[tuple[str, str], dict[str, list[float]]] = {}
+    for candidate in candidates:
+        area_key = (
+            str(candidate.get("election_id")),
+            str(candidate.get("division_id")),
+        )
+        if area_key not in multi_area_keys:
+            continue
+        party = candidate.get("standard_party_name")
+        votes = candidate.get("votes")
+        if not isinstance(party, str) or not party:
+            raise ValueError("Multi-member candidate has no standardised party name.")
+        if not isinstance(votes, (int, float)) or isinstance(votes, bool) or votes < 0:
+            raise ValueError("Multi-member party-share calculation requires complete votes.")
+        votes_by_party.setdefault(area_key, {}).setdefault(party, []).append(float(votes))
+
+    output: dict[tuple[str, str, str], tuple[float, float]] = {}
+    for area_key in sorted(multi_area_keys):
+        parties = votes_by_party.get(area_key)
+        if not parties:
+            raise ValueError(f"No candidate votes found for multi-member area {area_key!r}.")
+        top_votes = {party: max(votes) for party, votes in parties.items()}
+        average_votes = {
+            party: sum(votes) / len(votes) for party, votes in parties.items()
+        }
+        top_total = sum(top_votes.values())
+        average_total = sum(average_votes.values())
+        if top_total <= 0 or average_total <= 0:
+            raise ValueError("Multi-member party-share denominator must be positive.")
+        for party in parties:
+            output[(*area_key, party)] = (
+                100.0 * top_votes[party] / top_total,
+                100.0 * average_votes[party] / average_total,
+            )
+
+    expected_keys = {
+        tuple(str(row[column]) for column in ROW_KEY_COLUMNS)
+        for row in rows
+        if int(row["number_of_seats"]) > 1
+    }
+    if set(output) != expected_keys:
+        raise ValueError("Multi-member candidate votes do not match released party rows.")
+    return output
 
 
 def _aggregate_targets(
@@ -195,6 +308,11 @@ def _aggregate_targets(
     )
     return {
         "evaluation_current_party_vote_share": _sum_if_complete(shares),
+        # The electoral-system-specific method and sensitivity fields are
+        # assigned by _attach_evaluation_columns after this outcome join.
+        "evaluation_party_vote_share_method": None,
+        "evaluation_current_party_vote_share_average_candidate_sensitivity": None,
+        "evaluation_party_vote_share_sensitivity_gap_pp": None,
         "evaluation_current_party_was_winner": (
             any(value == "Yes" for value in elected)
             if all(value in {"Yes", "No"} for value in elected)
@@ -268,3 +386,14 @@ def _load_rows_payload(path: Path) -> tuple[dict[str, object], ...]:
     if not isinstance(rows, list) or not all(isinstance(row, dict) for row in rows):
         raise ValueError(f"JSON input must contain a rows list: {path}.")
     return tuple(rows)
+
+
+def _payload_table(
+    payload: Mapping[str, object], table_name: str
+) -> tuple[Mapping[str, object], ...]:
+    """Return a required master-payload table with its basic shape checked."""
+
+    table = payload.get(table_name)
+    if not isinstance(table, list) or not all(isinstance(row, dict) for row in table):
+        raise ValueError(f"Master payload table is missing or invalid: {table_name!r}.")
+    return tuple(table)

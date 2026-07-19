@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import csv
+import json
+from collections import defaultdict
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -99,6 +101,69 @@ def test_full_table_keeps_evaluation_columns_separate_and_traceable(
     assert columns == list(FULL_FEATURE_COLUMNS)
     assert set(EVALUATION_COLUMNS) <= set(columns)
     assert all(row["evaluation_source_urls"] for row in rows)
+    assert all(row["evaluation_current_party_vote_share"] != "" for row in rows)
+    assert all(row["evaluation_party_vote_share_method"] for row in rows)
+
+
+def test_2026_multi_member_party_shares_use_normalised_top_candidate_votes(
+    tmp_path: Path,
+) -> None:
+    """Primary and sensitivity shares must each sum to 100 within every ward."""
+
+    full_path, _, _, _ = _release(tmp_path)
+    _, rows = _read_csv(full_path)
+    multi_rows = [
+        row
+        for row in rows
+        if row["evaluation_party_vote_share_method"]
+        == "multi_member_best_placed_candidate_normalised"
+    ]
+    assert len(multi_rows) == 456
+    grouped: dict[tuple[str, str], list[dict[str, str]]] = defaultdict(list)
+    for row in multi_rows:
+        grouped[(row["election_id"], row["area_id"])].append(row)
+    assert len(grouped) == 81
+    for area_rows in grouped.values():
+        assert sum(
+            float(row["evaluation_current_party_vote_share"])
+            for row in area_rows
+        ) == pytest.approx(100.0)
+        assert sum(
+            float(row["evaluation_current_party_vote_share_average_candidate_sensitivity"])
+            for row in area_rows
+        ) == pytest.approx(100.0)
+
+
+def test_ashtead_primary_share_matches_complete_official_candidate_votes(
+    tmp_path: Path,
+) -> None:
+    """A real ward checks the published formula rather than only its totals."""
+
+    full_path, _, _, _ = _release(tmp_path)
+    _, rows = _read_csv(full_path)
+    area_id = "surrey-county-council-2026-east-surrey:result:352"
+    master = json.loads(
+        (
+            EXTRACTOR_OUTPUTS
+            / "master_surrey_election_database/master_election_database_payload.json"
+        ).read_text(encoding="utf-8")
+    )
+    candidates = [
+        row for row in master["Candidate Results"] if row["division_id"] == area_id
+    ]
+    top_by_party: dict[str, int] = {}
+    for candidate in candidates:
+        party = candidate["standard_party_name"]
+        top_by_party[party] = max(top_by_party.get(party, 0), candidate["votes"])
+    denominator = sum(top_by_party.values())
+    reform_row = next(
+        row
+        for row in rows
+        if row["area_id"] == area_id and row["standard_party_name"] == "Reform UK"
+    )
+    assert float(reform_row["evaluation_current_party_vote_share"]) == pytest.approx(
+        100 * top_by_party["Reform UK"] / denominator
+    )
 
 
 def test_dictionary_documents_every_released_column_once(tmp_path: Path) -> None:
@@ -127,13 +192,20 @@ def test_metadata_reader_rejects_a_dictionary_that_does_not_match_schema(
         load_feature_dictionary(invalid_metadata)
 
 
-def test_quality_report_discloses_multi_member_evaluation_gap(tmp_path: Path) -> None:
-    """The release must not hide undefined 2026 party-share outcomes."""
+def test_quality_report_documents_multi_member_definition_and_sensitivity(
+    tmp_path: Path,
+) -> None:
+    """The report must disclose that 2026 party share is an analytical outcome."""
 
     _, _, _, report_path = _release(tmp_path)
     report = report_path.read_text(encoding="utf-8")
-    assert "456 missing current-party vote shares" in report
+    assert "Party vote-share outcomes are complete" in report
+    assert "456" in report
     assert "two-member wards" in report
+    assert "average-candidate alternative" in report
+    assert "Method version:" in report
+    assert "Release version:" in report
+    assert "SN05064" in report
     assert "/Users/" not in report
 
 

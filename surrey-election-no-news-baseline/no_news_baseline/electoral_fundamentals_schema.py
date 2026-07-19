@@ -97,6 +97,13 @@ PROVENANCE_COLUMNS = (
 # code cannot silently treat them as fundamentals predictors.
 EVALUATION_COLUMNS = (
     "evaluation_current_party_vote_share",
+    "evaluation_party_vote_share_method",
+    # Multi-member plurality does not observe a separate party ballot.  The
+    # primary outcome follows the UK convention based on each party's best-
+    # placed candidate; this average-candidate alternative is retained only to
+    # test whether substantive conclusions depend on that convention.
+    "evaluation_current_party_vote_share_average_candidate_sensitivity",
+    "evaluation_party_vote_share_sensitivity_gap_pp",
     "evaluation_current_party_was_winner",
     "evaluation_current_party_seats_won",
     "evaluation_source_urls",
