@@ -69,6 +69,22 @@ Generated predictions and metrics are written under
 Git. Code, tests, data-contract documentation and research decisions remain
 version controlled.
 
+## Electoral fundamentals feature release
+
+Generate the reproducible party-level feature tables from the extractor-owned
+contracts with:
+
+```bash
+PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python \
+  surrey-election-no-news-baseline/scripts/build_electoral_fundamentals_release.py
+```
+
+The command writes the complete inspection table, a predictors-only matrix, a
+field dictionary and a data-quality report under
+`surrey-election-no-news-baseline/outputs/electoral_fundamentals/`. The output
+directory remains ignored because every artifact is regenerated from versioned
+code and extractor contracts. No model is trained by this command.
+
 ## Planned internal structure
 
 ```text
