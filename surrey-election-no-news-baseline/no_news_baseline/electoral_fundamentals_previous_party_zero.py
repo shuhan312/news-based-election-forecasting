@@ -60,7 +60,7 @@ def add_crosswalk_previous_party_zeros(
                 geographic_overlap_audit=geographic_overlap_audit,
             )
             if zero_evidence is None:
-                enriched.update(_unavailable_evidence())
+                enriched.update(_unavailable_evidence(row))
             else:
                 # Absence from every complete source result establishes these
                 # party-history states without estimating where votes occurred.
@@ -183,11 +183,20 @@ def _direct_evidence(row: Mapping[str, object]) -> dict[str, object]:
     }
 
 
-def _unavailable_evidence() -> dict[str, object]:
-    """Retain missingness without claiming unsupported source provenance."""
+def _unavailable_evidence(row: Mapping[str, object]) -> dict[str, object]:
+    """Distinguish generic Independent non-applicability from unknown history.
+
+    Independent candidates do not belong to one continuing party, so their
+    party-level lag is structurally not applicable. Other missing values remain
+    unavailable until direct or exact-zero evidence is present.
+    """
 
     return {
-        "previous_party_vote_share_status": "unavailable_no_direct_or_zero_proof",
+        "previous_party_vote_share_status": (
+            "not_applicable_generic_independent_identity"
+            if row.get("standard_party_name") == "Independent"
+            else "unavailable_no_direct_or_zero_proof"
+        ),
         "previous_party_vote_share_method": None,
         "previous_party_source_election_id": None,
         "previous_party_source_area_ids": None,

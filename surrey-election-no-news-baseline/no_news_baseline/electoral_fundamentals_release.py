@@ -57,7 +57,7 @@ DEFAULT_METADATA_PATH = (
 # Increment this label only when a published construction or evaluation method
 # changes. Input hashes alone cannot distinguish two methods run on the same
 # official data, so the quality report records both dimensions.
-RELEASE_METHOD_VERSION = "electoral-fundamentals-v3-crosswalk-exact-party-zeros"
+RELEASE_METHOD_VERSION = "electoral-fundamentals-v4-independent-null-semantics"
 
 
 def create_electoral_fundamentals_release(

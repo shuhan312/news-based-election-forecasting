@@ -32,6 +32,11 @@ def render_quality_report(
         == "observed_zero_across_complete_previous_crosswalk"
         for row in rows
     )
+    independent_not_applicable = sum(
+        row["previous_party_vote_share_status"]
+        == "not_applicable_generic_independent_identity"
+        for row in rows
+    )
     method_counts = Counter(row["evaluation_party_vote_share_method"] for row in rows)
     multi_member_gaps = [
         float(row["evaluation_party_vote_share_sensitivity_gap_pp"])
@@ -140,6 +145,14 @@ zero. A value is released only when the crosswalk covers at least 99.8% of the
 target ward and the party is absent from every contributing division. Polygon
 area is never used to allocate positive votes; those cases remain NULL pending
 polling-district electorate evidence.
+
+## Independent history boundary
+
+The {independent_not_applicable} Independent rows retain NULL previous party
+share with status `not_applicable_generic_independent_identity`. Independent is
+a ballot description for unrelated people rather than one continuing party.
+Verified personal continuity remains available through
+`candidate_previously_stood`; it is not relabelled as party vote-share history.
 
 ## Interpretation boundaries
 

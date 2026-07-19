@@ -13,6 +13,9 @@ from no_news_baseline.electoral_fundamentals_builder import (
     validate_completed_fundamentals_rows,
 )
 from no_news_baseline.electoral_fundamentals_rows import load_party_feature_rows
+from no_news_baseline.independent_previous_share_audit import (
+    audit_independent_previous_share_nulls,
+)
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -113,3 +116,40 @@ def test_validator_rejects_positive_crosswalk_imputation() -> None:
 
     with pytest.raises(ValueError, match="only an exact zero"):
         validate_completed_fundamentals_rows([invalid])
+
+
+def test_independent_history_is_explicitly_not_applicable() -> None:
+    """Generic Independent rows stay NULL without looking unresolved."""
+
+    party_features, master, overlap = _real_inputs()
+    rows = build_electoral_fundamentals_features(party_features, master, overlap)
+    independents = [
+        row for row in rows if row["standard_party_name"] == "Independent"
+    ]
+
+    # The current party-level release contains 59 Independent rows. Keep the
+    # explicit count as a regression check against accidental row loss or
+    # splitting caused by future standardisation changes.
+    assert len(independents) == 59
+    assert all(row["previous_party_vote_share"] is None for row in independents)
+    assert {
+        row["previous_party_vote_share_status"] for row in independents
+    } == {"not_applicable_generic_independent_identity"}
+
+
+def test_real_later_independent_null_review_is_complete() -> None:
+    """Every Independent with an approved predecessor receives a final review."""
+
+    party_features, master, overlap = _real_inputs()
+    rows = build_electoral_fundamentals_features(party_features, master, overlap)
+    audit = audit_independent_previous_share_nulls(
+        rows, master["Candidate Results"]
+    )
+
+    assert audit["audited_rows"] == 38
+    assert audit["status"] == "complete_no_party_level_values_recoverable"
+    assert audit["decision_counts"] == {
+        "candidate_history_available_not_party_history": 7,
+        "different_or_ambiguous_independent_identity": 7,
+        "generic_independent_label_not_continuing_entity": 24,
+    }

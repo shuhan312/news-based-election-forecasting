@@ -189,8 +189,17 @@ def _validate_previous_party_share_evidence(row: Mapping[str, object]) -> None:
     source_areas = row.get("previous_party_source_area_ids")
     coverage = row.get("previous_party_geographic_coverage_percent")
     if value is None:
-        if status != "unavailable_no_direct_or_zero_proof":
+        missing_statuses = {
+            "unavailable_no_direct_or_zero_proof",
+            "not_applicable_generic_independent_identity",
+        }
+        if status not in missing_statuses:
             raise ValueError("Missing previous party share has an invalid status.")
+        if (
+            status == "not_applicable_generic_independent_identity"
+            and row.get("standard_party_name") != "Independent"
+        ):
+            raise ValueError("Independent non-applicability is assigned to another party.")
         if any(item is not None for item in (method, source_election, source_areas, coverage)):
             raise ValueError("Missing previous party share claims source evidence.")
         return
