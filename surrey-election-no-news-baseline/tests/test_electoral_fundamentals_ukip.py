@@ -13,6 +13,7 @@ from no_news_baseline.electoral_fundamentals_rows import (
     load_party_feature_rows,
 )
 from no_news_baseline.electoral_fundamentals_ukip import (
+    PREVIOUS_COUNTY_ELECTION_ID,
     add_previous_ukip_feature,
 )
 
@@ -53,8 +54,24 @@ def _candidate(
     return {
         "election_id": "previous-election",
         "division_id": "previous-area",
+        "division_name": "Previous Area",
         "standard_party_name": party,
         "analysis_vote_share": share,
+    }
+
+
+def _crosswalk(*, previous_area_name: str = "Previous Area ED") -> dict[str, object]:
+    """Create a complete official-boundary crosswalk for one 2026 ward."""
+
+    return {
+        "candidate_overlap_rows": [
+            {
+                "previous_area_name": previous_area_name,
+                "current_election_id": "surrey-county-council-2026-east-surrey",
+                "current_area_name": "Target Area",
+                "current_area_overlap_percent": 100.0,
+            }
+        ]
     }
 
 
@@ -70,6 +87,14 @@ def test_reform_keeps_own_previous_share_separate_from_ukip() -> None:
     # columns even though they come from the same approved previous area.
     assert row["previous_party_vote_share"] == 0.0
     assert row["previous_ukip_vote_share_in_area"] == 12.0
+    assert row["previous_ukip_vote_share_status"] == (
+        "observed_share_in_complete_previous_result"
+    )
+    assert row["previous_ukip_vote_share_method"] == (
+        "direct_approved_previous_area_result"
+    )
+    assert row["previous_ukip_source_election_id"] == "previous-election"
+    assert row["previous_ukip_source_area_id"] == "previous-area"
 
 
 def test_complete_previous_result_without_ukip_records_zero() -> None:
@@ -82,6 +107,9 @@ def test_complete_previous_result_without_ukip_records_zero() -> None:
     )[0]
 
     assert row["previous_ukip_vote_share_in_area"] == 0.0
+    assert row["previous_ukip_vote_share_status"] == (
+        "observed_zero_in_complete_previous_result"
+    )
 
 
 def test_reform_without_approved_previous_area_keeps_ukip_unknown() -> None:
@@ -92,6 +120,12 @@ def test_reform_without_approved_previous_area_keeps_ukip_unknown() -> None:
     )[0]
 
     assert row["previous_ukip_vote_share_in_area"] is None
+    assert row["previous_ukip_vote_share_status"] == (
+        "unavailable_no_approved_previous_area"
+    )
+    assert row["previous_ukip_vote_share_method"] is None
+    assert row["previous_ukip_source_election_id"] is None
+    assert row["previous_ukip_source_area_id"] is None
 
 
 def test_non_reform_party_does_not_receive_reform_context_feature() -> None:
@@ -107,6 +141,74 @@ def test_non_reform_party_does_not_receive_reform_context_feature() -> None:
 
     assert row["previous_party_vote_share"] == 55.0
     assert row["previous_ukip_vote_share_in_area"] is None
+    assert row["previous_ukip_vote_share_status"] == "not_applicable_non_reform_party"
+
+
+def test_complete_crosswalk_without_ukip_proves_zero() -> None:
+    """Complete contributing results without UKIP should release exact zero."""
+
+    row = _reform_row(approved=False)
+    row.update(
+        {
+            "election_id": "surrey-county-council-2026-east-surrey",
+            "election_date": "2026-05-07",
+            "area_name": "Target Area Ward",
+        }
+    )
+    elections = [
+        {"election_id": PREVIOUS_COUNTY_ELECTION_ID, "election_date": "2021-05-06"},
+        {
+            "election_id": "surrey-county-council-2026-east-surrey",
+            "election_date": "2026-05-07",
+        },
+    ]
+    previous_candidate = _candidate(party="Conservative", share=55.0)
+    previous_candidate["election_id"] = PREVIOUS_COUNTY_ELECTION_ID
+
+    completed = add_previous_ukip_feature(
+        [row], elections, [previous_candidate], _crosswalk()
+    )[0]
+
+    assert completed["previous_ukip_vote_share_in_area"] == 0.0
+    assert completed["previous_ukip_vote_share_status"] == (
+        "observed_zero_across_complete_previous_crosswalk"
+    )
+    assert completed["previous_ukip_vote_share_method"] == (
+        "complete_official_results_across_official_gis_crosswalk"
+    )
+    assert completed["previous_ukip_source_area_ids"] == ("previous area",)
+    assert completed["previous_ukip_geographic_coverage_percent"] == 100.0
+
+
+def test_crosswalk_touching_ukip_area_does_not_redistribute_votes() -> None:
+    """A changed ward touching UKIP support must remain unknown, not estimated."""
+
+    row = _reform_row(approved=False)
+    row.update(
+        {
+            "election_id": "surrey-county-council-2026-east-surrey",
+            "election_date": "2026-05-07",
+            "area_name": "Target Area Ward",
+        }
+    )
+    elections = [
+        {"election_id": PREVIOUS_COUNTY_ELECTION_ID, "election_date": "2021-05-06"},
+        {
+            "election_id": "surrey-county-council-2026-east-surrey",
+            "election_date": "2026-05-07",
+        },
+    ]
+    previous_candidate = _candidate(share=12.0)
+    previous_candidate["election_id"] = PREVIOUS_COUNTY_ELECTION_ID
+
+    completed = add_previous_ukip_feature(
+        [row], elections, [previous_candidate], _crosswalk()
+    )[0]
+
+    assert completed["previous_ukip_vote_share_in_area"] is None
+    assert completed["previous_ukip_vote_share_status"] == (
+        "unavailable_no_approved_previous_area"
+    )
 
 
 def test_same_day_ukip_source_is_rejected() -> None:
@@ -145,9 +247,13 @@ def test_real_release_keeps_reform_and_ukip_values_separate() -> None:
         extractor_outputs
         / "master_surrey_election_database/master_election_database_payload.json"
     )
+    overlap_path = (
+        extractor_outputs
+        / "geographic_overlap_audit/historical_to_2026_spatial_overlap_audit.json"
+    )
     # Generated extractor files are optional in a clean clone; the focused unit
     # tests above still check every separation and leakage rule without them.
-    if not feature_path.exists() or not master_path.exists():
+    if not feature_path.exists() or not master_path.exists() or not overlap_path.exists():
         pytest.skip("Regenerate extractor outputs for integration QA.")
 
     party_rows = load_party_feature_rows(feature_path)
@@ -155,7 +261,10 @@ def test_real_release_keeps_reform_and_ukip_values_separate() -> None:
     row_index = build_fundamentals_row_index(party_rows)
     historical_rows = add_previous_election_features(row_index, party_rows, master)
     completed = add_previous_ukip_feature(
-        historical_rows, master["Elections"], master["Candidate Results"]
+        historical_rows,
+        master["Elections"],
+        master["Candidate Results"],
+        json.loads(overlap_path.read_text(encoding="utf-8")),
     )
     reform_rows = [
         row for row in completed if row["standard_party_name"] == "Reform UK"
@@ -165,7 +274,7 @@ def test_real_release_keeps_reform_and_ukip_values_separate() -> None:
     assert len(reform_rows) == 94
     assert sum(
         row["previous_ukip_vote_share_in_area"] is not None for row in reform_rows
-    ) == 37
+    ) == 83
     assert sorted(
         row["previous_ukip_vote_share_in_area"]
         for row in reform_rows
@@ -175,4 +284,22 @@ def test_real_release_keeps_reform_and_ukip_values_separate() -> None:
         row["previous_party_vote_share"] == 0.0
         for row in reform_rows
         if row["previous_ukip_vote_share_in_area"] not in {None, 0.0}
+    )
+    # Only changed wards intersecting a UKIP-contested 2021 division remain
+    # unknown. Other changed wards are proven zero from complete official
+    # candidate lists across the complete official-boundary crosswalk.
+    unavailable = [
+        row
+        for row in reform_rows
+        if row["previous_ukip_vote_share_in_area"] is None
+    ]
+    assert len(unavailable) == 11
+    assert {
+        row["previous_ukip_vote_share_status"] for row in unavailable
+    } == {"unavailable_no_approved_previous_area"}
+    assert all(row["previous_ukip_vote_share_method"] is None for row in unavailable)
+    assert all(
+        row["previous_ukip_source_election_id"] is None
+        and row["previous_ukip_source_area_id"] is None
+        for row in unavailable
     )

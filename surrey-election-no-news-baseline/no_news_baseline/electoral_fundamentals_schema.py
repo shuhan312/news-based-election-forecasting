@@ -79,6 +79,16 @@ PROVENANCE_COLUMNS = (
     "previous_area_name",
     "historical_reference_status",
     "historical_source_url",
+    # These columns distinguish an observed earlier UKIP share from an
+    # observed zero and from a changed-boundary value that cannot be recovered
+    # from the available official result geography.  They describe evidence;
+    # they are not additional model predictors.
+    "previous_ukip_vote_share_status",
+    "previous_ukip_vote_share_method",
+    "previous_ukip_source_election_id",
+    "previous_ukip_source_area_id",
+    "previous_ukip_source_area_ids",
+    "previous_ukip_geographic_coverage_percent",
 )
 
 
