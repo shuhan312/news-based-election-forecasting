@@ -7,6 +7,9 @@ from scripts.run_persistence_benchmark import run_persistence_benchmark
 
 
 def test_runner_reads_contract_and_writes_all_release_files(tmp_path: Path) -> None:
+    # This is an end-to-end file test: it uses small synthetic JSON files to
+    # verify that the command-line runner creates all three reproducible
+    # outputs without relying on the large Surrey release during unit tests.
     features = {
         "rows": [
             {

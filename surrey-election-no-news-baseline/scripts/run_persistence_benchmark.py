@@ -40,14 +40,21 @@ def run_persistence_benchmark(
 ) -> Path:
     """Read the versioned data contract and write benchmark outputs."""
 
+    # Read the two extractor-owned files separately.  Features represent
+    # pre-election information; targets contain realised results and are used
+    # only by the evaluator after each persistence prediction is defined.
     feature_payload = json.loads(feature_path.read_text(encoding="utf-8"))
     target_payload = json.loads(target_path.read_text(encoding="utf-8"))
     features = feature_payload.get("rows")
     targets = target_payload.get("rows")
     if not isinstance(features, list) or not isinstance(targets, list):
         raise ValueError("Feature and target JSON files must each contain a rows list.")
+    # Keep the benchmark calculation in the reusable module so that this
+    # command-line wrapper only handles files, paths and JSON serialisation.
     predictions, metrics, audit = evaluate_previous_result_persistence(features, targets)
     output_directory.mkdir(parents=True, exist_ok=True)
+    # Write a row-level release for inspection, then two smaller summaries for
+    # reporting.  These derived files are reproducible and ignored by Git.
     (output_directory / "previous_result_persistence_predictions.json").write_text(
         json.dumps({"rows": predictions}, indent=2) + "\n"
     )

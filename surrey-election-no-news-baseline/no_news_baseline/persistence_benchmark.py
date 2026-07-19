@@ -36,6 +36,10 @@ def evaluate_previous_result_persistence(
     target_by_id = {str(row["party_contest_id"]): row for row in target_rows}
     _assert_one_to_one_release(feature_rows, target_rows)
 
+    # The share cohort is deliberately narrower than the winner cohort.  A
+    # party-share forecast needs a one-to-one party/candidate interpretation,
+    # so only approved single-member contests with one candidate for the party
+    # and a usable lagged share enter this particular calculation.
     share_cohort = [
         row for row in feature_rows if row["baseline_eligibility"] == PRIMARY_COHORT_STATUS
     ]
@@ -54,6 +58,9 @@ def evaluate_previous_result_persistence(
     for row in winner_cohort:
         by_area[(str(row["election_id"]), str(row["division_id"]))].append(row)
 
+    # Decide winner eligibility once for the whole area, rather than once per
+    # party.  A winner forecast is meaningful only if exactly one current
+    # party can be identified as the previous winner.
     winner_status_by_area: dict[tuple[str, str], str] = {}
     for area_key, rows in by_area.items():
         previous_winner_rows = [
@@ -72,6 +79,10 @@ def evaluate_previous_result_persistence(
 
     predictions: list[dict[str, object]] = []
     for feature in winner_cohort:
+        # ``feature`` contains only information intended to be available
+        # before the target election.  ``target`` is kept in a separate file
+        # and is accessed here only after the prediction has been fixed, so it
+        # can be used to score the historical back-test rather than to predict.
         target = target_by_id[str(feature["party_contest_id"])]
         share_eligible = str(feature["party_contest_id"]) in share_ids
         previous_share = (
@@ -83,6 +94,9 @@ def evaluate_previous_result_persistence(
         predicted_elected = (
             "Yes" if feature["party_was_previous_winner"] is True else "No"
         ) if winner_status.startswith("eligible_") else "Unknown"
+        # Signed error records whether the persistence rule over- or
+        # under-predicted.  Absolute and squared versions are retained for MAE
+        # and RMSE respectively.
         error = previous_share - target_share if previous_share is not None else None
         predictions.append(
             {
@@ -129,6 +143,9 @@ def evaluate_previous_result_persistence(
 
 
 def _metrics_for_predictions(rows: list[Mapping[str, object]]) -> dict[str, object]:
+    # A share metric is calculated only where an approved lagged share exists.
+    # Winner metrics can use a wider cohort, because they require only a
+    # uniquely identifiable previous winner on the current ballot.
     share_rows = [row for row in rows if row["predicted_party_vote_share"] is not None]
     absolute_errors = [float(row["absolute_share_error"]) for row in share_rows]
     squared_errors = [float(row["squared_share_error"]) for row in share_rows]
@@ -165,6 +182,10 @@ def _binary_metrics(rows: list[Mapping[str, object]]) -> dict[str, object]:
             "winner_party_macro_f1": None,
             "winner_party_hard_brier_score": None,
         }
+    # Each party row becomes a binary classification: did this party win the
+    # single-member contest?  The area-level result below remains the more
+    # intuitive measure, while these values make false positives/negatives
+    # visible for diagnostic purposes.
     actual = [row["actual_party_elected"] == "Yes" for row in rows]
     predicted = [row["predicted_party_elected"] == "Yes" for row in rows]
     tp = sum(a and p for a, p in zip(actual, predicted, strict=True))
@@ -202,6 +223,9 @@ def _area_winner_metrics(rows: list[Mapping[str, object]]) -> dict[str, object]:
         by_area[(str(row["election_id"]), str(row["division_id"]))].append(row)
     correct = 0
     for area_rows in by_area.values():
+        # This assertion protects the single-member estimand: each scored area
+        # must have exactly one predicted winner and exactly one official
+        # winner.  Multi-member wards never enter this benchmark.
         predicted = [row for row in area_rows if row["predicted_party_elected"] == "Yes"]
         actual = [row for row in area_rows if row["actual_party_elected"] == "Yes"]
         if len(predicted) != 1 or len(actual) != 1:
@@ -217,6 +241,8 @@ def _area_winner_metrics(rows: list[Mapping[str, object]]) -> dict[str, object]:
 def _grouped_metrics(
     rows: list[Mapping[str, object]], field: str
 ) -> list[dict[str, object]]:
+    # Re-use the same metric definitions for each election, year and election
+    # type so that aggregate performance cannot hide a weak subgroup.
     grouped: dict[object, list[Mapping[str, object]]] = defaultdict(list)
     for row in rows:
         grouped[row[field]].append(row)
@@ -229,6 +255,8 @@ def _grouped_metrics(
 def _assert_one_to_one_release(
     features: list[Mapping[str, object]], targets: list[Mapping[str, object]]
 ) -> None:
+    # The two extractor outputs are a paired release.  Matching identifiers
+    # prevent a target result from being attached to the wrong party/area.
     feature_ids = [str(row["party_contest_id"]) for row in features]
     target_ids = [str(row["party_contest_id"]) for row in targets]
     if len(feature_ids) != len(set(feature_ids)) or len(target_ids) != len(set(target_ids)):
@@ -241,6 +269,8 @@ def _assert_prediction_integrity(
     predictions: list[Mapping[str, object]],
     eligible_areas: Mapping[tuple[str, str], list[Mapping[str, object]]],
 ) -> None:
+    # Do not silently lose an eligible party row while constructing the final
+    # release.  A missing row would bias both party-level and area-level scores.
     if len(predictions) != sum(len(rows) for rows in eligible_areas.values()):
         raise ValueError("A winner-cohort party row was lost during prediction.")
     if len({row["party_contest_id"] for row in predictions}) != len(predictions):
@@ -257,6 +287,9 @@ def _audit(
     predictions: list[Mapping[str, object]],
     areas: Mapping[tuple[str, str], list[Mapping[str, object]]],
 ) -> dict[str, int]:
+    # The audit deliberately reports both row and area counts.  One area has
+    # several party rows, so reporting only one of these levels could make the
+    # eligible prediction population look larger or smaller than it is.
     counts = Counter(
         {
             "primary_party_share_rows": sum(
@@ -278,6 +311,9 @@ def _audit(
 
 
 def _required_number(row: Mapping[str, object], field: str) -> float:
+    # Eligibility should already guarantee this value.  Failing loudly here
+    # catches a broken extractor release instead of treating a missing share as
+    # zero or dropping it without explanation.
     value = row.get(field)
     if not isinstance(value, (int, float)):
         raise ValueError(f"Primary persistence cohort has no numeric {field}.")
