@@ -194,7 +194,10 @@ def test_candidate_affiliation_metadata_never_overwrites_official_party_fields()
     )
 
     assert payload.candidate_results[0]["original_party_name"] is None
-    assert payload.candidate_results[0]["standard_party_name"] is None
+    assert payload.candidate_results[0]["standard_party_name"] == (
+        "No published party label"
+    )
+    assert payload.candidate_results[0]["party_category"] == "independent"
     assert payload.supplementary_metadata[0]["candidate_name"] == "Candidate One"
     assert payload.supplementary_metadata[0]["value"] == "No party affiliation"
 

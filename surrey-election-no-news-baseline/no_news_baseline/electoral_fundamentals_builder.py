@@ -197,9 +197,10 @@ def _validate_previous_party_share_evidence(row: Mapping[str, object]) -> None:
             raise ValueError("Missing previous party share has an invalid status.")
         if (
             status == "not_applicable_generic_independent_identity"
-            and row.get("standard_party_name") != "Independent"
+            and row.get("standard_party_name")
+            not in {"Independent", "No published party label"}
         ):
-            raise ValueError("Independent non-applicability is assigned to another party.")
+            raise ValueError("Unaffiliated non-applicability is assigned to a party.")
         if any(item is not None for item in (method, source_election, source_areas, coverage)):
             raise ValueError("Missing previous party share claims source evidence.")
         return

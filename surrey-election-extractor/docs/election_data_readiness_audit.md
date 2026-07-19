@@ -29,7 +29,7 @@ The release-critical summary is:
 | --- | --- | --- |
 | Election and area identifiers | 20/20 events; 339/339 areas | Configuration plus official event/result sources. |
 | Candidate names, votes, outcomes and URLs | 1,971/1,971 | Every candidate, including all candidates in the 81 two-member 2026 wards. |
-| Published/standardised party and category | 1,970/1,971 | One officially blank 2013 party cell remains blank and is not standardised. Reform UK and UKIP remain separate. |
+| Published/standardised party and category | Published 1,970/1,971; analytical 1,971/1,971 | The officially blank 2013 party cell remains NULL in the original field and uses `No published party label` with an unaffiliated/independent analytical category. Reform UK and UKIP remain separate. |
 | Vote share | 1,965 official; 1,971 analysis-ready | Six Epsom West 2015 shares are governed calculations from the complete official candidate-vote table and never fill the official field. |
 | Final position | 0 official; 1,971 separate derived competition ranks | Official formats do not publish rank. Eight tied rows retain tie flags; vote order never becomes an official field. |
 | Seats | 311 official; 28 supplementary; 339 analysis-ready | Statutory supplementary evidence does not overwrite official `NULL`. |

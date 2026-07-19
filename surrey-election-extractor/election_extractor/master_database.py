@@ -551,17 +551,23 @@ def _party_lookup_fields(
 ) -> dict[str, object]:
     """Return reviewed party fields without changing the published party label.
 
-    A missing or unlisted source label stays unstandardised.  This makes any
-    later review visible in the workbook rather than applying a name-based
-    guess to Residents groups, Independent candidates, or new parties.
+    An unlisted published label stays unstandardised. A genuinely blank label
+    receives a separate analytical name while the original field remains
+    NULL. Electoral Commission nomination guidance permits a non-party
+    candidate to leave the description blank, so this is an unaffiliated
+    category rather than an invented published party name.
     """
 
     if original_party_name is None:
         return {
-            "standard_party_name": None,
-            "party_category": None,
-            "party_lookup_status": "missing_published_party_name",
-            "party_lookup_notes": "Official candidate result did not publish a party name.",
+            "standard_party_name": "No published party label",
+            "party_category": "independent",
+            "party_lookup_status": "reviewed_blank_as_unaffiliated",
+            "party_lookup_notes": (
+                "Original official party label remains NULL. Standard analytical "
+                "label follows Electoral Commission guidance that a non-party "
+                "candidate may leave the ballot description blank."
+            ),
         }
     entry = party_lookup.get(original_party_name)
     if entry is None:

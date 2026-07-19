@@ -148,9 +148,10 @@ polling-district electorate evidence.
 
 ## Independent history boundary
 
-The {independent_not_applicable} Independent rows retain NULL previous party
-share with status `not_applicable_generic_independent_identity`. Independent is
-a ballot description for unrelated people rather than one continuing party.
+The {independent_not_applicable} generic Independent or officially blank-label
+rows retain NULL previous party share with status
+`not_applicable_generic_independent_identity`. These labels describe
+unaffiliated candidates rather than one continuing party.
 Verified personal continuity remains available through
 `candidate_previously_stood`; it is not relabelled as party vote-share history.
 

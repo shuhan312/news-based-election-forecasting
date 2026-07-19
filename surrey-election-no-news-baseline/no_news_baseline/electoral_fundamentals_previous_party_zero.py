@@ -30,6 +30,12 @@ TARGET_2026_ELECTION_IDS = frozenset(
         "surrey-county-council-2026-west-surrey",
     }
 )
+# Both labels describe candidate-specific, non-party identities. The second is
+# an analytical label for the one officially blank 2013 party cell; it never
+# changes the original published NULL.
+NON_CONTINUING_PARTY_LABELS = frozenset(
+    {"Independent", "No published party label"}
+)
 
 
 def add_crosswalk_previous_party_zeros(
@@ -194,7 +200,7 @@ def _unavailable_evidence(row: Mapping[str, object]) -> dict[str, object]:
     return {
         "previous_party_vote_share_status": (
             "not_applicable_generic_independent_identity"
-            if row.get("standard_party_name") == "Independent"
+            if row.get("standard_party_name") in NON_CONTINUING_PARTY_LABELS
             else "unavailable_no_direct_or_zero_proof"
         ),
         "previous_party_vote_share_method": None,

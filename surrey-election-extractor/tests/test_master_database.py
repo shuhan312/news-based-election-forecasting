@@ -273,8 +273,8 @@ def test_reviewed_party_lookup_adds_fields_without_changing_published_names() ->
     assert reform_row["standard_party_name"] != "UK Independence Party"
 
 
-def test_unmapped_or_missing_party_name_remains_unstandardised() -> None:
-    """Unknown and unpublished labels create review issues rather than guesses."""
+def test_unmapped_label_is_blocked_but_blank_label_is_explicitly_unaffiliated() -> None:
+    """Preserve a blank original label while giving analysis a stable identity."""
 
     unpublished = replace(record(2021, "No Party", "Conservative"), original_party_name=None)
     payload = build_master_database(
@@ -292,11 +292,12 @@ def test_unmapped_or_missing_party_name_remains_unstandardised() -> None:
     rows = {row["candidate_name"]: row for row in payload.candidate_results}
     assert rows["Unmapped Party"]["standard_party_name"] is None
     assert rows["Unmapped Party"]["party_lookup_status"] == "unmapped"
-    assert rows["No Party"]["standard_party_name"] is None
-    assert rows["No Party"]["party_lookup_status"] == "missing_published_party_name"
+    assert rows["No Party"]["original_party_name"] is None
+    assert rows["No Party"]["standard_party_name"] == "No published party label"
+    assert rows["No Party"]["party_category"] == "independent"
+    assert rows["No Party"]["party_lookup_status"] == "reviewed_blank_as_unaffiliated"
     assert {issue["issue_type"] for issue in payload.party_standardisation_issues} == {
         "unmapped_published_party_name",
-        "missing_published_party_name",
     }
 
 
@@ -659,13 +660,14 @@ def test_current_published_party_labels_have_reviewed_lookup_entries() -> None:
     assert unmapped_labels == set()
 
 
-def test_lingfield_2013_published_blank_party_remains_null() -> None:
-    """Do not turn an officially blank 2013 party cell into an assumption.
+def test_lingfield_2013_preserves_blank_original_and_labels_analysis_scope() -> None:
+    """Keep the official blank while avoiding an accidental ``"None"`` party.
 
     The indexed Surrey result table publishes D'Avray's name, votes, share and
     outcome but leaves its Party column empty. The separate Surrey Council
-    announcement is recorded as supplementary evidence rather than changing
-    this field or treating “No party affiliation” as an Independent label.
+    announcement confirms no party affiliation. The analytical label is kept
+    separate from the original field and does not claim that ``Independent``
+    was the published wording.
     """
 
     payload = build_master_database(load_audited_elections())
@@ -678,8 +680,9 @@ def test_lingfield_2013_published_blank_party_remains_null() -> None:
     )
 
     assert candidate["original_party_name"] is None
-    assert candidate["standard_party_name"] is None
-    assert candidate["party_category"] is None
+    assert candidate["standard_party_name"] == "No published party label"
+    assert candidate["party_category"] == "independent"
+    assert candidate["party_lookup_status"] == "reviewed_blank_as_unaffiliated"
     affiliation = next(
         row
         for row in payload.supplementary_metadata

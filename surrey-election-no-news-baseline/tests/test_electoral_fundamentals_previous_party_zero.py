@@ -137,6 +137,22 @@ def test_independent_history_is_explicitly_not_applicable() -> None:
     } == {"not_applicable_generic_independent_identity"}
 
 
+def test_officially_blank_party_label_is_not_a_continuing_party() -> None:
+    """The analytical blank-label name must not acquire party history."""
+
+    party_features, master, overlap = _real_inputs()
+    rows = build_electoral_fundamentals_features(party_features, master, overlap)
+    blank_label = next(
+        row for row in rows if row["standard_party_name"] == "No published party label"
+    )
+
+    assert blank_label["previous_party_vote_share"] is None
+    assert blank_label["previous_party_vote_share_status"] == (
+        "not_applicable_generic_independent_identity"
+    )
+    assert blank_label["new_party_indicator"] is None
+
+
 def test_real_later_independent_null_review_is_complete() -> None:
     """Every Independent with an approved predecessor receives a final review."""
 
