@@ -4,10 +4,10 @@
   "low_overlap_not_comparable_percentage": 5.0,
   "weighting_assessment": {
     "electorate_weighted": "unavailable",
-    "population_weighted": "unavailable",
+    "population_weighted": "available_for_sensitivity_analysis_only",
     "residential_weighted": "unavailable",
     "area_weighted": "not_recommended",
-    "reason": "No election-specific electorate, population or residential crosswalk source has been audited for these historical divisions and 2026 wards. Area overlap is retained as GIS evidence only and must not be treated as a vote-redistribution weight."
+    "reason": "No stable countywide polling-district electorate crosswalk has been audited across the historical and final 2026 boundary vintages. ONS 2021 Output Area population-weighted centroids and Nomis TS001 population now support a reproducible population proxy, but validation on unchanged direct mappings cannot establish within-division vote allocation after a real split. The proxy is therefore sensitivity evidence only. Area overlap remains GIS evidence and is not a vote-redistribution weight."
   },
   "prohibited_actions": [
     "Do not redistribute historical votes through a partial crosswalk.",
