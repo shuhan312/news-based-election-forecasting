@@ -79,6 +79,14 @@ PROVENANCE_COLUMNS = (
     "previous_area_name",
     "historical_reference_status",
     "historical_source_url",
+    # This separate block covers both direct previous-party observations and
+    # exact zeros proven across all divisions in an official GIS crosswalk.
+    # It avoids disguising a many-area proof as one approved predecessor.
+    "previous_party_vote_share_status",
+    "previous_party_vote_share_method",
+    "previous_party_source_election_id",
+    "previous_party_source_area_ids",
+    "previous_party_geographic_coverage_percent",
     # These columns distinguish an observed earlier UKIP share from an
     # observed zero and from a changed-boundary value that cannot be recovered
     # from the available official result geography.  They describe evidence;

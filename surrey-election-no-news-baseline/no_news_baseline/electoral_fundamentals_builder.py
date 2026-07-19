@@ -15,6 +15,9 @@ from no_news_baseline.electoral_fundamentals_history import add_previous_electio
 from no_news_baseline.electoral_fundamentals_participation import (
     add_participation_features,
 )
+from no_news_baseline.electoral_fundamentals_previous_party_zero import (
+    add_crosswalk_previous_party_zeros,
+)
 from no_news_baseline.electoral_fundamentals_rows import (
     build_fundamentals_row_index,
 )
@@ -76,6 +79,11 @@ def build_electoral_fundamentals_features(
     rows = build_fundamentals_row_index(source_features)
     rows = add_previous_election_features(rows, source_features, master_payload)
     rows = add_participation_features(rows, source_features, candidates)
+    # Recover only exact party absences across the complete official GIS
+    # crosswalk. Positive votes are never redistributed between boundaries.
+    rows = add_crosswalk_previous_party_zeros(
+        rows, elections, candidates, geographic_overlap_audit
+    )
     rows = add_contest_structure_features(rows, source_features, candidates)
     rows = add_previous_ukip_feature(
         rows,
@@ -116,6 +124,7 @@ def validate_completed_fundamentals_rows(
                 "Undeclared columns entered the fundamentals table: "
                 f"{unexpected!r}."
             )
+        _validate_previous_party_share_evidence(row)
         _validate_historical_reference(row)
         _validate_ukip_identity_boundary(row)
 
@@ -139,7 +148,18 @@ def _validate_historical_reference(row: Mapping[str, object]) -> None:
     if previous_election_id is None:
         if previous_area_id is not None or previous_date is not None:
             raise ValueError("Incomplete historical provenance identifiers.")
-        if any(value is not None for value in history_values):
+        # A separately proven crosswalk zero may populate party-only history
+        # without pretending that one predecessor area was approved.
+        crosswalk_zero = (
+            row.get("previous_party_vote_share_status")
+            == "observed_zero_across_complete_previous_crosswalk"
+        )
+        permitted_zero_values = (0.0, None, False, None, None, None)
+        if history_values != permitted_zero_values and any(
+            value is not None for value in history_values
+        ):
+            raise ValueError("Historical predictor has no approved previous source.")
+        if any(value is not None for value in history_values) and not crosswalk_zero:
             raise ValueError("Historical predictor has no approved previous source.")
         return
 
@@ -157,6 +177,45 @@ def _validate_historical_reference(row: Mapping[str, object]) -> None:
     elapsed = row.get("days_since_previous_comparable_election")
     if elapsed != (target_date - source_date).days:
         raise ValueError("Elapsed-day predictor disagrees with election dates.")
+
+
+def _validate_previous_party_share_evidence(row: Mapping[str, object]) -> None:
+    """Validate direct observations and the one-sided GIS zero proof."""
+
+    value = row.get("previous_party_vote_share")
+    status = row.get("previous_party_vote_share_status")
+    method = row.get("previous_party_vote_share_method")
+    source_election = row.get("previous_party_source_election_id")
+    source_areas = row.get("previous_party_source_area_ids")
+    coverage = row.get("previous_party_geographic_coverage_percent")
+    if value is None:
+        if status != "unavailable_no_direct_or_zero_proof":
+            raise ValueError("Missing previous party share has an invalid status.")
+        if any(item is not None for item in (method, source_election, source_areas, coverage)):
+            raise ValueError("Missing previous party share claims source evidence.")
+        return
+    if not isinstance(value, (int, float)) or isinstance(value, bool):
+        raise ValueError("Previous party share must be numeric or NULL.")
+    if status == "observed_in_approved_previous_result":
+        if method != "direct_approved_previous_area_result":
+            raise ValueError("Direct previous party share has the wrong method.")
+    elif status == "observed_zero_across_complete_previous_crosswalk":
+        if value != 0.0:
+            raise ValueError("Crosswalk absence can release only an exact zero.")
+        if method != "complete_official_results_across_official_gis_crosswalk":
+            raise ValueError("Crosswalk zero has the wrong method.")
+        if row.get("previous_party_rank") is not None:
+            raise ValueError("A party absent from the previous results has no rank.")
+        if row.get("previous_party_was_winner") is not False:
+            raise ValueError("A party absent from the previous results cannot be winner.")
+    else:
+        raise ValueError("Populated previous party share has an invalid status.")
+    if not isinstance(source_election, str) or not source_election:
+        raise ValueError("Previous party share has no source election.")
+    if not isinstance(source_areas, tuple) or not source_areas:
+        raise ValueError("Previous party share has no source areas.")
+    if not isinstance(coverage, (int, float)) or isinstance(coverage, bool):
+        raise ValueError("Previous party share has no geographic coverage value.")
 
 
 def _validate_ukip_identity_boundary(row: Mapping[str, object]) -> None:

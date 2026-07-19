@@ -27,6 +27,11 @@ def render_quality_report(
     evaluation_counts = _non_null_counts(rows, EVALUATION_COLUMNS)
     reform_rows = [row for row in rows if row["standard_party_name"] == "Reform UK"]
     ukip_known = sum(row["previous_ukip_vote_share_in_area"] is not None for row in reform_rows)
+    crosswalk_party_zeros = sum(
+        row["previous_party_vote_share_status"]
+        == "observed_zero_across_complete_previous_crosswalk"
+        for row in rows
+    )
     method_counts = Counter(row["evaluation_party_vote_share_method"] for row in rows)
     multi_member_gaps = [
         float(row["evaluation_party_vote_share_sensitivity_gap_pp"])
@@ -126,6 +131,15 @@ context is populated for {ukip_known}/{len(reform_rows)} Reform UK rows; the
 remaining {len(reform_rows) - ukip_known} rows stay NULL where approved direct
 history or defensible exact-zero evidence is unavailable. UKIP context never
 fills Reform UK's `previous_party_vote_share`.
+
+## Changed-boundary exact zeros
+
+The official 2021-to-2026 GIS crosswalk and complete 2021 candidate lists prove
+{crosswalk_party_zeros} additional same-party historical shares to be exactly
+zero. A value is released only when the crosswalk covers at least 99.8% of the
+target ward and the party is absent from every contributing division. Polygon
+area is never used to allocate positive votes; those cases remain NULL pending
+polling-district electorate evidence.
 
 ## Interpretation boundaries
 
