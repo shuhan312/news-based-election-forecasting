@@ -1114,9 +1114,18 @@ def discover_election_areas(
     provider: SearchProvider,
     *,
     archive_client: OfficialArchiveClient | None = None,
+    indexed_search_only: bool = False,
 ) -> DiscoveryReport:
-    """Discover official areas first and use indexed search only when needed."""
+    """Discover election areas with an explicit source strategy.
+
+    ``indexed_search_only`` is used by the Streamlit application specified by
+    the supervisor. It avoids making direct council-page access a requirement
+    and keeps SerpAPI as the application's discovery provider. Existing audited
+    research pipelines retain the official-first default.
+    """
     canonical_index = validate_discovery_source_url(index_url)
+    if indexed_search_only:
+        return _discover_from_indexed_search(canonical_index, provider)
     if _is_2026_map_index_url(canonical_index):
         # Map indexes are a complete official source in their own right.  Do
         # not use the historical search fallback: it cannot safely add wards

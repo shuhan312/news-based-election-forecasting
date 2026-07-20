@@ -867,8 +867,14 @@ def extract_candidate_results(
     provider: SearchProvider,
     *,
     official_page_client: OfficialPageClient | None = None,
+    run_targeted_searches: bool = True,
 ) -> ExtractionReport:
-    """Use official pages first, then fall back to auditable indexed evidence."""
+    """Use official pages first, then fall back to auditable indexed evidence.
+
+    The application can disable targeted follow-up searches while still
+    running the exact-result-URL query. This implements the supervisor's UI
+    checkbox without changing the default behaviour of existing pipelines.
+    """
     records: list[CandidateResultRecord] = []
     attempts: list[ExtractionAttempt] = []
     diagnostics: list[OfficialPageDiagnostic] = []
@@ -929,7 +935,13 @@ def extract_candidate_results(
                     records.extend(official_records)
                     continue
 
-        for query in build_extraction_queries(area):
+        queries = build_extraction_queries(area)
+        if not run_targeted_searches:
+            # Query zero is the exact official result-URL search. The remaining
+            # queries use ward/year/party terms and are the optional targeted
+            # searches controlled by the Streamlit checkbox.
+            queries = queries[:1]
+        for query in queries:
             try:
                 # SearchProvider remains the only external access point. Every
                 # real query is retained as a separate auditable attempt.
