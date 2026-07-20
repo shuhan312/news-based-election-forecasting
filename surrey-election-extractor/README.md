@@ -6,11 +6,13 @@ share predictions beyond previous election results.
 
 ## Streamlit extraction application
 
-The single-page application accepts either a Surrey election index URL or one
-official ward/division result URL. It uses indexed search evidence because
-automated access to council result pages may be blocked, validates the retrieved
-records, and produces an Excel workbook containing an Index, one worksheet per
-area, and an Extraction Log.
+The single-page application accepts a Surrey principal-election landing page,
+an election-area index URL or one official ward/division result URL. The
+principal-election links supplied for 2013, 2017 and 2021 are safely converted
+to their corresponding area indexes before discovery. The application uses
+indexed search evidence because automated access to council result pages may be
+blocked, validates the retrieved records, and produces an Excel workbook
+containing an Index, one worksheet per area, and an Extraction Log.
 
 Create and activate a virtual environment, then install the dependencies:
 

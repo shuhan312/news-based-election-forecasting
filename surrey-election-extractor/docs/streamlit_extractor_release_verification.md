@@ -8,11 +8,14 @@
 
 ## What was verified
 
-The application accepts either an official Surrey election index URL or one
-official area-result URL, uses the provider-neutral SerpAPI adapter, validates
-retrieved evidence and returns a downloadable Excel workbook. The API key is a
-masked, temporary input and is not part of workflow results, audit records or
-workbook interfaces.
+The application accepts an official Surrey principal-election landing page,
+election-area index URL or one official area-result URL, uses the
+provider-neutral SerpAPI adapter, validates retrieved evidence and returns a
+downloadable Excel workbook. The 2013, 2017 and 2021 landing pages supplied by
+the supervisor are converted to the corresponding official area-index form
+before the existing discovery workflow runs. The API key is a masked,
+temporary input and is not part of workflow results, audit records or workbook
+interfaces.
 
 The release includes:
 
@@ -56,7 +59,7 @@ The full suite was run inside the clean environment:
 Result:
 
 ```text
-346 passed in 56.01s
+354 passed in 48.52s
 ```
 
 The application and main package modules also passed `python -m py_compile`.

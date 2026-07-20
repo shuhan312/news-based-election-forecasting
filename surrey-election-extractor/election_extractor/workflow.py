@@ -41,7 +41,11 @@ from election_extractor.search_providers.serpapi import (
     SearchTimeoutError,
     SerpApiSearchProvider,
 )
-from election_extractor.url_utils import normalise_area_result_url, validate_index_url
+from election_extractor.url_utils import (
+    normalise_area_result_url,
+    principal_election_url_to_index_url,
+    validate_index_url,
+)
 from election_extractor.validation import (
     PublishedVotingSummary,
     ValidationResult,
@@ -208,17 +212,21 @@ def _complete_attempt_audit(
 def _source_type(source_url: str) -> tuple[str, str]:
     """Validate the submitted Surrey URL and identify its processing path."""
 
-    # Try the narrower index-page rule first. If it does not match, test the
-    # submitted value as a single official area-result page instead.
+    # Try the native area index first. The supervisor's principal-election
+    # links are official landing pages, so convert those to the equivalent
+    # area index before falling back to the single-result-page path.
     try:
         return "index", validate_index_url(source_url)
     except ValueError:
         try:
-            return "direct", normalise_area_result_url(source_url)
-        except ValueError as error:
-            raise WorkflowError(
-                "Enter a valid Surrey election index URL or ward result URL."
-            ) from error
+            return "index", principal_election_url_to_index_url(source_url)
+        except ValueError:
+            try:
+                return "direct", normalise_area_result_url(source_url)
+            except ValueError as error:
+                raise WorkflowError(
+                    "Enter a valid Surrey election, election index, or ward result URL."
+                ) from error
 
 
 def _direct_discovery(source_url: str) -> DiscoveryReport:

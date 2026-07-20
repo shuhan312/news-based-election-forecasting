@@ -135,9 +135,12 @@ def main() -> None:
     source_url = st.text_input(
         "Surrey election results URL",
         placeholder=(
-            "Paste an election index URL or one ward/division result URL"
+            "Paste an election, election index, or ward/division result URL"
         ),
-        help="Only official Surrey County Council election-result URLs are accepted.",
+        help=(
+            "Accepts an official Surrey principal-election page, election-area "
+            "index, or one ward/division result page."
+        ),
     )
     api_key = st.text_input(
         "Indexed results API key",

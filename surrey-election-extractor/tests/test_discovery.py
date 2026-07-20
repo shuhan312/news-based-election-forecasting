@@ -18,7 +18,11 @@ from election_extractor.models import (
 )
 from election_extractor.search_providers.mock_provider import MockSearchProvider
 from election_extractor.search_providers.serpapi import SerpApiSearchProvider
-from election_extractor.url_utils import normalise_area_result_url, validate_index_url
+from election_extractor.url_utils import (
+    normalise_area_result_url,
+    principal_election_url_to_index_url,
+    validate_index_url,
+)
 
 
 INDEX_URL = "https://mycouncil.surreycc.gov.uk/mgElectionElectionAreaResults.aspx?EID=16"
@@ -110,6 +114,54 @@ def mocked_provider() -> MockSearchProvider:
 
 def test_valid_surrey_election_index_url_is_accepted() -> None:
     assert validate_index_url(INDEX_URL) == INDEX_URL
+
+
+@pytest.mark.parametrize(
+    ("landing_url", "expected_eid"),
+    [
+        (
+            "https://mycouncil.surreycc.gov.uk/"
+            "mgElectionResults.aspx?ID=5&RPID=0",
+            5,
+        ),
+        (
+            "https://mycouncil.surreycc.gov.uk/"
+            "mgElectionResults.aspx?ID=10&RPID=0",
+            10,
+        ),
+        (
+            "https://mycouncil.surreycc.gov.uk/"
+            "mgElectionResults.aspx?ID=16&RPID=0",
+            16,
+        ),
+    ],
+)
+def test_supervisor_principal_election_urls_convert_to_area_indexes(
+    landing_url: str,
+    expected_eid: int,
+) -> None:
+    """Allow the three supplied landing-page links to enter indexed discovery."""
+
+    assert principal_election_url_to_index_url(landing_url) == (
+        "https://mycouncil.surreycc.gov.uk/"
+        f"mgElectionElectionAreaResults.aspx?EID={expected_eid}"
+    )
+
+
+@pytest.mark.parametrize(
+    "url",
+    [
+        "https://example.com/mgElectionResults.aspx?ID=16",
+        "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx",
+        "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=not-a-number",
+        "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=5&ID=16",
+    ],
+)
+def test_invalid_principal_election_urls_are_rejected(url: str) -> None:
+    """Do not relax official host or unambiguous numeric-ID requirements."""
+
+    with pytest.raises(ValueError):
+        principal_election_url_to_index_url(url)
 
 
 @pytest.mark.parametrize(

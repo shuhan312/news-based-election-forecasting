@@ -30,6 +30,10 @@ INDEX_URL = (
     "https://mycouncil.surreycc.gov.uk/"
     "mgElectionElectionAreaResults.aspx?EID=16"
 )
+SUPERVISOR_2021_URL = (
+    "https://mycouncil.surreycc.gov.uk/"
+    "mgElectionResults.aspx?ID=16&RPID=0"
+)
 
 
 def _area() -> DiscoveredElectionArea:
@@ -160,6 +164,39 @@ def test_disabling_targeted_searches_runs_only_the_exact_url_query(monkeypatch) 
 
     assert provider.queries == [query]
     assert result.areas_discovered == 1
+
+
+def test_supervisor_election_landing_url_uses_the_existing_index_workflow(
+    monkeypatch,
+) -> None:
+    """Convert the emailed 2021 link without duplicating discovery logic."""
+
+    area = _area()
+    provider = MockSearchProvider(
+        {build_extraction_query(area): (_candidate_result(),)}
+    )
+
+    def fake_discovery(index_url, search_provider, *, indexed_search_only=False):
+        # The landing-page ID is the official election identifier; discovery
+        # receives the corresponding EID index and otherwise remains unchanged.
+        assert index_url == INDEX_URL
+        assert indexed_search_only is True
+        return DiscoveryReport(INDEX_URL, (area,), ())
+
+    monkeypatch.setattr(
+        "election_extractor.workflow.discover_election_areas",
+        fake_discovery,
+    )
+
+    result = run_extraction_workflow(
+        SUPERVISOR_2021_URL,
+        provider=provider,
+        run_targeted_searches=False,
+    )
+
+    assert result.source_type == "index"
+    assert result.areas_discovered == 1
+    assert result.workbook_bytes.startswith(b"PK")
 
 
 def test_no_candidate_evidence_is_reported_as_a_failed_area() -> None:
