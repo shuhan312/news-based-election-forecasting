@@ -28,6 +28,7 @@ from election_extractor.candidate_continuity_evidence import (
 )
 from election_extractor.historical_baseline import (
     build_historical_baseline_features,
+    classify_geographic_status,
     load_crosswalk_resolution,
 )
 from election_extractor.historical_reference_permissions import (
@@ -50,12 +51,12 @@ CROSSWALK_PATH = (
 
 
 def reviewed_geographic_mapping_rows() -> tuple[dict[str, object], ...]:
-    """Return only audited direct historical-reference decisions for the workbook.
+    """Return one explicit lookup row for every 2026 ward.
 
-    The detailed crosswalk remains in its own GIS audit output.  This workbook
-    receives the 24 relationships with explicit official-boundary permission,
-    together with the original GIS evidence fields and explicit prohibitions.
-    No partial relationship is upgraded and no candidate or vote value changes.
+    The 24 permission-approved direct relationships retain their detailed
+    evidence. Every other ward receives one aggregated blocked-status row, so
+    absence from the table cannot be mistaken for a missing extraction. This
+    aggregation describes topology only and never redistributes votes.
     """
 
     crosswalk_rows = load_crosswalk_resolution(CROSSWALK_PATH)
@@ -86,6 +87,8 @@ def reviewed_geographic_mapping_rows() -> tuple[dict[str, object], ...]:
                 # legal identity after the 2024 boundary change.
                 "administrative_identity": "not_confirmed",
                 "analytical_comparability": crosswalk["analytical_status"],
+                "ward_lookup_status": "accepted_direct",
+                "historical_vote_share_status": "available_from_approved_direct_mapping",
                 "confidence": crosswalk["confidence"],
                 "decision": permission["historical_reference_status"],
                 "overlap_area_m2": crosswalk["intersection_area_m2"],
@@ -122,6 +125,95 @@ def reviewed_geographic_mapping_rows() -> tuple[dict[str, object], ...]:
                 "permission_uncertainty": permission["uncertainty"],
             }
         )
+    # The source audit contains 167 relationships; the workbook needs one row
+    # per current ward. Group by stable IDs rather than by similar names.
+    by_current_ward: dict[tuple[str, str], list[dict[str, object]]] = {}
+    for crosswalk in crosswalk_rows:
+        key = (str(crosswalk["current_election_id"]), str(crosswalk["current_area_id"]))
+        by_current_ward.setdefault(key, []).append(crosswalk)
+
+    approved_current_wards = {
+        (str(row["current_election_id"]), str(row["current_area_id"])) for row in rows
+    }
+    for current_key, ward_relationships in sorted(by_current_ward.items()):
+        if current_key in approved_current_wards:
+            continue
+        status = classify_geographic_status(ward_relationships)
+        if status == "partial_crosswalk_available":
+            lookup_status = "changed_boundary_not_directly_comparable"
+            reviewer_reason = (
+                "Official GIS shows a split, merge or many-to-many relationship; "
+                "no audited electorate weight supports vote redistribution."
+            )
+        elif status == "requires_review":
+            lookup_status = "insufficient_weighted_crosswalk_evidence"
+            reviewer_reason = (
+                "The best one-to-one candidate fails the approved direct criteria "
+                "and no validated electorate-weighted crosswalk is available."
+            )
+        else:
+            lookup_status = "historical_vote_share_unavailable"
+            reviewer_reason = (
+                "Reviewed GIS relationships are non-structural and cannot support "
+                "a historical electoral comparison."
+            )
+        first = ward_relationships[0]
+        previous_names = sorted({str(item["previous_area_name"]) for item in ward_relationships})
+        mapping_ids = sorted(str(item["mapping_id"]) for item in ward_relationships)
+        relationship_types = sorted({
+            str(item["crosswalk_relationship_type"] or item["relationship_type"])
+            for item in ward_relationships
+        })
+        rows.append({
+            "mapping_id": f"ward-geographic-lookup:{current_key[0]}:{current_key[1]}",
+            "previous_election_id": first["previous_election_id"],
+            "previous_area_id": None,
+            "previous_area_name": "; ".join(previous_names),
+            "current_election_id": current_key[0],
+            "current_area_name": first["current_area_name"],
+            "current_area_id": current_key[1],
+            "relationship_type": "; ".join(relationship_types),
+            "administrative_identity": "not_confirmed",
+            "analytical_comparability": status,
+            "ward_lookup_status": lookup_status,
+            "historical_vote_share_status": "unavailable_after_gis_review",
+            "confidence": "medium" if status == "partial_crosswalk_available" else "low",
+            "decision": "blocked_from_direct_historical_reference",
+            "overlap_area_m2": None,
+            "previous_area_overlap_percentage": None,
+            "current_area_overlap_percentage": None,
+            "largest_previous_area_competitor_percentage": None,
+            "largest_current_area_competitor_percentage": None,
+            "geometry_valid": all(
+                "geometry_valid=True" in str(item["evidence_summary"])
+                for item in ward_relationships
+            ),
+            "boundary_sources_consistent": all(
+                "boundary_sources_consistent=True" in str(item["evidence_summary"])
+                for item in ward_relationships
+            ),
+            "GIS_source": "; ".join(sorted({str(item["GIS_source"]) for item in ward_relationships})),
+            "boundary_source": "; ".join(sorted({str(item["boundary_source"]) for item in ward_relationships})),
+            "evidence_notes": (
+                f"{len(ward_relationships)} reviewed GIS relationship(s): "
+                f"{'; '.join(mapping_ids)}."
+            ),
+            "reviewer_reason": reviewer_reason,
+            "evidence_summary": (
+                "Ward-level status aggregated from the complete relationship audit; "
+                "numeric overlaps remain in the source GIS dataset."
+            ),
+            "historical_reference_status": lookup_status,
+            "previous_winner_allowed": False,
+            "candidate_history_allowed": False,
+            "incumbency_allowed": False,
+            "party_vote_share_change_allowed": False,
+            "permission_source_urls": "",
+            "permission_uncertainty": "No direct historical value is authorised for this ward.",
+        })
+    rows.sort(key=lambda row: (str(row["current_election_id"]), str(row["current_area_name"])))
+    if len(rows) != 81:
+        raise ValueError(f"Geographic lookup must contain all 81 current wards; found {len(rows)}.")
     return tuple(rows)
 
 

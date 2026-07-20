@@ -370,6 +370,18 @@ def test_ukip_published_variants_share_a_standard_name_without_losing_labels() -
         "UK Independence Party; UK Independence Party (UKIP); UKIP"
     )
     assert history["Reform UK"]["original_party_labels"] == "Reform UK"
+    assert history["Reform UK"]["new_entrant_yes_no"] is True
+    assert history["Reform UK"]["new_entrant_status"] == (
+        "first_observed_after_study_start"
+    )
+    assert history["Reform UK"]["predecessor_or_context_party"] == (
+        "UK Independence Party"
+    )
+    assert history["Reform UK"]["party_relationship_type"] == (
+        "historical_context_only_not_party_continuity"
+    )
+    assert history["UK Independence Party"]["predecessor_or_context_party"] is None
+    assert history["UK Independence Party"]["party_relationship_type"] == "none_recorded"
 
 
 def test_unmapped_label_is_blocked_but_blank_label_is_explicitly_unaffiliated() -> None:

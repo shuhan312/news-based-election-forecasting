@@ -1718,8 +1718,13 @@ def build_master_database(
         }
         for party_name in sorted(party_years, key=lambda value: (value.casefold(), value))
     )
+    # The release contains several by-elections in the same year. Listing each
+    # year once keeps the lookup provenance readable without losing scope.
     loaded_years = ", ".join(
-        str(election.configuration.election_year) for election in elections
+        str(year)
+        for year in sorted(
+            {election.configuration.election_year for election in elections}
+        )
     )
 
     # Party history is an analytical lookup, so it is grouped by the reviewed
@@ -1747,6 +1752,34 @@ def build_master_database(
             ),
             "party_category": group["category"],
             "first_observed_year": min(group["years"]),
+            # New entrant is defined relative to the 2013 study start. It is
+            # not a claim about the party's legal founding date.
+            "new_entrant_yes_no": (
+                None
+                if group["category"] == "independent"
+                else min(group["years"]) > 2013
+            ),
+            "new_entrant_status": (
+                "not_applicable_generic_independent_label"
+                if group["category"] == "independent"
+                else (
+                    "first_observed_after_study_start"
+                    if min(group["years"]) > 2013
+                    else "present_at_study_start"
+                )
+            ),
+            # UKIP is retained only as context for the Reform UK research
+            # question; no identity, votes or incumbency are transferred.
+            "predecessor_or_context_party": (
+                "UK Independence Party"
+                if standard_party_name == "Reform UK"
+                else None
+            ),
+            "party_relationship_type": (
+                "historical_context_only_not_party_continuity"
+                if standard_party_name == "Reform UK"
+                else "none_recorded"
+            ),
             "party_status": "observed",
             "notes": (
                 "First observed in the loaded audited dataset only; original "
@@ -2180,6 +2213,8 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("relationship_type", "GIS-derived relationship type: exact, near_exact, split, merged or uncertain.", "geographic mapping review", "derived", "Never implies administrative identity or final comparability by itself."),
             ("administrative_identity", "Legal identity status: confirmed, not_confirmed or uncertain.", "official legal boundary evidence", "derived", "GIS cannot confirm this field."),
             ("analytical_comparability", "Decision status for historical analysis: accepted_direct, requires_review or not_comparable.", "geographic mapping decision framework", "derived", "Only accepted_direct may enter a future separately authorised enrichment stage."),
+            ("ward_lookup_status", "One-row-per-2026-ward release status after the complete GIS review.", "geographic crosswalk resolution audit", "derived", "Every 2026 ward is present; a blocked status is not a missing extraction."),
+            ("historical_vote_share_status", "Whether an approved direct mapping permits a historical party-share reference.", "official boundary permission audit", "derived", "Unavailable for changed or unresolved boundaries; votes are never redistributed."),
             ("confidence", "Confidence in the analytical comparability decision.", "geographic mapping decision framework", "derived", "Never substitutes for evidence or legal identity."),
             ("decision", "Explicit reviewer decision: accepted, rejected or requires_review.", "geographic mapping decision framework", "derived", "No final row is written unless decision is accepted."),
             ("overlap_area_m2", "GIS intersection area in square metres.", "official GIS", "derived", "Required for an accepted_direct mapping."),
@@ -2208,6 +2243,10 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("original_party_labels", "All distinct official labels observed for this standard party.", "Candidate Results", "derived", "Never used to overwrite the published label in Candidate Results."),
             ("party_category", "Reviewed established, emerging, local or independent grouping.", "party standardisation lookup", "derived", "Never inferred from spelling alone."),
             ("first_observed_year", "First year present in the loaded audited dataset only.", "Candidate Results", "derived", "NULL only if no loaded observation exists."),
+            ("new_entrant_yes_no", "Whether the standard party is first observed after the 2013 study start.", "Candidate Results", "derived", "NULL for the generic Independent label; does not claim a legal founding date."),
+            ("new_entrant_status", "Scope-aware explanation of the study-period new-entrant classification.", "Candidate Results", "derived", "Distinguishes study-start presence, later first observation and non-applicable Independent labels."),
+            ("predecessor_or_context_party", "Separate party retained only as historical context for the research question.", "project research design", "derived", "UK Independence Party is context for Reform UK, never an identity or vote transfer."),
+            ("party_relationship_type", "Meaning of any recorded relationship between separate parties.", "project research design", "derived", "Never authorises party merging or historical vote substitution."),
             ("party_status", "Current dataset status only.", "Candidate Results", "derived", "Does not assert historical party origin."),
             ("notes", "Scope limitation for party-history enrichment.", "project documentation", "derived", "Never used as electoral evidence."),
             ("source", "Dataset source used for this observation.", "Candidate Results", "derived", "Never blank for observed parties."),

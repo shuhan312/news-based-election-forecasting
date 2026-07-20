@@ -4,6 +4,10 @@
 
 **Denominators:** 20 elections, 339 areas and 1,971 candidate rows.
 
+**Lookup coverage:** 40 standard parties and all 81 current 2026 wards. The
+ward lookup contains 24 approved direct mappings, 36 changed-boundary blocked
+rows and 21 rows with insufficient validated weighting evidence.
+
 This matrix maps every election field requested by the supervisor to the
 current source-preserving master database. `Official` means published on the
 result source; `supplementary`, `derived` and `analysis` never overwrite an
@@ -50,3 +54,5 @@ official value.
    divisions unless a separate limited historical permission explicitly allows
    the stated feature.
 6. Reform UK remains separate from UKIP. The exact published UKIP variants are preserved but share one reviewed standard party name.
+7. Reform UK's UKIP relationship is historical context only; it never transfers party identity, candidates or votes.
+8. Every 2026 ward appears in the geographic lookup, but only the 24 permission-approved direct relationships can supply historical values.

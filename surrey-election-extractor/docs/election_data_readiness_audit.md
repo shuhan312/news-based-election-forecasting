@@ -13,7 +13,9 @@ the no-news baseline. News collection and modelling are out of scope.
   and West Surrey 2026 elections; and all 15 County Council by-elections in the
   configured official archive catalogue.
 - 1,971 candidate rows and 339 division or ward rows.
-- 24 reviewed 2021-to-2026 direct geographic relationships.
+- Complete 81 reviewed-row 2021-to-2026 geographic lookup: 24 approved direct
+  relationships, 36 changed-boundary wards and 21 wards without sufficient
+  weighted-crosswalk evidence for a direct historical value.
 - 201 approved historical references: 81 for 2013→2017, 81 for 2017→2021,
   15 for by-elections and 24 for 2021→2026.
 - Official, supplementary, derived and analysis layers remain separate. No
@@ -30,6 +32,8 @@ The release-critical summary is:
 | Election and area identifiers | 20/20 events; 339/339 areas | Configuration plus official event/result sources. |
 | Candidate names, votes, outcomes and URLs | 1,971/1,971 | Every candidate, including all candidates in the 81 two-member 2026 wards. Published names are retained separately from deterministic display-standard names; neither field establishes identity continuity. |
 | Published/standardised party and category | Published 1,970/1,971; analytical 1,971/1,971 | The officially blank 2013 party cell remains NULL in the original field and uses `No published party label` with an unaffiliated/independent analytical category. UKIP label variants share one reviewed standard name, but their published wording is retained and Reform UK remains separate. |
+| Party history and new entrants | 40/40 standard parties | First observation is defined relative to the 2013 study start. Reform UK records UK Independence Party as historical context only, never as party continuity or a source of substituted votes. |
+| 2021-to-2026 geographic lookup | 81/81 current wards | 24 approved direct, 36 changed-boundary/non-direct and 21 insufficient weighted-evidence rows. Every ward is visible; only approved direct rows may expose historical values. |
 | Vote share | 1,965 official; 1,971 analysis-ready | Six Epsom West 2015 shares are governed calculations from the complete official candidate-vote table and never fill the official field. |
 | Final position | 0 official; 1,971 separate derived competition ranks | Official formats do not publish rank. Eight tied rows retain tie flags; vote order never becomes an official field. |
 | Seats | 311 official; 28 supplementary; 339 analysis-ready | Statutory supplementary evidence does not overwrite official `NULL`. |
