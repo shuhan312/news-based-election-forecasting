@@ -20,7 +20,7 @@ from election_extractor.search_providers.mock_provider import MockSearchProvider
 from election_extractor.search_providers.serpapi import SerpApiSearchProvider
 from election_extractor.url_utils import (
     normalise_area_result_url,
-    principal_election_url_to_index_url,
+    normalise_principal_election_url,
     validate_index_url,
 )
 
@@ -136,16 +136,65 @@ def test_valid_surrey_election_index_url_is_accepted() -> None:
         ),
     ],
 )
-def test_supervisor_principal_election_urls_convert_to_area_indexes(
+def test_principal_election_landing_urls_are_validated_and_preserved(
     landing_url: str,
     expected_eid: int,
 ) -> None:
-    """Allow the three supplied landing-page links to enter indexed discovery."""
+    """Keep each official landing URL available to indexed discovery."""
 
-    assert principal_election_url_to_index_url(landing_url) == (
-        "https://mycouncil.surreycc.gov.uk/"
-        f"mgElectionElectionAreaResults.aspx?EID={expected_eid}"
+    canonical = normalise_principal_election_url(landing_url)
+    assert canonical == landing_url
+
+    # Discovery, rather than URL validation, adds the related EID query.  This
+    # checks that neither the original landing route nor the index route is lost.
+    queries = build_search_queries(canonical)
+    assert queries[0] == f'site:mycouncil.surreycc.gov.uk "{landing_url}"'
+    assert any(
+        f"mgElectionElectionAreaResults.aspx?EID={expected_eid}" in query
+        for query in queries
     )
+
+
+def test_principal_landing_page_participates_in_real_indexed_discovery() -> None:
+    """Recover area evidence indexed under the original election landing URL."""
+
+    queries = build_search_queries(ARCHIVE_URL)
+    provider = MockSearchProvider(
+        {
+            # This metadata result is available only through the original
+            # landing-page query, reproducing the older-index failure that a
+            # conversion-only workflow could not recover.
+            queries[0]: (
+                SearchResult(
+                    title="2021 Surrey County Council election",
+                    url=ARCHIVE_URL,
+                    snippet="Election date: 6 May 2021",
+                ),
+            ),
+            queries[1]: (
+                SearchResult(
+                    title="Election results for Addlestone, 6 May 2021",
+                    url=(
+                        "https://mycouncil.surreycc.gov.uk/"
+                        "mgElectionAreaResults.aspx?ID=201&RPID=0"
+                    ),
+                    snippet="2021 Surrey County Council election",
+                ),
+            ),
+            queries[2]: (),
+        }
+    )
+
+    report = discover_election_areas(
+        ARCHIVE_URL,
+        provider,
+        indexed_search_only=True,
+    )
+
+    assert len(report.areas) == 1
+    assert report.areas[0].division_ward_name == "Addlestone"
+    assert report.areas[0].source_index_url == ARCHIVE_URL
+    assert provider.queries[:3] == list(queries)
 
 
 @pytest.mark.parametrize(
@@ -161,7 +210,7 @@ def test_invalid_principal_election_urls_are_rejected(url: str) -> None:
     """Do not relax official host or unambiguous numeric-ID requirements."""
 
     with pytest.raises(ValueError):
-        principal_election_url_to_index_url(url)
+        normalise_principal_election_url(url)
 
 
 @pytest.mark.parametrize(

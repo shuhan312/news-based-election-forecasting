@@ -10,6 +10,7 @@ from io import BytesIO
 import pytest
 from openpyxl import load_workbook
 
+from election_extractor.discovery import build_search_queries
 from election_extractor.extraction import build_extraction_query
 from election_extractor.models import (
     DiscoveredElectionArea,
@@ -166,10 +167,10 @@ def test_disabling_targeted_searches_runs_only_the_exact_url_query(monkeypatch) 
     assert result.areas_discovered == 1
 
 
-def test_supervisor_election_landing_url_uses_the_existing_index_workflow(
+def test_principal_election_landing_url_uses_both_discovery_routes(
     monkeypatch,
 ) -> None:
-    """Convert the emailed 2021 link without duplicating discovery logic."""
+    """Preserve the landing URL while reusing the existing index workflow."""
 
     area = _area()
     provider = MockSearchProvider(
@@ -177,11 +178,16 @@ def test_supervisor_election_landing_url_uses_the_existing_index_workflow(
     )
 
     def fake_discovery(index_url, search_provider, *, indexed_search_only=False):
-        # The landing-page ID is the official election identifier; discovery
-        # receives the corresponding EID index and otherwise remains unchanged.
-        assert index_url == INDEX_URL
+        # Discovery receives the original evidence URL. Its query builder is
+        # responsible for adding the EID index as a second search route.
+        assert index_url == SUPERVISOR_2021_URL
+        queries = build_search_queries(index_url)
+        assert queries[0] == (
+            f'site:mycouncil.surreycc.gov.uk "{SUPERVISOR_2021_URL}"'
+        )
+        assert any(INDEX_URL in query for query in queries)
         assert indexed_search_only is True
-        return DiscoveryReport(INDEX_URL, (area,), ())
+        return DiscoveryReport(SUPERVISOR_2021_URL, (area,), ())
 
     monkeypatch.setattr(
         "election_extractor.workflow.discover_election_areas",

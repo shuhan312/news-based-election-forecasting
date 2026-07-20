@@ -78,14 +78,14 @@ def validate_index_url(url: str) -> str:
     return canonical
 
 
-def principal_election_url_to_index_url(url: str) -> str:
-    """Convert an official election landing page into its area-index URL.
+def normalise_principal_election_url(url: str) -> str:
+    """Validate and preserve an official principal-election landing page.
 
-    The links supplied by the supervisor use ``mgElectionResults.aspx?ID=...``
-    while the indexed discovery page uses the same official election identifier
-    as ``mgElectionElectionAreaResults.aspx?EID=...``.  Converting only this
-    exact Surrey path and one numeric ID lets users paste the supplied link
-    without weakening host, path or identifier validation.
+    Older election landing pages use ``mgElectionResults.aspx?ID=...``.  The
+    discovery module needs this original URL because search engines may index
+    it even when the related area-index URL is absent.  This helper therefore
+    validates the exact official path and numeric election ID without replacing
+    the submitted evidence source.
     """
 
     canonical = normalise_url(url)
@@ -95,15 +95,10 @@ def principal_election_url_to_index_url(url: str) -> str:
     if not _single_numeric_parameter(parsed.query, "ID"):
         raise ValueError("Election results URL must include one numeric ID parameter.")
 
-    # RPID is navigation state from the council site and is not an election
-    # identifier.  Starting a new query with EID alone avoids carrying that
-    # session-like value into indexed discovery.
-    election_id = next(
-        value for name, value in parse_qsl(parsed.query) if name == "ID"
-    )
-    return urlunsplit(
-        ("https", SURREY_HOST, INDEX_PATH, urlencode({"EID": election_id}), "")
-    )
+    # Keep the canonical landing URL, including its published navigation
+    # parameters. ``discovery.build_search_queries`` will search both this URL
+    # and the corresponding EID area index instead of discarding either route.
+    return canonical
 
 
 def normalise_area_result_url(url: str) -> str:

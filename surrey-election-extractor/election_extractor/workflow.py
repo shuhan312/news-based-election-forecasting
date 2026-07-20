@@ -43,7 +43,7 @@ from election_extractor.search_providers.serpapi import (
 )
 from election_extractor.url_utils import (
     normalise_area_result_url,
-    principal_election_url_to_index_url,
+    normalise_principal_election_url,
     validate_index_url,
 )
 from election_extractor.validation import (
@@ -212,14 +212,14 @@ def _complete_attempt_audit(
 def _source_type(source_url: str) -> tuple[str, str]:
     """Validate the submitted Surrey URL and identify its processing path."""
 
-    # Try the native area index first. The supervisor's principal-election
-    # links are official landing pages, so convert those to the equivalent
-    # area index before falling back to the single-result-page path.
+    # Try the native area index first. Preserve a validated principal-election
+    # landing page so discovery can search both that original URL and its
+    # related EID area index; some older pages are indexed under only one form.
     try:
         return "index", validate_index_url(source_url)
     except ValueError:
         try:
-            return "index", principal_election_url_to_index_url(source_url)
+            return "index", normalise_principal_election_url(source_url)
         except ValueError:
             try:
                 return "direct", normalise_area_result_url(source_url)
