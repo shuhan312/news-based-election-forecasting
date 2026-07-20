@@ -115,6 +115,7 @@ def test_direct_result_url_produces_a_downloadable_auditable_workbook() -> None:
     assert result.source_type == "direct"
     assert result.areas_discovered == 1
     assert len(result.records) == 1
+    assert len(result.voting_summaries) == 1
     assert result.workbook_bytes.startswith(b"PK")
     assert progress[0].stage == "validation"
     assert progress[-1].stage == "complete"
@@ -125,6 +126,7 @@ def test_direct_result_url_produces_a_downloadable_auditable_workbook() -> None:
     assert workbook.sheetnames[0] == "Index"
     assert "Addlestone" in workbook.sheetnames
     assert "Extraction Log" in workbook.sheetnames
+    assert "Election Structure Metadata" not in workbook.sheetnames
 
 
 def test_disabling_targeted_searches_runs_only_the_exact_url_query(monkeypatch) -> None:

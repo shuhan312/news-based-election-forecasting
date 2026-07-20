@@ -39,6 +39,7 @@ from election_extractor.search_providers.serpapi import (
 )
 from election_extractor.url_utils import normalise_area_result_url, validate_index_url
 from election_extractor.validation import (
+    PublishedVotingSummary,
     ValidationResult,
     ValidationStatus,
     validate_election_results,
@@ -104,6 +105,7 @@ class WorkflowResult:
     source_type: str
     discovery: DiscoveryReport
     records: tuple[CandidateResultRecord, ...]
+    voting_summaries: tuple[PublishedVotingSummary, ...]
     extraction_attempts: tuple[ExtractionAttempt, ...]
     validations: tuple[ValidationResult, ...]
     complete: int
@@ -131,6 +133,36 @@ def _raise_systemic_provider_failure(attempts: tuple[ExtractionAttempt, ...]) ->
         message = PROVIDER_FAILURE_MESSAGES.get(attempt.error or "")
         if message:
             raise WorkflowError(message)
+
+
+def _published_summary(
+    records: tuple[CandidateResultRecord, ...],
+) -> tuple[PublishedVotingSummary, ...]:
+    """Preserve one published total-vote summary when candidate rows agree.
+
+    Indexed evidence can repeat the same area-level total on every candidate
+    row. This helper copies that published value into the separate validation
+    model; it does not calculate a replacement from candidate votes. Conflicts
+    deliberately produce ``None`` and are handled as missing/review evidence.
+    """
+
+    if not records:
+        return ()
+    source_urls = {record.source_url for record in records}
+    if len(source_urls) != 1:
+        # The workflow calls extraction one area at a time, so mixed URLs would
+        # indicate an internal grouping error rather than evidence to combine.
+        return ()
+
+    total_votes = {record.total_votes for record in records if record.total_votes is not None}
+    valid_votes = {record.valid_votes for record in records if record.valid_votes is not None}
+    return (
+        PublishedVotingSummary(
+            source_url=source_urls.pop(),
+            total_votes=next(iter(total_votes)) if len(total_votes) == 1 else None,
+            valid_votes=next(iter(valid_votes)) if len(valid_votes) == 1 else None,
+        ),
+    )
 
 
 def _source_type(source_url: str) -> tuple[str, str]:
@@ -300,6 +332,7 @@ def run_extraction_workflow(
     # Stage 3: process one area at a time so progress and status counts describe
     # completed work rather than an opaque all-at-once operation.
     records: list[CandidateResultRecord] = []
+    summaries: list[PublishedVotingSummary] = []
     attempts: list[ExtractionAttempt] = []
     validations: list[ValidationResult] = []
     counts = {"Complete": 0, "Incomplete": 0, "Failed": 0}
@@ -330,13 +363,16 @@ def run_extraction_workflow(
         # extraction, not merely one ward. Stop instead of spending requests on
         # every remaining area or presenting a workbook as a completed run.
         _raise_systemic_provider_failure(report.attempts)
-        # Validation reads the extracted rows but never fills or alters them.
-        area_validations = validate_election_results(report.records)
+        # Keep published area totals separate from candidate rows. Validation
+        # may compare them, but it never calculates or writes replacements.
+        area_summaries = _published_summary(report.records)
+        area_validations = validate_election_results(report.records, area_summaries)
         status = _area_status(report.records, area_validations, report.attempts)
         counts[status] += 1
         # Preserve every area's evidence and search attempts for the final
         # workbook, including incomplete and failed areas.
         records.extend(report.records)
+        summaries.extend(area_summaries)
         attempts.extend(report.attempts)
         validations.extend(area_validations)
         _notify(
@@ -356,6 +392,7 @@ def run_extraction_workflow(
     # Freeze the accumulated lists before passing them into the workbook layer;
     # this makes the returned result stable after the function has completed.
     record_rows = tuple(records)
+    summary_rows = tuple(summaries)
     validation_rows = tuple(validations)
     attempt_rows = tuple(attempts)
     filename = _safe_filename(discovery, record_rows)
@@ -381,6 +418,7 @@ def run_extraction_workflow(
             validation_rows,
             discovery.areas,
             attempt_rows,
+            summary_rows,
         )
         workbook_bytes = workbook_path.read_bytes()
 
@@ -404,6 +442,7 @@ def run_extraction_workflow(
         source_type=source_type,
         discovery=discovery,
         records=record_rows,
+        voting_summaries=summary_rows,
         extraction_attempts=attempt_rows,
         validations=validation_rows,
         complete=counts["Complete"],

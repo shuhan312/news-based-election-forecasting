@@ -72,6 +72,8 @@ ELECTION_STRUCTURE_METADATA_COLUMNS = (
 INVALID_SHEET_CHARACTERS = re.compile(r"[:\\/?*\[\]]")
 HEADER_FILL = PatternFill("solid", fgColor="1F4E78")
 SECTION_FILL = PatternFill("solid", fgColor="D9EAF7")
+INCOMPLETE_FILL = PatternFill("solid", fgColor="FFF2CC")
+FAILED_FILL = PatternFill("solid", fgColor="F4CCCC")
 WHITE_BOLD_FONT = Font(color="FFFFFF", bold=True)
 LINK_FONT = Font(color="0563C1", underline="single")
 LABEL_FONT = Font(bold=True)
@@ -226,6 +228,10 @@ def _area_status(
         return "Failed"
     if any(record.extraction_status is ExtractionStatus.SEARCH_FAILED for record in records):
         return "Failed"
+    # A result URL with no reliable candidate rows meets the supervisor's
+    # explicit Failed definition, even if the search itself returned normally.
+    if not records:
+        return "Failed"
 
     # Warnings, missing validation, missing candidates or partial attempts all
     # remain visible as Incomplete instead of being silently treated as success.
@@ -238,7 +244,7 @@ def _area_status(
         result.validation_status in {ValidationStatus.INCOMPLETE, ValidationStatus.WARNING}
         for result in validations
     )
-    if not records or extraction_incomplete or validation_incomplete:
+    if extraction_incomplete or validation_incomplete:
         return "Incomplete"
     return "Complete"
 
@@ -366,7 +372,26 @@ def _write_ward_sheet(
         if label == "Source URL":
             _external_hyperlink(value_cell, source_url)
 
-    candidate_title_row = 12
+    # The supervisor requires an explicit notice rather than relying only on a
+    # status cell in the metadata block. Keep this statement outside numeric
+    # cells so missing source values can remain genuinely blank.
+    if status == "Incomplete":
+        sheet.merge_cells("A11:E11")
+        sheet["A11"] = (
+            "Status: Incomplete — missing information was not inferred or invented."
+        )
+        sheet["A11"].font = Font(bold=True, color="9C5700")
+        sheet["A11"].fill = INCOMPLETE_FILL
+    elif status == "Failed":
+        sheet.merge_cells("A11:E11")
+        sheet["A11"] = (
+            "Status: Failed — no reliable result data was fabricated or substituted."
+        )
+        sheet["A11"].font = Font(bold=True, color="9C0006")
+        sheet["A11"].fill = FAILED_FILL
+
+    # Row 12 remains blank between the audit notice and the first table.
+    candidate_title_row = 13
     candidate_header_row = candidate_title_row + 1
     _style_section_title(
         sheet,
@@ -563,7 +588,12 @@ def generate_workbook(
     index_sheet.append(INDEX_COLUMNS)
     _style_header(index_sheet[1])
 
-    used_names = {"Index", "Extraction Log", "Election Structure Metadata"}
+    used_names = {"Index", "Extraction Log"}
+    if election_structure_metadata:
+        # Reserve this name only when the optional research metadata worksheet
+        # will actually be written. The Streamlit prompt otherwise requires the
+        # workbook to contain only Index, area sheets and Extraction Log.
+        used_names.add("Election Structure Metadata")
     area_rows = []
     ward_sheets = []
     for table_number, source_url in enumerate(source_urls, start=1):
@@ -695,11 +725,13 @@ def generate_workbook(
             cell.alignment = Alignment(vertical="top", wrap_text=True)
     log_sheet.print_area = f"A1:G{max(log_row - 1, 1)}"
 
-    # This additive worksheet is intentionally independent of area status and
-    # validation.  Supplementary evidence must not turn an incomplete official
-    # extraction into a complete one.
-    metadata_sheet = workbook.create_sheet("Election Structure Metadata")
-    _write_election_structure_metadata_sheet(metadata_sheet, election_structure_metadata)
+    if election_structure_metadata:
+        # This optional research worksheet remains independent of area status
+        # and validation. Supplementary evidence must not turn an incomplete
+        # official extraction into a complete one. It is omitted from ordinary
+        # Streamlit exports because that workflow supplies no such records.
+        metadata_sheet = workbook.create_sheet("Election Structure Metadata")
+        _write_election_structure_metadata_sheet(metadata_sheet, election_structure_metadata)
 
     workbook.save(output)
     return output
