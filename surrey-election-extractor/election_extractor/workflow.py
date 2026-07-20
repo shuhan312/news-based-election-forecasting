@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import re
 from collections.abc import Callable
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
@@ -162,6 +162,37 @@ def _published_summary(
             total_votes=next(iter(total_votes)) if len(total_votes) == 1 else None,
             valid_votes=next(iter(valid_votes)) if len(valid_votes) == 1 else None,
         ),
+    )
+
+
+def _complete_attempt_audit(
+    attempts: tuple[ExtractionAttempt, ...],
+    validations: tuple[ValidationResult, ...],
+    final_status: str,
+) -> tuple[ExtractionAttempt, ...]:
+    """Attach validation warnings and the final ward status to every attempt."""
+
+    validation_warnings = tuple(
+        dict.fromkeys(
+            message
+            for validation in validations
+            for message in (
+                *validation.warnings,
+                *validation.failed_checks,
+            )
+            if message
+        )
+    )
+    # ExtractionAttempt is immutable so earlier evidence cannot be changed in
+    # place. ``replace`` returns a new audit record with only the post-validation
+    # fields added.
+    return tuple(
+        replace(
+            attempt,
+            validation_warnings=validation_warnings,
+            final_status=final_status,
+        )
+        for attempt in attempts
     )
 
 
@@ -368,12 +399,17 @@ def run_extraction_workflow(
         area_summaries = _published_summary(report.records)
         area_validations = validate_election_results(report.records, area_summaries)
         status = _area_status(report.records, area_validations, report.attempts)
+        audited_attempts = _complete_attempt_audit(
+            report.attempts,
+            area_validations,
+            status,
+        )
         counts[status] += 1
         # Preserve every area's evidence and search attempts for the final
         # workbook, including incomplete and failed areas.
         records.extend(report.records)
         summaries.extend(area_summaries)
-        attempts.extend(report.attempts)
+        attempts.extend(audited_attempts)
         validations.extend(area_validations)
         _notify(
             progress_callback,

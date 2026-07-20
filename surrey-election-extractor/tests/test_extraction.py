@@ -218,6 +218,45 @@ def test_search_provider_query_and_attempt_are_recorded() -> None:
     )
 
 
+def test_search_attempt_keeps_the_required_in_memory_audit_fields() -> None:
+    """Record provider, time, selected URL and parsing outcome without raw JSON."""
+
+    area = discovered_area()
+    query = build_extraction_query(area)
+    provider = MockSearchProvider(
+        {
+            query: (
+                SearchResult(
+                    title="Election candidate result",
+                    url=RESULT_URL,
+                    snippet=complete_snippet(
+                        "Furey, John Raymond",
+                        "Conservative",
+                        "1,146",
+                        "40.0%",
+                        "Elected",
+                    ),
+                ),
+            )
+        }
+    )
+
+    report = extract_candidate_results(
+        (area,),
+        provider,
+        run_targeted_searches=False,
+    )
+    audit = report.attempts[0]
+
+    assert audit.search_provider == "MockSearchProvider"
+    assert audit.attempt_timestamp is not None
+    assert audit.attempt_timestamp.endswith("+00:00")
+    assert audit.selected_urls == (RESULT_URL,)
+    assert audit.parsing_warnings == ()
+    assert audit.validation_warnings == ()
+    assert audit.final_status is None  # Added later by the workflow validation stage.
+
+
 def real_discovered_area() -> DiscoveredElectionArea:
     return DiscoveredElectionArea(
         election_year=2021,

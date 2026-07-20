@@ -116,6 +116,9 @@ def test_direct_result_url_produces_a_downloadable_auditable_workbook() -> None:
     assert result.areas_discovered == 1
     assert len(result.records) == 1
     assert len(result.voting_summaries) == 1
+    assert result.extraction_attempts[0].final_status == "Incomplete"
+    assert result.extraction_attempts[0].search_provider == "MockSearchProvider"
+    assert result.extraction_attempts[0].selected_urls == (RESULT_URL,)
     assert result.workbook_bytes.startswith(b"PK")
     assert progress[0].stage == "validation"
     assert progress[-1].stage == "complete"

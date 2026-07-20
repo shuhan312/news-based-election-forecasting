@@ -114,6 +114,15 @@ class ExtractionAttempt:
     accepted_result_count: int = 0
     excluded_result_count: int = 0
     source_type: EvidenceSourceType = EvidenceSourceType.INDEXED_SEARCH
+    # These fields complete the supervisor-required in-memory search audit.
+    # They contain only provider names, timestamps and selected official URLs;
+    # raw responses and API credentials are deliberately excluded.
+    search_provider: str | None = None
+    attempt_timestamp: str | None = None
+    selected_urls: tuple[str, ...] = ()
+    parsing_warnings: tuple[str, ...] = ()
+    validation_warnings: tuple[str, ...] = ()
+    final_status: str | None = None
 
 
 @dataclass(frozen=True)
@@ -884,7 +893,8 @@ def extract_candidate_results(
     for area in ordered_areas:
         source_url = normalise_area_result_url(area.result_url)
         area_evidence: list[_ParsedEvidence] = []
-        search_date = datetime.now(timezone.utc).date().isoformat()
+        area_timestamp = datetime.now(timezone.utc).isoformat()
+        search_date = area_timestamp.partition("T")[0]
 
         if official_page_client is not None:
             fetch_result = fetch_and_diagnose_official_page(
@@ -927,6 +937,14 @@ def extract_candidate_results(
                         accepted_result_count=1 if official_records else 0,
                         excluded_result_count=0 if official_records else 1,
                         source_type=EvidenceSourceType.OFFICIAL,
+                        search_provider=type(official_page_client).__name__,
+                        attempt_timestamp=area_timestamp,
+                        selected_urls=(fetch_result.diagnostic.final_url,),
+                        parsing_warnings=(
+                            ()
+                            if official_records
+                            else ("The official page did not yield a reliable candidate record.",)
+                        ),
                     )
                 )
                 if official_records:
@@ -942,6 +960,7 @@ def extract_candidate_results(
             # searches controlled by the Streamlit checkbox.
             queries = queries[:1]
         for query in queries:
+            attempt_timestamp = datetime.now(timezone.utc).isoformat()
             try:
                 # SearchProvider remains the only external access point. Every
                 # real query is retained as a separate auditable attempt.
@@ -959,6 +978,11 @@ def extract_candidate_results(
                         division_ward_name=area.division_ward_name,
                         search_date=search_date,
                         source_type=EvidenceSourceType.INDEXED_SEARCH,
+                        search_provider=type(provider).__name__,
+                        attempt_timestamp=attempt_timestamp,
+                        parsing_warnings=(
+                            "The indexed-search request failed before evidence could be parsed.",
+                        ),
                     )
                 )
                 continue
@@ -982,6 +1006,29 @@ def extract_candidate_results(
                 attempt_status = ExtractionStatus.INCOMPLETE
             else:
                 attempt_status = ExtractionStatus.COMPLETE
+
+            # Record why a returned search did not become a complete candidate
+            # result. These are audit descriptions only and never fill values.
+            parsing_warnings: list[str] = []
+            if search_results and not query_evidence:
+                parsing_warnings.append(
+                    "No indexed result matched the exact area, election and result URL."
+                )
+            elif query_evidence and not query_records:
+                parsing_warnings.append(
+                    "Matching indexed evidence did not contain a reliable candidate record."
+                )
+            elif any(
+                record.extraction_status is ExtractionStatus.INCOMPLETE
+                for record in query_records
+            ):
+                parsing_warnings.append(
+                    "One or more candidate records were incomplete."
+                )
+            if any(record.conflicts for record in query_records):
+                parsing_warnings.append(
+                    "Conflicting indexed values require review."
+                )
             attempts.append(
                 ExtractionAttempt(
                     source_url=source_url,
@@ -995,6 +1042,10 @@ def extract_candidate_results(
                     accepted_result_count=len(accepted_results),
                     excluded_result_count=len(search_results) - len(accepted_results),
                     source_type=EvidenceSourceType.INDEXED_SEARCH,
+                    search_provider=type(provider).__name__,
+                    attempt_timestamp=attempt_timestamp,
+                    selected_urls=tuple(sorted({item[0] for item in accepted_results})),
+                    parsing_warnings=tuple(parsing_warnings),
                 )
             )
             area_evidence.extend(query_evidence)

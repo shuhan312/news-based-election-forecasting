@@ -47,6 +47,13 @@ Search-provider code is isolated behind `SearchProvider`; another provider can
 be added by implementing its `search` method without rewriting extraction or
 Excel generation.
 
+For each area, the in-memory audit retains the search provider, exact attempt
+time, query, result counts, selected official result URLs, parsing warnings,
+validation warnings and final status. It does not retain raw provider responses
+or credentials. The downloadable `Extraction Log` uses the shorter column set
+specified for the workbook while the typed audit remains available to tests and
+future application diagnostics.
+
 ## Current election-data release
 
 - 20 election events: the 2013, 2017 and 2021 principal elections, separate
