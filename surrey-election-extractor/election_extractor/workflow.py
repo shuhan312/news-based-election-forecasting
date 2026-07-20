@@ -29,7 +29,14 @@ from election_extractor.models import (
     MetadataStatus,
 )
 from election_extractor.search_providers.base import SearchProvider
-from election_extractor.search_providers.serpapi import SerpApiSearchProvider
+from election_extractor.search_providers.serpapi import (
+    SearchAuthenticationError,
+    SearchNetworkError,
+    SearchRateLimitError,
+    SearchResponseError,
+    SearchTimeoutError,
+    SerpApiSearchProvider,
+)
 from election_extractor.url_utils import normalise_area_result_url, validate_index_url
 from election_extractor.validation import (
     ValidationResult,
@@ -42,6 +49,27 @@ from election_extractor.workbook import generate_workbook
 # The web page will supply a small callback that receives each progress update.
 # Keeping the type here avoids importing Streamlit into the extraction code.
 ProgressCallback = Callable[["WorkflowProgress"], None]
+
+
+# Extraction stores only the safe exception class name in each attempt. This
+# table converts a system-wide provider failure back into a useful UI message
+# when the lower-level extractor has deliberately absorbed the exception for
+# audit logging.
+PROVIDER_FAILURE_MESSAGES = {
+    SearchAuthenticationError.__name__: "The indexed-search API key was rejected.",
+    SearchRateLimitError.__name__: (
+        "The indexed-search rate limit was reached. Try again later."
+    ),
+    SearchTimeoutError.__name__: (
+        "The indexed-search request timed out. Try again later."
+    ),
+    SearchNetworkError.__name__: (
+        "The indexed-search service could not be reached. Check the connection."
+    ),
+    SearchResponseError.__name__: (
+        "The indexed-search service returned an unusable response."
+    ),
+}
 
 
 class WorkflowError(RuntimeError):
@@ -94,6 +122,15 @@ def _notify(callback: ProgressCallback | None, progress: WorkflowProgress) -> No
 
     if callback is not None:
         callback(progress)
+
+
+def _raise_systemic_provider_failure(attempts: tuple[ExtractionAttempt, ...]) -> None:
+    """Stop a run when retrying other areas cannot repair the provider failure."""
+
+    for attempt in attempts:
+        message = PROVIDER_FAILURE_MESSAGES.get(attempt.error or "")
+        if message:
+            raise WorkflowError(message)
 
 
 def _source_type(source_url: str) -> tuple[str, str]:
@@ -224,6 +261,24 @@ def run_extraction_workflow(
             if source_type == "index"
             else _direct_discovery(canonical_url)
         )
+    except SearchAuthenticationError as error:
+        raise WorkflowError("The indexed-search API key was rejected.") from error
+    except SearchRateLimitError as error:
+        raise WorkflowError(
+            "The indexed-search rate limit was reached. Try again later."
+        ) from error
+    except SearchTimeoutError as error:
+        raise WorkflowError(
+            "The indexed-search request timed out. Try again later."
+        ) from error
+    except SearchNetworkError as error:
+        raise WorkflowError(
+            "The indexed-search service could not be reached. Check the connection."
+        ) from error
+    except SearchResponseError as error:
+        raise WorkflowError(
+            "The indexed-search service returned an unusable response."
+        ) from error
     except Exception as error:
         # Provider exceptions can contain request details. Keep those details
         # out of the user-facing workflow error and Streamlit page.
@@ -271,6 +326,10 @@ def run_extraction_workflow(
             official_page_client=None,
             run_targeted_searches=run_targeted_searches,
         )
+        # Authentication, rate-limit and network failures apply to the whole
+        # extraction, not merely one ward. Stop instead of spending requests on
+        # every remaining area or presenting a workbook as a completed run.
+        _raise_systemic_provider_failure(report.attempts)
         # Validation reads the extracted rows but never fills or alters them.
         area_validations = validate_election_results(report.records)
         status = _area_status(report.records, area_validations, report.attempts)

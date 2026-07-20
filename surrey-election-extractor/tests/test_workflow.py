@@ -18,6 +18,7 @@ from election_extractor.models import (
     SearchResult,
 )
 from election_extractor.search_providers.mock_provider import MockSearchProvider
+from election_extractor.search_providers.serpapi import SearchAuthenticationError
 from election_extractor.workflow import WorkflowError, run_extraction_workflow
 
 
@@ -197,3 +198,20 @@ def test_api_key_is_not_copied_into_outputs_or_progress() -> None:
     assert secret.encode() not in result.workbook_bytes
     assert secret not in result.filename
     assert all(secret not in item.message for item in progress)
+
+
+def test_direct_result_provider_failure_becomes_a_safe_workflow_error() -> None:
+    """Stop direct-URL processing when the provider rejects the credential."""
+
+    class RejectedProvider(MockSearchProvider):
+        def search(self, query):
+            raise SearchAuthenticationError("internal-secret-provider-detail")
+
+    with pytest.raises(WorkflowError, match="API key was rejected") as captured:
+        run_extraction_workflow(
+            RESULT_URL,
+            provider=RejectedProvider({}),
+            run_targeted_searches=False,
+        )
+
+    assert "internal-secret-provider-detail" not in str(captured.value)

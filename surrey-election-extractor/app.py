@@ -79,7 +79,18 @@ def _show_progress(progress: WorkflowProgress, progress_bar, status_box) -> None
 def _show_result(result: WorkflowResult) -> None:
     """Display the final audit totals and the generated workbook download."""
 
-    st.success("Extraction finished and the Excel workbook is ready.")
+    if result.failed:
+        st.warning(
+            "Extraction finished with failed areas. Review the Index and "
+            "Extraction Log before using the workbook."
+        )
+    elif result.incomplete:
+        st.warning(
+            "Extraction finished with incomplete areas. Missing source values "
+            "remain blank and are listed in the workbook."
+        )
+    else:
+        st.success("Extraction finished and the Excel workbook is ready.")
     complete_column, incomplete_column, failed_column = st.columns(3)
     complete_column.metric("Complete", result.complete)
     incomplete_column.metric("Incomplete", result.incomplete)

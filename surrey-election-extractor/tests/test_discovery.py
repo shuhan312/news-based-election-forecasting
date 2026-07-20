@@ -1,7 +1,6 @@
 """Unit tests for indexed Surrey election-area discovery."""
 
-import io
-import json
+import httpx
 
 import pytest
 
@@ -189,13 +188,13 @@ def test_serpapi_adapter_maps_mocked_api_response(monkeypatch: pytest.MonkeyPatc
             }
         ]
     }
-    response = io.BytesIO(json.dumps(payload).encode("utf-8"))
-    monkeypatch.setattr(
-        "election_extractor.search_providers.serpapi.urlopen",
-        lambda request, timeout: response,
+    # MockTransport exercises the real httpx adapter without a network request
+    # or live SerpAPI credential.
+    transport = httpx.MockTransport(lambda request: httpx.Response(200, json=payload))
+    provider = SerpApiSearchProvider(
+        api_key="test-key",
+        client=httpx.Client(transport=transport),
     )
-
-    provider = SerpApiSearchProvider(api_key="test-key")
     results = provider.search("surrey election test")
 
     assert results == (
