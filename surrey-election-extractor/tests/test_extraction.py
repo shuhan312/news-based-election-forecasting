@@ -288,7 +288,7 @@ def test_targeted_searches_stop_after_evidence_accounts_for_the_full_result() ->
 def real_discovered_area() -> DiscoveredElectionArea:
     return DiscoveredElectionArea(
         election_year=2021,
-        election_name="County Council Election 2021",
+        election_name="County Council Elections 2021",
         division_ward_name="Worplesdon",
         result_url=(
             "https://mycouncil.surreycc.gov.uk/"
@@ -312,7 +312,7 @@ def test_real_comma_snippet_creates_only_supported_incomplete_candidates() -> No
                     title="Election results for Worplesdon, 6 May 2021",
                     url=area.result_url,
                     snippet=(
-                        "County Council Election 2021 - Thursday, 6 May 2021 ; "
+                        "County Council Elections 2021 - Thursday, 6 May 2021 ; "
                         "Keith Francis Witham, Conservative, 2574, 60%, Elected ; "
                         "Gina Redpath, Residents for ..."
                     ),
@@ -539,7 +539,7 @@ class MockOfficialPageClient:
 def complete_official_page() -> str:
     return """
     <html><head><title>Election results for Worplesdon, 6 May 2021</title></head>
-    <body><h1>County Council Election 2021</h1><p>Surrey County Council</p>
+    <body><h1>County Council Elections 2021</h1><p>Surrey County Council</p>
       <table>
         <tr><th>Election Candidate</th><th>Party</th><th>Votes</th><th>Vote Share</th><th>Outcome</th></tr>
         <tr><td>Keith Francis Witham</td><td>Conservative</td><td>2,574</td><td>60%</td><td>Elected</td></tr>
@@ -575,7 +575,7 @@ def multi_seat_official_page() -> str:
     return (
         complete_official_page()
         .replace("Worplesdon, 6 May 2021", "Example Two-Member Ward, 7 May 2026")
-        .replace("County Council Election 2021", "County Council Election 2026")
+        .replace("County Council Elections 2021", "County Council Election 2026")
         .replace("<td>Seats</td><td>1</td>", "<td>Seats</td><td>2</td>")
     )
 

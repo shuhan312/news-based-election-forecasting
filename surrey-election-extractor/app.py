@@ -97,6 +97,7 @@ def _show_result(result: WorkflowResult) -> None:
     failed_column.metric("Failed", result.failed)
     st.caption(
         f"Processed {result.areas_discovered} ward(s) or division(s). "
+        f"Extracted {len(result.records)} candidate row(s). "
         f"Used {result.search_queries_used} indexed search query/queries. "
         "Blank source values remain blank and are recorded in the workbook audit."
     )
@@ -126,8 +127,9 @@ def main() -> None:
 
     st.title("Surrey Election Results Extractor")
     st.write(
-        "Extract indexed Surrey County Council election results into an "
-        "auditable Excel workbook. Missing source values are never guessed."
+        "Extract Surrey County Council election results from official pages, "
+        "with indexed-search fallback, into an auditable Excel workbook. "
+        "Missing source values are never guessed."
     )
 
     # These three widgets correspond directly to the controls named in the
@@ -147,8 +149,9 @@ def main() -> None:
         type="password",
         key=API_KEY_WIDGET_KEY,
         help=(
-            "Enter a SerpAPI key for this extraction. The application does not "
-            "write the key to the workbook or project files."
+            "Enter a SerpAPI key for fallback discovery and missing-information "
+            "searches. It may not be used when every official page is available. "
+            "The application does not write the key to workbook or project files."
         ),
     )
     run_targeted_searches = st.checkbox(
@@ -190,6 +193,10 @@ def main() -> None:
                 source_url,
                 api_key=api_key,
                 run_targeted_searches=run_targeted_searches,
+                # Prefer exact official table cells when normal public access
+                # works. The workflow automatically retains SerpAPI as the
+                # fallback for blocked or unavailable council pages.
+                use_official_sources=True,
                 progress_callback=lambda update: _show_progress(
                     update,
                     progress_bar,

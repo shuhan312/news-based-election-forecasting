@@ -299,7 +299,9 @@ def _published_metadata(result: SearchResult) -> dict[str, str]:
     if date_match:
         metadata["election_date"] = date_match.group(1)
     election_match = re.search(
-        r"(County Council\s+(?:By-)?Election\s+(?:19|20)\d{2})",
+        # Surrey publishes principal headings as "Elections" but by-election
+        # headings as "Election".  Keep both literal source forms eligible.
+        r"(County Council\s+(?:By-)?Elections?\s+(?:19|20)\d{2})",
         text,
         re.IGNORECASE,
     )

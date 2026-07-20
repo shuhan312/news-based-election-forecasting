@@ -5,6 +5,7 @@ workflow deterministically without a live API key, network access or changes
 to the completed research datasets.
 """
 
+from dataclasses import replace
 from io import BytesIO
 
 import pytest
@@ -18,6 +19,7 @@ from election_extractor.models import (
     DiscoveryStatus,
     SearchResult,
 )
+from election_extractor.official_source import OfficialPageResponse
 from election_extractor.search_providers.mock_provider import MockSearchProvider
 from election_extractor.search_providers.serpapi import SearchAuthenticationError
 from election_extractor.workflow import WorkflowError, run_extraction_workflow
@@ -75,6 +77,31 @@ def _candidate_result() -> SearchResult:
             )
         ),
     )
+
+
+class _OfficialPageClient:
+    """Provide one complete official page without network access."""
+
+    def fetch(self, url: str) -> OfficialPageResponse:
+        body = """
+        <html><head><title>Election results for Addlestone, 6 May 2021</title></head>
+        <body><h1>County Council Election 2021</h1><p>Surrey County Council</p>
+          <table>
+            <tr><th>Election Candidate</th><th>Party</th><th>Votes</th><th>Vote Share</th><th>Outcome</th></tr>
+            <tr><td>John Raymond Furey</td><td>Conservative</td><td>1,146</td><td>100%</td><td>Elected</td></tr>
+          </table>
+          <table summary="Voting summary table"><caption>Voting Summary</caption>
+            <tr><th>Details</th><th>Number</th></tr>
+            <tr><td>Seats</td><td>1</td></tr>
+            <tr><td>Total votes</td><td>1,146</td></tr>
+            <tr><td>Electorate</td><td>11,109</td></tr>
+            <tr><td>Number of ballot papers issued</td><td>1,155</td></tr>
+            <tr><td>Number of ballot papers rejected</td><td>9</td></tr>
+            <tr><td>Turnout</td><td>10.4%</td></tr>
+          </table>
+        </body></html>
+        """
+        return OfficialPageResponse(200, url, body)
 
 
 def test_rejects_urls_outside_the_supported_surrey_result_pages() -> None:
@@ -135,6 +162,47 @@ def test_direct_result_url_produces_a_downloadable_auditable_workbook() -> None:
     assert "Addlestone" in workbook.sheetnames
     assert "Extraction Log" in workbook.sheetnames
     assert "Election Structure Metadata" not in workbook.sheetnames
+
+
+def test_official_source_mode_uses_exact_tables_before_indexed_fallback(
+    monkeypatch,
+) -> None:
+    """Give the web app complete official data when normal public access works."""
+
+    area = replace(_area(), election_name="County Council Election 2021")
+    provider = MockSearchProvider({})
+    archive_client = object()
+
+    def fake_discovery(
+        index_url,
+        search_provider,
+        *,
+        indexed_search_only=False,
+        archive_client=None,
+    ):
+        assert indexed_search_only is False
+        assert archive_client is globals_archive_client
+        return DiscoveryReport(INDEX_URL, (area,), ())
+
+    globals_archive_client = archive_client
+    monkeypatch.setattr(
+        "election_extractor.workflow.discover_election_areas",
+        fake_discovery,
+    )
+
+    result = run_extraction_workflow(
+        INDEX_URL,
+        provider=provider,
+        use_official_sources=True,
+        official_archive_client=archive_client,
+        official_page_client=_OfficialPageClient(),
+    )
+
+    assert provider.queries == []
+    assert result.complete == 1
+    assert result.incomplete == 0
+    assert result.failed == 0
+    assert result.records[0].source_type.value == "official"
 
 
 def test_disabling_targeted_searches_runs_only_the_exact_url_query(monkeypatch) -> None:

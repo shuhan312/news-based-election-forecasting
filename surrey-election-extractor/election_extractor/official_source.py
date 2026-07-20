@@ -411,7 +411,12 @@ def parse_official_election_page(body: str) -> OfficialPageData:
         evidence["election_date"] = title_match.group(0)
 
     election_match = re.search(
-        r"(County Council\s+(?:By-)?Election\s+(?:19|20)\d{2})",
+        # Principal-election pages use the published plural "Elections",
+        # while by-election pages use singular "Election".  Accepting the
+        # optional final "s" preserves both official forms and prevents every
+        # principal-election candidate from being marked incomplete solely
+        # because of a heading variation.
+        r"(County Council\s+(?:By-)?Elections?\s+(?:19|20)\d{2})",
         visible_text,
         re.IGNORECASE,
     )

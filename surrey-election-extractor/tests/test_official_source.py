@@ -29,7 +29,7 @@ def valid_page() -> str:
     return """
     <html><head><title>Election results for Worplesdon, 6 May 2021</title></head>
     <body>
-      <h1>County Council Election 2021</h1>
+      <h1>County Council Elections 2021</h1>
       <p>Surrey County Council</p>
       <table>
         <tr><th>Election Candidate</th><th>Party</th><th>Votes</th><th>Vote Share</th><th>Outcome</th></tr>
@@ -130,6 +130,7 @@ def test_official_table_parser_preserves_published_values() -> None:
     assert shared["ballot_papers_issued"] == "4,300"
     assert shared["ballot_papers_rejected"] == "10"
     assert shared["turnout"] == "43%"
+    assert shared["election_name"] == "County Council Elections 2021"
     assert dict(data.shared_evidence)["number_of_seats"] == "Seats: 1"
     # The same label in a non-summary table is not election-summary evidence.
     assert shared["turnout"] != "99%"

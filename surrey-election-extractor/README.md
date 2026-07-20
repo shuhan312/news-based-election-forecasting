@@ -9,12 +9,12 @@ share predictions beyond previous election results.
 The single-page application accepts a Surrey principal-election landing page,
 an election-area index URL or one official ward/division result URL. The
 principal-election links supplied for 2013, 2017 and 2021 are safely validated
-and retained as discovery sources. The application searches both each original
-landing page and its corresponding area index, because older elections may not
-be indexed consistently under both URL forms. It uses indexed search evidence
-because automated access to council result pages may be blocked, validates the
-retrieved records, and produces an Excel workbook containing an Index, one
-worksheet per area, and an Extraction Log.
+and retained as discovery sources. The application first requests the ordinary
+public council archive and exact area-result tables because those table cells
+provide the strongest available evidence. If public access is blocked or a page
+is unavailable, the same workflow falls back to bounded indexed search. It then
+validates the retrieved records and produces an Excel workbook containing an
+Index, one worksheet per area, and an Extraction Log.
 
 Create and activate a virtual environment, then install the dependencies:
 
@@ -51,8 +51,11 @@ Area statuses mean:
 - `Failed`: the result URL was found but no reliable election-result data could
   be extracted, or extraction/validation failed.
 
-Indexed snippets can be incomplete or temporarily unavailable. The application
-records its search attempts and never fills missing source values by inference.
+Official pages and indexed snippets can both omit fields. The application
+records its evidence attempts and never fills missing source values by inference.
+A normal successful run may use zero SerpAPI queries when every official page is
+available; the key remains required so the same request can fall back safely if
+an official request fails part-way through.
 A successful SerpAPI query with no Google matches is recorded as an empty result
 and does not prevent the remaining discovery queries from running. For the
 configured 2013, 2017 and 2021 elections, the committed official URL, name and
@@ -71,10 +74,11 @@ Search-provider code is isolated behind `SearchProvider`; another provider can
 be added by implementing its `search` method without rewriting extraction or
 Excel generation.
 
-For each area, the in-memory audit retains the search provider, exact attempt
-time, query, result counts, selected official result URLs, parsing warnings,
-validation warnings and final status. It does not retain raw provider responses
-or credentials. The downloadable `Extraction Log` uses the shorter column set
+For each area, the in-memory audit identifies whether exact official evidence or
+indexed fallback was used and retains the attempt time, query where applicable,
+result counts, selected official result URLs, parsing warnings, validation
+warnings and final status. It does not retain raw provider responses or
+credentials. The downloadable `Extraction Log` uses the shorter column set
 specified for the workbook while the typed audit remains available to tests and
 future application diagnostics.
 
@@ -106,6 +110,11 @@ ordinary Streamlit export.
 
 ### Application limitations
 
+- An official result page can omit a requested value. For example, the Reigate
+  2017 page publishes 4,109 issued ballots and 4,109 candidate votes but no
+  rejected-ballot value. The ordinary export therefore keeps that official
+  field blank and marks the area Incomplete rather than silently writing a
+  calculated zero.
 - Indexed titles and snippets can be incomplete, truncated or temporarily
   absent even when the council page exists.
 - Pagination improves coverage but cannot force Google to index every official
@@ -144,10 +153,10 @@ python -m py_compile \
   election_extractor/workbook.py
 ```
 
-All API and application acceptance tests use mocked indexed results. They do
-not require or consume a live SerpAPI key. The acceptance tests reopen generated
-workbook bytes with `openpyxl` and verify the expected sheets, values, blank
-cells, hyperlinks and audit structure.
+API and application acceptance tests use mocked official pages and indexed
+results. They do not require or consume a live SerpAPI key. The acceptance tests
+reopen generated workbook bytes with `openpyxl` and verify the expected sheets,
+values, blank cells, hyperlinks and audit structure.
 
 The final clean-environment checks and prompt-coverage summary are recorded in
 [`docs/streamlit_extractor_release_verification.md`](docs/streamlit_extractor_release_verification.md).

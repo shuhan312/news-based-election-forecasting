@@ -14,7 +14,7 @@ from dataclasses import dataclass, replace
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from election_extractor.discovery import discover_election_areas
+from election_extractor.discovery import OfficialArchiveClient, discover_election_areas
 from election_extractor.extraction import (
     CandidateResultRecord,
     ExtractionAttempt,
@@ -28,6 +28,7 @@ from election_extractor.models import (
     DiscoveryStatus,
     MetadataStatus,
 )
+from election_extractor.official_source import OfficialPageClient, UrllibOfficialPageClient
 from election_extractor.search_providers.base import (
     BudgetedSearchProvider,
     SearchProvider,
@@ -312,13 +313,19 @@ def run_extraction_workflow(
     run_targeted_searches: bool = True,
     max_search_queries: int = 500,
     progress_callback: ProgressCallback | None = None,
+    use_official_sources: bool = False,
+    official_archive_client: OfficialArchiveClient | None = None,
+    official_page_client: OfficialPageClient | None = None,
 ) -> WorkflowResult:
-    """Run one complete, downloadable, indexed-search extraction.
+    """Run one complete, downloadable election-result extraction.
 
     Tests inject a provider and therefore need no live credential. The real
     application supplies the key directly to the SerpAPI adapter; it is held in
     a local object only and is never copied into the result, progress messages,
-    workbook or exception text.
+    workbook or exception text. The Streamlit application also enables the
+    ordinary public official-source clients. They are attempted first because
+    exact council table cells are stronger evidence; indexed search remains the
+    bounded fallback whenever an official page is blocked or unavailable.
     """
 
     # Stage 1: validate and canonicalise the URL before any external request.
@@ -341,15 +348,22 @@ def run_extraction_workflow(
     try:
         # Stage 2: an index URL expands to all discovered areas. A direct URL
         # becomes a one-area report and therefore follows the same later loop.
-        discovery = (
-            discover_election_areas(
+        if source_type == "index":
+            discovery_arguments = {}
+            if use_official_sources and official_archive_client is not None:
+                discovery_arguments["archive_client"] = official_archive_client
+            discovery = discover_election_areas(
                 canonical_url,
                 budgeted_provider,
-                indexed_search_only=True,
+                # Strict indexed-only operation remains available to tests and
+                # reproducibility checks. The web app enables official-first
+                # discovery, whose existing code falls back to indexed search
+                # if normal public HTTP access is unavailable.
+                indexed_search_only=not use_official_sources,
+                **discovery_arguments,
             )
-            if source_type == "index"
-            else _direct_discovery(canonical_url)
-        )
+        else:
+            discovery = _direct_discovery(canonical_url)
     except SearchAuthenticationError as error:
         raise WorkflowError("The indexed-search API key was rejected.") from error
     except SearchRateLimitError as error:
@@ -398,6 +412,13 @@ def run_extraction_workflow(
     attempts: list[ExtractionAttempt] = []
     validations: list[ValidationResult] = []
     counts = {"Complete": 0, "Incomplete": 0, "Failed": 0}
+    active_official_page_client = official_page_client
+    if use_official_sources and active_official_page_client is None:
+        # One stateless client is reused for the run. It uses ordinary public
+        # HTTP only, with no browser automation, authentication or protection
+        # bypass; its diagnostics decide whether indexed fallback is required.
+        active_official_page_client = UrllibOfficialPageClient()
+
     for position, area in enumerate(discovery.areas, start=1):
         area_label = area.division_ward_name or "Direct ward result"
         _notify(
@@ -416,9 +437,9 @@ def run_extraction_workflow(
         report: ExtractionReport = extract_candidate_results(
             (area,),
             budgeted_provider,
-            # The prompt requires indexed evidence rather than depending on a
-            # direct council-page request that may be blocked.
-            official_page_client=None,
+            official_page_client=(
+                active_official_page_client if use_official_sources else None
+            ),
             run_targeted_searches=run_targeted_searches,
         )
         # Authentication, rate-limit and network failures apply to the whole

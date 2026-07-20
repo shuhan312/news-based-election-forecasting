@@ -9,18 +9,17 @@
 ## What was verified
 
 The application accepts an official Surrey principal-election landing page,
-election-area index URL or one official area-result URL, uses the
-provider-neutral SerpAPI adapter, validates retrieved evidence and returns a
-downloadable Excel workbook. The 2013, 2017 and 2021 landing pages supplied by
-the supervisor are retained as evidence sources while discovery also searches
-their corresponding official area-index forms. This matters for older pages
-that may be indexed under only one URL form. The API key is a masked, temporary
-input and is not part of workflow results, audit records or workbook interfaces.
+election-area index URL or one official area-result URL. It first reads ordinary
+public council archive and result pages, then uses the provider-neutral SerpAPI
+adapter only as a fallback when official access is unavailable or a page cannot
+yield reliable candidate rows. Retrieved evidence is validated before the application
+returns a downloadable Excel workbook. The API key is a masked, temporary input
+and is not part of workflow results, audit records or workbook interfaces.
 
 The release includes:
 
 - the Streamlit URL, password, targeted-search, progress and download controls;
-- indexed discovery and direct-result processing;
+- official-first discovery and direct-result processing with indexed fallback;
 - bounded query, HTTP-request and retry policies;
 - strict candidate, voting-summary and non-inference rules;
 - Complete, Incomplete and Failed area states;
@@ -59,7 +58,7 @@ The full suite was run inside the clean environment:
 Result:
 
 ```text
-362 passed in 69.10s
+363 passed in 54.41s
 ```
 
 The application and main package modules also passed `python -m py_compile`.
@@ -97,9 +96,29 @@ documented SHA-256 file fingerprints, not credentials.
 Tests use clearly labelled fake credentials and mocked HTTP transports. No live
 SerpAPI key or quota was used during release verification.
 
+## Live official-source verification
+
+The complete 2017 principal-election link was run through the official-first
+workflow using a provider fixture that would fail if an indexed query were sent.
+The result was:
+
+```text
+81 divisions discovered
+377 candidate rows extracted
+80 Complete / 1 Incomplete / 0 Failed
+0 indexed-search queries
+all candidate rows sourced from official council pages
+```
+
+The one Incomplete division is Reigate. Its official page publishes 4,109
+ballot papers issued and candidate votes totalling 4,109, but it does not
+publish a rejected-ballot value. The extractor deliberately leaves that source
+field blank. A formula-derived zero exists separately in the research database;
+it is not relabelled as a directly published value in the Streamlit export.
+
 ## Remaining limitations
 
-Indexed search evidence can be incomplete, truncated or temporarily absent.
+Official or indexed evidence can be incomplete, truncated or temporarily absent.
 The application therefore cannot guarantee that every official field will be
 available at every run. It preserves missing values, evidence conflicts and
 failed areas rather than inventing replacements.
