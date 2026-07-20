@@ -28,7 +28,11 @@ from election_extractor.models import (
     DiscoveryStatus,
     MetadataStatus,
 )
-from election_extractor.search_providers.base import SearchProvider
+from election_extractor.search_providers.base import (
+    BudgetedSearchProvider,
+    SearchProvider,
+    SearchRequestLimitError,
+)
 from election_extractor.search_providers.serpapi import (
     SearchAuthenticationError,
     SearchNetworkError,
@@ -69,6 +73,10 @@ PROVIDER_FAILURE_MESSAGES = {
     ),
     SearchResponseError.__name__: (
         "The indexed-search service returned an unusable response."
+    ),
+    SearchRequestLimitError.__name__: (
+        "The extraction reached its indexed-search request limit. "
+        "No further searches were sent."
     ),
 }
 
@@ -111,6 +119,7 @@ class WorkflowResult:
     complete: int
     incomplete: int
     failed: int
+    search_queries_used: int
 
     @property
     def areas_discovered(self) -> int:
@@ -293,6 +302,7 @@ def run_extraction_workflow(
     api_key: str | None = None,
     provider: SearchProvider | None = None,
     run_targeted_searches: bool = True,
+    max_search_queries: int = 500,
     progress_callback: ProgressCallback | None = None,
 ) -> WorkflowResult:
     """Run one complete, downloadable, indexed-search extraction.
@@ -304,12 +314,20 @@ def run_extraction_workflow(
     """
 
     # Stage 1: validate and canonicalise the URL before any external request.
+    if max_search_queries < 1:
+        raise WorkflowError("The indexed-search query limit must be at least 1.")
+
     source_type, canonical_url = _source_type(source_url)
     if provider is None:
         if not api_key or not api_key.strip():
             raise WorkflowError("An indexed results API key is required.")
         # The key stays inside the provider instance for this function call.
         provider = SerpApiSearchProvider(api_key=api_key.strip())
+
+    # One wrapper is shared by discovery and every area extraction, so the
+    # stated limit applies to the complete user task rather than resetting for
+    # each ward or division.
+    budgeted_provider = BudgetedSearchProvider(provider, max_search_queries)
 
     _notify(progress_callback, WorkflowProgress("validation", "URL validated."))
     try:
@@ -318,7 +336,7 @@ def run_extraction_workflow(
         discovery = (
             discover_election_areas(
                 canonical_url,
-                provider,
+                budgeted_provider,
                 indexed_search_only=True,
             )
             if source_type == "index"
@@ -341,6 +359,11 @@ def run_extraction_workflow(
     except SearchResponseError as error:
         raise WorkflowError(
             "The indexed-search service returned an unusable response."
+        ) from error
+    except SearchRequestLimitError as error:
+        raise WorkflowError(
+            "The extraction reached its indexed-search request limit. "
+            "No further searches were sent."
         ) from error
     except Exception as error:
         # Provider exceptions can contain request details. Keep those details
@@ -384,7 +407,7 @@ def run_extraction_workflow(
         )
         report: ExtractionReport = extract_candidate_results(
             (area,),
-            provider,
+            budgeted_provider,
             # The prompt requires indexed evidence rather than depending on a
             # direct council-page request that may be blocked.
             official_page_client=None,
@@ -484,4 +507,5 @@ def run_extraction_workflow(
         complete=counts["Complete"],
         incomplete=counts["Incomplete"],
         failed=counts["Failed"],
+        search_queries_used=budgeted_provider.queries_used,
     )

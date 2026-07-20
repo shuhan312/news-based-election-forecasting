@@ -11,6 +11,7 @@ from election_extractor.search_providers.serpapi import (
     SearchTimeoutError,
     SerpApiSearchProvider,
 )
+from election_extractor.search_providers.base import SearchRequestLimitError
 
 
 SECRET = "credential-that-must-not-appear"
@@ -153,3 +154,28 @@ def test_constructor_rejects_unbounded_or_invalid_retry_settings() -> None:
         SerpApiSearchProvider(api_key=SECRET, max_attempts=0)
     with pytest.raises(ValueError, match="Backoff"):
         SerpApiSearchProvider(api_key=SECRET, backoff_seconds=-1)
+    with pytest.raises(ValueError, match="max_requests"):
+        SerpApiSearchProvider(api_key=SECRET, max_requests=0)
+
+
+def test_http_request_ceiling_also_counts_retry_attempts() -> None:
+    """Prevent retries from bypassing the complete-task HTTP request ceiling."""
+
+    calls = 0
+
+    def handler(request):
+        nonlocal calls
+        calls += 1
+        return httpx.Response(503)
+
+    provider = SerpApiSearchProvider(
+        api_key=SECRET,
+        client=httpx.Client(transport=httpx.MockTransport(handler)),
+        max_attempts=3,
+        max_requests=2,
+        sleep=lambda seconds: None,
+    )
+
+    with pytest.raises(SearchRequestLimitError):
+        provider.search("surrey election")
+    assert calls == 2

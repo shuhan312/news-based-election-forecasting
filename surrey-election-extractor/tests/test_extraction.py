@@ -257,6 +257,34 @@ def test_search_attempt_keeps_the_required_in_memory_audit_fields() -> None:
     assert audit.final_status is None  # Added later by the workflow validation stage.
 
 
+def test_targeted_searches_stop_after_evidence_accounts_for_the_full_result() -> None:
+    """Avoid extra queries only after candidates, votes, outcome and seats reconcile."""
+
+    area = discovered_area()
+    exact_query = build_extraction_query(area)
+    complete_result = SearchResult(
+        title="Election candidate result",
+        url=RESULT_URL,
+        snippet=(
+            complete_snippet(
+                "Furey, John Raymond",
+                "Conservative",
+                "1,146",
+                "100%",
+                "Elected",
+            )
+            + " | Total votes: 1,146 | Valid votes: 1,146"
+        ),
+    )
+    provider = MockSearchProvider({exact_query: (complete_result,)})
+
+    report = extract_candidate_results((area,), provider, run_targeted_searches=True)
+
+    assert len(report.records) == 1
+    assert provider.queries == [exact_query]
+    assert len(report.attempts) == 1
+
+
 def real_discovered_area() -> DiscoveredElectionArea:
     return DiscoveredElectionArea(
         election_year=2021,

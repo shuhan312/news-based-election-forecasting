@@ -54,6 +54,13 @@ or credentials. The downloadable `Extraction Log` uses the shorter column set
 specified for the workbook while the typed audit remains available to tests and
 future application diagnostics.
 
+Each application run has one shared budget of 500 indexed search queries and
+the SerpAPI adapter has a separate ceiling of 600 HTTP attempts, including
+retries. Targeted searches stop early only when complete, conflict-free
+candidate rows reconcile to the published total votes and seat count. These
+limits prevent a large election or temporary provider failure from creating an
+unbounded request sequence.
+
 ## Current election-data release
 
 - 20 election events: the 2013, 2017 and 2021 principal elections, separate

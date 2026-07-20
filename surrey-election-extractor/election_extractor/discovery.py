@@ -26,7 +26,7 @@ from election_extractor.models import (
     SearchAttempt,
     SearchResult,
 )
-from election_extractor.search_providers.base import SearchProvider
+from election_extractor.search_providers.base import SearchProvider, SearchProviderError
 from election_extractor.url_utils import (
     normalise_area_result_url,
     normalise_url,
@@ -1027,6 +1027,11 @@ def _discover_from_indexed_search(
     for query in initial_queries:
         try:
             results = tuple(provider.search(query))
+        except SearchProviderError:
+            # Credential, rate-limit and request-budget failures affect the
+            # whole task. Let the workflow translate them into a clear UI error
+            # instead of misreporting them as "no wards discovered".
+            raise
         except Exception as exc:
             search_runs.append(_SearchRun(query, (), type(exc).__name__))
             continue
@@ -1043,6 +1048,8 @@ def _discover_from_indexed_search(
         for metadata_query in context_queries:
             try:
                 results = tuple(provider.search(metadata_query))
+            except SearchProviderError:
+                raise
             except Exception as exc:
                 search_runs.append(_SearchRun(metadata_query, (), type(exc).__name__))
             else:

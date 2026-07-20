@@ -143,7 +143,7 @@ def test_disabling_targeted_searches_runs_only_the_exact_url_query(monkeypatch) 
     # explicitly requests the supervisor-specified indexed-search path.
     def fake_discovery(index_url, search_provider, *, indexed_search_only=False):
         assert index_url == INDEX_URL
-        assert search_provider is provider
+        assert search_provider.provider_name == "MockSearchProvider"
         assert indexed_search_only is True
         return DiscoveryReport(INDEX_URL, (area,), ())
 
@@ -220,3 +220,46 @@ def test_direct_result_provider_failure_becomes_a_safe_workflow_error() -> None:
         )
 
     assert "internal-secret-provider-detail" not in str(captured.value)
+
+
+def test_query_budget_stops_a_task_before_unbounded_targeted_searches(monkeypatch) -> None:
+    """Apply one query ceiling across index discovery and area extraction."""
+
+    provider = MockSearchProvider({})
+    area = _area()
+
+    def fake_discovery(index_url, search_provider, *, indexed_search_only=False):
+        return DiscoveryReport(INDEX_URL, (area,), ())
+
+    # An index area has ward/year metadata and therefore has eligible targeted
+    # queries after the exact-URL search; this path can exercise the global cap.
+    monkeypatch.setattr(
+        "election_extractor.workflow.discover_election_areas",
+        fake_discovery,
+    )
+    with pytest.raises(WorkflowError, match="request limit"):
+        run_extraction_workflow(
+            INDEX_URL,
+            provider=provider,
+            run_targeted_searches=True,
+            max_search_queries=2,
+        )
+
+    # The wrapper blocks the third query before it reaches the real provider.
+    assert len(provider.queries) == 2
+
+
+def test_index_discovery_preserves_authentication_failure_category() -> None:
+    """Do not turn a rejected index-search key into a no-wards message."""
+
+    class RejectedProvider(MockSearchProvider):
+        def search(self, query):
+            raise SearchAuthenticationError("private-provider-detail")
+
+    with pytest.raises(WorkflowError, match="API key was rejected") as captured:
+        run_extraction_workflow(
+            INDEX_URL,
+            provider=RejectedProvider({}),
+        )
+
+    assert "private-provider-detail" not in str(captured.value)

@@ -9,34 +9,15 @@ from collections.abc import Callable, Sequence
 import httpx
 
 from election_extractor.models import SearchResult
-from election_extractor.search_providers.base import SearchProvider
-
-
-# These exceptions describe the failure category without retaining an httpx
-# request object. A request object would include the API key in its query
-# parameters and must not be exposed to the UI, audit workbook or test output.
-class SearchProviderError(RuntimeError):
-    """Base class for safe indexed-search provider failures."""
-
-
-class SearchAuthenticationError(SearchProviderError):
-    """The provider rejected the submitted credential."""
-
-
-class SearchRateLimitError(SearchProviderError):
-    """The provider remained rate limited after the allowed retries."""
-
-
-class SearchTimeoutError(SearchProviderError):
-    """The provider timed out after the allowed retries."""
-
-
-class SearchNetworkError(SearchProviderError):
-    """The provider remained unreachable after the allowed retries."""
-
-
-class SearchResponseError(SearchProviderError):
-    """The provider returned an unusable or non-retryable response."""
+from election_extractor.search_providers.base import (
+    SearchAuthenticationError,
+    SearchNetworkError,
+    SearchProvider,
+    SearchRateLimitError,
+    SearchRequestLimitError,
+    SearchResponseError,
+    SearchTimeoutError,
+)
 
 
 RetrySleep = Callable[[float], None]
@@ -63,6 +44,7 @@ class SerpApiSearchProvider(SearchProvider):
         max_attempts: int = 3,
         backoff_seconds: float = 1.0,
         maximum_backoff_seconds: float = 8.0,
+        max_requests: int = 600,
         client: httpx.Client | None = None,
         sleep: RetrySleep = time.sleep,
     ) -> None:
@@ -77,6 +59,8 @@ class SerpApiSearchProvider(SearchProvider):
             raise ValueError("max_attempts must be at least 1.")
         if backoff_seconds < 0 or maximum_backoff_seconds < 0:
             raise ValueError("Backoff values must be non-negative.")
+        if max_requests < 1:
+            raise ValueError("max_requests must be at least 1.")
 
         self._api_key = configured_key
         self._endpoint = endpoint
@@ -85,6 +69,11 @@ class SerpApiSearchProvider(SearchProvider):
         self._max_attempts = max_attempts
         self._backoff_seconds = backoff_seconds
         self._maximum_backoff_seconds = maximum_backoff_seconds
+        # Query retries are real API requests too. This second ceiling prevents
+        # repeated transient failures from expanding a bounded query plan into
+        # an unbounded number of HTTP calls.
+        self._max_requests = max_requests
+        self._requests_made = 0
         self._client = client or httpx.Client()
         self._sleep = sleep
 
@@ -143,6 +132,11 @@ class SerpApiSearchProvider(SearchProvider):
         last_network_failure = False
 
         for attempt in range(1, self._max_attempts + 1):
+            if self._requests_made >= self._max_requests:
+                raise SearchRequestLimitError(
+                    "The extraction reached its indexed-search request limit."
+                ) from None
+            self._requests_made += 1
             try:
                 response = self._client.get(
                     self._endpoint,

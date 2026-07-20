@@ -871,6 +871,47 @@ def _records_for_area(
     return tuple(records)
 
 
+def _indexed_evidence_accounts_for_complete_result(
+    area: DiscoveredElectionArea,
+    evidence: Sequence[_ParsedEvidence],
+) -> bool:
+    """Return True only when published evidence accounts for the full result.
+
+    A single complete-looking candidate is not enough to stop searching because
+    other candidates could still be absent. Early stopping requires complete,
+    conflict-free rows, one published total-vote value, candidate votes summing
+    to that value, and an elected count matching the published seat count.
+    """
+
+    records = _records_for_area(area, evidence)
+    if not records or any(
+        record.extraction_status is not ExtractionStatus.COMPLETE
+        or record.conflicts
+        for record in records
+    ):
+        return False
+
+    total_votes = {record.total_votes for record in records if record.total_votes is not None}
+    seats = {
+        record.number_of_seats
+        for record in records
+        if record.number_of_seats is not None
+    }
+    if len(total_votes) != 1 or len(seats) != 1:
+        return False
+    if any(record.votes_received is None for record in records):
+        return False
+
+    published_total = next(iter(total_votes))
+    candidate_total = sum(record.votes_received or 0 for record in records)
+    elected_count = sum(
+        1
+        for record in records
+        if (record.outcome or "").strip().casefold() == "elected"
+    )
+    return candidate_total == published_total and elected_count == next(iter(seats))
+
+
 def extract_candidate_results(
     areas: Sequence[DiscoveredElectionArea],
     provider: SearchProvider,
@@ -978,7 +1019,7 @@ def extract_candidate_results(
                         division_ward_name=area.division_ward_name,
                         search_date=search_date,
                         source_type=EvidenceSourceType.INDEXED_SEARCH,
-                        search_provider=type(provider).__name__,
+                        search_provider=provider.provider_name,
                         attempt_timestamp=attempt_timestamp,
                         parsing_warnings=(
                             "The indexed-search request failed before evidence could be parsed.",
@@ -1042,13 +1083,22 @@ def extract_candidate_results(
                     accepted_result_count=len(accepted_results),
                     excluded_result_count=len(search_results) - len(accepted_results),
                     source_type=EvidenceSourceType.INDEXED_SEARCH,
-                    search_provider=type(provider).__name__,
+                    search_provider=provider.provider_name,
                     attempt_timestamp=attempt_timestamp,
                     selected_urls=tuple(sorted({item[0] for item in accepted_results})),
                     parsing_warnings=tuple(parsing_warnings),
                 )
             )
             area_evidence.extend(query_evidence)
+
+            # Targeted searches exist to recover missing information. Once the
+            # combined published evidence accounts for the complete result,
+            # further queries would add cost without closing an evidence gap.
+            if run_targeted_searches and _indexed_evidence_accounts_for_complete_result(
+                area,
+                area_evidence,
+            ):
+                break
 
         # Merge evidence only after every supported query has completed. This
         # allows partial snippets to complement each other without overwriting.

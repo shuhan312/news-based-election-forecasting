@@ -97,6 +97,7 @@ def _show_result(result: WorkflowResult) -> None:
     failed_column.metric("Failed", result.failed)
     st.caption(
         f"Processed {result.areas_discovered} ward(s) or division(s). "
+        f"Used {result.search_queries_used} indexed search query/queries. "
         "Blank source values remain blank and are recorded in the workbook audit."
     )
     # Streamlit receives the workbook in memory. The application does not need
