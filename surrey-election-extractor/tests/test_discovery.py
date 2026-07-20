@@ -197,6 +197,51 @@ def test_principal_landing_page_participates_in_real_indexed_discovery() -> None
     assert provider.queries[:3] == list(queries)
 
 
+def test_configured_year_query_recovers_when_landing_queries_are_empty() -> None:
+    """Use audited 2017 metadata without inventing it from election ID 10."""
+
+    archive_2017 = (
+        "https://mycouncil.surreycc.gov.uk/"
+        "mgElectionResults.aspx?ID=10&RPID=0"
+    )
+    configured_name = "Surrey County Council Election 2017"
+    queries = build_search_queries(archive_2017, configured_name)
+    year_query = next(
+        query
+        for query in queries
+        if '"2017" "County Council"' in query
+    )
+    result_url = (
+        "https://mycouncil.surreycc.gov.uk/"
+        "mgElectionAreaResults.aspx?ID=220&RPID=0"
+    )
+    provider = MockSearchProvider(
+        {
+            # All URL-specific searches are empty, matching the live failure.
+            # Only the configured year query returns a valid official area row.
+            year_query: (
+                SearchResult(
+                    title="Election results for Addlestone, 4 May 2017",
+                    url=result_url,
+                    snippet="2017 Surrey County Council election",
+                ),
+            )
+        }
+    )
+
+    report = discover_election_areas(
+        archive_2017,
+        provider,
+        indexed_search_only=True,
+    )
+
+    assert len(report.areas) == 1
+    assert report.areas[0].election_year == 2017
+    assert report.areas[0].division_ward_name == "Addlestone"
+    assert report.areas[0].result_url == result_url
+    assert year_query in provider.queries
+
+
 @pytest.mark.parametrize(
     "url",
     [
@@ -251,7 +296,9 @@ def test_search_attempts_are_recorded() -> None:
     provider = mocked_provider()
     report = search_fallback_report(INDEX_URL, provider)
 
-    assert len(report.search_attempts) == 4
+    # One official attempt is followed by the base URL searches and the
+    # metadata-informed year/name searches.
+    assert len(report.search_attempts) == 5
     assert report.search_attempts[0].discovery_method == "official_archive"
     assert report.search_attempts[0].status == "failed"
     assert [attempt.query for attempt in report.search_attempts[1:]] == provider.queries
@@ -260,8 +307,9 @@ def test_search_attempts_are_recorded() -> None:
         "completed",
         "completed",
         "completed",
+        "completed",
     ]
-    assert [attempt.result_count for attempt in report.search_attempts] == [0, 1, 2, 1]
+    assert [attempt.result_count for attempt in report.search_attempts] == [0, 1, 2, 0, 1]
 
 
 def test_url_normalisation_preserves_meaningful_parameters() -> None:

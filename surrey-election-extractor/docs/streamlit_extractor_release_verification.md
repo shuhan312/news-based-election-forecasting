@@ -59,7 +59,7 @@ The full suite was run inside the clean environment:
 Result:
 
 ```text
-355 passed in 68.18s
+358 passed in 62.19s
 ```
 
 The application and main package modules also passed `python -m py_compile`.
@@ -107,4 +107,9 @@ failed areas rather than inventing replacements.
 A live SerpAPI request was deliberately not included in automated verification,
 because tests must not require a private credential or consume a user's quota.
 The HTTP adapter, authentication failure, rate limit, timeout, retry and network
-paths are covered with mocked provider responses.
+paths are covered with mocked provider responses. SerpAPI responses marked
+``Success`` that explicitly report no Google results are treated as an empty
+query so discovery can continue; responses marked ``Error`` still stop safely.
+Configured principal elections use their audited official URL, name and year
+to issue year-specific area-result searches even when an older landing-page
+query returns no metadata.

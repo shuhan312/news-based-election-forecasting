@@ -17,6 +17,7 @@ from urllib.error import HTTPError
 from urllib.parse import parse_qsl, urljoin, urlsplit, urlunsplit
 from urllib.request import Request, urlopen
 
+from election_extractor.election_config import load_election_config
 from election_extractor.models import (
     AreaNameStatus,
     DiscoveredElectionArea,
@@ -344,10 +345,45 @@ def build_search_queries(
             f'inurl:mgElectionAreaResults.aspx "{election_date}"'
         )
     if election_name:
+        # A configured year query is less dependent on the exact word order or
+        # singular/plural wording used in an old indexed page title. Results
+        # still pass the strict year and official-result-URL checks below.
+        year_match = YEAR_PATTERN.search(election_name)
+        if year_match:
+            queries.append(
+                "site:mycouncil.surreycc.gov.uk "
+                "inurl:mgElectionAreaResults.aspx "
+                f'"{year_match.group(1)}" "County Council"'
+            )
         queries.append(
             f'site:mycouncil.surreycc.gov.uk inurl:mgElectionAreaResults.aspx "{election_name}"'
         )
     return tuple(dict.fromkeys(queries))
+
+
+def _configured_election_context(source_url: str) -> _ElectionContext | None:
+    """Return audited metadata for a configured official election entry.
+
+    The application must not infer a year from a numeric ModernGov ID.  Instead,
+    this lookup uses the committed election configuration, where the official
+    URL, election name and year are recorded together.  Unconfigured URLs still
+    depend entirely on metadata retrieved from indexed evidence.
+    """
+
+    for configuration in load_election_config():
+        try:
+            configured_url = validate_discovery_source_url(configuration.official_url)
+        except ValueError:
+            # The same configuration also contains the separate 2026 map
+            # sources. They are handled by the official map discovery route.
+            continue
+        if configured_url == source_url:
+            return _ElectionContext(
+                configuration.election_year,
+                configuration.election_name,
+                None,
+            )
+    return None
 
 
 def extract_area_name(title: str) -> str | None:
@@ -1023,7 +1059,15 @@ def _discover_from_indexed_search(
     search_runs: list[_SearchRun] = []
     all_results: list[SearchResult] = []
 
-    initial_queries = build_search_queries(canonical_index)
+    # Known principal elections already have audited URL/name/year metadata in
+    # config/elections.json. Use it to build year-specific searches immediately
+    # rather than requiring a landing-page snippet to reveal the year first.
+    configured_context = _configured_election_context(canonical_index)
+    initial_queries = build_search_queries(
+        canonical_index,
+        configured_context.name if configured_context else None,
+        configured_context.date if configured_context else None,
+    )
     for query in initial_queries:
         try:
             results = tuple(provider.search(query))
@@ -1038,13 +1082,27 @@ def _discover_from_indexed_search(
         search_runs.append(_SearchRun(query, results))
         all_results.extend(results)
 
-    context = _extract_metadata(all_results)
+    retrieved_context = _extract_metadata(all_results)
+    context = configured_context or retrieved_context
+    if configured_context and retrieved_context.date:
+        # Configuration supplies the audited name/year; a date explicitly
+        # published in indexed evidence can safely make the later query more
+        # specific without replacing configured identity metadata.
+        context = _ElectionContext(
+            configured_context.year,
+            configured_context.name,
+            retrieved_context.date,
+        )
     if context.name or context.date:
-        context_queries = build_search_queries(
-            canonical_index,
-            context.name,
-            context.date,
-        )[len(initial_queries) :]
+        context_queries = tuple(
+            query
+            for query in build_search_queries(
+                canonical_index,
+                context.name,
+                context.date,
+            )
+            if query not in initial_queries
+        )
         for metadata_query in context_queries:
             try:
                 results = tuple(provider.search(metadata_query))

@@ -53,6 +53,11 @@ Area statuses mean:
 
 Indexed snippets can be incomplete or temporarily unavailable. The application
 records its search attempts and never fills missing source values by inference.
+A successful SerpAPI query with no Google matches is recorded as an empty result
+and does not prevent the remaining discovery queries from running. For the
+configured 2013, 2017 and 2021 elections, the committed official URL, name and
+year are also used to construct year-specific area-result searches; retrieved
+pages must still publish the matching year before they are accepted.
 Search-provider code is isolated behind `SearchProvider`; another provider can
 be added by implementing its `search` method without rewriting extraction or
 Excel generation.

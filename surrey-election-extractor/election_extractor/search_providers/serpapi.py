@@ -108,7 +108,13 @@ class SerpApiSearchProvider(SearchProvider):
 
     @staticmethod
     def _safe_provider_error(payload: object) -> str | None:
-        """Read a provider error category without returning its raw text."""
+        """Classify a provider message without returning its raw text.
+
+        SerpAPI can attach an ``error`` string to a search whose metadata still
+        says ``Success`` when Google simply found no results.  That is an empty
+        query result, not a provider failure, and discovery must be allowed to
+        continue with its next planned query.
+        """
 
         if not isinstance(payload, dict) or not payload.get("error"):
             return None
@@ -117,6 +123,20 @@ class SerpApiSearchProvider(SearchProvider):
             return "authentication"
         if "rate limit" in message or "too many" in message:
             return "rate_limit"
+
+        metadata = payload.get("search_metadata")
+        search_status = (
+            str(metadata.get("status", "")).casefold()
+            if isinstance(metadata, dict)
+            else ""
+        )
+        no_result_message = (
+            "hasn't returned any results" in message
+            or "has not returned any results" in message
+            or "no results" in message
+        )
+        if search_status == "success" and no_result_message:
+            return "empty_results"
         return "response"
 
     def _request(self, query: str) -> httpx.Response:
@@ -196,6 +216,11 @@ class SerpApiSearchProvider(SearchProvider):
                         "The indexed-search rate limit was reached. Try again later."
                     ) from None
                 continue
+            if provider_error == "empty_results":
+                # A successful empty Google result is a valid response. Return
+                # it to ``search`` so this query becomes an empty tuple and the
+                # caller can continue with other discovery queries.
+                return response
             if provider_error:
                 raise SearchResponseError(
                     "The indexed-search service returned an error."
@@ -232,6 +257,8 @@ class SerpApiSearchProvider(SearchProvider):
             raise SearchRateLimitError(
                 "The indexed-search rate limit was reached. Try again later."
             ) from None
+        if provider_error == "empty_results":
+            return ()
         if provider_error:
             raise SearchResponseError(
                 "The indexed-search service returned an error."

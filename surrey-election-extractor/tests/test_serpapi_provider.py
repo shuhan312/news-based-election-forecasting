@@ -147,6 +147,42 @@ def test_invalid_json_and_provider_error_payloads_are_not_silently_accepted() ->
         rejected_payload.search("surrey election")
 
 
+def test_successful_google_search_with_no_results_returns_an_empty_sequence() -> None:
+    """Let discovery continue when one valid SerpAPI query has no matches."""
+
+    provider = _provider(
+        lambda request: httpx.Response(
+            200,
+            json={
+                "search_metadata": {"status": "Success"},
+                "search_information": {"organic_results_state": "Fully empty"},
+                "error": "Google hasn't returned any results for this query.",
+            },
+        )
+    )
+
+    # Empty results are evidence about this query, not a reason to abort all
+    # remaining landing-page and area-index searches.
+    assert provider.search("site:mycouncil.surreycc.gov.uk election") == ()
+
+
+def test_failed_search_metadata_is_still_a_provider_error() -> None:
+    """Do not mistake a genuine SerpAPI processing failure for an empty search."""
+
+    provider = _provider(
+        lambda request: httpx.Response(
+            200,
+            json={
+                "search_metadata": {"status": "Error"},
+                "error": "We couldn't get valid results for this search.",
+            },
+        )
+    )
+
+    with pytest.raises(SearchResponseError):
+        provider.search("surrey election")
+
+
 def test_constructor_rejects_unbounded_or_invalid_retry_settings() -> None:
     """Fail configuration early instead of creating an unsafe retry policy."""
 
