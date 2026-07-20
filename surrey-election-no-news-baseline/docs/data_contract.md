@@ -37,3 +37,21 @@ unique and identical. It does not silently inner-join away unmatched records.
 Any future schema change must be implemented and tested in the extractor first.
 The modelling layer should then update its contract validation in a separate,
 well-described commit. Generated JSON is not manually edited.
+
+## NULL handling for model inputs
+
+The published fundamentals table keeps raw NULLs. The separate model-input
+contract assigns each nullable predictor a missing flag, an applicability flag
+and an audit reason: `study_start`, `party_did_not_contest`, `not_applicable`,
+`changed_boundary` or `insufficient_evidence`.
+
+The 2013 rows remain available to supply history for 2017 but are not eligible
+prediction targets because no earlier Surrey election is included. All 2026
+rows remain eligible; complete-case deletion is prohibited because it would
+systematically remove changed-boundary wards.
+
+Any required numeric or boolean imputation is fitted separately inside each
+training fold. Validation and test rows are transformed only after those
+training-fold values have been fixed. Missing and applicability indicators are
+retained, so an unknown value is never interpreted as an observed zero or
+False. No imputed value is written back to the fundamentals table.
