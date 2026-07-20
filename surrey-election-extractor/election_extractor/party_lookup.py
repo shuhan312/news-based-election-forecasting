@@ -16,10 +16,15 @@ DEFAULT_PARTY_LOOKUP_PATH = (
     Path(__file__).resolve().parents[1] / "config/party_standardisation.json"
 )
 PARTY_CATEGORIES = frozenset({"established", "emerging", "local", "independent"})
-# These labels must never be used as aliases for one another.  The supervisor
-# specifically requires Reform UK to remain distinct from UKIP; the full
-# published wording is protected as well.
-PROTECTED_PARTY_NAMES = frozenset({"Reform UK", "UKIP", "UK Independence Party"})
+# Surrey result pages use three published labels for UKIP.  They may share one
+# analytical name, but Reform UK must remain a separate party as required by
+# the supervisor.  Keeping this rule in the loader prevents a later config
+# edit from silently merging the two party histories.
+UKIP_PUBLISHED_LABELS = frozenset(
+    {"UKIP", "UK Independence Party", "UK Independence Party (UKIP)"}
+)
+UKIP_STANDARD_NAME = "UK Independence Party"
+REFORM_STANDARD_NAME = "Reform UK"
 
 
 class PartyLookupError(ValueError):
@@ -69,11 +74,17 @@ def _entry_from_payload(entry: object, index: int) -> PartyLookupEntry:
         raise PartyLookupError(
             f"Party mapping {index} has unsupported party_category: {category}."
         )
-    # A protected label may be categorised, but cannot be silently renamed to
-    # another protected label.  This prevents an accidental Reform/UKIP merge.
-    if original in PROTECTED_PARTY_NAMES and standard != original:
+    # All reviewed UKIP spellings use one analytical identity.  The original
+    # source wording is still retained as the dictionary key and in every
+    # candidate-result row.
+    if original in UKIP_PUBLISHED_LABELS and standard != UKIP_STANDARD_NAME:
         raise PartyLookupError(
-            f"Party mapping {index} cannot rename protected party {original}."
+            f"Party mapping {index} must map UKIP label {original!r} to "
+            f"{UKIP_STANDARD_NAME!r}."
+        )
+    if original == REFORM_STANDARD_NAME and standard != REFORM_STANDARD_NAME:
+        raise PartyLookupError(
+            f"Party mapping {index} cannot rename protected party Reform UK."
         )
     return PartyLookupEntry(
         original_party_name=original,

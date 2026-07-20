@@ -17,7 +17,7 @@ official value.
 | Number of seats available | 311 official; 28 supplementary; 339 analysis-ready | Complete analytical structure with split provenance. |
 | Candidate name | 1,971/1,971 published and 1,971/1,971 separately standardised | Published wording is retained unchanged. Standard display names use only explicit surname-comma, Unicode and whitespace rules and never establish person identity. |
 | Party name exactly as published | 1,970/1,971 | One blank official 2013 cell remains `NULL`. |
-| Standardised party name | 1,971/1,971 | The one blank published label retains official NULL and uses the separate analytical label `No published party label`. |
+| Standardised party name | 1,971/1,971 | The one blank published label retains official NULL and uses the separate analytical label `No published party label`. The three observed UKIP labels share `UK Independence Party` as their standard name, while every original label is retained and Reform UK remains separate. |
 | Established, emerging, local or independent | 1,971/1,971 | The blank-label candidate is analytically unaffiliated/independent under Electoral Commission nomination guidance. |
 | Votes received | 1,971/1,971 | Complete official candidate votes. |
 | Vote share | 1,965 official; 1,971 analysis-ready | Six governed Epsom West 2015 calculations remain separate. |
@@ -49,4 +49,4 @@ official value.
 5. The 2026 two-member wards are never treated as unchanged single-member
    divisions unless a separate limited historical permission explicitly allows
    the stated feature.
-6. Reform UK and UKIP remain separate exact published parties.
+6. Reform UK remains separate from UKIP. The exact published UKIP variants are preserved but share one reviewed standard party name.

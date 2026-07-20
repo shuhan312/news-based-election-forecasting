@@ -76,3 +76,37 @@ def test_lookup_rejects_reform_uk_rename_to_ukip(tmp_path) -> None:
 
     with pytest.raises(PartyLookupError, match="protected"):
         load_party_lookup(path)
+
+
+def test_production_lookup_groups_ukip_labels_but_keeps_reform_separate() -> None:
+    """Published UKIP variants share one standard name; Reform remains separate."""
+
+    lookup = load_party_lookup()
+
+    ukip_labels = {
+        "UKIP",
+        "UK Independence Party",
+        "UK Independence Party (UKIP)",
+    }
+    assert {
+        lookup[label].standard_party_name for label in ukip_labels
+    } == {"UK Independence Party"}
+    assert lookup["Reform UK"].standard_party_name == "Reform UK"
+
+
+def test_lookup_rejects_ukip_label_mapped_to_reform(tmp_path) -> None:
+    """A configuration edit cannot turn an older UKIP label into Reform UK."""
+
+    path = write_lookup(
+        tmp_path,
+        [
+            {
+                "original_party_name": "UKIP",
+                "standard_party_name": "Reform UK",
+                "party_category": "established",
+            }
+        ],
+    )
+
+    with pytest.raises(PartyLookupError, match="must map UKIP label"):
+        load_party_lookup(path)

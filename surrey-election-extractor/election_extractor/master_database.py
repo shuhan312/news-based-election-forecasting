@@ -1721,19 +1721,42 @@ def build_master_database(
     loaded_years = ", ".join(
         str(election.configuration.election_year) for election in elections
     )
+
+    # Party history is an analytical lookup, so it is grouped by the reviewed
+    # standard party name.  Every distinct official label is still listed in
+    # ``original_party_labels`` and remains unchanged in Candidate Results.
+    # This lets UKIP spelling variants share a history without ever linking
+    # that history to Reform UK.
+    party_history_groups: defaultdict[str, dict[str, object]] = defaultdict(
+        lambda: {"years": set(), "original_labels": set(), "category": None}
+    )
+    for original_party_name, years in party_years.items():
+        lookup_fields = _party_lookup_fields(original_party_name, party_lookup)
+        standard_party_name = str(lookup_fields["standard_party_name"])
+        group = party_history_groups[standard_party_name]
+        group["years"].update(years)
+        group["original_labels"].add(original_party_name)
+        group["category"] = lookup_fields["party_category"]
+
     party_history = tuple(
         {
-            "party_name": party_name,
-            "first_observed_year": min(years),
+            "party_name": standard_party_name,
+            "standard_party_name": standard_party_name,
+            "original_party_labels": "; ".join(
+                sorted(group["original_labels"], key=lambda value: (value.casefold(), value))
+            ),
+            "party_category": group["category"],
+            "first_observed_year": min(group["years"]),
             "party_status": "observed",
             "notes": (
-                "First observed in the loaded audited dataset only; this is not "
-                "a claim about the party's historical origin or entry."
+                "First observed in the loaded audited dataset only; original "
+                "published labels are retained and this is not a claim about "
+                "the party's historical origin or legal succession."
             ),
             "source": f"Derived from audited Candidate Results for {loaded_years}.",
         }
-        for party_name, years in sorted(
-            party_years.items(), key=lambda item: (item[0].casefold(), item[0])
+        for standard_party_name, group in sorted(
+            party_history_groups.items(), key=lambda item: (item[0].casefold(), item[0])
         )
     )
     # Only labels with no published wording or no exact reviewed entry appear
@@ -2180,7 +2203,10 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("permission_uncertainty", "Scope limitation recorded by the permission audit.", "official boundary permission audit", "derived", "Never interpreted as legal succession."),
         ],
         "Party History and New Entrants": [
-            ("party_name", "Observed published party name.", "Candidate Results", "derived", "Never blank for observed parties."),
+            ("party_name", "Reviewed standard party name used as the history lookup key.", "party standardisation lookup", "derived", "Never blank for observed parties; Reform UK and UK Independence Party remain separate."),
+            ("standard_party_name", "Reviewed standard party name repeated explicitly for joins.", "party standardisation lookup", "derived", "Never blank for observed parties."),
+            ("original_party_labels", "All distinct official labels observed for this standard party.", "Candidate Results", "derived", "Never used to overwrite the published label in Candidate Results."),
+            ("party_category", "Reviewed established, emerging, local or independent grouping.", "party standardisation lookup", "derived", "Never inferred from spelling alone."),
             ("first_observed_year", "First year present in the loaded audited dataset only.", "Candidate Results", "derived", "NULL only if no loaded observation exists."),
             ("party_status", "Current dataset status only.", "Candidate Results", "derived", "Does not assert historical party origin."),
             ("notes", "Scope limitation for party-history enrichment.", "project documentation", "derived", "Never used as electoral evidence."),

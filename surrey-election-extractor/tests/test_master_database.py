@@ -332,6 +332,46 @@ def test_reviewed_party_lookup_adds_fields_without_changing_published_names() ->
     assert reform_row["standard_party_name"] != "UK Independence Party"
 
 
+def test_ukip_published_variants_share_a_standard_name_without_losing_labels() -> None:
+    """Standardise party identity while preserving each official source label."""
+
+    labels = (
+        "UKIP",
+        "UK Independence Party",
+        "UK Independence Party (UKIP)",
+    )
+    payload = build_master_database(
+        (
+            audited_input(
+                2021,
+                tuple(
+                    record(2021, f"Candidate {index}", label)
+                    for index, label in enumerate(labels, start=1)
+                )
+                + (record(2021, "Reform Candidate", "Reform UK"),),
+            ),
+        )
+    )
+
+    by_original = {
+        row["original_party_name"]: row["standard_party_name"]
+        for row in payload.candidate_results
+    }
+    assert set(by_original) == {*labels, "Reform UK"}
+    assert {by_original[label] for label in labels} == {"UK Independence Party"}
+    assert by_original["Reform UK"] == "Reform UK"
+
+    history = {
+        row["standard_party_name"]: row
+        for row in payload.party_history_and_new_entrants
+    }
+    assert set(history) == {"UK Independence Party", "Reform UK"}
+    assert history["UK Independence Party"]["original_party_labels"] == (
+        "UK Independence Party; UK Independence Party (UKIP); UKIP"
+    )
+    assert history["Reform UK"]["original_party_labels"] == "Reform UK"
+
+
 def test_unmapped_label_is_blocked_but_blank_label_is_explicitly_unaffiliated() -> None:
     """Preserve a blank original label while giving analysis a stable identity."""
 
