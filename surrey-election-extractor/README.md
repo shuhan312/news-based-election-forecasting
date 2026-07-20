@@ -4,6 +4,49 @@ This project builds a source-preserving Surrey County Council election database
 for testing whether pre-election news improves winning-party and party-vote-
 share predictions beyond previous election results.
 
+## Streamlit extraction application
+
+The single-page application accepts either a Surrey election index URL or one
+official ward/division result URL. It uses indexed search evidence because
+automated access to council result pages may be blocked, validates the retrieved
+records, and produces an Excel workbook containing an Index, one worksheet per
+area, and an Extraction Log.
+
+Create and activate a virtual environment, then install the dependencies:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r surrey-election-extractor/requirements.txt
+```
+
+Run the application from the extractor directory:
+
+```bash
+cd surrey-election-extractor
+streamlit run app.py
+```
+
+Enter a SerpAPI key in the masked field for the current extraction. The
+application keeps the key in memory for the request, clears the widget after
+processing, and does not intentionally write it to project files or workbooks.
+No real API key is included in this repository.
+
+Area statuses mean:
+
+- `Complete`: all required candidate and voting-summary values are present and
+  validation passes.
+- `Incomplete`: an area was found, but published values are missing or a check
+  requires review. Missing values remain blank and are listed in the audit.
+- `Failed`: the result URL was found but no reliable election-result data could
+  be extracted, or extraction/validation failed.
+
+Indexed snippets can be incomplete or temporarily unavailable. The application
+records its search attempts and never fills missing source values by inference.
+Search-provider code is isolated behind `SearchProvider`; another provider can
+be added by implementing its `search` method without rewriting extraction or
+Excel generation.
+
 ## Current election-data release
 
 - 20 election events: the 2013, 2017 and 2021 principal elections, separate
