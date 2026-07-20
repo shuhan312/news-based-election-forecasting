@@ -15,7 +15,7 @@ official value.
 | Authority | 20/20 events | Complete at election level. |
 | Division or ward name | 339/339 areas | Complete. |
 | Number of seats available | 311 official; 28 supplementary; 339 analysis-ready | Complete analytical structure with split provenance. |
-| Candidate name | 1,971/1,971 | Complete published rows. |
+| Candidate name | 1,971/1,971 published and 1,971/1,971 separately standardised | Published wording is retained unchanged. Standard display names use only explicit surname-comma, Unicode and whitespace rules and never establish person identity. |
 | Party name exactly as published | 1,970/1,971 | One blank official 2013 cell remains `NULL`. |
 | Standardised party name | 1,971/1,971 | The one blank published label retains official NULL and uses the separate analytical label `No published party label`. |
 | Established, emerging, local or independent | 1,971/1,971 | The blank-label candidate is analytically unaffiliated/independent under Electoral Commission nomination guidance. |

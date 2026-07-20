@@ -7,9 +7,9 @@ are reproducible from the extractor contracts and can be large.
 ## Frozen release
 
 - Release date: 20 July 2026
-- Input data version: `6bcde7097fd26ac2`
+- Input data version: `bb37ade5b00d02f7`
 - Method version: `electoral-fundamentals-v4-independent-null-semantics`
-- Release version: `28a3a71f5aa95417`
+- Release version: `9e722777e1c2c993`
 - Unit of analysis: one `election × area × standardised party` row
 - Rows and unique keys: 1,592
 - Predictors: 16

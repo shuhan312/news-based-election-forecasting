@@ -168,6 +168,65 @@ def test_candidate_results_have_one_row_per_candidate() -> None:
         "Candidate One",
         "Candidate Two",
     }
+    assert all(
+        row["candidate_name_as_published"] == row["candidate_name"]
+        for row in payload.candidate_results
+    )
+    assert all(row["standard_candidate_name"] for row in payload.candidate_results)
+    assert all(
+        row["candidate_name_standardisation_status"] == "published_order_retained"
+        for row in payload.candidate_results
+    )
+
+
+def test_candidate_standardisation_is_separate_from_published_name_and_identity() -> None:
+    """The display field may change order while the source name and ID do not."""
+
+    payload = build_master_database(
+        (
+            audited_input(
+                2017,
+                (record(2017, "PERSAND, Karandeo", "Conservative"),),
+            ),
+        )
+    )
+
+    result = payload.candidate_results[0]
+    candidate = payload.candidates[0]
+    assert result["candidate_name"] == "PERSAND, Karandeo"
+    assert result["candidate_name_as_published"] == "PERSAND, Karandeo"
+    assert result["standard_candidate_name"] == "Karandeo Persand"
+    assert result["candidate_name_standardisation_status"] == (
+        "surname_comma_order_reformatted"
+    )
+    assert candidate["candidate_id"] == result["candidate_id"]
+    assert candidate["candidate_name_as_published"] == "PERSAND, Karandeo"
+    assert candidate["standard_candidate_name"] == "Karandeo Persand"
+
+
+def test_matching_standard_display_names_do_not_merge_candidate_ids() -> None:
+    """Formatting equivalence alone must not become a person-identity claim."""
+
+    payload = build_master_database(
+        (
+            audited_input(
+                2013,
+                (record(2013, "Daniels, Adrian", "Conservative"),),
+            ),
+            audited_input(
+                2017,
+                (record(2017, "Adrian Daniels", "Conservative"),),
+            ),
+        )
+    )
+
+    candidates = {row["candidate_name_as_published"]: row for row in payload.candidates}
+    assert candidates["Daniels, Adrian"]["standard_candidate_name"] == (
+        candidates["Adrian Daniels"]["standard_candidate_name"]
+    )
+    assert candidates["Daniels, Adrian"]["candidate_id"] != (
+        candidates["Adrian Daniels"]["candidate_id"]
+    )
 
 
 def test_geographic_mapping_schema_requires_decision_and_evidence_fields() -> None:

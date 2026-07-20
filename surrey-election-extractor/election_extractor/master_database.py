@@ -49,6 +49,9 @@ from election_extractor.derived_final_position import (
 from election_extractor.analysis_voting_summary import build_analysis_voting_summary
 from election_extractor.analysis_vote_share import build_analysis_vote_share_rows
 from election_extractor.change_in_vote_share import change_in_vote_share_fields
+from election_extractor.candidate_name_standardisation import (
+    standardise_candidate_name,
+)
 from election_extractor.election_config import ElectionConfiguration, load_election_config
 from election_extractor.election_structure_metadata import load_secondary_seats_audit
 from election_extractor.extraction import CandidateResultRecord, ExtractionStatus
@@ -458,6 +461,17 @@ def _candidate_ids(records: Sequence[CandidateResultRecord]) -> dict[str, str]:
 
     names = sorted({record.candidate_name for record in records}, key=lambda name: (name.casefold(), name))
     return {name: f"candidate-{index:04d}" for index, name in enumerate(names, start=1)}
+
+
+def _candidate_standardisation_fields(published_name: str) -> dict[str, str]:
+    """Return source and analytical names without linking candidate identities."""
+
+    standardised = standardise_candidate_name(published_name)
+    return {
+        "candidate_name_as_published": published_name,
+        "standard_candidate_name": standardised.value,
+        "candidate_name_standardisation_status": standardised.status,
+    }
 
 
 def _source_type(value: object) -> str:
@@ -1537,7 +1551,11 @@ def build_master_database(
                     "division_id": division_id,
                     "division_name": record.division_ward_name,
                     "candidate_id": candidate_ids[record.candidate_name],
+                    # Preserve the source wording and add a separate display
+                    # standardisation. The legacy candidate_name remains for
+                    # compatibility and is still the published value.
                     "candidate_name": record.candidate_name,
+                    **_candidate_standardisation_fields(record.candidate_name),
                     "original_party_name": record.original_party_name,
                     **party_fields,
                     "votes": record.votes_received,
@@ -1689,6 +1707,7 @@ def build_master_database(
         {
             "candidate_id": candidate_ids[name],
             "candidate_name": name,
+            **_candidate_standardisation_fields(name),
         }
         for name in sorted(candidate_ids, key=lambda value: (value.casefold(), value))
     )
@@ -2009,6 +2028,9 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
             ("division_name", "Published division or ward name.", "official result page", "official", "NULL only if not published."),
             ("candidate_id", "Identifier for an exact published name; not identity matching.", "candidate name", "derived", "Never blank for a candidate row."),
             ("candidate_name", "Published candidate name.", "official result page", "official", "Never blank for extracted candidate rows."),
+            ("candidate_name_as_published", "Exact candidate wording retained from the official result row.", "official result page", "official", "Never blank; never overwritten by standardisation."),
+            ("standard_candidate_name", "Display-standard candidate name produced only from explicit punctuation, Unicode and whitespace rules.", "candidate-name standardisation policy", "derived", "Never used to assert that two records are the same person."),
+            ("candidate_name_standardisation_status", "Deterministic rule used for standard_candidate_name.", "candidate-name standardisation policy", "derived", "Records whether published order was retained or an explicit surname-comma format was reformatted."),
             ("original_party_name", "Published party wording without normalisation.", "official result page", "official", "NULL if not published."),
             ("standard_party_name", "Reviewed standard name for an exact published party label.", "party standardisation lookup", "derived", "NULL when no approved exact-label mapping exists; never replaces original_party_name."),
             ("party_category", "Reviewed project grouping: established, emerging, local or independent.", "party standardisation lookup", "derived", "NULL when no approved exact-label mapping exists."),
@@ -2103,6 +2125,9 @@ def _data_dictionary_rows() -> list[dict[str, object]]:
         "Candidates": [
             ("candidate_id", "Identifier for an exact published name; not identity matching.", "candidate name", "derived", "Never blank."),
             ("candidate_name", "Exact published candidate name.", "official result pages", "official", "Never blank."),
+            ("candidate_name_as_published", "Exact candidate wording retained from the official result row.", "official result pages", "official", "Never blank; never overwritten by standardisation."),
+            ("standard_candidate_name", "Display-standard candidate name produced only from explicit punctuation, Unicode and whitespace rules.", "candidate-name standardisation policy", "derived", "Never used as evidence of person identity."),
+            ("candidate_name_standardisation_status", "Deterministic rule used for standard_candidate_name.", "candidate-name standardisation policy", "derived", "Never changes candidate_id or candidate-history evidence."),
         ],
         "Political Parties": [
             ("original_party_name", "Exact published party wording.", "official result pages", "official", "Never blank for observed parties."),
