@@ -5,8 +5,17 @@ from __future__ import annotations
 
 import csv
 import json
+import sys
 from collections import Counter
+from datetime import datetime
 from pathlib import Path
+
+
+# Make the sibling ``no_news_baseline`` package importable when this file is
+# executed directly, matching the public command used by the release scripts.
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from no_news_baseline.electoral_fundamentals_builder import (
     build_electoral_fundamentals_features,
@@ -25,7 +34,6 @@ from no_news_baseline.electoral_fundamentals_schema import (
 )
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
 REPOSITORY_ROOT = PROJECT_ROOT.parent
 EXTRACTOR_OUTPUTS = REPOSITORY_ROOT / "surrey-election-extractor/outputs"
 OUTPUT_DIRECTORY = PROJECT_ROOT / "outputs/model_input_contract"
@@ -35,13 +43,23 @@ def _json(path: Path) -> dict[str, object]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _serialise(value: object) -> str | int | float:
-    """Write stable CSV values while leaving source NULLs as empty cells."""
+def _serialise(value: object, field: str) -> str | int | float:
+    """Apply the same stable NULL, boolean and date formats as the release."""
 
     if value is None:
         return ""
     if isinstance(value, bool):
         return "true" if value else "false"
+    if field == "election_date":
+        # Principal-election contracts retain the published long-form date,
+        # while by-election records already use ISO. The model contract must
+        # not expose two formats for the same identifier field.
+        for date_format in ("%Y-%m-%d", "%d %B %Y"):
+            try:
+                return datetime.strptime(str(value), date_format).date().isoformat()
+            except ValueError:
+                continue
+        raise ValueError(f"Unsupported model-input election date: {value!r}.")
     return value  # type: ignore[return-value]
 
 
@@ -124,7 +142,7 @@ def main() -> None:
         writer = csv.DictWriter(handle, fieldnames=columns, extrasaction="ignore")
         writer.writeheader()
         writer.writerows(
-            {column: _serialise(row.get(column)) for column in columns}
+            {column: _serialise(row.get(column), column) for column in columns}
             for row in model_rows
         )
     report_path = OUTPUT_DIRECTORY / "electoral_fundamentals_null_semantics.md"

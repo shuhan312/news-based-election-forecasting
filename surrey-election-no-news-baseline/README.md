@@ -85,6 +85,18 @@ field dictionary and a data-quality report under
 directory remains ignored because every artifact is regenerated from versioned
 code and extractor contracts. No model is trained by this command.
 
+Generate the separate raw model-input contract and NULL-semantics report with:
+
+```bash
+.venv/bin/python \
+  surrey-election-no-news-baseline/scripts/build_model_input_contract.py
+```
+
+This second command does not impute values or fit a model. It records why each
+predictor is missing and adds the controls required for fold-only preprocessing.
+The frozen feature release, evidence boundaries and final QA results are
+recorded in [`docs/electoral_feature_release.md`](docs/electoral_feature_release.md).
+
 ## Planned internal structure
 
 ```text

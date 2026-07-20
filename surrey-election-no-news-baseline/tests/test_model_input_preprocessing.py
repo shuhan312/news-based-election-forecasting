@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import csv
 import json
+import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -177,3 +180,52 @@ def test_real_pre_2026_fit_can_transform_every_2026_row() -> None:
         for row in transformed
         for field in NULLABLE_PREDICTORS
     )
+
+
+def test_model_input_release_script_runs_directly() -> None:
+    """The documented script entry point must work without setting PYTHONPATH.
+
+    Generated extractor inputs are intentionally not committed, so a clean
+    clone may skip this integration check until those contracts are rebuilt.
+    """
+
+    required_inputs = (
+        EXTRACTOR_OUTPUTS
+        / "no_news_party_contests/no_news_party_contest_features.json",
+        EXTRACTOR_OUTPUTS
+        / "master_surrey_election_database/master_election_database_payload.json",
+        EXTRACTOR_OUTPUTS
+        / "geographic_overlap_audit/historical_to_2026_spatial_overlap_audit.json",
+    )
+    if not all(path.exists() for path in required_inputs):
+        pytest.skip("Regenerate extractor outputs for release-entry-point QA.")
+
+    # The current script writes to its ignored release directory. Running it
+    # as a separate process reproduces the way another researcher will invoke
+    # it and catches missing package-path setup that an imported test cannot.
+    completed = subprocess.run(
+        [sys.executable, str(PROJECT_ROOT / "scripts/build_model_input_contract.py")],
+        cwd=PROJECT_ROOT,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert completed.returncode == 0, completed.stderr
+    assert "electoral_fundamentals_model_input_contract.csv" in completed.stdout
+    assert "electoral_fundamentals_null_semantics.md" in completed.stdout
+
+    contract_path = (
+        PROJECT_ROOT
+        / "outputs/model_input_contract/electoral_fundamentals_model_input_contract.csv"
+    )
+    with contract_path.open(encoding="utf-8", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+
+    # All target dates must use the same machine-readable format. This also
+    # confirms that the 456 principal-election rows and ten 2026 by-election
+    # rows survive the release entry point together.
+    assert all(len(row["election_date"]) == 10 for row in rows)
+    assert all(row["election_date"][4] == "-" for row in rows)
+    rows_2026 = [row for row in rows if row["election_date"].startswith("2026-")]
+    assert len(rows_2026) == 466
+    assert all(row["model_target_eligible"] == "true" for row in rows_2026)
