@@ -59,7 +59,7 @@ The full suite was run inside the clean environment:
 Result:
 
 ```text
-358 passed in 62.19s
+362 passed in 69.10s
 ```
 
 The application and main package modules also passed `python -m py_compile`.
@@ -110,6 +110,14 @@ The HTTP adapter, authentication failure, rate limit, timeout, retry and network
 paths are covered with mocked provider responses. SerpAPI responses marked
 ``Success`` that explicitly report no Google results are treated as an empty
 query so discovery can continue; responses marked ``Error`` still stop safely.
+Explicit SerpAPI next-page offsets are followed for broad area-result discovery
+within a ten-page and 100-distinct-result limit, with repeated organic results
+removed. Narrow per-area searches remain single-page so pagination cannot
+silently multiply every targeted extraction request. Regression
+tests also cover a ModernGov candidate-table row whose Google snippet retains
+the candidate values but omits the table header; the row is accepted only for
+the exact official result URL and remains Incomplete if other published fields
+are unavailable.
 Configured principal elections use their audited official URL, name and year
 to issue year-specific area-result searches even when an older landing-page
 query returns no metadata.

@@ -376,6 +376,45 @@ def test_pipe_table_and_text_candidate_formats_are_supported() -> None:
     assert records["Sam Taylor"].votes_received == 987
 
 
+def test_headerless_modern_gov_candidate_row_is_recovered_conservatively() -> None:
+    """Parse a real Google-style table tail only for the exact official URL."""
+
+    area = real_discovered_area()
+    query = build_extraction_query(area)
+    provider = MockSearchProvider(
+        {
+            query: [
+                SearchResult(
+                    title="Election results for Worplesdon, 6 May 2021",
+                    url=area.result_url,
+                    snippet=(
+                        "County Council Election 2021 ... Image Alex Morgan | "
+                        "Liberal Democrats | 1,234 | 31.5% | Not elected"
+                    ),
+                ),
+                # Identical-looking text from another result page is excluded
+                # by the existing exact area-ID evidence gate.
+                SearchResult(
+                    title="Election results for Another Area, 6 May 2021",
+                    url="https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=999",
+                    snippet=(
+                        "Image Wrong Person | Conservative | 9,999 | 99% | Elected"
+                    ),
+                ),
+            ]
+        }
+    )
+
+    report = extract_candidate_results((area,), provider)
+
+    assert [record.candidate_name for record in report.records] == ["Alex Morgan"]
+    record = report.records[0]
+    assert record.original_party_name == "Liberal Democrats"
+    assert record.votes_received == 1234
+    assert record.vote_share == 31.5
+    assert record.outcome == "Not elected"
+
+
 def test_multiple_queries_merge_fields_and_preserve_provenance() -> None:
     area = discovered_area()
     queries = build_extraction_queries(area)

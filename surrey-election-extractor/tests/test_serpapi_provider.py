@@ -17,7 +17,7 @@ from election_extractor.search_providers.base import SearchRequestLimitError
 SECRET = "credential-that-must-not-appear"
 
 
-def _provider(handler, *, attempts=3, sleep=None) -> SerpApiSearchProvider:
+def _provider(handler, *, attempts=3, sleep=None, **options) -> SerpApiSearchProvider:
     """Build an adapter around a local httpx transport for deterministic tests."""
 
     return SerpApiSearchProvider(
@@ -27,6 +27,7 @@ def _provider(handler, *, attempts=3, sleep=None) -> SerpApiSearchProvider:
         backoff_seconds=0.5,
         maximum_backoff_seconds=2.0,
         sleep=sleep or (lambda seconds: None),
+        **options,
     )
 
 
@@ -192,6 +193,105 @@ def test_constructor_rejects_unbounded_or_invalid_retry_settings() -> None:
         SerpApiSearchProvider(api_key=SECRET, backoff_seconds=-1)
     with pytest.raises(ValueError, match="max_requests"):
         SerpApiSearchProvider(api_key=SECRET, max_requests=0)
+    with pytest.raises(ValueError, match="max_pages"):
+        SerpApiSearchProvider(api_key=SECRET, max_pages=0)
+
+
+def test_search_follows_explicit_pagination_and_deduplicates_results() -> None:
+    """Recover later indexed wards without accepting duplicate result rows."""
+
+    requested_starts = []
+
+    def handler(request):
+        start = int(request.url.params.get("start", "0"))
+        requested_starts.append(start)
+        if start == 0:
+            return httpx.Response(
+                200,
+                json={
+                    "organic_results": [
+                        {"title": "Area A", "link": "https://example.test/a", "snippet": "A"}
+                    ],
+                    "serpapi_pagination": {
+                        "next": "https://serpapi.com/search.json?q=x&start=10"
+                    },
+                },
+            )
+        return httpx.Response(
+            200,
+            json={
+                "organic_results": [
+                    # The repeated first-page row must not inflate discovery.
+                    {"title": "Area A", "link": "https://example.test/a", "snippet": "A"},
+                    {"title": "Area B", "link": "https://example.test/b", "snippet": "B"},
+                ]
+            },
+        )
+
+    results = _provider(handler).search(
+        "site:mycouncil.surreycc.gov.uk inurl:mgElectionAreaResults.aspx 2017"
+    )
+
+    assert requested_starts == [0, 10]
+    assert [result.title for result in results] == ["Area A", "Area B"]
+
+
+def test_search_stops_at_the_configured_page_limit() -> None:
+    """Keep broad discovery searches within a declared API-cost boundary."""
+
+    requested_starts = []
+
+    def handler(request):
+        start = int(request.url.params.get("start", "0"))
+        requested_starts.append(start)
+        return httpx.Response(
+            200,
+            json={
+                "organic_results": [
+                    {
+                        "title": f"Area {start}",
+                        "link": f"https://example.test/{start}",
+                        "snippet": "result",
+                    }
+                ],
+                "serpapi_pagination": {
+                    "next": f"https://serpapi.com/search.json?q=x&start={start + 10}"
+                },
+            },
+        )
+
+    results = _provider(handler, max_pages=2).search(
+        "site:mycouncil.surreycc.gov.uk inurl:mgElectionAreaResults.aspx 2017"
+    )
+
+    assert requested_starts == [0, 10]
+    assert len(results) == 2
+
+
+def test_narrow_extraction_query_does_not_spend_quota_on_later_pages() -> None:
+    """Reserve pagination for area discovery rather than every field search."""
+
+    calls = 0
+
+    def handler(request):
+        nonlocal calls
+        calls += 1
+        return httpx.Response(
+            200,
+            json={
+                "organic_results": [
+                    {"title": "Candidate", "link": "https://example.test/a"}
+                ],
+                "serpapi_pagination": {
+                    "next": "https://serpapi.com/search.json?q=x&start=10"
+                },
+            },
+        )
+
+    results = _provider(handler).search('"Oxted" candidates votes "2017"')
+
+    assert calls == 1
+    assert len(results) == 1
 
 
 def test_http_request_ceiling_also_counts_retry_attempts() -> None:

@@ -58,6 +58,15 @@ and does not prevent the remaining discovery queries from running. For the
 configured 2013, 2017 and 2021 elections, the committed official URL, name and
 year are also used to construct year-specific area-result searches; retrieved
 pages must still publish the matching year before they are accepted.
+For broad `mgElectionAreaResults.aspx` discovery searches, when SerpAPI
+explicitly supplies a next-page URL, the adapter follows its increasing `start`
+offsets, deduplicates repeated results and stops after ten pages or 100 distinct
+results. Narrow per-area field searches remain single-page because each area
+already has six targeted queries. This improves historical-index coverage
+without multiplying every extraction request. A ModernGov candidate row
+retained without its table header is parsed
+only when it contains the visible `Image` marker, a supported party phrase and
+numeric votes on the exact official area-result URL.
 Search-provider code is isolated behind `SearchProvider`; another provider can
 be added by implementing its `search` method without rewriting extraction or
 Excel generation.
@@ -71,7 +80,9 @@ future application diagnostics.
 
 Each application run has one shared budget of 500 indexed search queries and
 the SerpAPI adapter has a separate ceiling of 600 HTTP attempts, including
-retries. Targeted searches stop early only when complete, conflict-free
+pagination and retries. One query may therefore consume more than one HTTP
+attempt when SerpAPI publishes later result pages. Targeted searches stop early
+only when complete, conflict-free
 candidate rows reconcile to the published total votes and seat count. These
 limits prevent a large election or temporary provider failure from creating an
 unbounded request sequence.
@@ -97,6 +108,8 @@ ordinary Streamlit export.
 
 - Indexed titles and snippets can be incomplete, truncated or temporarily
   absent even when the council page exists.
+- Pagination improves coverage but cannot force Google to index every official
+  result page or every row of an official candidate table.
 - Search engines can update their index after an election page changes, so the
   extraction log and source URL should be retained with every workbook.
 - The application combines evidence only when election, area and result URL

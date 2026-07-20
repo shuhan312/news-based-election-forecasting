@@ -5,6 +5,7 @@ from __future__ import annotations
 import os
 import time
 from collections.abc import Callable, Sequence
+from urllib.parse import parse_qs, urlsplit
 
 import httpx
 
@@ -41,6 +42,7 @@ class SerpApiSearchProvider(SearchProvider):
         endpoint: str = "https://serpapi.com/search.json",
         timeout: float = 30.0,
         result_limit: int = 100,
+        max_pages: int = 10,
         max_attempts: int = 3,
         backoff_seconds: float = 1.0,
         maximum_backoff_seconds: float = 8.0,
@@ -57,6 +59,8 @@ class SerpApiSearchProvider(SearchProvider):
             raise ValueError("result_limit must be between 1 and 100.")
         if max_attempts < 1:
             raise ValueError("max_attempts must be at least 1.")
+        if max_pages < 1:
+            raise ValueError("max_pages must be at least 1.")
         if backoff_seconds < 0 or maximum_backoff_seconds < 0:
             raise ValueError("Backoff values must be non-negative.")
         if max_requests < 1:
@@ -66,6 +70,7 @@ class SerpApiSearchProvider(SearchProvider):
         self._endpoint = endpoint
         self._timeout = timeout
         self._result_limit = result_limit
+        self._max_pages = max_pages
         self._max_attempts = max_attempts
         self._backoff_seconds = backoff_seconds
         self._maximum_backoff_seconds = maximum_backoff_seconds
@@ -139,14 +144,18 @@ class SerpApiSearchProvider(SearchProvider):
             return "empty_results"
         return "response"
 
-    def _request(self, query: str) -> httpx.Response:
-        """Run one search with limited retries for temporary failures."""
+    def _request(self, query: str, *, start: int = 0) -> httpx.Response:
+        """Run one results page with limited retries for temporary failures."""
 
         parameters = {
             "engine": "google",
             "q": query,
             "api_key": self._api_key,
             "num": self._result_limit,
+            # SerpAPI documents ``start`` as the Google result offset.  The
+            # first page uses zero; later pages are followed only when the
+            # provider explicitly publishes a next-page URL.
+            "start": start,
         }
         last_timeout = False
         last_network_failure = False
@@ -237,35 +246,26 @@ class SerpApiSearchProvider(SearchProvider):
             ) from None
         raise SearchResponseError("The indexed-search request failed.") from None
 
-    def search(self, query: str) -> Sequence[SearchResult]:
-        """Map a successful SerpAPI response into shared SearchResult records."""
+    @staticmethod
+    def _next_start(payload: object, current_start: int) -> int | None:
+        """Read a strictly increasing offset from SerpAPI's next-page URL."""
 
-        response = self._request(query)
-        try:
-            payload = response.json()
-        except ValueError:
-            raise SearchResponseError(
-                "The indexed-search service returned invalid JSON."
-            ) from None
+        if not isinstance(payload, dict):
+            return None
+        pagination = payload.get("serpapi_pagination")
+        next_url = pagination.get("next") if isinstance(pagination, dict) else None
+        if not isinstance(next_url, str):
+            return None
+        values = parse_qs(urlsplit(next_url).query).get("start", [])
+        if len(values) != 1 or not values[0].isdigit():
+            return None
+        next_start = int(values[0])
+        return next_start if next_start > current_start else None
 
-        provider_error = self._safe_provider_error(payload)
-        if provider_error == "authentication":
-            raise SearchAuthenticationError(
-                "The indexed-search API key was rejected."
-            ) from None
-        if provider_error == "rate_limit":
-            raise SearchRateLimitError(
-                "The indexed-search rate limit was reached. Try again later."
-            ) from None
-        if provider_error == "empty_results":
-            return ()
-        if provider_error:
-            raise SearchResponseError(
-                "The indexed-search service returned an error."
-            ) from None
+    @staticmethod
+    def _page_results(payload: object) -> tuple[SearchResult, ...]:
+        """Map one provider page into the small provider-neutral result model."""
 
-        # Only results with an explicit link can support discovery or
-        # extraction; provider-specific fields stay outside the shared model.
         organic_results = payload.get("organic_results", []) if isinstance(payload, dict) else []
         return tuple(
             SearchResult(
@@ -276,3 +276,64 @@ class SerpApiSearchProvider(SearchProvider):
             for item in organic_results
             if isinstance(item, dict) and item.get("link")
         )
+
+    def search(self, query: str) -> Sequence[SearchResult]:
+        """Return deduplicated indexed results across bounded SerpAPI pages.
+
+        Google may return only about ten organic results even when a larger
+        ``num`` value is requested.  Following SerpAPI's explicit next-page URL
+        prevents a historical election index from being represented by only
+        the first handful of wards.  Pagination remains bounded by both
+        ``max_pages`` and the adapter's existing HTTP-request ceiling.
+        """
+
+        results: list[SearchResult] = []
+        seen: set[tuple[str, str, str]] = set()
+        start = 0
+        # Only the broad area-result discovery searches need later Google
+        # pages. Per-area extraction already issues six narrow queries; paging
+        # every one of them would consume the user's quota without adding a
+        # defensible completeness guarantee.
+        page_limit = (
+            self._max_pages
+            if "inurl:mgelectionarearesults.aspx" in query.casefold()
+            else 1
+        )
+        for _page_number in range(page_limit):
+            response = self._request(query, start=start)
+            try:
+                payload = response.json()
+            except ValueError:
+                raise SearchResponseError(
+                    "The indexed-search service returned invalid JSON."
+                ) from None
+
+            provider_error = self._safe_provider_error(payload)
+            if provider_error == "authentication":
+                raise SearchAuthenticationError(
+                    "The indexed-search API key was rejected."
+                ) from None
+            if provider_error == "rate_limit":
+                raise SearchRateLimitError(
+                    "The indexed-search rate limit was reached. Try again later."
+                ) from None
+            if provider_error == "empty_results":
+                break
+            if provider_error:
+                raise SearchResponseError(
+                    "The indexed-search service returned an error."
+                ) from None
+
+            for item in self._page_results(payload):
+                key = (item.url, item.title, item.snippet)
+                if key not in seen:
+                    seen.add(key)
+                    results.append(item)
+                    if len(results) >= self._result_limit:
+                        return tuple(results)
+
+            next_start = self._next_start(payload, start)
+            if next_start is None:
+                break
+            start = next_start
+        return tuple(results)

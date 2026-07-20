@@ -455,6 +455,44 @@ def _parse_pipe_candidate_rows(snippet: str) -> list[dict[str, str]]:
     return rows
 
 
+def _parse_headerless_pipe_candidate_rows(snippet: str) -> list[dict[str, str]]:
+    """Recover explicit ModernGov candidate rows when Google omits the header.
+
+    Search snippets often retain one table row in the form
+    ``Image Name | Party | Votes | 4% | Not elected`` but omit the preceding
+    Candidate/Party/Votes headings.  Requiring the visible ``Image`` marker,
+    pipe delimiters, a known party phrase and a numeric vote value keeps this
+    fallback substantially narrower than free-form name matching.
+    """
+
+    pattern = re.compile(
+        rf"(?:^|\.\.\.|…|\|)\s*Image\s+"
+        rf"(?P<candidate>[A-Z][A-Za-zÀ-ÖØ-öø-ÿ'’.-]+"
+        rf"(?:\s+[A-Z][A-Za-zÀ-ÖØ-öø-ÿ'’.-]+){{1,9}})\s*\|\s*"
+        rf"(?P<party>{PARTY_TEXT_PATTERN})\s*\|\s*"
+        rf"(?P<votes>\d[\d,]*)"
+        rf"(?:\s*\|\s*(?P<share>\d+(?:\.\d+)?%))?"
+        rf"(?:\s*\|\s*(?P<outcome>{OUTCOME_PATTERN}))?",
+        flags=re.IGNORECASE,
+    )
+    rows = []
+    for match in pattern.finditer(snippet):
+        candidate = " ".join(match.group("candidate").split())
+        if not _looks_like_candidate_name(candidate):
+            continue
+        row = {
+            "candidate_name": candidate,
+            "original_party_name": " ".join(match.group("party").split()),
+            "votes_received": match.group("votes"),
+        }
+        if match.group("share"):
+            row["vote_share"] = match.group("share")
+        if match.group("outcome"):
+            row["outcome"] = match.group("outcome")
+        rows.append(row)
+    return rows
+
+
 def _parse_text_candidate_rows(snippet: str) -> list[dict[str, str]]:
     """Parse undelimited text only when a published party phrase is explicit."""
     pattern = re.compile(
@@ -491,6 +529,7 @@ def _parsed_rows(result: SearchResult) -> tuple[dict[str, str], ...]:
     if labelled.get("candidate_name"):
         candidate_rows.append(labelled)
     candidate_rows.extend(_parse_pipe_candidate_rows(result.snippet))
+    candidate_rows.extend(_parse_headerless_pipe_candidate_rows(result.snippet))
     candidate_rows.extend(_parse_comma_candidate_rows(result.snippet))
     candidate_rows.extend(_parse_text_candidate_rows(result.snippet))
 
