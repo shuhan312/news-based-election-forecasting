@@ -32,6 +32,12 @@ application keeps the key in memory for the request, clears the widget after
 processing, and does not intentionally write it to project files or workbooks.
 No real API key is included in this repository.
 
+To obtain a key, create a SerpAPI account, open the account dashboard and copy
+the private API key into the application's masked field. Do not add the key to
+this repository, a `.env` file, a command-line argument or a shared screenshot.
+The application sends it only from the backend adapter to SerpAPI for the
+current extraction.
+
 Area statuses mean:
 
 - `Complete`: all required candidate and voting-summary values are present and
@@ -60,6 +66,69 @@ retries. Targeted searches stop early only when complete, conflict-free
 candidate rows reconcile to the published total votes and seat count. These
 limits prevent a large election or temporary provider failure from creating an
 unbounded request sequence.
+
+### Downloaded workbook
+
+An ordinary application export contains:
+
+1. `Index` as the first worksheet, with one row and links for every discovered
+   ward or division;
+2. one separate worksheet per ward or division, containing the candidate table
+   and the six-row Voting Summary;
+3. `Extraction Log` as the final worksheet, containing the required compact
+   search audit.
+
+A direct result URL therefore produces exactly `Index`, one area worksheet and
+`Extraction Log`. Missing numeric source values remain blank. An optional
+`Election Structure Metadata` worksheet is created only by research pipelines
+that explicitly supply separate statutory metadata; it is not added to an
+ordinary Streamlit export.
+
+### Application limitations
+
+- Indexed titles and snippets can be incomplete, truncated or temporarily
+  absent even when the council page exists.
+- Search engines can update their index after an election page changes, so the
+  extraction log and source URL should be retained with every workbook.
+- The application combines evidence only when election, area and result URL
+  match; unresolved conflicts remain Incomplete rather than being guessed.
+- A Complete status means the required published fields were retrieved and
+  validated. It is not a claim that the search index is a permanent archive.
+- A query or HTTP-request ceiling can stop an unusually large or repeatedly
+  failing task. The user receives a clear error instead of a partial workbook
+  presented as successful.
+
+### Adding another indexed-search provider
+
+Implement the `SearchProvider.search(query)` interface in
+`election_extractor/search_providers/`, returning provider-neutral
+`SearchResult` objects. Pass the adapter into `run_extraction_workflow` during
+testing or application configuration. Discovery, extraction, validation,
+query-budget and workbook code should not contain provider-specific response
+parsing.
+
+### Testing the application
+
+From `surrey-election-extractor/` with the project environment activated:
+
+```bash
+python -m pytest -q
+python -m py_compile \
+  app.py \
+  election_extractor/discovery.py \
+  election_extractor/extraction.py \
+  election_extractor/search_providers/serpapi.py \
+  election_extractor/workflow.py \
+  election_extractor/workbook.py
+```
+
+All API and application acceptance tests use mocked indexed results. They do
+not require or consume a live SerpAPI key. The acceptance tests reopen generated
+workbook bytes with `openpyxl` and verify the expected sheets, values, blank
+cells, hyperlinks and audit structure.
+
+The final clean-environment checks and prompt-coverage summary are recorded in
+[`docs/streamlit_extractor_release_verification.md`](docs/streamlit_extractor_release_verification.md).
 
 ## Current election-data release
 
