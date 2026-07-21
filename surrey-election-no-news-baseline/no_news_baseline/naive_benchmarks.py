@@ -66,6 +66,7 @@ from no_news_baseline.benchmark_metrics import (
     share_metrics_for_predictions,
     winner_metrics_for_predictions,
 )
+from no_news_baseline.election_dates import parse_election_date
 from no_news_baseline.persistence_benchmark import (
     is_within_share_cohort,
     is_within_winner_cohort,
@@ -180,7 +181,7 @@ def evaluate_party_historical_mean_reference(
     predictions: list[dict[str, object]] = []
     for feature in eligible:
         target = target_by_id[str(feature["party_contest_id"])]
-        target_election_date = _parse_election_date(str(feature["election_date"]))
+        target_election_date = parse_election_date(str(feature["election_date"]))
         # Only elections that had already happened before this row's own
         # election qualify: this is the "source_date_precedes_target"
         # leakage rule applied across areas rather than within one area.
@@ -267,7 +268,7 @@ def _build_party_history_pool(
         share = target.get("target_party_vote_share")
         if not isinstance(share, (int, float)):
             continue
-        election_date = _parse_election_date(str(row["election_date"]))
+        election_date = parse_election_date(str(row["election_date"]))
         pool[str(row["standard_party_name"])].append((election_date, float(share)))
     return {party: tuple(entries) for party, entries in pool.items()}
 
@@ -416,19 +417,3 @@ def _climatology_audit(predictions: list[Mapping[str, object]]) -> dict[str, int
     return dict(sorted(counts.items()))
 
 
-def _parse_election_date(value: str) -> datetime:
-    """Parse the ``election_date`` string used throughout the data contract.
-
-    Duplicated intentionally rather than imported from the extractor: this
-    modelling project does not import the extractor's internal Python
-    package (README, "The modelling layer... does not import the extractor's
-    internal Python modules"), and this is the smallest possible piece of
-    logic needed to compare election dates chronologically.
-    """
-
-    for date_format in ("%d %B %Y", "%Y-%m-%d"):
-        try:
-            return datetime.strptime(value, date_format)
-        except ValueError:
-            pass
-    raise ValueError(f"Unsupported election date: {value!r}")
