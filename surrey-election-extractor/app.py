@@ -127,8 +127,10 @@ def main() -> None:
 
     st.title("Surrey Election Results Extractor")
     st.write(
-        "Extract Surrey County Council election results from official pages, "
-        "with indexed-search fallback, into an auditable Excel workbook. "
+        "Extract indexed Surrey County Council election results, checked against "
+        "official council pages, into an auditable Excel workbook. When the live "
+        "council site is protected, lawful archived copies of the same official "
+        "pages are used and each capture is cited in the extraction log. "
         "Missing source values are never guessed."
     )
 
@@ -149,8 +151,9 @@ def main() -> None:
         type="password",
         key=API_KEY_WIDGET_KEY,
         help=(
-            "Enter a SerpAPI key for fallback discovery and missing-information "
-            "searches. It may not be used when every official page is available. "
+            "Enter a SerpAPI key for indexed discovery and exact-result-page "
+            "checks. Official council tables provide the selected values when "
+            "they are available. "
             "The application does not write the key to workbook or project files."
         ),
     )
@@ -194,9 +197,15 @@ def main() -> None:
                 api_key=api_key,
                 run_targeted_searches=run_targeted_searches,
                 # Prefer exact official table cells when normal public access
-                # works. The workflow automatically retains SerpAPI as the
-                # fallback for blocked or unavailable council pages.
+                # works, while retaining indexed discovery and one exact-URL
+                # search per area as required auditable workflow steps.
                 use_official_sources=True,
+                require_indexed_search=True,
+                # One principal election normally needs indexed discovery plus
+                # one exact query per area. The shared ceiling leaves room for
+                # bounded recovery searches without exhausting a 250-query
+                # allowance if the source changes during a run.
+                max_search_queries=200,
                 progress_callback=lambda update: _show_progress(
                     update,
                     progress_bar,

@@ -2,7 +2,7 @@
 
 import re
 from collections.abc import Iterable, Sequence
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 from enum import Enum
 from urllib.parse import parse_qsl, urlsplit
@@ -244,6 +244,13 @@ def build_extraction_queries(area: DiscoveredElectionArea) -> tuple[str, ...]:
     queries = [
         f'site:mycouncil.surreycc.gov.uk "{source_url}" '
         '"Election candidate" "Votes"',
+        # The exact query above prioritises the candidate table. This first
+        # follow-up targets the complementary voting-summary fields so a
+        # two-query area budget has the best chance of reaching Complete.
+        (
+            f'site:mycouncil.surreycc.gov.uk "{source_url}" '
+            '"Electorate" "Turnout" "ballot papers"'
+        ),
         (
             f'"{ward}" "Surrey County Council" '
             f'"Election Results" "{year}"'
@@ -602,12 +609,33 @@ def _official_evidence(
     area: DiscoveredElectionArea,
     body: str,
     final_url: str,
+    retrieval_note: str | None = None,
 ) -> tuple[_ParsedEvidence, ...]:
-    """Convert exact official table cells into the existing evidence pipeline."""
+    """Convert exact official table cells into the existing evidence pipeline.
+
+    ``retrieval_note`` states how the official page was served (for example an
+    archived-copy citation with its capture timestamp) so each evidence row
+    keeps its full provenance without altering any published value.
+    """
     page_data = parse_official_election_page(body)
     shared_fields = dict(page_data.shared_fields)
     shared_evidence = dict(page_data.shared_evidence)
+    if "authority" not in shared_fields:
+        # Some official pages (for example the 2017 ModernGov layout) never
+        # print the council's name in visible text. The authority is still
+        # published by the page's own host: URL validation only accepts the
+        # council's official domain, so recording it here is a documented
+        # derivation from the verified source URL, not a guess about content.
+        host = (urlsplit(final_url).hostname or "").casefold()
+        if host == "mycouncil.surreycc.gov.uk":
+            shared_fields["authority"] = "Surrey County Council"
+            shared_evidence["authority"] = (
+                f"Official Surrey County Council result host: {host}"
+            )
     timestamp = datetime.now(timezone.utc).isoformat()
+    title = f"Official Surrey result page: {area.division_ward_name or ''}".strip()
+    if retrieval_note:
+        title = f"{title} [{retrieval_note}]"
     output = []
     for candidate in page_data.candidate_rows:
         fields = {**shared_fields, **dict(candidate.fields)}
@@ -621,7 +649,7 @@ def _official_evidence(
                 fields=tuple(sorted(fields.items())),
                 source_url=final_url,
                 search_query="",
-                search_result_title=f"Official Surrey result page: {area.division_ward_name or ''}".strip(),
+                search_result_title=title,
                 search_result_snippet=evidence_text,
                 truncated=False,
                 source_type=EvidenceSourceType.OFFICIAL,
@@ -953,12 +981,111 @@ def _indexed_evidence_accounts_for_complete_result(
     return candidate_total == published_total and elected_count == next(iter(seats))
 
 
+def _run_indexed_result_query(
+    area: DiscoveredElectionArea,
+    provider: SearchProvider,
+    query: str,
+    search_date: str,
+) -> tuple[ExtractionAttempt, tuple[_ParsedEvidence, ...]]:
+    """Run and audit one query so an exact-URL result can be reused once.
+
+    Keeping this operation in one helper prevents the mandatory exact search
+    from being sent again when the official page is unavailable.
+    """
+
+    source_url = normalise_area_result_url(area.result_url)
+    attempt_timestamp = datetime.now(timezone.utc).isoformat()
+    try:
+        search_results = tuple(provider.search(query))
+    except Exception as exc:
+        return (
+            ExtractionAttempt(
+                source_url=source_url,
+                query=query,
+                status=ExtractionStatus.SEARCH_FAILED,
+                result_count=0,
+                candidate_record_count=0,
+                error=type(exc).__name__,
+                election_name=area.election_name,
+                division_ward_name=area.division_ward_name,
+                search_date=search_date,
+                source_type=EvidenceSourceType.INDEXED_SEARCH,
+                search_provider=provider.provider_name,
+                attempt_timestamp=attempt_timestamp,
+                parsing_warnings=(
+                    "The indexed-search request failed before evidence could be parsed.",
+                ),
+            ),
+            (),
+        )
+
+    # Accept only evidence that resolves to the submitted official area URL;
+    # neighbouring wards returned by the search engine remain excluded.
+    query_evidence = tuple(_matching_evidence(area, query, search_results))
+    query_records = _records_for_area(area, query_evidence)
+    accepted_results = {
+        (item.source_url, item.search_result_title, item.search_result_snippet)
+        for item in query_evidence
+    }
+    if not query_evidence or not query_records:
+        status = ExtractionStatus.NO_EVIDENCE
+    elif any(
+        record.extraction_status is ExtractionStatus.INCOMPLETE
+        for record in query_records
+    ):
+        status = ExtractionStatus.INCOMPLETE
+    else:
+        status = ExtractionStatus.COMPLETE
+
+    # These messages describe why evidence was not promoted to a complete
+    # candidate row. They are audit metadata and never invent missing values.
+    warnings: list[str] = []
+    if search_results and not query_evidence:
+        warnings.append(
+            "No indexed result matched the exact area, election and result URL."
+        )
+    elif query_evidence and not query_records:
+        warnings.append(
+            "Matching indexed evidence did not contain a reliable candidate record."
+        )
+    elif any(
+        record.extraction_status is ExtractionStatus.INCOMPLETE
+        for record in query_records
+    ):
+        warnings.append("One or more candidate records were incomplete.")
+    if any(record.conflicts for record in query_records):
+        warnings.append("Conflicting indexed values require review.")
+
+    return (
+        ExtractionAttempt(
+            source_url=source_url,
+            query=query,
+            status=status,
+            result_count=len(search_results),
+            candidate_record_count=len(query_records),
+            election_name=area.election_name,
+            division_ward_name=area.division_ward_name,
+            search_date=search_date,
+            accepted_result_count=len(accepted_results),
+            excluded_result_count=len(search_results) - len(accepted_results),
+            source_type=EvidenceSourceType.INDEXED_SEARCH,
+            search_provider=provider.provider_name,
+            attempt_timestamp=attempt_timestamp,
+            selected_urls=tuple(sorted({item[0] for item in accepted_results})),
+            parsing_warnings=tuple(warnings),
+        ),
+        query_evidence,
+    )
+
+
 def extract_candidate_results(
     areas: Sequence[DiscoveredElectionArea],
     provider: SearchProvider,
     *,
     official_page_client: OfficialPageClient | None = None,
     run_targeted_searches: bool = True,
+    require_exact_indexed_search: bool = False,
+    max_targeted_queries_per_area: int | None = None,
 ) -> ExtractionReport:
     """Use official pages first, then fall back to auditable indexed evidence.
 
@@ -977,6 +1104,35 @@ def extract_candidate_results(
         area_evidence: list[_ParsedEvidence] = []
         area_timestamp = datetime.now(timezone.utc).isoformat()
         search_date = area_timestamp.partition("T")[0]
+        indexed_queries = build_extraction_queries(area)
+
+        if require_exact_indexed_search:
+            # The prompt requires one indexed lookup for every exact result URL.
+            # Run it once before selecting the stronger official evidence tier.
+            exact_attempt, exact_evidence = _run_indexed_result_query(
+                area,
+                provider,
+                indexed_queries[0],
+                search_date,
+            )
+            attempts.append(exact_attempt)
+            area_evidence.extend(exact_evidence)
+            if area.division_ward_name is None:
+                # A configured URL inventory deliberately stores identifiers,
+                # not guessed ward names. The exact indexed title may publish
+                # that name; only one unambiguous published value is promoted
+                # so the subsequent summary query can be area-specific.
+                published_names = {
+                    evidence.as_dict().get("division_ward_name")
+                    for evidence in exact_evidence
+                    if evidence.as_dict().get("division_ward_name")
+                }
+                if len(published_names) == 1:
+                    area = replace(
+                        area,
+                        division_ward_name=next(iter(published_names)),
+                    )
+                    indexed_queries = build_extraction_queries(area)
 
         if official_page_client is not None:
             fetch_result = fetch_and_diagnose_official_page(
@@ -990,10 +1146,21 @@ def extract_candidate_results(
                 and fetch_result.body is not None
                 and fetch_result.diagnostic.final_url is not None
             ):
+                # When the page was served from a lawful archived official
+                # copy, cite the capture on every evidence row. A live page
+                # needs no note; absence of the note means live retrieval.
+                retrieval_note = None
+                if fetch_result.diagnostic.archive_snapshot_url is not None:
+                    retrieval_note = (
+                        "archived official copy, snapshot "
+                        f"{fetch_result.diagnostic.archive_snapshot_timestamp or 'unknown'}: "
+                        f"{fetch_result.diagnostic.archive_snapshot_url}"
+                    )
                 official_evidence = _official_evidence(
                     area,
                     fetch_result.body,
                     fetch_result.diagnostic.final_url,
+                    retrieval_note,
                 )
                 official_records = _records_for_area(area, official_evidence)
                 official_status = (
@@ -1021,7 +1188,17 @@ def extract_candidate_results(
                         source_type=EvidenceSourceType.OFFICIAL,
                         search_provider=type(official_page_client).__name__,
                         attempt_timestamp=area_timestamp,
-                        selected_urls=(fetch_result.diagnostic.final_url,),
+                        # The official council URL always comes first; when an
+                        # archived copy served the page its exact snapshot URL
+                        # follows, giving the log a verifiable citation.
+                        selected_urls=tuple(
+                            url
+                            for url in (
+                                fetch_result.diagnostic.final_url,
+                                fetch_result.diagnostic.archive_snapshot_url,
+                            )
+                            if url
+                        ),
                         parsing_warnings=(
                             ()
                             if official_records
@@ -1035,101 +1212,31 @@ def extract_candidate_results(
                     records.extend(official_records)
                     continue
 
-        queries = build_extraction_queries(area)
-        if not run_targeted_searches:
+        # When mandatory exact search is enabled, index zero was executed above.
+        # Continue only with optional recovery queries instead of paying for the
+        # same exact URL a second time after an official-page failure.
+        queries = indexed_queries[1:] if require_exact_indexed_search else indexed_queries
+        if not run_targeted_searches and not require_exact_indexed_search:
             # Query zero is the exact official result-URL search. The remaining
             # queries use ward/year/party terms and are the optional targeted
             # searches controlled by the Streamlit checkbox.
             queries = queries[:1]
+        elif not run_targeted_searches:
+            # The exact query has already run and is retained in area_evidence.
+            queries = ()
+        if max_targeted_queries_per_area is not None:
+            # Apply the cap after removing the mandatory exact query. This lets
+            # the workflow cover every area before spending spare allowance on
+            # recovery searches and avoids exhausting quota on early wards.
+            queries = queries[:max_targeted_queries_per_area]
         for query in queries:
-            attempt_timestamp = datetime.now(timezone.utc).isoformat()
-            try:
-                # SearchProvider remains the only external access point. Every
-                # real query is retained as a separate auditable attempt.
-                search_results = tuple(provider.search(query))
-            except Exception as exc:
-                attempts.append(
-                    ExtractionAttempt(
-                        source_url=source_url,
-                        query=query,
-                        status=ExtractionStatus.SEARCH_FAILED,
-                        result_count=0,
-                        candidate_record_count=0,
-                        error=type(exc).__name__,
-                        election_name=area.election_name,
-                        division_ward_name=area.division_ward_name,
-                        search_date=search_date,
-                        source_type=EvidenceSourceType.INDEXED_SEARCH,
-                        search_provider=provider.provider_name,
-                        attempt_timestamp=attempt_timestamp,
-                        parsing_warnings=(
-                            "The indexed-search request failed before evidence could be parsed.",
-                        ),
-                    )
-                )
-                continue
-
-            query_evidence = _matching_evidence(area, query, search_results)
-            query_records = _records_for_area(area, query_evidence)
-            accepted_results = {
-                (
-                    item.source_url,
-                    item.search_result_title,
-                    item.search_result_snippet,
-                )
-                for item in query_evidence
-            }
-            if not query_evidence or not query_records:
-                attempt_status = ExtractionStatus.NO_EVIDENCE
-            elif any(
-                record.extraction_status is ExtractionStatus.INCOMPLETE
-                for record in query_records
-            ):
-                attempt_status = ExtractionStatus.INCOMPLETE
-            else:
-                attempt_status = ExtractionStatus.COMPLETE
-
-            # Record why a returned search did not become a complete candidate
-            # result. These are audit descriptions only and never fill values.
-            parsing_warnings: list[str] = []
-            if search_results and not query_evidence:
-                parsing_warnings.append(
-                    "No indexed result matched the exact area, election and result URL."
-                )
-            elif query_evidence and not query_records:
-                parsing_warnings.append(
-                    "Matching indexed evidence did not contain a reliable candidate record."
-                )
-            elif any(
-                record.extraction_status is ExtractionStatus.INCOMPLETE
-                for record in query_records
-            ):
-                parsing_warnings.append(
-                    "One or more candidate records were incomplete."
-                )
-            if any(record.conflicts for record in query_records):
-                parsing_warnings.append(
-                    "Conflicting indexed values require review."
-                )
-            attempts.append(
-                ExtractionAttempt(
-                    source_url=source_url,
-                    query=query,
-                    status=attempt_status,
-                    result_count=len(search_results),
-                    candidate_record_count=len(query_records),
-                    election_name=area.election_name,
-                    division_ward_name=area.division_ward_name,
-                    search_date=search_date,
-                    accepted_result_count=len(accepted_results),
-                    excluded_result_count=len(search_results) - len(accepted_results),
-                    source_type=EvidenceSourceType.INDEXED_SEARCH,
-                    search_provider=provider.provider_name,
-                    attempt_timestamp=attempt_timestamp,
-                    selected_urls=tuple(sorted({item[0] for item in accepted_results})),
-                    parsing_warnings=tuple(parsing_warnings),
-                )
+            query_attempt, query_evidence = _run_indexed_result_query(
+                area,
+                provider,
+                query,
+                search_date,
             )
+            attempts.append(query_attempt)
             area_evidence.extend(query_evidence)
 
             # Targeted searches exist to recover missing information. Once the

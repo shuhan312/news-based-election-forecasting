@@ -9,17 +9,23 @@ browser or a live SerpAPI key.
 from __future__ import annotations
 
 import re
+import time
 from collections.abc import Callable
 from dataclasses import dataclass, replace
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from election_extractor.discovery import OfficialArchiveClient, discover_election_areas
+from election_extractor.discovery import (
+    IncompleteElectionDiscoveryError,
+    OfficialArchiveClient,
+    discover_election_areas,
+)
 from election_extractor.extraction import (
     CandidateResultRecord,
     ExtractionAttempt,
     ExtractionReport,
     ExtractionStatus,
+    EvidenceSourceType,
     extract_candidate_results,
 )
 from election_extractor.models import (
@@ -28,7 +34,16 @@ from election_extractor.models import (
     DiscoveryStatus,
     MetadataStatus,
 )
-from election_extractor.official_source import OfficialPageClient, UrllibOfficialPageClient
+from election_extractor.official_archive_fallback import (
+    ARCHIVED_OFFICIAL_COPY,
+    ArchiveFallbackOfficialArchiveClient,
+    ArchiveFallbackOfficialPageClient,
+)
+from election_extractor.official_source import (
+    OfficialPageClassification,
+    OfficialPageClient,
+    fetch_and_diagnose_official_page,
+)
 from election_extractor.search_providers.base import (
     BudgetedSearchProvider,
     SearchProvider,
@@ -88,6 +103,110 @@ PROVIDER_FAILURE_MESSAGES = {
 
 class WorkflowError(RuntimeError):
     """A safe application error that contains no provider credential or traceback."""
+
+
+class _PreflightSearchProvider:
+    """Exercise discovery locally without sending an indexed API request."""
+
+    provider_name = "ZeroQuotaPreflight"
+
+    def search(self, query: str):
+        # Discovery normally falls back to its search provider when official
+        # HTML is missing. Returning an empty tuple here keeps that code path
+        # testable while guaranteeing that preflight cannot consume quota.
+        return ()
+
+
+@dataclass(frozen=True)
+class _OfficialPreflightResult:
+    """Select a source mode without turning official blocking into failure."""
+
+    official_pages_available: bool
+    discovery: DiscoveryReport | None = None
+    # True when at least one sampled page was served from a lawful archived
+    # official copy rather than the live council site. This only informs the
+    # user-facing progress message; the provenance of every individual page is
+    # recorded separately in its own diagnostic and extraction attempt.
+    served_from_archive: bool = False
+
+
+def _run_official_preflight(
+    source_type: str,
+    canonical_url: str,
+    archive_client: OfficialArchiveClient | None,
+    page_client: OfficialPageClient,
+) -> _OfficialPreflightResult:
+    """Check official HTML without spending indexed-search quota.
+
+    For an election index, three spread-out result pages are sampled after the
+    full official denominator has been verified. A direct URL checks its single
+    result page. The page client may itself fall back to archived official
+    copies; preflight only reports the outcome. Protection selects indexed-only
+    mode; it does not stop the prompt-required indexed workflow or attempt to
+    bypass the protection.
+    """
+
+    if source_type == "direct":
+        # A direct result URL has no election-wide denominator to verify.
+        discovery = None
+        sample_urls = (canonical_url,)
+    else:
+        try:
+            discovery = discover_election_areas(
+                canonical_url,
+                _PreflightSearchProvider(),
+                archive_client=archive_client,
+                indexed_search_only=False,
+                require_indexed_search=True,
+            )
+        except Exception:
+            # Direct scraping is explicitly described as unreliable in the
+            # project prompt. Treat protection as a mode decision rather than
+            # an application error; the real indexed provider has not yet run.
+            return _OfficialPreflightResult(False)
+        # Sampling across the index catches a site-wide protection response
+        # without downloading every result page before the real run starts.
+        positions = {0, len(discovery.areas) // 2, len(discovery.areas) - 1}
+        sample_urls = tuple(discovery.areas[position].result_url for position in positions)
+
+    # A HTTP 200 response alone is insufficient: Incapsula also returns 200.
+    # The diagnostic must recognise an actual election-result table.
+    diagnostics = {
+        url: fetch_and_diagnose_official_page(url, page_client).diagnostic
+        for url in sample_urls
+    }
+    # Walking a paginated official index (above) can itself use several
+    # sequential public requests to the archive. In live testing this
+    # occasionally left the archive service in a short-lived rate-limited
+    # state exactly when these sample checks ran immediately afterwards,
+    # even though the same pages were reliably available moments later. One
+    # bounded retry of only the still-failing samples, after a short pause,
+    # prevents that brief coincidence from discarding archived-copy access
+    # for an entire multi-area run. This is a single extra pass, not
+    # indefinite retrying.
+    failing_urls = [
+        url
+        for url, diagnostic in diagnostics.items()
+        if diagnostic.classification is not OfficialPageClassification.VALID_ELECTION_RESULT_PAGE
+    ]
+    if failing_urls:
+        time.sleep(5.0)
+        for url in failing_urls:
+            diagnostics[url] = fetch_and_diagnose_official_page(url, page_client).diagnostic
+    official_pages_available = all(
+        diagnostic.classification
+        is OfficialPageClassification.VALID_ELECTION_RESULT_PAGE
+        for diagnostic in diagnostics.values()
+    )
+    served_from_archive = any(
+        diagnostic.retrieval_source == ARCHIVED_OFFICIAL_COPY
+        for diagnostic in diagnostics.values()
+    )
+    return _OfficialPreflightResult(
+        official_pages_available,
+        discovery if official_pages_available else None,
+        served_from_archive,
+    )
 
 
 @dataclass(frozen=True)
@@ -265,11 +384,24 @@ def _area_status(
     # failure and could make the application's completion count misleading.
     if not records or not validations:
         return "Failed"
+    # When exact official rows are selected, an empty indexed audit query does
+    # not make those source-complete rows incomplete. The indexed attempt stays
+    # in the log, but completion is assessed against the evidence tier that
+    # actually supports the exported candidate records.
+    record_source_types = {record.source_type for record in records}
+    status_attempts = attempts
+    if record_source_types == {EvidenceSourceType.OFFICIAL}:
+        status_attempts = tuple(
+            attempt
+            for attempt in attempts
+            if attempt.source_type is EvidenceSourceType.OFFICIAL
+        )
+
     # Existing but partial evidence is Incomplete rather than Failed. This
     # distinction keeps genuine missing source values visible in the audit.
     if any(record.extraction_status is not ExtractionStatus.COMPLETE for record in records):
         return "Incomplete"
-    if any(attempt.status is not ExtractionStatus.COMPLETE for attempt in attempts):
+    if any(attempt.status is not ExtractionStatus.COMPLETE for attempt in status_attempts):
         return "Incomplete"
     if any(
         result.validation_status in {ValidationStatus.INCOMPLETE, ValidationStatus.WARNING}
@@ -314,6 +446,7 @@ def run_extraction_workflow(
     max_search_queries: int = 500,
     progress_callback: ProgressCallback | None = None,
     use_official_sources: bool = False,
+    require_indexed_search: bool = False,
     official_archive_client: OfficialArchiveClient | None = None,
     official_page_client: OfficialPageClient | None = None,
 ) -> WorkflowResult:
@@ -323,9 +456,12 @@ def run_extraction_workflow(
     application supplies the key directly to the SerpAPI adapter; it is held in
     a local object only and is never copied into the result, progress messages,
     workbook or exception text. The Streamlit application also enables the
-    ordinary public official-source clients. They are attempted first because
-    exact council table cells are stronger evidence; indexed search remains the
-    bounded fallback whenever an official page is blocked or unavailable.
+    ordinary public official-source clients, which fall back to lawful
+    archived copies of the same official pages (with cited snapshots) when the
+    live council site returns its protection page. In the Streamlit
+    configuration, indexed discovery and one exact-result query remain
+    mandatory audit steps; exact council table cells then supply the selected
+    values when available.
     """
 
     # Stage 1: validate and canonicalise the URL before any external request.
@@ -337,31 +473,122 @@ def run_extraction_workflow(
         if not api_key or not api_key.strip():
             raise WorkflowError("An indexed results API key is required.")
         # The key stays inside the provider instance for this function call.
-        provider = SerpApiSearchProvider(api_key=api_key.strip())
+        # Apply the same ceiling to physical HTTP requests as to logical
+        # queries. Pagination and retries must not silently spend more provider
+        # credits than the user-facing run limit.
+        provider = SerpApiSearchProvider(
+            api_key=api_key.strip(),
+            max_requests=max_search_queries,
+        )
 
     # One wrapper is shared by discovery and every area extraction, so the
     # stated limit applies to the complete user task rather than resetting for
     # each ward or division.
     budgeted_provider = BudgetedSearchProvider(provider, max_search_queries)
+    active_official_page_client = official_page_client
+    active_archive_client = official_archive_client
+    if use_official_sources and active_official_page_client is None:
+        # The layered client tries one ordinary live request per page and then
+        # the lawful archived official copy. Reusing one instance lets it stop
+        # contacting the live site for the whole run after the first
+        # protection response.
+        active_official_page_client = ArchiveFallbackOfficialPageClient()
+    if use_official_sources and active_archive_client is None:
+        # Discovery reads the official election archive/area-index pages, which
+        # sit behind the same protection; give it the same layered fallback.
+        active_archive_client = ArchiveFallbackOfficialArchiveClient()
+
+    preflight_result = None
+    if use_official_sources and require_indexed_search:
+        # This check deliberately precedes every call to budgeted_provider.
+        # Incapsula therefore costs zero SerpAPI searches rather than hundreds.
+        _notify(
+            progress_callback,
+            WorkflowProgress(
+                "preflight",
+                "Checking the official Surrey pages before using indexed-search quota.",
+            ),
+        )
+        preflight_result = _run_official_preflight(
+            source_type,
+            canonical_url,
+            active_archive_client,
+            active_official_page_client,
+        )
+        if not preflight_result.official_pages_available:
+            # Do not repeat a blocked direct request for every area. Indexed
+            # search is the required primary path when ordinary HTTP is blocked
+            # and no lawful archived official copy is available either.
+            active_official_page_client = None
+            _notify(
+                progress_callback,
+                WorkflowProgress(
+                    "preflight",
+                    "Official pages are protected and no archived official "
+                    "copies were found; continuing in indexed-only mode.",
+                ),
+            )
+        elif preflight_result.served_from_archive:
+            # Transparency for the researcher: values will come from archived
+            # copies of the official pages, with each capture cited in the log.
+            _notify(
+                progress_callback,
+                WorkflowProgress(
+                    "preflight",
+                    "Live official pages are protected; using archived "
+                    "official copies (Wayback Machine) with cited snapshots.",
+                ),
+            )
 
     _notify(progress_callback, WorkflowProgress("validation", "URL validated."))
     try:
         # Stage 2: an index URL expands to all discovered areas. A direct URL
         # becomes a one-area report and therefore follows the same later loop.
         if source_type == "index":
-            discovery_arguments = {}
-            if use_official_sources and official_archive_client is not None:
-                discovery_arguments["archive_client"] = official_archive_client
-            discovery = discover_election_areas(
-                canonical_url,
-                budgeted_provider,
-                # Strict indexed-only operation remains available to tests and
-                # reproducibility checks. The web app enables official-first
-                # discovery, whose existing code falls back to indexed search
-                # if normal public HTTP access is unavailable.
-                indexed_search_only=not use_official_sources,
-                **discovery_arguments,
-            )
+            if preflight_result is not None and preflight_result.discovery is not None:
+                # Search discovery still runs as the prompt requires. The full
+                # official denominator proved by preflight is reused so the
+                # same official index is not requested twice.
+                indexed_discovery = discover_election_areas(
+                    canonical_url,
+                    budgeted_provider,
+                    indexed_search_only=True,
+                )
+                # Indexed discovery is retained in the audit, but the verified
+                # official list defines the denominator. Search-engine coverage
+                # is therefore never mistaken for the full election universe.
+                discovery = DiscoveryReport(
+                    canonical_url,
+                    preflight_result.discovery.areas,
+                    tuple(
+                        (
+                            *indexed_discovery.search_attempts,
+                            *preflight_result.discovery.search_attempts,
+                        )
+                    ),
+                )
+            elif require_indexed_search:
+                # When public HTML is protected, run the indexed workflow the
+                # prompt requires. A configured official ID inventory supplies
+                # the known 81-URL denominator if Google exposes only a sample;
+                # every URL must still obtain its candidate evidence by search.
+                discovery = discover_election_areas(
+                    canonical_url,
+                    budgeted_provider,
+                    indexed_search_only=True,
+                    allow_configured_inventory=True,
+                )
+            else:
+                discovery_arguments = {}
+                if use_official_sources and active_archive_client is not None:
+                    discovery_arguments["archive_client"] = active_archive_client
+                discovery = discover_election_areas(
+                    canonical_url,
+                    budgeted_provider,
+                    indexed_search_only=not use_official_sources,
+                    require_indexed_search=False,
+                    **discovery_arguments,
+                )
         else:
             discovery = _direct_discovery(canonical_url)
     except SearchAuthenticationError as error:
@@ -386,6 +613,12 @@ def run_extraction_workflow(
         raise WorkflowError(
             "The extraction reached its indexed-search request limit. "
             "No further searches were sent."
+        ) from error
+    except IncompleteElectionDiscoveryError as error:
+        raise WorkflowError(
+            "The complete official election index could not be retrieved: "
+            f"expected {error.expected} areas but indexed search found only "
+            f"{error.discovered}. No partial workbook was created."
         ) from error
     except Exception as error:
         # Provider exceptions can contain request details. Keep those details
@@ -412,13 +645,6 @@ def run_extraction_workflow(
     attempts: list[ExtractionAttempt] = []
     validations: list[ValidationResult] = []
     counts = {"Complete": 0, "Incomplete": 0, "Failed": 0}
-    active_official_page_client = official_page_client
-    if use_official_sources and active_official_page_client is None:
-        # One stateless client is reused for the run. It uses ordinary public
-        # HTTP only, with no browser automation, authentication or protection
-        # bypass; its diagnostics decide whether indexed fallback is required.
-        active_official_page_client = UrllibOfficialPageClient()
-
     for position, area in enumerate(discovery.areas, start=1):
         area_label = area.division_ward_name or "Direct ward result"
         _notify(
@@ -441,6 +667,10 @@ def run_extraction_workflow(
                 active_official_page_client if use_official_sources else None
             ),
             run_targeted_searches=run_targeted_searches,
+            require_exact_indexed_search=require_indexed_search,
+            # One complementary summary query per area keeps a complete
+            # 81-area run within the application's 200-query allowance.
+            max_targeted_queries_per_area=(1 if require_indexed_search else None),
         )
         # Authentication, rate-limit and network failures apply to the whole
         # extraction, not merely one ward. Stop instead of spending requests on

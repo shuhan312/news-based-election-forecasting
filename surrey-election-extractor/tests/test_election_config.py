@@ -101,3 +101,5 @@ def test_2021_configuration_reproduces_existing_archive_url() -> None:
     assert configuration.election_year == 2021
     assert configuration.official_url == EXISTING_2021_ARCHIVE_URL
     assert configuration.official_url_field == "official_archive_url"
+    assert configuration.official_area_index_url is not None
+    assert configuration.expected_area_count == 81

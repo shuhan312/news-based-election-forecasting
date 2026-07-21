@@ -32,6 +32,11 @@ class ElectionConfiguration:
     election_type: str
     official_url: str
     official_url_field: str
+    official_area_index_url: str | None = None
+    expected_area_count: int | None = None
+    result_id_start: int | None = None
+    result_id_end: int | None = None
+    excluded_result_ids: tuple[int, ...] = ()
 
 
 def _non_empty_text(entry: object, field_name: str, index: int) -> str:
@@ -88,6 +93,59 @@ def _configuration_from_entry(entry: object, index: int) -> ElectionConfiguratio
         index,
     )
 
+    area_index_value = entry.get("official_area_index_url")
+    official_area_index_url = None
+    if area_index_value is not None:
+        official_area_index_url = _valid_official_url(
+            _non_empty_text(area_index_value, "official_area_index_url", index),
+            "official_area_index_url",
+            index,
+        )
+
+    expected_area_count = entry.get("expected_area_count")
+    if expected_area_count is not None and (
+        isinstance(expected_area_count, bool)
+        or not isinstance(expected_area_count, int)
+        or expected_area_count < 1
+    ):
+        raise ElectionConfigurationError(
+            f"Election entry {index} requires a positive integer expected_area_count."
+        )
+
+    result_id_start = entry.get("result_id_start")
+    result_id_end = entry.get("result_id_end")
+    excluded_result_ids = entry.get("excluded_result_ids", [])
+    if (result_id_start is None) != (result_id_end is None):
+        raise ElectionConfigurationError(
+            f"Election entry {index} must provide both result_id_start and result_id_end."
+        )
+    if result_id_start is not None:
+        if any(
+            isinstance(value, bool) or not isinstance(value, int) or value < 1
+            for value in (result_id_start, result_id_end)
+        ) or result_id_start > result_id_end:
+            raise ElectionConfigurationError(
+                f"Election entry {index} has an invalid result-ID range."
+            )
+        if not isinstance(excluded_result_ids, list) or any(
+            isinstance(value, bool)
+            or not isinstance(value, int)
+            or value < result_id_start
+            or value > result_id_end
+            for value in excluded_result_ids
+        ):
+            raise ElectionConfigurationError(
+                f"Election entry {index} has invalid excluded_result_ids."
+            )
+        inventory_count = result_id_end - result_id_start + 1 - len(
+            set(excluded_result_ids)
+        )
+        if expected_area_count is not None and inventory_count != expected_area_count:
+            raise ElectionConfigurationError(
+                f"Election entry {index} result-ID inventory contains "
+                f"{inventory_count} areas, not expected_area_count={expected_area_count}."
+            )
+
     return ElectionConfiguration(
         election_id=values["election_id"],
         election_name=values["election_name"],
@@ -95,6 +153,11 @@ def _configuration_from_entry(entry: object, index: int) -> ElectionConfiguratio
         election_type=values["election_type"],
         official_url=official_url,
         official_url_field=official_url_field,
+        official_area_index_url=official_area_index_url,
+        expected_area_count=expected_area_count,
+        result_id_start=result_id_start,
+        result_id_end=result_id_end,
+        excluded_result_ids=tuple(sorted(set(excluded_result_ids))),
     )
 
 

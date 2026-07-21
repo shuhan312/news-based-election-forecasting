@@ -1,5 +1,7 @@
 """Unit tests for candidate-level extraction from indexed search evidence."""
 
+from dataclasses import replace
+
 from election_extractor.extraction import (
     EvidenceSourceType,
     ExtractionStatus,
@@ -283,6 +285,117 @@ def test_targeted_searches_stop_after_evidence_accounts_for_the_full_result() ->
     assert len(report.records) == 1
     assert provider.queries == [exact_query]
     assert len(report.attempts) == 1
+
+
+def test_mandatory_exact_query_is_not_repeated_after_official_failure() -> None:
+    """Reuse one exact-URL response before considering targeted searches."""
+
+    area = discovered_area()
+    exact_query = build_extraction_query(area)
+    provider = MockSearchProvider(
+        {
+            exact_query: (
+                SearchResult(
+                    title="Election candidate result",
+                    url=RESULT_URL,
+                    snippet=complete_snippet(
+                        "Furey, John Raymond",
+                        "Conservative",
+                        "1,146",
+                        "40.0%",
+                        "Elected",
+                    ),
+                ),
+            )
+        }
+    )
+
+    class ProtectedPageClient:
+        def fetch(self, url: str) -> OfficialPageResponse:
+            return OfficialPageResponse(
+                200,
+                url,
+                "<html><title>Request unsuccessful</title><body>Incapsula</body></html>",
+            )
+
+    report = extract_candidate_results(
+        (area,),
+        provider,
+        official_page_client=ProtectedPageClient(),
+        run_targeted_searches=False,
+        require_exact_indexed_search=True,
+    )
+
+    # Candidate evidence remains usable, but the provider ledger proves the
+    # exact URL was charged once rather than once before and once after failure.
+    assert report.records
+    assert provider.queries == [exact_query]
+
+
+def test_exact_title_enables_one_capped_summary_follow_up() -> None:
+    """Recover a published ward name before spending one summary query."""
+
+    area = replace(discovered_area(), division_ward_name=None)
+    exact_query = build_extraction_query(area)
+    named_area = replace(area, division_ward_name="Addlestone")
+    summary_query = build_extraction_queries(named_area)[1]
+    provider = MockSearchProvider(
+        {
+            exact_query: (
+                SearchResult(
+                    title="Election results for Addlestone, 6 May 2021",
+                    url=RESULT_URL,
+                    snippet=complete_snippet(
+                        "Furey, John Raymond",
+                        "Conservative",
+                        "1,146",
+                        "40.0%",
+                        "Elected",
+                    ),
+                ),
+            ),
+            summary_query: (),
+        }
+    )
+
+    extract_candidate_results(
+        (area,),
+        provider,
+        run_targeted_searches=True,
+        require_exact_indexed_search=True,
+        max_targeted_queries_per_area=1,
+    )
+
+    assert provider.queries == [exact_query, summary_query]
+
+
+def test_81_area_plan_stays_below_the_200_query_application_limit() -> None:
+    """Cover the full denominator before allowing one recovery query per area."""
+
+    areas = tuple(
+        replace(
+            discovered_area(),
+            division_ward_name=f"Test Division {result_id}",
+            result_url=(
+                "https://mycouncil.surreycc.gov.uk/"
+                f"mgElectionAreaResults.aspx?ID={result_id}"
+            ),
+        )
+        for result_id in range(258, 339)
+    )
+    provider = MockSearchProvider({})
+
+    extract_candidate_results(
+        areas,
+        provider,
+        run_targeted_searches=True,
+        require_exact_indexed_search=True,
+        max_targeted_queries_per_area=1,
+    )
+
+    # 81 mandatory exact queries plus one complementary summary query for each
+    # area leaves 38 of the 200 logical-query budget for indexed discovery.
+    assert len(provider.queries) == 162
 
 
 def real_discovered_area() -> DiscoveredElectionArea:

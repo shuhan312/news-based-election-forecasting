@@ -8,6 +8,7 @@ from openpyxl import load_workbook
 
 from election_extractor.extraction import (
     CandidateResultRecord,
+    EvidenceSourceType,
     ExtractionAttempt,
     ExtractionStatus,
 )
@@ -418,6 +419,68 @@ def test_11_failed_area_has_reason_and_no_fake_candidate_rows(tmp_path) -> None:
     assert sheet["B5"].value == "Failed"
     assert "SearchError" in sheet["B10"].value
     assert sheet.cell(candidate_header + 1, 1).value is None
+
+
+def test_11b_official_records_ignore_the_mandatory_indexed_audit_attempt(
+    tmp_path,
+) -> None:
+    """A source-complete official row must not be downgraded by a required but
+    unrelated indexed audit query that legitimately found no Google results.
+
+    The Streamlit app runs one mandatory exact-URL indexed search for every
+    result URL (the supervisor's search-workflow requirement) in addition to
+    reading the official page. Google rarely indexes these obscure council
+    pages, so that mandatory query commonly returns zero results even when the
+    official table supplied every field. Regression coverage for a bug where
+    ``workbook._area_status`` (unlike ``workflow._area_status``) counted that
+    unrelated indexed attempt and therefore marked an otherwise Complete,
+    fully official-sourced ward as Incomplete in the exported workbook.
+    """
+    official_records = tuple(
+        replace(record, source_type=EvidenceSourceType.OFFICIAL)
+        for record in (
+            candidate("Furey, John Raymond", "Conservative", 1146, 57.3, "Elected"),
+            candidate(
+                "Example, Jane", "Labour and Co-operative", 854, 42.7, "Not elected"
+            ),
+        )
+    )
+    attempts = (
+        # The mandatory exact-URL indexed audit query: it ran, found nothing,
+        # and must not by itself downgrade the official-sourced result.
+        ExtractionAttempt(
+            source_url=SOURCE_URL,
+            query=f'site:mycouncil.surreycc.gov.uk "{SOURCE_URL}"',
+            status=ExtractionStatus.NO_EVIDENCE,
+            result_count=0,
+            candidate_record_count=0,
+            source_type=EvidenceSourceType.INDEXED_SEARCH,
+        ),
+        # The official-page fetch that actually supplied the exported rows.
+        ExtractionAttempt(
+            source_url=SOURCE_URL,
+            query=f"GET {SOURCE_URL}",
+            status=ExtractionStatus.COMPLETE,
+            result_count=1,
+            candidate_record_count=2,
+            source_type=EvidenceSourceType.OFFICIAL,
+        ),
+    )
+    path = tmp_path / "official_only.xlsx"
+    generate_workbook(
+        path,
+        official_records,
+        (validation(),),
+        (discovery(),),
+        attempts,
+        (PublishedVotingSummary(SOURCE_URL, total_votes=2000, valid_votes=2000),),
+    )
+
+    workbook = load_workbook(path)
+    index_sheet = workbook["Index"]
+    status_row = find_row(index_sheet, "Addlestone")
+    assert index_sheet.cell(status_row, 6).value == "Complete"
+    assert workbook["Addlestone"]["B5"].value == "Complete"
 
 
 def test_12_election_structure_metadata_is_separate_and_source_backed(tmp_path) -> None:

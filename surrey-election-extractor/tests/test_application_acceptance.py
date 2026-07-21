@@ -105,10 +105,8 @@ def test_index_url_produces_every_area_sheet_and_required_audit(monkeypatch) -> 
     # report isolates the end-to-end extraction, validation and export contract.
     monkeypatch.setattr(
         "election_extractor.workflow.discover_election_areas",
-        lambda url, search_provider, indexed_search_only: DiscoveryReport(
-            INDEX_URL,
-            areas,
-            (),
+        lambda url, search_provider, indexed_search_only, require_indexed_search: (
+            DiscoveryReport(INDEX_URL, areas, ())
         ),
     )
 

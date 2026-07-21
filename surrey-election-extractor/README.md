@@ -9,11 +9,11 @@ share predictions beyond previous election results.
 The single-page application accepts a Surrey principal-election landing page,
 an election-area index URL or one official ward/division result URL. The
 principal-election links supplied for 2013, 2017 and 2021 are safely validated
-and retained as discovery sources. The application first requests the ordinary
-public council archive and exact area-result tables because those table cells
-provide the strongest available evidence. If public access is blocked or a page
-is unavailable, the same workflow falls back to bounded indexed search. It then
-validates the retrieved records and produces an Excel workbook containing an
+and retained as discovery sources. The application uses indexed search to audit
+discovery and every exact area-result URL. It also reads the ordinary public
+council archive and exact tables because they provide the complete area list and
+strongest field-level evidence. Search snippets never overwrite official rows.
+The application validates the retrieved records and produces a workbook with an
 Index, one worksheet per area, and an Extraction Log.
 
 Create and activate a virtual environment, then install the dependencies:
@@ -53,9 +53,45 @@ Area statuses mean:
 
 Official pages and indexed snippets can both omit fields. The application
 records its evidence attempts and never fills missing source values by inference.
-A normal successful run may use zero SerpAPI queries when every official page is
-available; the key remains required so the same request can fall back safely if
-an official request fails part-way through.
+Before a live indexed-search run, the Streamlit workflow checks the official
+election index and three spread-out result pages using ordinary public HTTP.
+This preflight consumes no SerpAPI quota.
+
+The live council site is served behind Imperva Incapsula bot protection and
+usually returns a small challenge stub instead of the published tables. When
+that happens the application does **not** attempt to bypass the protection.
+Instead it falls back to the lawful archived official copies held by the
+Internet Archive's public Wayback Machine, which stores HTTP-200 captures of
+every official 2013, 2017 and 2021 area-result page and the election index
+pages. The retrieval order for every official page is therefore:
+
+1. the live official council page (one ordinary public request; after the
+   first protection response the live site is not contacted again during the
+   run);
+2. the archived official copy of the same URL (newest capture first, skipping
+   any capture that stored the challenge stub itself);
+3. indexed-search evidence, exactly as before.
+
+Every page served from an archived copy records the capture timestamp and the
+exact `web.archive.org` snapshot URL in the extraction attempt, the field
+evidence and the workbook's Extraction Log, so archived values remain fully
+auditable and distinguishable from live retrievals. Wayback requests use
+bounded exponential-backoff retries for temporary rate-limit and network
+errors, and resolved snapshots and page bodies are cached for the run so each
+archived page is downloaded at most once. Only if the council page is blocked
+*and* no usable archived copy exists does the application change to
+indexed-only mode as required by the project prompt.
+Every historical-election run uses indexed discovery queries and one exact-URL
+query per discovered area. That exact response is reused by the extraction
+stage, so an official-page failure cannot send the same exact query twice.
+Official archive links prevent an incomplete search
+index from silently reducing the election to only the wards returned by Google.
+The configured 2013, 2017 and 2021 elections each require all 81 published
+divisions. If the landing page is unavailable, the application retries the
+audited official area-index URL. If Google exposes only part of a configured
+principal election, the audited result-ID inventory preserves the known 81-page
+denominator. The inventory supplies URLs only: every candidate value must still
+come from the indexed results or a normally accessible official page.
 A successful SerpAPI query with no Google matches is recorded as an empty result
 and does not prevent the remaining discovery queries from running. For the
 configured 2013, 2017 and 2021 elections, the committed official URL, name and
@@ -64,9 +100,10 @@ pages must still publish the matching year before they are accepted.
 For broad `mgElectionAreaResults.aspx` discovery searches, when SerpAPI
 explicitly supplies a next-page URL, the adapter follows its increasing `start`
 offsets, deduplicates repeated results and stops after ten pages or 100 distinct
-results. Narrow per-area field searches remain single-page because each area
-already has six targeted queries. This improves historical-index coverage
-without multiplying every extraction request. A ModernGov candidate row
+results. Narrow per-area field searches remain single-page, and the Streamlit
+workflow caps follow-up extraction at one summary-focused query per area. This
+improves historical-index coverage without multiplying every extraction
+request. A ModernGov candidate row
 retained without its table header is parsed
 only when it contains the visible `Image` marker, a supported party phrase and
 numeric votes on the exact official area-result URL.
@@ -82,7 +119,7 @@ credentials. The downloadable `Extraction Log` uses the shorter column set
 specified for the workbook while the typed audit remains available to tests and
 future application diagnostics.
 
-Each application run has one shared budget of 500 indexed search queries and
+Each application run has one shared budget of 200 indexed search queries and
 the SerpAPI adapter has a separate ceiling of 600 HTTP attempts, including
 pagination and retries. One query may therefore consume more than one HTTP
 attempt when SerpAPI publishes later result pages. Targeted searches stop early
@@ -90,6 +127,11 @@ only when complete, conflict-free
 candidate rows reconcile to the published total votes and seat count. These
 limits prevent a large election or temporary provider failure from creating an
 unbounded request sequence.
+For a configured principal election, the application first gives every one of
+the 81 result URLs its mandatory exact query. It then permits at most one
+complementary voting-summary query per area. This breadth-first budget policy
+prevents the first few divisions from consuming the allowance before the rest
+of the election is processed.
 
 ### Downloaded workbook
 
@@ -128,6 +170,14 @@ ordinary Streamlit export.
 - A query or HTTP-request ceiling can stop an unusually large or repeatedly
   failing task. The user receives a clear error instead of a partial workbook
   presented as successful.
+- Archived official copies reproduce the official page as captured. If the
+  official page itself omitted a value (for example the missing 2013 turnout
+  figures), the archived copy omits it too and the area remains Incomplete;
+  the fallback never fills such gaps from other sources.
+- The Wayback Machine is a public service and can be temporarily slow or
+  rate-limited. Bounded retries and per-run caching mitigate this, but a
+  transient archive outage can still cause individual areas to fall back to
+  indexed-search evidence for that run.
 
 ### Adding another indexed-search provider
 

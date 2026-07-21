@@ -32,6 +32,13 @@ class OfficialPageResponse:
     status_code: int
     final_url: str
     body: str
+    # Provenance of the served copy. A live request keeps the default value;
+    # an archived official copy records exactly which public capture supplied
+    # the page so the workbook audit can cite it. These fields default so that
+    # every existing client and test fixture remains valid without changes.
+    retrieval_source: str = "live_official_page"
+    archive_snapshot_url: str | None = None
+    archive_snapshot_timestamp: str | None = None
 
 
 class OfficialPageClient(Protocol):
@@ -93,6 +100,12 @@ class OfficialPageDiagnostic:
     classification: OfficialPageClassification
     diagnostic_timestamp: str
     error: str | None = None
+    # Copied from the response so the extraction log can state whether the
+    # page came from the live council site or a lawful archived copy, and can
+    # cite the exact capture. ``None`` keeps older diagnostics unchanged.
+    retrieval_source: str | None = None
+    archive_snapshot_url: str | None = None
+    archive_snapshot_timestamp: str | None = None
 
 
 @dataclass(frozen=True)
@@ -322,7 +335,26 @@ def fetch_and_diagnose_official_page(
             error=type(exc).__name__,
         )
         return OfficialPageFetchResult(diagnostic, None)
+    return diagnose_official_response(
+        canonical_url,
+        response,
+        diagnostic_timestamp=timestamp,
+    )
 
+
+def diagnose_official_response(
+    canonical_url: str,
+    response: OfficialPageResponse,
+    *,
+    diagnostic_timestamp: str | None = None,
+) -> OfficialPageFetchResult:
+    """Classify one already-fetched official response into an audit diagnostic.
+
+    This is separated from :func:`fetch_and_diagnose_official_page` so a
+    layered client can classify its live response before deciding whether an
+    archived official copy is needed, without issuing a second HTTP request.
+    """
+    timestamp = diagnostic_timestamp or datetime.now(timezone.utc).isoformat()
     body = response.body or ""
     parser = _parse_html(body)
     visible = " ".join(parser.visible_text)
@@ -357,6 +389,13 @@ def fetch_and_diagnose_official_page(
         content_length=content_length,
         classification=classification,
         diagnostic_timestamp=timestamp,
+        # ``getattr`` tolerates minimal protocol implementations (test doubles
+        # or third-party clients) that predate the provenance fields.
+        retrieval_source=getattr(response, "retrieval_source", None),
+        archive_snapshot_url=getattr(response, "archive_snapshot_url", None),
+        archive_snapshot_timestamp=getattr(
+            response, "archive_snapshot_timestamp", None
+        ),
     )
     return OfficialPageFetchResult(diagnostic, body)
 

@@ -12,6 +12,7 @@ from openpyxl.worksheet.worksheet import Worksheet
 
 from election_extractor.extraction import (
     CandidateResultRecord,
+    EvidenceSourceType,
     ExtractionAttempt,
     ExtractionStatus,
 )
@@ -233,12 +234,29 @@ def _area_status(
     if not records:
         return "Failed"
 
+    # Bug fix: this function used to count the mandatory exact-URL indexed
+    # audit query as an ordinary attempt. That query almost never gets a
+    # Google hit for these obscure council pages, so every ward that was
+    # actually Complete from the official table was still exported as
+    # Incomplete, even though the app's own progress bar said Complete. The
+    # fix is the same one already applied in workflow._area_status: if every
+    # exported record came from the official page, only official-tier
+    # attempts should count towards completeness.
+    record_source_types = {record.source_type for record in records}
+    status_attempts = attempts
+    if record_source_types == {EvidenceSourceType.OFFICIAL}:
+        status_attempts = tuple(
+            attempt
+            for attempt in attempts
+            if attempt.source_type is EvidenceSourceType.OFFICIAL
+        )
+
     # Warnings, missing validation, missing candidates or partial attempts all
     # remain visible as Incomplete instead of being silently treated as success.
     extraction_incomplete = any(
         record.extraction_status is not ExtractionStatus.COMPLETE for record in records
     ) or any(
-        attempt.status is not ExtractionStatus.COMPLETE for attempt in attempts
+        attempt.status is not ExtractionStatus.COMPLETE for attempt in status_attempts
     )
     validation_incomplete = not validations or any(
         result.validation_status in {ValidationStatus.INCOMPLETE, ValidationStatus.WARNING}

@@ -17,7 +17,7 @@ from urllib.error import HTTPError
 from urllib.parse import parse_qsl, urljoin, urlsplit, urlunsplit
 from urllib.request import Request, urlopen
 
-from election_extractor.election_config import load_election_config
+from election_extractor.election_config import ElectionConfiguration, load_election_config
 from election_extractor.models import (
     AreaNameStatus,
     DiscoveredElectionArea,
@@ -43,6 +43,17 @@ DATE_PATTERN = re.compile(
 )
 ARCHIVE_PATH = "/mgElectionResults.aspx"
 INDEX_PATH = "/mgElectionElectionAreaResults.aspx"
+
+
+class IncompleteElectionDiscoveryError(ValueError):
+    """Stop a known election when discovery cannot prove its full denominator."""
+
+    def __init__(self, expected: int, discovered: int) -> None:
+        self.expected = expected
+        self.discovered = discovered
+        super().__init__(
+            f"Expected {expected} official areas but discovered only {discovered}."
+        )
 SEARCH_DOMAIN = "mycouncil.surreycc.gov.uk"
 MAP_INDEX_HOST = "www10.surreycc.gov.uk"
 # The 2026 election has two published map indexes rather than the historical
@@ -361,6 +372,24 @@ def build_search_queries(
     return tuple(dict.fromkeys(queries))
 
 
+def _configured_election(source_url: str) -> ElectionConfiguration | None:
+    """Match a submitted official URL to its audited election configuration."""
+
+    for configuration in load_election_config():
+        try:
+            configured_url = validate_discovery_source_url(configuration.official_url)
+        except ValueError:
+            continue
+        configured_index = None
+        if configuration.official_area_index_url is not None:
+            configured_index = validate_discovery_source_url(
+                configuration.official_area_index_url
+            )
+        if source_url in {configured_url, configured_index}:
+            return configuration
+    return None
+
+
 def _configured_election_context(source_url: str) -> _ElectionContext | None:
     """Return audited metadata for a configured official election entry.
 
@@ -370,20 +399,14 @@ def _configured_election_context(source_url: str) -> _ElectionContext | None:
     depend entirely on metadata retrieved from indexed evidence.
     """
 
-    for configuration in load_election_config():
-        try:
-            configured_url = validate_discovery_source_url(configuration.official_url)
-        except ValueError:
-            # The same configuration also contains the separate 2026 map
-            # sources. They are handled by the official map discovery route.
-            continue
-        if configured_url == source_url:
-            return _ElectionContext(
-                configuration.election_year,
-                configuration.election_name,
-                None,
-            )
-    return None
+    configuration = _configured_election(source_url)
+    if configuration is None:
+        return None
+    return _ElectionContext(
+        configuration.election_year,
+        configuration.election_name,
+        None,
+    )
 
 
 def extract_area_name(title: str) -> str | None:
@@ -1180,17 +1203,68 @@ def discover_election_areas(
     *,
     archive_client: OfficialArchiveClient | None = None,
     indexed_search_only: bool = False,
+    require_indexed_search: bool = False,
+    allow_configured_inventory: bool = False,
 ) -> DiscoveryReport:
     """Discover election areas with an explicit source strategy.
 
-    ``indexed_search_only`` is used by the Streamlit application specified by
-    the supervisor. It avoids making direct council-page access a requirement
-    and keeps SerpAPI as the application's discovery provider. Existing audited
-    research pipelines retain the official-first default.
+    ``indexed_search_only`` retains the strict search-only route used by tests
+    and reproducibility comparisons. ``require_indexed_search`` runs that
+    indexed discovery audit first, then uses the complete official archive
+    listing when ordinary public access succeeds. This hybrid mode satisfies
+    the application's indexed-search requirement without discarding official
+    wards merely because a search engine indexed only a small sample.
     """
     canonical_index = validate_discovery_source_url(index_url)
+    configuration = _configured_election(canonical_index)
     if indexed_search_only:
-        return _discover_from_indexed_search(canonical_index, provider)
+        indexed = _discover_from_indexed_search(canonical_index, provider)
+        if (
+            allow_configured_inventory
+            and configuration is not None
+            and configuration.result_id_start is not None
+            and configuration.result_id_end is not None
+            and configuration.expected_area_count is not None
+            and len(indexed.areas) < configuration.expected_area_count
+        ):
+            # Search indexes may expose only a sample of an older election.
+            # The configured IDs were audited from the official 81-area index;
+            # they define which exact URLs still need indexed evidence, but do
+            # not provide candidate data or turn a missing search result into a
+            # successful extraction.
+            excluded = set(configuration.excluded_result_ids)
+            inventory_areas = tuple(
+                DiscoveredElectionArea(
+                    election_year=configuration.election_year,
+                    election_name=configuration.election_name,
+                    division_ward_name=None,
+                    result_url=(
+                        "https://mycouncil.surreycc.gov.uk/"
+                        f"mgElectionAreaResults.aspx?ID={result_id}"
+                    ),
+                    source_index_url=canonical_index,
+                    discovery_status=DiscoveryStatus.MISSING_AREA_NAME,
+                    discovery_method="configured_official_result_inventory",
+                    metadata_status=MetadataStatus.COMPLETE,
+                )
+                for result_id in range(
+                    configuration.result_id_start,
+                    configuration.result_id_end + 1,
+                )
+                if result_id not in excluded
+            )
+            return DiscoveryReport(
+                canonical_index,
+                inventory_areas,
+                indexed.search_attempts,
+            )
+        return indexed
+    indexed_audit = None
+    if require_indexed_search and not _is_2026_map_index_url(canonical_index):
+        # Search is a required, auditable part of the web workflow. Its result
+        # set is not assumed complete: the official archive remains the ward
+        # denominator when it is publicly available.
+        indexed_audit = _discover_from_indexed_search(canonical_index, provider)
     if _is_2026_map_index_url(canonical_index):
         # Map indexes are a complete official source in their own right.  Do
         # not use the historical search fallback: it cannot safely add wards
@@ -1204,9 +1278,65 @@ def discover_election_areas(
         canonical_index,
         archive_client or UrllibOfficialArchiveClient(),
     )
+    if (
+        not official.areas
+        and configuration is not None
+        and configuration.official_area_index_url is not None
+        and validate_discovery_source_url(configuration.official_area_index_url)
+        != canonical_index
+    ):
+        # Older landing pages can be intermittently unavailable or omit their
+        # area-index link. The configured URL is an audited official source,
+        # not a guessed result URL, so it is a safe second official route.
+        configured_index = _discover_from_official_archive(
+            configuration.official_area_index_url,
+            archive_client or UrllibOfficialArchiveClient(),
+        )
+        official = _OfficialDiscovery(
+            configured_index.areas,
+            tuple((*official.attempts, *configured_index.attempts)),
+        )
     if official.areas:
-        return DiscoveryReport(canonical_index, official.areas, official.attempts)
+        if (
+            require_indexed_search
+            and configuration is not None
+            and configuration.expected_area_count is not None
+            and len(official.areas) != configuration.expected_area_count
+        ):
+            # Even an official response may be a transient or truncated page.
+            # The configured denominator prevents a partial page becoming a
+            # misleading complete election workbook.
+            raise IncompleteElectionDiscoveryError(
+                configuration.expected_area_count,
+                len(official.areas),
+            )
+        attempts = (
+            tuple((*indexed_audit.search_attempts, *official.attempts))
+            if indexed_audit is not None
+            else official.attempts
+        )
+        return DiscoveryReport(canonical_index, official.areas, attempts)
     # One unavailable or rejected link does not trigger a mixed-source result.
     # Fallback is used only after the complete official attempt has no accepted
     # areas, keeping the provenance of each discovery run unambiguous.
+    if indexed_audit is not None:
+        # Reuse the required indexed run rather than charging the user's API
+        # allowance for the same deterministic discovery queries twice.
+        fallback = DiscoveryReport(
+            canonical_index,
+            indexed_audit.areas,
+            tuple((*indexed_audit.search_attempts, *official.attempts)),
+        )
+        if (
+            configuration is not None
+            and configuration.expected_area_count is not None
+            and len(fallback.areas) != configuration.expected_area_count
+        ):
+            # A six-area search sample must never be presented as the complete
+            # 81-division election. Stop before extraction or workbook export.
+            raise IncompleteElectionDiscoveryError(
+                configuration.expected_area_count,
+                len(fallback.areas),
+            )
+        return fallback
     return _discover_from_indexed_search(canonical_index, provider, official.attempts)

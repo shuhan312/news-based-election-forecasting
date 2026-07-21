@@ -104,6 +104,17 @@ class _OfficialPageClient:
         return OfficialPageResponse(200, url, body)
 
 
+class _ProtectedOfficialPageClient:
+    """Represent the Incapsula page currently returned by the public site."""
+
+    def fetch(self, url: str) -> OfficialPageResponse:
+        return OfficialPageResponse(
+            200,
+            url,
+            "<html><title>Request unsuccessful</title><body>Incapsula</body></html>",
+        )
+
+
 def test_rejects_urls_outside_the_supported_surrey_result_pages() -> None:
     """Stop before provider access when the submitted URL is unsupported."""
 
@@ -172,16 +183,27 @@ def test_official_source_mode_uses_exact_tables_before_indexed_fallback(
     area = replace(_area(), election_name="County Council Election 2021")
     provider = MockSearchProvider({})
     archive_client = object()
+    discovery_modes = []
 
     def fake_discovery(
         index_url,
         search_provider,
         *,
         indexed_search_only=False,
+        require_indexed_search=False,
         archive_client=None,
     ):
-        assert indexed_search_only is False
-        assert archive_client is globals_archive_client
+        discovery_modes.append(indexed_search_only)
+        if indexed_search_only:
+            # After the zero-quota official check, indexed discovery remains
+            # present as the prompt requires, but it does not replace the
+            # complete official denominator.
+            assert require_indexed_search is False
+            assert archive_client is None
+        else:
+            assert require_indexed_search is True
+            assert archive_client is globals_archive_client
+            assert search_provider.provider_name == "ZeroQuotaPreflight"
         return DiscoveryReport(INDEX_URL, (area,), ())
 
     globals_archive_client = archive_client
@@ -194,15 +216,43 @@ def test_official_source_mode_uses_exact_tables_before_indexed_fallback(
         INDEX_URL,
         provider=provider,
         use_official_sources=True,
+        require_indexed_search=True,
         official_archive_client=archive_client,
         official_page_client=_OfficialPageClient(),
     )
 
-    assert provider.queries == []
+    # Search remains auditable, while the stronger official row supplies the
+    # values written to the workbook.
+    assert provider.queries == [build_extraction_query(area)]
+    assert discovery_modes == [False, True]
     assert result.complete == 1
     assert result.incomplete == 0
     assert result.failed == 0
     assert result.records[0].source_type.value == "official"
+
+
+def test_protected_official_page_switches_to_indexed_only_mode() -> None:
+    """Follow the required indexed route when ordinary official HTTP is blocked."""
+
+    provider = MockSearchProvider({})
+    progress = []
+
+    result = run_extraction_workflow(
+        RESULT_URL,
+        provider=provider,
+        use_official_sources=True,
+        require_indexed_search=True,
+        official_page_client=_ProtectedOfficialPageClient(),
+        run_targeted_searches=False,
+        progress_callback=progress.append,
+    )
+
+    # Preflight itself uses no provider call. The single recorded query is the
+    # prompt-required exact extraction that follows the mode decision.
+    assert len(provider.queries) == 1
+    assert f'"{RESULT_URL}"' in provider.queries[0]
+    assert any("indexed-only mode" in update.message for update in progress)
+    assert result.failed == 1
 
 
 def test_disabling_targeted_searches_runs_only_the_exact_url_query(monkeypatch) -> None:
@@ -214,10 +264,17 @@ def test_disabling_targeted_searches_runs_only_the_exact_url_query(monkeypatch) 
 
     # Isolate this test from live discovery while checking that the workflow
     # explicitly requests the supervisor-specified indexed-search path.
-    def fake_discovery(index_url, search_provider, *, indexed_search_only=False):
+    def fake_discovery(
+        index_url,
+        search_provider,
+        *,
+        indexed_search_only=False,
+        require_indexed_search=False,
+    ):
         assert index_url == INDEX_URL
         assert search_provider.provider_name == "MockSearchProvider"
         assert indexed_search_only is True
+        assert require_indexed_search is False
         return DiscoveryReport(INDEX_URL, (area,), ())
 
     monkeypatch.setattr(
@@ -245,7 +302,13 @@ def test_principal_election_landing_url_uses_both_discovery_routes(
         {build_extraction_query(area): (_candidate_result(),)}
     )
 
-    def fake_discovery(index_url, search_provider, *, indexed_search_only=False):
+    def fake_discovery(
+        index_url,
+        search_provider,
+        *,
+        indexed_search_only=False,
+        require_indexed_search=False,
+    ):
         # Discovery receives the original evidence URL. Its query builder is
         # responsible for adding the EID index as a second search route.
         assert index_url == SUPERVISOR_2021_URL
@@ -255,6 +318,7 @@ def test_principal_election_landing_url_uses_both_discovery_routes(
         )
         assert any(INDEX_URL in query for query in queries)
         assert indexed_search_only is True
+        assert require_indexed_search is False
         return DiscoveryReport(SUPERVISOR_2021_URL, (area,), ())
 
     monkeypatch.setattr(
@@ -339,7 +403,14 @@ def test_query_budget_stops_a_task_before_unbounded_targeted_searches(monkeypatc
     provider = MockSearchProvider({})
     area = _area()
 
-    def fake_discovery(index_url, search_provider, *, indexed_search_only=False):
+    def fake_discovery(
+        index_url,
+        search_provider,
+        *,
+        indexed_search_only=False,
+        require_indexed_search=False,
+    ):
+        assert require_indexed_search is False
         return DiscoveryReport(INDEX_URL, (area,), ())
 
     # An index area has ward/year metadata and therefore has eligible targeted

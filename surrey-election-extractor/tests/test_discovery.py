@@ -5,6 +5,7 @@ import httpx
 import pytest
 
 from election_extractor.discovery import (
+    IncompleteElectionDiscoveryError,
     OfficialArchiveResponse,
     area_name_status,
     build_search_queries,
@@ -288,7 +289,7 @@ def test_ward_names_are_extracted_from_mocked_results() -> None:
     areas_by_name = {area.division_ward_name: area for area in report.areas}
     assert set(areas_by_name) == {"Addlestone", "Ash"}
     assert areas_by_name["Addlestone"].election_year == 2021
-    assert areas_by_name["Addlestone"].election_name == ELECTION_NAME
+    assert areas_by_name["Addlestone"].election_name == "County Council Election 2021"
     assert areas_by_name["Addlestone"].discovery_status is DiscoveryStatus.DISCOVERED
 
 
@@ -309,7 +310,7 @@ def test_search_attempts_are_recorded() -> None:
         "completed",
         "completed",
     ]
-    assert [attempt.result_count for attempt in report.search_attempts] == [0, 1, 2, 0, 1]
+    assert [attempt.result_count for attempt in report.search_attempts] == [0, 1, 2, 0, 0]
 
 
 def test_url_normalisation_preserves_meaningful_parameters() -> None:
@@ -481,6 +482,20 @@ def official_area_index_page() -> str:
     """
 
 
+def complete_2021_area_index_page() -> str:
+    """Build the configured 81-division denominator used by hybrid tests."""
+
+    links = "".join(
+        f'<a href="mgElectionAreaResults.aspx?ID={1000 + number}">'
+        f"Division {number:02d}</a>"
+        for number in range(1, 82)
+    )
+    return (
+        "<html><body><h1>County Council Election 2021 - "
+        f"Thursday, 6 May 2021</h1>{links}</body></html>"
+    )
+
+
 def official_area_index_without_election_metadata() -> str:
     """Model a valid official area index whose visible text omits election labels."""
     return """
@@ -525,6 +540,94 @@ def test_official_archive_discovers_all_published_area_links_before_search() -> 
         attempt.rejection_reason == "duplicate_result_url"
         for attempt in report.search_attempts
     )
+
+
+def test_hybrid_discovery_audits_indexed_search_and_keeps_official_denominator() -> None:
+    """Do not lose official wards when the required search index is incomplete."""
+
+    client = MockOfficialArchiveClient(
+        {
+            ARCHIVE_URL: OfficialArchiveResponse(
+                200,
+                ARCHIVE_URL,
+                official_archive_without_election_metadata(),
+            ),
+            OFFICIAL_INDEX_URL: OfficialArchiveResponse(
+                200,
+                OFFICIAL_INDEX_URL,
+                complete_2021_area_index_page(),
+            ),
+        }
+    )
+    provider = MockSearchProvider({})
+
+    report = discover_election_areas(
+        ARCHIVE_URL,
+        provider,
+        archive_client=client,
+        require_indexed_search=True,
+    )
+
+    # Search remains a real, logged part of the application even when Google
+    # returns no result, while the official archive supplies the complete area
+    # denominator rather than shrinking the election to the indexed sample.
+    assert provider.queries
+    assert len(report.areas) == 81
+    assert report.areas[0].division_ward_name == "Division 01"
+    assert any(
+        attempt.discovery_method == "indexed_search"
+        for attempt in report.search_attempts
+    )
+    assert any(
+        attempt.discovery_method == "official_archive"
+        for attempt in report.search_attempts
+    )
+
+
+def test_hybrid_discovery_rejects_partial_search_fallback_for_known_election() -> None:
+    """Do not export a six-page search sample as an 81-division election."""
+
+    provider = mocked_provider()
+
+    with pytest.raises(IncompleteElectionDiscoveryError) as captured:
+        discover_election_areas(
+            ARCHIVE_URL,
+            provider,
+            archive_client=unavailable_archive_client(),
+            require_indexed_search=True,
+        )
+
+    assert captured.value.expected == 81
+    assert captured.value.discovered == 2
+
+
+def test_hybrid_discovery_retries_the_configured_official_area_index() -> None:
+    """Recover all divisions when the principal landing page is unavailable."""
+
+    configured_index = (
+        "https://mycouncil.surreycc.gov.uk/"
+        "mgElectionElectionAreaResults.aspx?EID=16"
+    )
+    client = MockOfficialArchiveClient(
+        {
+            ARCHIVE_URL: TimeoutError("landing page unavailable"),
+            configured_index: OfficialArchiveResponse(
+                200,
+                configured_index,
+                complete_2021_area_index_page(),
+            ),
+        }
+    )
+
+    report = discover_election_areas(
+        ARCHIVE_URL,
+        MockSearchProvider({}),
+        archive_client=client,
+        require_indexed_search=True,
+    )
+
+    assert len(report.areas) == 81
+    assert client.urls == [ARCHIVE_URL, configured_index]
 
 
 def test_valid_official_result_url_without_metadata_remains_discovered() -> None:
@@ -715,3 +818,29 @@ def test_2026_map_index_deduplicates_by_eid_and_id_not_id_alone() -> None:
         "EID=2007&ID=400",
         "EID=2037&ID=400",
     }
+
+
+def test_configured_inventory_preserves_all_81_principal_result_urls() -> None:
+    """Do not let partial Google indexing shrink a known principal election."""
+
+    provider = MockSearchProvider({})
+    report = discover_election_areas(
+        ARCHIVE_URL,
+        provider,
+        indexed_search_only=True,
+        allow_configured_inventory=True,
+    )
+
+    result_ids = {
+        int(area.result_url.split("ID=")[1].split("&")[0])
+        for area in report.areas
+    }
+    assert len(report.areas) == 81
+    assert result_ids == set(range(258, 339))
+    assert all(
+        area.discovery_method == "configured_official_result_inventory"
+        for area in report.areas
+    )
+    # Search was still attempted and remains in the audit; the inventory only
+    # protects the denominator and supplies no candidate values.
+    assert provider.queries

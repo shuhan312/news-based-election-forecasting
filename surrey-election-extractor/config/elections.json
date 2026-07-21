@@ -5,21 +5,36 @@
       "election_name": "Surrey County Council Election 2013",
       "election_year": 2013,
       "election_type": "County Council election",
-      "official_archive_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=5&RPID=0"
+      "official_archive_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=5&RPID=0",
+      "official_area_index_url": "https://mycouncil.surreycc.gov.uk/mgElectionElectionAreaResults.aspx?EID=5",
+      "expected_area_count": 81,
+      "result_id_start": 87,
+      "result_id_end": 167,
+      "excluded_result_ids": []
     },
     {
       "election_id": "surrey-county-council-2017",
       "election_name": "Surrey County Council Election 2017",
       "election_year": 2017,
       "election_type": "County Council election",
-      "official_archive_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=10&RPID=0"
+      "official_archive_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=10&RPID=0",
+      "official_area_index_url": "https://mycouncil.surreycc.gov.uk/mgElectionElectionAreaResults.aspx?EID=10",
+      "expected_area_count": 81,
+      "result_id_start": 173,
+      "result_id_end": 254,
+      "excluded_result_ids": [233]
     },
     {
       "election_id": "surrey-county-council-2021",
       "election_name": "County Council Election 2021",
       "election_year": 2021,
       "election_type": "County Council election",
-      "official_archive_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=16&RPID=0"
+      "official_archive_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=16&RPID=0",
+      "official_area_index_url": "https://mycouncil.surreycc.gov.uk/mgElectionElectionAreaResults.aspx?EID=16",
+      "expected_area_count": 81,
+      "result_id_start": 258,
+      "result_id_end": 338,
+      "excluded_result_ids": []
     },
     {
       "election_id": "surrey-county-council-2026-east-surrey",
