@@ -106,6 +106,42 @@ def test_by_election_interspersed_between_principal_elections_gets_its_own_fold(
     }
 
 
+def test_same_day_elections_do_not_train_on_each_other() -> None:
+    # Surrey has genuinely scheduled multiple by-elections on the same day
+    # (and the 2026 East/West Surrey unitary elections share a polling day).
+    # Neither of a same-day pair happened strictly before the other, so
+    # neither may appear in the other's training set, even though both are
+    # evaluable once a later, genuinely later-dated election exists.
+    features = (
+        _feature("e17", "2017", "4 May 2017", "area-a", "Party A"),
+        _feature("by-x", "by-x-2019", "10 October 2019", "area-x", "Party A"),
+        _feature("by-y", "by-y-2019", "10 October 2019", "area-y", "Party A"),
+        _feature("e21", "2021", "6 May 2021", "area-a", "Party A"),
+    )
+    targets = (
+        _target("e17", "Party A", 35.0, "Yes"),
+        _target("by-x", "Party A", 38.0, "Yes"),
+        _target("by-y", "Party A", 42.0, "Yes"),
+        _target("e21", "Party A", 40.0, "Yes"),
+    )
+
+    folds = iter_temporal_folds(features, targets)
+
+    fold_by_x = next(fold for fold in folds if fold.election_id == "by-x-2019")
+    fold_by_y = next(fold for fold in folds if fold.election_id == "by-y-2019")
+    assert {row["party_contest_id"] for row in fold_by_x.train_features} == {"e17"}
+    assert {row["party_contest_id"] for row in fold_by_y.train_features} == {"e17"}
+
+    # By 2021, both same-day by-elections are safely in the past and should
+    # both appear in the training set.
+    fold_2021 = next(fold for fold in folds if fold.election_id == "2021")
+    assert {row["party_contest_id"] for row in fold_2021.train_features} == {
+        "e17",
+        "by-x",
+        "by-y",
+    }
+
+
 def test_inconsistent_election_metadata_across_rows_is_rejected() -> None:
     # Two rows claiming to belong to the same election_id but disagreeing on
     # its date point to an upstream data-contract error; the fold builder

@@ -99,11 +99,23 @@ def iter_temporal_folds(
     ordered_election_ids = sorted(elections, key=lambda election_id: elections[election_id].date)
 
     folds: list[TemporalFold] = []
-    for position, election_id in enumerate(ordered_election_ids):
-        earlier_ids = frozenset(ordered_election_ids[:position])
+    for election_id in ordered_election_ids:
+        current_date = elections[election_id].date
+        # Two or more elections can share the same polling day - Surrey has
+        # scheduled several county by-elections together, and the 2026 East
+        # and West Surrey unitary elections were both held on 7 May 2026.
+        # "Earlier" is therefore decided by comparing dates directly, never
+        # by position in a list that only breaks same-day ties arbitrarily:
+        # same-day elections must not train on each other, even though a
+        # naive "everything before this list position" slice could
+        # accidentally place one before the other.
+        earlier_ids = frozenset(
+            other_id for other_id, info in elections.items() if info.date < current_date
+        )
         if not earlier_ids:
-            # Nothing happened before this election in the release, so there
-            # is no legitimate historical evidence to score it against.
+            # Nothing happened strictly before this election in the release,
+            # so there is no legitimate historical evidence to score it
+            # against.
             continue
         train_features = tuple(
             row for row in feature_rows if str(row["election_id"]) in earlier_ids
