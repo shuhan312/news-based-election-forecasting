@@ -39,6 +39,20 @@ where political identity cannot be transferred safely.
 See [`docs/persistence_benchmark.md`](docs/persistence_benchmark.md) for the
 methods, headline results and interpretation boundaries.
 
+## Non-geographic naive benchmarks
+
+`equal_share_reference_v1` and `party_historical_mean_reference_v1` provide
+two further parameter-free comparators that deliberately ignore area
+identity, so that `previous_result_persistence_v1`'s advantage (if any) can
+be attributed to genuine local information rather than to party identity
+alone. On the persistence benchmark's own 775/781-row cohorts, party identity
+alone (climatology) reaches 10.43 MAE percentage points against persistence's
+9.50, while an uninformed equal split reaches only 15.60 - area identity adds
+much less to the share estimate than it does to the winner call (67.2% vs
+80.5% area accuracy). See
+[`docs/naive_benchmarks.md`](docs/naive_benchmarks.md) for the full results
+and interpretation.
+
 ## Reproduction
 
 Run from the IRP repository root.
@@ -55,6 +69,13 @@ Then run the benchmark:
 ```bash
 PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python \
   surrey-election-no-news-baseline/scripts/run_persistence_benchmark.py
+```
+
+Run the naive non-geographic benchmarks with:
+
+```bash
+PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python \
+  surrey-election-no-news-baseline/scripts/run_naive_benchmarks.py
 ```
 
 Run its independent tests with:
@@ -101,9 +122,10 @@ recorded in [`docs/electoral_feature_release.md`](docs/electoral_feature_release
 
 ```text
 no_news_baseline/
+├── benchmark_metrics.py           # completed shared scoring functions
 ├── persistence_benchmark.py       # completed parameter-free benchmark
-├── naive_benchmarks.py            # next: non-geographic reference rules
-├── temporal_validation.py         # future rolling-origin evaluation
+├── naive_benchmarks.py            # completed non-geographic reference rules
+├── temporal_validation.py         # next: rolling-origin / leave-one-election-out evaluation
 ├── regularised_models.py          # future interpretable learned baselines
 └── uncertainty.py                 # future clustered/bootstrap intervals
 ```

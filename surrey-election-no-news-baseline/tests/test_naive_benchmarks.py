@@ -161,6 +161,47 @@ def test_climatology_winner_leaves_a_tied_area_unknown() -> None:
     assert by_id["tie-c"]["winner_prediction_correct"] is None
 
 
+def test_common_support_share_metrics_do_not_leak_in_winner_only_rows() -> None:
+    # persistence_benchmark's winner cohort is a strict superset of its share
+    # cohort (it does not require an approved lagged share). area-b below is
+    # winner-cohort-eligible but not share-cohort-eligible; the common-support
+    # SHARE row count must therefore come only from area-a, not from both
+    # areas combined, even though equal-share predicts a share for every row.
+    features = (
+        _feature("a-1", "2021", "6 May 2021", "area-a", "Party A"),
+        _feature("a-2", "2021", "6 May 2021", "area-a", "Party B"),
+        _feature(
+            "b-1",
+            "2021",
+            "6 May 2021",
+            "area-b",
+            "Party A",
+            baseline_eligibility="excluded_no_approved_exact_label_previous_party_share",
+        ),
+        _feature(
+            "b-2",
+            "2021",
+            "6 May 2021",
+            "area-b",
+            "Party B",
+            baseline_eligibility="excluded_no_approved_exact_label_previous_party_share",
+        ),
+    )
+    targets = (
+        _target("a-1", "Party A", 60.0, "Yes"),
+        _target("a-2", "Party B", 40.0, "No"),
+        _target("b-1", "Party A", 55.0, "Yes"),
+        _target("b-2", "Party B", 45.0, "No"),
+    )
+
+    _predictions, metrics, _audit = evaluate_equal_share_reference(features, targets)
+
+    common_support = metrics["common_support_with_persistence_benchmark"]
+    assert common_support["party_share_rows"] == 2
+    assert common_support["winner_party_rows_scored"] == 0
+    assert common_support["winner_party_rows_unscored"] == 4
+
+
 def test_common_support_tag_matches_persistence_cohort_definition() -> None:
     # A row outside persistence_benchmark's own cohort (no approved lagged
     # share) must be tagged False, so the common-support metric block can

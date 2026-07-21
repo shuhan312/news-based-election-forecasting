@@ -332,13 +332,24 @@ def _metrics_block(
     numbers. "common_support_with_persistence_benchmark" restricts scoring to
     the same rows persistence_benchmark itself scored, so the benchmarks can
     be read side by side (module docstring, "Common support").
+
+    The share half and the winner half are restricted separately, each to
+    persistence_benchmark's own respective cohort (775 vs 781 rows in the
+    live release - see docs/persistence_benchmark.md), rather than being
+    pooled into one combined row set first. persistence_benchmark's winner
+    cohort is a strict superset of its share cohort, so pooling them with an
+    "or" before scoring would silently let extra winner-cohort rows leak into
+    the share comparison and inflate its row count past 775.
     """
 
-    common_support_rows = [
-        row
-        for row in predictions
-        if row["within_persistence_share_cohort"] or row["within_persistence_winner_cohort"]
+    share_common_support = [
+        row for row in predictions if row["within_persistence_share_cohort"]
     ]
+    winner_common_support = [
+        row for row in predictions if row["within_persistence_winner_cohort"]
+    ]
+    common_support_metrics = share_metrics_for_predictions(share_common_support)
+    common_support_metrics.update(winner_metrics_for_predictions(winner_common_support))
     return {
         "benchmark_id": benchmark_id,
         "research_interpretation": research_interpretation,
@@ -352,7 +363,7 @@ def _metrics_block(
                 predictions, "election_type", _combined_metrics
             ),
         },
-        "common_support_with_persistence_benchmark": _combined_metrics(common_support_rows),
+        "common_support_with_persistence_benchmark": common_support_metrics,
     }
 
 
