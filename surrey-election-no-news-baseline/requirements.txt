@@ -1,1 +1,5 @@
+# numpy backs the linear algebra in regularised_models.py (ridge regression).
+# It is declared explicitly rather than relied on implicitly, so the fitted
+# no-news model is reproducible from a clean environment.
+numpy>=1.26,<3
 pytest>=8,<9
