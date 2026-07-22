@@ -30,7 +30,7 @@ without re-deriving them.
 
 from __future__ import annotations
 
-from collections.abc import Iterable, Mapping
+from collections.abc import Iterable, Mapping, Sequence
 
 from no_news_baseline.benchmark_metrics import share_metrics_for_predictions
 from no_news_baseline.naive_benchmarks import (
@@ -45,6 +45,7 @@ def compare_models_on_common_support(
     features: Iterable[Mapping[str, object]],
     targets: Iterable[Mapping[str, object]],
     l2_penalty: float = 1.0,
+    additional_models: Mapping[str, Sequence[Mapping[str, object]]] | None = None,
 ) -> dict[str, object]:
     """Score every no-news model on the contests all of them predicted.
 
@@ -53,6 +54,11 @@ def compare_models_on_common_support(
     produced a numeric share prediction for, so the shared set is the
     intersection of every model's own predicted contests; reporting that count
     makes the comparison's scope explicit rather than implied.
+
+    ``additional_models`` lets a later model (N4's cold-start baseline) join
+    the same intersection-based comparison with its already-computed
+    predictions, without this module re-running or hardcoding it. Passing
+    extra models can only shrink or keep the shared set, never inflate it.
     """
 
     feature_rows = list(features)
@@ -72,12 +78,17 @@ def compare_models_on_common_support(
         feature_rows, target_rows
     )
 
-    predictions_by_model = {
+    predictions_by_model: dict[str, Sequence[Mapping[str, object]]] = {
         "ridge_fundamentals_v1": ridge_predictions,
         "previous_result_persistence_v1": persistence_predictions,
         "equal_share_reference_v1": equal_share_predictions,
         "party_historical_mean_reference_v1": party_mean_predictions,
     }
+    if additional_models:
+        overlap = set(additional_models) & set(predictions_by_model)
+        if overlap:
+            raise ValueError(f"Additional models would overwrite core models: {sorted(overlap)!r}")
+        predictions_by_model.update(additional_models)
 
     # A contest counts as shared only if every model produced a numeric share
     # prediction for it. Building the intersection this way means no model is

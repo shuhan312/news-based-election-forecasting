@@ -287,6 +287,37 @@ def test_coverage_denominators_are_target_universe_vs_eligibility_conditioned() 
     assert summary["eligibility_conditioned_coverage"] == 1.0
 
 
+def test_valid_prediction_with_undefined_target_counts_for_coverage_not_mae() -> None:
+    # A model can validly predict a contest whose actual share is undefined
+    # (N4 on multi-member wards). The row must count toward coverage but be
+    # excluded from MAE - and must not crash the summary.
+    universe, _f, _t = _small_universe()
+    predictions_by_model = {
+        N0: (),
+        N1: (),
+        N2: (
+            {"party_contest_id": "a", "predicted_party_vote_share": 55.0},
+        ),
+        N3: (),
+    }
+
+    rows, _report = build_prediction_coverage_table(universe, predictions_by_model)
+    # Simulate the undefined-target case directly on the joined row: the
+    # prediction is valid but no error could be computed.
+    for row in rows:
+        if row["party_contest_id"] == "a" and row["model_id"] == N2:
+            row["actual_party_vote_share"] = None
+            row["share_error"] = None
+            row["absolute_share_error"] = None
+            row["squared_share_error"] = None
+
+    summary = summarise_coverage(rows)[N2]["overall"]
+
+    assert summary["valid_prediction_count"] == 1
+    assert summary["share_scored_row_count"] == 0
+    assert summary["own_covered_sample_mae"] is None
+
+
 def test_cohort_specific_summary_isolates_each_cohort() -> None:
     # Row "a" is historical_continuity, row "b" is geographically_non_
     # comparable; the cohort-level summaries must not mix them.

@@ -110,6 +110,8 @@ def run_all_models_and_build_coverage_table(
 def build_prediction_coverage_table(
     universe: Sequence[Mapping[str, object]],
     predictions_by_model: Mapping[str, Sequence[Mapping[str, object]]],
+    model_ids: Sequence[str] = MODEL_IDS,
+    eligibility_field_by_model: Mapping[str, str] = ELIGIBILITY_FIELD_BY_MODEL,
 ) -> tuple[tuple[dict[str, object], ...], dict[str, object]]:
     """Join a pre-built universe to already-computed model predictions.
 
@@ -118,6 +120,10 @@ def build_prediction_coverage_table(
     deliberately malformed prediction lists, without needing the real
     benchmarks (which already refuse to produce malformed output) to be
     coerced into an invalid state.
+
+    ``model_ids``/``eligibility_field_by_model`` default to the frozen N0-N3
+    set; a later model (N4's cold-start baseline) passes an extended mapping
+    instead of this module hardcoding every future model.
     """
 
     universe_by_id = {str(row["party_contest_id"]): row for row in universe}
@@ -126,7 +132,7 @@ def build_prediction_coverage_table(
 
     prediction_index_by_model: dict[str, dict[str, Mapping[str, object]]] = {}
     mismatches: list[dict[str, object]] = []
-    for model_id in MODEL_IDS:
+    for model_id in model_ids:
         predictions = predictions_by_model.get(model_id, ())
         index, model_mismatches = _index_predictions(model_id, predictions, universe_by_id)
         prediction_index_by_model[model_id] = index
@@ -134,17 +140,21 @@ def build_prediction_coverage_table(
 
     rows: list[dict[str, object]] = []
     for party_contest_id, universe_row in universe_by_id.items():
-        for model_id in MODEL_IDS:
+        for model_id in model_ids:
             rows.append(
                 _classify_one_row(
                     model_id=model_id,
                     universe_row=universe_row,
                     prediction=prediction_index_by_model[model_id].get(party_contest_id),
+                    eligibility_field=eligibility_field_by_model[model_id],
                 )
             )
         mismatches.extend(
             _ineligible_but_predicted_mismatches(
-                party_contest_id, universe_row, prediction_index_by_model
+                party_contest_id,
+                universe_row,
+                prediction_index_by_model,
+                eligibility_field_by_model,
             )
         )
 
@@ -201,8 +211,9 @@ def _classify_one_row(
     model_id: str,
     universe_row: Mapping[str, object],
     prediction: Mapping[str, object] | None,
+    eligibility_field: str,
 ) -> dict[str, object]:
-    eligible = bool(universe_row[ELIGIBILITY_FIELD_BY_MODEL[model_id]])
+    eligible = bool(universe_row[eligibility_field])
     present = prediction is not None
     predicted_value = prediction.get("predicted_party_vote_share") if present else None
     valid = predicted_value is not None
@@ -255,10 +266,11 @@ def _ineligible_but_predicted_mismatches(
     party_contest_id: str,
     universe_row: Mapping[str, object],
     prediction_index_by_model: Mapping[str, Mapping[str, Mapping[str, object]]],
+    eligibility_field_by_model: Mapping[str, str] = ELIGIBILITY_FIELD_BY_MODEL,
 ) -> list[dict[str, object]]:
     found: list[dict[str, object]] = []
-    for model_id in MODEL_IDS:
-        eligible = bool(universe_row[ELIGIBILITY_FIELD_BY_MODEL[model_id]])
+    for model_id in prediction_index_by_model:
+        eligible = bool(universe_row[eligibility_field_by_model[model_id]])
         predicted = prediction_index_by_model[model_id].get(party_contest_id)
         # As in _classify_one_row: only an actual claimed share value counts
         # as a violation. A present-but-null entry (e.g. persistence tracking
@@ -302,18 +314,29 @@ def _cohort_summary(rows: Sequence[Mapping[str, object]]) -> dict[str, object]:
     target_count = len(rows)
     eligible_count = sum(row["theoretically_eligible"] for row in rows)
     valid_count = sum(row["prediction_valid"] for row in rows)
-    valid_rows = [row for row in rows if row["prediction_valid"]]
+    # A valid prediction and a scorable prediction are not the same thing.
+    # N4 (cold start) validly predicts multi-member contests whose actual
+    # party share is undefined by design, so those rows count toward
+    # COVERAGE but carry no error value and must not enter the MAE - and
+    # must not crash it either. For N0-N3 the two sets coincide, so this
+    # distinction changes none of their previously reported numbers.
+    scored_rows = [
+        row
+        for row in rows
+        if row["prediction_valid"] and row["absolute_share_error"] is not None
+    ]
     return {
         "target_count": target_count,
         "theoretically_eligible_count": eligible_count,
         "valid_prediction_count": valid_count,
+        "share_scored_row_count": len(scored_rows),
         "target_universe_coverage": (
             valid_count / target_count if target_count else None
         ),
         "eligibility_conditioned_coverage": (
             valid_count / eligible_count if eligible_count else None
         ),
-        "own_covered_sample_mae": share_metrics_for_predictions(valid_rows)[
+        "own_covered_sample_mae": share_metrics_for_predictions(scored_rows)[
             "party_share_mae_percentage_points"
         ],
     }
