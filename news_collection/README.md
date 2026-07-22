@@ -10,7 +10,7 @@ rebuilt.
 |---|---|
 | `query_inventory.csv` | The complete deterministic query inventory (2,495 queries, stages A–M). Regenerate with `python3 -m src.news_collection.build_query_inventory`. |
 | `search_log.csv` | Append-only log: one row per executed search, including zero-result and failed searches (protocol §5.3). |
-| `checkpoints/completed_queries.json` | Resumability: query IDs already executed; delete a query ID to force re-execution (which appends a new log row). |
+| `checkpoints/completed_queries.json` | Resumability: query IDs already executed (local-only, gitignored — it is runtime state, fully derivable from `search_log.csv`); delete a query ID to force re-execution (which appends a new log row). |
 | `collection_diagnostics.json` | Corpus statistics + schema re-validation results. Regenerate with `python3 -m src.news_collection.make_collection_report`. |
 | `raw_news_collection_report.md` | The stage report: what ran, what it found, unresolved issues, recommendations. |
 
