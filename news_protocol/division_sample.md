@@ -7,29 +7,32 @@
 
 - Safe: 2021 winning margin >= 20.0 percentage points
 - Marginal: 2021 winning margin <= 5.0 percentage points
-- Changed: 2021 and 2026 winning parties differ (2026 ward boundaries; crosswalk to 2021 divisions pending)
-- Reform strong: highest 2026 Reform UK vote shares
-- Reform weak/absent: Reform UK not contesting in 2026, matched against 2021 established-party strength (contrast case for the momentum-vs-conversion question)
+- Changed: 2021 and 2026 winning parties differ, restricted to the 24 division/ward pairs the project's GIS-based geographic crosswalk classifies as an 'exact' match (see surrey-election-extractor/outputs/geographic_crosswalk_resolution/) - pairs that were split, merged, or uncertain are excluded rather than approximately matched
+- Reform strong: highest 2026 Reform UK vote shares (no crosswalk needed - a fact about the 2026 ward alone)
+- Reform weak/absent: Reform UK not contesting in 2026, matched via the same 'exact' crosswalk against 2021 established-party strength (contrast case for the momentum-vs-conversion question)
 - Per stratum: top 5 by rank (deterministic sort, no randomness); overlaps deduplicated; total constrained to 15-25 divisions
 
-## Result: 10 divisions selected (2026 data not yet available - Changed and Reform strata pending, see note below)
+## Result: 17 divisions selected
 
 | Division | Strata (selection evidence) |
 |---|---|
-| Banstead, Woodmansterne and Chipstead | **Safe** - 2021 winning margin 52.8pp (Conservative held) >= 20.0pp threshold |
-| Caterham Hill | **Marginal** - 2021 winning margin 2.1pp (Conservative) <= 5.0pp threshold |
-| Epsom Town and Downs | **Marginal** - 2021 winning margin 0.1pp (Residents Association) <= 5.0pp threshold |
-| Ewell Court, Auriol and Cuddington | **Safe** - 2021 winning margin 52.4pp (Residents Association held) >= 20.0pp threshold |
-| Farnham Central | **Safe** - 2021 winning margin 44.8pp (Farnham Residents held) >= 20.0pp threshold |
+| Addlestone Ward | **Reform strong** - 2026 Reform UK vote share 17.0% |
+| Ashtead Ward | **Changed** - GIS-verified exact match to 2021 division 'Ashtead': winner Ashtead Independent -> Ashtead Independent, working with Ashtead Residents in 2026 (source: geographic_crosswalk_resolution/final_direct_mapping_dataset.json, relationship_type=exact) |
+| Bagshot, Windlesham & Chobham Ward | **Changed** - GIS-verified exact match to 2021 division 'Bagshot, Windlesham and Chobham': winner Conservative -> Liberal Democrats in 2026 (source: geographic_crosswalk_resolution/final_direct_mapping_dataset.json, relationship_type=exact) |
+| Banstead, Woodmansterne & Chipstead Ward | **Safe** - 2021 winning margin 52.8pp (Conservative held) >= 20.0pp threshold |
+| Caterham Hill Ward | **Marginal** - 2021 winning margin 2.1pp (Conservative) <= 5.0pp threshold; **Changed** - GIS-verified exact match to 2021 division 'Caterham Hill': winner Conservative -> Liberal Democrats in 2026 (source: geographic_crosswalk_resolution/final_direct_mapping_dataset.json, relationship_type=exact) |
+| Epsom Town & Downs Ward | **Marginal** - 2021 winning margin 0.1pp (Residents Association) <= 5.0pp threshold; **Changed** - GIS-verified exact match to 2021 division 'Epsom Town and Downs': winner Residents Association -> Liberal Democrats in 2026 (source: geographic_crosswalk_resolution/final_direct_mapping_dataset.json, relationship_type=exact) |
+| Ewell Court, Auriol & Cuddington Ward | **Safe** - 2021 winning margin 52.4pp (Residents Association held) >= 20.0pp threshold; **Changed** - GIS-verified exact match to 2021 division 'Ewell Court, Auriol and Cuddington': winner Residents Association -> Residents Associations of Epsom and Ewell in 2026 (source: geographic_crosswalk_resolution/final_direct_mapping_dataset.json, relationship_type=exact) |
+| Farnham Central Ward | **Safe** - 2021 winning margin 44.8pp (Farnham Residents held) >= 20.0pp threshold |
 | Guildford East | **Marginal** - 2021 winning margin 1.8pp (Liberal Democrats) <= 5.0pp threshold |
-| Lower Sunbury and Halliford | **Marginal** - 2021 winning margin 0.7pp (Conservative) <= 5.0pp threshold |
+| Horley West, Salfords & Sidlow Ward | **Reform strong** - 2026 Reform UK vote share 17.0% |
+| Lingfield Ward | **Reform strong** - 2026 Reform UK vote share 19.0% |
+| Lower Sunbury & Halliford Ward | **Marginal** - 2021 winning margin 0.7pp (Conservative) <= 5.0pp threshold |
 | Redhill East | **Safe** - 2021 winning margin 44.3pp (Green held) >= 20.0pp threshold |
 | Shere | **Marginal** - 2021 winning margin 1.8pp (Conservative) <= 5.0pp threshold |
+| Stanwell, Stanwell Moor & Ashford North Ward | **Reform strong** - 2026 Reform UK vote share 20.0% |
 | Tadworth, Walton and Kingswood | **Safe** - 2021 winning margin 58.9pp (Conservative held) >= 20.0pp threshold |
-
-## Outstanding: 2026 data dependency
-
-`data/elections/2026_east_surrey_results.csv` and `2026_west_surrey_results.csv` do not exist yet. Run `python3 src/fetch_2026_surrey_results.py` to produce them, then re-run this script (`python3 src/build_division_sample.py`) to populate the Changed and Reform strata and finalise the sample.
+| Thorpe, Longcross & Ottershaw Ward | **Reform strong** - 2026 Reform UK vote share 17.0% |
 
 ## Confirmation needed from supervisor
 

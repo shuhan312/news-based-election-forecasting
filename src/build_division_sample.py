@@ -40,7 +40,29 @@ Inputs (all already-completed, committed components - read-only):
   data/elections/2026_west_surrey_results.csv
                                           2026 candidate-level results
                                           (produced by
-                                          fetch_2026_surrey_results.py)
+                                          src/convert_2026_extractor_output.py
+                                          from the already-validated,
+                                          SerpAPI-based extraction in
+                                          surrey-election-extractor/ -
+                                          a direct scrape of the council
+                                          site was tried first and
+                                          abandoned after it was blocked
+                                          by the site's anti-bot
+                                          protection even with retries)
+  surrey-election-extractor/outputs/geographic_crosswalk_resolution/
+    final_direct_mapping_dataset.json    the ONLY 2021-division-to-2026-
+                                          ward pairs with a verified,
+                                          GIS-area-overlap "exact"
+                                          correspondence (24 of 93 2021
+                                          divisions). The Changed stratum
+                                          is restricted to these pairs -
+                                          matching by ward NAME alone
+                                          would be unsound because the
+                                          2026 elections used new
+                                          boundaries the supervisor
+                                          explicitly warned must not be
+                                          conflated with the old
+                                          divisions without a crosswalk.
 
 Output:
   news_protocol/division_sample.md       the committed sampling record
@@ -50,12 +72,16 @@ Usage:
 """
 
 import csv
+import json
 from collections import defaultdict
 from pathlib import Path
 
 WARD_WINNERS = Path("data/elections/ward_winners.csv")
 RESULTS_2026 = [Path("data/elections/2026_east_surrey_results.csv"),
                 Path("data/elections/2026_west_surrey_results.csv")]
+EXACT_CROSSWALK = Path(
+    "surrey-election-extractor/outputs/geographic_crosswalk_resolution/"
+    "final_direct_mapping_dataset.json")
 OUT = Path("news_protocol/division_sample.md")
 
 # Pre-registered numeric thresholds. Fixed BEFORE inspecting results,
@@ -68,6 +94,9 @@ SAFE_MARGIN_PP = 20.0        # winning margin, percentage points
 MARGINAL_MARGIN_PP = 5.0
 PER_STRATUM_TARGET = 5       # divisions drawn per stratum before dedup
 TOTAL_RANGE = (15, 25)       # supervisor's required sample size
+OVERLAP_RATIO_MIN = 0.99     # GIS area-overlap floor for treating a
+                             # 2021 division and a 2026 ward as the same
+                             # ground (see load_exact_crosswalk)
 
 
 def load_2021_margins():
@@ -110,27 +139,85 @@ def load_2026_results():
     return rows
 
 
+def load_exact_crosswalk():
+    """The subset of the project's GIS-based geographic crosswalk safe
+    for direct 2021-vs-2026 winner comparison: relationship_type
+    'exact' or 'near_exact'. Both labels describe (near-)complete
+    boundary coincidence - checked directly against the underlying
+    area-overlap ratios rather than trusting the label wording alone:
+    every row in this file (both 'exact' and 'near_exact') has both
+    source and target overlap ratios above OVERLAP_RATIO_MIN, i.e. the
+    2021 division and the 2026 ward occupy, in practice, the same
+    ground. This file is a curated subset the project's own crosswalk
+    methodology already separated from the other two outputs it
+    produces: analytical_crosswalk_dataset.json (split/merged/uncertain
+    boundaries - no single 2026 ward corresponds to the old division)
+    and not_comparable_dataset.json. Only this file's rows are used
+    here; the other two are not read by this script at all.
+
+    Returns {2021 division name (as in ward_winners.csv):
+             2026 ward name (as in the converted results CSVs)}.
+
+    Name normalisation is applied only to the join keys, not to
+    establish which pairs correspond - that correspondence is the
+    crosswalk's own GIS-verified finding. The crosswalk stores the 2021
+    side as "<name> ED" and the 2026 side without the 2026 workbooks'
+    " Ward" suffix; stripping/adding those fixed suffixes is the only
+    transformation applied.
+    """
+    if not EXACT_CROSSWALK.exists():
+        return {}
+    pairs = json.loads(EXACT_CROSSWALK.read_text())
+    mapping = {}
+    for r in pairs:
+        if r.get("relationship_type") not in ("exact", "near_exact"):
+            continue
+        if (r["source_overlap_ratio"] < OVERLAP_RATIO_MIN
+                or r["target_overlap_ratio"] < OVERLAP_RATIO_MIN):
+            continue
+        prev = r["previous_area_name"].removesuffix(" ED")
+        curr = r["current_area_name"] + " Ward"
+        mapping[prev] = curr
+    return mapping
+
+
 def ward_2026_summary(rows_2026):
-    """Per ward: winning party (by top vote share among candidates) and
-    Reform UK's vote share (0 if it did not stand). 2026 wards are
-    two-member and on new boundaries, so this is keyed by the 2026
-    ward name only - matching to 2021 divisions is a separate,
-    already-flagged crosswalk task, not done here (see notes in the
-    output file)."""
+    """Per ward: winning party and Reform UK's vote share (0 if it did
+    not stand). Keyed by the 2026 ward name as published; comparison
+    against 2021 divisions is done separately in build() via the
+    verified exact crosswalk, never by assuming a 2026 ward name equals
+    a 2021 division name.
+
+    Column names here MUST match convert_2026_extractor_output.py's
+    OUTPUT_COLUMNS exactly (party_canonical/party_raw/
+    candidate_vote_share/candidate_rank) - an earlier version of this
+    function used different column names (standardised_party/party/
+    vote_share) that simply do not exist in the actual CSV. That typo
+    did not raise an error (dict.get() on a missing key just returns
+    None), it silently made every ward look like "Reform did not
+    stand" and "no winning party found", which would have poisoned the
+    Changed and Reform-strong strata with false results. Caught by
+    checking the Reform-strong stratum was suspiciously empty even
+    though the conversion log showed 162 Reform UK candidate rows.
+    """
     by_ward = defaultdict(list)
     for r in rows_2026:
         by_ward[r["ward"]].append(r)
     summary = {}
     for ward, cands in by_ward.items():
-        cands_sorted = sorted(cands, key=lambda c: float(c.get("vote_share") or 0),
-                              reverse=True)
+        # Reuse the rank already computed (from the published vote
+        # count) by the converter, rather than re-deriving it here from
+        # a percentage string - one source of truth for "who won".
+        winner = next((c for c in cands
+                       if str(c.get("candidate_rank")) == "1"), None)
         reform = [c for c in cands if "reform" in
-                 (c.get("standardised_party") or c.get("party") or "").lower()]
-        reform_share = max((float(c.get("vote_share") or 0) for c in reform),
-                           default=0.0)
+                 (c.get("party_canonical") or c.get("party_raw") or "").lower()]
+        reform_share = max(
+            (float(c["candidate_vote_share"]) for c in reform
+             if c.get("candidate_vote_share")), default=0.0)
         summary[ward] = {
-            "winning_party": cands_sorted[0].get("standardised_party")
-                            or cands_sorted[0].get("party") if cands_sorted else None,
+            "winning_party": (winner.get("party_canonical")
+                              or winner.get("party_raw")) if winner else None,
             "reform_vote_share": reform_share,
             "reform_stood": bool(reform),
         }
@@ -174,26 +261,33 @@ def build():
             f"2021 winning margin {m['margin_pp']:.1f}pp "
             f"({m['winning_party']}) <= {MARGINAL_MARGIN_PP}pp threshold")
 
-    # --- Changed / Reform strata: need 2026 data ----------------------
-    # 2026 wards use new two-member boundaries not yet crosswalked to
-    # 2021 divisions (protocol note: "should not combine them until the
-    # old divisions have been mapped against the new wards"). Until
-    # that crosswalk exists, these two strata are populated on 2026
-    # ward identity alone and flagged as boundary-pending; the sample
-    # still fixes WHICH 2026 wards are in scope, which is what unblocks
-    # local-news collection for the 2026 election regardless of the
-    # crosswalk timeline.
+    # --- Changed stratum: 2021 winner vs 2026 winner, GIS-verified pairs only ---
+    # Restricted to the 24 division/ward pairs the project's own
+    # geographic crosswalk classifies "exact" (see load_exact_crosswalk
+    # docstring). A division that was split or merged into new
+    # boundaries has no single comparable 2026 winner, so it is simply
+    # not eligible for this stratum rather than force-matched by name.
+    exact_crosswalk = load_exact_crosswalk()
     if summary_2026:
-        changed_pool = {w: s for w, s in summary_2026.items()
-                        if s["winning_party"]
-                        and w in margins
-                        and s["winning_party"] != margins[w]["winning_party"]}
+        changed_pool = {}
+        for division_2021, ward_2026 in exact_crosswalk.items():
+            if division_2021 not in margins or ward_2026 not in summary_2026:
+                continue
+            prev_winner = margins[division_2021]["winning_party"]
+            curr = summary_2026[ward_2026]
+            if curr["winning_party"] and curr["winning_party"] != prev_winner:
+                changed_pool[ward_2026] = {
+                    "prev_division": division_2021,
+                    "prev_winner": prev_winner,
+                    "curr_winner": curr["winning_party"],
+                }
         for ward, s in sorted(changed_pool.items())[:PER_STRATUM_TARGET]:
             add(ward, "Changed",
-                f"2021 winner {margins[ward]['winning_party']} -> "
-                f"2026 winner {s['winning_party']} "
-                "[BOUNDARY-PENDING: 2026 ward vs 2021 division crosswalk "
-                "not yet applied]")
+                f"GIS-verified exact match to 2021 division "
+                f"'{s['prev_division']}': winner {s['prev_winner']} -> "
+                f"{s['curr_winner']} in 2026 "
+                "(source: geographic_crosswalk_resolution/"
+                "final_direct_mapping_dataset.json, relationship_type=exact)")
 
         reform_pool = {w: s for w, s in summary_2026.items() if s["reform_stood"]}
         for ward, s in select(reform_pool, lambda s: s["reform_vote_share"],
@@ -206,22 +300,54 @@ def build():
         # (a genuine contrast case: national momentum present, but a
         # ward where it evidently has not organised locally - directly
         # serving the supervisor's momentum-vs-conversion question).
-        # Ranked directly (not via select()) because the sort key lives
-        # in shares_2021, keyed by ward, not in summary_2026's values.
-        absent_wards = [w for w in summary_2026
-                       if not summary_2026[w]["reform_stood"] and w in shares_2021]
-        ranked_absent = sorted(absent_wards,
-                               key=lambda w: (-shares_2021[w]["share"], w))
-        for ward in ranked_absent[:PER_STRATUM_TARGET]:
-            s = shares_2021[ward]
+        # Same exact-crosswalk restriction as the Changed stratum above:
+        # a 2026 ward's name is never looked up directly against
+        # shares_2021 (which is keyed by 2021 division names and would
+        # essentially never match, since 2026 names carry a " Ward"
+        # suffix 2021 division names do not - matching on GIS-verified
+        # pairs avoids relying on that coincidence).
+        absent_pairs = [(ward_2026, division_2021)
+                        for division_2021, ward_2026 in exact_crosswalk.items()
+                        if ward_2026 in summary_2026
+                        and not summary_2026[ward_2026]["reform_stood"]
+                        and division_2021 in shares_2021]
+        ranked_absent = sorted(absent_pairs,
+                               key=lambda p: (-shares_2021[p[1]]["share"], p[0]))
+        for ward, division_2021 in ranked_absent[:PER_STRATUM_TARGET]:
+            s = shares_2021[division_2021]
             add(ward, "Reform weak/absent",
-                f"Reform UK not standing in 2026; 2021 incumbent "
-                f"{shares_2021[ward]['party']} held "
-                f"{shares_2021[ward]['share']:.1f}% "
-                "[BOUNDARY-PENDING: 2026 ward vs 2021 division crosswalk "
-                "not yet applied]")
+                f"Reform UK not standing in 2026; GIS-verified exact "
+                f"match to 2021 division '{division_2021}', where "
+                f"{s['party']} held {s['share']:.1f}% in 2021 "
+                "(source: geographic_crosswalk_resolution/"
+                "final_direct_mapping_dataset.json, relationship_type=exact)")
 
-    return selected, bool(summary_2026)
+    return reconcile_aliases(selected, exact_crosswalk), bool(summary_2026)
+
+
+def reconcile_aliases(selected, exact_crosswalk):
+    """Merge entries that are the same physical ground under two
+    different names - a 2021 division name from the Safe/Marginal
+    strata and its GIS-verified 2026 ward name from the Changed/Reform
+    strata (e.g. 'Caterham Hill' and 'Caterham Hill Ward'). Without
+    this step the sample would double-count such wards and Stage C
+    would search news for the same place twice under two labels.
+
+    The 2026 ward name is kept as the canonical key (it is what the
+    news-collection queries and the 2026 results CSVs use going
+    forward); the evidence from both names' strata is combined under
+    it, and which original name each piece of evidence came from is
+    kept in the evidence text itself (already the case, since each
+    evidence string names its own source year).
+    """
+    merged = {}
+    for name, entries in selected.items():
+        canonical = exact_crosswalk.get(name, name)   # 2021 name -> 2026 name if known
+        merged.setdefault(canonical, [])
+        for entry in entries:
+            if entry not in merged[canonical]:
+                merged[canonical].append(entry)
+    return merged
 
 
 def write_report(selected, has_2026):
@@ -242,12 +368,18 @@ def write_report(selected, has_2026):
         "",
         f"- Safe: 2021 winning margin >= {SAFE_MARGIN_PP} percentage points",
         f"- Marginal: 2021 winning margin <= {MARGINAL_MARGIN_PP} percentage points",
-        "- Changed: 2021 and 2026 winning parties differ (2026 ward "
-        "boundaries; crosswalk to 2021 divisions pending)",
-        "- Reform strong: highest 2026 Reform UK vote shares",
+        "- Changed: 2021 and 2026 winning parties differ, restricted to "
+        "the 24 division/ward pairs the project's GIS-based geographic "
+        "crosswalk classifies as an 'exact' match (see "
+        "surrey-election-extractor/outputs/geographic_crosswalk_resolution/) "
+        "- pairs that were split, merged, or uncertain are excluded "
+        "rather than approximately matched",
+        "- Reform strong: highest 2026 Reform UK vote shares (no "
+        "crosswalk needed - a fact about the 2026 ward alone)",
         "- Reform weak/absent: Reform UK not contesting in 2026, "
-        "matched against 2021 established-party strength (contrast "
-        "case for the momentum-vs-conversion question)",
+        "matched via the same 'exact' crosswalk against 2021 "
+        "established-party strength (contrast case for the "
+        "momentum-vs-conversion question)",
         f"- Per stratum: top {PER_STRATUM_TARGET} by rank (deterministic "
         "sort, no randomness); overlaps deduplicated; total constrained "
         f"to {TOTAL_RANGE[0]}-{TOTAL_RANGE[1]} divisions",
@@ -270,8 +402,9 @@ def write_report(selected, has_2026):
             "",
             "`data/elections/2026_east_surrey_results.csv` and "
             "`2026_west_surrey_results.csv` do not exist yet. Run "
-            "`python3 src/fetch_2026_surrey_results.py` to produce "
-            "them, then re-run this script (`python3 "
+            "`python3 src/convert_2026_extractor_output.py` to produce "
+            "them from the already-validated SerpAPI-based extraction, "
+            "then re-run this script (`python3 "
             "src/build_division_sample.py`) to populate the Changed "
             "and Reform strata and finalise the sample.",
         ]
