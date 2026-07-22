@@ -2,4 +2,8 @@
 # It is declared explicitly rather than relied on implicitly, so the fitted
 # no-news model is reproducible from a clean environment.
 numpy>=1.26,<3
+# numpyro (with its jax backend) provides the NUTS sampler and convergence
+# diagnostics for the N5a hierarchical Dirichlet model. Declared for the
+# same reproducibility reason; everything before N5a runs without it.
+numpyro>=0.21,<1
 pytest>=8,<9

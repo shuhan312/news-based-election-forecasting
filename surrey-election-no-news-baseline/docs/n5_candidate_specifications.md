@@ -18,7 +18,7 @@ independent observations. The audit finds 258 usable closed compositions
 (1,139 party rows); the 81 multi-member 2026 contests are excluded because
 their party-share estimand is undefined, not missing.
 
-## N5a — minimum viable specification (recommended)
+## N5a — the specified model
 
 - **Likelihood**: contest-level Dirichlet over the S_c contesting parties'
   share vector, alternative-mean parameterisation
@@ -62,17 +62,13 @@ their party-share estimand is undefined, not missing.
   non-identifiability requiring a reference-party or sum-to-zero
   constraint on alpha; small-sample MCMC cost is minor (258 contests).
 
-## N5b — N5a plus a limited area effect (conditionally supported)
-
-The audit is favourable: 81 of 83 audited areas have 3+ usable, safely
-linked compositions (stable 2013-2021 division geography). N5b adds
-delta_a ~ Normal(0, sigma_area) for those 81 areas only; the 2 single-
-observation areas and every 2026 ward take delta = 0 with the area term
-recorded as unavailable. Risk: with only 3-4 observations per area,
-sigma_area and phi compete to explain contest-level dispersion —
-convergence diagnostics must be watched specifically for this pair. N5b
-must be fitted only if N5a converges cleanly, and compared on identical
-folds.
+An area-level random effect was considered against the area audit and
+not pursued: with only 3-4 observations per area its variance would
+compete with the global precision to explain contest-level dispersion,
+and the existing local-history predictor already carries most area
+information (the four-model comparison showed area identity adds under
+one MAE point over party identity alone). The area audit remains on
+record as the evidence behind that decision.
 
 ## Temporal validation design (binding on any future implementation)
 
