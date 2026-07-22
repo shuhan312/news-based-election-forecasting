@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "raw_news_schema.json",
+  "title": "Raw retrieved news article (pre-deduplication, pre-LLM)",
+  "description": "Every article retrieved by any adapter, automated or manual, must conform to this structure before deduplication or LLM processing. Field semantics and rationale are documented in raw_news_schema.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "article_id", "source_id", "arm",
+               "discovered_for_election", "retrieval", "identity",
+               "dates", "content"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "article_id": {
+      "type": "string",
+      "pattern": "^NEWS-[a-z_]+-[0-9a-f]{12}$",
+      "description": "NEWS-<source_id>-<12 hex chars of sha256(canonical reference)>"
+    },
+    "source_id": {
+      "type": "string",
+      "description": "Foreign key into news_source_registry.csv"
+    },
+    "arm": {
+      "enum": ["local", "national", "both", "unassigned"],
+      "description": "Collection arm of the search that found the article; refined at classification, never overwritten here"
+    },
+    "discovered_for_election": {
+      "type": "string",
+      "description": "Election ID of the search plan entry that retrieved this record; later linkage may attach further elections downstream"
+    },
+    "retrieval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["adapter", "adapter_version", "access_route",
+                   "retrieved_at", "retrieval_status", "search_query_id"],
+      "properties": {
+        "adapter": {"enum": ["guardian", "newsapi", "site_search",
+                              "wayback", "manual_import", "pilot"]},
+        "adapter_version": {"type": "string"},
+        "access_route": {"enum": ["api", "live_page", "wayback_capture",
+                                   "manual_transcription"]},
+        "search_query_id": {
+          "type": "string",
+          "description": "Foreign key into the search log; 'PILOT-…' during validation"
+        },
+        "retrieved_at": {"type": "string", "format": "date-time"},
+        "http_status": {"type": ["integer", "null"]},
+        "retrieval_status": {"enum": ["ok", "paywalled", "blocked",
+                                       "gone", "parse_failed"]},
+        "requested_url": {"type": ["string", "null"]},
+        "final_url": {"type": ["string", "null"],
+                      "description": "URL after redirects; records soft 404s and consent walls"},
+        "archive_url": {"type": ["string", "null"],
+                        "description": "Wayback capture URL when access_route is wayback_capture"}
+      }
+    },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canonical_url", "publisher", "headline", "language"],
+      "properties": {
+        "canonical_url": {
+          "type": ["string", "null"],
+          "description": "Original publisher URL (never the Wayback URL); null only for manual transcriptions, which must then carry offline_citation"
+        },
+        "offline_citation": {
+          "type": ["string", "null"],
+          "description": "Title, edition date and page for microfilm/print material"
+        },
+        "publisher": {"type": "string"},
+        "headline": {"type": ["string", "null"]},
+        "subheading": {"type": ["string", "null"]},
+        "byline": {"type": ["string", "null"],
+                   "description": "As printed; never inferred"},
+        "language": {"type": "string"}
+      }
+    },
+    "dates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["published_date", "date_confidence", "date_evidence"],
+      "properties": {
+        "published_date": {"type": ["string", "null"], "format": "date"},
+        "published_time": {"type": ["string", "null"],
+                           "description": "HH:MM:SS Europe/London if known; usually null for historic material"},
+        "updated_date": {"type": ["string", "null"], "format": "date",
+                         "description": "Recorded when present; the original date governs (rule E7)"},
+        "date_confidence": {"enum": ["Confirmed", "Probable",
+                                      "Uncertain", "Missing"]},
+        "date_evidence": {
+          "type": "array",
+          "description": "Every candidate date found, with where it was found; conflicts are preserved, never silently resolved",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["value", "found_in"],
+            "properties": {
+              "value": {"type": "string"},
+              "found_in": {"enum": ["json_ld", "opengraph", "meta_tag",
+                                     "visible_dateline", "api_field",
+                                     "url_slug", "archive_citation",
+                                     "user_supplied"]}
+            }
+          }
+        }
+      }
+    },
+    "content": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["has_full_text", "text_sha256"],
+      "properties": {
+        "has_full_text": {"type": "boolean"},
+        "text_path": {
+          "type": ["string", "null"],
+          "description": "Repo-relative path under data/raw/news/ (gitignored); full text never sits in this committed record"
+        },
+        "extract": {"type": ["string", "null"], "maxLength": 500,
+                    "description": "Short quotation-scale excerpt for identification only"},
+        "word_count": {"type": ["integer", "null"], "minimum": 0},
+        "text_sha256": {
+          "type": ["string", "null"],
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "Hash of normalised body text; the exact-duplicate key for the later dedup stage; null only when no text was retrievable"
+        }
+      }
+    },
+    "notes": {"type": ["string", "null"]}
+  }
+}

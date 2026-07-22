@@ -1,0 +1,324 @@
+{
+  "run_date": "2026-07-22",
+  "purpose": "Evidence for updating historical_coverage_audit.csv from pending to verified/blocked (News Retrieval Framework Validation, Task 1)",
+  "user_agent": "Surrey-IRP-research-validator/1.0 (academic research; contact: shuhanliu44@gmail.com)",
+  "windows": {
+    "SCC-2013-05": [
+      "2012-11-03",
+      "2013-05-02"
+    ],
+    "SCC-2017-05": [
+      "2016-11-05",
+      "2017-05-04"
+    ],
+    "SCC-2021-05": [
+      "2020-11-07",
+      "2021-05-06"
+    ],
+    "ESWS-2026-05": [
+      "2025-11-08",
+      "2026-05-07"
+    ]
+  },
+  "publishers": {
+    "surreylive": {
+      "robots": {
+        "fetched": true,
+        "status": 200,
+        "allows_article_pages": true,
+        "allows_search_path": false
+      },
+      "site_search": {
+        "reachable": true,
+        "status": 200,
+        "bytes": 724697,
+        "final_url": "https://www.getsurrey.co.uk/search/?q=election"
+      },
+      "wayback_windows": {
+        "SCC-2013-05": {
+          "ok": true,
+          "distinct_pages": 2000,
+          "capped": true
+        },
+        "SCC-2017-05": {
+          "ok": true,
+          "distinct_pages": 2000,
+          "capped": true
+        },
+        "SCC-2021-05": {
+          "ok": true,
+          "distinct_pages": 2000,
+          "capped": true
+        },
+        "ESWS-2026-05": {
+          "ok": true,
+          "distinct_pages": 2000,
+          "capped": true
+        }
+      }
+    },
+    "bbc_surrey": {
+      "robots": {
+        "fetched": true,
+        "status": 200,
+        "allows_article_pages": true,
+        "allows_search_path": false
+      },
+      "site_search": {
+        "reachable": true,
+        "status": 200,
+        "bytes": 273948,
+        "final_url": "https://www.bbc.co.uk/search?q=Surrey+council+election"
+      },
+      "wayback_windows": {
+        "SCC-2013-05": {
+          "ok": true,
+          "distinct_pages": 427,
+          "capped": false
+        },
+        "SCC-2017-05": {
+          "ok": true,
+          "distinct_pages": 392,
+          "capped": false
+        },
+        "SCC-2021-05": {
+          "ok": true,
+          "distinct_pages": 832,
+          "capped": false
+        },
+        "ESWS-2026-05": {
+          "ok": true,
+          "distinct_pages": 261,
+          "capped": false
+        }
+      }
+    },
+    "woking_news_mail": {
+      "robots": {
+        "fetched": true,
+        "status": 200,
+        "allows_article_pages": true,
+        "allows_search_path": true
+      },
+      "site_search": {
+        "reachable": true,
+        "status": 200,
+        "bytes": 277309,
+        "final_url": "https://www.wokingnewsandmail.co.uk/?s=election"
+      },
+      "wayback_windows": {
+        "SCC-2013-05": {
+          "ok": true,
+          "distinct_pages": 3,
+          "capped": false
+        },
+        "SCC-2017-05": {
+          "ok": true,
+          "distinct_pages": 96,
+          "capped": false
+        },
+        "SCC-2021-05": {
+          "ok": true,
+          "distinct_pages": 1748,
+          "capped": false
+        },
+        "ESWS-2026-05": {
+          "ok": true,
+          "distinct_pages": 2000,
+          "capped": true
+        }
+      }
+    },
+    "farnham_herald": {
+      "robots": {
+        "fetched": true,
+        "status": 200,
+        "allows_article_pages": true,
+        "allows_search_path": true
+      },
+      "site_search": {
+        "reachable": true,
+        "status": 200,
+        "bytes": 62881,
+        "final_url": "https://www.farnhamherald.com/search?query=election"
+      },
+      "wayback_windows": {
+        "SCC-2013-05": {
+          "ok": true,
+          "distinct_pages": 37,
+          "capped": false
+        },
+        "SCC-2017-05": {
+          "ok": true,
+          "distinct_pages": 211,
+          "capped": false
+        },
+        "SCC-2021-05": {
+          "ok": true,
+          "distinct_pages": 199,
+          "capped": false
+        },
+        "ESWS-2026-05": {
+          "ok": true,
+          "distinct_pages": 2000,
+          "capped": true
+        }
+      }
+    },
+    "guildford_dragon": {
+      "robots": {
+        "fetched": true,
+        "status": 200,
+        "allows_article_pages": true,
+        "allows_search_path": true
+      },
+      "site_search": {
+        "reachable": true,
+        "status": 200,
+        "bytes": 117045,
+        "final_url": "https://guildford-dragon.com/?s=election"
+      },
+      "wayback_windows": {
+        "SCC-2013-05": {
+          "ok": true,
+          "distinct_pages": 396,
+          "capped": false
+        },
+        "SCC-2017-05": {
+          "ok": true,
+          "distinct_pages": 876,
+          "capped": false
+        },
+        "SCC-2021-05": {
+          "ok": true,
+          "distinct_pages": 2000,
+          "capped": true
+        },
+        "ESWS-2026-05": {
+          "ok": true,
+          "distinct_pages": 2000,
+          "capped": true
+        }
+      }
+    },
+    "epsom_ewell_times": {
+      "robots": {
+        "fetched": true,
+        "status": 200,
+        "allows_article_pages": true,
+        "allows_search_path": true
+      },
+      "site_search": {
+        "reachable": true,
+        "status": 200,
+        "bytes": 251616,
+        "final_url": "https://epsomandewelltimes.com/?s=election"
+      },
+      "wayback_windows": {
+        "SCC-2013-05": {
+          "ok": true,
+          "distinct_pages": 0,
+          "capped": false
+        },
+        "SCC-2017-05": {
+          "ok": true,
+          "distinct_pages": 0,
+          "capped": false
+        },
+        "SCC-2021-05": {
+          "ok": true,
+          "distinct_pages": 0,
+          "capped": false
+        },
+        "ESWS-2026-05": {
+          "ok": true,
+          "distinct_pages": 2000,
+          "capped": true
+        }
+      }
+    },
+    "surrey_comet": {
+      "robots": {
+        "fetched": true,
+        "status": 200,
+        "allows_article_pages": true,
+        "allows_search_path": false
+      },
+      "site_search": {
+        "reachable": true,
+        "status": 200,
+        "bytes": 213187,
+        "final_url": "https://www.surreycomet.co.uk/search/?search=election"
+      },
+      "wayback_windows": {
+        "SCC-2013-05": {
+          "ok": true,
+          "distinct_pages": 2000,
+          "capped": true
+        },
+        "SCC-2017-05": {
+          "ok": true,
+          "distinct_pages": 2000,
+          "capped": true
+        },
+        "SCC-2021-05": {
+          "ok": true,
+          "distinct_pages": 2000,
+          "capped": true
+        },
+        "ESWS-2026-05": {
+          "ok": true,
+          "distinct_pages": 2000,
+          "capped": true
+        }
+      }
+    }
+  },
+  "guardian_api": {
+    "SCC-2013-05": {
+      "ok": true,
+      "total_results_in_window": 584,
+      "example_publication_date": "2013-05-01T18:36:10Z"
+    },
+    "SCC-2017-05": {
+      "ok": true,
+      "total_results_in_window": 509,
+      "example_publication_date": "2017-04-20T18:21:54Z"
+    },
+    "SCC-2021-05": {
+      "ok": true,
+      "total_results_in_window": 358,
+      "example_publication_date": "2021-04-21T18:34:16Z"
+    },
+    "ESWS-2026-05": {
+      "ok": true,
+      "total_results_in_window": 307,
+      "example_publication_date": "2026-04-12T17:48:45Z"
+    }
+  },
+  "archive_services": {
+    "british_newspaper_archive": {
+      "reachable": true,
+      "status": 200,
+      "note": "Holdings not verifiable remotely; requires subscription/visit \u2014 this is the audit finding."
+    },
+    "surrey_history_centre": {
+      "reachable": true,
+      "status": 200,
+      "note": "Holdings not verifiable remotely; requires subscription/visit \u2014 this is the audit finding."
+    }
+  },
+  "google_dated_search": {
+    "probed": false,
+    "reason": "Automated querying of Google violates its terms of service; recorded as a manual-only discovery tool.  Manual procedure documented in the retrieval validation report.",
+    "manual_spot_check": {
+      "date": "2026-07-22",
+      "query": "Surrey County Council election 2013 result site:getsurrey.co.uk",
+      "finding": "Returned live getsurrey.co.uk articles spanning the 2013 election (e.g. /news/local-news/conservatives-still-control-surrey-4823720, /news/local-news/local-elections-surrey-county-council-12989497) and the 2026 election (e.g. /news/surrey-news/surrey-local-elections-results-live-33910847). Confirms historic articles remain indexed and discoverable; publication dates must still be confirmed on-page (eligibility rule E7)."
+    }
+  },
+  "newsapi_org": {
+    "probed": false,
+    "reason": "Already verified blocked on 2026-07-14; see data/raw/newsapi/coverage_check.txt (all four windows refused, plan floor 2026-06-12)."
+  }
+}

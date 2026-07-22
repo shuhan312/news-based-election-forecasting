@@ -1,0 +1,942 @@
+{
+  "run_date": "2026-07-22",
+  "purpose": "Pilot Retrieval Validation (Task 4): one article per source per election window, validated against raw_news_schema.json. Validation scaffolding only - these records do not enter the modelling corpus.",
+  "validation_summary": [
+    {
+      "article_id": "NEWS-guardian_api-5ce140b45966",
+      "source_id": "guardian_api",
+      "election": "SCC-2013-05",
+      "schema_valid": true,
+      "schema_errors": [],
+      "published_date": "2013-02-05",
+      "date_confidence": "Confirmed",
+      "date_in_window": true,
+      "has_full_text": true,
+      "access_route": "api"
+    },
+    {
+      "article_id": "NEWS-guardian_api-33c7f653ff4a",
+      "source_id": "guardian_api",
+      "election": "SCC-2017-05",
+      "schema_valid": true,
+      "schema_errors": [],
+      "published_date": "2017-03-08",
+      "date_confidence": "Confirmed",
+      "date_in_window": true,
+      "has_full_text": true,
+      "access_route": "api"
+    },
+    {
+      "article_id": "NEWS-guardian_api-351db380e072",
+      "source_id": "guardian_api",
+      "election": "SCC-2021-05",
+      "schema_valid": true,
+      "schema_errors": [],
+      "published_date": "2021-01-26",
+      "date_confidence": "Confirmed",
+      "date_in_window": true,
+      "has_full_text": true,
+      "access_route": "api"
+    },
+    {
+      "article_id": "NEWS-guardian_api-6e661c4c5fdf",
+      "source_id": "guardian_api",
+      "election": "ESWS-2026-05",
+      "schema_valid": true,
+      "schema_errors": [],
+      "published_date": "2026-03-25",
+      "date_confidence": "Confirmed",
+      "date_in_window": true,
+      "has_full_text": true,
+      "access_route": "api"
+    },
+    {
+      "article_id": "NEWS-surreylive-53a085e9e55c",
+      "source_id": "surreylive",
+      "election": "SCC-2013-05",
+      "schema_valid": true,
+      "schema_errors": [],
+      "published_date": null,
+      "date_confidence": "Missing",
+      "date_in_window": null,
+      "has_full_text": true,
+      "access_route": "wayback_capture"
+    },
+    {
+      "article_id": "NEWS-surreylive-b17b25e099ea",
+      "source_id": "surreylive",
+      "election": "SCC-2017-05",
+      "schema_valid": true,
+      "schema_errors": [],
+      "published_date": "2017-04-28",
+      "date_confidence": "Confirmed",
+      "date_in_window": true,
+      "has_full_text": true,
+      "access_route": "wayback_capture"
+    },
+    {
+      "article_id": "NEWS-surreylive-28c2619c9143",
+      "source_id": "surreylive",
+      "election": "SCC-2021-05",
+      "schema_valid": true,
+      "schema_errors": [],
+      "published_date": "2021-04-29",
+      "date_confidence": "Confirmed",
+      "date_in_window": true,
+      "has_full_text": true,
+      "access_route": "wayback_capture"
+    },
+    {
+      "article_id": "NEWS-surreylive-7a29d15d8401",
+      "source_id": "surreylive",
+      "election": "ESWS-2026-05",
+      "schema_valid": true,
+      "schema_errors": [],
+      "published_date": "2026-05-05",
+      "date_confidence": "Confirmed",
+      "date_in_window": true,
+      "has_full_text": true,
+      "access_route": "wayback_capture"
+    },
+    {
+      "article_id": "NEWS-bbc_surrey-365babfc180f",
+      "source_id": "bbc_surrey",
+      "election": "SCC-2013-05",
+      "schema_valid": true,
+      "schema_errors": [],
+      "published_date": "2013-04-30",
+      "date_confidence": "Uncertain",
+      "date_in_window": true,
+      "has_full_text": true,
+      "access_route": "live_page"
+    },
+    {
+      "article_id": "NEWS-bbc_surrey-862693728212",
+      "source_id": "bbc_surrey",
+      "election": "SCC-2017-05",
+      "schema_valid": true,
+      "schema_errors": [],
+      "published_date": "2017-04-29",
+      "date_confidence": "Confirmed",
+      "date_in_window": true,
+      "has_full_text": true,
+      "access_route": "live_page"
+    },
+    {
+      "article_id": "NEWS-bbc_surrey-ea68e1ef6bc9",
+      "source_id": "bbc_surrey",
+      "election": "SCC-2021-05",
+      "schema_valid": true,
+      "schema_errors": [],
+      "published_date": "2017-04-29",
+      "date_confidence": "Confirmed",
+      "date_in_window": false,
+      "has_full_text": true,
+      "access_route": "live_page"
+    },
+    {
+      "article_id": "NEWS-bbc_surrey-67e059b5d2af",
+      "source_id": "bbc_surrey",
+      "election": "ESWS-2026-05",
+      "schema_valid": true,
+      "schema_errors": [],
+      "published_date": "2024-02-29",
+      "date_confidence": "Confirmed",
+      "date_in_window": false,
+      "has_full_text": true,
+      "access_route": "live_page"
+    },
+    {
+      "article_id": "NEWS-guildford_dragon-dce210d89e84",
+      "source_id": "guildford_dragon",
+      "election": "SCC-2013-05",
+      "schema_valid": true,
+      "schema_errors": [],
+      "published_date": null,
+      "date_confidence": "Missing",
+      "date_in_window": null,
+      "has_full_text": true,
+      "access_route": "wayback_capture"
+    },
+    {
+      "article_id": "NEWS-guildford_dragon-1c38b966faf4",
+      "source_id": "guildford_dragon",
+      "election": "SCC-2017-05",
+      "schema_valid": true,
+      "schema_errors": [],
+      "published_date": "2016-12-05",
+      "date_confidence": "Confirmed",
+      "date_in_window": true,
+      "has_full_text": true,
+      "access_route": "wayback_capture"
+    },
+    {
+      "article_id": "NEWS-guildford_dragon-40ac34fceac8",
+      "source_id": "guildford_dragon",
+      "election": "SCC-2021-05",
+      "schema_valid": true,
+      "schema_errors": [],
+      "published_date": "2021-01-23",
+      "date_confidence": "Confirmed",
+      "date_in_window": true,
+      "has_full_text": true,
+      "access_route": "wayback_capture"
+    }
+  ],
+  "records": [
+    {
+      "schema_version": "1.0",
+      "article_id": "NEWS-guardian_api-5ce140b45966",
+      "source_id": "guardian_api",
+      "arm": "national",
+      "discovered_for_election": "SCC-2013-05",
+      "retrieval": {
+        "adapter": "guardian",
+        "adapter_version": "pilot-1.0",
+        "access_route": "api",
+        "search_query_id": "PILOT-guardian-SCC-2013-05",
+        "retrieved_at": "2026-07-22T20:15:26+00:00",
+        "http_status": 200,
+        "retrieval_status": "ok",
+        "requested_url": "https://content.guardianapis.com/search",
+        "final_url": "https://content.guardianapis.com/search?q=%22Surrey+County+Council%22&from-date=2012-11-03&to-date=2013-05-02&page-size=1&order-by=relevance&show-fields=bodyText%2Cbyline%2CfirstPublicationDate&api-key=c8b2d328-095a-461c-a045-3ad5a405fbf9",
+        "archive_url": null
+      },
+      "identity": {
+        "canonical_url": "https://www.theguardian.com/society/2013/feb/05/elderly-woman-left-to-starve",
+        "offline_citation": null,
+        "publisher": "guardian_api",
+        "headline": "Pensioner starved to death after being left alone for nine days",
+        "subheading": null,
+        "byline": "Conal Urquhart and agencies",
+        "language": "en"
+      },
+      "dates": {
+        "published_date": "2013-02-05",
+        "published_time": null,
+        "updated_date": null,
+        "date_confidence": "Confirmed",
+        "date_evidence": [
+          {
+            "value": "2013-02-05T21:01:54Z",
+            "found_in": "api_field"
+          }
+        ]
+      },
+      "content": {
+        "has_full_text": true,
+        "text_path": "data/raw/news_pilot/NEWS-guardian_api-5ce140b45966.txt",
+        "extract": "An MP has called for an investigation into the death of an elderly woman from hunger and dehydration after bureaucratic confusion between the UK Border Agency and Surrey county council. Gloria Foster, who was in her 80s, was alone for nine days after the company that she paid to take care of her was closed by the UKBA for employing illegal immigrants. The council was given the company records but apparently failed to go to Foster's aid. Foster's MP, Crispin Blunt, described her ordeal as \"hor...",
+        "word_count": 425,
+        "text_sha256": "6274561b106c613c0e505e921988b0211f7bf7be57cfbbf2e4c733ad9e08dcfe"
+      },
+      "notes": null
+    },
+    {
+      "schema_version": "1.0",
+      "article_id": "NEWS-guardian_api-33c7f653ff4a",
+      "source_id": "guardian_api",
+      "arm": "national",
+      "discovered_for_election": "SCC-2017-05",
+      "retrieval": {
+        "adapter": "guardian",
+        "adapter_version": "pilot-1.0",
+        "access_route": "api",
+        "search_query_id": "PILOT-guardian-SCC-2017-05",
+        "retrieved_at": "2026-07-22T20:15:28+00:00",
+        "http_status": 200,
+        "retrieval_status": "ok",
+        "requested_url": "https://content.guardianapis.com/search",
+        "final_url": "https://content.guardianapis.com/search?q=%22Surrey+County+Council%22&from-date=2016-11-05&to-date=2017-05-04&page-size=1&order-by=relevance&show-fields=bodyText%2Cbyline%2CfirstPublicationDate&api-key=c8b2d328-095a-461c-a045-3ad5a405fbf9",
+        "archive_url": null
+      },
+      "identity": {
+        "canonical_url": "https://www.theguardian.com/society/2017/mar/08/philip-hammond-among-mps-lobbying-for-surrey-county-council-in-funding-row",
+        "offline_citation": null,
+        "publisher": "guardian_api",
+        "headline": "Philip Hammond among MPs lobbying for Surrey county council in funding row",
+        "subheading": null,
+        "byline": "Peter Walker Political correspondent",
+        "language": "en"
+      },
+      "dates": {
+        "published_date": "2017-03-08",
+        "published_time": null,
+        "updated_date": null,
+        "date_confidence": "Confirmed",
+        "date_evidence": [
+          {
+            "value": "2017-03-08T21:12:46Z",
+            "found_in": "api_field"
+          },
+          {
+            "value": "2017-03-08T21:12:46Z",
+            "found_in": "api_field"
+          }
+        ]
+      },
+      "content": {
+        "has_full_text": true,
+        "text_path": "data/raw/news_pilot/NEWS-guardian_api-33c7f653ff4a.txt",
+        "extract": "Philip Hammond was among a series of Conservative MPs who lobbied on behalf of Surrey county council in a row over social care funding, correspondence released under freedom of information laws has shown, reviving claims the council received a special deal from ministers. Hours after Theresa May insisted at prime minister\u2019s questions that Surrey had enjoyed no preferential treatment, one of the released letters and emails showed the chancellor had spoken to the communities secretary, Sajid Ja...",
+        "word_count": 813,
+        "text_sha256": "bd0e61a717cb4552c1e0b4aba65985632e157ed13b472039d282b702126f442b"
+      },
+      "notes": null
+    },
+    {
+      "schema_version": "1.0",
+      "article_id": "NEWS-guardian_api-351db380e072",
+      "source_id": "guardian_api",
+      "arm": "national",
+      "discovered_for_election": "SCC-2021-05",
+      "retrieval": {
+        "adapter": "guardian",
+        "adapter_version": "pilot-1.0",
+        "access_route": "api",
+        "search_query_id": "PILOT-guardian-SCC-2021-05",
+        "retrieved_at": "2026-07-22T20:15:30+00:00",
+        "http_status": 200,
+        "retrieval_status": "ok",
+        "requested_url": "https://content.guardianapis.com/search",
+        "final_url": "https://content.guardianapis.com/search?q=%22Surrey+County+Council%22&from-date=2020-11-07&to-date=2021-05-06&page-size=1&order-by=relevance&show-fields=bodyText%2Cbyline%2CfirstPublicationDate&api-key=c8b2d328-095a-461c-a045-3ad5a405fbf9",
+        "archive_url": null
+      },
+      "identity": {
+        "canonical_url": "https://www.theguardian.com/education/2021/jan/26/trixie-chandler-obituary",
+        "offline_citation": null,
+        "publisher": "guardian_api",
+        "headline": "Trixie Chandler obituary",
+        "subheading": null,
+        "byline": "Judi Gladman",
+        "language": "en"
+      },
+      "dates": {
+        "published_date": "2021-01-26",
+        "published_time": null,
+        "updated_date": null,
+        "date_confidence": "Confirmed",
+        "date_evidence": [
+          {
+            "value": "2021-01-26T17:59:20Z",
+            "found_in": "api_field"
+          },
+          {
+            "value": "2021-01-26T17:59:20Z",
+            "found_in": "api_field"
+          }
+        ]
+      },
+      "content": {
+        "has_full_text": true,
+        "text_path": "data/raw/news_pilot/NEWS-guardian_api-351db380e072.txt",
+        "extract": "My mother, Trixie Chandler, who has died aged 93, was a psychiatric nurse who became a vicar\u2019s wife and then, after our father\u2019s untimely death, retrained to become a teacher. Born in Camberwell, south London, Trixie (born Beatrice) was the second of four children to May (nee White) and her husband, Alfred Kilsby, who were school caretakers. She was educated at St Saviour\u2019s and St Olave\u2019s grammar school, where she met her lifelong friend Joy Evans. When the two teenage girls were evacuated to...",
+        "word_count": 476,
+        "text_sha256": "33202d96ab253276f3cbe74bb68e18189f1e60949e8a96d4db356cb76bbce7b0"
+      },
+      "notes": null
+    },
+    {
+      "schema_version": "1.0",
+      "article_id": "NEWS-guardian_api-6e661c4c5fdf",
+      "source_id": "guardian_api",
+      "arm": "national",
+      "discovered_for_election": "ESWS-2026-05",
+      "retrieval": {
+        "adapter": "guardian",
+        "adapter_version": "pilot-1.0",
+        "access_route": "api",
+        "search_query_id": "PILOT-guardian-ESWS-2026-05",
+        "retrieved_at": "2026-07-22T20:15:33+00:00",
+        "http_status": 200,
+        "retrieval_status": "ok",
+        "requested_url": "https://content.guardianapis.com/search",
+        "final_url": "https://content.guardianapis.com/search?q=%22Surrey+County+Council%22&from-date=2025-11-08&to-date=2026-05-07&page-size=1&order-by=relevance&show-fields=bodyText%2Cbyline%2CfirstPublicationDate&api-key=c8b2d328-095a-461c-a045-3ad5a405fbf9",
+        "archive_url": null
+      },
+      "identity": {
+        "canonical_url": "https://www.theguardian.com/society/2026/mar/25/fifteen-new-councils-to-be-created-in-south-and-east-of-england",
+        "offline_citation": null,
+        "publisher": "guardian_api",
+        "headline": "Fifteen new councils to be created in south and east of England",
+        "subheading": null,
+        "byline": "Patrick Butler Social policy editor",
+        "language": "en"
+      },
+      "dates": {
+        "published_date": "2026-03-25",
+        "published_time": null,
+        "updated_date": null,
+        "date_confidence": "Confirmed",
+        "date_evidence": [
+          {
+            "value": "2026-03-25T18:49:14Z",
+            "found_in": "api_field"
+          },
+          {
+            "value": "2026-03-25T18:49:14Z",
+            "found_in": "api_field"
+          }
+        ]
+      },
+      "content": {
+        "has_full_text": true,
+        "text_path": "data/raw/news_pilot/NEWS-guardian_api-6e661c4c5fdf.txt",
+        "extract": "Fifteen new councils will be created in the south and east of England under the latest round of a major local government overhaul, aimed at boosting economic growth and accelerating mass housebuilding plans. The new unitary councils will replace 43 counties and districts across Norfolk, Suffolk, Essex and Hampshire, with hundreds of councillors\u2019 roles axed. A decision on future arrangements for East Sussex and West Sussex has been delayed. Ministers said the new councils, which will come on s...",
+        "word_count": 559,
+        "text_sha256": "19a2583c7a7f645b61bf570c76e68cb4ffdfb9ec7e4bead5f65e3f4a5097768d"
+      },
+      "notes": null
+    },
+    {
+      "schema_version": "1.0",
+      "article_id": "NEWS-surreylive-53a085e9e55c",
+      "source_id": "surreylive",
+      "arm": "local",
+      "discovered_for_election": "SCC-2013-05",
+      "retrieval": {
+        "adapter": "wayback",
+        "adapter_version": "pilot-1.0",
+        "access_route": "wayback_capture",
+        "search_query_id": "PILOT-surreylive-SCC-2013-05",
+        "retrieved_at": "2026-07-22T20:17:37+00:00",
+        "http_status": 200,
+        "retrieval_status": "ok",
+        "requested_url": "https://web.archive.org/web/20130105073808/http://www.getsurrey.co.uk:80/letters/s/2026713_a_selection_of_letters_from_the_surrey_advertiser_april_25_2008",
+        "final_url": "https://web.archive.org/web/20130105073808/http://www.getsurrey.co.uk:80/letters/s/2026713_a_selection_of_letters_from_the_surrey_advertiser_april_25_2008",
+        "archive_url": "https://web.archive.org/web/20130105073808/http://www.getsurrey.co.uk:80/letters/s/2026713_a_selection_of_letters_from_the_surrey_advertiser_april_25_2008"
+      },
+      "identity": {
+        "canonical_url": "http://www.getsurrey.co.uk:80/letters/s/2026713_a_selection_of_letters_from_the_surrey_advertiser_april_25_2008",
+        "offline_citation": null,
+        "publisher": "surreylive",
+        "headline": "A selection of letters from the Surrey Advertiser, April 25, 2008 - Readers Letters - getsurrey",
+        "subheading": null,
+        "byline": null,
+        "language": "en"
+      },
+      "dates": {
+        "published_date": null,
+        "published_time": null,
+        "updated_date": null,
+        "date_confidence": "Missing",
+        "date_evidence": []
+      },
+      "content": {
+        "has_full_text": true,
+        "text_path": "data/raw/news_pilot/NEWS-surreylive-53a085e9e55c.txt",
+        "extract": "Considerate road team on the right route Recently letters have been published in\u00a0 the Surrey Advertiser concerning road and footpath repair work. This letter is about, and in praise of, the actual personnel doing the job. During the last six to eight weeks,\u00a0 major repairs have been carried out on the Forest Road, East Horsley, area. As I walk this road several times each week, I feel my experiences are worth recording. I have been very impressed by the courtesy and consideration shown to me a...",
+        "word_count": 4201,
+        "text_sha256": "16504727ecdad3b28451a2b81d184510f8be4f3ddc5f90c1ed067970250c922a"
+      },
+      "notes": null
+    },
+    {
+      "schema_version": "1.0",
+      "article_id": "NEWS-surreylive-b17b25e099ea",
+      "source_id": "surreylive",
+      "arm": "local",
+      "discovered_for_election": "SCC-2017-05",
+      "retrieval": {
+        "adapter": "wayback",
+        "adapter_version": "pilot-1.0",
+        "access_route": "wayback_capture",
+        "search_query_id": "PILOT-surreylive-SCC-2017-05",
+        "retrieved_at": "2026-07-22T20:19:18+00:00",
+        "http_status": 200,
+        "retrieval_status": "ok",
+        "requested_url": "https://web.archive.org/web/20170501023037/http://www.getsurrey.co.uk:80/news/surrey-news/general-election-gove-not-announced-12957436",
+        "final_url": "https://web.archive.org/web/20170501023037/http://www.getsurrey.co.uk:80/news/surrey-news/general-election-gove-not-announced-12957436",
+        "archive_url": "https://web.archive.org/web/20170501023037/http://www.getsurrey.co.uk:80/news/surrey-news/general-election-gove-not-announced-12957436"
+      },
+      "identity": {
+        "canonical_url": "http://www.getsurrey.co.uk:80/news/surrey-news/general-election-gove-not-announced-12957436",
+        "offline_citation": null,
+        "publisher": "surreylive",
+        "headline": "Will Michael Gove stand in the general election",
+        "subheading": null,
+        "byline": null,
+        "language": "en"
+      },
+      "dates": {
+        "published_date": "2017-04-28",
+        "published_time": null,
+        "updated_date": null,
+        "date_confidence": "Confirmed",
+        "date_evidence": [
+          {
+            "value": "2017-04-28T11:35:32Z",
+            "found_in": "opengraph"
+          },
+          {
+            "value": "2017-04-28T11:35:32Z",
+            "found_in": "visible_dateline"
+          }
+        ]
+      },
+      "content": {
+        "has_full_text": true,
+        "text_path": "data/raw/news_pilot/NEWS-surreylive-b17b25e099ea.txt",
+        "extract": "When the Prime Minister announced the 'snap' general election on April 19, many heads turned towards those who will be competing, yet again for constituency seats.\nSurrey Heath Conservative MP, pro-Brexiter and former Education Secretary, Michael Gove remains a big name in Surrey - but is he standing for candidacy again this year?\nMore than a week after Theresa May dropped the June 8 bombshell, Mr Gove has yet to make a clear statement.\nWhile he has put his name forward, the man at the forefr...",
+        "word_count": 575,
+        "text_sha256": "c72822df5ddf403db40191fd2f0af25384a27beb7fe87af9e2c897e5ec4d7d6f"
+      },
+      "notes": null
+    },
+    {
+      "schema_version": "1.0",
+      "article_id": "NEWS-surreylive-28c2619c9143",
+      "source_id": "surreylive",
+      "arm": "local",
+      "discovered_for_election": "SCC-2021-05",
+      "retrieval": {
+        "adapter": "wayback",
+        "adapter_version": "pilot-1.0",
+        "access_route": "wayback_capture",
+        "search_query_id": "PILOT-surreylive-SCC-2021-05",
+        "retrieved_at": "2026-07-22T20:19:50+00:00",
+        "http_status": 200,
+        "retrieval_status": "ok",
+        "requested_url": "https://web.archive.org/web/20210429172211/https://www.getsurrey.co.uk/news/surrey-news/epsom-ewell-local-election-candidates-20486944",
+        "final_url": "https://web.archive.org/web/20210429172211/https://www.getsurrey.co.uk/news/surrey-news/epsom-ewell-local-election-candidates-20486944",
+        "archive_url": "https://web.archive.org/web/20210429172211/https://www.getsurrey.co.uk/news/surrey-news/epsom-ewell-local-election-candidates-20486944"
+      },
+      "identity": {
+        "canonical_url": "https://www.getsurrey.co.uk/news/surrey-news/epsom-ewell-local-election-candidates-20486944",
+        "offline_citation": null,
+        "publisher": "surreylive",
+        "headline": "Meet the Epsom and Ewell election candidates vying for your vote",
+        "subheading": null,
+        "byline": null,
+        "language": "en"
+      },
+      "dates": {
+        "published_date": "2021-04-29",
+        "published_time": null,
+        "updated_date": null,
+        "date_confidence": "Confirmed",
+        "date_evidence": [
+          {
+            "value": "2021-04-29T16:22:11Z",
+            "found_in": "opengraph"
+          },
+          {
+            "value": "2021-04-29T16:22:11Z",
+            "found_in": "visible_dateline"
+          }
+        ]
+      },
+      "content": {
+        "has_full_text": true,
+        "text_path": "data/raw/news_pilot/NEWS-surreylive-28c2619c9143.txt",
+        "extract": "We asked candidates running across Epsom, Ewell, Auriol and Cuddington for no more than 100 words on why you should vote for them\nGet the latest email updates for Surrey with our FREE daily newsletter\nVoters take to the polls on Thursday, May 6 and in Epsom and Ewell there are five county council seats for residents to vote for.\nThe 2019 local elections saw the Epsom and Ewell Residents Association increase their overall majority on the borough council, as the Conservatives made losses. Howev...",
+        "word_count": 2516,
+        "text_sha256": "dae9d59d3140a480016437c95e8015ed42992c9de76417155576ecba3083c0c6"
+      },
+      "notes": null
+    },
+    {
+      "schema_version": "1.0",
+      "article_id": "NEWS-surreylive-7a29d15d8401",
+      "source_id": "surreylive",
+      "arm": "local",
+      "discovered_for_election": "ESWS-2026-05",
+      "retrieval": {
+        "adapter": "wayback",
+        "adapter_version": "pilot-1.0",
+        "access_route": "wayback_capture",
+        "search_query_id": "PILOT-surreylive-ESWS-2026-05",
+        "retrieved_at": "2026-07-22T20:21:00+00:00",
+        "http_status": 200,
+        "retrieval_status": "ok",
+        "requested_url": "https://web.archive.org/web/20260505104028/https://www.getsurrey.co.uk/news/surrey-news/east-surrey-local-elections-every-33888027",
+        "final_url": "https://web.archive.org/web/20260505104028/https://www.getsurrey.co.uk/news/surrey-news/east-surrey-local-elections-every-33888027",
+        "archive_url": "https://web.archive.org/web/20260505104028/https://www.getsurrey.co.uk/news/surrey-news/east-surrey-local-elections-every-33888027"
+      },
+      "identity": {
+        "canonical_url": "https://www.getsurrey.co.uk/news/surrey-news/east-surrey-local-elections-every-33888027",
+        "offline_citation": null,
+        "publisher": "surreylive",
+        "headline": "East Surrey Local Elections: Every candidate standing in Reigate, Mole Valley, Tandridge, Elmbridge and Epsom",
+        "subheading": null,
+        "byline": null,
+        "language": "en"
+      },
+      "dates": {
+        "published_date": "2026-05-05",
+        "published_time": null,
+        "updated_date": null,
+        "date_confidence": "Confirmed",
+        "date_evidence": [
+          {
+            "value": "2026-05-05T07:49:37Z",
+            "found_in": "json_ld"
+          },
+          {
+            "value": "2026-05-05T07:49:37Z",
+            "found_in": "opengraph"
+          }
+        ]
+      },
+      "content": {
+        "has_full_text": true,
+        "text_path": "data/raw/news_pilot/NEWS-surreylive-7a29d15d8401.txt",
+        "extract": "For the first time, the new council of East Surrey will be holding local elections, with thousands of voters set to head to the polls.\nOn Thursday, May 7, residents in towns including Reigate , Redhill , Dorking , Caterham , Walton-on-Thames and Epsom , to name just a few, will be electing two councillors for each of East Surrey\u2019s 36 wards, so 72 in total.\nEast Surrey is a new unitary authority that has been created as a result of local government reorganisation.\nAll of Surrey\u2019s existing 12 b...",
+        "word_count": 1029,
+        "text_sha256": "5cc7f14559a482c0e9d4c065d3cb384227c1fae768414f5b61f7173cba534454"
+      },
+      "notes": null
+    },
+    {
+      "schema_version": "1.0",
+      "article_id": "NEWS-bbc_surrey-365babfc180f",
+      "source_id": "bbc_surrey",
+      "arm": "local",
+      "discovered_for_election": "SCC-2013-05",
+      "retrieval": {
+        "adapter": "site_search",
+        "adapter_version": "pilot-1.0",
+        "access_route": "live_page",
+        "search_query_id": "PILOT-bbc_surrey-SCC-2013-05",
+        "retrieved_at": "2026-07-22T20:21:13+00:00",
+        "http_status": 200,
+        "retrieval_status": "ok",
+        "requested_url": "http://www.bbc.co.uk/news/uk-england-surrey-22356242",
+        "final_url": "https://www.bbc.co.uk/news/uk-england-surrey-22356242",
+        "archive_url": null
+      },
+      "identity": {
+        "canonical_url": "http://www.bbc.co.uk/news/uk-england-surrey-22356242",
+        "offline_citation": null,
+        "publisher": "bbc_surrey",
+        "headline": "Conservative Party retains control of Surrey County Council",
+        "subheading": null,
+        "byline": "BBC News",
+        "language": "en"
+      },
+      "dates": {
+        "published_date": "2013-04-30",
+        "published_time": null,
+        "updated_date": null,
+        "date_confidence": "Uncertain",
+        "date_evidence": [
+          {
+            "value": "2013-04-30T12:20:54.000Z",
+            "found_in": "json_ld"
+          },
+          {
+            "value": "2013-05-03T20:19:30.000Z",
+            "found_in": "visible_dateline"
+          }
+        ]
+      },
+      "content": {
+        "has_full_text": true,
+        "text_path": "data/raw/news_pilot/NEWS-bbc_surrey-365babfc180f.txt",
+        "extract": "Surrey County Council leader David Hodge held his seat in Warlingham for the Conservatives\nThe Conservative Party has retained overall control of Surrey County Council and gained three more seats.\nThe Liberal Democrats lost four seats in Thursday's election, but still remain the main opposition party with nine members.\nUKIP won three seats, with Labour and the Green Party each winning one. Residents' Associations have seen 10 members elected across the county.\nIn total 81 seats were available...",
+        "word_count": 214,
+        "text_sha256": "16bf9ed848e6171cbf14499cef84f246457ad18f84604dd706ea5e1ba94cf63f"
+      },
+      "notes": null
+    },
+    {
+      "schema_version": "1.0",
+      "article_id": "NEWS-bbc_surrey-862693728212",
+      "source_id": "bbc_surrey",
+      "arm": "local",
+      "discovered_for_election": "SCC-2017-05",
+      "retrieval": {
+        "adapter": "site_search",
+        "adapter_version": "pilot-1.0",
+        "access_route": "live_page",
+        "search_query_id": "PILOT-bbc_surrey-SCC-2017-05",
+        "retrieved_at": "2026-07-22T20:21:25+00:00",
+        "http_status": 200,
+        "retrieval_status": "ok",
+        "requested_url": "http://www.bbc.co.uk/news/uk-england-surrey-39756801",
+        "final_url": "https://www.bbc.co.uk/news/uk-england-surrey-39756801",
+        "archive_url": null
+      },
+      "identity": {
+        "canonical_url": "http://www.bbc.co.uk/news/uk-england-surrey-39756801",
+        "offline_citation": null,
+        "publisher": "bbc_surrey",
+        "headline": "Billy Monger: Amputee Formula 4 driver 'will race again'",
+        "subheading": null,
+        "byline": "BBC News",
+        "language": "en"
+      },
+      "dates": {
+        "published_date": "2017-04-29",
+        "published_time": null,
+        "updated_date": null,
+        "date_confidence": "Confirmed",
+        "date_evidence": [
+          {
+            "value": "2017-04-29T15:46:08.000Z",
+            "found_in": "json_ld"
+          },
+          {
+            "value": "2017-04-29T15:46:08.000Z",
+            "found_in": "visible_dateline"
+          }
+        ]
+      },
+      "content": {
+        "has_full_text": true,
+        "text_path": "data/raw/news_pilot/NEWS-bbc_surrey-862693728212.txt",
+        "extract": "Billy Monger was injured during the Formula 4 British Championship at Donington Park in Leicestershire\nA 17-year-old Formula 4 driver who had to have both his legs amputated after a crash will definitely race again, his family says.\nBilly Monger, from Charlwood in Surrey, hit the back of another car at Donington Park on 16 April.\nHis cousin Mark Sumpter, who is also a racing car driver, said he \"definitely wants to get back behind the wheel\".\n\"He's got a steering wheel in his bed at the momen...",
+        "word_count": 243,
+        "text_sha256": "bd166f3c37213ec6bc1a9cb6fb1c7350d5d9f16d081d8cee9a61a02b9e42c24d"
+      },
+      "notes": null
+    },
+    {
+      "schema_version": "1.0",
+      "article_id": "NEWS-bbc_surrey-ea68e1ef6bc9",
+      "source_id": "bbc_surrey",
+      "arm": "local",
+      "discovered_for_election": "SCC-2021-05",
+      "retrieval": {
+        "adapter": "site_search",
+        "adapter_version": "pilot-1.0",
+        "access_route": "live_page",
+        "search_query_id": "PILOT-bbc_surrey-SCC-2021-05",
+        "retrieved_at": "2026-07-22T20:21:42+00:00",
+        "http_status": 200,
+        "retrieval_status": "ok",
+        "requested_url": "https://www.bbc.co.uk/news/uk-england-surrey-39756801",
+        "final_url": "https://www.bbc.co.uk/news/uk-england-surrey-39756801",
+        "archive_url": null
+      },
+      "identity": {
+        "canonical_url": "https://www.bbc.co.uk/news/uk-england-surrey-39756801",
+        "offline_citation": null,
+        "publisher": "bbc_surrey",
+        "headline": "Billy Monger: Amputee Formula 4 driver 'will race again'",
+        "subheading": null,
+        "byline": "BBC News",
+        "language": "en"
+      },
+      "dates": {
+        "published_date": "2017-04-29",
+        "published_time": null,
+        "updated_date": null,
+        "date_confidence": "Confirmed",
+        "date_evidence": [
+          {
+            "value": "2017-04-29T15:46:08.000Z",
+            "found_in": "json_ld"
+          },
+          {
+            "value": "2017-04-29T15:46:08.000Z",
+            "found_in": "visible_dateline"
+          }
+        ]
+      },
+      "content": {
+        "has_full_text": true,
+        "text_path": "data/raw/news_pilot/NEWS-bbc_surrey-ea68e1ef6bc9.txt",
+        "extract": "Billy Monger was injured during the Formula 4 British Championship at Donington Park in Leicestershire\nA 17-year-old Formula 4 driver who had to have both his legs amputated after a crash will definitely race again, his family says.\nBilly Monger, from Charlwood in Surrey, hit the back of another car at Donington Park on 16 April.\nHis cousin Mark Sumpter, who is also a racing car driver, said he \"definitely wants to get back behind the wheel\".\n\"He's got a steering wheel in his bed at the momen...",
+        "word_count": 243,
+        "text_sha256": "bd166f3c37213ec6bc1a9cb6fb1c7350d5d9f16d081d8cee9a61a02b9e42c24d"
+      },
+      "notes": null
+    },
+    {
+      "schema_version": "1.0",
+      "article_id": "NEWS-bbc_surrey-67e059b5d2af",
+      "source_id": "bbc_surrey",
+      "arm": "local",
+      "discovered_for_election": "ESWS-2026-05",
+      "retrieval": {
+        "adapter": "site_search",
+        "adapter_version": "pilot-1.0",
+        "access_route": "live_page",
+        "search_query_id": "PILOT-bbc_surrey-ESWS-2026-05",
+        "retrieved_at": "2026-07-22T20:21:59+00:00",
+        "http_status": 200,
+        "retrieval_status": "ok",
+        "requested_url": "https://www.bbc.co.uk/news/uk-england-surrey-68436576",
+        "final_url": "https://www.bbc.co.uk/news/uk-england-surrey-68436576",
+        "archive_url": null
+      },
+      "identity": {
+        "canonical_url": "https://www.bbc.co.uk/news/uk-england-surrey-68436576",
+        "offline_citation": null,
+        "publisher": "bbc_surrey",
+        "headline": "Surrey coroner calls for change after 89-year-old's fatal vitamin D overdose",
+        "subheading": null,
+        "byline": null,
+        "language": "en"
+      },
+      "dates": {
+        "published_date": "2024-02-29",
+        "published_time": null,
+        "updated_date": null,
+        "date_confidence": "Confirmed",
+        "date_evidence": [
+          {
+            "value": "2024-02-29T18:06:52.000Z",
+            "found_in": "json_ld"
+          },
+          {
+            "value": "2024-02-29T18:06:52.000Z",
+            "found_in": "visible_dateline"
+          }
+        ]
+      },
+      "content": {
+        "has_full_text": true,
+        "text_path": "data/raw/news_pilot/NEWS-bbc_surrey-67e059b5d2af.txt",
+        "extract": "Too much vitamin D can lead to calcium building up in the body, according to the NHS\nSurrey's coroner is calling for change to supplement packaging rules after an 89-year-old's fatal vitamin D overdose.\nFollowing the death of David Mitchener, the coroner has written to the Department of Health and Social Care and the Food Standards Agency (FSA).\nA report said the 89-year-old had been taking vitamin supplements for at least the nine months preceding his death.\nBefore his death, a test showed h...",
+        "word_count": 350,
+        "text_sha256": "924c47d118d4f2753a65de010cd14cfe546f37b16d688ca29df1e38101bd208c"
+      },
+      "notes": null
+    },
+    {
+      "schema_version": "1.0",
+      "article_id": "NEWS-guildford_dragon-dce210d89e84",
+      "source_id": "guildford_dragon",
+      "arm": "local",
+      "discovered_for_election": "SCC-2013-05",
+      "retrieval": {
+        "adapter": "wayback",
+        "adapter_version": "pilot-1.0",
+        "access_route": "wayback_capture",
+        "search_query_id": "PILOT-guildford_dragon-SCC-2013-05",
+        "retrieved_at": "2026-07-22T20:22:29+00:00",
+        "http_status": 200,
+        "retrieval_status": "ok",
+        "requested_url": "https://web.archive.org/web/20130324061729/http://www.guildford-dragon.com:80/2013/03/20/conservatives-select-candidate-for-stoughton-by-election/",
+        "final_url": "https://web.archive.org/web/20130324061729/http://www.guildford-dragon.com:80/2013/03/20/conservatives-select-candidate-for-stoughton-by-election/",
+        "archive_url": "https://web.archive.org/web/20130324061729/http://www.guildford-dragon.com:80/2013/03/20/conservatives-select-candidate-for-stoughton-by-election/"
+      },
+      "identity": {
+        "canonical_url": "http://www.guildford-dragon.com:80/2013/03/20/conservatives-select-candidate-for-stoughton-by-election/",
+        "offline_citation": null,
+        "publisher": "guildford_dragon",
+        "headline": "Guildford Dragon NEWS | The Guildford Dragon",
+        "subheading": null,
+        "byline": null,
+        "language": "en"
+      },
+      "dates": {
+        "published_date": null,
+        "published_time": null,
+        "updated_date": null,
+        "date_confidence": "Missing",
+        "date_evidence": []
+      },
+      "content": {
+        "has_full_text": true,
+        "text_path": "data/raw/news_pilot/NEWS-guildford_dragon-dce210d89e84.txt",
+        "extract": "A Conservative candidate to fight for the Stoughton Ward in the forthcoming Borough by-election on May 2nd has been selected. She is Sharon Stokes.\nThe by-election has been called following the resignation of Lib Dem Cllr Wendy May who is moving back to Canada with her family.\nMs Stokes\u2019s family first moved to Stoughton when she was seven years old. Since then she has lived in Guildford for most of her life including residence in Stoughton for the last 10 years. She works locally in the centr...",
+        "word_count": 333,
+        "text_sha256": "7b1cd3ab1bb231d9e08170c38f3048709cc6323de93f445d9cfdec30fcb7a7ba"
+      },
+      "notes": null
+    },
+    {
+      "schema_version": "1.0",
+      "article_id": "NEWS-guildford_dragon-1c38b966faf4",
+      "source_id": "guildford_dragon",
+      "arm": "local",
+      "discovered_for_election": "SCC-2017-05",
+      "retrieval": {
+        "adapter": "wayback",
+        "adapter_version": "pilot-1.0",
+        "access_route": "wayback_capture",
+        "search_query_id": "PILOT-guildford_dragon-SCC-2017-05",
+        "retrieved_at": "2026-07-22T20:23:20+00:00",
+        "http_status": 200,
+        "retrieval_status": "ok",
+        "requested_url": "https://web.archive.org/web/20161223025239/http://www.guildford-dragon.com/2016/12/05/opinion-richmond-election-result-mean-guildford/",
+        "final_url": "https://web.archive.org/web/20161223025239/http://www.guildford-dragon.com/2016/12/05/opinion-richmond-election-result-mean-guildford/",
+        "archive_url": "https://web.archive.org/web/20161223025239/http://www.guildford-dragon.com/2016/12/05/opinion-richmond-election-result-mean-guildford/"
+      },
+      "identity": {
+        "canonical_url": "http://www.guildford-dragon.com/2016/12/05/opinion-richmond-election-result-mean-guildford/",
+        "offline_citation": null,
+        "publisher": "guildford_dragon",
+        "headline": "Opinion: What Does the Richmond By-election Result Mean for Guildford?",
+        "subheading": null,
+        "byline": null,
+        "language": "en"
+      },
+      "dates": {
+        "published_date": "2016-12-05",
+        "published_time": null,
+        "updated_date": null,
+        "date_confidence": "Confirmed",
+        "date_evidence": [
+          {
+            "value": "2016-12-05T13:11:00+00:00",
+            "found_in": "opengraph"
+          }
+        ]
+      },
+      "content": {
+        "has_full_text": true,
+        "text_path": "data/raw/news_pilot/NEWS-guildford_dragon-1c38b966faf4.txt",
+        "extract": "Does the result of the by-election in Richmond, only 20 miles away from Guildford, hold any lessons for our local political parties?\nIt is all too easy to read too much into such results. They might be a straw in the wind but then again they are one-offs, a snapshot of opinion in one location, at one point of time.\nOf course it is easy for those flushed with victory to make statements that seem way over the top, even in the heat of the moment, let alone with the benefit of hindsight.\nThe winn...",
+        "word_count": 3835,
+        "text_sha256": "37ff8d9c0cd7d1b8c9fb71e9d748a86dbf3606ade9ee09f2feb9c3bc87b6d937"
+      },
+      "notes": null
+    },
+    {
+      "schema_version": "1.0",
+      "article_id": "NEWS-guildford_dragon-40ac34fceac8",
+      "source_id": "guildford_dragon",
+      "arm": "local",
+      "discovered_for_election": "SCC-2021-05",
+      "retrieval": {
+        "adapter": "wayback",
+        "adapter_version": "pilot-1.0",
+        "access_route": "wayback_capture",
+        "search_query_id": "PILOT-guildford_dragon-SCC-2021-05",
+        "retrieved_at": "2026-07-22T20:23:45+00:00",
+        "http_status": 200,
+        "retrieval_status": "ok",
+        "requested_url": "https://web.archive.org/web/20210123103235/https://www.guildford-dragon.com/2021/01/23/local-politicians-use-social-media-and-zoom-as-decision-on-elections-awaited/",
+        "final_url": "https://web.archive.org/web/20210123103235/https://www.guildford-dragon.com/2021/01/23/local-politicians-use-social-media-and-zoom-as-decision-on-elections-awaited/",
+        "archive_url": "https://web.archive.org/web/20210123103235/https://www.guildford-dragon.com/2021/01/23/local-politicians-use-social-media-and-zoom-as-decision-on-elections-awaited/"
+      },
+      "identity": {
+        "canonical_url": "https://www.guildford-dragon.com/2021/01/23/local-politicians-use-social-media-and-zoom-as-decision-on-elections-awaited/",
+        "offline_citation": null,
+        "publisher": "guildford_dragon",
+        "headline": "Local Politicians Use Social Media and Zoom As Decision On Elections Awaited",
+        "subheading": null,
+        "byline": null,
+        "language": "en"
+      },
+      "dates": {
+        "published_date": "2021-01-23",
+        "published_time": null,
+        "updated_date": null,
+        "date_confidence": "Confirmed",
+        "date_evidence": [
+          {
+            "value": "2021-01-23T10:32:22+00:00",
+            "found_in": "json_ld"
+          },
+          {
+            "value": "2021-01-23T10:32:22+00:00",
+            "found_in": "opengraph"
+          }
+        ]
+      },
+      "content": {
+        "has_full_text": true,
+        "text_path": "data/raw/news_pilot/NEWS-guildford_dragon-40ac34fceac8.txt",
+        "extract": "Local politicians are turning more and more to social media to keep contact with their residents during the pandemic and in the run-up to PCC and county council elections, currently scheduled, still, for May 6 this year.\nA government decision to go ahead is awaited. The PCC election has already been delayed by a year.\nIn the meantime, local and national parties are having to get their message out to voters without the traditional methods of canvassing as the lockdowns are affecting council me...",
+        "word_count": 881,
+        "text_sha256": "baf8498fb7e7dae184c253fb212842dbd25d8e23dee658dd567f0399651ff860"
+      },
+      "notes": null
+    }
+  ]
+}
