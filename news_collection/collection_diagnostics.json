@@ -1,0 +1,70 @@
+{
+  "generated": "2026-07-22",
+  "records_total": 2870,
+  "schema_invalid": 0,
+  "quarantined": 0,
+  "by_election": {
+    "SCC-2017-05": 784,
+    "SCC-2013-05": 783,
+    "ESWS-2026-05": 666,
+    "SCC-2021-05": 637
+  },
+  "by_source": {
+    "guardian_api": 2854,
+    "epsom_ewell_times": 6,
+    "guildford_dragon": 5,
+    "surreylive": 5
+  },
+  "by_route": {
+    "api": 2854,
+    "live_page": 11,
+    "wayback_capture": 5
+  },
+  "by_retrieval_status": {
+    "ok": 2861,
+    "parse_failed": 9
+  },
+  "by_date_confidence": {
+    "Confirmed": 2709,
+    "Uncertain": 156,
+    "Probable": 5
+  },
+  "date_conflicts_flagged": 156,
+  "needs_date_review": 156,
+  "metadata_completeness": {
+    "headline": 2870,
+    "published_date": 2714,
+    "date_evidence": 2870,
+    "full_text": 2861,
+    "text_sha256": 2861,
+    "byline": 2747
+  },
+  "election_x_source": {
+    "ESWS-2026-05": {
+      "guardian_api": 650,
+      "epsom_ewell_times": 6,
+      "guildford_dragon": 5,
+      "surreylive": 5
+    },
+    "SCC-2017-05": {
+      "guardian_api": 784
+    },
+    "SCC-2013-05": {
+      "guardian_api": 783
+    },
+    "SCC-2021-05": {
+      "guardian_api": 637
+    }
+  },
+  "searches_executed": 90,
+  "searches_zero_result": 22,
+  "search_fetch_failures": 15,
+  "queries_by_stage_executed": {},
+  "inventory_total": 2495,
+  "inventory_executed": 90,
+  "inventory_pending_by_stage": {
+    "D": 15,
+    "C": 162,
+    "M": 2228
+  }
+}
