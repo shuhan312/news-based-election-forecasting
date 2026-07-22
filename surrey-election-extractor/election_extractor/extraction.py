@@ -790,6 +790,7 @@ def _missing_fields(values: dict[str, object]) -> tuple[str, ...]:
 def _records_for_area(
     area: DiscoveredElectionArea,
     evidence: Sequence[_ParsedEvidence],
+    configured_election_name: str | None = None,
 ) -> tuple[CandidateResultRecord, ...]:
     source_url = normalise_area_result_url(area.result_url)
     # Resolve shared fields once. Conflicts remain None and carry every source.
@@ -825,7 +826,14 @@ def _records_for_area(
             area_conflicts.append(conflict)
 
     area_fields: dict[str, object] = {
-        "election_name": area_raw["election_name"],
+        # A ward's election name does not vary and is not something that
+        # could be wrongly guessed - it is the run's own configured
+        # identity (election_config.ElectionConfiguration.election_name).
+        # Evidence found on the official page or via indexed search is
+        # always preferred; the configured value only fills the gap when
+        # neither source supplied one, matching the same rule already
+        # applied to the workbook's displayed election-name cell.
+        "election_name": area_raw["election_name"] or configured_election_name,
         "election_date": area_raw["election_date"],
         "authority": area_raw["authority"],
         "division_ward_name": area_raw["division_ward_name"],
@@ -943,6 +951,7 @@ def _records_for_area(
 def _indexed_evidence_accounts_for_complete_result(
     area: DiscoveredElectionArea,
     evidence: Sequence[_ParsedEvidence],
+    configured_election_name: str | None = None,
 ) -> bool:
     """Return True only when published evidence accounts for the full result.
 
@@ -952,7 +961,7 @@ def _indexed_evidence_accounts_for_complete_result(
     to that value, and an elected count matching the published seat count.
     """
 
-    records = _records_for_area(area, evidence)
+    records = _records_for_area(area, evidence, configured_election_name)
     if not records or any(
         record.extraction_status is not ExtractionStatus.COMPLETE
         or record.conflicts
@@ -986,6 +995,7 @@ def _run_indexed_result_query(
     provider: SearchProvider,
     query: str,
     search_date: str,
+    configured_election_name: str | None = None,
 ) -> tuple[ExtractionAttempt, tuple[_ParsedEvidence, ...]]:
     """Run and audit one query so an exact-URL result can be reused once.
 
@@ -1022,7 +1032,7 @@ def _run_indexed_result_query(
     # Accept only evidence that resolves to the submitted official area URL;
     # neighbouring wards returned by the search engine remain excluded.
     query_evidence = tuple(_matching_evidence(area, query, search_results))
-    query_records = _records_for_area(area, query_evidence)
+    query_records = _records_for_area(area, query_evidence, configured_election_name)
     accepted_results = {
         (item.source_url, item.search_result_title, item.search_result_snippet)
         for item in query_evidence
@@ -1086,12 +1096,18 @@ def extract_candidate_results(
     run_targeted_searches: bool = True,
     require_exact_indexed_search: bool = False,
     max_targeted_queries_per_area: int | None = None,
+    configured_election_name: str | None = None,
 ) -> ExtractionReport:
     """Use official pages first, then fall back to auditable indexed evidence.
 
     The application can disable targeted follow-up searches while still
     running the exact-result-URL query. This implements the supervisor's UI
     checkbox without changing the default behaviour of existing pipelines.
+
+    configured_election_name is passed straight through to
+    _records_for_area as a last-resort fallback for the election_name
+    field (see that function's comment): used only when neither the
+    official page nor any indexed search evidence supplied one.
     """
     records: list[CandidateResultRecord] = []
     attempts: list[ExtractionAttempt] = []
@@ -1114,6 +1130,7 @@ def extract_candidate_results(
                 provider,
                 indexed_queries[0],
                 search_date,
+                configured_election_name,
             )
             attempts.append(exact_attempt)
             area_evidence.extend(exact_evidence)
@@ -1162,7 +1179,7 @@ def extract_candidate_results(
                     fetch_result.diagnostic.final_url,
                     retrieval_note,
                 )
-                official_records = _records_for_area(area, official_evidence)
+                official_records = _records_for_area(area, official_evidence, configured_election_name)
                 official_status = (
                     ExtractionStatus.NO_EVIDENCE
                     if not official_records
@@ -1235,6 +1252,7 @@ def extract_candidate_results(
                 provider,
                 query,
                 search_date,
+                configured_election_name,
             )
             attempts.append(query_attempt)
             area_evidence.extend(query_evidence)
@@ -1245,11 +1263,12 @@ def extract_candidate_results(
             if run_targeted_searches and _indexed_evidence_accounts_for_complete_result(
                 area,
                 area_evidence,
+                configured_election_name,
             ):
                 break
 
         # Merge evidence only after every supported query has completed. This
         # allows partial snippets to complement each other without overwriting.
-        records.extend(_records_for_area(area, area_evidence))
+        records.extend(_records_for_area(area, area_evidence, configured_election_name))
 
     return ExtractionReport(tuple(records), tuple(attempts), tuple(diagnostics))

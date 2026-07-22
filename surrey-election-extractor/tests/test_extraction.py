@@ -776,6 +776,46 @@ def test_official_voting_summary_supports_a_published_two_seat_2026_ward() -> No
     assert report.records[0].extraction_status is ExtractionStatus.COMPLETE
 
 
+def test_missing_election_name_falls_back_to_the_configured_election_and_completes() -> None:
+    """Regression test for the real 2026 East/West Surrey extraction: the
+    official pages for these two elections never phrase an "election name"
+    the discovery- or page-parsing regexes can pick up, so every one of the
+    81 real wards came back Incomplete even though every candidate, vote and
+    turnout figure was published and correctly extracted. configured_election_name
+    is the fix: a fallback used only when no page evidence supplies a value,
+    filled from the project's own election configuration (never guessed).
+    """
+    area = replace(multi_seat_discovered_area(), election_name="")
+    page_without_election_name = multi_seat_official_page().replace(
+        "<h1>County Council Election 2026</h1>", "<h1></h1>",
+    )
+
+    without_fallback = extract_candidate_results(
+        (area,),
+        MockSearchProvider({}),
+        official_page_client=MockOfficialPageClient(
+            OfficialPageResponse(200, area.result_url, page_without_election_name)
+        ),
+    )
+    assert without_fallback.records[0].election_name is None
+    assert "election_name" in without_fallback.records[0].missing_fields
+    assert without_fallback.records[0].extraction_status is ExtractionStatus.INCOMPLETE
+
+    with_fallback = extract_candidate_results(
+        (area,),
+        MockSearchProvider({}),
+        official_page_client=MockOfficialPageClient(
+            OfficialPageResponse(200, area.result_url, page_without_election_name)
+        ),
+        configured_election_name="Surrey County Council Election 2026",
+    )
+    assert len(with_fallback.records) == 1
+    record = with_fallback.records[0]
+    assert record.election_name == "Surrey County Council Election 2026"
+    assert "election_name" not in record.missing_fields
+    assert record.extraction_status is ExtractionStatus.COMPLETE
+
+
 def test_missing_published_seats_remain_blank_and_keep_the_record_incomplete() -> None:
     area = real_discovered_area()
     page_without_seats = complete_official_page().replace(

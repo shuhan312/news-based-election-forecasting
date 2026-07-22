@@ -133,6 +133,7 @@ def run(election_id: str, output_directory: Path) -> tuple[Path, Path, Path, dic
         discovery.areas,
         MockSearchProvider({}),
         official_page_client=UrllibOfficialPageClient(),
+        configured_election_name=configuration.election_name,
     )
     summaries = _published_summaries(extraction.records)
     validations = validate_election_results(extraction.records, summaries)
@@ -151,6 +152,7 @@ def run(election_id: str, output_directory: Path) -> tuple[Path, Path, Path, dic
         discovery.areas,
         extraction.attempts,
         summaries,
+        configured_election_name=configuration.election_name,
     )
     summary = _run_summary(
         len(discovery.areas),

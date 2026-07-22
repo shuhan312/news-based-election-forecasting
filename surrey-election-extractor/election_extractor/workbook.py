@@ -570,8 +570,22 @@ def generate_workbook(
     extraction_attempts: Sequence[ExtractionAttempt] = (),
     voting_summaries: Sequence[PublishedVotingSummary] = (),
     election_structure_metadata: Sequence[ElectionStructureMetadata] = (),
+    configured_election_name: str | None = None,
 ) -> Path:
     """Generate one workbook without changing extracted or validated inputs.
+
+    configured_election_name is a last-resort fallback for the per-area
+    "Election name" cell, used only when discovery, validation and
+    extraction evidence all fail to supply one for that area. Unlike
+    every other field on the ward sheet, an election's name does not
+    vary between wards or come from a per-page fact that could be
+    wrong - it is the caller's own configured identity for the whole
+    run (e.g. election_config.ElectionConfiguration.election_name).
+    Falling back to it is therefore not "inventing" a value the way
+    guessing a candidate's vote count would be; it only fills a label
+    the official pages themselves did not happen to phrase in a way
+    the extractor's evidence-gathering could pick up. When evidence IS
+    found, it is always preferred over this fallback.
 
     Each official result URL acts as the stable key joining discovery,
     extraction, validation and audit information for one ward or division.
@@ -639,7 +653,7 @@ def generate_workbook(
                 *(result.election_name for result in area_validations),
                 *(record.election_name for record in area_records),
             ]
-        )
+        ) or configured_election_name
         election_date = _first_non_missing(record.election_date for record in area_records)
         status = _area_status(area_records, area_validations, area_attempts)
         worksheet_name = safe_worksheet_name(ward_name, used_names)
