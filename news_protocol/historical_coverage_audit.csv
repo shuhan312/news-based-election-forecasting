@@ -1,0 +1,53 @@
+source_id,election_id,polling_day,window_start,window_end,expected_coverage,coverage_basis,verification_status,evidence,notes
+newsapi_org,SCC-2013-05,2013-05-02,2012-11-03,2013-05-02,none,tested_in_repo,blocked,data/raw/newsapi/coverage_check.txt,Window predates NewsAPI on any tier; API refused with parameterInvalid on 2026-07-14 test
+newsapi_org,SCC-2017-05,2017-05-04,2016-11-05,2017-05-04,none,tested_in_repo,blocked,data/raw/newsapi/coverage_check.txt,Current tier reaches back only to 2026-06-12; paid-tier depth unknown - re-run src/check_newsapi_coverage.py if upgraded
+newsapi_org,SCC-2021-05,2021-05-06,2020-11-07,2021-05-06,none,tested_in_repo,blocked,data/raw/newsapi/coverage_check.txt,Current tier reaches back only to 2026-06-12; paid-tier depth unknown - re-run src/check_newsapi_coverage.py if upgraded
+newsapi_org,ESWS-2026-05,2026-05-07,2025-11-08,2026-05-07,none,tested_in_repo,blocked,data/raw/newsapi/coverage_check.txt,Entire 2026 window already outside the free tier's one-month look-back at test date; upgrade decision with supervisor
+guardian_api,SCC-2013-05,2013-05-02,2012-11-03,2013-05-02,full,provider_documentation,pending,,Archive documented to 1999; spot-check first act of collection stage using existing working key
+guardian_api,SCC-2017-05,2017-05-04,2016-11-05,2017-05-04,full,provider_documentation,pending,,Archive documented to 1999; spot-check first act of collection stage
+guardian_api,SCC-2021-05,2021-05-06,2020-11-07,2021-05-06,full,provider_documentation,pending,,Repository has already retrieved Guardian content with this key (data/processed/guardian_articles.csv); window-specific spot-check still required
+guardian_api,ESWS-2026-05,2026-05-07,2025-11-08,2026-05-07,full,provider_documentation,pending,,Archive documented to 1999; spot-check first act of collection stage
+surreylive,SCC-2013-05,2013-05-02,2012-11-03,2013-05-02,partial,assumption,pending,,Predecessor Get Surrey site existed in 2013; reach depends on Wayback capture density - CDX spot-check required
+surreylive,SCC-2017-05,2017-05-04,2016-11-05,2017-05-04,partial,assumption,pending,,Pre-rebrand URL structure; Google date-restricted search plus Wayback CDX spot-check required
+surreylive,SCC-2021-05,2021-05-06,2020-11-07,2021-05-06,full,assumption,pending,,Live site expected to retain 2020-21 articles; verify site search recall against Google date-restricted search
+surreylive,ESWS-2026-05,2026-05-07,2025-11-08,2026-05-07,full,assumption,pending,,Live site; most recent window so highest expected recall
+bbc_surrey,SCC-2013-05,2013-05-02,2012-11-03,2013-05-02,partial,assumption,pending,,BBC article pages persist well but discovery of 2012-13 Surrey items depends on Google and Wayback index pages
+bbc_surrey,SCC-2017-05,2017-05-04,2016-11-05,2017-05-04,partial,assumption,pending,,Discovery-limited rather than availability-limited; verify with sample queries
+bbc_surrey,SCC-2021-05,2021-05-06,2020-11-07,2021-05-06,full,assumption,pending,,Recent enough for site and Google discovery to work; verify
+bbc_surrey,ESWS-2026-05,2026-05-07,2025-11-08,2026-05-07,full,assumption,pending,,Recent window; verify
+woking_news_mail,SCC-2013-05,2013-05-02,2012-11-03,2013-05-02,none,assumption,pending,,Web presence believed thin in 2013; expect print/microfilm route via Surrey History Centre instead
+woking_news_mail,SCC-2017-05,2017-05-04,2016-11-05,2017-05-04,partial,assumption,pending,,Verify site archive depth and Wayback captures
+woking_news_mail,SCC-2021-05,2021-05-06,2020-11-07,2021-05-06,partial,assumption,pending,,Verify site archive depth
+woking_news_mail,ESWS-2026-05,2026-05-07,2025-11-08,2026-05-07,full,assumption,pending,,Live site expected to cover the 2026 window
+farnham_herald,SCC-2013-05,2013-05-02,2012-11-03,2013-05-02,unknown,assumption,pending,,Publisher archive access untested; relevant only if Waverley divisions are sampled
+farnham_herald,SCC-2017-05,2017-05-04,2016-11-05,2017-05-04,unknown,assumption,pending,,Publisher archive access untested
+farnham_herald,SCC-2021-05,2021-05-06,2020-11-07,2021-05-06,partial,assumption,pending,,Live site expected to retain recent years; paywall behaviour untested
+farnham_herald,ESWS-2026-05,2026-05-07,2025-11-08,2026-05-07,full,assumption,pending,,Live site; paywall behaviour untested
+guildford_dragon,SCC-2013-05,2013-05-02,2012-11-03,2013-05-02,partial,assumption,pending,,Site existed by 2013 but early archive depth and Wayback density need a CDX spot-check
+guildford_dragon,SCC-2017-05,2017-05-04,2016-11-05,2017-05-04,full,assumption,pending,,Own archive believed intact; verify
+guildford_dragon,SCC-2021-05,2021-05-06,2020-11-07,2021-05-06,full,assumption,pending,,Own archive believed intact; verify
+guildford_dragon,ESWS-2026-05,2026-05-07,2025-11-08,2026-05-07,full,assumption,pending,,Live site; relevant only if Guildford divisions are sampled
+epsom_ewell_times,SCC-2013-05,2013-05-02,2012-11-03,2013-05-02,none,source_launch_date,pending,,Site launched c.2022 - cannot cover this window; any hit dated inside it is a mis-dated page
+epsom_ewell_times,SCC-2017-05,2017-05-04,2016-11-05,2017-05-04,none,source_launch_date,pending,,Post-launch source only
+epsom_ewell_times,SCC-2021-05,2021-05-06,2020-11-07,2021-05-06,none,source_launch_date,pending,,Post-launch source only
+epsom_ewell_times,ESWS-2026-05,2026-05-07,2025-11-08,2026-05-07,full,assumption,pending,,Live hyperlocal site; relevant only if Epsom & Ewell wards are sampled
+surrey_comet,SCC-2013-05,2013-05-02,2012-11-03,2013-05-02,unknown,assumption,pending,,Newsquest archive depth untested; geographic overlap with sample may be small
+surrey_comet,SCC-2017-05,2017-05-04,2016-11-05,2017-05-04,unknown,assumption,pending,,Newsquest archive depth untested
+surrey_comet,SCC-2021-05,2021-05-06,2020-11-07,2021-05-06,partial,assumption,pending,,Recent years expected on live site; verify
+surrey_comet,ESWS-2026-05,2026-05-07,2025-11-08,2026-05-07,full,assumption,pending,,Live site; verify overlap with sampled wards
+google_dated_search,SCC-2013-05,2013-05-02,2012-11-03,2013-05-02,partial,assumption,pending,,Discovery tool across all publishers; oldest window so weakest index coverage
+google_dated_search,SCC-2017-05,2017-05-04,2016-11-05,2017-05-04,partial,assumption,pending,,Discovery tool; date restriction reflects crawl date - publication date must be confirmed on the page
+google_dated_search,SCC-2021-05,2021-05-06,2020-11-07,2021-05-06,full,assumption,pending,,Discovery tool; expected effective for recent windows
+google_dated_search,ESWS-2026-05,2026-05-07,2025-11-08,2026-05-07,full,assumption,pending,,Discovery tool; expected effective
+wayback_machine,SCC-2013-05,2013-05-02,2012-11-03,2013-05-02,partial,assumption,pending,,Capture density for small Surrey weeklies in 2012-13 is the key unknown; CDX counts per domain are the planned verification
+wayback_machine,SCC-2017-05,2017-05-04,2016-11-05,2017-05-04,partial,assumption,pending,,CDX spot-check per publisher domain planned
+wayback_machine,SCC-2021-05,2021-05-06,2020-11-07,2021-05-06,full,assumption,pending,,Capture density generally strong by 2020; verify per domain
+wayback_machine,ESWS-2026-05,2026-05-07,2025-11-08,2026-05-07,full,assumption,pending,,Recent window; mainly needed for already-altered or deleted pages
+british_newspaper_archive,SCC-2013-05,2013-05-02,2012-11-03,2013-05-02,unknown,provider_documentation,pending,,Post-2000 holdings limited by rights agreements; title-by-title check before relying on it
+british_newspaper_archive,SCC-2017-05,2017-05-04,2016-11-05,2017-05-04,unknown,provider_documentation,pending,,Title-by-title check required
+british_newspaper_archive,SCC-2021-05,2021-05-06,2020-11-07,2021-05-06,unknown,provider_documentation,pending,,Title-by-title check required
+british_newspaper_archive,ESWS-2026-05,2026-05-07,2025-11-08,2026-05-07,none,provider_documentation,pending,,Archive digitisation lags years behind; not expected to hold 2025-26 material
+surrey_history_centre,SCC-2013-05,2013-05-02,2012-11-03,2013-05-02,full,provider_documentation,pending,,Microfilm runs of Surrey weeklies expected to cover 2012-13; the designated gap-filler for the 2013 window; in-person visit required
+surrey_history_centre,SCC-2017-05,2017-05-04,2016-11-05,2017-05-04,full,provider_documentation,pending,,Holdings expected; reserve for gaps digital routes cannot fill
+surrey_history_centre,SCC-2021-05,2021-05-06,2020-11-07,2021-05-06,full,provider_documentation,pending,,Holdings expected; unlikely to be needed given digital coverage
+surrey_history_centre,ESWS-2026-05,2026-05-07,2025-11-08,2026-05-07,unknown,assumption,pending,,Microfilm accession lag for very recent issues unknown
