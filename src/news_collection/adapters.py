@@ -79,6 +79,20 @@ class GuardianAdapter:
                 "page": page, "page-size": self.PAGE_SIZE,
                 "order-by": "oldest",           # deterministic ordering
                 "show-fields": "bodyText,byline,firstPublicationDate",
+                # Restrict to Guardian's UK edition. Verified 2026-07-23:
+                # without this, generic national-topic phrasing (e.g.
+                # 'party leadership', 'opinion poll AND voters') matches
+                # Guardian's US and Australia editions too - a live
+                # comparison query returned australia-news/us-related
+                # hits without this parameter and only uk-news/politics/
+                # commentisfree (UK edition) hits with it. An audit of
+                # the corpus already collected without this filter found
+                # 284/2854 Guardian records (~10%) from the us-news/
+                # australia-news sections - see
+                # audit_guardian_geographic_relevance.py, which flags
+                # (not deletes) those already-collected records for the
+                # eligibility stage rather than fixing them retroactively.
+                "production-office": "uk",
                 "api-key": self.key,
             })
             if r is None or r.status_code != 200:
