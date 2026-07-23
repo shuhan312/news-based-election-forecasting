@@ -8,7 +8,7 @@ rebuilt.
 
 | File | What it is |
 |---|---|
-| `query_inventory.csv` | The complete deterministic query inventory (2,495 queries, stages A–M). Regenerate with `python3 -m src.news_collection.build_query_inventory`. |
+| `query_inventory.csv` | The complete deterministic query inventory (775 queries, stages A–M; v1.1). Ward-tier stages (C, M) are restricted to the 17 divisions in `news_protocol/division_sample.md` — v1.0 covered all 93 divisions before the sample existed, which defeated the point of sampling. Regenerate with `python3 -m src.news_collection.build_query_inventory` (needs `news_protocol/division_sample.csv` and both 2026 results CSVs present). |
 | `search_log.csv` | Append-only log: one row per executed search, including zero-result and failed searches (protocol §5.3). |
 | `checkpoints/completed_queries.json` | Resumability: query IDs already executed (local-only, gitignored — it is runtime state, fully derivable from `search_log.csv`); delete a query ID to force re-execution (which appends a new log row). |
 | `collection_diagnostics.json` | Corpus statistics + schema re-validation results. Regenerate with `python3 -m src.news_collection.make_collection_report`. |

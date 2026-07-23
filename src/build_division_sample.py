@@ -66,6 +66,13 @@ Inputs (all already-completed, committed components - read-only):
 
 Output:
   news_protocol/division_sample.md       the committed sampling record
+                                          (human-readable)
+  news_protocol/division_sample.csv      the same result, machine-
+                                          readable, for downstream
+                                          scripts (e.g.
+                                          build_query_inventory.py)
+                                          to consume without parsing
+                                          Markdown
 
 Usage:
     python3 src/build_division_sample.py
@@ -83,6 +90,7 @@ EXACT_CROSSWALK = Path(
     "surrey-election-extractor/outputs/geographic_crosswalk_resolution/"
     "final_direct_mapping_dataset.json")
 OUT = Path("news_protocol/division_sample.md")
+OUT_CSV = Path("news_protocol/division_sample.csv")
 
 # Pre-registered numeric thresholds. Fixed BEFORE inspecting results,
 # using the supervisor's qualitative categories (safe / marginal /
@@ -425,7 +433,22 @@ def write_report(selected, has_2026):
     ]
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text("\n".join(lines) + "\n")
-    print(f"{total} divisions -> {OUT}")
+
+    # Machine-readable sibling: one row per selected division, its strata
+    # (semicolon-joined, since a division can qualify for more than one)
+    # and its evidence text, so build_query_inventory.py (or anything
+    # else downstream) can consume the sample without parsing Markdown.
+    with OUT_CSV.open("w", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=["division", "strata", "evidence"])
+        w.writeheader()
+        for ward in sorted(selected):
+            w.writerow({
+                "division": ward,
+                "strata": "; ".join(s for s, _ in selected[ward]),
+                "evidence": " | ".join(e for _, e in selected[ward]),
+            })
+
+    print(f"{total} divisions -> {OUT} and {OUT_CSV}")
     for ward in sorted(selected):
         print(f"  {ward}: {[s for s, _ in selected[ward]]}")
 
