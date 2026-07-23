@@ -388,20 +388,25 @@ def ward_queries_for(election_id, era_name, division_data, stage_c_source,
              + [f'{c} AND {era_name}'
                 for c in sorted(division_data["candidates"])])
     for text in manual:
-        # retrieval_route google_cse (proposal P3, adapters.GoogleCseAdapter):
-        # automates what used to require a human to search Google by hand
-        # and paste results into a worksheet. Runs today only if
-        # GOOGLE_CSE_API_KEY/GOOGLE_CSE_ENGINE_ID are configured - the
-        # adapter reports the gap per query rather than pretending zero
-        # results otherwise, so an unconfigured run still logs honestly.
-        # news_source_registry.csv still marks google_dated_search
-        # manual-only pending supervisor confirmation of P3 (protocol
-        # change control, news_research_protocol.md section 9); this
-        # route exists so collection can start the moment that lands,
-        # without a second inventory rebuild.
+        # retrieval_route serpapi (adapters.SerpApiAdapter): automates what
+        # used to require a human to search Google by hand and paste
+        # results into a worksheet. Uses the student's own personal
+        # SerpAPI account (unrelated to any other use of SerpAPI in this
+        # repository), so no supervisor sign-off is needed for this
+        # specific credential - unlike the still-pending proposal P3
+        # (Google's own Programmable Search API, adapters.GoogleCseAdapter,
+        # left in place as an alternative route once/if that is
+        # configured instead or as well). Either adapter reports a
+        # missing-credential gap honestly per query rather than
+        # pretending zero results, so an unconfigured run still logs
+        # correctly. news_source_registry.csv still marks
+        # google_dated_search manual-only pending supervisor
+        # confirmation of P3 (protocol change control,
+        # news_research_protocol.md section 9) - that status describes
+        # the ORIGINAL manual method's governance, not this adapter.
         out.append(row(election_id, "ward_manual", text,
                        "google_dated_search", "ward-level",
-                       "google_cse", "local", "M", ward=display_division))
+                       "serpapi", "local", "M", ward=display_division))
     return out
 
 

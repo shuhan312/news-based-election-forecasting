@@ -34,7 +34,8 @@
                    "retrieved_at", "retrieval_status", "search_query_id"],
       "properties": {
         "adapter": {"enum": ["guardian", "newsapi", "site_search",
-                              "wayback", "manual_import", "pilot"]},
+                              "wayback", "manual_import", "pilot",
+                              "google_cse", "serpapi"]},
         "adapter_version": {"type": "string"},
         "access_route": {"enum": ["api", "live_page", "wayback_capture",
                                    "manual_transcription"]},

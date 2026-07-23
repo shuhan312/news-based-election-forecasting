@@ -28,7 +28,7 @@ load_dotenv()          # GUARDIAN_KEY / NEWSAPI_KEY live in .env
 
 from . import SOFTWARE_VERSION, PROTOCOL_VERSION
 from .adapters import (GoogleCseAdapter, GuardianAdapter, ManualImportAdapter,
-                       SiteSearchAdapter, WaybackAdapter)
+                       SerpApiAdapter, SiteSearchAdapter, WaybackAdapter)
 
 LOG_PATH = Path("news_collection/search_log.csv")
 CHECKPOINT = Path("news_collection/checkpoints/completed_queries.json")
@@ -77,11 +77,13 @@ def make_adapters():
         # refusing to start (a stage may mix google_cse rows with
         # others that don't need these credentials at all).
         "google_cse": GoogleCseAdapter(),
+        # Reads SERPAPI_API_KEY itself; same missing-credential handling.
+        "serpapi": SerpApiAdapter(),
     }
 
 
 def run(queries, *, fetch_budget=400, per_query_fetch_cap=None,
-        dry_run=False):
+        max_new_searches=None, dry_run=False):
     """Execute a list of inventory queries (already filtered by the
     caller to the intended stage).  Returns run statistics.
 
@@ -90,12 +92,22 @@ def run(queries, *, fetch_budget=400, per_query_fetch_cap=None,
                         collection: shallow first pass, deepen later -
                         re-running a completed query is a NEW log row,
                         never an edit)
+    max_new_searches    hard cap on the number of NEW searches (adapter
+                        .search() calls) this invocation makes - for
+                        staying under a search-engine quota (Google CSE's
+                        daily free tier, a personal SerpAPI plan), which
+                        is metered in searches, not article fetches.
+                        Already-checkpointed queries are skipped before
+                        this counter increments, so resuming a
+                        partially-done stage never wastes quota
+                        re-counting work already paid for.
     """
     adapters = make_adapters()
     done = load_checkpoint()
     stats = {"queries_run": 0, "skipped_done": 0, "written": 0,
              "existing": 0, "quarantined": 0, "failures": 0}
     fetches = 0
+    new_searches = 0
 
     for q in queries:
         if q["query_id"] in done:
@@ -104,12 +116,18 @@ def run(queries, *, fetch_budget=400, per_query_fetch_cap=None,
         if fetches >= fetch_budget:
             print(f"fetch budget {fetch_budget} reached - run resumable")
             break
+        if (not dry_run and max_new_searches is not None
+                and new_searches >= max_new_searches):
+            print(f"search quota {max_new_searches} reached this "
+                  "invocation - run again to continue (resumable)")
+            break
         adapter = adapters[q["retrieval_route"]]
         if dry_run:
             print("DRY", q["query_id"], q["query_text"][:60])
             continue
 
         hits, search_meta = adapter.search(q)
+        new_searches += 1
         search_status = (search_meta[-1].get("status")
                          if search_meta else None)
         written = existing = quarantined = failed = 0

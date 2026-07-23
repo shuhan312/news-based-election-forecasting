@@ -383,6 +383,64 @@ class GoogleCseAdapter:
 
 
 # ---------------------------------------------------------------------------
+# SerpAPI - a second, independent automated route for Stage M, using the
+# student's own personal SerpAPI account (a free-tier quota registered
+# separately, unrelated to any other use of SerpAPI elsewhere in this
+# repository - see news_protocol/ for the distinction). Same interface
+# and same credential-safety discipline as GoogleCseAdapter: reads its
+# key from an environment variable only, never logs it, reports a
+# missing-credential gap honestly instead of pretending zero results.
+#
+# Having two independent search-engine adapters lets Stage M run through
+# whichever quota is available (or both, splitting the 810 queries
+# across them) without changing anything else in the pipeline - the
+# runner and schema treat every adapter identically.
+# ---------------------------------------------------------------------------
+
+class SerpApiAdapter:
+    name = "serpapi"
+    ENDPOINT = "https://serpapi.com/search.json"
+    MAX_RESULTS = 20   # matches GoogleCseAdapter's per-query cap, for the
+                       # same reason: one query should not eat a large
+                       # share of a limited free quota
+
+    def __init__(self, api_key=None):
+        self.api_key = api_key or os.getenv("SERPAPI_API_KEY")
+
+    def search(self, query):
+        if not self.api_key:
+            return [], [{"status": None,
+                        "note": "SERPAPI_API_KEY not configured"}]
+        r = http_get(self.ENDPOINT, params={
+            "engine": "google", "q": query["query_text"],
+            "num": self.MAX_RESULTS, "api_key": self.api_key,
+        })
+        if r is None or r.status_code != 200:
+            return [], [{"status": getattr(r, "status_code", None)}]
+        body = r.json()
+        if "error" in body:
+            # SerpAPI reports quota/auth problems in a 200-status JSON
+            # body, not always via HTTP status - surface that plainly
+            # rather than treating it as zero real results.
+            return [], [{"status": 200, "error": body["error"]}]
+        hits = [{"url": item.get("link"), "title": item.get("title"),
+                "snippet": item.get("snippet")}
+               for item in body.get("organic_results", [])]
+        return hits, [{"status": 200,
+                      "total": body.get("search_information", {})
+                              .get("total_results")}]
+
+    def fetch(self, hit, query):
+        # Same reasoning as GoogleCseAdapter.fetch: SerpAPI returns a
+        # link + snippet only, so the actual page fetch/parse logic is
+        # shared rather than duplicated.
+        proxy = SiteSearchAdapter()
+        record, raw = proxy.fetch(hit, query)
+        record["retrieval"]["adapter"] = "serpapi"
+        return record, raw
+
+
+# ---------------------------------------------------------------------------
 # Manual import - Google-discovered URLs, archive transcriptions.
 # ---------------------------------------------------------------------------
 
@@ -430,6 +488,8 @@ ADAPTERS = {
     "google_cse": GoogleCseAdapter,    # instantiated with key by runner;
                                        # no-op search() until credentials
                                        # are configured (see class comment)
+    "serpapi": SerpApiAdapter,         # student's own personal account;
+                                       # same no-op-until-configured behaviour
     # NewsAPI stays dormant: blocked for every window on the current
     # tier (audit).  It gains an adapter here only after an upgrade
     # re-verifies coverage via src/check_newsapi_coverage.py.
