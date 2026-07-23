@@ -40,7 +40,7 @@ VALIDATOR = Draft7Validator(json.loads(SCHEMA_PATH.read_text()))
 
 RAW_ROOT = Path("data/raw/news")
 DIRS = {name: RAW_ROOT / name
-        for name in ("records", "html", "api_raw", "text", "quarantine")}
+        for name in ("records", "html", "api_raw", "text", "quarantine", "pdf")}
 
 
 def sha256(text):
@@ -210,7 +210,8 @@ def build_record(*, source_id, arm, election_id, adapter, access_route,
     }
 
 
-def save_record(record, *, text=None, raw_html=None, raw_api=None):
+def save_record(record, *, text=None, raw_html=None, raw_api=None,
+                raw_pdf=None):
     """Persist one record plus its raw sidecars.
 
     Validates against the schema first; invalid records go to the
@@ -229,6 +230,13 @@ def save_record(record, *, text=None, raw_html=None, raw_api=None):
         record["content"]["text_path"] = str(path)
     if raw_html is not None:
         (DIRS["html"] / f"{aid}.html").write_text(raw_html, errors="replace")
+    if raw_pdf is not None:
+        # PDF sidecars are written as raw bytes, never through a text
+        # decode - decoding binary data as text is exactly the defect
+        # (found 2026-07-23) that irrecoverably corrupted three official
+        # election PDFs stored under html/. Adapters detect PDFs at fetch
+        # time (adapters.is_pdf_response) and route them here instead.
+        (DIRS["pdf"] / f"{aid}.pdf").write_bytes(raw_pdf)
     if raw_api is not None:
         (DIRS["api_raw"] / f"{aid}.json").write_text(
             json.dumps(raw_api, indent=1))

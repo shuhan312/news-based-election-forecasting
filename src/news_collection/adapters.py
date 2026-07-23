@@ -54,6 +54,22 @@ def is_challenge_page(meta):
                                 "access denied", "attention required"))
 
 
+def is_pdf_response(resp):
+    """True if a fetched page is actually a PDF, not HTML.
+
+    Found 2026-07-23: three site-search hits were official election PDFs
+    (a Statement of Persons Nominated, an LGBCE boundary report, a
+    declaration of results). fetch() was reading every response with
+    `resp.text`, which decodes bytes as (guessed) text - fine for HTML,
+    but it silently mangles PDF binary data into a string full of U+FFFD
+    replacement characters, destroying the file beyond recovery. Checked
+    both by the declared content-type and the file's own %PDF signature,
+    since a misconfigured server can send a PDF without the right header.
+    """
+    ctype = (resp.headers.get("Content-Type") or "").lower()
+    return "application/pdf" in ctype or resp.content[:5] == b"%PDF-"
+
+
 # ---------------------------------------------------------------------------
 # Guardian Content API - the national arm's verified full-archive route.
 # ---------------------------------------------------------------------------
@@ -213,7 +229,10 @@ class WaybackAdapter:
             resp = http_get(archive_url, archive=True)
             requested, route = archive_url, "wayback_capture"
         status = getattr(resp, "status_code", None)
-        html = resp.text if resp is not None else ""
+        is_pdf = resp is not None and status == 200 and is_pdf_response(resp)
+        # See is_pdf_response's docstring: .text on a PDF response corrupts
+        # it irrecoverably, so PDFs are diverted before that call is made.
+        html = "" if is_pdf else (resp.text if resp is not None else "")
         meta = extract_html_metadata(html) if html else {"dates": []}
         # capture-URL verification: Wayback redirects dead URLs to other
         # captures (often the homepage) - record that as blocked rather
@@ -237,7 +256,8 @@ class WaybackAdapter:
             canonical_url=original, publisher=query["source_id"],
             meta=meta, retrieval_status=r_status)
         return record, {"text": meta.get("text"),
-                        "raw_html": html if status == 200 else None}
+                        "raw_html": html if (status == 200 and not is_pdf) else None,
+                        "raw_pdf": resp.content if is_pdf else None}
 
 
 # ---------------------------------------------------------------------------
@@ -281,7 +301,13 @@ class SiteSearchAdapter:
     def fetch(self, hit, query):
         r = http_get(hit["url"])
         status = getattr(r, "status_code", None)
-        html = r.text if r is not None else ""
+        is_pdf = r is not None and status == 200 and is_pdf_response(r)
+        # PDFs never go through .text (see is_pdf_response's docstring for
+        # why) and are not HTML-parsed - extract_html_metadata is an HTML
+        # parser and would find nothing useful anyway. This is an honest
+        # "no date evidence from this stage" gap, same status as an API
+        # source that never stores page HTML by design.
+        html = "" if is_pdf else (r.text if r is not None else "")
         meta = extract_html_metadata(html) if html else {"dates": []}
         r_status = None
         if r is None:
@@ -299,7 +325,8 @@ class SiteSearchAdapter:
             canonical_url=hit["url"], publisher=query["source_id"],
             meta=meta, retrieval_status=r_status)
         return record, {"text": meta.get("text"),
-                        "raw_html": html if status == 200 else None}
+                        "raw_html": html if (status == 200 and not is_pdf) else None,
+                        "raw_pdf": r.content if is_pdf else None}
 
 
 # ---------------------------------------------------------------------------

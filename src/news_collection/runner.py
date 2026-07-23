@@ -148,7 +148,11 @@ def run(queries, *, fetch_budget=400, per_query_fetch_cap=None,
             status, _ = save_record(record,
                                     text=raw.get("text"),
                                     raw_html=raw.get("raw_html"),
-                                    raw_api=raw.get("raw_api"))
+                                    raw_api=raw.get("raw_api"),
+                                    # binary PDF sidecar (bytes) - see
+                                    # schema.save_record for why this is
+                                    # kept apart from raw_html
+                                    raw_pdf=raw.get("raw_pdf"))
             if status == "ok":
                 written += 1
             elif status == "exists":
