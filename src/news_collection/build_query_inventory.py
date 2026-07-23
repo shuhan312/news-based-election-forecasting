@@ -131,8 +131,25 @@ def row(election_id, family, text, source, scope, route, arm,
 
 def ward_slug(ward):
     """First place-name segment, lowercased and hyphenated, for CDX URL
-    matching (Reach/WordPress slugs contain place names).
-    'Bagshot, Windlesham and Chobham' -> 'bagshot'."""
+    matching (Reach/WordPress slugs contain place names, never the
+    word 'ward' itself).
+    'Bagshot, Windlesham and Chobham' -> 'bagshot'
+    'Addlestone Ward' -> 'addlestone'  (not 'addlestone-ward')
+
+    Bug found running Stage C on the real 2026-named divisions: this
+    function only split on comma/'and'/'&', so a single-segment 2026
+    name like 'Addlestone Ward' fell through untouched and kept
+    '-ward' in the slug, while a comma-containing name like 'Bagshot,
+    Windlesham & Chobham Ward' happened to drop 'Ward' anyway because
+    it comes after the comma the split already cuts on - the same
+    function was accidentally right for one shape of name and wrong
+    for the other. 'Addlestone Ward' CDX searches returned 0 candidates
+    (verified in news_collection/search_log.csv) because no real
+    article URL slug contains the literal word 'ward'. Stripping a
+    trailing ' Ward' first makes both shapes go through the same,
+    intentional path.
+    """
+    ward = re.sub(r"\s+Ward$", "", ward, flags=re.IGNORECASE)
     head = re.split(r",| and | & ", ward)[0].strip().lower()
     return re.sub(r"[^a-z0-9]+", "-", head).strip("-")
 
@@ -316,9 +333,20 @@ def ward_queries_for(election_id, era_name, division_data, stage_c_source,
              + [f'{c} AND {era_name}'
                 for c in sorted(division_data["candidates"])])
     for text in manual:
+        # retrieval_route google_cse (proposal P3, adapters.GoogleCseAdapter):
+        # automates what used to require a human to search Google by hand
+        # and paste results into a worksheet. Runs today only if
+        # GOOGLE_CSE_API_KEY/GOOGLE_CSE_ENGINE_ID are configured - the
+        # adapter reports the gap per query rather than pretending zero
+        # results otherwise, so an unconfigured run still logs honestly.
+        # news_source_registry.csv still marks google_dated_search
+        # manual-only pending supervisor confirmation of P3 (protocol
+        # change control, news_research_protocol.md section 9); this
+        # route exists so collection can start the moment that lands,
+        # without a second inventory rebuild.
         out.append(row(election_id, "ward_manual", text,
                        "google_dated_search", "ward-level",
-                       "manual_import", "local", "M", ward=display_division))
+                       "google_cse", "local", "M", ward=display_division))
     return out
 
 

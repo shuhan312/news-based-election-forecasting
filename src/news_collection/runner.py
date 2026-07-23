@@ -27,7 +27,7 @@ from dotenv import load_dotenv
 load_dotenv()          # GUARDIAN_KEY / NEWSAPI_KEY live in .env
 
 from . import SOFTWARE_VERSION, PROTOCOL_VERSION
-from .adapters import (GuardianAdapter, ManualImportAdapter,
+from .adapters import (GoogleCseAdapter, GuardianAdapter, ManualImportAdapter,
                        SiteSearchAdapter, WaybackAdapter)
 
 LOG_PATH = Path("news_collection/search_log.csv")
@@ -72,6 +72,11 @@ def make_adapters():
         "wayback_cdx": WaybackAdapter(),
         "site_search": SiteSearchAdapter(),
         "manual_import": ManualImportAdapter(),
+        # Reads GOOGLE_CSE_API_KEY/GOOGLE_CSE_ENGINE_ID itself; if unset,
+        # search() reports the gap per-query rather than the runner
+        # refusing to start (a stage may mix google_cse rows with
+        # others that don't need these credentials at all).
+        "google_cse": GoogleCseAdapter(),
     }
 
 

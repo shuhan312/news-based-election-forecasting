@@ -16,6 +16,7 @@ Validation findings baked in:
     their discovery goes through CDX (proposal P1)
 """
 
+import os
 import re
 import time
 from urllib.parse import quote_plus
@@ -288,6 +289,100 @@ class SiteSearchAdapter:
 
 
 # ---------------------------------------------------------------------------
+# Google Programmable Search - automates the Google discovery route
+# proposal P3 (news_collection/raw_news_collection_report.md section 6).
+#
+# Separate and unrelated to SerpAPI: this calls Google's own official
+# Custom Search JSON API (googleapis.com/customsearch/v1), which is
+# built for exactly this kind of programmatic use and does not violate
+# Google's search-results scraping restriction the way querying
+# google.com directly would. It shares no code, credentials or quota
+# with surrey-election-extractor's SerpApiSearchProvider (a different,
+# third-party service) - the two can run side by side without any
+# interaction.
+#
+# Requires two separate pieces of configuration, both free to obtain:
+#   GOOGLE_CSE_API_KEY - an API key from Google Cloud Console
+#   GOOGLE_CSE_ENGINE_ID - a "cx" ID from a Programmable Search Engine
+#                          configured at programmablesearchengine.google.com
+#                          (set to search the whole web, not one site,
+#                          so it can find whichever Surrey outlet
+#                          covered a given ward/candidate/party query)
+# Free tier: 100 queries/day. Stage M currently has 631 queries, so a
+# full run needs to be spread over roughly a week, or paid past the
+# free tier (~$5 per 1,000 queries) - the runner's --budget flag
+# already caps how many queries one invocation executes, so this is a
+# matter of how the user schedules invocations, not new code.
+#
+# Per protocol change control (news_research_protocol.md section 9):
+# this route is built and ready, but the registry still records
+# google_dated_search as manual-only until the supervisor confirms
+# proposal P3 - see build_query_inventory.py's comment on this adapter
+# for how that pending status is kept visible rather than silently
+# overwritten.
+# ---------------------------------------------------------------------------
+
+class GoogleCseAdapter:
+    name = "google_cse"
+    ENDPOINT = "https://www.googleapis.com/customsearch/v1"
+    PAGE_SIZE = 10          # Google CSE's fixed page size
+    MAX_RESULTS = 20        # 2 pages per query - a deliberate cap so one
+                            # query cannot consume a large share of the
+                            # free daily quota by itself
+
+    def __init__(self, api_key=None, engine_id=None):
+        self.api_key = api_key or os.getenv("GOOGLE_CSE_API_KEY")
+        self.engine_id = engine_id or os.getenv("GOOGLE_CSE_ENGINE_ID")
+
+    def search(self, query):
+        if not self.api_key or not self.engine_id:
+            # Missing credentials is a configuration gap, not a search
+            # failure - report it plainly rather than pretending zero
+            # results were found (protocol: never silently discard).
+            return [], [{"status": None,
+                        "note": "GOOGLE_CSE_API_KEY/GOOGLE_CSE_ENGINE_ID "
+                                "not configured"}]
+        hits, pages_meta = [], []
+        for start in range(1, self.MAX_RESULTS + 1, self.PAGE_SIZE):
+            r = http_get(self.ENDPOINT, params={
+                "key": self.api_key, "cx": self.engine_id,
+                "q": query["query_text"],
+                # sort by date where Google can infer one; exact 180-day
+                # window enforcement still happens downstream from each
+                # page's own extracted date evidence, same as every
+                # other adapter - this only improves ranking, it is not
+                # trusted as a hard filter.
+                "sort": "date", "start": start,
+            })
+            if r is None or r.status_code != 200:
+                pages_meta.append({"start": start, "status":
+                                   getattr(r, "status_code", None)})
+                break
+            body = r.json()
+            pages_meta.append({"start": start, "status": 200,
+                               "total": body.get("searchInformation", {})
+                                       .get("totalResults")})
+            items = body.get("items", [])
+            for item in items:
+                hits.append({"url": item.get("link"),
+                            "title": item.get("title"),
+                            "snippet": item.get("snippet")})
+            if len(items) < self.PAGE_SIZE:
+                break
+        return hits, pages_meta
+
+    def fetch(self, hit, query):
+        # CSE returns a URL + snippet, never full content - the actual
+        # page still has to be fetched and parsed like any other live
+        # page, so this delegates to the same fetch logic SiteSearchAdapter
+        # already uses rather than duplicating it.
+        proxy = SiteSearchAdapter()
+        record, raw = proxy.fetch(hit, query)
+        record["retrieval"]["adapter"] = "google_cse"
+        return record, raw
+
+
+# ---------------------------------------------------------------------------
 # Manual import - Google-discovered URLs, archive transcriptions.
 # ---------------------------------------------------------------------------
 
@@ -332,6 +427,9 @@ ADAPTERS = {
     "wayback_cdx": WaybackAdapter,
     "site_search": SiteSearchAdapter,
     "manual_import": ManualImportAdapter,
+    "google_cse": GoogleCseAdapter,    # instantiated with key by runner;
+                                       # no-op search() until credentials
+                                       # are configured (see class comment)
     # NewsAPI stays dormant: blocked for every window on the current
     # tier (audit).  It gains an adapter here only after an upgrade
     # re-verifies coverage via src/check_newsapi_coverage.py.
