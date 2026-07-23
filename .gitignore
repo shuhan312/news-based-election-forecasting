@@ -23,3 +23,4 @@ news_collection/checkpoints/
 news_collection/query_inventory.csv
 news_collection/collection_diagnostics.json
 news_collection/ward_tier_diagnostics.json
+news_collection/completeness_check.json
