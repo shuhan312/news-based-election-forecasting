@@ -46,14 +46,38 @@ Usage:
 import csv
 import json
 import random
+from datetime import date
 from pathlib import Path
 
 from .manual_review_schema import REVIEW_FIELDS
+from .resolve_publication_dates import ELECTIONS
 
 ELIGIBILITY = Path("news_collection/eligibility_assessment.csv")
+EFFECTIVE_DATES = Path("news_collection/effective_dates.csv")
 RECORDS = Path("data/raw/news/records")
+TEXT_DIR = Path("data/raw/news/text")
 SAMPLE_OUT = Path("news_collection/manual_review_sample.csv")
 KAPPA_OUT = Path("news_collection/manual_review_kappa_subset.csv")
+
+# How much of the article to show a reviewer directly in the sheet,
+# so they are not opening 168 separate .txt files by hand. Not a
+# judgement input, purely a reading convenience - capped rather than
+# showing full text because some articles run to thousands of words
+# and the point is a quick, honest read, not a wall of text in a
+# spreadsheet cell. Long enough to cover a typical news article's
+# lede and body comfortably; anything genuinely ambiguous at this
+# length can still be read in full at article_text_path.
+EXCERPT_CHARS = 1500
+
+# These columns are NOT part of the review schema (manual_review_
+# schema.REVIEW_FIELDS) and are never read by validate_row - they
+# exist purely to make the human review faster to actually perform.
+# Kept as a separate list, appended only when WRITING the sheet, so
+# the formal schema those other modules rely on never changes shape.
+READING_AID_FIELDS = [
+    "headline", "effective_date", "day_index_from_polling_day",
+    "e4_suggested_hint", "article_text_excerpt", "article_text_path",
+]
 
 SEED = 20260723   # date this protocol was designed - fixed, never changed
 RNG_SAMPLE = "sample_selection"
@@ -162,7 +186,64 @@ def composition_report(rows):
     }
 
 
-def build_review_row(r, *, stratum_tags, review_round):
+def reading_aid_fields(r, eff_date_by_id):
+    """Everything in READING_AID_FIELDS - pulled once per article so a
+    reviewer never has to leave the sheet to find the text or work out
+    whether E4 is even a live concern for this one.
+
+    The E4 hint is a SUGGESTION, not a decision: it is derived purely
+    from the mechanical fact of how many days before polling day this
+    article falls (already established by the date-resolution stage,
+    not a content judgement), never from reading the article. A
+    reviewer still has to fill e4_decision themselves for the row to
+    validate - manual_review_schema.validate_row does not read this
+    column at all, so leaving it blank or ignoring it changes nothing
+    about whether the row is accepted.
+    """
+    rec = json.loads((RECORDS / f"{r['article_id']}.json").read_text())
+    headline = rec["identity"].get("headline") or ""
+
+    eff_date_str = eff_date_by_id.get(r["article_id"], "")
+    day_index_str = ""
+    hint = "no resolved date on file - cannot estimate, read carefully"
+    if eff_date_str:
+        eff_date = date.fromisoformat(eff_date_str)
+        _, polling_day = ELECTIONS[r["election_id"]]
+        day_index = (polling_day - eff_date).days
+        day_index_str = str(day_index)
+        if day_index >= 10:
+            hint = (f"likely E4-CLEAR ({day_index} days before polling day - "
+                   "a genuine result leak would require the DATE itself "
+                   "being wrong, not just a careless read; still confirm "
+                   "by skimming for any reference to a declared result)")
+        else:
+            hint = (f"read carefully ({day_index} days before polling day - "
+                   "close enough that a dating error could plausibly let "
+                   "leakage through; do not default to E4-CLEAR here)")
+
+    if rec["content"].get("has_full_text") and rec["content"].get("text_path"):
+        text_path = Path(rec["content"]["text_path"])
+        full_text = text_path.read_text(errors="replace") if \
+            text_path.exists() else ""
+    else:
+        full_text = rec["content"].get("extract") or ""
+        text_path = Path(rec["content"].get("text_path") or "")
+
+    excerpt = full_text[:EXCERPT_CHARS]
+    if len(full_text) > EXCERPT_CHARS:
+        excerpt += (f"... [truncated, {len(full_text)} chars total - full "
+                   f"text at {text_path}]")
+
+    return {
+        "headline": headline, "effective_date": eff_date_str,
+        "day_index_from_polling_day": day_index_str,
+        "e4_suggested_hint": hint,
+        "article_text_excerpt": excerpt or "(no text stored for this record)",
+        "article_text_path": str(text_path) if full_text else "",
+    }
+
+
+def build_review_row(r, *, stratum_tags, review_round, eff_date_by_id):
     """One blank review row - every deterministic/carried-over field
     filled in, every judgement field left explicitly empty. Never
     guesses a decision; a reviewer fills those in by hand."""
@@ -183,6 +264,7 @@ def build_review_row(r, *, stratum_tags, review_round):
     if r["needs_reform_disambiguation"] != "yes":
         row["e6_decision"] = "not_applicable"
         row["e6_reason_code"] = "E6-NOT-REFORM-FLAGGED"
+    row.update(reading_aid_fields(r, eff_date_by_id))
     return row
 
 
@@ -198,14 +280,21 @@ def select_kappa_subset(sample_rows):
 def write_csv(path, rows):
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=REVIEW_FIELDS)
+        w = csv.DictWriter(fh, fieldnames=REVIEW_FIELDS + READING_AID_FIELDS)
         w.writeheader()
         w.writerows(rows)
+
+
+def load_effective_dates():
+    return {r["article_id"]: r["effective_date"]
+           for r in csv.DictReader(EFFECTIVE_DATES.open())
+           if r["date_status"] == "usable"}
 
 
 def main():
     pool = annotate(load_pool())
     sample = select_sample(pool)
+    eff_date_by_id = load_effective_dates()
 
     stratum_of = {}
     for r in sample:
@@ -221,14 +310,15 @@ def main():
 
     sample_review_rows = [
         build_review_row(r, stratum_tags=stratum_of[r["article_id"]],
-                         review_round="initial")
+                         review_round="initial", eff_date_by_id=eff_date_by_id)
         for r in sorted(sample, key=lambda r: r["article_id"])]
     write_csv(SAMPLE_OUT, sample_review_rows)
 
     kappa_rows = select_kappa_subset(sample)
     kappa_review_rows = [
         build_review_row(r, stratum_tags=stratum_of[r["article_id"]],
-                         review_round="kappa_blind_recheck")
+                         review_round="kappa_blind_recheck",
+                         eff_date_by_id=eff_date_by_id)
         for r in sorted(kappa_rows, key=lambda r: r["article_id"])]
     write_csv(KAPPA_OUT, kappa_review_rows)
 
