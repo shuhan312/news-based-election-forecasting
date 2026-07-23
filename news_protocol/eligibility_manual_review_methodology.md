@@ -137,29 +137,78 @@ after the fact from its content - it is fixed at collection time
 (protocol §4) and simply carried through every downstream stage
 unchanged.
 
-## 6. When this protocol is considered frozen
+## 6. What happens after the pilot, in order
 
 Per `article_eligibility_rules.md` §6 ("no rule in this document may
 be changed after collection starts except through the deviations
-log"), the manual-review codebook is considered frozen for the current
-elections once **all** of the following hold:
+log"), the sequence is deliberately staged so nothing large-scale
+happens under a codebook that later turns out to need revision:
 
-1. The full pilot sample (168 records) has been reviewed and every row
-   passes `manual_review_schema.validate_row()` with no exceptions.
-2. The blind kappa recheck has been completed and every rule's kappa
-   is >= 0.60 (§3). If any rule falls short, the codebook entry for
-   that rule is revised, the change and reason are logged in
-   `news_research_protocol.md`'s deviations log, and a **new** pilot
-   sample and kappa subset are drawn (not a second pass over the same
-   34 articles, which would no longer be blind).
-3. The 5% independent re-check required by article_eligibility_rules.md
-   §6 (minimum 30 articles per election) has been run against the
-   **full**, post-pilot corpus once the pilot has passed, with
-   disagreements logged the same way.
+1. **Pilot passes**: the full pilot sample (168 records) has been
+   reviewed and every row passes `manual_review_schema.validate_row()`
+   with no exceptions.
+2. **Blind recheck passes**: the 34-article blind kappa recheck has
+   been completed and every rule's kappa is >= 0.60 (§3). If any rule
+   falls short, that rule's codebook entry is revised, the change and
+   reason are logged in `news_research_protocol.md`'s deviations log,
+   and a **new** pilot sample and kappa subset are drawn (not a second
+   pass over the same 34 articles, which would no longer be blind) -
+   repeat from step 1 with the revised codebook.
+3. **Full review**: only once both 1 and 2 hold does the remaining
+   ~2,500-record `pending_human_review` population (the 2,666-record
+   pool minus the 168 already covered by the pilot) get reviewed
+   against the now-validated codebook.
+4. **5% independent re-check**: the check required by
+   `article_eligibility_rules.md` §6 (minimum 30 articles per election)
+   is run against the completed full review, with disagreements logged
+   the same way as step 2. This is the final consistency check on the
+   actual full-scale review, not a substitute for the pilot's kappa
+   check in step 2 - they check different things (step 2: is the
+   codebook itself stable; step 4: was it actually applied
+   consistently across ~2,500 real decisions).
 
-Only after all three hold does the full 2,666-record
-`pending_human_review` population get reviewed against the frozen
-codebook. Reviewing the full corpus before the pilot passes would risk
-re-doing thousands of judgement calls under a codebook that later
-turns out to need revision - the entire reason this pilot stage exists
-ahead of it.
+The codebook is only considered genuinely "frozen" - safe to cite in
+the final report as validated - once step 4 is complete and any
+disagreements it surfaces have been resolved.
+
+## 7. Proposed LLM-assisted classification for the remaining corpus (not yet approved)
+
+Manually reviewing all 2,666 `pending_human_review` records at the
+same depth as the 168-record pilot is a large time cost. A validated,
+disclosed LLM-assisted classification method is proposed as a way to
+handle the bulk of the remaining corpus, structured so it can never
+substitute for the researcher's own judgement without evidence that it
+agrees with it:
+
+1. `src/news_collection/llm_classifier.py` builds its prompt directly
+   from `manual_review_schema.REASON_CODES` - the exact same codebook
+   entries a human reviewer works from (§1-§2 of this document), so
+   the LLM is judged against identical criteria, never a paraphrased
+   or separately-maintained version that could drift.
+2. The classifier is run **only** against the same 168 pilot articles
+   a human has already reviewed (`run_llm_classification_pilot.py` ->
+   `manual_review_llm_pilot.csv`), never the wider 2,666-record pool,
+   until the next step has actually happened.
+3. `compare_llm_to_human_agreement.py` computes percent agreement and
+   Cohen's kappa between the human's decisions and the LLM's, per rule,
+   using the identical arithmetic as the blind human recheck in §3. A
+   rule only becomes eligible for LLM-assisted classification on the
+   remaining ~2,500 records if its kappa clears the same 0.60 bar used
+   everywhere else in this protocol; any rule that doesn't stays fully
+   manual regardless of how well the other rules perform.
+4. **This is not authorised to run for real yet.** No `ANTHROPIC_API_KEY`
+   is configured in this environment (`llm_classifier.classify_article`
+   fails closed with `status=not_configured` rather than fabricating a
+   result - verified 2026-07-23 against all 168 pilot articles, all 168
+   correctly produced no classification). The method is raised with the
+   supervisor at the 2026-07-31 meeting before any real key is added or
+   any real classification is produced. If approved, this section is
+   updated with the decision and any conditions attached; if not
+   approved, the full corpus is reviewed manually per §6 instead.
+5. Even once approved and validated, an LLM classification never enters
+   `is_eligible_for_downstream()`'s notion of eligibility directly - it
+   is written to a separate file and only counts once a human has
+   compared it against the gold standard and the agreement has cleared
+   the bar in (3). There is no path by which an LLM output reaches the
+   analysis corpus without a documented human validation step in
+   between.
