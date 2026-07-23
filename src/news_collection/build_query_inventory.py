@@ -9,8 +9,9 @@ Generates news_collection/query_inventory.csv from committed inputs only:
     source x election combinations audited 'none' are not queried)
   * ward-tier queries       - restricted to the 17 divisions in
     news_protocol/division_sample.md (supervisor to-do 7), instantiated
-    per election from data/elections/results_2017_2024.csv (2017/2021)
-    and data/elections/2026_east_surrey_results.csv /
+    per election from data/elections/2013_scc_results.csv (2013),
+    data/elections/results_2017_2024.csv (2017/2021) and
+    data/elections/2026_east_surrey_results.csv /
     2026_west_surrey_results.csv (2026)
 
 Because every input is committed, re-running this script reproduces the
@@ -25,8 +26,13 @@ existed, which defeated the point of sampling 15-25 divisions
 project's GIS-based boundary crosswalk, not by matching ward-name
 strings; where no verified correspondence exists for a division's
 other era, that era is skipped and logged rather than guessed at.
-2013 ward-tier queries remain unavailable - no committed 2013
-division/candidate table yet (collection report, issue U3).
+
+v1.2: ward-tier queries now cover 2013 too, using
+convert_2013_extractor_output.py's output. 2013-2021 divisions share
+the same boundaries (single-member wards, unlike 2026's new two-member
+wards), so 2013 names are reconciled straight to the 2021 spelling via
+normalise_ward_key() - no GIS crosswalk needed for this pair, only the
+2021-to-2026 boundary change needs one.
 
 Usage:
     python3 -m src.news_collection.build_query_inventory
@@ -41,6 +47,7 @@ from pathlib import Path
 from . import PROTOCOL_VERSION
 
 OUT = Path("news_collection/query_inventory.csv")
+RESULTS_2013 = Path("data/elections/2013_scc_results.csv")
 RESULTS_2017_2021 = Path("data/elections/results_2017_2024.csv")
 RESULTS_2026 = [Path("data/elections/2026_east_surrey_results.csv"),
                 Path("data/elections/2026_west_surrey_results.csv")]
@@ -242,6 +249,41 @@ def scc_ward_data_2017_2021():
     return data
 
 
+def scc_ward_data_2013(canonical_2021_keys):
+    """Ward -> {parties, candidates} for 2013, from
+    convert_2013_extractor_output.py's output. New in v1.2 - closes the
+    biggest remaining gap in ward-tier collection (2013 previously had
+    no committed division/candidate table at all).
+
+    2013 divisions are the same single-member boundaries as 2017/2021
+    (unlike 2026's new two-member wards), so names are reconciled to
+    the 2021 spelling by normalise_ward_key() alone - verified earlier
+    (13 of 81 wards differ only in '&' vs 'and', 0 unmatched - see the
+    commit that added this function). No GIS crosswalk lookup is
+    needed for 2013<->2021, only for 2021<->2026.
+
+    canonical_2021_keys is the set of ward names scc_ward_data_2017_2021
+    already uses, so 2013 is folded into that same naming convention
+    rather than introducing a third, independent spelling.
+    """
+    if not RESULTS_2013.exists():
+        print("WARNING: 2013 ward-level results not found - run "
+              "src/convert_2013_extractor_output.py first. 2013 "
+              "ward-tier queries will be skipped this run.")
+        return {}
+    canonical = {normalise_ward_key(w): w for w in canonical_2021_keys}
+    data = {}
+    for r in csv.DictReader(RESULTS_2013.open()):
+        key = normalise_ward_key(r["ward"])
+        ward = canonical.get(key, r["ward"])
+        d = data.setdefault(ward, {"parties": set(), "candidates": set()})
+        if r.get("party_canonical"):
+            d["parties"].add(r["party_canonical"])
+        if r.get("candidate"):
+            d["candidates"].add(r["candidate"])
+    return data
+
+
 def ward_data_2026():
     """Ward -> {parties, candidates} for 2026, from the converted
     SerpAPI-extractor output. New in v1.1 - v1.0 had no 2026 ward-level
@@ -264,12 +306,17 @@ def ward_data_2026():
 
 
 def resolve_division_names(sampled, forward, backward,
-                           wards_2017_2021, wards_2026):
+                           wards_2013, wards_2017_2021, wards_2026):
     """For each sampled division, work out its verified name under each
     era, using the crosswalk rather than guessing from string
     similarity. Returns {division_as_selected: {election_id: era_name}},
     omitting an election_id entirely when no verified name exists for
     it - callers must not silently fabricate one.
+
+    2013 shares 2017/2021's boundaries and naming convention (both
+    already reconciled to the same canonical spelling by their loader
+    functions), so it resolves alongside them with no separate
+    crosswalk lookup - only the 2021<->2026 boundary change needs one.
 
     Also returns the list of (division, missing_election_id) gaps, for
     the printed report - an honest count of what the sample could not
@@ -285,6 +332,10 @@ def resolve_division_names(sampled, forward, backward,
         if in_2017_2021:
             names["SCC-2017-05"] = division
             names["SCC-2021-05"] = division
+            if division in wards_2013:
+                names["SCC-2013-05"] = division
+            else:
+                gaps.append((division, "SCC-2013-05"))
         else:
             # selected under its 2026 name - look up the 2021-era name
             era_2021_name = backward.get(division)
@@ -292,8 +343,12 @@ def resolve_division_names(sampled, forward, backward,
                     "SCC-2017-05", {}):
                 names["SCC-2017-05"] = era_2021_name
                 names["SCC-2021-05"] = era_2021_name
+                if era_2021_name in wards_2013:
+                    names["SCC-2013-05"] = era_2021_name
+                else:
+                    gaps.append((division, "SCC-2013-05"))
             else:
-                gaps.append((division, "SCC-2017-05/SCC-2021-05"))
+                gaps.append((division, "SCC-2013-05/SCC-2017-05/SCC-2021-05"))
 
         if in_2026:
             names["ESWS-2026-05"] = division
@@ -388,13 +443,16 @@ def build():
     sampled = load_sampled_divisions()
     forward, backward = load_crosswalk_both_directions()
     wards_2017_2021 = scc_ward_data_2017_2021()
+    wards_2013 = scc_ward_data_2013(wards_2017_2021.get("SCC-2021-05", {}))
     wards_2026 = ward_data_2026()
     resolved, gaps = resolve_division_names(
-        sampled, forward, backward, wards_2017_2021, wards_2026)
+        sampled, forward, backward, wards_2013, wards_2017_2021, wards_2026)
 
     for division, era_names in sorted(resolved.items()):
         for eid, era_name in sorted(era_names.items()):
-            if eid in ("SCC-2017-05", "SCC-2021-05"):
+            if eid == "SCC-2013-05":
+                d = wards_2013.get(era_name)
+            elif eid in ("SCC-2017-05", "SCC-2021-05"):
                 d = wards_2017_2021.get(eid, {}).get(era_name)
             else:  # ESWS-2026-05
                 d = wards_2026.get(era_name)
@@ -425,10 +483,6 @@ def build():
               "- not guessed, simply not queried for that era):")
         for division, missing in gaps:
             print(f"  {division}: missing {missing}")
-    print("NOTE: ward-tier rows for SCC-2013-05 remain unavailable - no "
-          "committed division/candidate table for 2013 yet (promote the "
-          "official 2013 extraction into data/elections/). Regenerate "
-          "as v1.2 when available.")
 
 
 if __name__ == "__main__":
