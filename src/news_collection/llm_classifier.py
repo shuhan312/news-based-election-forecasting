@@ -31,7 +31,14 @@ MODEL = "claude-sonnet-5"   # a fixed, disclosed model choice - not
                               # left to whatever the default happens to
                               # be, since the methodology write-up must
                               # be able to name exactly what was used
-MAX_TOKENS = 1024
+MAX_TOKENS = 4096   # raised from 1024 on 2026-07-24: at 1024, 7 of the
+                    # 168 pilot responses were cut off mid-JSON
+                    # ("Unterminated string" parse failures) when their
+                    # supporting_text quotes ran long. This is an output
+                    # -capacity setting, not a judgement criterion - it
+                    # changes whether the model can FINISH its answer,
+                    # never what the answer says - but like any config
+                    # change it is disclosed here and in the methodology.
 
 
 def _rule_block(rule):
@@ -94,13 +101,47 @@ class ClassificationError(Exception):
     pass
 
 
+def strip_markdown_fences(raw_text):
+    """Unwrap a response that is one whole ```json ... ``` (or bare
+    ```) fenced block, returning the inner text; return the input
+    unchanged in every other case.
+
+    Why this exists: in the 2026-07-24 pilot run, 39 of 168 responses
+    failed json.loads() at char 0 because the model wrapped its
+    (otherwise well-formed) JSON in markdown code fences. That is a
+    transport-format quirk, not a classification judgement, so peeling
+    the fences recovers the model's actual answer without altering it.
+
+    Why it is deliberately conservative: the unwrap only fires when the
+    ENTIRE stripped response is a single fenced block (starts with ```,
+    ends with ```). A response that mixes prose with JSON, or is prose
+    alone, is returned unchanged and will still fail parse_response()'s
+    json.loads() - failing closed, exactly as before. This function can
+    therefore only ever turn an unparseable response into a parseable
+    one; it can never change what a parseable response says.
+    """
+    if not isinstance(raw_text, str):
+        return raw_text
+    text = raw_text.strip()
+    if not (text.startswith("```") and text.endswith("```") and
+            len(text) > 6):
+        return raw_text
+    # Drop the opening fence line in full ("```" or "```json" - the
+    # language tag is markdown decoration, not content) and the
+    # closing "```".
+    first_newline = text.find("\n")
+    if first_newline == -1:
+        return raw_text
+    return text[first_newline + 1:text.rfind("```")].strip()
+
+
 def parse_response(raw_text, *, applicable_rules):
     """Turn the model's JSON text into the per-rule fields
     manual_review_schema expects, raising ClassificationError (never
     silently guessing a value) if the response doesn't parse or is
     missing a required rule."""
     try:
-        parsed = json.loads(raw_text)
+        parsed = json.loads(strip_markdown_fences(raw_text))
     except (json.JSONDecodeError, TypeError) as e:
         raise ClassificationError(f"response was not valid JSON: {e}")
 

@@ -79,6 +79,36 @@ class TestParseResponse:
         with pytest.raises(ClassificationError, match="not valid JSON"):
             parse_response("this is not json", applicable_rules=["E4"])
 
+    # --- markdown-fence recovery (added after the 2026-07-24 pilot,
+    # where 39/168 responses were valid JSON wrapped in ```json fences;
+    # see strip_markdown_fences()'s docstring for the full rationale) ---
+
+    def test_json_fenced_response_parses(self):
+        raw = "```json\n" + self._valid_json(rules=("E4",)) + "\n```"
+        fields = parse_response(raw, applicable_rules=["E4"])
+        assert fields["e4_decision"] == "include"
+
+    def test_bare_fenced_response_parses(self):
+        raw = "```\n" + self._valid_json(rules=("E4",)) + "\n```"
+        fields = parse_response(raw, applicable_rules=["E4"])
+        assert fields["e4_decision"] == "include"
+
+    def test_prose_around_fences_still_fails_closed(self):
+        # unwrapping must only fire when the WHOLE response is one
+        # fenced block - prose + fence is still a parse_error, never
+        # a fished-out fragment
+        raw = ("Here is my analysis:\n```json\n" +
+               self._valid_json(rules=("E4",)) + "\n```")
+        with pytest.raises(ClassificationError, match="not valid JSON"):
+            parse_response(raw, applicable_rules=["E4"])
+
+    def test_fenced_prose_still_fails_closed(self):
+        # fences around something that is not JSON must still fail -
+        # the unwrap recovers format, it does not manufacture validity
+        with pytest.raises(ClassificationError, match="not valid JSON"):
+            parse_response("```\nstill not json\n```",
+                           applicable_rules=["E4"])
+
     def test_missing_rule_in_response_raises(self):
         raw = json.dumps({"E4": {"decision": "include",
                                 "reason_code": "E4-CLEAR",

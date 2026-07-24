@@ -21,6 +21,8 @@ Usage:
 """
 
 import csv
+import shutil
+from datetime import datetime
 from pathlib import Path
 
 from .llm_classifier import classify_article
@@ -28,6 +30,14 @@ from .manual_review_schema import RULES
 
 SAMPLE = Path("news_collection/manual_review_sample.csv")
 OUT = Path("news_collection/manual_review_llm_pilot.csv")
+
+# Verbatim model output for every response that failed to parse, one
+# file per article. Without this, a parse_error row records only the
+# json.loads() message - not WHAT the model actually sent - so failures
+# can't be diagnosed (the first pilot run's 39 fence-wrapped responses
+# had to be inferred from the error text alone) and the audit trail has
+# a hole exactly where the pipeline misbehaved.
+RAW_FAILURE_DIR = Path("news_collection/llm_pilot_unparsed_responses")
 
 FIELDNAMES = (
     ["article_id", "status", "note"] +
@@ -50,17 +60,71 @@ def article_from_sample_row(row):
     }
 
 
+def load_previous_ok_rows():
+    """Rows from an earlier run of this script that already carry a
+    real classification (status=ok), keyed by article_id.
+
+    Re-run semantics, and why they matter: the model is stochastic, so
+    re-requesting an article that ALREADY has a recorded classification
+    would re-roll the dice on it - and even an accidental "keep the
+    re-run because its kappa looks better" is a form of cherry-picking
+    the validation must not permit. So successful classifications are
+    carried forward verbatim and never re-requested; only articles with
+    NO usable classification on record (parse_error / api_error /
+    not_configured) are attempted again. For those, a fresh attempt
+    replaces a gap, not an answer - each article ends up with exactly
+    one recorded classification, from whichever run first produced one.
+    """
+    if not OUT.exists():
+        return {}
+    with OUT.open() as fh:
+        return {r["article_id"]: r for r in csv.DictReader(fh)
+               if r.get("status") == "ok"}
+
+
+def backup_previous_output():
+    """Copy the existing output aside (timestamped) before overwriting,
+    so every run's raw result stays inspectable - the audit trail for
+    "what did the first run actually say" must survive the re-run."""
+    if OUT.exists():
+        stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        backup = OUT.with_name(f"{OUT.stem}.pre-rerun-{stamp}{OUT.suffix}")
+        shutil.copy2(OUT, backup)
+        print(f"previous output backed up -> {backup}")
+
+
 def main():
     rows = [r for r in csv.DictReader(SAMPLE.open())
            if r["review_round"] == "initial"]
 
+    previous_ok = load_previous_ok_rows()
+    backup_previous_output()
+
     out_rows = []
     status_counts = {}
+    kept, reran = 0, 0
     for row in rows:
+        # Carry forward an article that already has a real
+        # classification - see load_previous_ok_rows() for why this is
+        # never re-requested.
+        if row["article_id"] in previous_ok:
+            out_rows.append(previous_ok[row["article_id"]])
+            status_counts["ok"] = status_counts.get("ok", 0) + 1
+            kept += 1
+            continue
+
         article = article_from_sample_row(row)
         result = classify_article(article)
         status = result.get("status", "unknown")
         status_counts[status] = status_counts.get(status, 0) + 1
+        reran += 1
+
+        # Keep the un-parseable response itself, verbatim, for
+        # diagnosis - see RAW_FAILURE_DIR's comment.
+        if status == "parse_error" and result.get("raw_text"):
+            RAW_FAILURE_DIR.mkdir(parents=True, exist_ok=True)
+            (RAW_FAILURE_DIR / f"{row['article_id']}.txt").write_text(
+                result["raw_text"])
 
         out_row = {"article_id": row["article_id"], "status": status,
                   "note": result.get("note", "")}
@@ -74,6 +138,10 @@ def main():
             out_row[f"{prefix}_confidence"] = result.get(
                 f"{prefix}_confidence", "")
         out_rows.append(out_row)
+
+    if previous_ok:
+        print(f"{kept} article(s) carried forward from the previous run, "
+             f"{reran} attempted this run")
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     with OUT.open("w", newline="") as fh:

@@ -210,3 +210,72 @@ agrees with it:
    the bar in (3). There is no path by which an LLM output reaches the
    analysis corpus without a documented human validation step in
    between.
+
+### 7.1 Pilot comparison results (run 2026-07-24)
+
+The classifier (`claude-sonnet-5`, prompt generated from
+`REASON_CODES`, `MAX_TOKENS=4096`) was run against all 168 pilot
+articles and compared with the human initial review per step (3).
+
+**Output-format recovery (disclosed).** Two transport-level issues
+were found and fixed during the run; neither touches the decision
+criteria, and every fix is visible in the git history:
+
+- 39/168 first-attempt responses were valid JSON wrapped in markdown
+  code fences and failed `json.loads()`. `strip_markdown_fences()`
+  now unwraps a response that is one whole fenced block (and only
+  that case - prose-plus-JSON still fails closed). Unit-tested.
+- 7/168 responses were truncated mid-JSON at `MAX_TOKENS=1024` when
+  supporting-text quotes ran long; the cap was raised to 4096. This
+  governs whether the model can finish its answer, not what it says.
+
+Articles whose responses failed to parse were re-requested until each
+article had exactly one recorded classification; responses that had
+already parsed were carried forward verbatim and never re-rolled (see
+`load_previous_ok_rows()` in `run_llm_classification_pilot.py` for
+why re-rolling recorded classifications would invite cherry-picking).
+Every run's raw output is preserved in timestamped
+`manual_review_llm_pilot.pre-rerun-*.csv` backups, and any
+still-unparseable response is stored verbatim under
+`news_collection/llm_pilot_unparsed_responses/` for diagnosis.
+
+**Results (all 168 pairs, `compare_llm_to_human_agreement.py`):**
+
+| Rule | Percent agreement | Cohen's kappa | Outcome vs the 0.60 bar |
+|------|------------------|---------------|-------------------------|
+| E4 (result leakage)      | 86.9% | 0.141 | below - stays fully manual |
+| E5 (relevance)           | 52.4% | 0.191 | below - stays fully manual |
+| E6 (Reform disambiguation) | 97.6% | **0.929** | **meets - LLM eligible for the remaining corpus on E6 only** |
+| E8 (editorial content)   | 81.0% | 0.279 | below - stays fully manual |
+
+**Reading the failures honestly.** The three below-bar rules fail in
+different ways, which matters for any follow-up decision:
+
+- **E4** is dominated by class imbalance: the human coded 166/168
+  `include`, 1 `exclude`, 1 `insufficient_evidence`, so kappa's
+  chance-correction is punishing (86.9% raw agreement yields
+  kappa=0.141 - the well-documented kappa paradox). Of the 22
+  disagreements, 13 are the LLM answering `insufficient_evidence`
+  where the human said `include` (over-hedging), 6 are the LLM
+  emitting a reason code (`E4-CLEAR`, which itself denotes include)
+  in the decision field, and only 3 are substantive
+  include-vs-exclude disagreements.
+- **E8** is similar in kind: 136/168 agree; most disagreements are
+  hedges (`insufficient_evidence`/`needs_second_review`) or the same
+  code-in-decision-field slip; substantive disagreements are single
+  digits.
+- **E5** is a genuine criteria mismatch, not an artefact: 28
+  human-include -> LLM-exclude and 20 human-exclude -> LLM-include
+  hard disagreements. The LLM applies the L/N relevance rules
+  differently from the human coder, and no formatting fix changes
+  that.
+
+**Consequence, per step (3):** E6 alone is eligible for LLM-assisted
+classification on the remaining corpus; E4, E5 and E8 remain fully
+manual under this protocol as validated. Any revision to that
+position (e.g. prompt iteration - which would demote these 168
+articles to a development set and require a fresh, untouched human
+-coded validation sample; a different agreement statistic for the
+imbalanced E4; or an LLM-screen-plus-human-check hybrid) is a change
+to the validation design and is not adopted here; it would be taken
+to the supervisor first, and this section updated with the decision.
