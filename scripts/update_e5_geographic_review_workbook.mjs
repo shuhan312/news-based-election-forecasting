@@ -45,9 +45,70 @@ const input = await FileBlob.load(workbookPath);
 const workbook = await SpreadsheetFile.importXlsx(input);
 const sheet = workbook.worksheets.getOrAdd("Geographic Linkage");
 
-// Clearing makes the script safe to rerun after regenerating the JSON while
-// leaving every other worksheet untouched.
+const manualFields = [
+  "linkage_review_status",
+  "confirmed_link_type",
+  "confirmed_linked_place",
+  "confirmed_sampled_division",
+  "confirmed_geographic_evidence",
+  "linkage_decision",
+  "reviewer_notes",
+  "reviewer_id",
+  "reviewed_at",
+];
+
+/**
+ * Preserve previously entered review cells before rebuilding automated data.
+ *
+ * The JSON can be regenerated when matching logic changes, but completed
+ * human judgements are primary research records. Keying them by article_id
+ * means rerunning this exporter refreshes only the deterministic candidates
+ * and never silently erases review work.
+ */
+function readExistingManualValues(usedRange) {
+  const preserved = new Map();
+  if (!usedRange) {
+    return preserved;
+  }
+
+  const rows = usedRange.values;
+  const headerIndex = rows.findIndex(
+    (row) =>
+      row.includes("article_id") &&
+      row.includes("linkage_review_status"),
+  );
+  if (headerIndex < 0) {
+    return preserved;
+  }
+
+  const header = rows[headerIndex];
+  const articleIdIndex = header.indexOf("article_id");
+  const fieldIndexes = Object.fromEntries(
+    manualFields.map((field) => [field, header.indexOf(field)]),
+  );
+  for (const row of rows.slice(headerIndex + 1)) {
+    const articleId = row[articleIdIndex];
+    if (!articleId) {
+      continue;
+    }
+    preserved.set(
+      articleId,
+      Object.fromEntries(
+        manualFields.map((field) => [
+          field,
+          fieldIndexes[field] >= 0 ? row[fieldIndexes[field]] : null,
+        ]),
+      ),
+    );
+  }
+  return preserved;
+}
+
+// Rebuild only after the manual cells have been captured. Other worksheets
+// are never cleared or rewritten by this script.
 const oldUsedRange = sheet.getUsedRange();
+const existingManualByArticleId =
+  readExistingManualValues(oldUsedRange);
 if (oldUsedRange) {
   oldUsedRange.clear({ applyTo: "all" });
 }
@@ -93,28 +154,31 @@ const headers = [
 ];
 sheet.getRange("A5:T5").values = [headers];
 
-const values = localRows.map((row) => [
-  row.review_index,
-  row.article_id,
-  row.headline,
-  row.human_decision,
-  row.llm_decision,
-  row.ward_context_missing,
-  row.automated_exact_sample_division_candidates.join("; "),
-  row.automated_sample_place_candidates.join("; "),
-  row.automated_authority_signals.join("; "),
-  row.automated_geographic_evidence.join("\n"),
-  "not_started",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  null,
-]);
+const values = localRows.map((row) => {
+  const previous = existingManualByArticleId.get(row.article_id) ?? {};
+  return [
+    row.review_index,
+    row.article_id,
+    row.headline,
+    row.human_decision,
+    row.llm_decision,
+    row.ward_context_missing,
+    row.automated_exact_sample_division_candidates.join("; "),
+    row.automated_sample_place_candidates.join("; "),
+    row.automated_authority_signals.join("; "),
+    row.automated_geographic_evidence.join("\n"),
+    previous.linkage_review_status || "not_started",
+    previous.confirmed_link_type || "",
+    previous.confirmed_linked_place || "",
+    previous.confirmed_sampled_division || "",
+    previous.confirmed_geographic_evidence || "",
+    previous.linkage_decision || "",
+    previous.reviewer_notes || "",
+    previous.reviewer_id || "",
+    previous.reviewed_at || "",
+    null,
+  ];
+});
 sheet.getRange(`A6:T${5 + values.length}`).values = values;
 
 // A completed row is mechanically flagged if the minimum audit fields are
