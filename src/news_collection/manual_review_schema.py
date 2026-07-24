@@ -126,6 +126,190 @@ REASON_CODES = {
     },
 }
 
+# Human-readable operational definitions for the same reason codes.
+#
+# REASON_CODES above remains the polarity/validation source of truth.
+# This second mapping exists because a model cannot apply a codebook
+# correctly from a mnemonic label such as "E5-L3-COUNCIL-ISSUE" alone.
+# Keeping the prose next to the closed vocabulary lets the v2 development
+# classifier build its prompt from machine-readable definitions instead of
+# maintaining a second, hand-copied prompt that can silently drift.
+#
+# Any edit here is a codebook edit, not a cosmetic prompt tweak. It therefore
+# needs the same protocol/deviations treatment as the companion prose
+# codebook before it is used in a frozen validation run.
+REASON_CODE_DEFINITIONS = {
+    "E4": {
+        "E4-LEAK-RESULT": (
+            "The article states who won, lost, or by how much for the "
+            "specific election this record was collected for."
+        ),
+        "E4-LEAK-COUNT": (
+            "The article describes the count for this election as under way "
+            "or complete, including turnout announcements, ballots being "
+            "counted, or a declaration."
+        ),
+        "E4-LEAK-EXIT-POLL": (
+            "The article cites an exit poll or other unofficial early result "
+            "for this election."
+        ),
+        "E4-LEAK-PREVIEW-CITING-RESULT": (
+            "The item is framed as a preview or forecast but nevertheless "
+            "cites the actual result, for example because it was republished "
+            "or edited after polling day without a new dateline."
+        ),
+        "E4-CLEAR": (
+            "Nothing in the available text reports, cites, or reacts to a "
+            "declared result, count, or exit poll for this election. Results "
+            "of a different election do not by themselves fail E4."
+        ),
+        "E4-AMBIGUOUS-TENSE": (
+            "Verb tense or phrasing makes it genuinely unclear whether the "
+            "count for this election had already happened."
+        ),
+        "E4-POSSIBLE-POST-PUBLICATION-EDIT": (
+            "The text shows signs of an update after first publication and "
+            "the update may have added result information."
+        ),
+        "E4-NO-FULL-TEXT": (
+            "The lawfully available text is materially incomplete or "
+            "unreadable, and that specific limitation prevents E4 from "
+            "being decided."
+        ),
+    },
+    "E5": {
+        "E5-L1-PLACE": (
+            "For a local-arm record, the article names the sampled division "
+            "or ward, or a town, village, or identifiable place within it."
+        ),
+        "E5-L2-CANDIDATE": (
+            "For a local-arm record, the article names a verified candidate "
+            "or sitting councillor for the sampled area in a political or "
+            "civic context, not an unrelated namesake."
+        ),
+        "E5-L3-COUNCIL-ISSUE": (
+            "For a local-arm record, the article concerns a Surrey council "
+            "decision, service, or issue identifiably affecting the sampled "
+            "area, such as a road scheme, school, or development."
+        ),
+        "E5-L4-COUNTY-WIDE": (
+            "For a local-arm record, the article is Surrey-wide political "
+            "coverage, such as county control or county-wide campaigning."
+        ),
+        "E5-N1-PARTY-POLITICS": (
+            "For a national-arm record, the article covers UK national "
+            "politics involving a party contesting the election, including "
+            "leadership, government or opposition performance, scandal, "
+            "polling, or voter switching."
+        ),
+        "E5-N2-POLICY-ISSUE": (
+            "For a national-arm record, the article substantively concerns "
+            "one of the supervisor-specified national issues: cost of "
+            "living, tax, immigration, NHS or public services, or local "
+            "government funding."
+        ),
+        "E5-N3-REFORM-GROWTH": (
+            "For a national-arm record, the article concerns Reform UK's "
+            "national growth or its relationship with the Conservatives, "
+            "Labour, or Liberal Democrats; use the UKIP equivalent for the "
+            "relevant 2013 or 2017 context."
+        ),
+        "E5-NO-L-OR-N-RULE-MET": (
+            "The article fails every relevance rule applicable to its "
+            "collection arm. A local record must satisfy an L-rule; a "
+            "national record must satisfy an N-rule."
+        ),
+        "E5-BORDERLINE-PLACE-MENTION": (
+            "For a local-arm record, a place name appears only incidentally "
+            "and it is genuinely unclear whether L1, L2, or L3 is met."
+        ),
+        "E5-BORDERLINE-POLICY-RELEVANCE": (
+            "For a national-arm record, the article touches a policy area "
+            "but it is genuinely unclear whether it falls on the "
+            "supervisor-specified N2 list."
+        ),
+        "E5-NO-FULL-TEXT": (
+            "The lawfully available text is materially incomplete or "
+            "unreadable, and that specific limitation prevents the "
+            "arm-appropriate L/N test from being applied."
+        ),
+    },
+    "E6": {
+        "E6-PARTY-CONFIRMED": (
+            "The text unambiguously refers to the political party Reform UK "
+            "or to a named Reform UK figure or candidate."
+        ),
+        "E6-GENERIC-WORD-USE": (
+            "The search hit uses reform only in its ordinary sense, such as "
+            "planning, NHS, or electoral reform, with no reference to the "
+            "political party."
+        ),
+        "E6-AMBIGUOUS-USAGE": (
+            "The available text makes it genuinely unclear whether Reform "
+            "means the party or the ordinary word."
+        ),
+        "E6-NO-FULL-TEXT": (
+            "The lawfully available text is materially incomplete or "
+            "unreadable, and that specific limitation prevents the Reform "
+            "reference from being disambiguated."
+        ),
+        "E6-NOT-REFORM-FLAGGED": (
+            "The record did not originate from a Reform-related search, so "
+            "E6 is not applicable and is filled mechanically."
+        ),
+    },
+    "E8": {
+        "E8-EDITORIAL-CONFIRMED": (
+            "The item is a news report, analysis, opinion piece, editorial, "
+            "letter, interview, profile, or genuinely published press "
+            "release."
+        ),
+        "E8-LISTING-OR-INDEX-PAGE": (
+            "The item is a category, tag, index, or search-results page, not "
+            "one article."
+        ),
+        "E8-ADVERT-OR-COMMERCIAL": (
+            "The item is an advertisement or purely commercial listing."
+        ),
+        "E8-NOTICE-ONLY": (
+            "The item is a bare procedural notice with no editorial content; "
+            "this is distinct from an eligible published press release."
+        ),
+        "E8-UNCLEAR-FORMAT": (
+            "The item genuinely does not clearly fit either the editorial "
+            "or excluded-format categories, such as an ambiguous live-blog "
+            "fragment or mixed listing-plus-commentary page."
+        ),
+        "E8-NO-FULL-TEXT": (
+            "The lawfully available text is materially incomplete or "
+            "unreadable, and that specific limitation prevents the page "
+            "type from being determined."
+        ),
+    },
+}
+
+# Rule-level purpose statements used by the development classifier. These
+# describe what each rule protects against; the decision itself must still be
+# selected from REASON_CODES and justified using REASON_CODE_DEFINITIONS.
+RULE_DEFINITIONS = {
+    "E4": (
+        "Result leakage: exclude content that reports, cites, or reacts to "
+        "the outcome, exit information, or count for this election."
+    ),
+    "E5": (
+        "Arm-specific relevance: local records must meet a local L-rule and "
+        "national records must meet a national N-rule."
+    ),
+    "E6": (
+        "Reform disambiguation: distinguish the political party Reform UK "
+        "from the ordinary English word reform."
+    ),
+    "E8": (
+        "Editorial-content type: distinguish genuine published editorial "
+        "content from adverts, listings, bare notices, and index pages."
+    ),
+}
+
 # Precedence for deriving the overall decision from the four per-rule
 # decisions, mirroring assess_eligibility.py's "first rule failed wins"
 # logic and article_eligibility_rules.md's stated check order
