@@ -85,6 +85,80 @@ def cohens_kappa(pairs):
     return po, pe, kappa
 
 
+def gwet_ac1(pairs):
+    """Gwet's AC1 (Gwet 2008, Br. J. Math. Stat. Psychol. 61:29-48),
+    computed from first principles like cohens_kappa above.
+
+    Why it exists alongside kappa: kappa estimates chance agreement
+    from each rater's own marginals, so when one rater uses a single
+    category almost exclusively (E4's near-universal "include", E6's
+    all-include human column), pe approaches po and kappa collapses
+    toward 0 regardless of how well the raters actually agree - the
+    "kappa paradox" (Feinstein & Cicchetti 1990). AC1 instead models
+    chance agreement as the probability of BOTH raters guessing on a
+    hard-to-classify item:
+
+        pi_c = mean of the two raters' proportions for category c
+        pe   = (1 / (K - 1)) * sum_c pi_c * (1 - pi_c)
+        AC1  = (po - pe) / (1 - pe)
+
+    which stays well-behaved under skewed prevalence. K is the number
+    of categories OBSERVED in the pairs; with K < 2 there is no
+    variation for any chance model to explain, so AC1 is returned as
+    None just like kappa.
+
+    Returns (po, pe, ac1) or None for an empty pair list. NOT the
+    adopted gate: the protocol's gate is kappa >= 0.60 until the
+    proposed amendment in eligibility_manual_review_methodology.md
+    is approved by the supervisor.
+    """
+    n = len(pairs)
+    if n == 0:
+        return None
+    categories = sorted({c for pair in pairs for c in pair})
+    po = sum(1 for a, b in pairs if a == b) / n
+    k = len(categories)
+    if k < 2:
+        return po, None, None
+    # pi_c pools BOTH raters' answers (2n labels total), per Gwet's
+    # definition - not each rater's own marginal as in kappa's pe.
+    label_counts = {c: 0 for c in categories}
+    for a, b in pairs:
+        label_counts[a] += 1
+        label_counts[b] += 1
+    pe = sum(
+        (label_counts[c] / (2 * n)) * (1 - label_counts[c] / (2 * n))
+        for c in categories
+    ) / (k - 1)
+    if pe >= 1.0:
+        return po, pe, None
+    return po, pe, (po - pe) / (1 - pe)
+
+
+def pabak(pairs):
+    """Prevalence-Adjusted Bias-Adjusted Kappa (Byrt, Bishop & Carlin
+    1993, J. Clin. Epidemiol. 46:423-429): the kappa a table with the
+    same po would produce if categories were perfectly balanced.
+
+        PABAK = (K * po - 1) / (K - 1)
+
+    K is the number of categories OBSERVED in the pairs - the
+    conservative choice, since counting never-used legal categories
+    would only inflate the score. With K < 2 it is undefined (None).
+    Simpler than AC1 but blunter: it answers "what would kappa be
+    without the prevalence problem" rather than modelling chance
+    agreement directly, so both are reported side by side.
+    """
+    n = len(pairs)
+    if n == 0:
+        return None
+    po = sum(1 for a, b in pairs if a == b) / n
+    k = len({c for pair in pairs for c in pair})
+    if k < 2:
+        return po, None
+    return po, (k * po - 1) / (k - 1)
+
+
 def compare_round(initial_by_id, recheck_by_id, field):
     pairs = []
     skipped_unanswered = 0

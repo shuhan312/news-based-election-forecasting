@@ -22,7 +22,8 @@ Usage:
 import csv
 from pathlib import Path
 
-from .compute_review_agreement import KAPPA_ACCEPTABLE, cohens_kappa
+from .compute_review_agreement import (KAPPA_ACCEPTABLE, cohens_kappa,
+                                       gwet_ac1, pabak)
 from .manual_review_schema import RULES
 
 SAMPLE = Path("news_collection/manual_review_sample.csv")
@@ -83,13 +84,24 @@ def main():
         if kappa is None:
             print(f"{rule}: {len(pairs)} pairs, percent agreement={po:.1%} "
                  "(kappa undefined - no variation in decisions)")
-            continue
-        verdict = ("MEETS bar - eligible to use LLM for the remaining "
-                  "corpus on this rule"
-                  if kappa >= KAPPA_ACCEPTABLE else
-                  "BELOW bar - this rule stays fully manual")
-        print(f"{rule}: {len(pairs)} pairs, percent agreement={po:.1%}, "
-             f"kappa={kappa:.3f} [{verdict}]")
+        else:
+            verdict = ("MEETS bar - eligible to use LLM for the remaining "
+                      "corpus on this rule"
+                      if kappa >= KAPPA_ACCEPTABLE else
+                      "BELOW bar - this rule stays fully manual")
+            print(f"{rule}: {len(pairs)} pairs, percent agreement={po:.1%}, "
+                 f"kappa={kappa:.3f} [{verdict}]")
+        # Supplementary prevalence-robust statistics, reported for every
+        # rule so the skew-affected ones (E4, E6) can be read against
+        # them. NOT a gate: the adopted go/no-go criterion remains
+        # kappa >= 0.60 unless/until the proposed amendment in
+        # eligibility_manual_review_methodology.md is approved.
+        _, _, ac1 = gwet_ac1(pairs)
+        _, pb = pabak(pairs)
+        ac1_txt = f"{ac1:.3f}" if ac1 is not None else "undefined"
+        pb_txt = f"{pb:.3f}" if pb is not None else "undefined"
+        print(f"    supplementary (not the adopted gate): "
+             f"Gwet's AC1={ac1_txt}, PABAK={pb_txt}")
 
     print("\nA rule's kappa clearing the bar here is what makes its "
          "LLM output usable on the remaining corpus - any rule below "

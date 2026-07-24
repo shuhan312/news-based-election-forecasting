@@ -299,3 +299,69 @@ statistic for the prevalence-skewed E4/E6; or an
 LLM-screen-plus-human-check hybrid) is a change to the validation
 design and is not adopted here; it would be taken to the supervisor
 first, and this section updated with the decision.
+
+## 8. Proposed amendment - pre-registered 2026-07-24, PENDING SUPERVISOR APPROVAL
+
+Nothing in this section is adopted. It is written down *before* any
+v2 result on unseen data exists, so that the choice of statistic and
+sample cannot later be accused of having been fitted to a desired
+outcome. If the supervisor rejects or modifies any part, this section
+is updated with the decision and the deviations log in
+`news_research_protocol.md` records the change.
+
+### 8.1 Why an amendment is needed at all
+
+Two of the four judgement rules are prevalence-skewed in a way that
+breaks Cohen's kappa as an evidence measure (the "kappa paradox",
+Feinstein & Cicchetti 1990): on E6 the human coded all 35 judged
+pilot articles `include`, and on E4 the human marginal is nearly as
+constant. With a near-constant marginal, kappa's chance-agreement
+term approaches the observed agreement and kappa collapses toward 0
+*regardless of actual performance* - 88.6% observed agreement on E6
+returned kappa 0.000. This is a property of the statistic, not of
+the classifier, and it makes the existing kappa >= 0.60 gate
+uninformative (unpassable in principle) for those rules.
+
+### 8.2 Proposed statistics and gate
+
+For every rule, on the fresh validation sample, report all four of:
+percent agreement, Cohen's kappa, Gwet's AC1 (Gwet 2008), and PABAK
+(Byrt, Bishop & Carlin 1993) - implemented from first principles in
+`compute_review_agreement.py` alongside the existing kappa code.
+
+Proposed per-rule gate, applied identically to every rule:
+
+- **Primary**: Cohen's kappa >= 0.60 (unchanged).
+- **Fallback, only where kappa is prevalence-broken** (a rater
+  marginal >= 90% in one category, stated here in advance rather
+  than judged after seeing results): Gwet's AC1 >= 0.60 **and**
+  percent agreement >= 80%.
+- A rule failing both routes stays fully manual. No third route.
+
+Sanity check that the fallback is not a rubber stamp: computed
+retrospectively on the v1 pilot (development data, illustrative
+only), AC1 gives E4 0.862, E6 0.881, E8 0.801 - but E5 only 0.473,
+still failing. The statistic distinguishes prevalence artefacts from
+genuine disagreement.
+
+### 8.3 Validation sample (already drawn, coding may begin)
+
+`build_llm_validation_sample.py` (seed 20260724, fixed) drew 128
+records from the 2,498 articles no human has seen: 43 Reform-flagged
+(E6's entire evidence base), local/national quotas mirroring the
+pilot's stratification so validation difficulty matches development
+difficulty. Human coding of this sample uses the unchanged codebook
+and may proceed immediately - human labels do not depend on this
+amendment. What may NOT happen before supervisor approval and v2
+freeze: generating or comparing any v2 output on these 128 articles.
+
+### 8.4 Order of operations after approval
+
+1. Freeze v2 (classifier version hash recorded; no further edits).
+2. Complete human coding of all 128 validation rows.
+3. Run frozen v2 once on the validation sample; compare per §8.2.
+4. Rules that pass: v2 classifies the remaining corpus for that rule,
+   followed by the §6 step-4 5% independent re-check. Rules that
+   fail: fully manual, no re-tuning against this sample - a v3 would
+   demote this sample to development data and require another fresh
+   one.
