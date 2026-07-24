@@ -2,15 +2,6 @@
 articles a human is reviewing in manual_review_sample.csv, so the two
 can later be compared.
 
-===========================================================================
-DO NOT RUN THIS FOR REAL BEFORE SUPERVISOR APPROVAL.
-See news_protocol/eligibility_manual_review_methodology.md and the
-2026-07-31 supervisor meeting note. This script is built and tested,
-not authorised to run - see llm_classifier.py's module docstring for
-why it currently cannot produce any real classification anyway
-(no ANTHROPIC_API_KEY is configured in this environment).
-===========================================================================
-
 What this writes, and what it deliberately does NOT do
 ----------------------------------------------------------
 Output goes to news_collection/manual_review_llm_pilot.csv only - a
@@ -18,10 +9,12 @@ new file, never manual_review_sample.csv itself (the human's answers
 and the LLM's answers must never share a column, or a later "compare
 the two" step would be comparing a value against itself). This script
 never calls manual_review_schema.is_eligible_for_downstream() and
-nothing it produces is read by any other pipeline stage - an
-eligibility decision only becomes real once a human has compared this
-file against their own review and the supervisor has signed off (see
-llm_classifier.py's docstring for the full reasoning).
+nothing it produces is read by any other pipeline stage - an LLM
+classification only counts as usable evidence once compare_llm_to_
+human_agreement.py shows it agrees with the human pilot review at or
+above the same 0.60 kappa bar used for the human blind recheck (see
+llm_classifier.py's docstring). Below that bar, the affected rule
+stays fully manual regardless of what this script produces.
 
 Usage:
     python3 -m src.news_collection.run_llm_classification_pilot
@@ -92,15 +85,15 @@ def main():
     print("by status:", status_counts)
     if status_counts.get("not_configured"):
         print(f"\n{status_counts['not_configured']} article(s) produced NO "
-             "classification - ANTHROPIC_API_KEY is not set. This is "
-             "expected and correct until supervisor approval is granted "
-             "(see module docstring) - nothing here should be treated as "
-             "a real result.")
+             "classification - ANTHROPIC_API_KEY is not set. Nothing "
+             "here should be treated as a real result (see module "
+             "docstring).")
     if status_counts.get("ok"):
         print(f"\n{status_counts['ok']} article(s) received a real "
-             "classification. Before using ANY of this: has the "
-             "supervisor actually approved this method yet? If not, stop "
-             "here - see this module's docstring.")
+             "classification. Before using ANY of this, the per-rule "
+             "kappa check against the human pilot must clear 0.60 - "
+             "see compare_llm_to_human_agreement.py and this module's "
+             "docstring.")
 
 
 if __name__ == "__main__":

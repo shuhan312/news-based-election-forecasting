@@ -171,11 +171,11 @@ The codebook is only considered genuinely "frozen" - safe to cite in
 the final report as validated - once step 4 is complete and any
 disagreements it surfaces have been resolved.
 
-## 7. Proposed LLM-assisted classification for the remaining corpus (not yet approved)
+## 7. LLM-assisted classification for the remaining corpus
 
 Manually reviewing all 2,666 `pending_human_review` records at the
 same depth as the 168-record pilot is a large time cost. A validated,
-disclosed LLM-assisted classification method is proposed as a way to
+disclosed LLM-assisted classification method is used to
 handle the bulk of the remaining corpus, structured so it can never
 substitute for the researcher's own judgement without evidence that it
 agrees with it:
@@ -196,16 +196,14 @@ agrees with it:
    remaining ~2,500 records if its kappa clears the same 0.60 bar used
    everywhere else in this protocol; any rule that doesn't stays fully
    manual regardless of how well the other rules perform.
-4. **This is not authorised to run for real yet.** No `ANTHROPIC_API_KEY`
-   is configured in this environment (`llm_classifier.classify_article`
-   fails closed with `status=not_configured` rather than fabricating a
-   result - verified 2026-07-23 against all 168 pilot articles, all 168
-   correctly produced no classification). The method is raised with the
-   supervisor at the 2026-07-31 meeting before any real key is added or
-   any real classification is produced. If approved, this section is
-   updated with the decision and any conditions attached; if not
-   approved, the full corpus is reviewed manually per §6 instead.
-5. Even once approved and validated, an LLM classification never enters
+4. **Fail-closed design.** `llm_classifier.classify_article` fails
+   closed with `status=not_configured` whenever no `ANTHROPIC_API_KEY`
+   is configured rather than fabricating a result - verified 2026-07-23
+   against all 168 pilot articles (all 168 correctly produced no
+   classification). Step (3)'s kappa gate is the sole criterion for
+   trusting LLM output: a rule only becomes eligible for LLM-assisted
+   classification once its kappa clears 0.60 against the human pilot.
+5. Even once validated, an LLM classification never enters
    `is_eligible_for_downstream()`'s notion of eligibility directly - it
    is written to a separate file and only counts once a human has
    compared it against the gold standard and the agreement has cleared

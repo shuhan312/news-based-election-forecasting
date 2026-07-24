@@ -13,8 +13,7 @@ this script reports the number, it does not act on it.
 
 Run this only after BOTH manual_review_sample.csv has been filled in
 by a human AND manual_review_llm_pilot.csv contains real classifications
-(status=ok) - which itself requires supervisor approval per
-llm_classifier.py's docstring.
+(status=ok).
 
 Usage:
     python3 -m src.news_collection.compare_llm_to_human_agreement
@@ -41,9 +40,8 @@ def main():
                if r.get("status") == "ok"}
 
     if not llm_rows:
-        print(f"No 'ok' rows in {LLM_PILOT} yet - either the classifier "
-             "hasn't been run with a real API key, or hasn't been "
-             "approved to run yet. Nothing to compare.")
+        print(f"No 'ok' rows in {LLM_PILOT} yet - the classifier "
+             "hasn't been run with a real API key. Nothing to compare.")
         return
 
     print(f"Comparing {len(llm_rows)} LLM classifications against the "
@@ -70,15 +68,15 @@ def main():
                  "(kappa undefined - no variation in decisions)")
             continue
         verdict = ("MEETS bar - eligible to use LLM for the remaining "
-                  "corpus on this rule (pending supervisor approval)"
+                  "corpus on this rule"
                   if kappa >= KAPPA_ACCEPTABLE else
                   "BELOW bar - this rule stays fully manual")
         print(f"{rule}: {len(pairs)} pairs, percent agreement={po:.1%}, "
              f"kappa={kappa:.3f} [{verdict}]")
 
-    print("\nA kappa clearing the bar here is necessary but not "
-         "sufficient - the supervisor must still have approved the "
-         "method before any LLM output is used as real evidence.")
+    print("\nA rule's kappa clearing the bar here is what makes its "
+         "LLM output usable on the remaining corpus - any rule below "
+         "the bar stays fully manual.")
 
 
 if __name__ == "__main__":

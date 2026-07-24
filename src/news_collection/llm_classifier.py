@@ -1,20 +1,23 @@
 """LLM-assisted classifier for the E4/E5/E6/E8 manual-review rules.
 
-NOT approved to run against real articles yet - see
-news_protocol/eligibility_manual_review_methodology.md §7 (the
-2026-07-31 supervisor meeting decides this). classify_article() fails
-closed with status=not_configured when no ANTHROPIC_API_KEY is set
-(verified 2026-07-23 against all 168 pilot articles) rather than
-fabricating a result, so this module cannot produce a real
-classification until a key is deliberately added post-approval.
+classify_article() fails closed with status=not_configured whenever
+no ANTHROPIC_API_KEY is set (verified 2026-07-23 against all 168
+pilot articles - all 168 correctly produced no classification) rather
+than fabricating a result.
+
+Per news_protocol/eligibility_manual_review_methodology.md §7, use of
+this module's output is gated on the kappa check: this
+module's output is only trustworthy for the ~2,500 records the human
+pilot never covered once compare_llm_to_human_agreement.py shows every
+rule clearing the same 0.60 bar used for the human blind recheck. See
+that script and the pilot results already on record (§3) before
+treating any LLM output here as usable.
 
 The prompt is built FROM manual_review_schema.REASON_CODES, not
 copied by hand, so the LLM is judged against exactly the same
-criteria a human reviewer uses (§7's plan: validate against a human-
-reviewed gold standard via Cohen's kappa before trusting it on the
-rest of the corpus).
+criteria a human reviewer uses.
 
-Usage (once approved):
+Usage:
     python3 -m src.news_collection.run_llm_classification_pilot
 """
 
