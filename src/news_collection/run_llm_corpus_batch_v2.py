@@ -59,6 +59,7 @@ from .run_llm_classification_development_v2 import (
     FIELDNAMES,
     _archive_raw_result,
     article_from_sample_row,
+    backup_previous_output,
     load_query_inventory,
 )
 from .run_llm_validation_v2 import assert_classifier_frozen
@@ -152,7 +153,46 @@ def submit() -> None:
           "still processing).")
 
 
-def result_to_row(article: dict, result) -> dict:
+def retry() -> None:
+    """Submit a follow-up batch for rows whose status is not ok.
+
+    This is the documented failure-retry path, mirroring the sequential
+    runners' rule: a successful row is never re-asked (re-rolling a
+    valid answer would let selective reruns improve the reported
+    result), but a failed row - a server-side batch error, a truncated
+    response, or output that failed local schema validation - may be
+    attempted again with the byte-identical request. Retry batch IDs
+    are appended to the state file so collect() merges them; each
+    retry's raw responses are archived in their own subdirectory so
+    the failed first attempt remains on disk for diagnosis.
+    """
+    import anthropic
+
+    if not OUT.exists():
+        raise RuntimeError(f"{OUT} not found - run 'collect' first.")
+    with OUT.open(newline="") as handle:
+        failed_ids = [r["article_id"] for r in csv.DictReader(handle)
+                      if r.get("status") != "ok"]
+    if not failed_ids:
+        print("no failed rows - nothing to retry.")
+        return
+
+    articles = {a["article_id"]: a for a in load_sheet_articles()}
+    requests = [build_request(articles[aid]) for aid in failed_ids]
+
+    client = anthropic.Anthropic()
+    batch = client.messages.batches.create(requests=requests)
+
+    state = json.loads(STATE.read_text())
+    state.setdefault("retry_batch_ids", []).append(batch.id)
+    STATE.write_text(json.dumps(state, indent=2) + "\n")
+    print(f"retry batch {batch.id} submitted: {len(requests)} failed "
+          f"rows re-attempted (retry #{len(state['retry_batch_ids'])})")
+    print("Run 'collect' when it has ended - ok rows from earlier "
+          "batches are kept as-is; only failed rows can be replaced.")
+
+
+def result_to_row(article: dict, result, raw_dir: Path) -> dict:
     """Project one batch result into the same CSV row shape the
     sequential runners produce. The success path mirrors
     classify_article_v2's post-response handling line for line
@@ -188,7 +228,7 @@ def result_to_row(article: dict, result) -> dict:
                                 "response_id": message.id,
                                 "stop_reason": stop_reason,
                                 "status": "pending_parse"},
-        directory=RAW_RESPONSE_DIR)
+        directory=raw_dir)
 
     if stop_reason != "end_turn":
         row["status"] = "incomplete_output"
@@ -226,32 +266,54 @@ def collect() -> None:
     state = json.loads(STATE.read_text())
     client = anthropic.Anthropic()
 
-    batch = client.messages.batches.retrieve(state["batch_id"])
-    if batch.processing_status != "ended":
-        counts = batch.request_counts
-        print(f"batch {batch.id} still {batch.processing_status}: "
-              f"{counts.processing} processing, {counts.succeeded} ok, "
-              f"{counts.errored} errored - try again later.")
-        return
+    # Primary batch first, then every retry batch in submission order.
+    # Merge rule (below): an ok row is final and is never replaced; a
+    # failed row is replaced by any later attempt's result. This makes
+    # collect idempotent and immune to selective re-collection.
+    batch_ids = [state["batch_id"]] + state.get("retry_batch_ids", [])
+    for bid in batch_ids:
+        batch = client.messages.batches.retrieve(bid)
+        if batch.processing_status != "ended":
+            counts = batch.request_counts
+            print(f"batch {bid} still {batch.processing_status}: "
+                  f"{counts.processing} processing, "
+                  f"{counts.succeeded} ok, {counts.errored} errored "
+                  "- try again later.")
+            return
 
     articles = {a["article_id"]: a for a in load_sheet_articles()}
-    output_rows, status_counts = [], {}
-    for result in client.messages.batches.results(batch.id):
-        article = articles.get(result.custom_id)
-        if article is None:
-            # A result for an article not on the sheet should be
-            # impossible; record loudly rather than dropping it.
-            status_counts["unknown_custom_id"] = (
-                status_counts.get("unknown_custom_id", 0) + 1)
-            continue
-        row = result_to_row(article, result)
-        output_rows.append(row)
+    rows_by_id: dict[str, dict] = {}
+    unknown = 0
+    for i, bid in enumerate(batch_ids):
+        # Each retry archives into its own subdirectory so a retry
+        # never overwrites the failed first attempt's raw response.
+        raw_dir = (RAW_RESPONSE_DIR if i == 0
+                   else RAW_RESPONSE_DIR / f"retry{i}")
+        for result in client.messages.batches.results(bid):
+            article = articles.get(result.custom_id)
+            if article is None:
+                # A result for an article not on the sheet should be
+                # impossible; count loudly rather than dropping it.
+                unknown += 1
+                continue
+            previous = rows_by_id.get(result.custom_id)
+            if previous is not None and previous["status"] == "ok":
+                continue  # never re-roll a valid answer
+            rows_by_id[result.custom_id] = result_to_row(
+                article, result, raw_dir)
+
+    output_rows = sorted(rows_by_id.values(),
+                         key=lambda r: r["article_id"])
+    status_counts = {}
+    for row in output_rows:
         status_counts[row["status"]] = (
             status_counts.get(row["status"], 0) + 1)
+    if unknown:
+        status_counts["unknown_custom_id"] = unknown
 
-    # Sheet order, not arrival order, so the CSV is reproducible and
-    # diffs cleanly against the review sheet.
-    output_rows.sort(key=lambda r: r["article_id"])
+    backup = backup_previous_output(OUT)
+    if backup:
+        print(f"previous output backed up -> {backup}")
     OUT.parent.mkdir(parents=True, exist_ok=True)
     with OUT.open("w", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=FIELDNAMES)
@@ -267,11 +329,11 @@ def collect() -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("command", choices=["submit", "collect"])
+    parser.add_argument("command", choices=["submit", "collect", "retry"])
     args = parser.parse_args()
     assert_classifier_frozen()
     load_dotenv()
-    submit() if args.command == "submit" else collect()
+    {"submit": submit, "collect": collect, "retry": retry}[args.command]()
 
 
 if __name__ == "__main__":
