@@ -73,7 +73,13 @@ def load_ok_llm_rows(path: Path = LLM) -> dict[str, dict[str, str]]:
 def semantic_llm_decision(
     rule: str, raw_decision: str
 ) -> tuple[str, bool]:
-    """Interpret a reason-code-in-decision error without changing raw data."""
+    """Interpret a reason-code-in-decision error without changing raw data.
+
+    The interpreted value is used only to diagnose whether v1 probably meant
+    the same polarity as the human reviewer. It must not replace the raw value
+    in the official agreement calculation, because doing so would repair the
+    classifier after its result was observed.
+    """
     if raw_decision in DECISIONS:
         return raw_decision, False
     if raw_decision in REASON_CODES[rule]:

@@ -394,6 +394,11 @@ def request_metadata(article: dict[str, Any]) -> dict[str, str]:
     The development runner uses this before carrying a previous successful
     row forward. Reuse is allowed only when classifier version, model, input,
     complete prompt, schema, and requested-rule set are all identical.
+
+    These hashes are research identifiers, not security controls. Their
+    purpose is to show whether two recorded classifications came from exactly
+    the same methodological setup; a changed article, prompt, schema, or rule
+    set must be treated as a new request.
     """
     applicable_rules = applicable_rules_for(article)
     prompt = build_prompt(article, applicable_rules=applicable_rules)
@@ -429,6 +434,9 @@ def classify_article_v2(
     )
     metadata = request_metadata(article)
 
+    # Configuration failures are returned as labelled non-results. Raising an
+    # exception here would stop the batch and might encourage an undocumented
+    # manual rerun; returning a status keeps every attempted row visible.
     if client is None:
         api_key = api_key or os.getenv("ANTHROPIC_API_KEY")
         if not api_key:
@@ -513,6 +521,10 @@ def classify_article_v2(
         }
 
     if "E6" not in applicable_rules:
+        # This is deterministic bookkeeping, not a model judgement. E6 only
+        # asks whether a Reform-related search hit really refers to the party,
+        # so a record that was never Reform-flagged is not sent to the model
+        # for E6 and receives the codebook's not-applicable value here.
         fields.update(
             {
                 "e6_decision": "not_applicable",

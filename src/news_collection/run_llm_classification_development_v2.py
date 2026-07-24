@@ -232,6 +232,10 @@ def _csv_row(
 def main() -> None:
     """Run/reuse development classifications and write the versioned CSV."""
     with SAMPLE.open(newline="") as handle:
+        # The blind recheck rows measure human repeatability and duplicate
+        # articles already present in the initial round. Keeping only the
+        # initial rows avoids paying for, and later counting, the same article
+        # twice in the LLM development diagnostic.
         sample_rows = [
             row
             for row in csv.DictReader(handle)
@@ -253,10 +257,16 @@ def main() -> None:
         )
         previous = previous_ok.get(sample_row["article_id"])
         if previous and can_reuse(previous, article):
+            # Never ask the model again merely because we dislike a valid
+            # answer. Reusing an identical successful request prevents
+            # selective reruns from quietly improving the reported result.
             output_rows.append(previous)
             status = "ok"
             reused += 1
         else:
+            # Failed rows remain recorded with a non-ok status and their raw
+            # response is archived below. They are not converted into an
+            # eligibility decision or omitted from the denominator.
             result = classify_article_v2(article)
             _archive_raw_result(sample_row["article_id"], result)
             output_rows.append(_csv_row(sample_row, article, result))
@@ -266,6 +276,9 @@ def main() -> None:
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     with OUT.open("w", newline="") as handle:
+        # This file is deliberately development-only. No downstream eligibility
+        # function reads it, so even an "ok" result cannot enter the analysis
+        # corpus before the separate validation and supervisor decision.
         writer = csv.DictWriter(handle, fieldnames=FIELDNAMES)
         writer.writeheader()
         writer.writerows(output_rows)
