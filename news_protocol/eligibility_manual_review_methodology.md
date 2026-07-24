@@ -365,3 +365,35 @@ freeze: generating or comparing any v2 output on these 128 articles.
    fail: fully manual, no re-tuning against this sample - a v3 would
    demote this sample to development data and require another fresh
    one.
+
+### 8.5 Validation results (run 2026-07-24, frozen v2)
+
+The §8 amendment was approved by the supervisor by email on
+2026-07-24 (to be re-confirmed at the 2026-07-31 supervision
+meeting). v2 was frozen as `v2-development-2026-07-24.6` /
+`claude-sonnet-5` (enforced by `run_llm_validation_v2.
+assert_classifier_frozen()`), then run once on the 128-article blind
+sample: 118 ok, 10 schema errors kept as failures.
+
+| Rule | Pairs | Agreement | kappa | AC1 | Route | Outcome |
+|------|-------|-----------|-------|-----|-------|---------|
+| E4 | 118 | 85.6% | 0.000 | 0.834 | fallback (skew trigger met) | **passes** |
+| E5 | 118 | 68.6% | 0.371 | 0.587 | primary (no skew trigger) | fails - fully manual |
+| E6 | 36 judged | 97.2% | 0.000 | 0.971 | fallback (skew trigger met) | **passes** |
+| E8 | 118 | 83.9% | 0.000 | 0.826 | fallback (skew trigger met) | **passes** |
+
+Read honestly: the three passing rules all pass through the
+pre-registered fallback, not primary kappa - their human marginals
+are heavily concentrated (E4 109/128 include), which is exactly the
+situation the fallback was registered for. E5 fails on both its
+kappa (0.371) and, had the trigger applied, its AC1 (0.587): the
+relevance judgement genuinely differs between coder and model, the
+same conclusion the development set suggested. This is a per-rule
+outcome, not a package: on the remaining corpus E4/E6/E8 come from
+the frozen v2, E5 from the human reviewer, with provenance recorded
+per decision.
+
+**Consequence:** v2 classifies E4 and E8 for the remaining 2,370
+records and E6 for the remaining Reform-flagged subset; E5 is
+reviewed manually for all 2,370 per §6. The §6 step-4 5% independent
+re-check applies to the combined output.
