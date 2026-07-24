@@ -19,9 +19,11 @@ What v2 changes, and why
   code names and polarities but not the prose criteria needed to apply them.
 * E5 is arm-specific: local records may use L-codes, national records may use
   N-codes. This mirrors the supervisor's local-versus-national design.
-* ``output_config.format`` constrains the response with JSON Schema. The
-  schema couples each decision to reason codes of the same polarity, so a
-  reason code cannot be written into the decision field.
+* ``output_config.format`` constrains decisions and reason codes to separate
+  legal enums, so a reason code cannot be written into the decision field.
+  Local validation then enforces decision/code polarity. Keeping that second
+  relation out of the API grammar avoids the provider's compiled-grammar
+  size limit when all four rules, including E6, apply.
 * The structured response is still validated locally. Structured output can
   be interrupted by a refusal or token limit, and defence in depth makes an
   invalid value fail closed rather than enter an agreement calculation.
@@ -38,7 +40,6 @@ from __future__ import annotations
 import hashlib
 import json
 import os
-from collections import defaultdict
 from typing import Any
 
 from .manual_review_schema import (
@@ -50,7 +51,7 @@ from .manual_review_schema import (
     RULES,
 )
 
-CLASSIFIER_VERSION = "v2-development-2026-07-24"
+CLASSIFIER_VERSION = "v2-development-2026-07-24.6"
 MODEL = "claude-sonnet-5"
 MAX_TOKENS = 4096
 
@@ -125,64 +126,53 @@ def allowed_reason_codes(rule: str, *, arm: str) -> tuple[str, ...]:
 
 
 def _rule_output_schema(rule: str, *, arm: str) -> dict[str, Any]:
-    """Build one rule's JSON Schema with decision/code polarity coupled.
+    """Build a compact per-rule JSON Schema.
 
-    A flat pair of independent enums would prevent invented values but would
-    still allow ``decision=include`` with an exclusion reason code. The
-    ``anyOf`` branches below make each legal decision-code combination a
-    separate grammar branch, preventing that mismatch during generation.
+    The initial development schema encoded every legal decision/code pair as
+    a separate ``anyOf`` branch. The API rejected the resulting grammar when
+    E4, E5, E6 and E8 all applied. Separate enums retain the key transport
+    guarantee—codes cannot appear in the decision field—without exceeding
+    that limit. ``parse_structured_response`` remains the authoritative
+    second layer for polarity, evidence and confidence consistency.
     """
-    codes_by_decision: dict[str, list[str]] = defaultdict(list)
-    for code in allowed_reason_codes(rule, arm=arm):
-        decision = REASON_CODES[rule][code]
-        if decision in MODEL_DECISIONS:
-            codes_by_decision[decision].append(code)
-
-    branches = []
-    for decision in MODEL_DECISIONS:
-        reason_codes = codes_by_decision.get(decision)
-        if not reason_codes:
-            continue
-
-        confidence_schema: dict[str, Any]
-        if decision in ("include", "exclude"):
-            confidence_schema = {
+    legal_codes = allowed_reason_codes(rule, arm=arm)
+    legal_decisions = tuple(
+        decision
+        for decision in MODEL_DECISIONS
+        if any(REASON_CODES[rule][code] == decision for code in legal_codes)
+    )
+    return {
+        "type": "object",
+        "properties": {
+            "decision": {
                 "type": "string",
-                "enum": list(CONFIDENCE_LEVELS),
-            }
-        else:
-            # Null is explicit and unambiguous in JSON. The CSV runner later
-            # serialises it as an empty cell to match the human-review schema,
-            # which does not require confidence for unresolved decisions.
-            confidence_schema = {"type": "null"}
-
-        supporting_schema: dict[str, Any] = {"type": "string"}
-        if decision == "insufficient_evidence":
-            supporting_schema["const"] = ""
-
-        branches.append(
-            {
-                "type": "object",
-                "properties": {
-                    "decision": {"type": "string", "const": decision},
-                    "reason_code": {
+                "enum": list(legal_decisions),
+            },
+            "reason_code": {
+                "type": "string",
+                "enum": list(legal_codes),
+            },
+            "supporting_text": {"type": "string"},
+            # Null is required for unresolved outcomes and becomes an empty
+            # CSV cell after local validation.
+            "confidence": {
+                "anyOf": [
+                    {
                         "type": "string",
-                        "enum": reason_codes,
+                        "enum": list(CONFIDENCE_LEVELS),
                     },
-                    "supporting_text": supporting_schema,
-                    "confidence": confidence_schema,
-                },
-                "required": [
-                    "decision",
-                    "reason_code",
-                    "supporting_text",
-                    "confidence",
+                    {"type": "null"},
                 ],
-                "additionalProperties": False,
-            }
-        )
-
-    return {"anyOf": branches}
+            },
+        },
+        "required": [
+            "decision",
+            "reason_code",
+            "supporting_text",
+            "confidence",
+        ],
+        "additionalProperties": False,
+    }
 
 
 def build_output_schema(
@@ -273,7 +263,10 @@ Do not use insufficient_evidence merely because the case is difficult.
 
 Evidence rule:
 For every decision except insufficient_evidence, quote a short exact passage
-from the supplied article in supporting_text. For insufficient_evidence,
+from the text inside the Article text block below. Do not quote the headline
+or collection context as evidence when article text is available. Copy one
+contiguous substring verbatim: do not paraphrase, normalise punctuation, or
+insert an ellipsis to remove words. For insufficient_evidence,
 supporting_text must be the empty string. Confidence is high, medium, or low
 only for include/exclude; unresolved decisions use JSON null.
 
@@ -292,8 +285,15 @@ def parse_structured_response(
     *,
     applicable_rules: list[str],
     arm: str,
+    article_text: str,
 ) -> dict[str, Any]:
-    """Parse and defensively validate a structured-output response."""
+    """Parse and defensively validate a structured-output response.
+
+    Evidence is accepted only when it is a verbatim substring of the exact
+    article input sent to the model. This turns the supervisor's supporting-
+    passage requirement into a mechanical audit check and fails closed on
+    invented, paraphrased or ellipsis-shortened quotations.
+    """
     try:
         parsed = json.loads(raw_text)
     except (json.JSONDecodeError, TypeError) as exc:
@@ -367,6 +367,11 @@ def parse_structured_response(
             if not supporting_text.strip():
                 raise V2ClassificationError(
                     f"{rule} {decision} needs a non-empty evidence quote"
+                )
+            if supporting_text not in article_text:
+                raise V2ClassificationError(
+                    f"{rule} supporting_text is not a verbatim substring "
+                    "of the supplied article text"
                 )
             if decision in ("include", "exclude"):
                 if confidence not in CONFIDENCE_LEVELS:
@@ -459,7 +464,10 @@ def classify_article_v2(
         response = client.messages.create(
             model=MODEL,
             max_tokens=MAX_TOKENS,
-            temperature=0,
+            # claude-sonnet-5 rejects the legacy ``temperature`` parameter.
+            # Structured JSON Schema constrains the response shape; removing
+            # this deprecated transport option does not alter the codebook,
+            # prompt, allowed decisions, or local validation checks.
             messages=[{"role": "user", "content": prompt}],
             output_config={
                 "format": {
@@ -512,6 +520,7 @@ def classify_article_v2(
             raw_text,
             applicable_rules=applicable_rules,
             arm=article["arm"],
+            article_text=article["text"],
         )
     except V2ClassificationError as exc:
         return {

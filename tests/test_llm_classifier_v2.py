@@ -31,6 +31,8 @@ from src.news_collection.manual_review_schema import (
     REASON_CODES,
 )
 from src.news_collection.run_llm_classification_development_v2 import (
+    SMOKE_ARTICLE_IDS,
+    _select_smoke_rows,
     article_from_sample_row,
     can_reuse,
 )
@@ -101,12 +103,12 @@ class TestCodebookAndPrompt:
         assert "Use insufficient_evidence only when" in prompt
         assert "apply only L1-L4" in prompt
 
-    def test_schema_couples_decisions_to_reason_codes(self):
+    def test_schema_constrains_decisions_and_arm_specific_codes(self):
         schema = build_output_schema(
             applicable_rules=["E4", "E5", "E8"], arm="local"
         )
         encoded = json.dumps(schema)
-        assert '"const": "include"' in encoded
+        assert '"decision": {"type": "string", "enum":' in encoded
         assert "E5-L3-COUNCIL-ISSUE" in encoded
         assert "E5-N2-POLICY-ISSUE" not in encoded
         assert schema["additionalProperties"] is False
@@ -118,6 +120,7 @@ class TestDefensiveParsing:
             json.dumps(valid_local_response()),
             applicable_rules=["E4", "E5", "E8"],
             arm="local",
+            article_text=LOCAL_ARTICLE["text"],
         )
         assert fields["e5_decision"] == "include"
         assert fields["e5_reason_code"] == "E5-L3-COUNCIL-ISSUE"
@@ -130,6 +133,7 @@ class TestDefensiveParsing:
                 json.dumps(response),
                 applicable_rules=["E4", "E5", "E8"],
                 arm="local",
+                article_text=LOCAL_ARTICLE["text"],
             )
 
     def test_decision_reason_polarity_mismatch_is_rejected(self):
@@ -140,6 +144,7 @@ class TestDefensiveParsing:
                 json.dumps(response),
                 applicable_rules=["E4", "E5", "E8"],
                 arm="local",
+                article_text=LOCAL_ARTICLE["text"],
             )
 
     def test_national_code_on_local_record_is_rejected(self):
@@ -150,6 +155,7 @@ class TestDefensiveParsing:
                 json.dumps(response),
                 applicable_rules=["E4", "E5", "E8"],
                 arm="local",
+                article_text=LOCAL_ARTICLE["text"],
             )
 
     def test_extra_field_is_rejected(self):
@@ -160,6 +166,7 @@ class TestDefensiveParsing:
                 json.dumps(response),
                 applicable_rules=["E4", "E5", "E8"],
                 arm="local",
+                article_text=LOCAL_ARTICLE["text"],
             )
 
     def test_insufficient_evidence_must_be_empty_and_null_confidence(self):
@@ -177,6 +184,20 @@ class TestDefensiveParsing:
                 json.dumps(response),
                 applicable_rules=["E4", "E5", "E8"],
                 arm="local",
+                article_text=LOCAL_ARTICLE["text"],
+            )
+
+    def test_evidence_must_be_a_verbatim_article_substring(self):
+        response = valid_local_response()
+        response["E4"]["supporting_text"] = (
+            "Council approved ... a road scheme"
+        )
+        with pytest.raises(V2ClassificationError, match="verbatim substring"):
+            parse_structured_response(
+                json.dumps(response),
+                applicable_rules=["E4", "E5", "E8"],
+                arm="local",
+                article_text=LOCAL_ARTICLE["text"],
             )
 
 
@@ -202,7 +223,9 @@ class TestAPIRequestAndStops:
         assert result["classifier_version"] == CLASSIFIER_VERSION
         assert result["response_id"] == "msg_test"
         request = client.messages.create.call_args.kwargs
-        assert request["temperature"] == 0
+        # The current model rejects the deprecated temperature parameter.
+        # Its absence is part of the tested API contract for this version.
+        assert "temperature" not in request
         assert request["output_config"]["format"]["type"] == "json_schema"
         assert (
             request["output_config"]["format"]["schema"]
@@ -269,6 +292,24 @@ class TestDevelopmentRunnerInputs:
         assert can_reuse(previous, LOCAL_ARTICLE)
         changed = {**LOCAL_ARTICLE, "text": "different full text"}
         assert not can_reuse(previous, changed)
+
+    def test_smoke_selection_is_fixed_and_ordered(self):
+        sample_rows = [
+            {"article_id": article_id, "position": str(index)}
+            for index, article_id in enumerate(reversed(SMOKE_ARTICLE_IDS))
+        ]
+        selected = _select_smoke_rows(sample_rows)
+        assert [row["article_id"] for row in selected] == list(
+            SMOKE_ARTICLE_IDS
+        )
+
+    def test_smoke_selection_fails_if_a_declared_record_is_missing(self):
+        incomplete_rows = [
+            {"article_id": article_id}
+            for article_id in SMOKE_ARTICLE_IDS[:-1]
+        ]
+        with pytest.raises(RuntimeError, match="missing"):
+            _select_smoke_rows(incomplete_rows)
 
 
 class TestV1DisagreementAudit:

@@ -1,9 +1,11 @@
 # Article Eligibility Manual Review - Methodology
 
-Status as of 2026-07-23: **pilot infrastructure built, no articles
-reviewed yet.** This document describes the design; it is not a record
-of results, because there are none yet. Section 6 states exactly what
-must happen before that changes.
+Status as of 2026-07-24: **the 168-article human pilot and 34-article
+blind recheck are complete; the v1 LLM comparison is complete.** Human
+repeatability cleared the specified kappa threshold for all four rules.
+Only E6 cleared that threshold in the v1 LLM-to-human comparison; E4,
+E5 and E8 remain manual under the current protocol. Section 7 records
+the results and the development-only status of any proposed v2 changes.
 
 ## 1. Why deterministic and human judgement are kept strictly separate
 

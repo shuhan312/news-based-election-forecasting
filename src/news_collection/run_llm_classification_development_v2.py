@@ -28,16 +28,25 @@ Audit and anti-cherry-picking controls
 * Previous aggregate CSVs are timestamped before replacement.
 * A failed or interrupted response remains a failure; the runner never
   invents a decision or selects between multiple successful answers.
+
+Before paying for a complete 168-article development run, use
+``--smoke-test``. It sends five fixed, documented development articles
+through the real API and writes to separate smoke-test paths. This checks the
+API/schema/full-text plumbing only; five hand-picked records cannot estimate
+agreement or validate the classifier.
 """
 
 from __future__ import annotations
 
+import argparse
 import csv
 import json
 import shutil
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+
+from dotenv import load_dotenv
 
 from .llm_classifier_v2 import classify_article_v2, request_metadata
 from .manual_review_schema import RULES
@@ -48,6 +57,27 @@ RECORDS_DIR = Path("data/raw/news/records")
 
 OUT = Path("news_collection/manual_review_llm_v2_development.csv")
 RAW_RESPONSE_DIR = Path("news_collection/llm_v2_development_raw")
+SMOKE_OUT = Path("news_collection/manual_review_llm_v2_smoke.csv")
+SMOKE_RAW_RESPONSE_DIR = Path("news_collection/llm_v2_smoke_raw")
+
+# These records are already part of the disclosed 168-article development
+# set. They were selected before looking at any v2 output to exercise five
+# distinct code paths, not to maximise agreement:
+#   1. local article with full text;
+#   2. national policy article with full text;
+#   3. Reform-flagged article, so E6 is requested;
+#   4. missing full text, so the excerpt fallback is visible;
+#   5. readable national article that should exercise an E5 exclusion.
+#
+# Keeping stable article IDs makes the smoke test reproducible and prevents a
+# later operator from quietly selecting easier examples after seeing results.
+SMOKE_ARTICLE_IDS = (
+    "NEWS-surreylive-5dd48b5e7d46",
+    "NEWS-guardian_api-26998343d44f",
+    "NEWS-guardian_api-20f65fcb48fa",
+    "NEWS-google_dated_search-04a8c7a65b28",
+    "NEWS-guardian_api-568af3a4ccd4",
+)
 
 METADATA_FIELDS = [
     "classifier_version",
@@ -229,8 +259,54 @@ def _csv_row(
     return row
 
 
+def _parse_args() -> argparse.Namespace:
+    """Parse the one safe scope switch exposed by the development runner."""
+    parser = argparse.ArgumentParser(
+        description=(
+            "Run the v2 classifier on the frozen 168-record development set."
+        )
+    )
+    parser.add_argument(
+        "--smoke-test",
+        action="store_true",
+        help=(
+            "run five fixed development records and write separate smoke "
+            "outputs; this tests operation, not classifier validity"
+        ),
+    )
+    return parser.parse_args()
+
+
+def _select_smoke_rows(
+    sample_rows: list[dict[str, str]],
+) -> list[dict[str, str]]:
+    """Return the fixed smoke records in their declared order.
+
+    Failing when an ID is absent is intentional. Silently replacing a missing
+    record would change the test composition without leaving an audit trail.
+    """
+    rows_by_id = {row["article_id"]: row for row in sample_rows}
+    missing = [
+        article_id
+        for article_id in SMOKE_ARTICLE_IDS
+        if article_id not in rows_by_id
+    ]
+    if missing:
+        raise RuntimeError(
+            "Smoke-test records are missing from the development sample: "
+            + ", ".join(missing)
+        )
+    return [rows_by_id[article_id] for article_id in SMOKE_ARTICLE_IDS]
+
+
 def main() -> None:
     """Run/reuse development classifications and write the versioned CSV."""
+    args = _parse_args()
+    # Other repository runners also read credentials from the untracked .env
+    # file. Loading it here avoids requiring the researcher to export the key
+    # manually, while the key itself is never written to an output artifact.
+    load_dotenv()
+
     with SAMPLE.open(newline="") as handle:
         # The blind recheck rows measure human repeatability and duplicate
         # articles already present in the initial round. Keeping only the
@@ -241,9 +317,21 @@ def main() -> None:
             for row in csv.DictReader(handle)
             if row["review_round"] == "initial"
         ]
+    if args.smoke_test:
+        sample_rows = _select_smoke_rows(sample_rows)
+        out_path = SMOKE_OUT
+        raw_response_dir = SMOKE_RAW_RESPONSE_DIR
+        print(
+            "SMOKE TEST: five fixed development records only; "
+            "this is not an agreement estimate or validation run."
+        )
+    else:
+        out_path = OUT
+        raw_response_dir = RAW_RESPONSE_DIR
+
     query_by_id = load_query_inventory()
-    previous_ok = load_previous_ok_rows()
-    backup = backup_previous_output()
+    previous_ok = load_previous_ok_rows(out_path)
+    backup = backup_previous_output(out_path)
     if backup:
         print(f"previous development output backed up -> {backup}")
 
@@ -268,14 +356,18 @@ def main() -> None:
             # response is archived below. They are not converted into an
             # eligibility decision or omitted from the denominator.
             result = classify_article_v2(article)
-            _archive_raw_result(sample_row["article_id"], result)
+            _archive_raw_result(
+                sample_row["article_id"],
+                result,
+                directory=raw_response_dir,
+            )
             output_rows.append(_csv_row(sample_row, article, result))
             status = result.get("status", "unknown")
             attempted += 1
         status_counts[status] = status_counts.get(status, 0) + 1
 
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    with OUT.open("w", newline="") as handle:
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    with out_path.open("w", newline="") as handle:
         # This file is deliberately development-only. No downstream eligibility
         # function reads it, so even an "ok" result cannot enter the analysis
         # corpus before the separate validation and supervisor decision.
@@ -283,7 +375,7 @@ def main() -> None:
         writer.writeheader()
         writer.writerows(output_rows)
 
-    print(f"{len(output_rows)} development rows -> {OUT}")
+    print(f"{len(output_rows)} development rows -> {out_path}")
     print(f"{reused} identical successful row(s) reused; {attempted} attempted")
     print("by status:", status_counts)
     print(

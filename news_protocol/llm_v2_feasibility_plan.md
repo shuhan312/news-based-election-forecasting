@@ -143,8 +143,12 @@ validation would be a codebook/prompt version change and must be recorded.
 ### 4.2 Structured response
 
 V2 uses the Claude Messages API `output_config.format` JSON-schema
-interface. Each decision is coupled to reason codes of the same polarity.
-Local validation then repeats the checks and rejects:
+interface. The schema constrains decisions and reason codes to separate legal
+enums for the requested rule and arm, preventing a reason code from entering
+the decision field. A development smoke test showed that encoding every
+decision/code pair as nested schema branches exceeded the provider's compiled
+grammar limit when all four rules applied. Polarity is therefore enforced by
+the mandatory local validation layer, which rejects:
 
 - unknown/missing/extra rules;
 - missing/extra fields;
@@ -187,6 +191,33 @@ For every attempted response the runner archives:
 - final status and error note.
 
 V1 files are never overwritten.
+
+### 4.6 Real-API smoke test
+
+A five-record smoke set was fixed from the existing development sample before
+any v2 output was inspected. It covers a local article, a national policy
+article, a Reform-flagged article, an excerpt-only fallback and a readable
+national exclusion. The smoke output is stored separately from both v1 and
+the possible 168-record v2 development run.
+
+The transport-development history on 2026-07-24 was:
+
+| Classifier version | Operational outcome | Interpretation |
+|---|---|---|
+| initial v2 | 0/5 requests accepted | The current model rejected the deprecated `temperature` parameter. No classification was produced. |
+| `v2-development-2026-07-24.1` | 4/5 successful | The Reform record, for which all four rules apply, exceeded the provider's compiled-grammar limit under the nested decision/code schema. |
+| `v2-development-2026-07-24.2` | 0/5 requests accepted | The provider rejected the first nullable-confidence schema representation before generation. |
+| `v2-development-2026-07-24.3` | 5/5 passed the then-current checks | Separate decision/code enums plus mandatory local polarity validation completed for all five records. A subsequent audit found that the evidence check established only non-empty text, not a verbatim source passage. |
+| versions `.4`–`.5` | 4/5 passed each stricter run | Verbatim-substring validation correctly rejected first an ellipsis-shortened quote and then a headline used in place of article-body evidence. Both failures were preserved rather than repaired after the fact. |
+| `v2-development-2026-07-24.6` | **5/5 successful** | All five completed under the final smoke-test contract, including verbatim evidence drawn from the article-text block. |
+
+The final run exercised four full-text inputs, one explicit excerpt fallback,
+both E5 arms, an E5 exclusion and conditional E6 classification. Every final
+response ended normally, passed the JSON schema, used a verbatim body-text
+passage where evidence was required and passed all local codebook-consistency
+checks. These five purposively selected records establish only that the v2
+pipeline operates end to end. They are not an accuracy estimate, an agreement
+statistic or independent validation.
 
 ## 5. What may be done before the supervisor meeting
 
