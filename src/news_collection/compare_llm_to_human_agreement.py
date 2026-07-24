@@ -54,7 +54,24 @@ def main():
             human_row = human_rows.get(aid)
             if not human_row:
                 continue
+            # E6 must be compared ONLY on Reform-flagged articles. For
+            # every non-flagged article, BOTH sides' e6_decision is
+            # auto-filled to not_applicable by code (build_review_row()
+            # for the human sheet, classify_article() for the LLM) from
+            # the same needs_reform_disambiguation flag - those pairs
+            # agree by construction and say nothing about the LLM.
+            # Found 2026-07-24: including them inflated E6 to
+            # kappa=0.929 (168 pairs, 133 of them mechanical); on the
+            # 35 genuinely-judged flagged articles agreement is 88.6%
+            # and kappa ~0 because the human coded all 35 include
+            # (constant marginal - same prevalence problem as E4).
+            if (rule == "E6" and
+                    human_row.get("needs_reform_disambiguation") != "yes"):
+                continue
             h, m = human_row.get(field), llm_row.get(field)
+            # A blank on either side means "not yet coded", not a
+            # decision - dropping the pair is the only honest option;
+            # imputing anything would manufacture (dis)agreement.
             if not h or not m:
                 continue
             pairs.append((h, m))

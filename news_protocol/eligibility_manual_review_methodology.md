@@ -241,14 +241,28 @@ Every run's raw output is preserved in timestamped
 still-unparseable response is stored verbatim under
 `news_collection/llm_pilot_unparsed_responses/` for diagnosis.
 
-**Results (all 168 pairs, `compare_llm_to_human_agreement.py`):**
+**Results (`compare_llm_to_human_agreement.py`):**
 
-| Rule | Percent agreement | Cohen's kappa | Outcome vs the 0.60 bar |
-|------|------------------|---------------|-------------------------|
-| E4 (result leakage)      | 86.9% | 0.141 | below - stays fully manual |
-| E5 (relevance)           | 52.4% | 0.191 | below - stays fully manual |
-| E6 (Reform disambiguation) | 97.6% | **0.929** | **meets - LLM eligible for the remaining corpus on E6 only** |
-| E8 (editorial content)   | 81.0% | 0.279 | below - stays fully manual |
+| Rule | Pairs | Percent agreement | Cohen's kappa | Outcome vs the 0.60 bar |
+|------|-------|------------------|---------------|-------------------------|
+| E4 (result leakage)      | 168 | 86.9% | 0.141 | below - stays fully manual |
+| E5 (relevance)           | 168 | 52.4% | 0.191 | below - stays fully manual |
+| E6 (Reform disambiguation) | 35 (flagged only) | 88.6% | 0.000 | below - stays fully manual |
+| E8 (editorial content)   | 168 | 81.0% | 0.279 | below - stays fully manual |
+
+**Correction made the same day, before any use.** The first
+computation of E6 covered all 168 pairs and returned kappa=0.929,
+which briefly looked like a pass. That number was inflated by
+construction: for every non-Reform-flagged article, BOTH sides'
+`e6_decision` is auto-filled to `not_applicable` by code (the human
+sheet via `build_review_row()`, the LLM via `classify_article()`)
+from the same `needs_reform_disambiguation` flag - 133 of the 168
+pairs agreed mechanically and say nothing about the LLM. The
+comparison arithmetic was corrected to restrict E6 to the 35
+genuinely-judged flagged articles, where the human coded all 35
+`include` (constant marginal, so kappa collapses to ~0 - the same
+prevalence problem as E4). No LLM output was used on the remaining
+corpus at any point between the inflated number and the correction.
 
 **Reading the failures honestly.** The three below-bar rules fail in
 different ways, which matters for any follow-up decision:
@@ -272,12 +286,16 @@ different ways, which matters for any follow-up decision:
   differently from the human coder, and no formatting fix changes
   that.
 
-**Consequence, per step (3):** E6 alone is eligible for LLM-assisted
-classification on the remaining corpus; E4, E5 and E8 remain fully
-manual under this protocol as validated. Any revision to that
-position (e.g. prompt iteration - which would demote these 168
-articles to a development set and require a fresh, untouched human
--coded validation sample; a different agreement statistic for the
-imbalanced E4; or an LLM-screen-plus-human-check hybrid) is a change
-to the validation design and is not adopted here; it would be taken
-to the supervisor first, and this section updated with the decision.
+**Consequence, per step (3):** no rule cleared the bar, so
+LLM-assisted classification is not adopted for any rule at this
+stage - the remaining corpus (2,498 articles, of which 130 are
+Reform-flagged and therefore also need E6) is reviewed manually per
+§6. This is the validation gate doing exactly what it was designed
+to do: refusing to delegate a judgement the evidence does not
+support delegating. Any revision to this position (prompt iteration
+- which would demote these 168 articles to a development set and
+require a fresh human-coded validation sample; a different agreement
+statistic for the prevalence-skewed E4/E6; or an
+LLM-screen-plus-human-check hybrid) is a change to the validation
+design and is not adopted here; it would be taken to the supervisor
+first, and this section updated with the decision.
