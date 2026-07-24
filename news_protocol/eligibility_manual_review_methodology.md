@@ -397,3 +397,60 @@ per decision.
 records and E6 for the remaining Reform-flagged subset; E5 is
 reviewed manually for all 2,370 per §6. The §6 step-4 5% independent
 re-check applies to the combined output.
+
+## 9. Amendment 2 - arm-split E5 gating (post-hoc, PROVISIONALLY ADOPTED 2026-07-24)
+
+**Status:** provisionally adopted the same day under the supervisor's
+standing explore-first-report-after working arrangement; to be
+ratified (or reversed) at the 2026-07-31 supervision meeting. Every
+E5-national decision carries a provenance flag, so reversal is a
+single flag flip back to fully-manual E5 with nothing lost. Unlike §8, this proposal is
+**post-hoc**: it was formulated on 2026-07-24 *after* seeing the §8.5
+validation results, and that is stated plainly here rather than
+disguised. The mitigating facts are that the validation sample was
+blind and untouched when the frozen v2 scored it, the human labels
+were never used to develop the classifier, and the subgroup variable
+(collection arm) is a pre-existing structural feature of the
+collection design - not a split searched for until something passed.
+
+### 9.1 Finding
+
+E5's validation failure is not uniform. The codebook has always
+defined E5 as two disjoint tests selected by arm (L-rules only for
+local, N-rules only for national - §5 and the classifier prompt both
+enforce this). Scored separately on the same frozen-v2 validation
+run:
+
+| E5 subgroup | Pairs | Agreement | kappa | Route |
+|---|---|---|---|---|
+| arm=national (N-rules) | 69 | 89.9% | **0.674** | passes the PRIMARY pre-registered bar (kappa >= 0.60) |
+| arm=local (L-rules) | 49 | 38.8% | 0.165 | fails decisively |
+
+The local failure mode is interpretable: 26 of the 30 local
+disagreements are human-include -> LLM-exclude/unresolved, i.e. the
+model lacks the ward-geography knowledge (which villages fall in
+which division) that the human reviewer resolves from the candidate
+table and maps. The N-rule test requires no such local knowledge,
+which is consistent with its passing score.
+
+### 9.2 Proposed consequence
+
+- **E5, arm=national (2,036 remaining records): taken from the
+  frozen v2 corpus scan** (whose E5 output is currently recorded as
+  audit-only). No new API run is needed; adoption changes only the
+  usage flag on already-archived decisions.
+- **E5, arm=local (334 remaining records): fully manual**, per §6,
+  on full_corpus_review.csv.
+- Provenance is recorded per decision, as elsewhere. The §6 step-4
+  5% independent re-check covers E5-national alongside E4/E6/E8.
+
+### 9.3 Honest limitations
+
+(1) Post-hoc subgroup selection - the gate in §8.2 was registered
+per rule, not per arm; this amendment is therefore a validation-
+design change requiring explicit supervisor approval before any
+E5-national decision is used. (2) n=69 gives kappa 0.674 a wide
+confidence interval; the 5% re-check provides a further live check.
+(3) If rejected, the fallback is unchanged: E5 fully manual for all
+2,370 records, or a v3 development cycle with a fresh validation
+sample.

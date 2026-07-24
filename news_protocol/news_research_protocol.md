@@ -221,3 +221,4 @@ The audit currently contains one *verified* set of rows (NewsAPI, all four elect
 | Date | Version | Change | Reason | Data affected |
 |---|---|---|---|---|
 | — | 1.0 | Initial protocol | — | none (pre-collection) |
+| 2026-07-24 | 1.1 | Arm-split E5 gating provisionally adopted (eligibility_manual_review_methodology.md §9): E5-national taken from the frozen v2 corpus scan (validation kappa 0.674, n=69, primary bar); E5-local stays fully manual. Post-hoc subgroup analysis, adopted under the explore-first working arrangement; supervisor ratification due 2026-07-31. | E5 failed validation only on the local arm; the national arm passed the primary pre-registered bar. Reduces manual E5 from 2,370 to 334 rows. | E5 decisions for 2,036 remaining national-arm records (provenance-flagged, reversible) |
