@@ -42,3 +42,4 @@ news_collection/llm_v2_*_raw/
 news_collection/manual_review_llm_*.pre-rerun-*.csv
 news_collection/html_cleaned_articles_v1.jsonl
 news_collection/character_normalised_articles_v1.jsonl
+news_collection/structure_normalised_articles_v1.jsonl

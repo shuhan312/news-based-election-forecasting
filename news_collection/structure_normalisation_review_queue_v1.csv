@@ -1,0 +1,16 @@
+article_id,status,input_sha256,output_sha256,input_lines,output_lines,input_paragraphs,output_paragraphs,transformations,flags,rule_version
+NEWS-bbc_surrey-a7ba313dba3e,review_required,a98270e070447fe07938476a06b8ca57d3b680706e910f0de5ad1e33d01a286a,a98270e070447fe07938476a06b8ca57d3b680706e910f0de5ad1e33d01a286a,89,89,45,45,,sentence_per_line,structure-norm-v1.0-2026-07-26
+NEWS-bbc_surrey-b017a311220a,review_required,746e778dbee1f94ff26a7f8b81e21b5dff13cb2f2ff504ad6b5690cc34bd372d,746e778dbee1f94ff26a7f8b81e21b5dff13cb2f2ff504ad6b5690cc34bd372d,23,23,12,12,,sentence_per_line,structure-norm-v1.0-2026-07-26
+NEWS-guardian_api-2ef2c7bd5536,review_required,,,0,0,0,0,,carried_from_step3,structure-norm-v1.0-2026-07-26
+NEWS-guardian_api-4758fb4be13e,review_required,,,0,0,0,0,,carried_from_step3,structure-norm-v1.0-2026-07-26
+NEWS-guardian_api-8aadc09fa9eb,review_required,,,0,0,0,0,,carried_from_step3,structure-norm-v1.0-2026-07-26
+NEWS-guardian_api-aae0d552d3f5,review_required,,,0,0,0,0,,carried_from_step3,structure-norm-v1.0-2026-07-26
+NEWS-guardian_api-b14821938693,review_required,,,0,0,0,0,,carried_from_step3,structure-norm-v1.0-2026-07-26
+NEWS-guardian_api-ce614f0fffc6,review_required,,,0,0,0,0,,carried_from_step3,structure-norm-v1.0-2026-07-26
+NEWS-surreylive-15853fa74661,review_required,904e35b794102b27e75c7594119c203ba3fd81539c63ceec0184186f1d326057,904e35b794102b27e75c7594119c203ba3fd81539c63ceec0184186f1d326057,201,201,101,101,,sentence_per_line,structure-norm-v1.0-2026-07-26
+NEWS-surreylive-4d362b433d57,review_required,5a59f8fa93d875543d1632ef6464f690ed3e6aa94f77863f9116d5886d491c88,5a59f8fa93d875543d1632ef6464f690ed3e6aa94f77863f9116d5886d491c88,63,63,32,32,,sentence_per_line,structure-norm-v1.0-2026-07-26
+NEWS-surreylive-65935ea5be4c,review_required,8f0b1c134d6ba408f69ef77fe76ba6f5076122d05800ad17561efb4075332fb2,8f0b1c134d6ba408f69ef77fe76ba6f5076122d05800ad17561efb4075332fb2,65,65,33,33,,sentence_per_line,structure-norm-v1.0-2026-07-26
+NEWS-surreylive-7a29d15d8401,review_required,42f66d0106eba0222aff096c9dbf6a7f328a0eeca868b26229be7c7010d8baed,42f66d0106eba0222aff096c9dbf6a7f328a0eeca868b26229be7c7010d8baed,915,915,458,458,,sentence_per_line,structure-norm-v1.0-2026-07-26
+NEWS-surreylive-881fffe231de,review_required,e7c35718ef23e58347cac024af77edf2940dc2896fb546ca6ac6e54189610cd2,e7c35718ef23e58347cac024af77edf2940dc2896fb546ca6ac6e54189610cd2,27,27,14,14,,sentence_per_line,structure-norm-v1.0-2026-07-26
+NEWS-surreylive-9f80db7dd6d3,review_required,aab7f53944e417b64f8ad2609494905aabbde28af86bf0f206d9954cbfc0758c,aab7f53944e417b64f8ad2609494905aabbde28af86bf0f206d9954cbfc0758c,197,197,99,99,,sentence_per_line,structure-norm-v1.0-2026-07-26
+NEWS-surreylive-eeea7bca3fc7,review_required,d34d491a806a5b2bc4d8e46a1d5ec174dabb1d71122d6f653892c0e56aca546c,d34d491a806a5b2bc4d8e46a1d5ec174dabb1d71122d6f653892c0e56aca546c,1097,1097,549,549,,sentence_per_line,structure-norm-v1.0-2026-07-26
