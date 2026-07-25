@@ -3,7 +3,7 @@ safety, reproducibility."""
 
 import unicodedata
 
-from src.news_collection.char_normalise import (RULE_VERSION,
+from src.normalisation.char_normalise import (RULE_VERSION,
                                                 normalise_text)
 
 

@@ -11,7 +11,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from src.news_collection.html_clean import RULE_VERSION, clean_html
+from src.normalisation.html_clean import RULE_VERSION, clean_html
 
 FIX = Path("tests/fixtures/html")
 

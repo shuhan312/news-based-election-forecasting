@@ -11,7 +11,7 @@ from pathlib import Path
 
 import pytest
 
-from src.news_collection.normalisation_input import (
+from src.normalisation.normalisation_input import (
     INPUT_SELECTION_VERSION, enumerate_candidates, select_source,
     validate_selected)
 

@@ -162,7 +162,7 @@ def main() -> None:
         f"* validation flags: {dict(flag_counter)}\n"
         f"* review queue: {len(review_rows)} rows\n\n"
         "Source-priority policy and validation rules are documented in "
-        "`src/news_collection/normalisation_input.py`. No article text "
+        "`src.normalisation_input.py`. No article text "
         "is stored in these outputs - references and hashes only.\n")
 
     print(f"{len(rows)} eligible articles -> {OUT_CSV}")
