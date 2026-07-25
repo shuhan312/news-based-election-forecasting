@@ -1,0 +1,10 @@
+article_id,flag,decision,reason,decided_by,decided_on
+NEWS-bbc_surrey-a7ba313dba3e,sentence_per_line,structure_ok_keep,BBC short-paragraph house style; council-spending explainer with itemised data points,human_reviewer,2026-07-26
+NEWS-bbc_surrey-b017a311220a,sentence_per_line,structure_ok_keep,BBC short-paragraph house style; ordinary news brief,human_reviewer,2026-07-26
+NEWS-surreylive-15853fa74661,sentence_per_line,structure_ok_keep,candidate-list article: one line per candidate is the genuine structure,human_reviewer,2026-07-26
+NEWS-surreylive-4d362b433d57,sentence_per_line,structure_ok_keep,ordinary article in one-sentence-per-paragraph tabloid style,human_reviewer,2026-07-26
+NEWS-surreylive-65935ea5be4c,sentence_per_line,structure_ok_keep,live blog: fragmentary form is inherent to the genre,human_reviewer,2026-07-26
+NEWS-surreylive-7a29d15d8401,sentence_per_line,structure_ok_keep,"candidate-list article (East Surrey, every candidate): list structure genuine",human_reviewer,2026-07-26
+NEWS-surreylive-881fffe231de,sentence_per_line,structure_ok_keep,ordinary short news article,human_reviewer,2026-07-26
+NEWS-surreylive-9f80db7dd6d3,sentence_per_line,structure_ok_keep,candidate-list article (Mole Valley): list structure genuine,human_reviewer,2026-07-26
+NEWS-surreylive-eeea7bca3fc7,sentence_per_line,structure_ok_keep,"candidate-list article (West Surrey, every candidate): list structure genuine",human_reviewer,2026-07-26
