@@ -388,25 +388,23 @@ def ward_queries_for(election_id, era_name, division_data, stage_c_source,
              + [f'{c} AND {era_name}'
                 for c in sorted(division_data["candidates"])])
     for text in manual:
-        # retrieval_route serpapi (adapters.SerpApiAdapter): automates what
-        # used to require a human to search Google by hand and paste
-        # results into a worksheet. Uses the student's own personal
-        # SerpAPI account (unrelated to any other use of SerpAPI in this
-        # repository), so no supervisor sign-off is needed for this
-        # specific credential - unlike the still-pending proposal P3
-        # (Google's own Programmable Search API, adapters.GoogleCseAdapter,
-        # left in place as an alternative route once/if that is
-        # configured instead or as well). Either adapter reports a
-        # missing-credential gap honestly per query rather than
-        # pretending zero results, so an unconfigured run still logs
-        # correctly. news_source_registry.csv still marks
-        # google_dated_search manual-only pending supervisor
-        # confirmation of P3 (protocol change control,
-        # news_research_protocol.md section 9) - that status describes
-        # the ORIGINAL manual method's governance, not this adapter.
+        # retrieval_route google_cse (adapters.GoogleCseAdapter): Google's
+        # own Custom Search JSON API - the ToS-compliant automation of
+        # what used to require a human to search Google by hand.
+        # Switched from serpapi on 2026-07-25 (proposal P3, provisionally
+        # adopted and logged in news_research_protocol.md's deviations
+        # log v1.2): the SerpAPI free tier (student's personal account,
+        # 250 searches/month) was exhausted at 266/810 Stage M queries,
+        # while Google CSE offers 100 free queries/day on the student's
+        # own credentials. The 266 already-executed serpapi searches
+        # remain valid and logged as such in search_log.csv - both
+        # adapters query the same Google index, so the switch changes
+        # the billing route, not the discovery behaviour. Either adapter
+        # reports a missing-credential or quota gap honestly per query
+        # rather than pretending zero results.
         out.append(row(election_id, "ward_manual", text,
                        "google_dated_search", "ward-level",
-                       "serpapi", "local", "M", ward=display_division))
+                       "google_cse", "local", "M", ward=display_division))
     return out
 
 

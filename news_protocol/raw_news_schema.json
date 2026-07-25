@@ -35,7 +35,7 @@
       "properties": {
         "adapter": {"enum": ["guardian", "newsapi", "site_search",
                               "wayback", "manual_import", "pilot",
-                              "google_cse", "serpapi"]},
+                              "google_cse", "serpapi", "serper"]},
         "adapter_version": {"type": "string"},
         "access_route": {"enum": ["api", "live_page", "wayback_capture",
                                    "manual_transcription"]},

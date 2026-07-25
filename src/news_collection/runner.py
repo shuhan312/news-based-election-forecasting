@@ -28,7 +28,8 @@ load_dotenv()          # GUARDIAN_KEY / NEWSAPI_KEY live in .env
 
 from . import SOFTWARE_VERSION, PROTOCOL_VERSION
 from .adapters import (GoogleCseAdapter, GuardianAdapter, ManualImportAdapter,
-                       SerpApiAdapter, SiteSearchAdapter, WaybackAdapter)
+                       SerpApiAdapter, SerperAdapter, SiteSearchAdapter,
+                       WaybackAdapter)
 
 LOG_PATH = Path("news_collection/search_log.csv")
 CHECKPOINT = Path("news_collection/checkpoints/completed_queries.json")
@@ -79,6 +80,8 @@ def make_adapters():
         "google_cse": GoogleCseAdapter(),
         # Reads SERPAPI_API_KEY itself; same missing-credential handling.
         "serpapi": SerpApiAdapter(),
+        # Reads SERPER_API_KEY itself; same missing-credential handling.
+        "serper": SerperAdapter(),
     }
 
 

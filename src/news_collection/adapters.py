@@ -482,6 +482,70 @@ class SerpApiAdapter:
 
 
 # ---------------------------------------------------------------------------
+# Serper.dev - the third Google-results route, adopted 2026-07-25.
+#
+# Why a third adapter for the same job: Stage M's history is a chain of
+# closed doors, each documented in the deviations log. The original
+# plan was hand-run Google searches (google.com ToS forbids automating
+# them). SerpApi automated that lawfully but its free tier (student's
+# personal account, 250 searches/month) was exhausted at 266/810
+# queries. Google's own Custom Search JSON API (proposal P3) was then
+# configured, but Google no longer grants NEW customers access to it -
+# every correctly-configured request returns 403 "This project does
+# not have the access to Custom Search JSON API" (verified 2026-07-25;
+# the API is scheduled for full shutdown on 2027-01-01). Serper.dev is
+# a SerpApi-equivalent commercial proxy for real Google results whose
+# free allowance (2,500 queries) covers the remaining 544 queries.
+#
+# Methodological continuity: all three automated routes query the SAME
+# Google index, so switching billing/transport does not change what
+# can be discovered - the already-executed serpapi rows in
+# search_log.csv remain valid and comparable. Like its siblings, this
+# adapter reports a missing-credential or quota problem honestly per
+# query instead of pretending zero results.
+# ---------------------------------------------------------------------------
+class SerperAdapter:
+    name = "serper"
+    ENDPOINT = "https://google.serper.dev/search"
+    MAX_RESULTS = 20   # same per-query cap as the other search adapters
+
+    def __init__(self, api_key=None):
+        self.api_key = api_key or os.getenv("SERPER_API_KEY")
+
+    def search(self, query):
+        if not self.api_key:
+            return [], [{"status": None,
+                        "note": "SERPER_API_KEY not configured"}]
+        try:
+            r = requests.post(
+                self.ENDPOINT,
+                headers={"X-API-KEY": self.api_key,
+                         "Content-Type": "application/json"},
+                json={"q": query["query_text"], "num": self.MAX_RESULTS},
+                timeout=TIMEOUT)
+        except requests.RequestException as e:
+            return [], [{"status": None, "error": str(e)}]
+        if r.status_code != 200:
+            # 403 = bad key, 400 = malformed, 429 = out of credits -
+            # all surfaced with the real status so the runner logs a
+            # failed search, never a fake zero-result one.
+            return [], [{"status": r.status_code, "error": r.text[:200]}]
+        body = r.json()
+        hits = [{"url": item.get("link"), "title": item.get("title"),
+                "snippet": item.get("snippet")}
+               for item in body.get("organic", [])]
+        return hits, [{"status": 200, "total": len(hits)}]
+
+    def fetch(self, hit, query):
+        # Link + snippet only, like the other search adapters - the
+        # shared article-page fetch/parse lives in SiteSearchAdapter.
+        proxy = SiteSearchAdapter()
+        record, raw = proxy.fetch(hit, query)
+        record["retrieval"]["adapter"] = "serper"
+        return record, raw
+
+
+# ---------------------------------------------------------------------------
 # Manual import - Google-discovered URLs, archive transcriptions.
 # ---------------------------------------------------------------------------
 
@@ -531,6 +595,8 @@ ADAPTERS = {
                                        # are configured (see class comment)
     "serpapi": SerpApiAdapter,         # student's own personal account;
                                        # same no-op-until-configured behaviour
+    "serper": SerperAdapter,           # Google results via serper.dev -
+                                       # see class comment for the route history
     # NewsAPI stays dormant: blocked for every window on the current
     # tier (audit).  It gains an adapter here only after an upgrade
     # re-verifies coverage via src/check_newsapi_coverage.py.
