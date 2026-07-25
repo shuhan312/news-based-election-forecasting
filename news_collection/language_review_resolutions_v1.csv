@@ -1,0 +1,2 @@
+article_id,detector_result,decision,reason,decided_by,decided_on
+NEWS-guardian_api-16c832ae4a4b,uncertain (stopword ratio between bands),confirmed_english,"Guardian explainer listing areas voting on 15 Nov 2012 (PCC elections); plainly English prose - the list-heavy genre dilutes function words, which is exactly the abstention case the detector is designed to hand to a human. Downstream status unchanged (ready_full_text).",human_reviewer,2026-07-27
