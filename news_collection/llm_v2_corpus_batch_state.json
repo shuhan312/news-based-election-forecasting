@@ -3,5 +3,9 @@
   "submitted_at": "2026-07-24T21:02:55",
   "request_count": 2370,
   "classifier_version": "v2-development-2026-07-24.6",
-  "model": "claude-sonnet-5"
+  "model": "claude-sonnet-5",
+  "retry_batch_ids": [
+    "msgbatch_01GaMafKHnwtBajork7YuESb",
+    "msgbatch_01REseyzhe3j8d6BZGYSo3UZ"
+  ]
 }
