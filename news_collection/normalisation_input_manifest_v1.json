@@ -1,0 +1,23 @@
+{
+  "input_selection_version": "input-select-v1.0-2026-07-26",
+  "eligibility_version": "elig-87edba91f78df26e",
+  "date_resolution_version": "dates-f84bb49488916a2b",
+  "eligible_articles": 1546,
+  "by_completeness_status": {
+    "full_text": 1539,
+    "partial_text": 1,
+    "missing_text": 6
+  },
+  "by_selected_source_type": {
+    "wayback_capture": 88,
+    "publisher_page": 4,
+    "api_full_body": 1447,
+    "partial_text": 1,
+    "none": 6
+  },
+  "validation_flags": {
+    "no_candidate_sources": 6
+  },
+  "review_required": 0,
+  "manifest_sha256": "643bb35ce3fd965e4c2d38417cdbca2283f501845bd883ce3769e768e5be1a3b"
+}

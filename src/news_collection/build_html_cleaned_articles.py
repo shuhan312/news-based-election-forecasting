@@ -3,8 +3,8 @@ article and version the outputs.
 
 Scope and provenance rules:
 
-* The article list comes ONLY from Step 1's frozen sheet
-  (extraction_inputs.csv). No eligibility logic lives here.
+* The article list comes ONLY from Step 1's frozen manifest
+  (normalisation_input_manifest_v1.csv). No eligibility logic lives here.
 * Raw evidence is read, never written: data/raw/news/html/{id}.html
   and the API text files stay byte-identical (asserted by the tests).
 * Articles WITHOUT an HTML sidecar (the Guardian API route delivers
@@ -33,7 +33,7 @@ from pathlib import Path
 
 from .html_clean import RULE_VERSION, clean_html
 
-INPUTS = Path("news_collection/extraction_inputs.csv")
+INPUTS = Path("news_collection/normalisation_input_manifest_v1.csv")
 HTML_DIR = Path("data/raw/news/html")
 OUT_JSONL = Path("news_collection/html_cleaned_articles_v1.jsonl")
 OUT_LOG = Path("news_collection/html_cleaning_log_v1.csv")
@@ -66,13 +66,13 @@ def main() -> None:
             res = clean_html(html, source_id=source_id)
             method = "html_parse"
             input_path, input_hash = str(html_path), sha256(html)
-        elif r["text_status"] in ("full_text", "partial_text"):
+        elif r["text_completeness_status"] in ("full_text", "partial_text"):
             # API-delivered body (no web page to clean). Passed through
             # unchanged: entity decoding etc. already happened at the
             # publisher API. Verified against Step 1's frozen hash so a
             # drifted file is refused, not silently used.
-            text = Path(r["text_path"]).read_text(errors="replace")
-            if sha256(text) != r["text_sha256"]:
+            text = Path(r["selected_text_source_path_or_reference"]).read_text(errors="replace")
+            if sha256(text) != r["selected_text_source_hash"]:
                 res = {"title": "", "body": "", "paragraphs": [],
                        "selector_used": "", "status": "review_required",
                        "warnings": ["input_drifted"], "flagged_kept": [],
@@ -86,7 +86,8 @@ def main() -> None:
                        "input_chars": len(text), "output_chars": len(text),
                        "removed_ratio": 0.0, "rule_version": RULE_VERSION}
             method = "api_text"
-            input_path, input_hash = r["text_path"], r["text_sha256"]
+            input_path, input_hash = (r["selected_text_source_path_or_reference"],
+                                      r["selected_text_source_hash"])
         else:
             # Eligible but no stored content at all (Step 1's
             # missing_text rows): an explicit review row, never a
