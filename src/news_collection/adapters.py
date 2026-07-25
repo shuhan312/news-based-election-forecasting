@@ -516,12 +516,26 @@ class SerperAdapter:
         if not self.api_key:
             return [], [{"status": None,
                         "note": "SERPER_API_KEY not configured"}]
+        # Date-window restriction (added 2026-07-25, deviations log
+        # v1.4): the route is NAMED google_dated_search, but the first
+        # automated sweeps sent keywords only - Google then ranks
+        # present-day pages first, and with a 20-result cap per query,
+        # in-window 2013/2017 articles risk being crowded out entirely.
+        # Google's cdr (custom date range) filter, passed through
+        # serper's tbs parameter, restricts results to the query's
+        # pre-registered election window. Dates use Google's M/D/YYYY.
+        def _us(d):  # "2013-01-01" -> "1/1/2013"
+            y, m, day = d.split("-")
+            return f"{int(m)}/{int(day)}/{y}"
+        tbs = (f"cdr:1,cd_min:{_us(query['window_start'])},"
+               f"cd_max:{_us(query['window_end'])}")
         try:
             r = requests.post(
                 self.ENDPOINT,
                 headers={"X-API-KEY": self.api_key,
                          "Content-Type": "application/json"},
-                json={"q": query["query_text"], "num": self.MAX_RESULTS},
+                json={"q": query["query_text"], "num": self.MAX_RESULTS,
+                      "tbs": tbs},
                 timeout=TIMEOUT)
         except requests.RequestException as e:
             return [], [{"status": None, "error": str(e)}]
