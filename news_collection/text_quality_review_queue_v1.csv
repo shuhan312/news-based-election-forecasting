@@ -1,0 +1,2 @@
+article_id,quality_status,status_reason,body_words,body_chars,title_words,summary_words,paragraphs,boilerplate_density,duplicate_paragraphs,step1_status,warning_flags,review_required,input_sha256,output_sha256,rule_version
+NEWS-guardian_api-26998343d44f,review_required,completeness evidence conflicts (upstream vs current body size / title-only shape),57,371,30,0,1,0.0,0,partial_text,title_only_shape,True,97d4206afcdcb783306a3ad72771f6858a3883cd677ba00483b31e0f6d977697,97d4206afcdcb783306a3ad72771f6858a3883cd677ba00483b31e0f6d977697,text-quality-v1.0-2026-07-27
