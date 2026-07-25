@@ -1,0 +1,7 @@
+article_id,source_id,method,input_path,input_sha256,selector_used,title,paragraph_count,input_chars,output_chars,removed_ratio,warnings,status,rule_version
+NEWS-guardian_api-2ef2c7bd5536,guardian_api,none,,,,,0,0,0,1.0,no_stored_content,review_required,html-clean-v1.0-2026-07-25
+NEWS-guardian_api-4758fb4be13e,guardian_api,none,,,,,0,0,0,1.0,no_stored_content,review_required,html-clean-v1.0-2026-07-25
+NEWS-guardian_api-8aadc09fa9eb,guardian_api,none,,,,,0,0,0,1.0,no_stored_content,review_required,html-clean-v1.0-2026-07-25
+NEWS-guardian_api-aae0d552d3f5,guardian_api,none,,,,,0,0,0,1.0,no_stored_content,review_required,html-clean-v1.0-2026-07-25
+NEWS-guardian_api-b14821938693,guardian_api,none,,,,,0,0,0,1.0,no_stored_content,review_required,html-clean-v1.0-2026-07-25
+NEWS-guardian_api-ce614f0fffc6,guardian_api,none,,,,,0,0,0,1.0,no_stored_content,review_required,html-clean-v1.0-2026-07-25
