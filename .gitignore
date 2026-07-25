@@ -44,3 +44,4 @@ news_collection/html_cleaned_articles_v1.jsonl
 news_collection/character_normalised_articles_v1.jsonl
 news_collection/structure_normalised_articles_v1.jsonl
 news_collection/structured_articles_v1.jsonl
+news_collection/normalised_text_layer_v1_provisional.jsonl

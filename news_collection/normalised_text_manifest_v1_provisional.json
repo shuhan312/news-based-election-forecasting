@@ -1,0 +1,52 @@
+{
+  "layer_version": "normalised_text_layer_v1_provisional",
+  "rule_version": "final-audit-v1.0-2026-07-27",
+  "generated_at": "2026-07-25T22:23:04+00:00",
+  "git_commit": "10770fd69520baa934a9ff0cdbfcbc9fb3c051b8",
+  "records": 1546,
+  "counts": {
+    "quality": {
+      "valid_full_text": 1539,
+      "review_required": 1,
+      "missing_body": 6
+    },
+    "downstream": {
+      "ready_full_text": 1540,
+      "not_usable_for_text_analysis": 6
+    },
+    "language": {
+      "english": 1539,
+      "uncertain": 1,
+      "insufficient_text": 6
+    },
+    "source": {
+      "bbc_surrey": 15,
+      "google_dated_search": 4,
+      "guardian_api": 1454,
+      "guildford_dragon": 14,
+      "surreylive": 59
+    },
+    "election": {
+      "SCC-2021-05": 313,
+      "SCC-2017-05": 466,
+      "SCC-2013-05": 439,
+      "ESWS-2026-05": 328
+    }
+  },
+  "chain_failures": 0,
+  "inputs": {
+    "normalisation_input_manifest_v1.csv": "643bb35ce3fd965e",
+    "html_cleaning_log_v1.csv": "6b607aeed838c4ff",
+    "character_normalisation_log_v1.csv": "abc47040ab9b0cb7",
+    "structure_normalisation_log_v1.csv": "ce7e0fb6a111010a",
+    "text_boundary_log_v1.csv": "3f09101fb8ab16c3",
+    "text_quality_results_v1.csv": "ffd19c5a7b6bcf3c",
+    "text_quality_resolutions_v1.csv": "df9e2f710ff9e517",
+    "missing_text_resolutions_v1.csv": "01ef4165e52d6245"
+  },
+  "outputs": {
+    "normalised_text_layer_v1_provisional.jsonl": "219aafa4bfe60bf4",
+    "normalised_text_audit_v1_provisional.csv": "b8a624e21910a55e"
+  },
+  "note": "provisional snapshot; future Stage M articles are processed through the same Steps 1-6 and released as a v2 layer - this file is never overwritten"
+}
