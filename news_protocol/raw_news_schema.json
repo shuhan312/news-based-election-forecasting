@@ -46,7 +46,7 @@
         "retrieved_at": {"type": "string", "format": "date-time"},
         "http_status": {"type": ["integer", "null"]},
         "retrieval_status": {"enum": ["ok", "paywalled", "blocked",
-                                       "gone", "parse_failed"]},
+                                       "gone", "parse_failed", "oversize"]},
         "requested_url": {"type": ["string", "null"]},
         "final_url": {"type": ["string", "null"],
                       "description": "URL after redirects; records soft 404s and consent walls"},

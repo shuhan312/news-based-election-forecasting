@@ -298,9 +298,33 @@ class SiteSearchAdapter:
         return hits[:self.MAX_HITS], [{"status": 200,
                                        "links_found": len(seen)}]
 
+    # Oversize guard (added 2026-07-26). A news article is tens of KB;
+    # broad keyword queries occasionally hit multi-hundred-MB pages -
+    # the worst real case was a 1.6 GB genealogy database stored as
+    # "body text", which alone held a quarter of the corpus's disk
+    # footprint. Anything past this cap cannot be a news article, so
+    # the fetch is recorded honestly as oversize (a retrieval status,
+    # like blocked/gone) and NO body is stored. This changes what is
+    # STORED for non-articles, never what is discovered or judged.
+    MAX_FETCH_BYTES = 8 * 1024 * 1024   # 8 MB
+
     def fetch(self, hit, query):
         r = http_get(hit["url"])
         status = getattr(r, "status_code", None)
+        oversize = (r is not None
+                    and len(getattr(r, "content", b"") or b"")
+                    > self.MAX_FETCH_BYTES)
+        if oversize:
+            record = build_record(
+                source_id=query["source_id"], arm=query["arm"],
+                election_id=query["election_id"], adapter="site_search",
+                access_route="live_page", query_id=query["query_id"],
+                requested_url=hit["url"], http_status=status,
+                final_url=getattr(r, "url", None), archive_url=None,
+                canonical_url=hit["url"], publisher=query["source_id"],
+                meta={"dates": []}, retrieval_status="oversize")
+            return record, {"text": None, "raw_html": None,
+                            "raw_pdf": None}
         is_pdf = r is not None and status == 200 and is_pdf_response(r)
         # PDFs never go through .text (see is_pdf_response's docstring for
         # why) and are not HTML-parsed - extract_html_metadata is an HTML
