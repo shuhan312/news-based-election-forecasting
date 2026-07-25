@@ -1,0 +1,2 @@
+article_id,queue_flag,decision,reason,decided_by,decided_on
+NEWS-guardian_api-26998343d44f,title_only_shape;partial_text_upstream,valid_full_text,"genre-typical short text: a complete editor-written reader-debate prompt (57 words, terminal punctuation, nothing truncated). Shortness alone never disqualifies; eligibility judgements unchanged.",human_reviewer,2026-07-27
