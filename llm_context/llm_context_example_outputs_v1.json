@@ -1,0 +1,177 @@
+{
+  "description": "Worked examples for llm-context-v1.0-2026-07-26. Each example bundles the (fictional) article text with a conformant record so the validator can be exercised end-to-end - including the verbatim evidence-span checks. No real article was processed and no LLM was called; these are hand-written design fixtures.",
+  "examples": [
+    {
+      "name": "full_extraction_local_article",
+      "title": "Council tax rise approved as opposition warns of household squeeze",
+      "body_text": "Surrey County Council approved a 4.99% council tax increase on Tuesday, with the Conservative administration arguing the rise was unavoidable after years of rising social care demand. The Liberal Democrat opposition warned the increase would squeeze household budgets across Woking at the worst possible moment. Council leader Tim Oliver said the alternative was cutting services that residents rely on every day. Opposition finance spokesman Will Forster said families in Woking would pay the price for a decade of poor financial management at County Hall.",
+      "record": {
+        "schema_version": "llm-context-v1.0-2026-07-26",
+        "article_id": "NEWS-example-full000000001",
+        "canonical_article_id": "NEWS-example-full000000001",
+        "extraction_status": "extracted",
+        "review_status": "unreviewed",
+        "input": {
+          "title": "Council tax rise approved as opposition warns of household squeeze",
+          "source": "surreylive",
+          "publication_date": "2021-02-10",
+          "temporal_availability_status": "confirmed_available_at",
+          "geographic_scope": "Surrey",
+          "local_national": "local_surrey",
+          "election_id": "SCC-2021-05",
+          "provenance_ref": "duplicate_mapping_layer_v1_provisional.csv"
+        },
+        "entities": [
+          {"name": "Surrey County Council", "entity_type": "council",
+           "evidence_span": {"text": "Surrey County Council approved a 4.99% council tax increase"},
+           "confidence": 0.98},
+          {"name": "Conservative", "entity_type": "party",
+           "evidence_span": {"text": "the Conservative administration arguing the rise was unavoidable"},
+           "confidence": 0.97},
+          {"name": "Liberal Democrat", "entity_type": "party",
+           "evidence_span": {"text": "The Liberal Democrat opposition warned the increase would squeeze household budgets"},
+           "confidence": 0.97},
+          {"name": "Tim Oliver", "entity_type": "candidate",
+           "evidence_span": {"text": "Council leader Tim Oliver said the alternative was cutting services"},
+           "confidence": 0.9}
+        ],
+        "issues": {
+          "taxonomy_version": "issues-v1.0",
+          "primary_issue": {
+            "issue_code": "council_tax_finance",
+            "evidence_span": {"text": "approved a 4.99% council tax increase on Tuesday"},
+            "confidence": 0.95},
+          "secondary_issues": [
+            {"issue_code": "health_social_care",
+             "evidence_span": {"text": "after years of rising social care demand"},
+             "confidence": 0.8}
+          ]
+        },
+        "stances": [
+          {"stance_target": "Conservative", "target_type": "party",
+           "direction": "criticism", "sentiment": "negative",
+           "evidence_span": {"text": "families in Woking would pay the price for a decade of poor financial management"},
+           "confidence": 0.85}
+        ],
+        "frames": [
+          {"frame": "economic",
+           "evidence_span": {"text": "the increase would squeeze household budgets across Woking"},
+           "confidence": 0.9},
+          {"frame": "competence_governance",
+           "evidence_span": {"text": "a decade of poor financial management at County Hall"},
+           "confidence": 0.85}
+        ],
+        "credit_blame": [
+          {"actor": "Conservative administration", "attribution": "blame",
+           "action_event": "council tax increase and past financial management",
+           "evidence_span": {"text": "pay the price for a decade of poor financial management at County Hall"},
+           "confidence": 0.85}
+        ],
+        "electoral_consequences": [
+          {"affected_actor": "Conservative", "direction": "unfavourable",
+           "voter_group": "Woking households",
+           "mechanism": "tax rise framed as burden caused by incumbent mismanagement",
+           "temporal_horizon": "short_term",
+           "evidence_span": {"text": "would squeeze household budgets across Woking at the worst possible moment"},
+           "confidence": 0.7}
+        ],
+        "relevance": {
+          "level": "local_surrey",
+          "geographic_scope": "Surrey / Woking",
+          "linked_surrey_area": "Woking",
+          "evidence_span": {"text": "household budgets across Woking"}
+        }
+      }
+    },
+    {
+      "name": "partial_extraction_ambiguous_article",
+      "title": "Polling stations open across the county",
+      "body_text": "Polling stations opened across the county at seven this morning. Turnout figures will not be available until after the close of polls at ten tonight. Officials reminded voters to bring their polling cards where possible.",
+      "record": {
+        "schema_version": "llm-context-v1.0-2026-07-26",
+        "article_id": "NEWS-example-partial0000002",
+        "canonical_article_id": "NEWS-example-partial0000002",
+        "extraction_status": "partial",
+        "review_status": "flagged",
+        "input": {
+          "title": "Polling stations open across the county",
+          "source": "guildford_dragon",
+          "publication_date": "2021-05-06",
+          "temporal_availability_status": "bounded_available_interval",
+          "geographic_scope": "Surrey",
+          "local_national": "local_surrey",
+          "election_id": "SCC-2021-05",
+          "provenance_ref": "duplicate_mapping_layer_v1_provisional.csv"
+        },
+        "entities": [],
+        "issues": {
+          "taxonomy_version": "issues-v1.0",
+          "primary_issue": null,
+          "secondary_issues": [
+            {"issue_code": "party_politics_campaigning",
+             "evidence_span": {"text": "Polling stations opened across the county at seven this morning."},
+             "confidence": 0.4}
+          ]
+        },
+        "stances": [],
+        "frames": [],
+        "credit_blame": [],
+        "electoral_consequences": [],
+        "relevance": {
+          "level": "local_surrey",
+          "geographic_scope": "Surrey",
+          "linked_surrey_area": null,
+          "evidence_span": {"text": "Polling stations opened across the county"}
+        },
+        "ambiguity_notes": [
+          {"section": "entities",
+           "reason": "procedural polling-day notice; no party, candidate or council is named"},
+          {"section": "issues",
+           "reason": "no substantive policy issue is discussed; the single secondary code is low-confidence and review-routed"}
+        ]
+      }
+    },
+    {
+      "name": "not_attempted_record",
+      "title": "Video: highlights from the count",
+      "body_text": "",
+      "record": {
+        "schema_version": "llm-context-v1.0-2026-07-26",
+        "article_id": "NEWS-example-notatt0000003",
+        "canonical_article_id": "NEWS-example-notatt0000003",
+        "extraction_status": "not_attempted",
+        "review_status": "unreviewed",
+        "input": {
+          "title": "Video: highlights from the count",
+          "source": "surreylive",
+          "publication_date": "2021-05-07",
+          "temporal_availability_status": "not_temporally_usable",
+          "geographic_scope": "Surrey",
+          "local_national": "local_surrey",
+          "election_id": "SCC-2021-05",
+          "provenance_ref": "duplicate_mapping_layer_v1_provisional.csv"
+        },
+        "entities": [],
+        "issues": {
+          "taxonomy_version": "issues-v1.0",
+          "primary_issue": null,
+          "secondary_issues": []
+        },
+        "stances": [],
+        "frames": [],
+        "credit_blame": [],
+        "electoral_consequences": [],
+        "relevance": {
+          "level": "uncertain",
+          "geographic_scope": "Surrey",
+          "linked_surrey_area": null,
+          "evidence_span": null
+        },
+        "ambiguity_notes": [
+          {"section": "entities",
+           "reason": "video-only record with no usable body text; extraction not attempted"}
+        ]
+      }
+    }
+  ]
+}

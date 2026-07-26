@@ -1,0 +1,225 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "irp-surrey/llm_context_schema_v1",
+  "title": "LLM political context extraction record (v1)",
+  "description": "One structured context representation per canonical article. Designed before any extraction runs (Phase 6 Step 1); versioned so future Stage M articles validate against the same contract without touching processed records. Every LLM-derived claim must carry an evidence span quoted verbatim from the article body and a confidence score - a claim without evidence is invalid by construction.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "article_id", "canonical_article_id",
+               "extraction_status", "review_status", "input",
+               "entities", "issues", "stances", "frames",
+               "credit_blame", "electoral_consequences", "relevance"],
+  "properties": {
+    "schema_version": {"const": "llm-context-v1.0-2026-07-26"},
+    "article_id": {"type": "string", "minLength": 1},
+    "canonical_article_id": {"type": "string", "minLength": 1},
+    "extraction_status": {
+      "enum": ["extracted", "partial", "failed", "not_attempted"],
+      "description": "partial = some sections unextractable (recorded, not guessed); failed = article yielded nothing usable"
+    },
+    "review_status": {"enum": ["unreviewed", "human_reviewed", "flagged"]},
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "source", "publication_date",
+                   "temporal_availability_status", "geographic_scope",
+                   "local_national", "election_id", "provenance_ref"],
+      "properties": {
+        "title": {"type": "string"},
+        "source": {"type": "string", "minLength": 1},
+        "publication_date": {"type": "string",
+                             "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+        "temporal_availability_status": {
+          "enum": ["confirmed_available_at", "bounded_available_interval",
+                   "availability_uncertain", "not_temporally_usable"]},
+        "geographic_scope": {"type": "string"},
+        "local_national": {"enum": ["local_surrey", "national",
+                                    "mixed", "uncertain"]},
+        "election_id": {"type": "string",
+                        "pattern": "^[A-Z]+-\\d{4}-\\d{2}$"},
+        "provenance_ref": {
+          "type": "string", "minLength": 1,
+          "description": "pointer into the frozen duplicate mapping layer, e.g. duplicate_mapping_layer_v1_provisional.csv"}
+      }
+    },
+    "entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "entity_type", "evidence_span", "confidence"],
+        "properties": {
+          "name": {"type": "string", "minLength": 1},
+          "entity_type": {"enum": ["party", "candidate", "council",
+                                   "constituency_ward",
+                                   "political_organisation", "other"]},
+          "evidence_span": {"$ref": "#/$defs/evidence_span"},
+          "confidence": {"$ref": "#/$defs/confidence"}
+        }
+      }
+    },
+    "issues": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["taxonomy_version", "primary_issue",
+                   "secondary_issues"],
+      "properties": {
+        "taxonomy_version": {"const": "issues-v1.0"},
+        "primary_issue": {
+          "oneOf": [{"$ref": "#/$defs/issue"}, {"type": "null"}],
+          "description": "null is the honest answer for an article with no dominant issue - never force one"},
+        "secondary_issues": {"type": "array",
+                             "items": {"$ref": "#/$defs/issue"}}
+      }
+    },
+    "stances": {
+      "type": "array",
+      "description": "stance is target-directed, never a single article-level sentiment number",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["stance_target", "target_type", "direction",
+                     "evidence_span", "confidence"],
+        "properties": {
+          "stance_target": {"type": "string", "minLength": 1},
+          "target_type": {"enum": ["party", "candidate", "council",
+                                   "policy", "other"]},
+          "direction": {"enum": ["support", "criticism", "neutral",
+                                 "mixed"]},
+          "sentiment": {
+            "oneOf": [{"enum": ["positive", "negative", "neutral",
+                                "mixed"]}, {"type": "null"}],
+            "description": "optional tonal reading where useful; the stance direction is the analytical field"},
+          "evidence_span": {"$ref": "#/$defs/evidence_span"},
+          "confidence": {"$ref": "#/$defs/confidence"}
+        }
+      }
+    },
+    "frames": {
+      "type": "array",
+      "description": "multiple frames per article are expected",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["frame", "evidence_span", "confidence"],
+        "properties": {
+          "frame": {"enum": ["economic", "competence_governance",
+                             "accountability", "conflict",
+                             "public_service", "identity_community",
+                             "other"]},
+          "frame_other_label": {"type": "string"},
+          "evidence_span": {"$ref": "#/$defs/evidence_span"},
+          "confidence": {"$ref": "#/$defs/confidence"}
+        }
+      }
+    },
+    "credit_blame": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["actor", "attribution", "action_event",
+                     "evidence_span", "confidence"],
+        "properties": {
+          "actor": {"type": "string", "minLength": 1},
+          "attribution": {"enum": ["credit", "blame", "mixed"]},
+          "action_event": {"type": "string", "minLength": 1},
+          "evidence_span": {"$ref": "#/$defs/evidence_span"},
+          "confidence": {"$ref": "#/$defs/confidence"}
+        }
+      }
+    },
+    "electoral_consequences": {
+      "type": "array",
+      "description": "the article's IMPLIED consequence signals - never a prediction of the election result",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["affected_actor", "direction", "temporal_horizon",
+                     "evidence_span", "confidence"],
+        "properties": {
+          "affected_actor": {"type": "string", "minLength": 1},
+          "direction": {"enum": ["favourable", "unfavourable",
+                                 "unclear"]},
+          "voter_group": {"oneOf": [{"type": "string"},
+                                    {"type": "null"}]},
+          "mechanism": {"oneOf": [{"type": "string"},
+                                  {"type": "null"}]},
+          "temporal_horizon": {"enum": ["immediate", "short_term",
+                                        "medium_term", "long_term",
+                                        "uncertain"]},
+          "evidence_span": {"$ref": "#/$defs/evidence_span"},
+          "confidence": {"$ref": "#/$defs/confidence"}
+        }
+      }
+    },
+    "relevance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "geographic_scope", "linked_surrey_area",
+                   "evidence_span"],
+      "properties": {
+        "level": {"enum": ["local_surrey", "national_with_local_link",
+                           "national_only", "uncertain"]},
+        "geographic_scope": {"type": "string"},
+        "linked_surrey_area": {"oneOf": [{"type": "string"},
+                                         {"type": "null"}]},
+        "evidence_span": {"oneOf": [{"$ref": "#/$defs/evidence_span"},
+                                    {"type": "null"}]}
+      }
+    },
+    "ambiguity_notes": {
+      "type": "array",
+      "description": "explicit record of what could NOT be determined and why - missing information is represented, never invented",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["section", "reason"],
+        "properties": {
+          "section": {"enum": ["entities", "issues", "stances",
+                               "frames", "credit_blame",
+                               "electoral_consequences", "relevance"]},
+          "reason": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "evidence_span": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text"],
+      "properties": {
+        "text": {"type": "string", "minLength": 10,
+                 "description": "verbatim quote from the normalised body (or title, flagged below) supporting the claim"},
+        "char_start": {"type": "integer", "minimum": 0},
+        "char_end": {"type": "integer", "minimum": 1},
+        "from_title": {"type": "boolean", "default": false}
+      }
+    },
+    "confidence": {
+      "type": "number", "minimum": 0.0, "maximum": 1.0,
+      "description": "extractor-reported confidence in [0,1]; the validation rules bind low values to review routing"
+    },
+    "issue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["issue_code", "evidence_span", "confidence"],
+      "properties": {
+        "issue_code": {
+          "enum": ["housing_planning", "council_tax_finance",
+                   "transport_roads", "education_schools",
+                   "health_social_care", "environment_green_belt",
+                   "crime_policing", "local_economy_jobs",
+                   "national_economy", "immigration",
+                   "party_politics_campaigning",
+                   "governance_competence", "scandal_integrity",
+                   "community_identity", "national_politics_general",
+                   "other"]},
+        "issue_other_label": {"type": "string"},
+        "evidence_span": {"$ref": "#/$defs/evidence_span"},
+        "confidence": {"$ref": "#/$defs/confidence"}
+      }
+    }
+  }
+}
