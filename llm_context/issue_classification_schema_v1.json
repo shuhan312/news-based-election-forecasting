@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "irp-surrey/issue_classification_schema_v1",
+  "title": "Issue / topic classification record (Phase 6 Step 3)",
+  "description": "One focused record per canonical article: what political issue the article discusses, with verbatim evidence, an explanation and a confidence score per assignment, plus the political-relevance determination. Deliberately NOT the full 11-layer contract - stance, framing, blame/credit and electoral consequences are out of scope for this step by specification. Taxonomy pinned to the approved issues-v1.2 (25 codes + other); no invented categories.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "article_id", "canonical_article_id",
+               "extraction_status", "review_status", "issues",
+               "political_relevance"],
+  "properties": {
+    "schema_version": {"const": "issue-cls-v1.0-2026-07-27"},
+    "article_id": {"type": "string", "minLength": 1},
+    "canonical_article_id": {"type": "string", "minLength": 1},
+    "extraction_status": {
+      "enum": ["extracted", "partial", "failed", "not_attempted"]},
+    "review_status": {"enum": ["unreviewed", "human_reviewed", "flagged"]},
+    "issues": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["taxonomy_version", "primary_issue",
+                   "secondary_issues"],
+      "properties": {
+        "taxonomy_version": {"const": "issues-v1.2"},
+        "primary_issue": {
+          "oneOf": [{"$ref": "#/$defs/issue"}, {"type": "null"}],
+          "description": "the article's MAIN political issue; null when no political issue is discussed - never force one"},
+        "secondary_issues": {
+          "type": "array", "maxItems": 5,
+          "items": {"$ref": "#/$defs/issue"},
+          "description": "additional relevant issues, most relevant first"}
+      }
+    },
+    "political_relevance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["election_competition_related", "affected_actors",
+                   "may_influence_voter_perceptions"],
+      "properties": {
+        "election_competition_related": {
+          "type": "boolean",
+          "description": "is the issue directly tied to election competition (campaigns, candidates, party contest)"},
+        "affected_actors": {
+          "type": "array", "items": {"type": "string"},
+          "description": "party/candidate affected, when the article names them"},
+        "may_influence_voter_perceptions": {"type": "boolean"},
+        "explanation": {"oneOf": [{"type": "string", "minLength": 10},
+                                  {"type": "null"}]},
+        "evidence_span": {"oneOf": [{"$ref": "#/$defs/evidence_span"},
+                                    {"type": "null"}],
+                          "description": "required by rule S4 whenever either boolean is true - relevance claims need support"}
+      }
+    },
+    "ambiguity_notes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["reason"],
+        "properties": {"reason": {"type": "string", "minLength": 1}}
+      }
+    }
+  },
+  "$defs": {
+    "evidence_span": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text"],
+      "properties": {
+        "text": {"type": "string", "minLength": 10},
+        "from_title": {"type": "boolean", "default": false}
+      }
+    },
+    "issue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["issue_code", "explanation", "evidence_span",
+                   "confidence"],
+      "properties": {
+        "issue_code": {
+          "enum": ["council_finance", "council_tax", "roads_transport",
+                   "planning_housing", "schools_send", "social_care",
+                   "waste_recycling", "crime_policing",
+                   "environment_flooding", "healthcare",
+                   "local_business", "immigration",
+                   "council_performance", "candidate_party_conduct",
+                   "scandal", "protest", "service_closure",
+                   "investment_funding",
+                   "local_government_reorganisation",
+                   "candidate_selection_withdrawal",
+                   "resignation_defection", "new_party_emergence",
+                   "voter_switching", "anti_incumbent_sentiment",
+                   "election_administration", "other"]},
+        "issue_other_label": {"type": "string"},
+        "explanation": {
+          "type": "string", "minLength": 10,
+          "description": "why this code applies to this article - the audit trail for the assignment"},
+        "evidence_span": {"$ref": "#/$defs/evidence_span"},
+        "confidence": {"type": "number", "minimum": 0.0, "maximum": 1.0}
+      }
+    }
+  }
+}

@@ -53,3 +53,5 @@ llm_context/pilot_batch_id.txt
 llm_context/pilot_retry_batch_id.txt
 llm_context/llm_context_revalidation_outputs.json
 llm_context/reval_batch_id.txt
+llm_context/issue_classification_outputs.json
+llm_context/issue_cls_batch_id.txt
