@@ -1,146 +1,154 @@
-# LLM context extraction schema - documentation (v1)
+# LLM context extraction schema - documentation (v1.1)
 
-Schema: `llm_context_schema_v1.json` | version `llm-context-v1.0-2026-07-26`
+Schema: `llm_context_schema_v1.json` | version `llm-context-v1.1-2026-07-26`
 Status: design only - no LLM has been called, no article processed.
+
+Revision note: v1.0 -> v1.1 incorporates the supervisor's full
+variable list (eleven layers, 25-code issue taxonomy, party/candidate
+context rows, council accountability, the Reform UK specialised
+layer, geographic and leakage layers). No extraction record was ever
+validated against v1.0, so no processed data is affected; the version
+constant was still bumped because content changed.
 
 ## Why this schema exists
 
-The research question is whether pre-election news context improves
-election prediction, comparing local Surrey coverage with national
-political coverage. Raw text cannot enter a prediction model directly
-and a single sentiment score would throw away exactly the signals the
-question needs (who is criticised, over what issue, with what implied
-electoral consequence). This schema defines the structured middle
-layer: one JSON record per canonical article, every claim grounded in
-a verbatim quote, every uncertainty represented rather than papered
-over.
+The research tests whether pre-election news context improves
+prediction of winning party, vote share, vote-share change and seat
+outcomes beyond historical election information - comparing
+ward-local, Surrey-wide, regional and national coverage. Raw text
+cannot enter a model directly, and a single sentiment number would
+discard exactly the mechanisms of interest (who is blamed, over what
+issue, with what claimed switching). This schema is the structured
+middle layer: one JSON record per canonical article, every claim
+grounded in a verbatim quote, every uncertainty representable.
 
-Design principles, each traceable to a requirement:
+Design principles: evidence-or-nothing (R1 verbatim check =
+anti-hallucination gate); uncertainty is data (nullables,
+`not_addressed` defaults, ambiguity notes); mechanisms not sentiment
+(actor-directed context rows, switching fields, accountability
+distinctions); no outcome prediction (consequence signals only);
+versioned append-only contract (Stage M compatible).
 
-1. **evidence or it did not happen** - every LLM-derived claim
-   carries an `evidence_span` quoted verbatim from the article.
-   Validation fails a span that does not appear in the text, which is
-   the structural defence against LLM hallucination.
-2. **uncertainty is data** - `null` primary issue, `uncertain`
-   directions, `ambiguity_notes` and confidence scores make "the
-   article does not say" a recordable answer. Nothing forces the
-   extractor to guess.
-3. **no outcome prediction** - `electoral_consequences` captures what
-   the ARTICLE implies (direction, mechanism, affected group), never
-   a forecast of the election result. Prediction happens downstream
-   with proper controls.
-4. **versioned and append-only** - `schema_version` and
-   `taxonomy_version` are pinned constants. Stage M articles arriving
-   later validate against the same contract; changing the contract
-   means a v2 schema, never a silent edit.
+## Layer reference
 
-## Field reference
+### Record header + `input`
 
-### Record header
+Join keys and extraction context copied from the frozen layers:
+title, source, author (nullable), `publication_datetime` (date-only
+when no time is resolvable - a time is never invented), temporal
+availability (Step 5 vocabulary), URL, `article_type` (news /
+opinion / letter / live blog / listing / other - opinion pieces
+behave differently as evidence), local/national axis, geographic
+relevance, `election_id`, linked wards/candidates/parties (from the
+collection metadata), `provenance_ref` into
+`duplicate_mapping_layer_v1_provisional.csv`.
 
-| field | purpose |
-|---|---|
-| `schema_version` | pinned const - a record states what contract it satisfies |
-| `article_id` / `canonical_article_id` | join keys back to the frozen duplicate mapping layer; only canonical records are extracted |
-| `extraction_status` | `extracted` / `partial` / `failed` / `not_attempted` - the pipeline state, so coverage gaps are queryable |
-| `review_status` | `unreviewed` / `human_reviewed` / `flagged` - low-confidence claims force `flagged` (rule R3) |
+### 1. `event_context`
 
-### `input` (extraction context, copied from frozen layers)
+What happened, where, when, affecting which organisation/service;
+`continuing_story` + `previous_related_events` (only as described IN
+the article). Purpose: separates substantive events from procedural
+notices and supports running-story analysis.
 
-Carries what the extractor was shown and what downstream needs for
-stratification: `title`, `source`, `publication_date`,
-`temporal_availability_status` (Step 5 vocabulary - the leakage
-gate), `geographic_scope`, `local_national` (the local-vs-national
-comparison axis), `election_id`, `provenance_ref` (pointer into
-`duplicate_mapping_layer_v1_provisional.csv`). All provenance, no new
-judgement.
+### 2. `issues` - taxonomy `issues-v1.1` (25 codes)
 
-### `entities`
+`council_finance, council_tax, roads_transport, planning_housing,
+schools_send, social_care, waste_recycling, crime_policing,
+environment_flooding, healthcare, local_business, immigration,
+council_performance, candidate_party_conduct, scandal, protest,
+service_closure, investment_funding,
+local_government_reorganisation, candidate_selection_withdrawal,
+resignation_defection, new_party_emergence, voter_switching,
+anti_incumbent_sentiment, other`. Primary (nullable) + secondary.
+Extension = new taxonomy version, never an edit.
 
-Who appears: `party`, `candidate`, `council`, `constituency_ward`,
-`political_organisation`, `other`. Research purpose: party/candidate
-mention counts and co-occurrence are the base features for the
-coverage-vs-outcome analysis.
+### 3. `entities`
 
-### `issues`
+Parties, candidates, councils, wards, political organisations,
+national leaders - with `mention_count`, `prominence`
+(headline/lead/major/passing) and `directly_quoted`. Purpose: raw
+salience features (who gets covered, how prominently).
 
-`primary_issue` (nullable - honest absence beats forced choice) plus
-`secondary_issues`, all coded against **taxonomy `issues-v1.0`**
-(16 codes below). Research purpose: issue salience comparison between
-local and national coverage, and issue-party interaction signals.
+### 4. `party_context` - one row per party
 
-Taxonomy v1.0 codes: `housing_planning`, `council_tax_finance`,
-`transport_roads`, `education_schools`, `health_social_care`,
-`environment_green_belt`, `crime_policing`, `local_economy_jobs`,
-`national_economy`, `immigration`, `party_politics_campaigning`,
-`governance_competence`, `scandal_integrity`, `community_identity`,
-`national_politics_general`, `other` (with free-text
-`issue_other_label`). Extension procedure: new codes are added in a
-new `issues-vX.Y` taxonomy version; existing records keep their
-version stamp and are never rewritten.
+The per-party feature surface: overall context
+(positive/neutral/negative/mixed), stance, blame/credit booleans,
+competence and integrity portrayals (`not_addressed` default),
+associated issue, quoted flag, `support_trajectory`
+(gaining/losing/stable/not_indicated), `challenger_credibility`,
+voter-switching discussion with origin/destination parties, and
+0-1 local/electoral relevance scores. Purpose: these rows aggregate
+into the party-level covariates the prediction models consume.
 
-### `stances`
+### 5. `candidate_context` - one row per candidate
 
-Target-directed judgements: who/what is supported or criticised
-(`support` / `criticism` / `neutral` / `mixed`), with optional tonal
-`sentiment`. The specification's warning is honoured structurally:
-there is no article-level sentiment number to reduce to - stance
-without a target is unrepresentable.
+Name, party, mentions, prominence, stance, blame/credit,
+competence/integrity, main issue, quoted, credibility, momentum,
+`protest_candidate`. Purpose: candidate-level signals for seat-level
+outcomes.
 
-### `frames`
+### 6. `council_accountability`
 
-How the story is told: `economic`, `competence_governance`,
-`accountability`, `conflict`, `public_service`,
-`identity_community`, `other`. Multiple frames expected. Research
-purpose: framing differences between local and national outlets are
-a study dimension in their own right.
+The supervisor's three-way distinction kept as three fields:
+`caused_by` (who created the problem), `responsible_for_fix` (who
+must solve it), `electoral_beneficiary`/`electorally_damaged` (who
+gains or loses politically) - plus controlling party, praised and
+criticised actors, and explicit/implied/none blame and credit
+assignments. Purpose: responsibility attribution is the classic
+mechanism linking coverage to incumbent vote share.
 
-### `credit_blame`
+### 7. `electoral_consequences`
 
-`actor` + `attribution` (`credit` / `blame` / `mixed`) +
-`action_event`. Research purpose: attribution of responsibility is
-the classic mechanism linking coverage to incumbent vote share -
-kept separate from stance because a critical article can still
-credit an actor for a specific action.
+Signals only, never forecasts: affected actor, direction, potential
+benefit/damage, voter group, mechanism, and four boolean mechanism
+signals (`voter_switching_signal`, `party_growth_decline_signal`,
+`anti_incumbent_signal`, `challenger_emergence_signal`) with a
+temporal horizon (immediate/short/medium/long/uncertain).
 
-### `electoral_consequences`
+### 8. `reform_uk` - specialised layer
 
-The article's implied signals: `affected_actor`, `direction`
-(`favourable` / `unfavourable` / `unclear`), optional `voter_group`
-and `mechanism`, and a `temporal_horizon`
-(`immediate` / `short_term` / `medium_term` / `long_term` /
-`uncertain`). Explicitly NOT an election forecast.
+Tests whether coverage signals Reform UK emergence and local
+conversion potential (coverage is never assumed to cause votes):
+headline presence, candidate mention/quotes, local campaign
+activity, policy mention, gaining-support and credible-challenger
+descriptions, threat-to list, three switching flags
+(Con/Lab/LD -> Reform), protest support, national momentum, local
+organisational strength, 0-1 credibility and momentum scores.
+Consistency is enforced by rule R6: `reform_uk_present: false`
+forbids positive flags; any positive flag requires an evidence quote.
 
-### `relevance`
+### 9. `geographic`
 
-`local_surrey` / `national_with_local_link` / `national_only` /
-`uncertain`, plus `linked_surrey_area` naming the division/ward when
-applicable. Research purpose: the local-vs-national arm split rests
-on this field being evidence-backed per article.
+Level (ward_specific_local / surrey_wide / regional / national /
+mixed), affected geography, wards mentioned, Surrey mention flag and
+0-1 local/national relevance scores. Purpose: the four-arm
+comparison (local / Surrey-wide / national / combined) rests on this
+layer.
 
-### `ambiguity_notes`
+### 10. `leakage`
 
-Per-section free-text reasons for what could not be determined. The
-representation of missing information is a required capability, not
-an error state.
+Publication and availability dates plus `contains_poll`,
+`contains_prediction`, `contains_election_result` and a
+`leakage_risk` grade (none/low/high/disqualifying). Purpose:
+articles written after voting began, or containing results, are
+identifiable at a glance; flag claims require evidence (R7).
 
-### `evidence_span` (shared definition)
+### 11. Evidence and confidence (shared)
 
-`text` (verbatim, >= 10 chars) + optional `char_start`/`char_end`
-offsets + `from_title` flag. Validation rule R1 rejects any span not
-found verbatim in the stated source text; R2 rejects offsets that do
-not slice to the text.
+`evidence_span` (verbatim text >= 10 chars, optional offsets,
+`from_title` flag) and `confidence` in [0,1] on every claim;
+`extraction_status` and `review_status` on every record; R3 routes
+any claim below 0.5 to mandatory review.
 
-### `confidence` (shared definition)
-
-Number in [0,1] reported by the extractor per claim. Rule R3 binds
-`< 0.5` to mandatory review routing, so low confidence can never be
-silently consumed downstream.
+`frames` (economic / competence_governance / accountability /
+conflict / public_service / identity_community / other) is retained
+from the earlier specification as an optional layer - framing
+differences between local and national outlets remain a study
+dimension.
 
 ## Stage M compatibility
 
-Validation is per-record against a pinned schema version: articles
-arriving from the ongoing Stage M sweep validate against exactly this
-contract, and already-processed records are never re-touched. Schema
-changes require `llm_context_schema_v2.json` alongside (the Phase 5
-freeze-guard convention applies to schema files too).
+Validation is per-record against the pinned version constant. Future
+Stage M articles validate against exactly this contract; already-
+processed records are never re-touched; contract changes require a
+new version file alongside this one.

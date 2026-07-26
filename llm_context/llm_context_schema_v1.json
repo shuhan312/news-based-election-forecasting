@@ -1,103 +1,362 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "irp-surrey/llm_context_schema_v1",
-  "title": "LLM political context extraction record (v1)",
-  "description": "One structured context representation per canonical article. Designed before any extraction runs (Phase 6 Step 1); versioned so future Stage M articles validate against the same contract without touching processed records. Every LLM-derived claim must carry an evidence span quoted verbatim from the article body and a confidence score - a claim without evidence is invalid by construction.",
+  "title": "LLM political context extraction record (v1.1)",
+  "description": "One structured context representation per canonical article, covering the supervisor's eleven analysis layers. Revised pre-extraction (v1.0 -> v1.1) to the full variable list; no record was ever validated against v1.0, so no processed data is affected. Every LLM-derived claim carries a verbatim evidence span and a confidence score - a claim without evidence is invalid by construction. Versioned and append-only: future Stage M articles validate against this same pinned contract.",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_version", "article_id", "canonical_article_id",
                "extraction_status", "review_status", "input",
-               "entities", "issues", "stances", "frames",
-               "credit_blame", "electoral_consequences", "relevance"],
+               "event_context", "issues", "entities", "party_context",
+               "candidate_context", "council_accountability",
+               "electoral_consequences", "reform_uk", "geographic",
+               "leakage"],
   "properties": {
-    "schema_version": {"const": "llm-context-v1.0-2026-07-26"},
+    "schema_version": {"const": "llm-context-v1.1-2026-07-26"},
     "article_id": {"type": "string", "minLength": 1},
     "canonical_article_id": {"type": "string", "minLength": 1},
     "extraction_status": {
-      "enum": ["extracted", "partial", "failed", "not_attempted"],
-      "description": "partial = some sections unextractable (recorded, not guessed); failed = article yielded nothing usable"
-    },
+      "enum": ["extracted", "partial", "failed", "not_attempted"]},
     "review_status": {"enum": ["unreviewed", "human_reviewed", "flagged"]},
+
     "input": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["title", "source", "publication_date",
-                   "temporal_availability_status", "geographic_scope",
-                   "local_national", "election_id", "provenance_ref"],
+      "required": ["title", "source", "publication_datetime",
+                   "temporal_availability_status", "url",
+                   "article_type", "local_national",
+                   "geographic_relevance", "election_id",
+                   "linked_wards", "linked_candidates",
+                   "linked_parties", "provenance_ref"],
       "properties": {
         "title": {"type": "string"},
         "source": {"type": "string", "minLength": 1},
-        "publication_date": {"type": "string",
-                             "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+        "author": {"oneOf": [{"type": "string"}, {"type": "null"}]},
+        "publication_datetime": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}([T ].+)?$",
+          "description": "date-only when no time is resolvable - a time of day is never invented"},
         "temporal_availability_status": {
           "enum": ["confirmed_available_at", "bounded_available_interval",
                    "availability_uncertain", "not_temporally_usable"]},
-        "geographic_scope": {"type": "string"},
+        "url": {"type": "string", "minLength": 1},
+        "article_type": {"enum": ["news_report", "opinion_comment",
+                                  "letter", "live_blog", "listing",
+                                  "other"]},
         "local_national": {"enum": ["local_surrey", "national",
                                     "mixed", "uncertain"]},
+        "geographic_relevance": {"type": "string"},
         "election_id": {"type": "string",
                         "pattern": "^[A-Z]+-\\d{4}-\\d{2}$"},
-        "provenance_ref": {
-          "type": "string", "minLength": 1,
-          "description": "pointer into the frozen duplicate mapping layer, e.g. duplicate_mapping_layer_v1_provisional.csv"}
+        "linked_wards": {"type": "array", "items": {"type": "string"}},
+        "linked_candidates": {"type": "array",
+                              "items": {"type": "string"}},
+        "linked_parties": {"type": "array", "items": {"type": "string"}},
+        "provenance_ref": {"type": "string", "minLength": 1}
       }
     },
-    "entities": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["name", "entity_type", "evidence_span", "confidence"],
-        "properties": {
-          "name": {"type": "string", "minLength": 1},
-          "entity_type": {"enum": ["party", "candidate", "council",
-                                   "constituency_ward",
-                                   "political_organisation", "other"]},
-          "evidence_span": {"$ref": "#/$defs/evidence_span"},
-          "confidence": {"$ref": "#/$defs/confidence"}
-        }
+
+    "event_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_summary", "event_type", "event_location",
+                   "continuing_story", "evidence_span", "confidence"],
+      "properties": {
+        "event_summary": {
+          "oneOf": [{"type": "string", "minLength": 10},
+                    {"type": "null"}],
+          "description": "what happened, in one or two sentences; null when the article reports no discernible event"},
+        "event_type": {"enum": ["decision", "announcement", "incident",
+                                "protest", "campaign_event",
+                                "service_change", "investigation",
+                                "election_administration", "none",
+                                "other"]},
+        "event_location": {"oneOf": [{"type": "string"},
+                                     {"type": "null"}]},
+        "event_date": {"oneOf": [{"type": "string"}, {"type": "null"}]},
+        "affected_organisation_service": {
+          "oneOf": [{"type": "string"}, {"type": "null"}]},
+        "continuing_story": {"type": "boolean"},
+        "previous_related_events": {
+          "type": "array", "items": {"type": "string"},
+          "description": "only as described IN the article - never reconstructed from outside knowledge"},
+        "evidence_span": {"oneOf": [{"$ref": "#/$defs/evidence_span"},
+                                    {"type": "null"}]},
+        "confidence": {"$ref": "#/$defs/confidence"}
       }
     },
+
     "issues": {
       "type": "object",
       "additionalProperties": false,
       "required": ["taxonomy_version", "primary_issue",
                    "secondary_issues"],
       "properties": {
-        "taxonomy_version": {"const": "issues-v1.0"},
+        "taxonomy_version": {"const": "issues-v1.1"},
         "primary_issue": {
-          "oneOf": [{"$ref": "#/$defs/issue"}, {"type": "null"}],
-          "description": "null is the honest answer for an article with no dominant issue - never force one"},
+          "oneOf": [{"$ref": "#/$defs/issue"}, {"type": "null"}]},
         "secondary_issues": {"type": "array",
                              "items": {"$ref": "#/$defs/issue"}}
       }
     },
-    "stances": {
+
+    "entities": {
       "type": "array",
-      "description": "stance is target-directed, never a single article-level sentiment number",
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["stance_target", "target_type", "direction",
-                     "evidence_span", "confidence"],
+        "required": ["name", "entity_type", "mention_count",
+                     "prominence", "directly_quoted", "evidence_span",
+                     "confidence"],
         "properties": {
-          "stance_target": {"type": "string", "minLength": 1},
-          "target_type": {"enum": ["party", "candidate", "council",
-                                   "policy", "other"]},
-          "direction": {"enum": ["support", "criticism", "neutral",
-                                 "mixed"]},
-          "sentiment": {
-            "oneOf": [{"enum": ["positive", "negative", "neutral",
-                                "mixed"]}, {"type": "null"}],
-            "description": "optional tonal reading where useful; the stance direction is the analytical field"},
+          "name": {"type": "string", "minLength": 1},
+          "entity_type": {"enum": ["party", "candidate", "council",
+                                   "constituency_ward",
+                                   "political_organisation",
+                                   "national_leader", "other"]},
+          "mention_count": {"type": "integer", "minimum": 1},
+          "prominence": {"enum": ["headline", "lead", "major",
+                                  "passing"]},
+          "directly_quoted": {"type": "boolean"},
           "evidence_span": {"$ref": "#/$defs/evidence_span"},
           "confidence": {"$ref": "#/$defs/confidence"}
         }
       }
     },
+
+    "party_context": {
+      "type": "array",
+      "description": "one row per party appearing in the article - the per-party feature surface for the prediction models",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["party", "overall_context", "stance", "blame",
+                     "credit", "competence", "integrity",
+                     "directly_quoted", "support_trajectory",
+                     "challenger_credibility",
+                     "voter_switching_discussed",
+                     "local_relevance_score",
+                     "electoral_relevance_score", "evidence_span",
+                     "confidence"],
+        "properties": {
+          "party": {"type": "string", "minLength": 1},
+          "overall_context": {"enum": ["positive", "neutral",
+                                       "negative", "mixed"]},
+          "stance": {"enum": ["supportive", "critical", "neutral",
+                              "mixed"],
+                     "description": "the article's stance toward this party - always target-directed"},
+          "blame": {"type": "boolean"},
+          "credit": {"type": "boolean"},
+          "competence": {"$ref": "#/$defs/portrayal"},
+          "integrity": {"$ref": "#/$defs/portrayal"},
+          "associated_issue": {
+            "oneOf": [{"$ref": "#/$defs/issue_code"}, {"type": "null"}]},
+          "directly_quoted": {"type": "boolean"},
+          "support_trajectory": {"enum": ["gaining", "losing", "stable",
+                                          "not_indicated"]},
+          "challenger_credibility": {"enum": ["credible", "dismissed",
+                                              "mixed", "not_addressed"]},
+          "voter_switching_discussed": {"type": "boolean"},
+          "switching_origin_party": {"oneOf": [{"type": "string"},
+                                               {"type": "null"}]},
+          "switching_destination_party": {"oneOf": [{"type": "string"},
+                                                    {"type": "null"}]},
+          "local_relevance_score": {"$ref": "#/$defs/score"},
+          "electoral_relevance_score": {"$ref": "#/$defs/score"},
+          "evidence_span": {"$ref": "#/$defs/evidence_span"},
+          "confidence": {"$ref": "#/$defs/confidence"}
+        }
+      }
+    },
+
+    "candidate_context": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "party", "mention_count", "prominence",
+                     "stance", "blame", "credit", "competence",
+                     "integrity", "directly_quoted", "credibility",
+                     "momentum", "protest_candidate", "evidence_span",
+                     "confidence"],
+        "properties": {
+          "name": {"type": "string", "minLength": 1},
+          "party": {"oneOf": [{"type": "string"}, {"type": "null"}]},
+          "mention_count": {"type": "integer", "minimum": 1},
+          "prominence": {"enum": ["headline", "lead", "major",
+                                  "passing"]},
+          "stance": {"enum": ["supportive", "critical", "neutral",
+                              "mixed"]},
+          "blame": {"type": "boolean"},
+          "credit": {"type": "boolean"},
+          "competence": {"$ref": "#/$defs/portrayal"},
+          "integrity": {"$ref": "#/$defs/portrayal"},
+          "main_issue": {"oneOf": [{"$ref": "#/$defs/issue_code"},
+                                   {"type": "null"}]},
+          "directly_quoted": {"type": "boolean"},
+          "credibility": {"enum": ["credible", "dismissed", "mixed",
+                                   "not_addressed"]},
+          "momentum": {"enum": ["rising", "falling", "stable",
+                                "not_indicated"]},
+          "protest_candidate": {"type": "boolean"},
+          "evidence_span": {"$ref": "#/$defs/evidence_span"},
+          "confidence": {"$ref": "#/$defs/confidence"}
+        }
+      }
+    },
+
+    "council_accountability": {
+      "type": "array",
+      "description": "who caused it, who must fix it, who gains or loses - three different questions kept as three different fields",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["council_or_service", "blame_assignment",
+                     "credit_assignment", "evidence_span",
+                     "confidence"],
+        "properties": {
+          "council_or_service": {"type": "string", "minLength": 1},
+          "controlling_party": {"oneOf": [{"type": "string"},
+                                          {"type": "null"}]},
+          "responsible_actor": {"oneOf": [{"type": "string"},
+                                          {"type": "null"}]},
+          "praised_actor": {"oneOf": [{"type": "string"},
+                                      {"type": "null"}]},
+          "criticised_actor": {"oneOf": [{"type": "string"},
+                                         {"type": "null"}]},
+          "caused_by": {"oneOf": [{"type": "string"}, {"type": "null"}],
+                        "description": "who the article says caused the issue"},
+          "responsible_for_fix": {"oneOf": [{"type": "string"},
+                                            {"type": "null"}]},
+          "electoral_beneficiary": {"oneOf": [{"type": "string"},
+                                              {"type": "null"}]},
+          "electorally_damaged": {"oneOf": [{"type": "string"},
+                                            {"type": "null"}]},
+          "blame_assignment": {"enum": ["explicit", "implied", "none"]},
+          "credit_assignment": {"enum": ["explicit", "implied", "none"]},
+          "evidence_span": {"$ref": "#/$defs/evidence_span"},
+          "confidence": {"$ref": "#/$defs/confidence"}
+        }
+      }
+    },
+
+    "electoral_consequences": {
+      "type": "array",
+      "description": "signals the article carries - never a forecast of the result",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["affected_actor", "direction", "temporal_horizon",
+                     "voter_switching_signal",
+                     "party_growth_decline_signal",
+                     "anti_incumbent_signal",
+                     "challenger_emergence_signal", "evidence_span",
+                     "confidence"],
+        "properties": {
+          "affected_actor": {"type": "string", "minLength": 1},
+          "direction": {"enum": ["favourable", "unfavourable",
+                                 "unclear"]},
+          "potential_benefit_damage": {
+            "oneOf": [{"type": "string"}, {"type": "null"}]},
+          "voter_group": {"oneOf": [{"type": "string"},
+                                    {"type": "null"}]},
+          "mechanism": {"oneOf": [{"type": "string"}, {"type": "null"}]},
+          "voter_switching_signal": {"type": "boolean"},
+          "party_growth_decline_signal": {"enum": ["growth", "decline",
+                                                   "none"]},
+          "anti_incumbent_signal": {"type": "boolean"},
+          "challenger_emergence_signal": {"type": "boolean"},
+          "temporal_horizon": {"enum": ["immediate", "short_term",
+                                        "medium_term", "long_term",
+                                        "uncertain"]},
+          "evidence_span": {"$ref": "#/$defs/evidence_span"},
+          "confidence": {"$ref": "#/$defs/confidence"}
+        }
+      }
+    },
+
+    "reform_uk": {
+      "type": "object",
+      "description": "specialised layer testing whether coverage signals Reform UK emergence and conversion potential - coverage is never assumed to cause votes",
+      "additionalProperties": false,
+      "required": ["reform_uk_present", "confidence"],
+      "properties": {
+        "reform_uk_present": {"type": "boolean"},
+        "in_headline": {"type": "boolean"},
+        "candidate_mentioned": {"type": "boolean"},
+        "candidate_quoted": {"type": "boolean"},
+        "local_campaign_activity": {"type": "boolean"},
+        "policy_mentioned": {"oneOf": [{"type": "string"},
+                                       {"type": "null"}]},
+        "gaining_support": {"type": "boolean"},
+        "credible_challenger": {"type": "boolean"},
+        "threat_to": {"type": "array",
+                      "items": {"enum": ["conservative", "labour",
+                                         "liberal_democrat"]}},
+        "switching_con_to_reform": {"type": "boolean"},
+        "switching_lab_to_reform": {"type": "boolean"},
+        "switching_ld_to_reform": {"type": "boolean"},
+        "protest_anti_incumbent_support": {"type": "boolean"},
+        "national_momentum": {"type": "boolean"},
+        "local_organisational_strength": {
+          "enum": ["strong", "weak", "none_indicated", "not_addressed"]},
+        "credibility_score": {"oneOf": [{"$ref": "#/$defs/score"},
+                                        {"type": "null"}]},
+        "momentum_score": {"oneOf": [{"$ref": "#/$defs/score"},
+                                     {"type": "null"}]},
+        "evidence_span": {"oneOf": [{"$ref": "#/$defs/evidence_span"},
+                                    {"type": "null"}]},
+        "confidence": {"$ref": "#/$defs/confidence"}
+      }
+    },
+
+    "geographic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "affected_geography", "wards_mentioned",
+                   "surrey_mentioned", "local_relevance_score",
+                   "national_relevance_score", "evidence_span"],
+      "properties": {
+        "level": {"enum": ["ward_specific_local", "surrey_wide",
+                           "regional", "national", "mixed"]},
+        "affected_geography": {"type": "string"},
+        "wards_mentioned": {"type": "array",
+                            "items": {"type": "string"}},
+        "candidate_mentioned": {"type": "boolean"},
+        "surrey_mentioned": {"type": "boolean"},
+        "local_relevance_score": {"$ref": "#/$defs/score"},
+        "national_relevance_score": {"$ref": "#/$defs/score"},
+        "evidence_span": {"oneOf": [{"$ref": "#/$defs/evidence_span"},
+                                    {"type": "null"}]}
+      }
+    },
+
+    "leakage": {
+      "type": "object",
+      "description": "the temporal-integrity surface: articles written after voting began or containing results must be identifiable at a glance",
+      "additionalProperties": false,
+      "required": ["publication_date", "availability_date",
+                   "contains_poll", "contains_prediction",
+                   "contains_election_result", "leakage_risk",
+                   "evidence_span"],
+      "properties": {
+        "publication_date": {"type": "string",
+                             "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+        "availability_date": {"oneOf": [{"type": "string"},
+                                        {"type": "null"}]},
+        "contains_poll": {"type": "boolean"},
+        "contains_prediction": {"type": "boolean"},
+        "contains_election_result": {"type": "boolean"},
+        "leakage_risk": {"enum": ["none", "low", "high",
+                                  "disqualifying"]},
+        "evidence_span": {"oneOf": [{"$ref": "#/$defs/evidence_span"},
+                                    {"type": "null"}]}
+      }
+    },
+
     "frames": {
       "type": "array",
-      "description": "multiple frames per article are expected",
+      "description": "retained from the earlier specification - framing differences are a local-vs-national study dimension",
       "items": {
         "type": "object",
         "additionalProperties": false,
@@ -113,109 +372,61 @@
         }
       }
     },
-    "credit_blame": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["actor", "attribution", "action_event",
-                     "evidence_span", "confidence"],
-        "properties": {
-          "actor": {"type": "string", "minLength": 1},
-          "attribution": {"enum": ["credit", "blame", "mixed"]},
-          "action_event": {"type": "string", "minLength": 1},
-          "evidence_span": {"$ref": "#/$defs/evidence_span"},
-          "confidence": {"$ref": "#/$defs/confidence"}
-        }
-      }
-    },
-    "electoral_consequences": {
-      "type": "array",
-      "description": "the article's IMPLIED consequence signals - never a prediction of the election result",
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["affected_actor", "direction", "temporal_horizon",
-                     "evidence_span", "confidence"],
-        "properties": {
-          "affected_actor": {"type": "string", "minLength": 1},
-          "direction": {"enum": ["favourable", "unfavourable",
-                                 "unclear"]},
-          "voter_group": {"oneOf": [{"type": "string"},
-                                    {"type": "null"}]},
-          "mechanism": {"oneOf": [{"type": "string"},
-                                  {"type": "null"}]},
-          "temporal_horizon": {"enum": ["immediate", "short_term",
-                                        "medium_term", "long_term",
-                                        "uncertain"]},
-          "evidence_span": {"$ref": "#/$defs/evidence_span"},
-          "confidence": {"$ref": "#/$defs/confidence"}
-        }
-      }
-    },
-    "relevance": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["level", "geographic_scope", "linked_surrey_area",
-                   "evidence_span"],
-      "properties": {
-        "level": {"enum": ["local_surrey", "national_with_local_link",
-                           "national_only", "uncertain"]},
-        "geographic_scope": {"type": "string"},
-        "linked_surrey_area": {"oneOf": [{"type": "string"},
-                                         {"type": "null"}]},
-        "evidence_span": {"oneOf": [{"$ref": "#/$defs/evidence_span"},
-                                    {"type": "null"}]}
-      }
-    },
+
     "ambiguity_notes": {
       "type": "array",
-      "description": "explicit record of what could NOT be determined and why - missing information is represented, never invented",
       "items": {
         "type": "object",
         "additionalProperties": false,
         "required": ["section", "reason"],
         "properties": {
-          "section": {"enum": ["entities", "issues", "stances",
-                               "frames", "credit_blame",
-                               "electoral_consequences", "relevance"]},
+          "section": {"enum": ["event_context", "issues", "entities",
+                               "party_context", "candidate_context",
+                               "council_accountability",
+                               "electoral_consequences", "reform_uk",
+                               "geographic", "leakage", "frames"]},
           "reason": {"type": "string", "minLength": 1}
         }
       }
     }
   },
+
   "$defs": {
     "evidence_span": {
       "type": "object",
       "additionalProperties": false,
       "required": ["text"],
       "properties": {
-        "text": {"type": "string", "minLength": 10,
-                 "description": "verbatim quote from the normalised body (or title, flagged below) supporting the claim"},
+        "text": {"type": "string", "minLength": 10},
         "char_start": {"type": "integer", "minimum": 0},
         "char_end": {"type": "integer", "minimum": 1},
         "from_title": {"type": "boolean", "default": false}
       }
     },
-    "confidence": {
-      "type": "number", "minimum": 0.0, "maximum": 1.0,
-      "description": "extractor-reported confidence in [0,1]; the validation rules bind low values to review routing"
-    },
+    "confidence": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+    "score": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+    "portrayal": {
+      "enum": ["portrayed_positively", "portrayed_negatively",
+               "mixed", "not_addressed"],
+      "description": "how the article portrays the actor on this dimension - not_addressed is the honest default"},
+    "issue_code": {
+      "enum": ["council_finance", "council_tax", "roads_transport",
+               "planning_housing", "schools_send", "social_care",
+               "waste_recycling", "crime_policing",
+               "environment_flooding", "healthcare", "local_business",
+               "immigration", "council_performance",
+               "candidate_party_conduct", "scandal", "protest",
+               "service_closure", "investment_funding",
+               "local_government_reorganisation",
+               "candidate_selection_withdrawal",
+               "resignation_defection", "new_party_emergence",
+               "voter_switching", "anti_incumbent_sentiment", "other"]},
     "issue": {
       "type": "object",
       "additionalProperties": false,
       "required": ["issue_code", "evidence_span", "confidence"],
       "properties": {
-        "issue_code": {
-          "enum": ["housing_planning", "council_tax_finance",
-                   "transport_roads", "education_schools",
-                   "health_social_care", "environment_green_belt",
-                   "crime_policing", "local_economy_jobs",
-                   "national_economy", "immigration",
-                   "party_politics_campaigning",
-                   "governance_competence", "scandal_integrity",
-                   "community_identity", "national_politics_general",
-                   "other"]},
+        "issue_code": {"$ref": "#/$defs/issue_code"},
         "issue_other_label": {"type": "string"},
         "evidence_span": {"$ref": "#/$defs/evidence_span"},
         "confidence": {"$ref": "#/$defs/confidence"}

@@ -1,7 +1,7 @@
-# LLM context extraction - validation rules (v1)
+# LLM context extraction - validation rules (v1.1)
 
 Applies to records claiming `schema_version =
-llm-context-v1.0-2026-07-26`. Enforced by
+llm-context-v1.1-2026-07-26`. Enforced by
 `src/llm_extraction/validate_context.py` in two deterministic layers.
 
 ## Layer 1 - structural (JSON Schema Draft 2020-12)
@@ -26,8 +26,11 @@ error, not an extension mechanism). Key structural guarantees:
 | R1 | every `evidence_span.text` must appear VERBATIM in the article body (or title when `from_title` is true) | the span is the audit trail; a non-matching span is a fabricated quote and fails hard - this is the anti-hallucination gate |
 | R2 | when `char_start`/`char_end` are present, slicing the source text with them must reproduce `text` exactly | offsets that lie poison every downstream span-based analysis |
 | R3 | any claim with confidence < 0.5 requires `review_status = flagged` on the record | low-confidence output is surfaced for human routing, never silently included or excluded |
-| R4 | a record with no entities, no primary issue and no stances cannot claim `extraction_status = extracted`; an empty partial/failed record must carry an `ambiguity_notes` entry | "nothing found" must be an explicit, reasoned statement |
+| R4 | a record with no entities, no primary issue and no party context cannot claim `extraction_status = extracted`; an empty partial/failed record must carry an `ambiguity_notes` entry | "nothing found" must be an explicit, reasoned statement |
 | R5 | `not_attempted` records must contain zero extracted claims | pipeline states and content must agree |
+| R6 | `reform_uk_present: false` forbids positive Reform flags and scores; any positive Reform flag requires an evidence span | the specialised layer must never assert Reform UK emergence without a quote, and absence must be clean |
+| R7 | `contains_poll` / `contains_prediction` / `contains_election_result` require an evidence span | a leakage-risk claim is a claim like any other |
+| R8 | `party_context` rows are unique per party | one feature row per party keeps downstream joins unambiguous |
 
 ## Determinism
 
