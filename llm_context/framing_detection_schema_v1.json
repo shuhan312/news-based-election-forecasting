@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "irp-surrey/framing_detection_schema_v1",
+  "title": "Narrative framing record (Phase 6 Step 5)",
+  "description": "One focused record per canonical article: HOW the article frames political events, issues and actors - the narrative structure, not sentiment. One dominant primary frame (nullable - never forced) plus up to four secondary frames, each carrying the affected entity, an explanation, the political mechanism, who the frame benefits or damages, a verbatim quote and a confidence score. Blame/credit attribution and electoral consequences are OUT of scope for this step by specification.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "article_id", "canonical_article_id",
+               "extraction_status", "review_status", "primary_frame",
+               "secondary_frames"],
+  "properties": {
+    "schema_version": {"const": "framing-v1.0-2026-07-27"},
+    "article_id": {"type": "string", "minLength": 1},
+    "canonical_article_id": {"type": "string", "minLength": 1},
+    "extraction_status": {
+      "enum": ["extracted", "partial", "failed", "not_attempted"]},
+    "review_status": {"enum": ["unreviewed", "human_reviewed", "flagged"]},
+    "primary_frame": {
+      "oneOf": [{"$ref": "#/$defs/frame"}, {"type": "null"}],
+      "description": "the article's DOMINANT narrative frame; null when the article carries no political framing - never force one"},
+    "secondary_frames": {
+      "type": "array", "maxItems": 4,
+      "items": {"$ref": "#/$defs/frame"},
+      "description": "additional genuinely present frames, most salient first"},
+    "ambiguity_notes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["reason"],
+        "properties": {"reason": {"type": "string", "minLength": 1}}
+      }
+    }
+  },
+  "$defs": {
+    "evidence_span": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text"],
+      "properties": {
+        "text": {"type": "string", "minLength": 10},
+        "from_title": {"type": "boolean", "default": false}
+      }
+    },
+    "frame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["frame_category", "affected_entity", "explanation",
+                   "political_mechanism", "benefits", "damages",
+                   "evidence_span", "confidence"],
+      "properties": {
+        "frame_category": {
+          "enum": ["government_performance", "governance_failure",
+                   "financial_pressure", "public_service_quality",
+                   "accountability", "competence", "integrity",
+                   "leadership", "electoral_competition",
+                   "challenger_emergence", "anti_incumbent_sentiment",
+                   "voter_dissatisfaction", "policy_conflict",
+                   "local_community_impact",
+                   "national_political_momentum", "other"],
+          "description": "the specification's frame taxonomy - never invent a category; 'other' requires frame_other_label AND a justification inside the explanation (rule F4)"},
+        "frame_other_label": {
+          "oneOf": [{"type": "string", "minLength": 3},
+                    {"type": "null"}]},
+        "affected_entity": {
+          "type": "string", "minLength": 1,
+          "description": "the party / candidate / council / institution the frame is about"},
+        "explanation": {
+          "type": "string", "minLength": 10,
+          "description": "how the article constructs this narrative - the audit trail for the frame call"},
+        "political_mechanism": {
+          "type": "string", "minLength": 10,
+          "description": "the interpretive route by which this framing could matter politically, AS SUGGESTED BY THE ARTICLE - descriptive only, never an outcome estimate"},
+        "benefits": {
+          "oneOf": [{"type": "string"}, {"type": "null"}],
+          "description": "party/candidate the frame favours, when the article supports saying so; null otherwise"},
+        "damages": {
+          "oneOf": [{"type": "string"}, {"type": "null"}],
+          "description": "party/candidate the frame harms, when the article supports saying so; null otherwise"},
+        "evidence_span": {"$ref": "#/$defs/evidence_span"},
+        "confidence": {"type": "number", "minimum": 0.0, "maximum": 1.0}
+      }
+    }
+  }
+}
