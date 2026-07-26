@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "irp-surrey/electoral_consequence_schema_v1",
+  "title": "Expected electoral consequence record (Phase 6 Step 7)",
+  "description": "One focused record per canonical article: what potential electoral advantages or disadvantages the reported context MAY create, through which mechanism, for which actors and voter groups - always as the article's implication, never a prediction. The schema contains no winner, vote-share or outcome field of any kind: direct prediction is structurally unrepresentable.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "article_id", "canonical_article_id",
+               "extraction_status", "review_status", "consequences",
+               "reform_uk"],
+  "properties": {
+    "schema_version": {"const": "elect-consq-v1.0-2026-07-27"},
+    "article_id": {"type": "string", "minLength": 1},
+    "canonical_article_id": {"type": "string", "minLength": 1},
+    "extraction_status": {
+      "enum": ["extracted", "partial", "failed", "not_attempted"]},
+    "review_status": {"enum": ["unreviewed", "human_reviewed", "flagged"]},
+    "consequences": {
+      "type": "array", "maxItems": 12,
+      "description": "one row per distinct potential consequence the article's content supports",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["direction", "affected_actor_name",
+                     "affected_actor_type", "impact_mechanism",
+                     "mechanism_reasoning", "voter_groups",
+                     "electoral_signal", "evidence_span",
+                     "confidence"],
+        "properties": {
+          "direction": {
+            "enum": ["potential_benefit", "potential_damage",
+                     "mixed_impact", "unclear"],
+            "description": "POTENTIAL only - the schema cannot express an actual outcome"},
+          "affected_actor_name": {"type": "string", "minLength": 1},
+          "affected_actor_type": {"enum": ["party", "candidate",
+                                           "council", "government",
+                                           "organisation"]},
+          "impact_mechanism": {
+            "enum": ["service_dissatisfaction", "increased_trust",
+                     "perceived_competence",
+                     "anti_incumbent_sentiment", "party_momentum",
+                     "challenger_credibility",
+                     "voter_switching_signal", "issue_ownership",
+                     "other"],
+            "description": "WHY the content may influence voter behaviour - the specification's mechanism list; 'other' requires the reasoning to name the mechanism"},
+          "mechanism_reasoning": {
+            "type": "string", "minLength": 10,
+            "description": "how the article's content produces this mechanism - grounded in the text, never invented"},
+          "voter_groups": {
+            "type": "array", "maxItems": 4,
+            "items": {"enum": ["local_residents",
+                               "council_service_users", "taxpayers",
+                               "specific_issue_voters",
+                               "existing_supporters",
+                               "undecided_voters", "other"]},
+            "description": "possible affected groups; empty when the article gives no basis to name any"},
+          "electoral_signal": {
+            "enum": ["support_growth", "support_decline",
+                     "challenger_emergence",
+                     "incumbent_vulnerability",
+                     "increased_credibility", "reduced_credibility",
+                     "voter_switching_possibility", "none"],
+            "description": "what the article SUGGESTS - not what will happen"},
+          "evidence_span": {"$ref": "#/$defs/evidence_span"},
+          "confidence": {"type": "number", "minimum": 0.0,
+                         "maximum": 1.0}
+        }
+      }
+    },
+    "reform_uk": {
+      "type": "object",
+      "description": "specification's Reform UK addendum - coverage signals only; coverage is never assumed to create votes",
+      "additionalProperties": false,
+      "required": ["applicable", "confidence"],
+      "properties": {
+        "applicable": {
+          "type": "boolean",
+          "description": "true only when the article materially concerns Reform UK; when false, every other field stays false/empty/null (rule E4)"},
+        "growth_suggested": {"type": "boolean"},
+        "credible_challenger": {"type": "boolean"},
+        "established_support_affected": {
+          "type": "array",
+          "items": {"enum": ["conservative", "labour",
+                             "liberal_democrat"]}},
+        "switching_directions": {
+          "type": "array",
+          "items": {"enum": ["con_to_reform", "lab_to_reform",
+                             "ld_to_reform"]}},
+        "signal_nature": {
+          "type": "array",
+          "items": {"enum": ["national_momentum",
+                             "local_campaign_strength",
+                             "protest_voting",
+                             "anti_incumbent_sentiment"]}},
+        "evidence_span": {"oneOf": [{"$ref": "#/$defs/evidence_span"},
+                                    {"type": "null"}]},
+        "confidence": {"type": "number", "minimum": 0.0,
+                       "maximum": 1.0}
+      }
+    },
+    "ambiguity_notes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["reason"],
+        "properties": {"reason": {"type": "string", "minLength": 1}}
+      }
+    }
+  },
+  "$defs": {
+    "evidence_span": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text"],
+      "properties": {
+        "text": {"type": "string", "minLength": 10},
+        "from_title": {"type": "boolean", "default": false}
+      }
+    }
+  }
+}

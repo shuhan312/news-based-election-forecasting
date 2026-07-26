@@ -64,3 +64,5 @@ llm_context/framing_batch_id.txt
 llm_context/credit_blame_outputs.json
 llm_context/credit_blame_batch_id.txt
 llm_context/credit_blame_gap_batch_id.txt
+llm_context/electoral_consequence_outputs.json
+llm_context/elect_consq_batch_id.txt
