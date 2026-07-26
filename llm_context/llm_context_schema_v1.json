@@ -92,7 +92,9 @@
       "required": ["taxonomy_version", "primary_issue",
                    "secondary_issues"],
       "properties": {
-        "taxonomy_version": {"const": "issues-v1.1"},
+        "taxonomy_version": {
+          "enum": ["issues-v1.1", "issues-v1.2"],
+          "description": "v1.2 adds election_administration (Step 2.5 pilot finding); records stamped v1.1 remain valid but may not use the new code (rule R9)"},
         "primary_issue": {
           "oneOf": [{"$ref": "#/$defs/issue"}, {"type": "null"}]},
         "secondary_issues": {"type": "array",
@@ -350,7 +352,11 @@
         "leakage_risk": {"enum": ["none", "low", "high",
                                   "disqualifying"]},
         "evidence_span": {"oneOf": [{"$ref": "#/$defs/evidence_span"},
-                                    {"type": "null"}]}
+                                    {"type": "null"}]},
+        "explanation": {
+          "oneOf": [{"type": "string", "minLength": 10},
+                    {"type": "null"}],
+          "description": "required alongside any contains_* flag from rules v1.1 (R7): why this content is a leakage risk"}
       }
     },
 
@@ -420,7 +426,8 @@
                "local_government_reorganisation",
                "candidate_selection_withdrawal",
                "resignation_defection", "new_party_emergence",
-               "voter_switching", "anti_incumbent_sentiment", "other"]},
+               "voter_switching", "anti_incumbent_sentiment",
+               "election_administration", "other"]},
     "issue": {
       "type": "object",
       "additionalProperties": false,

@@ -209,3 +209,89 @@ def test_rules_layer_is_pure():
     snapshot = copy.deepcopy(rec)
     validate_rules(rec, body, title)
     assert rec == snapshot
+
+# ------------------------------------- Step 2.5: rules v1.1 additions
+
+def test_taxonomy_v12_accepts_election_administration():
+    rec, body, title = example("partial_extraction_ambiguous_article")
+    rec["issues"]["taxonomy_version"] = "issues-v1.2"
+    rec["issues"]["secondary_issues"] = [{
+        "issue_code": "election_administration",
+        "evidence_span": {"text": "Polling stations opened across the "
+                                  "county at seven this morning."},
+        "confidence": 0.9}]
+    assert validate_record(rec, body, title) == []
+
+
+def test_r9_new_code_forbidden_under_v11_stamp():
+    rec, body, title = example("partial_extraction_ambiguous_article")
+    assert rec["issues"]["taxonomy_version"] == "issues-v1.1"
+    rec["issues"]["secondary_issues"] = [{
+        "issue_code": "election_administration",
+        "evidence_span": {"text": "Polling stations opened across the "
+                                  "county at seven this morning."},
+        "confidence": 0.9}]
+    errs = validate_record(rec, body, title)
+    assert any(e.startswith("R9") for e in errs)
+
+
+def test_old_v11_records_still_validate():
+    # traceability: every shipped example is stamped issues-v1.1 and
+    # must keep validating under the revised schema and rules
+    for e in EXAMPLES["examples"]:
+        assert validate_record(e["record"], e["body_text"],
+                               e["title"]) == []
+
+
+def test_r7_leakage_flags_require_explanation():
+    rec, body, title = example("full_extraction_local_article")
+    rec["leakage"]["contains_poll"] = True
+    rec["leakage"]["evidence_span"] = {
+        "text": "The Liberal Democrat opposition warned the increase "
+                "would squeeze household budgets"}
+    errs = validate_record(rec, body, title)
+    assert any("without an explanation" in e for e in errs)
+    rec["leakage"]["explanation"] = ("contains polling-style claims "
+                                     "about party support levels")
+    assert validate_record(rec, body, title) == []
+
+
+def test_prompt_v11_carries_refinements():
+    from src.llm_extraction.pilot_sample import (PROMPT_VERSION,
+                                                 build_system_prompt)
+    p = build_system_prompt()
+    assert PROMPT_VERSION in p
+    assert "NEVER shorten a quote" in p
+    assert "Do NOT output char_start" in p
+    assert "issues-v1.2" in p and "election_administration" in p
+    assert "leakage.explanation" in p
+
+
+def test_revalidation_sampler_covers_categories():
+    from src.llm_extraction.pilot_sample import select_revalidation_set
+    pilot = []
+    for i in range(6):
+        pilot.append({"article_id": f"F{i}", "batch_result": "succeeded",
+                      "validation_errors": ["R1 x"], "record": None})
+    def rec(flagged=False, reform=False, leak=False):
+        return {"review_status": "flagged" if flagged else "unreviewed",
+                "reform_uk": {"reform_uk_present": reform},
+                "leakage": {"leakage_risk": "high" if leak else "none",
+                            "contains_poll": False,
+                            "contains_prediction": False,
+                            "contains_election_result": False}}
+    for i in range(4):
+        pilot.append({"article_id": f"V{i}", "batch_result": "succeeded",
+                      "validation_errors": [],
+                      "record": rec(flagged=i < 2, reform=i >= 2,
+                                    leak=i == 3)})
+    arts = {f"{k}{i}": {"title": "x", "body": "w " * (10 + i)}
+            for k in ("F", "V") for i in range(6)}
+    arts["ADMIN1"] = {"title": "Polling station changes announced",
+                      "body": "w"}
+    r = select_revalidation_set(pilot, arts)
+    assert set(f"F{i}" for i in range(6)) <= set(r["selected"])
+    assert "ADMIN1" in r["selected"]
+    assert "sha256" in r["method"]
+    r2 = select_revalidation_set(list(reversed(pilot)), arts)
+    assert r["selected"] == r2["selected"]

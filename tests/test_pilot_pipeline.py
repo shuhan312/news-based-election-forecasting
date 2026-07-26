@@ -73,7 +73,8 @@ def test_system_prompt_is_stable_and_carries_contract():
     p1, p2 = build_system_prompt(), build_system_prompt()
     assert p1 == p2                                  # byte-stable
     assert "llm-context-v1.1-2026-07-26" in p1       # pinned contract
-    assert "VERBATIM" in p1 and "NO OUTCOME PREDICTION" in p1
+    assert "CHARACTER-FOR-CHARACTER" in p1
+    assert "NO OUTCOME PREDICTION" in p1
 
 
 def test_user_message_carries_metadata_and_text():

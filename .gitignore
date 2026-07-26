@@ -51,3 +51,5 @@ news_collection/normalised_text_layer_v1_provisional.jsonl
 llm_context/llm_context_pilot_outputs.json
 llm_context/pilot_batch_id.txt
 llm_context/pilot_retry_batch_id.txt
+llm_context/llm_context_revalidation_outputs.json
+llm_context/reval_batch_id.txt

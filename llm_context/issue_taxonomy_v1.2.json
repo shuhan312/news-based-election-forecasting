@@ -1,0 +1,33 @@
+{
+  "taxonomy_version": "issues-v1.2",
+  "supersedes": "issues-v1.1",
+  "change_note": "Adds election_administration - surfaced by the Step 2 pilot, where two polling-day process articles had no conformant issue code (the code existed in the event-type enum but not the issue taxonomy). Purely additive; records stamped issues-v1.1 remain valid and traceable, and validation rule R9 prevents the new code from appearing under the old stamp.",
+  "codes": {
+    "council_finance": "council budgets, funding, financial management",
+    "council_tax": "council tax levels, rises, banding",
+    "roads_transport": "roads, potholes, public transport, congestion",
+    "planning_housing": "planning decisions, housing development, green belt building",
+    "schools_send": "schools, education provision, SEND services",
+    "social_care": "adult and children's social care",
+    "waste_recycling": "waste collection, recycling, tips",
+    "crime_policing": "crime, policing, community safety",
+    "environment_flooding": "environment, flooding, climate measures",
+    "healthcare": "NHS services, hospitals, GP provision",
+    "local_business": "local economy, high streets, business support",
+    "immigration": "immigration and asylum policy or local impact",
+    "council_performance": "competence and delivery of the council",
+    "candidate_party_conduct": "behaviour of candidates or parties",
+    "scandal": "scandal, misconduct, integrity failures",
+    "protest": "protests and demonstrations",
+    "service_closure": "closure or reduction of public services",
+    "investment_funding": "investment, grants, new funding",
+    "local_government_reorganisation": "unitary reorganisation, boundary and structure changes",
+    "candidate_selection_withdrawal": "candidate selection and withdrawal",
+    "resignation_defection": "resignations and defections",
+    "new_party_emergence": "emergence or rise of a new party",
+    "voter_switching": "voters moving between parties",
+    "anti_incumbent_sentiment": "generalised sentiment against incumbents",
+    "election_administration": "NEW in v1.2: election process and administration - polling arrangements, voting procedures, counting arrangements, election administration issues",
+    "other": "none of the above (requires issue_other_label)"
+  }
+}

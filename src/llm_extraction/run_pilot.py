@@ -33,10 +33,12 @@ from anthropic.types.message_create_params import (
     MessageCreateParamsNonStreaming)
 from anthropic.types.messages.batch_create_params import Request
 
-from .pilot_sample import (PILOT_VERSION, build_system_prompt,
-                           build_user_message, parse_model_json,
-                           select_pilot_sample)
-from .validate_context import SCHEMA_VERSION, validate_record
+from .pilot_sample import (PILOT_VERSION, PROMPT_VERSION,
+                           build_system_prompt, build_user_message,
+                           parse_model_json, select_pilot_sample,
+                           select_revalidation_set)
+from .validate_context import (RULES_VERSION, SCHEMA_VERSION,
+                               validate_record)
 
 MODEL = "claude-sonnet-5"   # pinned frozen model - same as the
                             # approved classification pipeline;
@@ -302,7 +304,116 @@ def cmd_collect_retry() -> None:
     print("merged. statuses:", dict(sorted(statuses.items())))
 
 
+OUT_REVAL_SAMPLE = Path(
+    "llm_context/llm_context_revalidation_sample_v1.csv")
+OUT_REVAL_BATCH = Path("llm_context/reval_batch_id.txt")
+OUT_REVAL = Path("llm_context/llm_context_revalidation_outputs.json")
+
+
+def cmd_reval_sample() -> None:
+    """Step 2.5 targeted re-validation set from the pilot results
+    plus the full corpus (for election-administration positives)."""
+    pilot = json.loads(OUT_RESULTS.read_text())["results"]
+    arts = load_articles()
+    r = select_revalidation_set(pilot, arts)
+    with OUT_REVAL_SAMPLE.open("w", newline="") as fh:
+        w = csv.writer(fh, lineterminator="\n")
+        w.writerow(["article_id", "election_id", "arm",
+                    "prompt_version"])
+        for aid in r["selected"]:
+            a = arts[aid]
+            w.writerow([aid, a["election_id"], a["arm"],
+                        PROMPT_VERSION])
+    print(f"{len(r['selected'])} articles -> {OUT_REVAL_SAMPLE}")
+    print("method:", r["method"])
+
+
+def cmd_reval_submit() -> None:
+    """Submit the re-validation batch under prompt v1.1 (same model,
+    same 40k limit, batches + cached system prompt)."""
+    arts = load_articles()
+    sample = [r["article_id"]
+              for r in csv.DictReader(OUT_REVAL_SAMPLE.open())]
+    system = [{"type": "text", "text": build_system_prompt(),
+               "cache_control": {"type": "ephemeral"}}]
+    requests = [Request(
+        custom_id=aid,
+        params=MessageCreateParamsNonStreaming(
+            model=MODEL, max_tokens=MAX_TOKENS,
+            thinking={"type": "adaptive"},
+            system=system,
+            messages=[{"role": "user", "content": build_user_message(
+                _meta(arts[aid]), arts[aid]["title"],
+                arts[aid]["body"])}]))
+        for aid in sample]
+    client = anthropic.Anthropic()
+    batch = client.messages.batches.create(requests=requests)
+    OUT_REVAL_BATCH.write_text(batch.id + "\n")
+    print(f"reval batch {batch.id}: {len(requests)} requests "
+          f"({MODEL}, {PROMPT_VERSION})")
+
+
+def cmd_reval_collect() -> None:
+    """Collect and validate the re-validation batch under rules
+    v1.1; writes the outputs file the report is built from."""
+    batch_id = OUT_REVAL_BATCH.read_text().strip()
+    client = anthropic.Anthropic()
+    while True:
+        batch = client.messages.batches.retrieve(batch_id)
+        if batch.processing_status == "ended":
+            break
+        print(f"status {batch.processing_status}", flush=True)
+        time.sleep(60)
+
+    arts = load_articles()
+    results, statuses = [], Counter()
+    for res in client.messages.batches.results(batch_id):
+        aid = res.custom_id
+        entry = {"article_id": aid, "batch_result": res.result.type,
+                 "validation_errors": [], "record": None,
+                 "usage": None}
+        if res.result.type == "succeeded":
+            msg = res.result.message
+            assert msg.model.startswith(MODEL), msg.model
+            entry["usage"] = {
+                "input_tokens": msg.usage.input_tokens,
+                "output_tokens": msg.usage.output_tokens,
+                "cache_read_input_tokens":
+                    msg.usage.cache_read_input_tokens}
+            text = next((b.text for b in msg.content
+                         if b.type == "text"), "")
+            try:
+                record = parse_model_json(text)
+                a = arts.get(aid, {})
+                entry["record"] = record
+                entry["validation_errors"] = validate_record(
+                    record, a.get("body", ""), a.get("title", ""))
+                statuses["valid" if not entry["validation_errors"]
+                         else "schema_or_rule_errors"] += 1
+            except (ValueError, json.JSONDecodeError) as e:
+                entry["validation_errors"] = [f"unparseable: {e}"]
+                entry["raw_text"] = text[:2000]
+                statuses["unparseable"] += 1
+        else:
+            statuses[res.result.type] += 1
+        results.append(entry)
+
+    results.sort(key=lambda r: r["article_id"])
+    OUT_REVAL.write_text(json.dumps(
+        {"prompt_version": PROMPT_VERSION,
+         "rules_version": RULES_VERSION,
+         "schema_version": SCHEMA_VERSION, "model": MODEL,
+         "batch_id": batch_id,
+         "status_counts": dict(sorted(statuses.items())),
+         "results": results}, indent=1, ensure_ascii=False) + "\n")
+    print(f"{len(results)} results -> {OUT_REVAL}")
+    print("statuses:", dict(sorted(statuses.items())))
+
+
 if __name__ == "__main__":
     {"sample": cmd_sample, "submit": cmd_submit,
      "collect": cmd_collect, "retry": cmd_retry,
-     "collect_retry": cmd_collect_retry}[sys.argv[1]]()
+     "collect_retry": cmd_collect_retry,
+     "reval_sample": cmd_reval_sample,
+     "reval_submit": cmd_reval_submit,
+     "reval_collect": cmd_reval_collect}[sys.argv[1]]()

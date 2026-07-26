@@ -29,9 +29,14 @@ Two validation layers, both deterministic:
             specialised layer must never assert emergence without a
             quote;
         R7  leakage flags (poll/prediction/result) require an
-            evidence span - a leakage-risk claim is a claim;
+            evidence span AND (rules v1.1) an explanation - a
+            leakage-risk claim is a claim, and unsupported leakage
+            classification is forbidden;
         R8  party_context rows are unique per party - one feature
-            row per party, no duplicates for downstream joins.
+            row per party, no duplicates for downstream joins;
+        R9  (rules v1.1) the election_administration issue code is
+            only valid under taxonomy issues-v1.2 - records stamped
+            v1.1 predate the code and stay traceable as such.
 
 Returns error-message lists rather than raising, so callers (tests
 now, the Step 2+ extraction pipeline later) log every problem at
@@ -49,6 +54,8 @@ from jsonschema import Draft202012Validator
 
 SCHEMA_PATH = Path("llm_context/llm_context_schema_v1.json")
 SCHEMA_VERSION = "llm-context-v1.1-2026-07-26"
+RULES_VERSION = "rules-v1.1-2026-07-26"   # Step 2.5: R7 upgraded, R9 added
+TAXONOMY_CURRENT = "issues-v1.2"
 
 LOW_CONFIDENCE = 0.5
 
@@ -160,7 +167,7 @@ def validate_rules(record: dict, body_text: str,
                       "evidence span - emergence is never asserted "
                       "without a quote")
 
-    # ---- R7: leakage flags are claims -------------------------------
+    # ---- R7 (v1.1): leakage flags need evidence AND explanation -----
     leak = record.get("leakage") or {}
     leak_flags = [f for f in ("contains_poll", "contains_prediction",
                               "contains_election_result")
@@ -168,6 +175,19 @@ def validate_rules(record: dict, body_text: str,
     if leak_flags and not leak.get("evidence_span"):
         errors.append(f"R7 leakage: {sorted(leak_flags)} set without "
                       "an evidence span")
+    if leak_flags and not leak.get("explanation"):
+        errors.append(f"R7 leakage: {sorted(leak_flags)} set without "
+                      "an explanation")
+
+    # ---- R9 (v1.1): new taxonomy code gated by taxonomy version -----
+    issues = record.get("issues") or {}
+    codes = [c.get("issue_code") for c in
+             ([issues.get("primary_issue")] if issues.get("primary_issue")
+              else []) + (issues.get("secondary_issues") or [])]
+    if "election_administration" in codes \
+            and issues.get("taxonomy_version") != "issues-v1.2":
+        errors.append("R9 issues: election_administration requires "
+                      "taxonomy_version issues-v1.2")
 
     # ---- R8: one context row per party ------------------------------
     parties = [p.get("party") for p in record.get("party_context") or []]
