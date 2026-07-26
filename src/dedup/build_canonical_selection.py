@@ -47,6 +47,13 @@ URL_MAP = Path("news_collection/url_duplicate_mapping_v1_provisional.csv")
 AVAIL = Path("news_collection/"
              "article_version_temporal_availability_v1_provisional.csv")
 
+# Human decisions on this step's own review queue (same pattern as
+# Steps 3 and 5): the automatic refusal stays visible in the decision
+# record, the resolved choice is applied on top, and the family
+# leaves the review queue.
+RESOLUTIONS = Path(
+    "news_collection/canonical_resolutions_v1_provisional.csv")
+
 OUT_MAP = Path(
     "news_collection/canonical_article_mapping_v1_provisional.csv")
 OUT_MD = Path(
@@ -107,6 +114,11 @@ def main() -> None:
                 or av.get("available_lower_bound", ""),
                 "is_origin": aid in origins}
 
+    resolutions = {}
+    if RESOLUTIONS.exists():
+        resolutions = {r["family_id"]: r
+                       for r in csv.DictReader(RESOLUTIONS.open())}
+
     # ---- decide every validated family ------------------------------
     decisions = []
     member_to_family = {}
@@ -120,6 +132,22 @@ def main() -> None:
                "ordered": f.get("ordered", False),
                "relationship_classes": classes}
         d = select_canonical(fam, [member_info(a) for a in f["members"]])
+        res = resolutions.get(f["family_id"])
+        if res and d["canonical_status"] \
+                == "canonical_uncertain_manual_review":
+            # a recorded human decision resolves the refusal: apply
+            # the chosen canonical, keep the audit trail in the reason
+            d["canonical_status"] = "canonical_selected"
+            d["canonical_article_id"] = res["canonical_article_id"]
+            d["confidence"] = "human_resolved"
+            d["selection_reason"] = ("human review decision: "
+                                     + res["reason"])
+            d["temporal_validity_status"] = "publication_claim_only"
+            d["alternatives"] = [a for a in f["members"]
+                                 if a != res["canonical_article_id"]]
+            d["rejected_reasons"] = {
+                a: "human review selected the other member"
+                for a in d["alternatives"]}
         decisions.append(d)
         for aid in f["members"]:
             member_to_family[aid] = (f, d)
