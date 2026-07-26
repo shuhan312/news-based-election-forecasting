@@ -94,3 +94,44 @@ holding as in Step 2, and is ready to support the later stance,
 framing, blame/credit and consequence layers. Full-corpus run
 pending budget sign-off. No downstream prediction or embedding
 stages were started.
+
+---
+
+# Addendum: taxonomy v1.3 gap re-run (Step 3 follow-up)
+
+Following the two decisions in `issue_layer_decisions_v1.md`, the 29
+pilot articles whose primary issue was None or "other" were re-run
+under prompt issue-cls-prompt-v1.1 / taxonomy issues-v1.3 (batch
+`msgbatch_01Nzzj8GHJZCPGxcb8iqhDgm`, ~$0.35). Outputs:
+`issue_classification_gap_rerun_outputs.json` (out of Git).
+
+## Primary-issue movement (old -> new)
+
+| movement | n | reading |
+|---|---|---|
+| None -> national_politics | 7 | the gap the new codes exist for |
+| None/other -> national_economy | 6 | ditto |
+| other -> national_politics | 2 | ditto |
+| None -> healthcare / scandal | 3 | second reading found a SPECIFIC code - the "prefer a specific code" instruction working |
+| None -> None | 9 | genuinely apolitical (letters, colour pieces) - honest emptiness preserved |
+| stayed other / None -> other | 2 | residual true "other" |
+
+15 of 29 formerly-uncodable articles now carry a national code; the
+9 that stayed None are correctly None. The national-arm issue
+composition is no longer blank, so the local-vs-national comparison
+in the research design is fully supported.
+
+## Validation
+
+23/29 fully valid. 6 caught errors: 4 records misplaced an
+issue_other_label-style field at the issues level (structural
+rejection - a prompt nit to fold into the full-scale prompt), 2
+under-flagged low confidence (S2 forced them to review, as
+designed). Zero invented category values; zero S7 violations - the
+new codes only ever appeared under the v1.3 stamp.
+
+## Status
+
+Taxonomy v1.3 remains provisional pending supervisor ratification
+(Friday). If declined, the v1.2 pilot outputs stand unchanged and
+the gap re-run is discarded; nothing downstream depends on it yet.

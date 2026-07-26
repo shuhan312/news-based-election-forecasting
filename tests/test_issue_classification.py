@@ -173,3 +173,37 @@ def test_deterministic_validation():
     e1 = validate_issue_record(copy.deepcopy(r), BODY, TITLE)
     e2 = validate_issue_record(copy.deepcopy(r), BODY, TITLE)
     assert e1 == e2 and e1
+
+# --------------------------- taxonomy v1.3 (national codes) + S7
+
+def test_national_codes_valid_under_v13():
+    r = record()
+    r["issues"]["taxonomy_version"] = "issues-v1.3"
+    r["issues"]["primary_issue"] = issue(
+        "national_politics",
+        "approved a 4.99% council tax increase on Tuesday")
+    assert validate_issue_record(r, BODY, TITLE) == []
+
+
+def test_s7_national_codes_forbidden_under_v12():
+    r = record()   # stamps issues-v1.2
+    r["issues"]["secondary_issues"] = [issue(
+        "national_economy",
+        "after years of rising social care demand", 0.8)]
+    errs = validate_issue_record(r, BODY, TITLE)
+    assert any(e.startswith("S7") for e in errs)
+
+
+def test_old_v10_records_remain_valid():
+    # traceability: the pilot batch stamped issue-cls-v1.0 and
+    # issues-v1.2 - both stamps must keep validating
+    r = record()
+    r["schema_version"] = "issue-cls-v1.0-2026-07-27"
+    assert validate_issue_record(r, BODY, TITLE) == []
+
+
+def test_prompt_v11_uses_v13_taxonomy():
+    p = build_issue_prompt()
+    assert "issues-v1.3" in p
+    assert "national_politics" in p and "national_economy" in p
+    assert "prefer a specific code" in p

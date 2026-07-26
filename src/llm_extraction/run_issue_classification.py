@@ -138,8 +138,113 @@ def cmd_collect() -> None:
     print("statuses:", dict(sorted(statuses.items())))
 
 
+GAP_BATCH = Path("llm_context/issue_cls_gap_batch_id.txt")
+GAP_RESULTS = Path(
+    "llm_context/issue_classification_gap_rerun_outputs.json")
+
+
+def cmd_gap_submit() -> None:
+    """Targeted taxonomy-v1.3 verification: resubmit ONLY the pilot
+    articles whose issue classification came back None or 'other' -
+    the population the new national codes exist for. The pilot
+    outputs file is never overwritten."""
+    pilot = json.loads(OUT_RESULTS.read_text())["results"]
+    targets = []
+    for r in pilot:
+        rec = r.get("record")
+        if not rec:
+            targets.append(r["article_id"])
+            continue
+        p = rec["issues"].get("primary_issue")
+        if p is None or p.get("issue_code") == "other":
+            targets.append(r["article_id"])
+    arts = load_articles()
+    system = [{"type": "text", "text": build_issue_prompt(),
+               "cache_control": {"type": "ephemeral"}}]
+    requests = [Request(
+        custom_id=aid,
+        params=MessageCreateParamsNonStreaming(
+            model=MODEL, max_tokens=MAX_TOKENS,
+            thinking={"type": "adaptive"},
+            system=system,
+            messages=[{"role": "user",
+                       "content": _user_message(arts[aid])}]))
+        for aid in sorted(targets)]
+    client = anthropic.Anthropic()
+    batch = client.messages.batches.create(requests=requests)
+    GAP_BATCH.write_text(batch.id + "\n")
+    print(f"gap batch {batch.id}: {len(requests)} None/other articles "
+          f"({CLS_PROMPT_VERSION}, taxonomy issues-v1.3)")
+
+
+def cmd_gap_collect() -> None:
+    """Collect the gap re-run into its own outputs file and print
+    the before/after primary-issue movement."""
+    batch_id = GAP_BATCH.read_text().strip()
+    client = anthropic.Anthropic()
+    while True:
+        batch = client.messages.batches.retrieve(batch_id)
+        if batch.processing_status == "ended":
+            break
+        print(f"status {batch.processing_status}", flush=True)
+        time.sleep(60)
+
+    arts = load_articles()
+    pilot = {r["article_id"]: r for r in
+             json.loads(OUT_RESULTS.read_text())["results"]}
+    results, statuses, moves = [], Counter(), Counter()
+    for res in client.messages.batches.results(batch_id):
+        aid = res.custom_id
+        entry = {"article_id": aid, "batch_result": res.result.type,
+                 "validation_errors": [], "record": None, "usage": None}
+        if res.result.type == "succeeded":
+            msg = res.result.message
+            assert msg.model.startswith(MODEL), msg.model
+            entry["usage"] = {
+                "input_tokens": msg.usage.input_tokens,
+                "output_tokens": msg.usage.output_tokens,
+                "cache_read_input_tokens":
+                    msg.usage.cache_read_input_tokens}
+            text = next((b.text for b in msg.content
+                         if b.type == "text"), "")
+            try:
+                record = parse_model_json(text)
+                a = arts.get(aid, {})
+                entry["record"] = record
+                entry["validation_errors"] = validate_issue_record(
+                    record, a.get("body", ""), a.get("title", ""))
+                statuses["valid" if not entry["validation_errors"]
+                         else "schema_or_rule_errors"] += 1
+                old = pilot.get(aid, {}).get("record")
+                oldp = ((old or {}).get("issues", {})
+                        .get("primary_issue") or {}).get("issue_code")
+                newp = (record["issues"].get("primary_issue")
+                        or {}).get("issue_code")
+                moves[f"{oldp} -> {newp}"] += 1
+            except (ValueError, json.JSONDecodeError) as e:
+                entry["validation_errors"] = [f"unparseable: {e}"]
+                statuses["unparseable"] += 1
+        else:
+            statuses[res.result.type] += 1
+        results.append(entry)
+
+    results.sort(key=lambda r: r["article_id"])
+    GAP_RESULTS.write_text(json.dumps(
+        {"schema_version": CLS_SCHEMA_VERSION,
+         "prompt_version": CLS_PROMPT_VERSION,
+         "rules_version": CLS_RULES_VERSION,
+         "model": MODEL, "batch_id": batch_id,
+         "status_counts": dict(sorted(statuses.items())),
+         "primary_moves": dict(moves.most_common()),
+         "results": results}, indent=1, ensure_ascii=False) + "\n")
+    print(f"{len(results)} results -> {GAP_RESULTS}")
+    print("statuses:", dict(sorted(statuses.items())))
+    print("primary moves:", dict(moves.most_common()))
+
+
 if __name__ == "__main__":
     if sys.argv[1] == "submit":
         cmd_submit(sys.argv[2] if len(sys.argv) > 2 else "pilot")
     else:
-        {"collect": cmd_collect}[sys.argv[1]]()
+        {"collect": cmd_collect, "gap_submit": cmd_gap_submit,
+         "gap_collect": cmd_gap_collect}[sys.argv[1]]()

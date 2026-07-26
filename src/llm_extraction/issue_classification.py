@@ -25,7 +25,12 @@ Validation rules (S-series; deterministic, sorted output):
     S5  an empty classification (no primary, no secondary) cannot
         claim extraction_status "extracted" and must carry an
         ambiguity note - "no political issue" is a stated finding;
-    S6  not_attempted records must be empty.
+    S6  not_attempted records must be empty;
+    S7  the v1.3 national codes (national_politics,
+        national_economy) are only valid when the record stamps
+        taxonomy issues-v1.3 - pilot records stamped v1.2 predate
+        them and stay traceable as such (same discipline as the
+        main schema's R9).
 """
 
 from __future__ import annotations
@@ -37,11 +42,17 @@ from pathlib import Path
 from jsonschema import Draft202012Validator
 
 SCHEMA_PATH = Path("llm_context/issue_classification_schema_v1.json")
-TAXONOMY_PATH = Path("llm_context/issue_taxonomy_v1.2.json")
+# v1.3: national codes added after the pilot showed national-arm
+# articles were uncodable under the local-oriented taxonomy (see
+# llm_context/issue_layer_decisions_v1.md; supervisor ratification
+# pending, adopted provisionally)
+TAXONOMY_PATH = Path("llm_context/issue_taxonomy_v1.3.json")
 
-CLS_SCHEMA_VERSION = "issue-cls-v1.0-2026-07-27"
-CLS_PROMPT_VERSION = "issue-cls-prompt-v1.0-2026-07-27"
-CLS_RULES_VERSION = "issue-cls-rules-v1.0-2026-07-27"
+CLS_SCHEMA_VERSION = "issue-cls-v1.1-2026-07-27"
+CLS_PROMPT_VERSION = "issue-cls-prompt-v1.1-2026-07-27"
+CLS_RULES_VERSION = "issue-cls-rules-v1.1-2026-07-27"
+TAXONOMY_CURRENT = "issues-v1.3"
+NATIONAL_CODES = {"national_politics", "national_economy"}
 LOW_CONFIDENCE = 0.5
 
 
@@ -116,6 +127,13 @@ def validate_rules(record: dict, body: str, title: str = "") -> list[str]:
                           "ambiguity note")
     if record.get("extraction_status") == "not_attempted" and claims:
         errors.append("S6: not_attempted record carries issue claims")
+
+    # ---- S7 national codes gated by taxonomy version ----------------
+    codes = {c.get("issue_code") for c in claims}
+    used_national = sorted(codes & NATIONAL_CODES)
+    if used_national and iss.get("taxonomy_version") != "issues-v1.3":
+        errors.append(f"S7 issues: {used_national} require "
+                      "taxonomy_version issues-v1.3")
     return sorted(errors)
 
 
@@ -141,7 +159,10 @@ JSON object conforming exactly to the JSON Schema below: the article's PRIMARY \
 political issue, up to five SECONDARY issues, and the political-relevance \
 determination. Prompt version: {CLS_PROMPT_VERSION}.
 
-The approved taxonomy (issues-v1.2) - use ONLY these codes, never invent one:
+The taxonomy (issues-v1.3; set taxonomy_version to "issues-v1.3") - use ONLY \
+these codes, never invent one. The two national_* codes are for NATIONAL \
+politics/economy coverage that fits no local code - prefer a specific code \
+(healthcare, immigration, scandal...) whenever one applies:
 {tax_lines}
 
 Hard rules:

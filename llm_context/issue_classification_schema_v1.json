@@ -9,7 +9,9 @@
                "extraction_status", "review_status", "issues",
                "political_relevance"],
   "properties": {
-    "schema_version": {"const": "issue-cls-v1.0-2026-07-27"},
+    "schema_version": {
+      "enum": ["issue-cls-v1.0-2026-07-27", "issue-cls-v1.1-2026-07-27"],
+      "description": "v1.1 admits taxonomy issues-v1.3 (national codes); v1.0 records from the pilot batch remain valid under their own stamp"},
     "article_id": {"type": "string", "minLength": 1},
     "canonical_article_id": {"type": "string", "minLength": 1},
     "extraction_status": {
@@ -21,7 +23,9 @@
       "required": ["taxonomy_version", "primary_issue",
                    "secondary_issues"],
       "properties": {
-        "taxonomy_version": {"const": "issues-v1.2"},
+        "taxonomy_version": {
+          "enum": ["issues-v1.2", "issues-v1.3"],
+          "description": "v1.3 adds national_politics and national_economy; rule S7 forbids those codes under the v1.2 stamp"},
         "primary_issue": {
           "oneOf": [{"$ref": "#/$defs/issue"}, {"type": "null"}],
           "description": "the article's MAIN political issue; null when no political issue is discussed - never force one"},
@@ -90,7 +94,8 @@
                    "candidate_selection_withdrawal",
                    "resignation_defection", "new_party_emergence",
                    "voter_switching", "anti_incumbent_sentiment",
-                   "election_administration", "other"]},
+                   "election_administration", "national_politics",
+                   "national_economy", "other"]},
         "issue_other_label": {"type": "string"},
         "explanation": {
           "type": "string", "minLength": 10,
