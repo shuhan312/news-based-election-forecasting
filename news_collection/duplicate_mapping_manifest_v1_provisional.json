@@ -1,0 +1,36 @@
+{
+  "layer": "duplicate_mapping_layer_v1_provisional",
+  "snapshot_date": "2026-07-26",
+  "rule_version": "dup-mapping-v1.0-2026-07-26",
+  "input_refs": "layer=normalised-text-v1_provisional;url=url-canon-v1.0-2026-07-27;near-dup=near-dup-v1.0-2026-07-26;syndication=syndication-v1.0-2026-07-26;version=version-link-v1.0-2026-07-26;clusters=cluster-validation-v1.0-2026-07-26;canonical=canonical-v1.0-2026-07-26",
+  "code_version_git_head": "b413a07",
+  "inputs": {
+    "normalised_text_layer_v1_provisional.jsonl": "219aafa4bfe60bf4a2d3a6e895faa77599ae1d55c7d157275773b4650d76f5aa",
+    "canonical_article_mapping_v1_provisional.csv": "66e5041cfa6620360259f0d01549588f5d805e314117f624340b8bda8d74eb4b",
+    "validated_duplicate_clusters_v1_provisional.jsonl": "9cb432640afad6ce7efc338dc515b713c360a7817998b07f5e74985e7f4c21f8",
+    "validated_duplicate_relationships_v1_provisional.csv": "3b4cd85b6f6a1cac782fc8608139ee3d1e3827af8a9963ddf5bd8b4b967a1abf",
+    "article_version_relationships_v1_provisional.csv": "1ff638b2def9ac009cde96618a507b8e2c759d9aafd86f7e78c3b106d4107e46",
+    "syndication_relationships_v1_provisional.csv": "4979968d0456ee927df7d465fe478a0e31eeddcaac7dc2b7a5922eee71e5b8d4",
+    "url_duplicate_mapping_v1_provisional.csv": "fd8a5bc35085a38ce1e5f19c31af75e88ccb288a2cc76b70f5f1e7ace211d45d",
+    "article_version_temporal_availability_v1_provisional.csv": "d10b071dca264f0811b0b506a1a28c354bca9a517b665f7fed67b0a3a7e71b77"
+  },
+  "record_count": 1546,
+  "relationship_status_counts": {
+    "archive_version": 3,
+    "canonical_article": 4,
+    "non_duplicate_independent_article": 1538,
+    "updated_version": 1
+  },
+  "relationship_edge_counts_by_step": {
+    "step2": 3,
+    "step3": 296,
+    "step5": 6
+  },
+  "family_count": 4,
+  "canonical_count": 4,
+  "independent_count": 1538,
+  "evidence_only_count": 4,
+  "review_count": 0,
+  "layer_sha256": "cccdfba5e8c048e35e022406782c17357a34390c2b327b00c3700144015de05f",
+  "coverage_note": "Stage M retrieval incomplete - this is a provisional snapshot, not the final corpus freeze"
+}
