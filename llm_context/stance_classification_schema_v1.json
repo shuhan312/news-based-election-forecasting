@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "irp-surrey/stance_classification_schema_v1",
+  "title": "Entity stance / sentiment record (Phase 6 Step 4)",
+  "description": "One focused record per canonical article: HOW each mentioned political entity is represented - stance beyond article-level sentiment, with the narration-vs-quotation origin, six political-context perceptions, and a verbatim quote per judgement. Framing, blame/credit and electoral consequences are OUT of scope for this step by specification.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "article_id", "canonical_article_id",
+               "extraction_status", "review_status", "entity_stances"],
+  "properties": {
+    "schema_version": {"const": "stance-cls-v1.0-2026-07-27"},
+    "article_id": {"type": "string", "minLength": 1},
+    "canonical_article_id": {"type": "string", "minLength": 1},
+    "extraction_status": {
+      "enum": ["extracted", "partial", "failed", "not_attempted"]},
+    "review_status": {"enum": ["unreviewed", "human_reviewed", "flagged"]},
+    "entity_stances": {
+      "type": "array", "maxItems": 20,
+      "description": "one row per distinct political entity the article takes any representational position on (rule T3: unique target per row)",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["target_name", "target_type", "stance",
+                     "stance_origin", "explanation",
+                     "competence_perception", "integrity_perception",
+                     "public_support_perception",
+                     "challenger_perception", "support_trajectory",
+                     "voter_switching_mentioned", "evidence_span",
+                     "confidence"],
+        "properties": {
+          "target_name": {"type": "string", "minLength": 1},
+          "target_type": {"enum": ["party", "candidate", "council",
+                                   "organisation"]},
+          "stance": {
+            "enum": ["positive", "neutral", "negative", "mixed"],
+            "description": "how the ARTICLE represents this entity - never the entity's own opinions"},
+          "stance_origin": {
+            "enum": ["journalist_narration", "direct_quotation",
+                     "both", "not_applicable"],
+            "description": "where the stance comes from: the journalist's own framing, quoted speakers, or both; not_applicable only for neutral mentions"},
+          "explanation": {
+            "type": "string", "minLength": 10,
+            "description": "why the article reads positive/negative/mixed for this entity - the audit trail"},
+          "competence_perception": {"$ref": "#/$defs/portrayal"},
+          "integrity_perception": {"$ref": "#/$defs/portrayal"},
+          "public_support_perception": {"$ref": "#/$defs/portrayal"},
+          "challenger_perception": {
+            "enum": ["credible", "dismissed", "mixed",
+                     "not_addressed"]},
+          "support_trajectory": {
+            "enum": ["gaining", "losing", "stable", "not_indicated"]},
+          "voter_switching_mentioned": {"type": "boolean"},
+          "switching_detail": {
+            "oneOf": [{"type": "string", "minLength": 5},
+                      {"type": "null"}],
+            "description": "required by rule T4 when voter_switching_mentioned is true: which voters, from/to whom, per the article"},
+          "evidence_span": {"$ref": "#/$defs/evidence_span"},
+          "confidence": {"type": "number", "minimum": 0.0,
+                         "maximum": 1.0}
+        }
+      }
+    },
+    "ambiguity_notes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["reason"],
+        "properties": {"reason": {"type": "string", "minLength": 1}}
+      }
+    }
+  },
+  "$defs": {
+    "evidence_span": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text"],
+      "properties": {
+        "text": {"type": "string", "minLength": 10},
+        "from_title": {"type": "boolean", "default": false}
+      }
+    },
+    "portrayal": {
+      "enum": ["portrayed_positively", "portrayed_negatively",
+               "mixed", "not_addressed"],
+      "description": "how the article portrays the entity on this dimension; not_addressed is the honest default - never inferred"}
+  }
+}
