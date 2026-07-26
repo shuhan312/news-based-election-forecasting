@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "irp-surrey/credit_blame_schema_v1",
+  "title": "Credit / blame attribution record (Phase 6 Step 6)",
+  "description": "One focused record per canonical article: WHO receives credit or blame, for WHAT, assigned BY WHOM - responsibility attribution as the article reports it, never inferred. Electoral consequence prediction and voter-switching analysis are OUT of scope for this step by specification.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "article_id", "canonical_article_id",
+               "extraction_status", "review_status", "attributions"],
+  "properties": {
+    "schema_version": {
+      "enum": ["credit-blame-v1.0-2026-07-27", "credit-blame-v1.1-2026-07-27"],
+      "description": "v1.1 adds target_type politician (pilot finding: national articles attribute to individual politicians who are not local candidates); v1.0 records remain valid under their own stamp"},
+    "article_id": {"type": "string", "minLength": 1},
+    "canonical_article_id": {"type": "string", "minLength": 1},
+    "extraction_status": {
+      "enum": ["extracted", "partial", "failed", "not_attempted"]},
+    "review_status": {"enum": ["unreviewed", "human_reviewed", "flagged"]},
+    "attributions": {
+      "type": "array", "maxItems": 15,
+      "description": "one row per distinct (target, outcome) attribution the article carries",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["attribution_type", "target_name", "target_type",
+                     "source_type", "source_name",
+                     "attributed_outcome", "reasoning",
+                     "affected_issue", "electoral_implication",
+                     "implication_direction", "evidence_span",
+                     "confidence"],
+        "properties": {
+          "attribution_type": {
+            "enum": ["blame", "credit", "mixed", "unclear"],
+            "description": "mixed only when the SAME attribution carries both directions; separate praise and criticism are separate rows"},
+          "target_name": {"type": "string", "minLength": 1},
+          "target_type": {"enum": ["party", "candidate", "politician",
+                                   "council", "government",
+                                   "organisation", "other"],
+                          "description": "politician (v1.1): a named national/individual politician who is not a local candidate in the studied elections"},
+          "source_type": {
+            "enum": ["journalist", "politician", "resident",
+                     "organisation", "public_group", "other"],
+            "description": "who ASSIGNS the blame/credit - the article's own narration is 'journalist'; a quoted rival is 'politician'"},
+          "source_name": {
+            "oneOf": [{"type": "string", "minLength": 1},
+                      {"type": "null"}],
+            "description": "the named assigner when the article names one (e.g. the quoted councillor); null for unnamed sources or pure narration"},
+          "attributed_outcome": {
+            "type": "string", "minLength": 5,
+            "description": "WHAT is being attributed - the event, decision or outcome"},
+          "reasoning": {
+            "type": "string", "minLength": 10,
+            "description": "WHY the target receives blame/credit, per the article - the audit trail"},
+          "affected_issue": {
+            "oneOf": [{"enum": ["council_finance", "council_tax",
+                                "roads_transport", "planning_housing",
+                                "schools_send", "social_care",
+                                "waste_recycling", "crime_policing",
+                                "environment_flooding", "healthcare",
+                                "local_business", "immigration",
+                                "council_performance",
+                                "candidate_party_conduct", "scandal",
+                                "protest", "service_closure",
+                                "investment_funding",
+                                "local_government_reorganisation",
+                                "candidate_selection_withdrawal",
+                                "resignation_defection",
+                                "new_party_emergence",
+                                "voter_switching",
+                                "anti_incumbent_sentiment",
+                                "election_administration",
+                                "national_politics",
+                                "national_economy", "other"]},
+                      {"type": "null"}],
+            "description": "issues-v1.3 code linking this attribution to the issue layer; null when no code fits"},
+          "electoral_implication": {
+            "oneOf": [{"type": "string", "minLength": 10},
+                      {"type": "null"}],
+            "description": "the possible electoral reading AS THE ARTICLE SUGGESTS IT - descriptive only, never a prediction; required by rule C4 when implication_direction is not 'unclear'"},
+          "implication_direction": {
+            "enum": ["may_damage", "may_benefit", "both", "unclear"],
+            "description": "whether this attribution may damage or benefit the target politically"},
+          "evidence_span": {"$ref": "#/$defs/evidence_span"},
+          "confidence": {"type": "number", "minimum": 0.0,
+                         "maximum": 1.0}
+        }
+      }
+    },
+    "ambiguity_notes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["reason"],
+        "properties": {"reason": {"type": "string", "minLength": 1}}
+      }
+    }
+  },
+  "$defs": {
+    "evidence_span": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text"],
+      "properties": {
+        "text": {"type": "string", "minLength": 10},
+        "from_title": {"type": "boolean", "default": false}
+      }
+    }
+  }
+}

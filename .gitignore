@@ -61,3 +61,6 @@ llm_context/stance_classification_outputs.json
 llm_context/stance_cls_batch_id.txt
 llm_context/framing_detection_outputs.json
 llm_context/framing_batch_id.txt
+llm_context/credit_blame_outputs.json
+llm_context/credit_blame_batch_id.txt
+llm_context/credit_blame_gap_batch_id.txt
