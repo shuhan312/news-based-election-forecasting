@@ -1,0 +1,3 @@
+article_id_a,article_id_b,edge_type,classification,rule,resolution,rule_version
+NEWS-guardian_api-0eaf2e5fe70f,NEWS-guardian_api-f15a5afe3963,near_duplicate,probable_near_duplicate,independent_reporting_blocks_merge,edge blocked; pair stays unmerged,cluster-validation-v1.0-2026-07-26
+NEWS-guardian_api-3b3920028545,NEWS-guardian_api-90e2798071e0,near_duplicate,probable_near_duplicate,independent_reporting_blocks_merge,edge blocked; pair stays unmerged,cluster-validation-v1.0-2026-07-26
