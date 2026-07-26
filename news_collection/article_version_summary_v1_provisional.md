@@ -5,7 +5,7 @@
 * candidate pairs evaluated: **6** (same-publisher duplicate-grade + multi-member URL groups; human-resolved pairs excluded; zero overlap with syndication relationships asserted)
 * classifications: {'ambiguous_version_relationship': 2, 'substantive_update': 3, 'minor_update': 1}
 * version families: 4 (0 chronologically ordered, 4 unordered and flagged)
-* review queue: 6 rows
+* review queue: 4 rows
 * temporal availability over 1546 articles: {'confirmed_available_at': 1546}
 * window-flag distribution (all windows pooled): {'yes_publication_claim_only': 1855, 'no': 7225, 'yes_confirmed': 196}
 

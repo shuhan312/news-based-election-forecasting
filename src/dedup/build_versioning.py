@@ -54,6 +54,12 @@ LAYER = Path("news_collection/normalised_text_layer_v1_provisional.jsonl")
 PAIRS = Path("news_collection/near_duplicate_pairs_v1_provisional.csv")
 RESOLUTIONS = Path(
     "news_collection/near_duplicate_resolutions_v1_provisional.csv")
+# Human decisions on this step's own review queue (same pattern as
+# Step 3's resolutions): the automatic classification stays in the
+# relationships table untouched, the signed decision is recorded
+# beside it, and the pair leaves the review queue.
+VER_RESOLUTIONS = Path(
+    "news_collection/article_version_resolutions_v1_provisional.csv")
 URL_MAP = Path("news_collection/url_duplicate_mapping_v1_provisional.csv")
 DATES = Path("news_collection/effective_dates.csv")
 SYN = Path("news_collection/syndication_relationships_v1_provisional.csv")
@@ -95,7 +101,8 @@ REL_FIELDS = ["article_id_a", "article_id_b", "publisher", "byline_match",
               "chronology", "chronology_basis",
               "availability_status_a", "availability_status_b",
               "available_from_a", "available_from_b",
-              "review_reason", "rule_version", "input_refs"]
+              "review_reason", "human_resolution", "rule_version",
+              "input_refs"]
 
 AVAIL_FIELDS = (["article_id", "election_id", "publisher",
                  "version_processing_status", "version_family_id",
@@ -124,6 +131,11 @@ def main() -> None:
                 for r in csv.DictReader(RESOLUTIONS.open())}
     syndicated = {frozenset((r["article_id_a"], r["article_id_b"]))
                   for r in csv.DictReader(SYN.open())}
+    ver_resolved = {}
+    if VER_RESOLUTIONS.exists():
+        for r in csv.DictReader(VER_RESOLUTIONS.open()):
+            ver_resolved[frozenset((r["article_id_a"],
+                                    r["article_id_b"]))] = r["decision"]
 
     def evidence(aid: str) -> dict:
         art, u = arts.get(aid, {}), url_rows.get(aid, {})
@@ -173,6 +185,7 @@ def main() -> None:
         x, y = sorted(pair)
         r = classify_version_pair(evidence(x), evidence(y))
         r["input_refs"] = INPUT_REFS
+        r["human_resolution"] = ver_resolved.get(pair, "")
         rels.append(r)
 
     ev_map = {aid: evidence(aid)
@@ -222,9 +235,10 @@ def main() -> None:
     cls_counts = Counter(r["classification"] for r in rels)
     ordered_fams = sum(1 for f in families if f["ordered"])
     review_rows = [r for r in rels
-                   if r["classification"] in ("manual_review",
-                                              "ambiguous_version_relationship")
-                   or r["review_reason"]]
+                   if (r["classification"] in ("manual_review",
+                                               "ambiguous_version_relationship")
+                       or r["review_reason"])
+                   and not r["human_resolution"]]
     avail_counts = Counter(r["availability_status"] for r in avail_rows)
     confirmed_windows = Counter()
     for r in avail_rows:
