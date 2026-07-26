@@ -45,3 +45,9 @@ news_collection/character_normalised_articles_v1.jsonl
 news_collection/structure_normalised_articles_v1.jsonl
 news_collection/structured_articles_v1.jsonl
 news_collection/normalised_text_layer_v1_provisional.jsonl
+
+# Phase 6 pilot: extraction outputs carry verbatim article quotes -
+# copyright three-tier policy keeps them out of Git (local + OneDrive)
+llm_context/llm_context_pilot_outputs.json
+llm_context/pilot_batch_id.txt
+llm_context/pilot_retry_batch_id.txt
