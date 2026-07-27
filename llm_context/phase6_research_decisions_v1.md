@@ -102,6 +102,59 @@ descriptively rather than forcing an underpowered test. The G5
 two-precondition rule keeps the connector subset uncontaminated
 either way.
 
+## D6 - Inherently-ambiguous genres: retained, tagged, sensitivity-
+## tested, never counted as extraction failures
+
+**Decision (human ruling, 2026-07-27).** Digest/roundup pages, live
+blogs, readers' letters, satirical/sketch columns and politics-
+adjacent business stories are recognised as a GENRE class whose low
+extraction confidence reflects the content itself, not model
+failure. Records from these genres are retained with their flags,
+the genre is noted, the main analysis includes them with a
+with-and-without sensitivity pair, and their flagged records are
+closed as a class rather than adjudicated item by item.
+
+**Method and evidence.** The Step 10 audit traced the review pool's
+largest component (875 of 1,414 claims) to 104 flagged records
+concentrated in ~40 articles; close reading of the four most-
+flagged articles (a Society daily links digest, a Digested-week
+satirical column, a Dorries celebrity sketch, the Telegraph
+takeover story) confirmed in each case that the model's hesitancy
+was correct: multi-topic digests have no single issue or stance,
+satire inverts stance signals, sketches are semi-fictional, and
+media-business stories are politics-adjacent at best. The human
+reviewer examined the excerpts and low-confidence triggers and
+ruled all four as content-inherent ambiguity (option b), then
+generalised the ruling to the genre class.
+
+**Effect.** Roughly 70% of the flagged-record pool closes under
+this ruling; the remainder (conventional news reporting with low
+confidence) stays for the post-full-scale adjudication pass.
+
+**Reversal path.** The genre tag is additive; dropping the rule
+returns the records to the per-item pool unchanged.
+
+## D7 - Absence values never inherit row confidence
+
+**Decision (human ruling, 2026-07-27).** Extraction values that
+declare absence or non-indication (not_addressed, not_indicated,
+none and equivalents) are treated as MISSING INFORMATION in all
+downstream feature engineering, regardless of the confidence score
+of the row that carries them.
+
+**Rationale.** Row-level confidence describes the evidence quality
+of the row's substantive judgements; an absence field is an honest
+statement that the article does not address that dimension. Letting
+it inherit a confident row's score would turn "not discussed" into
+"confidently established as absent" - a silent upgrade the audit
+layer flags as weak_evidence_high_confidence precisely to prevent.
+
+**Effect.** The 104 weak_evidence_high_confidence flags in the
+Step 10 audit close as a class; downstream feature builders read
+absence values as absence, full stop.
+
+**Reversal path.** One feature-engineering configuration line.
+
 ---
 
 Standing execution parameters (unchanged): frozen model
