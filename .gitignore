@@ -68,3 +68,6 @@ llm_context/electoral_consequence_outputs.json
 llm_context/elect_consq_batch_id.txt
 llm_context/local_national_relevance_outputs.json
 llm_context/loc_nat_batch_id.txt
+llm_context/temporal_horizon_outputs.json
+llm_context/temporal_windows_deterministic.json
+llm_context/temporal_batch_id.txt
