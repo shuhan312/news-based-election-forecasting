@@ -1,0 +1,1183 @@
+{
+ "assignment_version": "article-time-window-v1.0-2026-07-27",
+ "alignment_version": "article-entity-alignment-v1.0-2026-07-27",
+ "deterministic_layer_sha256": "a256d16ffcd9fd586123752d142d530e1205872dbecbc0df74d1b3f3549f37e5",
+ "elections": {
+  "SCC-2013-05": {
+   "year": 2013,
+   "type": "scheduled_county_council",
+   "polling_date": "2013-05-02"
+  },
+  "SCC-2017-05": {
+   "year": 2017,
+   "type": "scheduled_county_council",
+   "polling_date": "2017-05-04"
+  },
+  "SCC-2021-05": {
+   "year": 2021,
+   "type": "scheduled_county_council",
+   "polling_date": "2021-05-06"
+  },
+  "ESWS-2026-05": {
+   "year": 2026,
+   "type": "scheduled_unitary_council",
+   "polling_date": "2026-05-07"
+  }
+ },
+ "assigned_count": 67,
+ "excluded_count": 0,
+ "assigned": [
+  {
+   "article_id": "NEWS-bbc_surrey-2bc45058b1df",
+   "election_id": "SCC-2013-05",
+   "polling_date": "2013-05-02",
+   "publication_date": "2013-04-26",
+   "days_before_polling": 6,
+   "individual_time_window": "7_to_4_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": true,
+    "previous_14_days": true,
+    "previous_30_days": true,
+    "previous_90_days": true,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-bbc_surrey-ec4c7ab2a6e9",
+   "election_id": "SCC-2013-05",
+   "polling_date": "2013-05-02",
+   "publication_date": "2013-04-26",
+   "days_before_polling": 6,
+   "individual_time_window": "7_to_4_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": true,
+    "previous_14_days": true,
+    "previous_30_days": true,
+    "previous_90_days": true,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-0e3c32f7fb4b",
+   "election_id": "SCC-2017-05",
+   "polling_date": "2017-05-04",
+   "publication_date": "2016-11-10",
+   "days_before_polling": 175,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-0e95f9ffd3d0",
+   "election_id": "ESWS-2026-05",
+   "polling_date": "2026-05-07",
+   "publication_date": "2025-11-13",
+   "days_before_polling": 175,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-0e9cc2c3db19",
+   "election_id": "SCC-2017-05",
+   "polling_date": "2017-05-04",
+   "publication_date": "2017-02-01",
+   "days_before_polling": 92,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-0f663c4786a5",
+   "election_id": "SCC-2021-05",
+   "polling_date": "2021-05-06",
+   "publication_date": "2020-11-10",
+   "days_before_polling": 177,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-10b1c8dbdd7e",
+   "election_id": "SCC-2013-05",
+   "polling_date": "2013-05-02",
+   "publication_date": "2012-11-27",
+   "days_before_polling": 156,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-153929a88888",
+   "election_id": "SCC-2021-05",
+   "polling_date": "2021-05-06",
+   "publication_date": "2021-02-01",
+   "days_before_polling": 94,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-1efd0842f3d0",
+   "election_id": "ESWS-2026-05",
+   "polling_date": "2026-05-07",
+   "publication_date": "2026-05-05",
+   "days_before_polling": 2,
+   "individual_time_window": "final_72_hours",
+   "cumulative_windows": {
+    "previous_72_hours": true,
+    "previous_7_days": true,
+    "previous_14_days": true,
+    "previous_30_days": true,
+    "previous_90_days": true,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-24fc4bd4ab85",
+   "election_id": "ESWS-2026-05",
+   "polling_date": "2026-05-07",
+   "publication_date": "2025-11-26",
+   "days_before_polling": 162,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-25d8bc3057bb",
+   "election_id": "ESWS-2026-05",
+   "polling_date": "2026-05-07",
+   "publication_date": "2026-02-15",
+   "days_before_polling": 81,
+   "individual_time_window": "90_to_31_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": true,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-2a0f8bb8e199",
+   "election_id": "ESWS-2026-05",
+   "polling_date": "2026-05-07",
+   "publication_date": "2026-04-23",
+   "days_before_polling": 14,
+   "individual_time_window": "14_to_8_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": true,
+    "previous_30_days": true,
+    "previous_90_days": true,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-30ab66638ffd",
+   "election_id": "SCC-2017-05",
+   "polling_date": "2017-05-04",
+   "publication_date": "2017-01-27",
+   "days_before_polling": 97,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-3424740f5477",
+   "election_id": "SCC-2017-05",
+   "polling_date": "2017-05-04",
+   "publication_date": "2017-01-07",
+   "days_before_polling": 117,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-3712f18c1326",
+   "election_id": "SCC-2021-05",
+   "polling_date": "2021-05-06",
+   "publication_date": "2021-03-18",
+   "days_before_polling": 49,
+   "individual_time_window": "90_to_31_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": true,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-3eac7109f377",
+   "election_id": "SCC-2017-05",
+   "polling_date": "2017-05-04",
+   "publication_date": "2017-01-14",
+   "days_before_polling": 110,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-3eef34d2449e",
+   "election_id": "ESWS-2026-05",
+   "polling_date": "2026-05-07",
+   "publication_date": "2025-11-13",
+   "days_before_polling": 175,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-4494203acb80",
+   "election_id": "SCC-2021-05",
+   "polling_date": "2021-05-06",
+   "publication_date": "2021-01-11",
+   "days_before_polling": 115,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-466ec0700a1f",
+   "election_id": "SCC-2013-05",
+   "polling_date": "2013-05-02",
+   "publication_date": "2012-11-24",
+   "days_before_polling": 159,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-4a5a0c1cebb9",
+   "election_id": "SCC-2013-05",
+   "polling_date": "2013-05-02",
+   "publication_date": "2012-12-02",
+   "days_before_polling": 151,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": [
+    "contains_election_result"
+   ]
+  },
+  {
+   "article_id": "NEWS-guardian_api-4d33f68020c8",
+   "election_id": "ESWS-2026-05",
+   "polling_date": "2026-05-07",
+   "publication_date": "2025-11-18",
+   "days_before_polling": 170,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-4e4d5c158aee",
+   "election_id": "SCC-2013-05",
+   "polling_date": "2013-05-02",
+   "publication_date": "2013-01-05",
+   "days_before_polling": 117,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-50e146d7d3fb",
+   "election_id": "SCC-2017-05",
+   "polling_date": "2017-05-04",
+   "publication_date": "2016-11-08",
+   "days_before_polling": 177,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": [
+    "contains_election_result"
+   ]
+  },
+  {
+   "article_id": "NEWS-guardian_api-527f865ed20f",
+   "election_id": "SCC-2017-05",
+   "polling_date": "2017-05-04",
+   "publication_date": "2017-01-21",
+   "days_before_polling": 103,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-547c38869b97",
+   "election_id": "ESWS-2026-05",
+   "polling_date": "2026-05-07",
+   "publication_date": "2025-11-23",
+   "days_before_polling": 165,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-5a35ee94392a",
+   "election_id": "SCC-2021-05",
+   "polling_date": "2021-05-06",
+   "publication_date": "2020-12-24",
+   "days_before_polling": 133,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-61d1f7ea6f97",
+   "election_id": "SCC-2013-05",
+   "polling_date": "2013-05-02",
+   "publication_date": "2012-12-31",
+   "days_before_polling": 122,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-6956474b3b82",
+   "election_id": "SCC-2017-05",
+   "polling_date": "2017-05-04",
+   "publication_date": "2017-01-26",
+   "days_before_polling": 98,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-69a5abd89c4c",
+   "election_id": "SCC-2013-05",
+   "polling_date": "2013-05-02",
+   "publication_date": "2012-11-22",
+   "days_before_polling": 161,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-6a718a68a9e4",
+   "election_id": "SCC-2017-05",
+   "polling_date": "2017-05-04",
+   "publication_date": "2017-01-25",
+   "days_before_polling": 99,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-74ed5b2d65fc",
+   "election_id": "SCC-2021-05",
+   "polling_date": "2021-05-06",
+   "publication_date": "2020-11-13",
+   "days_before_polling": 174,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": [
+    "contains_election_result"
+   ]
+  },
+  {
+   "article_id": "NEWS-guardian_api-786f21b78646",
+   "election_id": "SCC-2021-05",
+   "polling_date": "2021-05-06",
+   "publication_date": "2021-01-06",
+   "days_before_polling": 120,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-7bb82af70286",
+   "election_id": "ESWS-2026-05",
+   "polling_date": "2026-05-07",
+   "publication_date": "2025-12-08",
+   "days_before_polling": 150,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-7f680997cc49",
+   "election_id": "SCC-2013-05",
+   "polling_date": "2013-05-02",
+   "publication_date": "2013-02-14",
+   "days_before_polling": 77,
+   "individual_time_window": "90_to_31_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": true,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-80f4d08f259e",
+   "election_id": "SCC-2013-05",
+   "polling_date": "2013-05-02",
+   "publication_date": "2012-12-19",
+   "days_before_polling": 134,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-8725f001e36f",
+   "election_id": "SCC-2013-05",
+   "polling_date": "2013-05-02",
+   "publication_date": "2013-01-29",
+   "days_before_polling": 93,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-8e6ffc19551a",
+   "election_id": "SCC-2013-05",
+   "polling_date": "2013-05-02",
+   "publication_date": "2013-03-01",
+   "days_before_polling": 62,
+   "individual_time_window": "90_to_31_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": true,
+    "previous_180_days": true
+   },
+   "flags": [
+    "contains_election_result"
+   ]
+  },
+  {
+   "article_id": "NEWS-guardian_api-9a841421ad12",
+   "election_id": "ESWS-2026-05",
+   "polling_date": "2026-05-07",
+   "publication_date": "2025-11-14",
+   "days_before_polling": 174,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": [
+    "contains_election_result"
+   ]
+  },
+  {
+   "article_id": "NEWS-guardian_api-9b3c0d62f64f",
+   "election_id": "ESWS-2026-05",
+   "polling_date": "2026-05-07",
+   "publication_date": "2025-11-24",
+   "days_before_polling": 164,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-9df3712946c6",
+   "election_id": "SCC-2021-05",
+   "polling_date": "2021-05-06",
+   "publication_date": "2020-11-12",
+   "days_before_polling": 175,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-9e291825f8a4",
+   "election_id": "SCC-2021-05",
+   "polling_date": "2021-05-06",
+   "publication_date": "2021-02-08",
+   "days_before_polling": 87,
+   "individual_time_window": "90_to_31_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": true,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-a5c5724f9f23",
+   "election_id": "SCC-2017-05",
+   "polling_date": "2017-05-04",
+   "publication_date": "2016-12-10",
+   "days_before_polling": 145,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": [
+    "contains_election_result"
+   ]
+  },
+  {
+   "article_id": "NEWS-guardian_api-a65190cf1025",
+   "election_id": "SCC-2017-05",
+   "polling_date": "2017-05-04",
+   "publication_date": "2016-11-16",
+   "days_before_polling": 169,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-ab2b483c433e",
+   "election_id": "SCC-2013-05",
+   "polling_date": "2013-05-02",
+   "publication_date": "2013-01-20",
+   "days_before_polling": 102,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-abb2097edd47",
+   "election_id": "SCC-2017-05",
+   "polling_date": "2017-05-04",
+   "publication_date": "2017-02-07",
+   "days_before_polling": 86,
+   "individual_time_window": "90_to_31_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": true,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-b59c4aa0fc64",
+   "election_id": "SCC-2013-05",
+   "polling_date": "2013-05-02",
+   "publication_date": "2012-11-08",
+   "days_before_polling": 175,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-b9d1f9711a7c",
+   "election_id": "ESWS-2026-05",
+   "polling_date": "2026-05-07",
+   "publication_date": "2025-11-26",
+   "days_before_polling": 162,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-c009854b0f8f",
+   "election_id": "ESWS-2026-05",
+   "polling_date": "2026-05-07",
+   "publication_date": "2025-11-15",
+   "days_before_polling": 173,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-c10af7ba9e3b",
+   "election_id": "SCC-2021-05",
+   "polling_date": "2021-05-06",
+   "publication_date": "2020-11-10",
+   "days_before_polling": 177,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-c9b546b05954",
+   "election_id": "SCC-2021-05",
+   "polling_date": "2021-05-06",
+   "publication_date": "2020-11-25",
+   "days_before_polling": 162,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-d3b4ce9a0f6b",
+   "election_id": "SCC-2021-05",
+   "polling_date": "2021-05-06",
+   "publication_date": "2021-02-05",
+   "days_before_polling": 90,
+   "individual_time_window": "90_to_31_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": true,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-e2097df72479",
+   "election_id": "ESWS-2026-05",
+   "polling_date": "2026-05-07",
+   "publication_date": "2025-11-18",
+   "days_before_polling": 170,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-e60e8558523d",
+   "election_id": "SCC-2013-05",
+   "polling_date": "2013-05-02",
+   "publication_date": "2012-11-08",
+   "days_before_polling": 175,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-ea32482298e3",
+   "election_id": "SCC-2017-05",
+   "polling_date": "2017-05-04",
+   "publication_date": "2017-02-05",
+   "days_before_polling": 88,
+   "individual_time_window": "90_to_31_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": true,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-ed65e9ea315f",
+   "election_id": "SCC-2013-05",
+   "polling_date": "2013-05-02",
+   "publication_date": "2012-11-18",
+   "days_before_polling": 165,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-f352158feeaa",
+   "election_id": "ESWS-2026-05",
+   "polling_date": "2026-05-07",
+   "publication_date": "2026-02-10",
+   "days_before_polling": 86,
+   "individual_time_window": "90_to_31_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": true,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-f5b4a573a9fc",
+   "election_id": "ESWS-2026-05",
+   "polling_date": "2026-05-07",
+   "publication_date": "2025-11-10",
+   "days_before_polling": 178,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guardian_api-f7f67efe332c",
+   "election_id": "ESWS-2026-05",
+   "polling_date": "2026-05-07",
+   "publication_date": "2026-03-06",
+   "days_before_polling": 62,
+   "individual_time_window": "90_to_31_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": true,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-guildford_dragon-cfab18cda9bf",
+   "election_id": "SCC-2021-05",
+   "polling_date": "2021-05-06",
+   "publication_date": "2021-02-08",
+   "days_before_polling": 87,
+   "individual_time_window": "90_to_31_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": true,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-surreylive-0facb544d283",
+   "election_id": "SCC-2021-05",
+   "polling_date": "2021-05-06",
+   "publication_date": "2021-02-04",
+   "days_before_polling": 91,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-surreylive-4d362b433d57",
+   "election_id": "SCC-2017-05",
+   "polling_date": "2017-05-04",
+   "publication_date": "2017-04-29",
+   "days_before_polling": 5,
+   "individual_time_window": "7_to_4_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": true,
+    "previous_14_days": true,
+    "previous_30_days": true,
+    "previous_90_days": true,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-surreylive-65935ea5be4c",
+   "election_id": "ESWS-2026-05",
+   "polling_date": "2026-05-07",
+   "publication_date": "2026-01-13",
+   "days_before_polling": 114,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-surreylive-740cdbc61d50",
+   "election_id": "SCC-2017-05",
+   "polling_date": "2017-05-04",
+   "publication_date": "2017-04-07",
+   "days_before_polling": 27,
+   "individual_time_window": "30_to_15_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": true,
+    "previous_90_days": true,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-surreylive-947b8d167aa2",
+   "election_id": "SCC-2021-05",
+   "polling_date": "2021-05-06",
+   "publication_date": "2021-04-28",
+   "days_before_polling": 8,
+   "individual_time_window": "14_to_8_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": true,
+    "previous_30_days": true,
+    "previous_90_days": true,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-surreylive-b75c6e16094e",
+   "election_id": "SCC-2021-05",
+   "polling_date": "2021-05-06",
+   "publication_date": "2021-01-09",
+   "days_before_polling": 117,
+   "individual_time_window": "180_to_91_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": false,
+    "previous_90_days": false,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-surreylive-eeea7bca3fc7",
+   "election_id": "ESWS-2026-05",
+   "polling_date": "2026-05-07",
+   "publication_date": "2026-05-05",
+   "days_before_polling": 2,
+   "individual_time_window": "final_72_hours",
+   "cumulative_windows": {
+    "previous_72_hours": true,
+    "previous_7_days": true,
+    "previous_14_days": true,
+    "previous_30_days": true,
+    "previous_90_days": true,
+    "previous_180_days": true
+   },
+   "flags": []
+  },
+  {
+   "article_id": "NEWS-surreylive-fb11d4a7d847",
+   "election_id": "SCC-2017-05",
+   "polling_date": "2017-05-04",
+   "publication_date": "2017-04-19",
+   "days_before_polling": 15,
+   "individual_time_window": "30_to_15_days",
+   "cumulative_windows": {
+    "previous_72_hours": false,
+    "previous_7_days": false,
+    "previous_14_days": false,
+    "previous_30_days": true,
+    "previous_90_days": true,
+    "previous_180_days": true
+   },
+   "flags": []
+  }
+ ],
+ "excluded_post_or_out_of_window": []
+}
