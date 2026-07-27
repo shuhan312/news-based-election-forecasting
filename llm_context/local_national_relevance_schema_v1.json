@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "irp-surrey/local_national_relevance_schema_v1",
+  "title": "Local / national relevance record (Phase 6 Step 8)",
+  "description": "One focused record per canonical article: its geographic and political scope - the axis the study's local-vs-national predictive comparison rests on. Five-level scope, named geographic entities, four mention flags, issue scope, dual 0-1 relevance scores with reasoning, an electoral interpretation, and the Reform UK national-to-local addendum. Prediction and feature engineering are out of scope.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "article_id", "canonical_article_id",
+               "extraction_status", "review_status",
+               "geographic_scope", "geographic_entities",
+               "mention_flags", "issue_scope", "relevance",
+               "electoral_interpretation", "reform_uk",
+               "evidence_span", "confidence"],
+  "properties": {
+    "schema_version": {"const": "loc-nat-v1.0-2026-07-27"},
+    "article_id": {"type": "string", "minLength": 1},
+    "canonical_article_id": {"type": "string", "minLength": 1},
+    "extraction_status": {
+      "enum": ["extracted", "partial", "failed", "not_attempted"]},
+    "review_status": {"enum": ["unreviewed", "human_reviewed", "flagged"]},
+    "geographic_scope": {
+      "enum": ["ward_specific_local", "surrey_wide", "regional",
+               "national", "mixed_national_local"],
+      "description": "the specification's five-level classification"},
+    "geographic_entities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["wards", "divisions", "towns_villages", "boroughs",
+                   "surrey_county", "uk_wide"],
+      "properties": {
+        "wards": {"type": "array", "items": {"type": "string"}},
+        "divisions": {"type": "array", "items": {"type": "string"}},
+        "towns_villages": {"type": "array",
+                           "items": {"type": "string"}},
+        "boroughs": {"type": "array", "items": {"type": "string"}},
+        "surrey_county": {"type": "boolean",
+                          "description": "Surrey as a county is itself an affected area"},
+        "uk_wide": {"type": "boolean"}
+      }
+    },
+    "mention_flags": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["surrey_mentioned", "ward_mentioned",
+                   "candidate_mentioned",
+                   "national_leader_mentioned"],
+      "properties": {
+        "surrey_mentioned": {"type": "boolean"},
+        "ward_mentioned": {"type": "boolean"},
+        "candidate_mentioned": {"type": "boolean"},
+        "national_leader_mentioned": {"type": "boolean"}
+      }
+    },
+    "issue_scope": {
+      "oneOf": [{"enum": ["local_issue", "national_issue",
+                          "both_local_and_national"]},
+                {"type": "null"}],
+      "description": "null when the article discusses no political issue at all"},
+    "relevance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["local_score", "national_score", "reasoning"],
+      "properties": {
+        "local_score": {"type": "number", "minimum": 0.0,
+                        "maximum": 1.0},
+        "national_score": {"type": "number", "minimum": 0.0,
+                           "maximum": 1.0},
+        "reasoning": {
+          "type": "string", "minLength": 10,
+          "description": "the scoring rationale, weighing geographic specificity, affected population, political actors, issue ownership and electoral context"}
+      }
+    },
+    "electoral_interpretation": {
+      "enum": ["local_campaign_signal", "national_political_trend",
+               "national_local_interaction", "none"],
+      "description": "national coverage is never assumed to affect local voting without evidence - interaction requires the article to make the connection"},
+    "reform_uk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["applicable", "confidence"],
+      "properties": {
+        "applicable": {"type": "boolean"},
+        "national_momentum": {"type": "boolean"},
+        "local_surrey_activity": {"type": "boolean"},
+        "connects_national_to_local": {
+          "type": "boolean",
+          "description": "true only when the ARTICLE ITSELF links national Reform growth to local electoral competition"},
+        "ward_level_conversion_signal": {
+          "type": "boolean",
+          "description": "true only when local coverage carries ward-level conversion evidence"},
+        "evidence_span": {"oneOf": [{"$ref": "#/$defs/evidence_span"},
+                                    {"type": "null"}]},
+        "confidence": {"type": "number", "minimum": 0.0,
+                       "maximum": 1.0}
+      }
+    },
+    "evidence_span": {"$ref": "#/$defs/evidence_span"},
+    "confidence": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+    "ambiguity_notes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["reason"],
+        "properties": {"reason": {"type": "string", "minLength": 1}}
+      }
+    }
+  },
+  "$defs": {
+    "evidence_span": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text"],
+      "properties": {
+        "text": {"type": "string", "minLength": 10},
+        "from_title": {"type": "boolean", "default": false}
+      }
+    }
+  }
+}

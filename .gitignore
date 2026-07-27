@@ -66,3 +66,5 @@ llm_context/credit_blame_batch_id.txt
 llm_context/credit_blame_gap_batch_id.txt
 llm_context/electoral_consequence_outputs.json
 llm_context/elect_consq_batch_id.txt
+llm_context/local_national_relevance_outputs.json
+llm_context/loc_nat_batch_id.txt
