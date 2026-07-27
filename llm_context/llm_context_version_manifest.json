@@ -1,0 +1,129 @@
+{
+ "dataset_version": "context-cards-v1.0-pilot67-2026-07-27",
+ "schema_version": "llm-context-schema-v1-final-2026-07-27",
+ "prompt_version": "context-extraction-prompt-v1-final-2026-07-27",
+ "freeze_date": "2026-07-27",
+ "model_configuration": {
+  "model": "claude-sonnet-5",
+  "api": "Anthropic Message Batches API (50% discount)",
+  "temperature": "API default (adaptive thinking enabled; thinking={'type': 'adaptive'})",
+  "system_prompt_caching": "cache_control {'type': 'ephemeral'}",
+  "sdk": "anthropic 0.119.0 (Python)",
+  "max_tokens_per_layer": {
+   "pilot_full_schema": 40000,
+   "issues": 12000,
+   "stance": 16000,
+   "framing": 12000,
+   "credit_blame": 20000,
+   "consequence": 16000,
+   "relevance": 10000,
+   "temporal": 10000
+  },
+  "execution_dates": "2026-07-26 to 2026-07-27"
+ },
+ "article_count": 67,
+ "component_contracts": {
+  "pilot_full_schema": {
+   "file": "llm_context_pilot_outputs.json",
+   "schema_version": "llm-context-v1.1-2026-07-26",
+   "prompt_version": null,
+   "rules_version": null,
+   "batch_ids": [
+    "msgbatch_0115hJ1Q2Wubc1ipERTve7t5",
+    "msgbatch_01JCBpiQvXNuKndh2foV5y2U"
+   ]
+  },
+  "issues": {
+   "file": "issue_classification_outputs.json",
+   "schema_version": "issue-cls-v1.0-2026-07-27",
+   "prompt_version": "issue-cls-prompt-v1.0-2026-07-27",
+   "rules_version": "issue-cls-rules-v1.0-2026-07-27",
+   "batch_ids": [
+    "msgbatch_01Du9za8v81VBqv233EqmeZ2"
+   ]
+  },
+  "stance": {
+   "file": "stance_classification_outputs.json",
+   "schema_version": "stance-cls-v1.0-2026-07-27",
+   "prompt_version": "stance-cls-prompt-v1.0-2026-07-27",
+   "rules_version": "stance-cls-rules-v1.0-2026-07-27",
+   "batch_ids": [
+    "msgbatch_01FybMAQ9oKH5Yt9ntHUQpUF"
+   ]
+  },
+  "framing": {
+   "file": "framing_detection_outputs.json",
+   "schema_version": "framing-v1.0-2026-07-27",
+   "prompt_version": "framing-prompt-v1.0-2026-07-27",
+   "rules_version": "framing-rules-v1.0-2026-07-27",
+   "batch_ids": [
+    "msgbatch_01SKYEpK5iV86mHDUbKGKGne"
+   ]
+  },
+  "credit_blame": {
+   "file": "credit_blame_outputs.json",
+   "schema_version": "credit-blame-v1.1-2026-07-27",
+   "prompt_version": "credit-blame-prompt-v1.1-2026-07-27",
+   "rules_version": "credit-blame-rules-v1.0-2026-07-27",
+   "batch_ids": [
+    "msgbatch_0145Nridq1kaYAhgcAaB76mr",
+    "msgbatch_01UuHJvGvWBLF46ykqh2YQrB"
+   ]
+  },
+  "consequence": {
+   "file": "electoral_consequence_outputs.json",
+   "schema_version": "elect-consq-v1.0-2026-07-27",
+   "prompt_version": "elect-consq-prompt-v1.0-2026-07-27",
+   "rules_version": "elect-consq-rules-v1.1-2026-07-27",
+   "batch_ids": [
+    "msgbatch_0193fogkkUPSHF95D9JA2QmM"
+   ]
+  },
+  "relevance": {
+   "file": "local_national_relevance_outputs.json",
+   "schema_version": "loc-nat-v1.0-2026-07-27",
+   "prompt_version": "loc-nat-prompt-v1.0-2026-07-27",
+   "rules_version": "loc-nat-rules-v1.0-2026-07-27",
+   "batch_ids": [
+    "msgbatch_01CK9AhGzcXtvCZJwR7evPtB"
+   ]
+  },
+  "temporal": {
+   "file": "temporal_horizon_outputs.json",
+   "schema_version": "temporal-v1.0-2026-07-27",
+   "prompt_version": "temporal-prompt-v1.0-2026-07-27",
+   "rules_version": "temporal-rules-v1.0-2026-07-27",
+   "batch_ids": [
+    "msgbatch_01LmPdMaYHJZWL9jSwZkJ2aH"
+   ]
+  }
+ },
+ "input_file_hashes_sha256": {
+  "llm_context/confidence_evidence_outputs.json": "c5be58fccdcce116493e7019bd17ae2d0b392282be1ed247068a2b7f8101323e",
+  "llm_context/credit_blame_outputs.json": "b29bb4ea7c73055b08a41cef2e6ad9e0d31ffae6584fb370922d8fe46e3a92ed",
+  "llm_context/electoral_consequence_outputs.json": "13444cd1d19f2f04ef6a1226a5fb415cc5d202731f22a929c8bd7ac9836d1e1d",
+  "llm_context/framing_detection_outputs.json": "4ac635e3f80371b2caeab060ac4f2cc53c991a6f4dbea630f5829b61f6a59183",
+  "llm_context/issue_classification_outputs.json": "e6a55a183ce48155a3fca11a4ddd77f50d4ec2a752fee6ccd5d0dc78cf3000fe",
+  "llm_context/llm_context_pilot_outputs.json": "08aebba3350f571fc18617293369d47b6dff4bd042f313588a931360009349a3",
+  "llm_context/local_national_relevance_outputs.json": "02cfa0991f55f449f605148af45a968c91890b5357b09b7ca39c11bb53ce0fa5",
+  "llm_context/stance_classification_outputs.json": "3a054b15b779bdc752701a1923d96710812be0442c34f0e2eb3dd036a612fd10",
+  "llm_context/temporal_horizon_outputs.json": "058e351c37884d1965099aa2e201b81dee16f7747f798db3d99771a7566f0d63",
+  "llm_context/temporal_windows_deterministic.json": "a256d16ffcd9fd586123752d142d530e1205872dbecbc0df74d1b3f3549f37e5"
+ },
+ "frozen_output_sha256": {
+  "llm_context_layer_final.json": "72b9abf892c2d9abee9968adbef8ab23b69237ac2389fcb87a396fea8f667061"
+ },
+ "evidence_verification": {
+  "spans": 2229,
+  "verified": 2229
+ },
+ "dependencies": {
+  "python": "3.x",
+  "anthropic": "0.119.0",
+  "runtime_reconstruction": "src/llm_extraction/run_freeze.py build (offline, deterministic)"
+ },
+ "upstream_provenance": [
+  "news_collection/duplicate_mapping_layer_v1_provisional.csv (Phase 5 freeze)",
+  "llm_context/llm_context_pilot_sample_v1.csv (67-article stratified pilot sample)"
+ ]
+}

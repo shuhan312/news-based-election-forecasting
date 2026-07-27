@@ -1,0 +1,101 @@
+{
+ "schema_version": "llm-context-schema-v1-final-2026-07-27",
+ "freeze_date": "2026-07-27",
+ "description": "Final aggregated contract of the context extraction layer: one card per article, composed of the eight per-layer contracts below. Field names, types, categories and validation rules are those of each layer's schema file, unchanged. Any future change requires a new schema version released alongside, never an edit of this file.",
+ "card_required_fields": [
+  "article_id",
+  "schema_version",
+  "extraction_version",
+  "article_metadata",
+  "political_entities",
+  "issues",
+  "stance",
+  "framing",
+  "credit_blame",
+  "expected_electoral_consequence",
+  "local_national_relevance",
+  "temporal_horizon",
+  "confidence_evidence",
+  "validation_status"
+ ],
+ "component_contracts": {
+  "pilot_full_schema": {
+   "file": "llm_context_pilot_outputs.json",
+   "schema_version": "llm-context-v1.1-2026-07-26",
+   "prompt_version": null,
+   "rules_version": null,
+   "batch_ids": [
+    "msgbatch_0115hJ1Q2Wubc1ipERTve7t5",
+    "msgbatch_01JCBpiQvXNuKndh2foV5y2U"
+   ]
+  },
+  "issues": {
+   "file": "issue_classification_outputs.json",
+   "schema_version": "issue-cls-v1.0-2026-07-27",
+   "prompt_version": "issue-cls-prompt-v1.0-2026-07-27",
+   "rules_version": "issue-cls-rules-v1.0-2026-07-27",
+   "batch_ids": [
+    "msgbatch_01Du9za8v81VBqv233EqmeZ2"
+   ]
+  },
+  "stance": {
+   "file": "stance_classification_outputs.json",
+   "schema_version": "stance-cls-v1.0-2026-07-27",
+   "prompt_version": "stance-cls-prompt-v1.0-2026-07-27",
+   "rules_version": "stance-cls-rules-v1.0-2026-07-27",
+   "batch_ids": [
+    "msgbatch_01FybMAQ9oKH5Yt9ntHUQpUF"
+   ]
+  },
+  "framing": {
+   "file": "framing_detection_outputs.json",
+   "schema_version": "framing-v1.0-2026-07-27",
+   "prompt_version": "framing-prompt-v1.0-2026-07-27",
+   "rules_version": "framing-rules-v1.0-2026-07-27",
+   "batch_ids": [
+    "msgbatch_01SKYEpK5iV86mHDUbKGKGne"
+   ]
+  },
+  "credit_blame": {
+   "file": "credit_blame_outputs.json",
+   "schema_version": "credit-blame-v1.1-2026-07-27",
+   "prompt_version": "credit-blame-prompt-v1.1-2026-07-27",
+   "rules_version": "credit-blame-rules-v1.0-2026-07-27",
+   "batch_ids": [
+    "msgbatch_0145Nridq1kaYAhgcAaB76mr",
+    "msgbatch_01UuHJvGvWBLF46ykqh2YQrB"
+   ]
+  },
+  "consequence": {
+   "file": "electoral_consequence_outputs.json",
+   "schema_version": "elect-consq-v1.0-2026-07-27",
+   "prompt_version": "elect-consq-prompt-v1.0-2026-07-27",
+   "rules_version": "elect-consq-rules-v1.1-2026-07-27",
+   "batch_ids": [
+    "msgbatch_0193fogkkUPSHF95D9JA2QmM"
+   ]
+  },
+  "relevance": {
+   "file": "local_national_relevance_outputs.json",
+   "schema_version": "loc-nat-v1.0-2026-07-27",
+   "prompt_version": "loc-nat-prompt-v1.0-2026-07-27",
+   "rules_version": "loc-nat-rules-v1.0-2026-07-27",
+   "batch_ids": [
+    "msgbatch_01CK9AhGzcXtvCZJwR7evPtB"
+   ]
+  },
+  "temporal": {
+   "file": "temporal_horizon_outputs.json",
+   "schema_version": "temporal-v1.0-2026-07-27",
+   "prompt_version": "temporal-prompt-v1.0-2026-07-27",
+   "rules_version": "temporal-rules-v1.0-2026-07-27",
+   "batch_ids": [
+    "msgbatch_01LmPdMaYHJZWL9jSwZkJ2aH"
+   ]
+  }
+ },
+ "taxonomy": "issues-v1.3 (llm_context/issue_taxonomy_v1.3.json; decision D1)",
+ "issue_authority": "Step 3 focused layer only - the full-schema issues section is excluded from cards (decision D1)",
+ "validation_rules": "per-layer rule series R1-R9, S1-S7, T1-T6, F1-F6, C1-C6, E1-E6, G1-G6, H1-H6 (in src/llm_extraction/) plus freeze rules Z1-Z6 (freeze_layer.py)",
+ "decisions_log": "llm_context/phase6_research_decisions_v1.md (D1-D7)"
+}
