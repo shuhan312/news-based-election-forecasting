@@ -68,12 +68,11 @@ v1.1/v1.2 records stay valid under their own stamps; new rule S7
 forbids national codes under pre-v1.3 stamps; the classification
 prompt moves to issue-cls-prompt-v1.1 stamping issues-v1.3.
 
-**Status: provisional pending supervisor ratification on Friday.**
-Adopted ahead of the meeting because the student judged it matches
-the supervisor's intent (the national search-topic list implies
-national issues are in scope); if the supervisor prefers the
-None/other reading instead, v1.3 is simply not used at full scale -
-nothing already produced depends on it.
+**Status: adopted** (decision D1, phase6_research_decisions_v1.md).
+The extension matches the project brief's own national search-topic
+list; it is documented for the supervisor's information and remains
+reversible - old records validate under their own stamps and
+nothing already produced depends on v1.3.
 
 ### Verification
 

@@ -1,7 +1,7 @@
 {
   "taxonomy_version": "issues-v1.3",
   "supersedes": "issues-v1.2",
-  "status": "provisional - adopted ahead of supervisor ratification (Friday meeting); see issue_layer_decisions_v1.md",
+  "status": "adopted - decision D1 in phase6_research_decisions_v1.md (documented for supervisor information; reversible via version stamps)",
   "change_note": "Adds two NATIONAL codes. The Step 3 pilot showed the local-oriented taxonomy leaves most national-arm articles uncodable (23 of 67 records had no primary issue, concentrated in national politics coverage), which would blank out the local-vs-national issue-composition comparison the research design calls for. The new codes mirror the supervisor's own national search topics (party leadership, government and opposition performance, cost of living, tax). Purely additive; issues-v1.1/v1.2 records remain valid under their own stamps and rule S7 forbids the new codes under old stamps.",
   "codes": {
     "council_finance": "council budgets, funding, financial management",
