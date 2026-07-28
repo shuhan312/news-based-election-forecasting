@@ -62,6 +62,41 @@ REFORM_COUNT_BINS = [
     "reform_national_momentum"]
 
 
+def expand_window_rows(records: list[dict]) -> list[dict]:
+    """Expand article-level rows into their window memberships and
+    stamp the four non-window key values.
+
+    Shared by Step 5 (unweighted aggregation) and Step 6 (recency
+    weighting) so the two layers can never disagree about which
+    article sits in which group - a single definition, imported
+    twice, rather than two copies that drift.
+
+    Each input row yields one `individual` row (the article's single
+    disjoint window) plus one `cumulative` row per nested window it
+    belongs to.
+    """
+    expanded = []
+    for r in records:
+        pid = r.get("focal_party_id")
+        base_key = {
+            "election_id": r["election_id"],
+            "geographic_target_id": r["geographic_target_id"],
+            # NaN-safe: pandas reads an absent focal party as NaN
+            "focal_party_id": (pid if isinstance(pid, str) and pid
+                               else "(no_focal_party)"),
+            "scope_classification": r["scope_classification"],
+        }
+        expanded.append({**r, **base_key,
+                         "window_type": "individual",
+                         "window": r["individual_time_window"]})
+        for c in CUM_COLS:
+            if r.get(c) == 1:
+                expanded.append({**r, **base_key,
+                                 "window_type": "cumulative",
+                                 "window": c.removeprefix("cum_")})
+    return expanded
+
+
 def _prop(count: int, denom: int) -> float | None:
     """None when nothing was eligible (no observation), a real
     number - including 0.0 - only when the denominator is positive."""

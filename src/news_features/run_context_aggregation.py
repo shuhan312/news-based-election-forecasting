@@ -21,8 +21,9 @@ from pathlib import Path
 import pandas as pd
 
 from ..llm_extraction.freeze_layer import sha256_file
-from .context_aggregation import (AGG_VERSION, CUM_COLS, KEY_COLS,
-                                  aggregate_group)
+from .context_aggregation import (AGG_VERSION, KEY_COLS,
+                                  aggregate_group,
+                                  expand_window_rows)
 from .run_article_features import frame_categories
 
 FEATURES = Path("news_features/article_level_news_features.csv")
@@ -60,26 +61,7 @@ def build() -> None:
     # individual: exactly one window per row (partition - counts add
     # across windows). cumulative: one copy per nested window the
     # article belongs to (overlap - counts must not be summed).
-    records = df.to_dict("records")
-    expanded = []
-    for r in records:
-        base_key = {
-            "election_id": r["election_id"],
-            "geographic_target_id": r["geographic_target_id"],
-            "focal_party_id": (r["focal_party_id"]
-                               if pd.notna(r["focal_party_id"])
-                               else "(no_focal_party)"),
-            "scope_classification": r["scope_classification"],
-        }
-        expanded.append({**r, **base_key,
-                         "window_type": "individual",
-                         "window": r["individual_time_window"]})
-        for c in CUM_COLS:
-            if r.get(c) == 1:
-                expanded.append({**r, **base_key,
-                                 "window_type": "cumulative",
-                                 "window":
-                                     c.removeprefix("cum_")})
+    expanded = expand_window_rows(df.to_dict("records"))
 
     # ---- group and aggregate ----------------------------------------
     groups: dict[tuple, list[dict]] = {}
