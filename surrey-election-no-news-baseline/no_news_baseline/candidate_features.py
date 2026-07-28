@@ -101,6 +101,14 @@ ENCODING: dict[str, str] = {
     # evidence quality and missingness
     "historical_predictor_availability": CATEGORICAL,
     "geographic_reference_eligibility": CATEGORICAL,
+    # derived county-level history; numeric so that "no earlier record" stays
+    # a flagged missing value rather than becoming an implicit zero strength
+    "party_county_strength_previous": NUMERIC,
+    "party_county_strength_trend": NUMERIC,
+    "party_contests_fought_previous": NUMERIC,
+    "party_contest_rate_previous": NUMERIC,
+    "years_since_previous_comparable_election": NUMERIC,
+    "area_parties_in_previous_contest": NUMERIC,
 }
 
 # Features computed from a permitted column rather than taken from it whole.

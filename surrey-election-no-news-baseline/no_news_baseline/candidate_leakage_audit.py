@@ -296,6 +296,70 @@ FEATURE_COLUMNS: dict[str, tuple[str, str, str, str, str, str]] = {
         "New-entrant status, named in the brief's feature list and central to "
         "modelling a party with little history.",
     ),
+    # --- derived county-level history (candidate_historical_strength) -----
+    # These are aggregations over strictly earlier elections, computed in the
+    # modelling layer because the extractor's contract is source-preserving
+    # and a county-wide party mean is an analytical construct. They read
+    # earlier elections' outcomes, which is history rather than leakage - the
+    # same basis on which previous_party_vote_share is permitted - and the
+    # date rule is verified against each row's recorded contribution sources.
+    "party_county_strength_previous": (
+        PREDICTOR, "Candidate Results", "previous_election_declaration",
+        "Pooled across strictly earlier elections until at least three contests "
+        "are covered, within a five-year window. Never sourced from the "
+        "embargoed 7 May 2026 holdout.",
+        "party_county_strength_status",
+        "The party's contest-weighted mean vote share across the county in "
+        "earlier elections. It is the only historical signal a party with no "
+        "division-level record possesses, which is the situation Reform UK is "
+        "in for most divisions.",
+    ),
+    "party_county_strength_trend": (
+        PREDICTOR, "Candidate Results", "previous_election_declaration",
+        "Difference between the two most recent pooled windows; null where "
+        "only one window exists.",
+        "party_county_strength_status",
+        "Whether that county strength was rising or falling before the target "
+        "election.",
+    ),
+    "party_contests_fought_previous": (
+        PREDICTOR, "Candidate Results", "previous_election_declaration",
+        "Distinct areas, not candidate rows: a party fielding two candidates "
+        "in a two-member ward fought one contest.",
+        "party_county_strength_status",
+        "How many contests the pooled window rests on. A strength drawn from "
+        "three contests is weaker evidence than one drawn from eighty.",
+    ),
+    "party_contest_rate_previous": (
+        PREDICTOR, "Candidate Results", "previous_election_declaration",
+        "Bounded to 0-1 by construction once contests are counted by area.",
+        "party_county_strength_status",
+        "The share of available contests the party chose to fight. Distinct "
+        "from how well it did where it stood, and a signal in its own right: "
+        "Reform UK moved from 7 per cent of divisions in 2021 to 100 per cent "
+        "in 2026.",
+    ),
+    "years_since_previous_comparable_election": (
+        PREDICTOR, "Geographic Mapping", "previous_election_declaration",
+        "Measured to the approved predecessor contest only, since the gap is "
+        "meaningless between areas that are not comparable.",
+        "historical_reference_status",
+        "Named in the brief's feature list as years since previous contest.",
+    ),
+    "area_parties_in_previous_contest": (
+        PREDICTOR, "Candidate Results", "nomination_close",
+        "Counted from the contest's own ballot.",
+        "",
+        "Local-area historical competitiveness: how many distinct political "
+        "identities contested this area.",
+    ),
+    "party_county_strength_status": (
+        PROVENANCE, "Candidate Results", "previous_election_declaration",
+        "Names the elections pooled, so the date rule can be verified from the "
+        "published row rather than from the code that produced it.",
+        "party_county_strength_status",
+        "Which earlier elections contributed to the pooled county strength.",
+    ),
     # --- evidence-quality and missingness indicators ----------------------
     "historical_predictor_availability": (
         PREDICTOR, "Geographic Mapping", "statutory_order_publication",
