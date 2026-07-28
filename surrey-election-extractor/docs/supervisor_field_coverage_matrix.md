@@ -19,14 +19,14 @@ official value.
 | Authority | 20/20 events | Complete at election level. |
 | Division or ward name | 339/339 areas | Complete. |
 | Number of seats available | 311 official; 28 supplementary; 339 analysis-ready | Complete analytical structure with split provenance. |
-| Candidate name | 1,971/1,987 published and 1,971/1,987 separately standardised | Published wording is retained unchanged. Standard display names use only explicit surname-comma, Unicode and whitespace rules and never establish person identity. |
-| Party name exactly as published | 1,970/1,987 | One blank official 2013 cell remains `NULL`. |
-| Standardised party name | 1,971/1,987 | The one blank published label retains official NULL and uses the separate analytical label `No published party label`. The three observed UKIP labels share `UK Independence Party` as their standard name, while every original label is retained and Reform UK remains separate. |
-| Established, emerging, local or independent | 1,971/1,987 | The blank-label candidate is analytically unaffiliated/independent under Electoral Commission nomination guidance. |
-| Votes received | 1,971/1,987 | Complete official candidate votes. |
+| Candidate name | 1,971/1,992 published and 1,971/1,992 separately standardised | Published wording is retained unchanged. Standard display names use only explicit surname-comma, Unicode and whitespace rules and never establish person identity. |
+| Party name exactly as published | 1,970/1,992 | One blank official 2013 cell remains `NULL`. |
+| Standardised party name | 1,971/1,992 | The one blank published label retains official NULL and uses the separate analytical label `No published party label`. The three observed UKIP labels share `UK Independence Party` as their standard name, while every original label is retained and Reform UK remains separate. |
+| Established, emerging, local or independent | 1,971/1,992 | The blank-label candidate is analytically unaffiliated/independent under Electoral Commission nomination guidance. |
+| Votes received | 1,971/1,992 | Complete official candidate votes. |
 | Vote share | 1,965 official; 1,971 analysis-ready | Six governed Epsom West 2015 calculations remain separate. |
 | Final position | 0 official; 1,971 derived | Competition rank is available for analysis; all official cells remain `NULL`; 8 rows are tied. |
-| Elected, Yes or No | 1,971/1,987 | Recoded only from explicit official Outcome. |
+| Elected, Yes or No | 1,971/1,992 | Recoded only from explicit official Outcome. |
 | Winning candidate and party | 258 single-winner summaries; elected-name/party lists for 339/339 | Multi-member wards retain both elected candidates and do not receive an arbitrary single winner. |
 | Winning margin | 0 official; 339 analysis-ready | 258 runner-up gaps plus 81 explicitly labelled final-seat cutoff gaps. |
 | Electorate | 338/339 official | One documented unsupported source value. |
@@ -34,13 +34,13 @@ official value.
 | Turnout | 254 official; 337 supported | Two documented unsupported areas after permitted layers. |
 | Rejected ballots | 337 official; 338 supported | One documented unsupported area after permitted layers. |
 | Previous winning party | 201/339 areas | Only approved historical relations. |
-| Previous party vote share | 1,037/1,987 candidate rows | Exact published current-party label in an approved predecessor; not a reconstructed party total. |
-| Change in vote share | 791/1,987 candidate rows | Outcome diagnostic, prohibited from the no-news predictor. |
-| Candidate previously stood, Yes or No | 355 True; 1,274 False; 358 Unknown | Unknown is confined to the 2013 first-period boundary. |
-| Incumbent candidate, Yes or No | 115 Yes; 1,514 No; 358 Unknown | Unknown is confined to 2013; later values use the complete pre-election roster. |
-| Incumbent party, Yes or No | 170 Yes; 627 No; 1,190 Unknown | Unknown preserves unavailable or non-comparable historical geography. |
-| First appearance of party in area, Yes or No | 1,055/1,987 | First observed exact label in an approved project lineage, not historical origin. |
-| Source URL | 1,971/1,987 candidate rows | Complete official candidate provenance. |
+| Previous party vote share | 1,042/1,992 candidate rows | Exact published current-party label in an approved predecessor; not a reconstructed party total. |
+| Change in vote share | 796/1,992 candidate rows | Outcome diagnostic, prohibited from the no-news predictor. |
+| Candidate previously stood, Yes or No | 360 True; 1,274 False; 358 Unknown | Unknown is confined to the 2013 first-period boundary. |
+| Incumbent candidate, Yes or No | 116 Yes; 1,518 No; 358 Unknown | Unknown is confined to 2013; later values use the complete pre-election roster. |
+| Incumbent party, Yes or No | 171 Yes; 631 No; 1,190 Unknown | Unknown preserves unavailable or non-comparable historical geography. |
+| First appearance of party in area, Yes or No | 1,060/1,992 | First observed exact label in an approved project lineage, not historical origin. |
+| Source URL | 1,971/1,992 candidate rows | Complete official candidate provenance. |
 | Notes | 1,700 populated; 271 `NULL` | `NULL` means no row-specific limitation was recorded, not missing provenance. |
 
 ## Interpretation rules

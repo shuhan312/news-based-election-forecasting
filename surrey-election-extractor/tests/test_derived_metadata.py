@@ -163,12 +163,12 @@ def test_master_database_exports_single_member_margins_without_filling_official_
         if row["election_id"] == "surrey-county-council-2026-east-surrey"
     )
 
-    # Official single-seat evidence supports 233 calculations. The remaining
+    # Official single-seat evidence supports 234 calculations. The remaining
     # 28 one-seat 2021 divisions have only supplementary Seats evidence, which
     # is deliberately not accepted as a same-page input to a derived margin.
     # The same-page derived table remains deliberately single-seat. The
     # separate analysis layer handles the documented multi-seat cutoff margin.
-    assert len(derived) == 233
+    assert len(derived) == 234
     assert reigate["winning_margin"] is None
     assert reigate["winning_margin_status"] == "derived_single_member_margin_available"
     assert east_ward["winning_margin"] is None

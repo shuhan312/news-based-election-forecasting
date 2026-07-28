@@ -24,10 +24,10 @@ def test_previous_party_vote_share_release_has_only_audited_residual_nulls() -> 
     ).candidate_results
     statuses = Counter(str(row["previous_party_vote_share_status"]) for row in rows)
 
-    assert len(rows) == 1_987
-    assert sum(row["previous_party_vote_share"] is not None for row in rows) == 1_037
+    assert len(rows) == 1_992
+    assert sum(row["previous_party_vote_share"] is not None for row in rows) == 1_042
     assert statuses == {
-        "derived_single_member_exact_label_prior_candidate_share": 1_037,
+        "derived_single_member_exact_label_prior_candidate_share": 1_042,
         "not_derived_no_approved_exact_label_reference": 932,
         "not_derived_generic_independent_label_not_identifying": 12,
         "not_derived_current_exact_label_not_unique": 4,

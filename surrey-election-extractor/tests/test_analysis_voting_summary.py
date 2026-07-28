@@ -97,13 +97,13 @@ def test_release_has_audited_last_seat_analysis_margins_for_every_area() -> None
         if row["field_name"] == "analysis_winning_margin"
     ]
 
-    assert len(margins) == 342
-    assert sum(row["value"] is not None for row in margins) == 342
+    assert len(margins) == 343
+    assert sum(row["value"] is not None for row in margins) == 343
     assert sum(
         row["provenance_layer"]
         == "governed_derived_from_official_candidate_votes_and_official_seats"
         for row in margins
-    ) == 314
+    ) == 315
     assert sum(
         row["provenance_layer"]
         == "governed_derived_from_official_candidate_votes_and_supplementary_official_seats"
@@ -113,14 +113,14 @@ def test_release_has_audited_last_seat_analysis_margins_for_every_area() -> None
 
     # Every pre-existing same-page single-seat calculation must equal the new
     # analysis value. This proves that extending coverage did not change the
-    # established 233 margins or introduce a competing single-seat formula.
+    # established 234 margins or introduce a competing single-seat formula.
     analysis_by_division = {row["division_id"]: row["value"] for row in margins}
     existing_derived = [
         row
         for row in payload.derived_metadata
         if row["field_name"] == "derived_winning_margin"
     ]
-    assert len(existing_derived) == 233
+    assert len(existing_derived) == 234
     assert all(
         analysis_by_division[row["division_id"]] == row["value"]
         for row in existing_derived

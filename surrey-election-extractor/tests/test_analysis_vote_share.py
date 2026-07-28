@@ -67,12 +67,12 @@ def test_release_has_complete_analysis_share_without_filling_official_nulls() ->
     rows = payload.candidate_results
     epsom_rows = [row for row in rows if row["election_id"] == EPSOM_EVENT_ID]
 
-    assert len(rows) == 1_987
-    assert sum(row["vote_share"] is not None for row in rows) == 1_981
-    assert sum(row["analysis_vote_share"] is not None for row in rows) == 1_987
+    assert len(rows) == 1_992
+    assert sum(row["vote_share"] is not None for row in rows) == 1_986
+    assert sum(row["analysis_vote_share"] is not None for row in rows) == 1_992
     assert len(epsom_rows) == 6
     assert all(row["vote_share"] is None for row in epsom_rows)
     assert all(row["analysis_vote_share"] is not None for row in epsom_rows)
-    assert payload.audit_summary["candidate_rows_with_official_vote_share"] == 1_981
-    assert payload.audit_summary["candidate_rows_with_analysis_vote_share"] == 1_987
+    assert payload.audit_summary["candidate_rows_with_official_vote_share"] == 1_986
+    assert payload.audit_summary["candidate_rows_with_analysis_vote_share"] == 1_992
     assert payload.audit_summary["candidate_rows_with_derived_analysis_vote_share"] == 6

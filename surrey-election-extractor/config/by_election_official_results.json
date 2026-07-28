@@ -745,6 +745,59 @@
       ]
     },
     {
+      "election_id": "surrey-county-council-by-election-walton-south-oatlands-2023-05-04",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=341&RPID=0",
+      "source_title": "Election results for Walton South & Oatlands, 4 May 2023",
+      "source_publisher": "Surrey County Council",
+      "source_format": "official_result_page",
+      "evidence_text": "Official Surrey County Council result page. It publishes the candidate table with vote shares, the total votes cast and the rejected-ballot breakdown, but not the electorate, ballot papers issued or turnout, so those three stay NULL.",
+      "voting_summary": {
+        "seats": 1,
+        "total_votes": 4899,
+        "electorate": null,
+        "ballot_papers_issued": null,
+        "rejected_ballots": 26,
+        "turnout": null
+      },
+      "candidates": [
+        {
+          "candidate_name": "Ashley Richard Tilling",
+          "original_party_name": "Liberal Democrats",
+          "votes": 2162,
+          "vote_share": 44.0,
+          "elected_status": "Elected"
+        },
+        {
+          "candidate_name": "Hilary Clare Butler",
+          "original_party_name": "Conservative",
+          "votes": 2077,
+          "vote_share": 42.0,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Warren Weertman",
+          "original_party_name": "Labour and Co-operative",
+          "votes": 311,
+          "vote_share": 6.0,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Steven Lee Ringham",
+          "original_party_name": "The Green Party",
+          "votes": 235,
+          "vote_share": 5.0,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Nicholas David Wood",
+          "original_party_name": "UK Independence Party",
+          "votes": 114,
+          "vote_share": 2.0,
+          "elected_status": "Not elected"
+        }
+      ]
+    },
+    {
       "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
       "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=256",
       "source_title": "Election results for Warlingham, 31 January 2019",

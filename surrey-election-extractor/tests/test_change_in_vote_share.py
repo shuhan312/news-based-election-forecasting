@@ -61,10 +61,10 @@ def test_release_change_coverage_respects_comparability_and_leakage_boundary() -
     rows = payload.candidate_results
     statuses = Counter(str(row["change_in_vote_share_status"]) for row in rows)
 
-    assert len(rows) == 1_987
-    assert sum(row["change_in_vote_share"] is not None for row in rows) == 791
+    assert len(rows) == 1_992
+    assert sum(row["change_in_vote_share"] is not None for row in rows) == 796
     assert statuses == {
-        "outcome_diagnostic_exact_label_single_member_change_available": 791,
+        "outcome_diagnostic_exact_label_single_member_change_available": 796,
         "not_calculated_current_contest_not_single_member": 246,
         "not_calculated_no_approved_exact_label_previous_share": 950,
     }
@@ -81,7 +81,7 @@ def test_release_change_coverage_respects_comparability_and_leakage_boundary() -
             "surrey-county-council-2026-west-surrey",
         }
     )
-    assert payload.audit_summary["candidate_rows_with_change_in_vote_share"] == 791
+    assert payload.audit_summary["candidate_rows_with_change_in_vote_share"] == 796
     assert payload.audit_summary["candidate_rows_change_blocked_multi_member"] == 246
     assert payload.audit_summary[
         "candidate_rows_change_without_approved_previous_share"

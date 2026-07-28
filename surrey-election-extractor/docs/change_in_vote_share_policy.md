@@ -37,7 +37,7 @@ reference-supported 2026 candidate rows therefore remain `NULL` for this field.
 
 ## Current release
 
-- 791/1,987 candidate rows have a governed outcome-diagnostic change.
+- 796/1,992 candidate rows have a governed outcome-diagnostic change.
 - 246 rows are blocked because the current contest is multi-member.
 - 950 rows lack an approved exact-label previous share.
 - 0 values are permitted in the no-news baseline.

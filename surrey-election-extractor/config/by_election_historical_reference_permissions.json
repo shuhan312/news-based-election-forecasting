@@ -119,6 +119,15 @@
       "reason": "Exact division name under the pre-2024 statutory arrangement; both official candidate tables are single-member and exact-label eligible."
     },
     {
+      "election_id": "surrey-county-council-by-election-walton-south-oatlands-2023-05-04",
+      "decision": "approved_same_statutory_division",
+      "previous_election_id": "surrey-county-council-2021",
+      "previous_division_name": "Walton South & Oatlands",
+      "continuity_evidence_url": "https://www.legislation.gov.uk/uksi/2012/1872/contents/made",
+      "single_member_evidence_url": "https://www.legislation.gov.uk/uksi/2012/1872/contents/made",
+      "reason": "The 2012 Electoral Changes Order divisions ran unchanged from 2013 to the 2024 review, so this 2023 by-election contests the same statutory single-member division as 2021."
+    },
+    {
       "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
       "decision": "approved_same_statutory_division",
       "previous_election_id": "surrey-county-council-2017",

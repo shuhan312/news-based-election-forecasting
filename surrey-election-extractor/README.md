@@ -215,10 +215,10 @@ The final clean-environment checks and prompt-coverage summary are recorded in
 
 - 20 election events: the 2013, 2017 and 2021 principal elections, separate
   East and West Surrey 2026 elections, and all 15 configured by-elections.
-- 1,987 candidate rows and 342 division or ward rows.
+- 1,992 candidate rows and 343 division or ward rows.
 - Official values remain unchanged; supplementary, derived and analysis layers
   retain separate provenance and status fields.
-- 24 reviewed 2021→2026 geographic relations and 204 approved historical
+- 24 reviewed 2021→2026 geographic relations and 205 approved historical
   references across principal elections, by-elections and 2026.
 - Complete analysis vote share and derived competition rank coverage, with
   official publication gaps retained visibly.
@@ -278,8 +278,8 @@ are retained. Fuzzy candidate matching, UKIP/Reform merging, unapproved
 boundary transfer and vote redistribution are prohibited.
 
 The election master is release-ready with visible evidence boundaries. The
-no-news input release now includes both the 342-row division history table and
-a separate 1,619-row party-contest publication. Predictors and target-election
-outcomes are stored separately; 791 single-member party contests have an
+no-news input release now includes both the 343-row division history table and
+a separate 1,624-row party-contest publication. Predictors and target-election
+outcomes are stored separately; 796 single-member party contests have an
 approved lagged party share for the primary baseline experiment. Model fitting,
 temporal evaluation and release of baseline predictions remain downstream.

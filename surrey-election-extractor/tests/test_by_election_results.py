@@ -29,9 +29,9 @@ def test_catalogue_and_official_result_evidence_remain_separate() -> None:
     catalogue = load_by_election_catalogue()
     evidence = load_by_election_result_evidence(catalogue=catalogue)
 
-    assert len(catalogue) == 18
-    assert len(evidence) == 18
-    assert sum(len(item.records) for item in evidence) == 89
+    assert len(catalogue) == 19
+    assert len(evidence) == 19
+    assert sum(len(item.records) for item in evidence) == 94
     assert len(unavailable_by_election_ids(catalogue, evidence)) == 0
     # Surrey is the primary source. Epsom West and Haslemere are documented
     # local-authority publication routes for Surrey County Council contests.
@@ -252,8 +252,8 @@ def test_master_database_includes_events_and_candidate_rows_without_identity_inf
         row for row in database.candidate_results if row["election_id"] in by_election_ids
     ]
 
-    assert len([row for row in database.elections if row["election_id"] in by_election_ids]) == 18
-    assert len(by_election_rows) == 89
+    assert len([row for row in database.elections if row["election_id"] in by_election_ids]) == 19
+    assert len(by_election_rows) == 94
     assert all(row["final_position"] is None for row in by_election_rows)
     assert any(
         row["division_id"].startswith(
@@ -291,7 +291,7 @@ def test_event_audit_reports_complete_candidate_source_coverage() -> None:
     rows = evidence_audit_rows()
     missing = [row for row in rows if row["candidate_record_count"] is None]
 
-    assert len(rows) == 18
+    assert len(rows) == 19
     assert missing == []
     assert all(row["result_source_url"] for row in rows)
     assert all(row["provenance"] == "published_official_candidate_result" for row in rows)
