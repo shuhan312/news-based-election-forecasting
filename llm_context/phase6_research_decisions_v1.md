@@ -155,6 +155,70 @@ absence values as absence, full stop.
 
 **Reversal path.** One feature-engineering configuration line.
 
+## D8 - Deepening the approved collection stages
+
+**Decision (2026-07-28).** Three collection settings that were
+limiting the local arm are changed, without changing the approved
+protocol's sources, windows or eligibility rules.
+
+1. **Per-query fetch cap removed.** The stage D Wayback harvest ran
+   with `--per-query-cap 8`, a bounded first pass. The CDX index had
+   returned 2,994 archived local pages and 110 were fetched. The
+   stage was re-run uncapped: +2,810 records (BBC Surrey 1,652,
+   SurreyLive 777, Surrey Comet 355, Guildford Dragon 26), 97% with
+   full text and 89% with a confirmed date.
+2. **Three publishers re-routed.** Farnham Herald, Woking News &
+   Mail and Epsom & Ewell Times were already in the protocol via
+   site search, but two of them render search results with
+   client-side JavaScript and returned zero links (collection report
+   issue U1). They now also run through the Wayback CDX route:
+   +1,254 records, all in the 2026 window.
+3. **CDX URL filter broadened** for whole-domain sources, from
+   `.*election.*` to `.*(election|council|vote|candidate|politic).*`.
+   Measurement showed the narrow filter was the binding constraint:
+   SurreyLive holds 3,000+ archived pages per election window, but
+   only URLs literally containing "election" were harvested, so a
+   story at `/surrey-council-tax-rise-approved` was dropped.
+
+**Why this is deepening, not redesign.** Same sources, same 180-day
+windows, same eligibility rules I1-I6 / E1-E10, same pre-registered
+division sample. What changed is how much of an already-approved
+search was actually fetched.
+
+**Audit integrity.** Article writes are idempotent, so re-running a
+query returns "exists" rather than duplicating. Re-runs append a new
+search-log row and never edit the original, so the shallow first
+pass stays visible. The frozen v1 corpus (1,546 articles) was
+verified row by row as byte-unchanged; expanded date-resolution and
+eligibility outputs are written as `*_v2.csv` alongside v1, never
+over it.
+
+**Reversal path.** The v1 corpus and its frozen Phase 5/6/7 chain
+are untouched, so dropping the new material means simply not
+building the v2 corpus.
+
+## D9 - The ward grid is scoped by the pre-registered sample
+
+**Decision (2026-07-28).** The Step 7 expected-observation grid now
+marks ward cells outside the pre-registered 17-division sample as
+`not_applicable`, not `insufficient_search_coverage`.
+
+**Why.** The brief's to-do 7 asks for ward-tier collection on a
+sample of 15-25 divisions, and the project pre-registered 17
+(`news_protocol/division_sample.md`, strata: safe, marginal,
+changed, Reform-strong, Reform-weak). Enumerating all 81 divisions
+and reporting the other 64 as "insufficient search coverage"
+described a sampling decision as a collection failure. Inside the
+frame, ward-tier search executed for 100% of cells.
+
+**Guard.** The sampling frame explains empty cells only; it never
+erases an observation. A ward outside the frame that nonetheless has
+eligible articles stays `observed_news` - tested.
+
+**Reversal path.** One column (`in_division_sample`) and one
+validity rule; widening the sample means re-running collection for
+the added divisions and rebuilding the grid.
+
 ---
 
 Standing execution parameters (unchanged): frozen model

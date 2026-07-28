@@ -122,8 +122,20 @@ STATES = ("observed_news", "confirmed_zero_news",
 
 def is_valid_combination(target_level: str, scope: str,
                          election_id: str,
-                         party_name: str | None) -> tuple[bool, str]:
-    """Politically/structurally valid? Returns (valid, reason)."""
+                         party_name: str | None,
+                         in_division_sample: bool = True
+                         ) -> tuple[bool, str]:
+    """Politically/structurally valid? Returns (valid, reason).
+
+    ``in_division_sample`` implements the protocol's own scope: the
+    supervisor's brief (to-do 7) asks for ward-tier collection on a
+    pre-registered sample of 15-25 divisions, and the project
+    committed 17 in news_protocol/division_sample.md. Divisions
+    outside that sample were never in scope for ward-tier search, so
+    an empty cell there is NOT "insufficient search coverage" - it is
+    simply outside the sampling frame, and must stay outside ordinary
+    modelling denominators.
+    """
     if target_level == "ward" and scope not in WARD_VALID_SCOPES:
         return False, (f"{scope} articles are never attributed to a "
                        "single ward (pipeline rule: national and "
@@ -132,6 +144,11 @@ def is_valid_combination(target_level: str, scope: str,
             and election_id in REFORM_ABSENT_ELECTIONS:
         return False, ("Reform UK did not exist at this election; "
                        "tracked as emerging-party comparison only")
+    if target_level == "ward" and not in_division_sample:
+        return False, ("outside the pre-registered 17-division "
+                       "sample (protocol division_sample.md, "
+                       "supervisor to-do 7) - never in scope for "
+                       "ward-tier collection")
     return True, ""
 
 

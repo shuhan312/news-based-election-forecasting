@@ -104,7 +104,40 @@ COUNTY_ON_GUARDIAN = {
 # audited expected_coverage=none are excluded up front - querying a live
 # site for years it did not exist wastes budget and pollutes logs.
 CDX_SOURCES = ["surreylive", "bbc_surrey", "surrey_comet",
-               "guildford_dragon"]
+               "guildford_dragon",
+               # Added 2026-07-28 as a ROUTE SUBSTITUTION, not a scope
+               # expansion: these three publishers were already in the
+               # approved protocol via site search (SITE_SEARCH_SOURCES
+               # below), but two of them render search results with
+               # client-side JavaScript and returned zero links
+               # (collection report U1). CDX reaches the same
+               # publishers' archived articles instead.
+               "farnham_herald", "woking_news_mail",
+               "epsom_ewell_times"]
+# CDX URL-regex filter per source. BBC Surrey needs none - its prefix
+# target (bbc.co.uk/news/uk-england-surrey) is already topic-bounded.
+# Whole-domain sources need one, or the harvest pulls in sport,
+# obituaries and classifieds. The three publishers added above use a
+# broader political regex than the original `.*election.*` because
+# their pre-election political coverage is largely council-and-
+# candidate reporting whose URLs never contain the word "election".
+CDX_BROAD_POLITICAL = ".*(election|council|vote|candidate|politic).*"
+CDX_FILTERS = {
+    "bbc_surrey": None,
+    "farnham_herald": CDX_BROAD_POLITICAL,
+    "woking_news_mail": CDX_BROAD_POLITICAL,
+    "epsom_ewell_times": CDX_BROAD_POLITICAL,
+    # Broadened 2026-07-28. The original `.*election.*` filter was
+    # measured to be the binding constraint on these two: the CDX
+    # index holds 3,000+ archived pages per election window for
+    # SurreyLive, but only URLs literally containing "election" were
+    # harvested, so a story at /surrey-council-tax-rise-approved was
+    # dropped. The broadened queries carry new query_ids (the id is a
+    # hash over the query text), so the original narrow queries stay
+    # in the inventory and the log as an unedited historical record.
+    "surreylive": CDX_BROAD_POLITICAL,
+    "surrey_comet": CDX_BROAD_POLITICAL,
+}
 SITE_SEARCH_SOURCES = {
     "woking_news_mail":  ["SCC-2017-05", "SCC-2021-05", "ESWS-2026-05"],
     "farnham_herald":    list(ELECTIONS),
@@ -429,7 +462,7 @@ def build():
         for src in CDX_SOURCES:
             stage = ("B" if (src == "surreylive"
                              and eid == "ESWS-2026-05") else "D")
-            regex = None if src == "bbc_surrey" else ".*election.*"
+            regex = CDX_FILTERS.get(src, ".*election.*")
             rows.append(row(eid, "county_cdx", regex or "", src,
                             "surrey-county", "wayback_cdx", "local", stage))
 

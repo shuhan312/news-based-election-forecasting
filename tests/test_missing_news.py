@@ -183,9 +183,9 @@ def test_stage_m_sensitive_cells_remain_pending(grid):
 
 @needs_data
 def test_local_and_national_coverage_assessed_separately(grid):
-    """A ward can be insufficiently covered while the same
-    election's national scope is only pending - the two scopes must
-    not share a state."""
+    """Ward and national scopes are assessed on separate rows and do
+    not share a state; national adequacy never stands in for ward
+    coverage."""
     ward_local = grid[(grid["geographic_target_level"] == "ward")
                       & (grid["scope_classification"]
                          == "ward_specific_local")]
@@ -194,12 +194,32 @@ def test_local_and_national_coverage_assessed_separately(grid):
                   == "national_political")]
     assert set(ward_local["coverage_status"]) \
         != set(nat["coverage_status"])
-    assert "insufficient_search_coverage" \
-        in set(ward_local["coverage_status"])
-    # national coverage never substitutes for ward coverage
+    # a ward-tier search that never ran can never be a confirmed zero,
+    # whatever the national arm looks like
     assert (ward_local.loc[ward_local[
         "evidence_ward_tier_search_executed"] == 0,
-        "coverage_status"] == "insufficient_search_coverage").all()
+        "zero_news_indicator"] == 0).all()
+
+
+@needs_data
+def test_sampling_frame_scopes_the_ward_grid(grid):
+    """Ward-tier collection was pre-registered over 17 divisions
+    (supervisor to-do 7). Inside that frame the search actually ran;
+    outside it the cells are not_applicable, not 'insufficient
+    coverage' - they were never in scope."""
+    ward = grid[grid["geographic_target_level"] == "ward"]
+    inside = ward[ward["in_division_sample"] == 1]
+    outside = ward[(ward["in_division_sample"] == 0)
+                   & (ward["n_contributing_articles"] == 0)]
+    assert len(inside) > 0 and len(outside) > 0
+    assert (inside["evidence_ward_tier_search_executed"] == 1).all()
+    assert (outside["coverage_status"] == "not_applicable").all()
+    # an observation is never erased by the sampling frame
+    observed_outside = ward[(ward["in_division_sample"] == 0)
+                            & (ward["n_contributing_articles"] > 0)]
+    if len(observed_outside):
+        assert (observed_outside["coverage_status"]
+                == "observed_news").all()
 
 
 @needs_data

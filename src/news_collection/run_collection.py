@@ -49,6 +49,13 @@ def main():
                         "use this to stay under a search-engine quota "
                         "(Google CSE / SerpAPI); already-completed "
                         "queries do not count")
+    ap.add_argument("--redo-completed", action="store_true",
+                    help="re-execute already-checkpointed queries - "
+                         "use to DEEPEN a stage first run with a small "
+                         "--per-query-cap, whose remaining hits would "
+                         "otherwise stay unfetched forever. Writes are "
+                         "idempotent and a re-run appends a new log "
+                         "row, so the shallow pass stays auditable")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
@@ -71,7 +78,8 @@ def main():
     stats = run(queries, fetch_budget=args.budget,
                 per_query_fetch_cap=args.per_query_cap,
                 max_new_searches=args.max_queries,
-                dry_run=args.dry_run)
+                dry_run=args.dry_run,
+                redo_completed=args.redo_completed)
     print(stats)
 
 

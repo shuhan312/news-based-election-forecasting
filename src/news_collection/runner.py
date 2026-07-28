@@ -86,7 +86,7 @@ def make_adapters():
 
 
 def run(queries, *, fetch_budget=400, per_query_fetch_cap=None,
-        max_new_searches=None, dry_run=False):
+        max_new_searches=None, dry_run=False, redo_completed=False):
     """Execute a list of inventory queries (already filtered by the
     caller to the intended stage).  Returns run statistics.
 
@@ -104,16 +104,32 @@ def run(queries, *, fetch_budget=400, per_query_fetch_cap=None,
                         this counter increments, so resuming a
                         partially-done stage never wastes quota
                         re-counting work already paid for.
+    redo_completed      re-execute queries that are already
+                        checkpointed. Needed to DEEPEN a stage that
+                        was first run with a small per_query_fetch_cap:
+                        the shallow pass recorded "done" after taking
+                        only the first N hits, so without this flag the
+                        remaining hits stay unfetched forever. Safe by
+                        design - article writes are idempotent (already
+                        known articles return "exists") and a re-run
+                        appends a NEW search-log row rather than editing
+                        the original, so the shallow pass stays visible
+                        in the audit trail.
     """
     adapters = make_adapters()
+    # `done` is the persisted checkpoint and must keep every other
+    # stage's entries - it is written back after each query. `skip` is
+    # what this invocation refuses to re-run, which is the whole
+    # checkpoint normally and nothing when deepening.
     done = load_checkpoint()
+    skip = set() if redo_completed else done
     stats = {"queries_run": 0, "skipped_done": 0, "written": 0,
              "existing": 0, "quarantined": 0, "failures": 0}
     fetches = 0
     new_searches = 0
 
     for q in queries:
-        if q["query_id"] in done:
+        if q["query_id"] in skip:
             stats["skipped_done"] += 1
             continue
         if fetches >= fetch_budget:

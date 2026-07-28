@@ -162,6 +162,18 @@ class WaybackAdapter:
                          "match": "domain", "prefer_live": False},
         "guildford_dragon": {"cdx_url": "guildford-dragon.com",
                              "match": "domain", "prefer_live": True},
+        # Route substitution, not scope expansion: these three
+        # publishers are already in the approved protocol (stage B),
+        # but their site-search endpoints render results with
+        # client-side JavaScript, so static harvesting returned zero
+        # links for two of them (collection report U1). The CDX route
+        # reaches the same publishers' archived articles instead.
+        "farnham_herald":    {"cdx_url": "farnhamherald.com",
+                              "match": "domain", "prefer_live": True},
+        "woking_news_mail":  {"cdx_url": "wokingnewsandmail.co.uk",
+                              "match": "domain", "prefer_live": True},
+        "epsom_ewell_times": {"cdx_url": "epsomandewelltimes.com",
+                              "match": "domain", "prefer_live": True},
     }
 
     def search(self, query):

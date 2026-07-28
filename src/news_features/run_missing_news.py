@@ -29,6 +29,7 @@ from .missing_news import (ALL_SCOPES, CUMULATIVE_WINDOWS,
 from .run_alignment import RESULT_SOURCES, load_registries
 
 ELEC_DIR = Path("data/elections")
+DIVISION_SAMPLE = Path("news_protocol/division_sample.csv")
 NC = Path("news_collection")
 QUERY_INVENTORY = NC / "query_inventory.csv"
 SEARCH_LOG = NC / "search_log.csv"
@@ -134,6 +135,11 @@ def build() -> None:
     agg_before = AGG_CSV.read_bytes()
     weighted_before = sha256_file(WEIGHTED)
 
+    # the pre-registered ward-tier sampling frame (supervisor to-do 7)
+    sampled = {norm(r["division"])
+               for r in csv.DictReader(DIVISION_SAMPLE.open())
+               if r.get("division")}
+
     ev = load_coverage_evidence()
     ward_parties, elec_parties = load_expected_entities()
     contributions = json.loads(CONTRIB.read_text())["contributions"]
@@ -156,9 +162,16 @@ def build() -> None:
         if key in seen:
             return
         seen.add(key)
-        valid, invalid_reason = is_valid_combination(
-            level, scope, eid, pname)
         n = observed.get(key, 0)
+        in_sample = (level != "ward"
+                     or norm(target_id.split(":", 1)[1]) in sampled)
+        # The sampling frame explains EMPTY cells; it never erases an
+        # observation. A ward outside the frame that nonetheless has
+        # eligible articles (county-wide coverage naming it, or the
+        # 2026 candidate guide) stays observed_news.
+        valid, invalid_reason = is_valid_combination(
+            level, scope, eid, pname,
+            in_division_sample=in_sample or n > 0)
         ward_key = (eid, norm(target_id.split(":", 1)[1])) \
             if level == "ward" else None
         evidence = {
@@ -190,6 +203,7 @@ def build() -> None:
             "scope_classification": scope,
             "n_contributing_articles": n,
             "grid_source": grid_source,
+            "in_division_sample": int(in_sample),
             **{f"evidence_{k}": int(v) for k, v in evidence.items()},
             **assess_cell(valid=valid, invalid_reason=invalid_reason,
                           n_articles=n, evidence=evidence),
@@ -257,7 +271,14 @@ def build() -> None:
     ward = df[df["geographic_target_level"] == "ward"]
     ew = df[df["geographic_target_level"] == "election_wide"]
     print("ward cells:", len(ward), "| election-wide cells:", len(ew))
-    print("ward-tier search executed:",
+    in_s = ward[ward["in_division_sample"] == 1]
+    print("ward cells inside the sampling frame:", len(in_s),
+          "| outside:", len(ward) - len(in_s))
+    print("ward-tier search executed (in-sample only):",
+          int(in_s["evidence_ward_tier_search_executed"].sum()),
+          f"({in_s['evidence_ward_tier_search_executed'].mean():.1%})"
+          if len(in_s) else "")
+    print("ward-tier search executed (all):",
           int(ward["evidence_ward_tier_search_executed"].sum()),
           f"({ward['evidence_ward_tier_search_executed'].mean():.1%})")
     print("Stage M records pending per election:",
