@@ -55,3 +55,7 @@ outputs/candidate_continuity_review/
 *.key
 secrets.toml
 .streamlit/secrets.toml
+
+# Candidate-contest predictors, targets and counts are deterministic generated
+# modelling inputs, same policy as the party-contest release above.
+outputs/no_news_candidate_contests/
