@@ -176,6 +176,68 @@ party this project is about.
 That figure rests on **14 rows**. It is reported because it is what the data
 says, and it must not be quoted without the sample size.
 
+## Why the model predicts what it does
+
+Exact TreeSHAP contributions for the selected architecture, measured on the
+838 holdout rows. Values are on the model's own scale, where 1.0 is the
+contest's equal split.
+
+### The Reform UK under-prediction, decomposed
+
+| Reform UK, 163 holdout rows | contribution |
+| --- | ---: |
+| base value (model's average output) | 0.9962 |
+| is an established-category party | **+0.1514** |
+| is not the Conservative party | **−0.0969** |
+| previous party vote share (low) | **−0.0880** |
+| was not the previous winner | −0.0382 |
+| is not a local-category party | −0.0370 |
+| **final mean prediction** | **0.8932** |
+
+Observed Reform UK performance was **1.11** times the equal split
+(10.80 per cent against a 9.75 per cent mean). The model starts at the
+average, is pushed up by Reform's party category, then pushed below the equal
+split by every historical feature it has — because Reform has no useful
+history to be pushed up by. It treats Reform as an ordinary party with a weak
+record rather than as a party undergoing a step change.
+
+### The Conservative comparison, which is the mirror image
+
+| Conservative, holdout | contribution |
+| --- | ---: |
+| is the Conservative party | **+0.4256** |
+| previous party vote share | **+0.0498** |
+| election year | −0.0918 |
+| **final mean prediction** | **1.3861** |
+
+`previous_party_vote_share` contributes **+0.0498 for the Conservatives and
+−0.0880 for Reform UK**. The same feature pushes the two parties in opposite
+directions.
+
+That resolves a question the linear diagnostics raised and could not answer.
+Under Architecture C, `previous_party_vote_share` changes sign between folds
+and is flagged unstable — yet Architecture B relies on it more than any other
+non-identity feature. Both observations are consistent once the SHAP
+decomposition is seen: the feature's effect is conditional on party, a linear
+model can only fit one average slope for it, and that average is torn between
+folds depending on the party mix each fold happens to contain. The tree can
+condition, so it uses the feature the linear model had to discard.
+
+### Gain and SHAP disagree, and the disagreement is informative
+
+| feature | gain rank | SHAP rank | gap |
+| --- | ---: | ---: | ---: |
+| `candidate_count_in_contest` | 6 | 13 | 7 |
+| `analysis_previous_turnout__missing` | 16 | 10 | 6 |
+| `is_ukip__true` | 15 | 20 | 5 |
+
+Gain measures how much a feature improved the objective while the trees were
+being built; SHAP measures how much it moves predictions on the rows being
+explained. `candidate_count_in_contest` is useful for splitting during
+training but barely moves the holdout, which is expected: the target is
+already expressed as a multiple of the equal split, so contest size has been
+divided out of the quantity being predicted.
+
 ## Known limitations
 
 1. **The baseline does not predict the 2026 election.** Winner accuracy is
@@ -214,7 +276,18 @@ says, and it must not be quoted without the sample size.
    of zero. Including them would improve in-sample fit and contribute nothing
    out of sample.
 
-6. **Independents are pooled.** The release keeps each independent as a
+6. **Reform UK's party category is doing unexamined work.** The single
+   largest positive contribution to Reform's holdout predictions is
+   `party_category__established` at +0.1514, which places Reform in the same
+   category bucket as the Conservatives and Labour. That classification comes
+   from the extraction layer's party-category field, not from the modelling
+   layer, and it is questionable for a party that contested 7 per cent of
+   divisions in 2021. The model is therefore given a prior that Reform behaves
+   like a major party, and then pushed back below the equal split by every
+   historical feature. Whether a different category would improve or worsen
+   the prediction has not been tested.
+
+7. **Independents are pooled.** The release keeps each independent as a
    separate political identity, but the model sees one `Independent` category:
    a per-individual effect cannot be learned and is not claimed.
 
