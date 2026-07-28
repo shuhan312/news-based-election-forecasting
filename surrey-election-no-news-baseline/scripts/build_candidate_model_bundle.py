@@ -220,10 +220,22 @@ def _data_quality_report(features, targets) -> dict:
         if not 100 - tolerance <= total <= 100 + tolerance:
             unreconciled.append({"contest": f"{key[0]}|{key[1]}", "sum": total})
 
+    predictors = permitted_predictors(sorted(features[0]))
     missing_by_field = {
         column: sum(1 for row in features if row.get(column) is None)
-        for column in permitted_predictors(sorted(features[0]))
+        for column in predictors
     }
+    # The brief asks for missingness by field AND election. Pooling the two
+    # hides the pattern that matters here: the 2026 wards are missing history
+    # because they were reorganised, not at random.
+    missing_by_election: dict[str, dict[str, int]] = defaultdict(dict)
+    for row in features:
+        election = str(row["election_id"])
+        for column in predictors:
+            if row.get(column) is None:
+                missing_by_election[election][column] = (
+                    missing_by_election[election].get(column, 0) + 1
+                )
     by_election = defaultdict(lambda: {"rows": 0, "reform_uk": 0, "ukip": 0})
     for row in features:
         entry = by_election[str(row["election_id"])]
@@ -241,6 +253,10 @@ def _data_quality_report(features, targets) -> dict:
         "vote_shares_out_of_range": out_of_range,
         "contests_not_reconciling_to_100": unreconciled,
         "missing_values_by_permitted_predictor": dict(sorted(missing_by_field.items())),
+        "missing_values_by_election_and_predictor": {
+            election: dict(sorted(columns.items()))
+            for election, columns in sorted(missing_by_election.items())
+        },
         # The brief asks for Reform UK and UKIP counts by election, separately.
         "party_counts_by_election": {k: dict(v) for k, v in sorted(by_election.items())},
         "historical_predictor_availability": dict(
@@ -410,6 +426,9 @@ def main() -> None:
         "normalisation_method": "within_contest_rescale_to_100_after_clipping_negatives",
         "seat_allocation": "top_n_by_predicted_share_using_known_pre_election_seats",
         "selected_features": list(permitted_predictors(sorted(features[0]))),
+        # Read from the fitted encoder rather than re-listed, so this can
+        # never disagree with the columns that were actually one-hot encoded.
+        "categorical_features": sorted(encoder.schema()["categorical_levels"]),
         "encoded_column_count": len(encoder.column_names),
         "split_method": "date_bounded_chronological_folds_grouped_by_contest",
         "training_date": date.today().isoformat(),
