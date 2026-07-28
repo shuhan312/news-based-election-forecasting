@@ -293,7 +293,14 @@ def build_final_data_release_audit(
 
     return {
         "audit_title": "Surrey Final Election Data Release Audit",
-        "audit_scope": "Read-only audit of the 20-event master payload; no extraction or source values are changed.",
+        # The event count is interpolated rather than written as a literal.
+        # It was "20-event" while the counts immediately below were already
+        # computed, so adding an election left the scope sentence contradicting
+        # the table in the same document.
+        "audit_scope": (
+            f"Read-only audit of the {len(payload.elections)}-event master "
+            "payload; no extraction or source values are changed."
+        ),
         "dataset_counts": {
             "election_events": len(payload.elections),
             "candidate_rows": len(payload.candidate_results),

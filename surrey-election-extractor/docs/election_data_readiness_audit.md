@@ -2,7 +2,7 @@
 
 **Audit date:** 18 July 2026
 
-**Authoritative input:** generated 20-event master payload
+**Authoritative input:** generated 23-event master payload
 
 **Scope:** election extraction, governed analytical fields and the boundary to
 the no-news baseline. News collection and modelling are out of scope.
@@ -12,11 +12,11 @@ the no-news baseline. News collection and modelling are out of scope.
 - 20 election events: 2013, 2017 and 2021 principal elections; separate East
   and West Surrey 2026 elections; and all 15 County Council by-elections in the
   configured official archive catalogue.
-- 1,971 candidate rows and 339 division or ward rows.
+- 1,987 candidate rows and 342 division or ward rows.
 - Complete 81 reviewed-row 2021-to-2026 geographic lookup: 24 approved direct
   relationships, 36 changed-boundary wards and 21 wards without sufficient
   weighted-crosswalk evidence for a direct historical value.
-- 201 approved historical references: 81 for 2013→2017, 81 for 2017→2021,
+- 204 approved historical references: 81 for 2013→2017, 81 for 2017→2021,
   15 for by-elections and 24 for 2021→2026.
 - Official, supplementary, derived and analysis layers remain separate. No
   official `NULL` is overwritten.
@@ -29,9 +29,9 @@ The release-critical summary is:
 
 | Required area | Current release position | Evidence boundary |
 | --- | --- | --- |
-| Election and area identifiers | 20/20 events; 339/339 areas | Configuration plus official event/result sources. |
-| Candidate names, votes, outcomes and URLs | 1,971/1,971 | Every candidate, including all candidates in the 81 two-member 2026 wards. Published names are retained separately from deterministic display-standard names; neither field establishes identity continuity. |
-| Published/standardised party and category | Published 1,970/1,971; analytical 1,971/1,971 | The officially blank 2013 party cell remains NULL in the original field and uses `No published party label` with an unaffiliated/independent analytical category. UKIP label variants share one reviewed standard name, but their published wording is retained and Reform UK remains separate. |
+| Election and area identifiers | 23/23 events; 342/342 areas | Configuration plus official event/result sources. |
+| Candidate names, votes, outcomes and URLs | 1,971/1,987 | Every candidate, including all candidates in the 81 two-member 2026 wards. Published names are retained separately from deterministic display-standard names; neither field establishes identity continuity. |
+| Published/standardised party and category | Published 1,970/1,987; analytical 1,971/1,987 | The officially blank 2013 party cell remains NULL in the original field and uses `No published party label` with an unaffiliated/independent analytical category. UKIP label variants share one reviewed standard name, but their published wording is retained and Reform UK remains separate. |
 | Party history and new entrants | 40/40 standard parties | First observation is defined relative to the 2013 study start. Reform UK records UK Independence Party as historical context only, never as party continuity or a source of substituted votes. |
 | 2021-to-2026 geographic lookup | 81/81 current wards | 24 approved direct, 36 changed-boundary/non-direct and 21 insufficient weighted-evidence rows. Every ward is visible; only approved direct rows may expose historical values. |
 | Vote share | 1,965 official; 1,971 analysis-ready | Six Epsom West 2015 shares are governed calculations from the complete official candidate-vote table and never fill the official field. |
@@ -43,12 +43,12 @@ The release-critical summary is:
 | Turnout | 254 official; 83 division supplementary; 337 supported | Weybridge 2015 and Haslemere 2019 remain unsupported. |
 | Rejected ballots | 337 official; 1 governed derived; 338 supported | Weybridge 2015 remains unsupported. |
 | Previous winning party | 201/339 approved area references | No predecessor is invented outside an approved legal, statutory or geographic relation. |
-| Previous party vote share | 1,021/1,971 candidate rows | Candidate-level exact published-party label under an approved predecessor; never a reconstructed multi-candidate party total. |
-| Change in vote share | 775/1,971 candidate rows | Post-election diagnostic only; excluded from every no-news predictor. |
-| Candidate previously stood | 344 True; 1,269 False; 358 Unknown | All Unknown rows are the 2013 first-period boundary. No fuzzy identity matching. |
-| Incumbent candidate | 113 Yes; 1,500 No; 358 Unknown | Complete chronological pre-election councillor roster; all Unknown rows are 2013. |
-| Incumbent party | 167 Yes; 614 No; 1,190 Unknown | Only approved comparable historical areas; altered or two-member geography remains Unknown. |
-| First observed party appearance | 1,039/1,971 | Exact published labels within approved lineages; this is not a claim about real-world party origin. |
+| Previous party vote share | 1,037/1,987 candidate rows | Candidate-level exact published-party label under an approved predecessor; never a reconstructed multi-candidate party total. |
+| Change in vote share | 791/1,987 candidate rows | Post-election diagnostic only; excluded from every no-news predictor. |
+| Candidate previously stood | 355 True; 1,274 False; 358 Unknown | All Unknown rows are the 2013 first-period boundary. No fuzzy identity matching. |
+| Incumbent candidate | 115 Yes; 1,514 No; 358 Unknown | Complete chronological pre-election councillor roster; all Unknown rows are 2013. |
+| Incumbent party | 170 Yes; 627 No; 1,190 Unknown | Only approved comparable historical areas; altered or two-member geography remains Unknown. |
+| First observed party appearance | 1,055/1,987 | Exact published labels within approved lineages; this is not a claim about real-world party origin. |
 
 ## Residual official-source gaps
 

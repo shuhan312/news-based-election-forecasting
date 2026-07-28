@@ -4,20 +4,149 @@
   "official_archive_url": "https://mycouncil.surreycc.gov.uk/mgManageElectionResults.aspx?bcr=1",
   "archive_access_note": "The ordinary public-HTTP request returned the archive protection page on 2026-07-16. These events are therefore catalogued from the official archive's indexed listing, with no event-result URL or candidate data invented.",
   "events": [
-    {"election_id": "surrey-county-council-by-election-weybridge-2015-05-07", "election_name": "Weybridge By-election", "election_type": "by-election", "election_date": "2015-05-07", "area_name": "Weybridge", "evidence_text": "Official archive by-election listing: Weybridge By-election, 07/05/2015."},
-    {"election_id": "surrey-county-council-by-election-epsom-west-2015-11-19", "election_name": "Epsom West By-election", "election_type": "by-election", "election_date": "2015-11-19", "area_name": "Epsom West", "evidence_text": "Official archive by-election listing: Epsom West By-election, 19/11/2015."},
-    {"election_id": "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05", "election_name": "Staines South & Ashford West", "election_type": "by-election", "election_date": "2016-05-05", "area_name": "Staines South & Ashford West", "evidence_text": "Official archive by-election listing: Staines South & Ashford West, 05/05/2016."},
-    {"election_id": "surrey-county-council-by-election-farnham-south-2016-08-18", "election_name": "Farnham South", "election_type": "by-election", "election_date": "2016-08-18", "area_name": "Farnham South", "evidence_text": "Official archive by-election listing: Farnham South, 18/08/2016."},
-    {"election_id": "surrey-county-council-by-election-the-byfleets-2018-12-06", "election_name": "The Byfleets", "election_type": "by-election", "election_date": "2018-12-06", "area_name": "The Byfleets", "evidence_text": "Official archive by-election listing: The Byfleets, 06/12/2018."},
-    {"election_id": "surrey-county-council-by-election-warlingham-2019-01-31", "election_name": "Warlingham", "election_type": "by-election", "election_date": "2019-01-31", "area_name": "Warlingham", "evidence_text": "Official archive by-election listing: Warlingham, 31/01/2019."},
-    {"election_id": "surrey-county-council-by-election-haslemere-2019-05-02", "election_name": "Haslemere", "election_type": "by-election", "election_date": "2019-05-02", "area_name": "Haslemere", "evidence_text": "Official archive by-election listing: Haslemere, 02/05/2019."},
-    {"election_id": "surrey-county-council-by-election-horsleys-2023-10-19", "election_name": "Horsleys", "election_type": "by-election", "election_date": "2023-10-19", "area_name": "Horsleys", "evidence_text": "Official archive by-election listing: Horsleys, 19/10/2023."},
-    {"election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21", "election_name": "Hinchley Wood, Claygate & Oxshott", "election_type": "by-election", "election_date": "2025-08-21", "area_name": "Hinchley Wood, Claygate & Oxshott", "evidence_text": "Official archive by-election listing: Hinchley Wood, Claygate & Oxshott by-election, 21/08/2025."},
-    {"election_id": "surrey-county-council-by-election-addlestone-2025-08-21", "election_name": "Addlestone", "election_type": "by-election", "election_date": "2025-08-21", "area_name": "Addlestone", "evidence_text": "Official archive by-election listing: Addlestone by-election, 21/08/2025."},
-    {"election_id": "surrey-county-council-by-election-camberley-west-2025-10-16", "election_name": "Camberley West", "election_type": "by-election", "election_date": "2025-10-16", "area_name": "Camberley West", "evidence_text": "Official archive by-election listing: Camberley West by-election, 16/10/2025."},
-    {"election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16", "election_name": "Caterham Valley", "election_type": "by-election", "election_date": "2025-10-16", "area_name": "Caterham Valley", "evidence_text": "Official archive by-election listing: Caterham Valley by-election, 16/10/2025."},
-    {"election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16", "election_name": "Guildford South-East", "election_type": "by-election", "election_date": "2025-10-16", "area_name": "Guildford South-East", "evidence_text": "Official archive by-election listing: Guildford South-East by-election, 16/10/2025."},
-    {"election_id": "surrey-county-council-by-election-warlingham-2026-05-07", "election_name": "Warlingham by-election", "election_type": "by-election", "election_date": "2026-05-07", "area_name": "Warlingham", "evidence_text": "Official archive by-election listing: Warlingham by-election, 07/05/2026."},
-    {"election_id": "surrey-county-council-by-election-haslemere-2026-07-07", "election_name": "Haslemere by-election", "election_type": "by-election", "election_date": "2026-07-07", "area_name": "Haslemere", "evidence_text": "Official archive by-election listing: Haslemere by-election, 07/07/2026."}
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "election_name": "Weybridge By-election",
+      "election_type": "by-election",
+      "election_date": "2015-05-07",
+      "area_name": "Weybridge",
+      "evidence_text": "Official archive by-election listing: Weybridge By-election, 07/05/2015."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-epsom-west-2015-11-19",
+      "election_name": "Epsom West By-election",
+      "election_type": "by-election",
+      "election_date": "2015-11-19",
+      "area_name": "Epsom West",
+      "evidence_text": "Official archive by-election listing: Epsom West By-election, 19/11/2015."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05",
+      "election_name": "Staines South & Ashford West",
+      "election_type": "by-election",
+      "election_date": "2016-05-05",
+      "area_name": "Staines South & Ashford West",
+      "evidence_text": "Official archive by-election listing: Staines South & Ashford West, 05/05/2016."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-farnham-south-2016-08-18",
+      "election_name": "Farnham South",
+      "election_type": "by-election",
+      "election_date": "2016-08-18",
+      "area_name": "Farnham South",
+      "evidence_text": "Official archive by-election listing: Farnham South, 18/08/2016."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-the-byfleets-2018-12-06",
+      "election_name": "The Byfleets",
+      "election_type": "by-election",
+      "election_date": "2018-12-06",
+      "area_name": "The Byfleets",
+      "evidence_text": "Official archive by-election listing: The Byfleets, 06/12/2018."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "election_name": "Warlingham",
+      "election_type": "by-election",
+      "election_date": "2019-01-31",
+      "area_name": "Warlingham",
+      "evidence_text": "Official archive by-election listing: Warlingham, 31/01/2019."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-haslemere-2019-05-02",
+      "election_name": "Haslemere",
+      "election_type": "by-election",
+      "election_date": "2019-05-02",
+      "area_name": "Haslemere",
+      "evidence_text": "Official archive by-election listing: Haslemere, 02/05/2019."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-sunbury-common-ashford-common-2022-11-30",
+      "election_name": "Sunbury Common and Ashford Common by-election",
+      "election_type": "by-election",
+      "election_date": "2022-11-30",
+      "area_name": "Sunbury Common & Ashford Common",
+      "evidence_text": "Official archive listing: Sunbury Common and Ashford Common, 30/11/2022. Filed under Local rather than tagged By-election, which is why the first catalogue pass missed it; the Spelthorne returning-officer page titles it a Division By-election."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-horsleys-2023-10-19",
+      "election_name": "Horsleys",
+      "election_type": "by-election",
+      "election_date": "2023-10-19",
+      "area_name": "Horsleys",
+      "evidence_text": "Official archive by-election listing: Horsleys, 19/10/2023."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "election_name": "Nork and Tattenhams by-election",
+      "election_type": "by-election",
+      "election_date": "2025-05-01",
+      "area_name": "Nork & Tattenhams",
+      "evidence_text": "Official archive listing: Nork and Tattenhams by-election, 01/05/2025. Filed under Local rather than tagged By-election, which is why the first catalogue pass missed it."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "election_name": "Woking South by-election",
+      "election_type": "by-election",
+      "election_date": "2025-07-10",
+      "area_name": "Woking South",
+      "evidence_text": "Official archive listing: Woking South by-election, 10/07/2025. Tagged as a by-election in the archive; omitted from the first catalogue pass."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "election_name": "Hinchley Wood, Claygate & Oxshott",
+      "election_type": "by-election",
+      "election_date": "2025-08-21",
+      "area_name": "Hinchley Wood, Claygate & Oxshott",
+      "evidence_text": "Official archive by-election listing: Hinchley Wood, Claygate & Oxshott by-election, 21/08/2025."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+      "election_name": "Addlestone",
+      "election_type": "by-election",
+      "election_date": "2025-08-21",
+      "area_name": "Addlestone",
+      "evidence_text": "Official archive by-election listing: Addlestone by-election, 21/08/2025."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+      "election_name": "Camberley West",
+      "election_type": "by-election",
+      "election_date": "2025-10-16",
+      "area_name": "Camberley West",
+      "evidence_text": "Official archive by-election listing: Camberley West by-election, 16/10/2025."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "election_name": "Caterham Valley",
+      "election_type": "by-election",
+      "election_date": "2025-10-16",
+      "area_name": "Caterham Valley",
+      "evidence_text": "Official archive by-election listing: Caterham Valley by-election, 16/10/2025."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "election_name": "Guildford South-East",
+      "election_type": "by-election",
+      "election_date": "2025-10-16",
+      "area_name": "Guildford South-East",
+      "evidence_text": "Official archive by-election listing: Guildford South-East by-election, 16/10/2025."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2026-05-07",
+      "election_name": "Warlingham by-election",
+      "election_type": "by-election",
+      "election_date": "2026-05-07",
+      "area_name": "Warlingham",
+      "evidence_text": "Official archive by-election listing: Warlingham by-election, 07/05/2026."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-haslemere-2026-07-07",
+      "election_name": "Haslemere by-election",
+      "election_type": "by-election",
+      "election_date": "2026-07-07",
+      "area_name": "Haslemere",
+      "evidence_text": "Official archive by-election listing: Haslemere by-election, 07/07/2026."
+    }
   ]
 }

@@ -80,6 +80,19 @@
       ],
       "reviewed_documentation": "docs/by_election_supplementary_metadata_audit.md",
       "decision": "The official declaration publishes candidate votes and outcome but no candidate percentages. Vote shares are not calculated into the official field."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "division_name": "Woking South",
+      "field_name": "ballot_papers_issued",
+      "record_count": 1,
+      "official_source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=345&RPID=0",
+      "reviewed_source_urls": [
+        "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=345&RPID=0",
+        "https://www.woking.gov.uk/elections-voting/election-results-hoe-valley-ward-woking-south-division"
+      ],
+      "reviewed_documentation": "docs/by_election_supplementary_metadata_audit.md",
+      "decision": "Two official sources conflict. Surrey County Council publishes 3,058 ballot papers issued; the Woking Borough Council returning-officer page publishes 3,048, which is the only figure reconciling with 3,039 total votes plus 9 rejected ballots. The field stays NULL rather than resolving an unexplained conflict between two official publishers by preferring the arithmetic that happens to close."
     }
   ]
 }

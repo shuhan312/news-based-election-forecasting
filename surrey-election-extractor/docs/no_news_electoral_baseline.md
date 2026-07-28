@@ -10,14 +10,14 @@ the target poll may enter this baseline.
 ## Current division-level export
 
 `outputs/no_news_electoral_baseline/no_news_electoral_baseline.json` contains
-339 rows, one for every target division or ward:
+342 rows, one for every target division or ward:
 
-- 201 rows have an approved historical predecessor;
+- 204 rows have an approved historical predecessor;
 - 138 rows visibly record that no predecessor is approved;
-- 116 prior-turnout values come from official result pages;
+- 119 prior-turnout values come from official result pages;
 - 85 prior-turnout values come from separately cited supplementary official
   evidence;
-- all 201 eligible rows therefore have an analysis-ready prior turnout.
+- all 204 eligible rows therefore have an analysis-ready prior turnout.
 
 Each row retains predecessor identifiers, previous winning party, previous
 winning-candidate share, previous electorate, previous turnout provenance,
@@ -37,11 +37,11 @@ because it contains the current-election result.
 outcomes as separate JSON tables joined only by `party_contest_id`. This is a
 structural leakage control rather than a naming convention.
 
-- 1,603 party-contest rows are published;
-- 1,139 are single-member party contests with a well-defined current target
+- 1,619 party-contest rows are published;
+- 1,155 are single-member party contests with a well-defined current target
   party share;
-- 905 party-contest rows retain a governed lagged party share;
-- 775 satisfy every condition for the primary single-member lagged-share
+- 921 party-contest rows retain a governed lagged party share;
+- 791 satisfy every condition for the primary single-member lagged-share
   experiment;
 - 358 are 2013 rows with no in-scope predecessor;
 - 6 otherwise single-member rows lack an approved unique exact-label prior
@@ -49,8 +49,8 @@ structural leakage control rather than a naming convention.
 - 464 are multi-member party contests retained for elected-party/seat analysis
   but excluded from the primary party-share estimand.
 
-The master contains 1,021 candidate-level lagged shares whereas the
-party-contest table contains 905. The reduction is intentional: candidates
+The master contains 1,037 candidate-level lagged shares whereas the
+party-contest table contains 921. The reduction is intentional: candidates
 from the same registered party in a 2026 two-member ward share one historical
 party baseline and must not be counted as independent party observations.
 Generic Independent labels remain candidate-specific.

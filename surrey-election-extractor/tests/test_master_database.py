@@ -1112,7 +1112,7 @@ def test_full_official_event_sequence_closes_post_2013_candidate_incumbency() ->
     for row in payload.candidate_results:
         counts[str(row["incumbent_candidate_yes_no"])] += 1
 
-    assert counts == {"Yes": 113, "No": 1500, "Unknown": 358}
+    assert counts == {"Yes": 115, "No": 1514, "Unknown": 358}
     assert all(
         row["election_year"] == 2013
         for row in payload.candidate_results
@@ -1139,7 +1139,7 @@ def test_full_official_event_sequence_classifies_prior_candidature() -> None:
         ),
     }
 
-    assert counts == {"Yes": 344, "No": 1269, "Unknown": 358}
+    assert counts == {"Yes": 355, "No": 1274, "Unknown": 358}
     unknown = [
         row for row in payload.candidate_results
         if row["candidate_previously_stood"] is None

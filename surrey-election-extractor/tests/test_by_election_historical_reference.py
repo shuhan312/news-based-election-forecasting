@@ -5,9 +5,9 @@ from election_extractor.by_election_historical_reference import build_by_electio
 
 def test_every_catalogued_by_election_has_a_reproducible_decision() -> None:
     audit = build_by_election_historical_reference_audit()
-    assert audit["summary"] == {"approved_same_statutory_division": 15}
-    assert len(audit["division_references"]) == 15
-    assert len(audit["party_history_references"]) == 73
+    assert audit["summary"] == {"approved_same_statutory_division": 18}
+    assert len(audit["division_references"]) == 18
+    assert len(audit["party_history_references"]) == 89
 
 
 def test_duplicate_prior_label_blocks_only_that_exact_label() -> None:

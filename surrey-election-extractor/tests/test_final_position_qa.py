@@ -37,5 +37,5 @@ def test_page_report_keeps_official_and_derived_checks_separate() -> None:
         "analysis_ready_from_primary_official_sources"
     )
     assert package["summary"]["secondary_risk_sample_status"] == (
-        "secondary_risk_sample_complete"
+        "secondary_risk_sample_incomplete"
     )

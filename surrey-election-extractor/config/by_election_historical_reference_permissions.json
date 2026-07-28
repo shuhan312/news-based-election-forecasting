@@ -2,20 +2,153 @@
   "audit_id": "surrey-by-election-historical-reference-permissions-2026-07-18",
   "scope": "Previous-party-share eligibility for all completed Surrey County Council by-elections. Approved records require an exact published division name, an earlier in-scope official result, and complete single-member exact-label candidate tables.",
   "decisions": [
-    {"election_id": "surrey-county-council-by-election-weybridge-2015-05-07", "decision": "approved_same_statutory_division", "previous_election_id": "surrey-county-council-2013", "previous_division_name": "Weybridge", "reason": "Exact division name under the pre-2024 statutory arrangement; both official candidate tables are single-member and exact-label eligible."},
-    {"election_id": "surrey-county-council-by-election-epsom-west-2015-11-19", "decision": "approved_same_statutory_division", "previous_election_id": "surrey-county-council-2013", "previous_division_name": "Epsom West", "reason": "Exact division name under the pre-2024 statutory arrangement; both official candidate tables are single-member and exact-label eligible."},
-    {"election_id": "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05", "decision": "approved_same_statutory_division", "previous_election_id": "surrey-county-council-2013", "previous_division_name": "Staines South and Ashford West", "continuity_evidence_url": "https://news.surreycc.gov.uk/2016/05/06/denise-turner-stewart-wins-county-council-by-election/", "reason": "The official 2013 result and official 2016 council announcement identify the same Staines South and Ashford West division; the ampersand is a publication-label variant, not a fuzzy geographic match."},
-    {"election_id": "surrey-county-council-by-election-farnham-south-2016-08-18", "decision": "approved_same_statutory_division", "previous_election_id": "surrey-county-council-2013", "previous_division_name": "Farnham South", "reason": "Same pre-2024 statutory division. Exact labels absent from the complete prior table can receive zero; the duplicated prior Independent label remains individually blocked rather than suppressing unrelated labels."},
-    {"election_id": "surrey-county-council-by-election-the-byfleets-2018-12-06", "decision": "approved_same_statutory_division", "previous_election_id": "surrey-county-council-2017", "previous_division_name": "The Byfleets", "reason": "Exact division name under the pre-2024 statutory arrangement; both official candidate tables are single-member and exact-label eligible."},
-    {"election_id": "surrey-county-council-by-election-warlingham-2019-01-31", "decision": "approved_same_statutory_division", "previous_election_id": "surrey-county-council-2017", "previous_division_name": "Warlingham", "reason": "Exact division name under the pre-2024 statutory arrangement; both official candidate tables are single-member and exact-label eligible."},
-    {"election_id": "surrey-county-council-by-election-haslemere-2019-05-02", "decision": "approved_same_statutory_division", "previous_election_id": "surrey-county-council-2017", "previous_division_name": "Haslemere", "reason": "Exact division name under the pre-2024 statutory arrangement; both official candidate tables are single-member and exact-label eligible."},
-    {"election_id": "surrey-county-council-by-election-horsleys-2023-10-19", "decision": "approved_same_statutory_division", "previous_election_id": "surrey-county-council-2021", "previous_division_name": "Horsleys", "single_member_evidence_url": "https://www.legislation.gov.uk/uksi/2012/1872/contents/made", "reason": "Same pre-2024 statutory division. The official result page omits Seats, but the 2012 statutory electoral arrangement independently establishes the single-member division; the raw official Seats field remains NULL."},
-    {"election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21", "decision": "approved_same_statutory_division", "previous_election_id": "surrey-county-council-2021", "previous_division_name": "Hinchley Wood, Claygate and Oxshott", "continuity_evidence_url": "https://www.legislation.gov.uk/uksi/2025/137/pdfs/uksiem_20250137_en_001.pdf", "single_member_evidence_url": "https://www.legislation.gov.uk/uksi/2012/1872/contents/made", "reason": "The 2025 postponement instrument states that pre-May-2026 by-elections remain on the existing boundaries; the punctuation variant does not alter the official county division."},
-    {"election_id": "surrey-county-council-by-election-addlestone-2025-08-21", "decision": "approved_same_statutory_division", "previous_election_id": "surrey-county-council-2021", "previous_division_name": "Addlestone", "continuity_evidence_url": "https://www.legislation.gov.uk/uksi/2025/137/pdfs/uksiem_20250137_en_001.pdf", "single_member_evidence_url": "https://www.legislation.gov.uk/uksi/2012/1872/contents/made", "reason": "The 2025 postponement instrument states that pre-May-2026 by-elections remain on the existing boundaries; the official division name is unchanged from 2021."},
-    {"election_id": "surrey-county-council-by-election-camberley-west-2025-10-16", "decision": "approved_same_statutory_division", "previous_election_id": "surrey-county-council-2021", "previous_division_name": "Camberley West", "continuity_evidence_url": "https://www.legislation.gov.uk/uksi/2025/137/pdfs/uksiem_20250137_en_001.pdf", "single_member_evidence_url": "https://www.legislation.gov.uk/uksi/2012/1872/contents/made", "reason": "The 2025 postponement instrument states that pre-May-2026 by-elections remain on the existing boundaries; the official division name is unchanged from 2021."},
-    {"election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16", "decision": "approved_same_statutory_division", "previous_election_id": "surrey-county-council-2021", "previous_division_name": "Caterham Valley", "continuity_evidence_url": "https://www.legislation.gov.uk/uksi/2025/137/pdfs/uksiem_20250137_en_001.pdf", "single_member_evidence_url": "https://www.legislation.gov.uk/uksi/2012/1872/contents/made", "reason": "The 2025 postponement instrument states that pre-May-2026 by-elections remain on the existing boundaries; the official division name is unchanged from 2021."},
-    {"election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16", "decision": "approved_same_statutory_division", "previous_election_id": "surrey-county-council-2021", "previous_division_name": "Guildford South-East", "continuity_evidence_url": "https://www.legislation.gov.uk/uksi/2025/137/pdfs/uksiem_20250137_en_001.pdf", "single_member_evidence_url": "https://www.legislation.gov.uk/uksi/2012/1872/contents/made", "reason": "The 2025 postponement instrument states that pre-May-2026 by-elections remain on the existing boundaries; the official division name is unchanged from 2021."},
-    {"election_id": "surrey-county-council-by-election-warlingham-2026-05-07", "decision": "approved_same_statutory_division", "previous_election_id": "surrey-county-council-2021", "previous_division_name": "Warlingham", "continuity_evidence_url": "https://www.legislation.gov.uk/ukdsi/2026/9780348278507/pdfs/ukdsi_9780348278507_en.pdf", "single_member_evidence_url": "https://www.legislation.gov.uk/uksi/2012/1872/contents/made", "reason": "The Structural Changes Order retains Surrey County Council until April 2027 and the official result identifies this as the Warlingham county-division by-election; the same-day unitary election is not used as its predecessor."},
-    {"election_id": "surrey-county-council-by-election-haslemere-2026-07-07", "decision": "approved_same_statutory_division", "previous_election_id": "surrey-county-council-2021", "previous_division_name": "Haslemere", "continuity_evidence_url": "https://www.legislation.gov.uk/ukdsi/2026/9780348278507/pdfs/ukdsi_9780348278507_en.pdf", "single_member_evidence_url": "https://www.legislation.gov.uk/uksi/2012/1872/contents/made", "reason": "The Structural Changes Order retains Surrey County Council until April 2027; this county-division by-election remains in the pre-2024 historical lineage and is not linked to the new West Surrey ward contest."}
+    {
+      "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+      "decision": "approved_same_statutory_division",
+      "previous_election_id": "surrey-county-council-2021",
+      "previous_division_name": "Addlestone",
+      "continuity_evidence_url": "https://www.legislation.gov.uk/uksi/2025/137/pdfs/uksiem_20250137_en_001.pdf",
+      "single_member_evidence_url": "https://www.legislation.gov.uk/uksi/2012/1872/contents/made",
+      "reason": "The 2025 postponement instrument states that pre-May-2026 by-elections remain on the existing boundaries; the official division name is unchanged from 2021."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+      "decision": "approved_same_statutory_division",
+      "previous_election_id": "surrey-county-council-2021",
+      "previous_division_name": "Camberley West",
+      "continuity_evidence_url": "https://www.legislation.gov.uk/uksi/2025/137/pdfs/uksiem_20250137_en_001.pdf",
+      "single_member_evidence_url": "https://www.legislation.gov.uk/uksi/2012/1872/contents/made",
+      "reason": "The 2025 postponement instrument states that pre-May-2026 by-elections remain on the existing boundaries; the official division name is unchanged from 2021."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "decision": "approved_same_statutory_division",
+      "previous_election_id": "surrey-county-council-2021",
+      "previous_division_name": "Caterham Valley",
+      "continuity_evidence_url": "https://www.legislation.gov.uk/uksi/2025/137/pdfs/uksiem_20250137_en_001.pdf",
+      "single_member_evidence_url": "https://www.legislation.gov.uk/uksi/2012/1872/contents/made",
+      "reason": "The 2025 postponement instrument states that pre-May-2026 by-elections remain on the existing boundaries; the official division name is unchanged from 2021."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-epsom-west-2015-11-19",
+      "decision": "approved_same_statutory_division",
+      "previous_election_id": "surrey-county-council-2013",
+      "previous_division_name": "Epsom West",
+      "reason": "Exact division name under the pre-2024 statutory arrangement; both official candidate tables are single-member and exact-label eligible."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-farnham-south-2016-08-18",
+      "decision": "approved_same_statutory_division",
+      "previous_election_id": "surrey-county-council-2013",
+      "previous_division_name": "Farnham South",
+      "reason": "Same pre-2024 statutory division. Exact labels absent from the complete prior table can receive zero; the duplicated prior Independent label remains individually blocked rather than suppressing unrelated labels."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "decision": "approved_same_statutory_division",
+      "previous_election_id": "surrey-county-council-2021",
+      "previous_division_name": "Guildford South-East",
+      "continuity_evidence_url": "https://www.legislation.gov.uk/uksi/2025/137/pdfs/uksiem_20250137_en_001.pdf",
+      "single_member_evidence_url": "https://www.legislation.gov.uk/uksi/2012/1872/contents/made",
+      "reason": "The 2025 postponement instrument states that pre-May-2026 by-elections remain on the existing boundaries; the official division name is unchanged from 2021."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-haslemere-2019-05-02",
+      "decision": "approved_same_statutory_division",
+      "previous_election_id": "surrey-county-council-2017",
+      "previous_division_name": "Haslemere",
+      "reason": "Exact division name under the pre-2024 statutory arrangement; both official candidate tables are single-member and exact-label eligible."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-haslemere-2026-07-07",
+      "decision": "approved_same_statutory_division",
+      "previous_election_id": "surrey-county-council-2021",
+      "previous_division_name": "Haslemere",
+      "continuity_evidence_url": "https://www.legislation.gov.uk/ukdsi/2026/9780348278507/pdfs/ukdsi_9780348278507_en.pdf",
+      "single_member_evidence_url": "https://www.legislation.gov.uk/uksi/2012/1872/contents/made",
+      "reason": "The Structural Changes Order retains Surrey County Council until April 2027; this county-division by-election remains in the pre-2024 historical lineage and is not linked to the new West Surrey ward contest."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "decision": "approved_same_statutory_division",
+      "previous_election_id": "surrey-county-council-2021",
+      "previous_division_name": "Hinchley Wood, Claygate and Oxshott",
+      "continuity_evidence_url": "https://www.legislation.gov.uk/uksi/2025/137/pdfs/uksiem_20250137_en_001.pdf",
+      "single_member_evidence_url": "https://www.legislation.gov.uk/uksi/2012/1872/contents/made",
+      "reason": "The 2025 postponement instrument states that pre-May-2026 by-elections remain on the existing boundaries; the punctuation variant does not alter the official county division."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-horsleys-2023-10-19",
+      "decision": "approved_same_statutory_division",
+      "previous_election_id": "surrey-county-council-2021",
+      "previous_division_name": "Horsleys",
+      "single_member_evidence_url": "https://www.legislation.gov.uk/uksi/2012/1872/contents/made",
+      "reason": "Same pre-2024 statutory division. The official result page omits Seats, but the 2012 statutory electoral arrangement independently establishes the single-member division; the raw official Seats field remains NULL."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "decision": "approved_same_statutory_division",
+      "previous_election_id": "surrey-county-council-2021",
+      "previous_division_name": "Nork & Tattenhams",
+      "continuity_evidence_url": "https://www.legislation.gov.uk/uksi/2025/137/pdfs/uksiem_20250137_en_001.pdf",
+      "single_member_evidence_url": "https://www.legislation.gov.uk/uksi/2012/1872/contents/made",
+      "reason": "The 2025 postponement instrument states that pre-May-2026 by-elections remain on the existing boundaries, so this contests the same statutory single-member division as 2021."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05",
+      "decision": "approved_same_statutory_division",
+      "previous_election_id": "surrey-county-council-2013",
+      "previous_division_name": "Staines South and Ashford West",
+      "continuity_evidence_url": "https://news.surreycc.gov.uk/2016/05/06/denise-turner-stewart-wins-county-council-by-election/",
+      "reason": "The official 2013 result and official 2016 council announcement identify the same Staines South and Ashford West division; the ampersand is a publication-label variant, not a fuzzy geographic match."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-sunbury-common-ashford-common-2022-11-30",
+      "decision": "approved_same_statutory_division",
+      "previous_election_id": "surrey-county-council-2021",
+      "previous_division_name": "Sunbury Common & Ashford Common",
+      "continuity_evidence_url": "https://www.legislation.gov.uk/uksi/2012/1872/contents/made",
+      "single_member_evidence_url": "https://www.legislation.gov.uk/uksi/2012/1872/contents/made",
+      "reason": "The 2012 Electoral Changes Order divisions ran unchanged from 2013 to the 2024 review, so this 2022 by-election contests the same statutory single-member division as 2021."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-the-byfleets-2018-12-06",
+      "decision": "approved_same_statutory_division",
+      "previous_election_id": "surrey-county-council-2017",
+      "previous_division_name": "The Byfleets",
+      "reason": "Exact division name under the pre-2024 statutory arrangement; both official candidate tables are single-member and exact-label eligible."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "decision": "approved_same_statutory_division",
+      "previous_election_id": "surrey-county-council-2017",
+      "previous_division_name": "Warlingham",
+      "reason": "Exact division name under the pre-2024 statutory arrangement; both official candidate tables are single-member and exact-label eligible."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2026-05-07",
+      "decision": "approved_same_statutory_division",
+      "previous_election_id": "surrey-county-council-2021",
+      "previous_division_name": "Warlingham",
+      "continuity_evidence_url": "https://www.legislation.gov.uk/ukdsi/2026/9780348278507/pdfs/ukdsi_9780348278507_en.pdf",
+      "single_member_evidence_url": "https://www.legislation.gov.uk/uksi/2012/1872/contents/made",
+      "reason": "The Structural Changes Order retains Surrey County Council until April 2027 and the official result identifies this as the Warlingham county-division by-election; the same-day unitary election is not used as its predecessor."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "decision": "approved_same_statutory_division",
+      "previous_election_id": "surrey-county-council-2013",
+      "previous_division_name": "Weybridge",
+      "reason": "Exact division name under the pre-2024 statutory arrangement; both official candidate tables are single-member and exact-label eligible."
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "decision": "approved_same_statutory_division",
+      "previous_election_id": "surrey-county-council-2021",
+      "previous_division_name": "Woking South",
+      "continuity_evidence_url": "https://www.legislation.gov.uk/uksi/2025/137/pdfs/uksiem_20250137_en_001.pdf",
+      "single_member_evidence_url": "https://www.legislation.gov.uk/uksi/2012/1872/contents/made",
+      "reason": "The 2025 postponement instrument states that pre-May-2026 by-elections remain on the existing boundaries, so this contests the same statutory single-member division as 2021."
+    }
   ]
 }

@@ -43,19 +43,25 @@ def test_final_audit_matches_current_residual_field_boundary() -> None:
     )
 
     assert report["dataset_counts"] == {
-        "election_events": 20,
-        "candidate_rows": 1971,
-        "division_or_ward_rows": 339,
+        "election_events": 23,
+        "candidate_rows": 1987,
+        "division_or_ward_rows": 342,
     }
     assert report["residual_missing_counts"] == {
-        "ballot_papers_issued": 1,
+        # Two now: the pre-existing gap, plus Woking South 2025, where Surrey
+        # publishes 3,058 ballot papers issued and the Woking Borough Council
+        # returning-officer page publishes 3,048. Only the latter reconciles
+        # with 3,039 total votes plus 9 rejected, so the field stays NULL
+        # rather than resolving a conflict between two official publishers by
+        # preferring the arithmetic that happens to close.
+        "ballot_papers_issued": 2,
         "electorate": 1,
         "rejected_ballots": 1,
         "turnout": 2,
         "vote_share": 1,
     }
     # The vote-share entry is one source-level gap affecting six candidate rows.
-    assert sum(item["record_count"] for item in report["residual_missing_after_all_permitted_layers"]) == 11
+    assert sum(item["record_count"] for item in report["residual_missing_after_all_permitted_layers"]) == 12
 
 
 def test_final_audit_checks_materialised_fields_and_event_samples() -> None:
@@ -71,13 +77,13 @@ def test_final_audit_checks_materialised_fields_and_event_samples() -> None:
         "candidate_results": [],
         "divisions_and_wards": [],
     }
-    assert materialised["single_official_winners"] == 258
+    assert materialised["single_official_winners"] == 261
     assert materialised["multi_member_elected_name_lists"] == 81
-    assert materialised["separate_derived_winning_margins"] == 230
-    assert materialised["candidate_change_in_vote_share_diagnostics"] == 775
-    assert reconciliation["event_samples"] == 20
-    assert reconciliation["candidate_field_checks_passed"] == 20
-    assert reconciliation["source_url_checks_passed"] == 20
+    assert materialised["separate_derived_winning_margins"] == 233
+    assert materialised["candidate_change_in_vote_share_diagnostics"] == 791
+    assert reconciliation["event_samples"] == 23
+    assert reconciliation["candidate_field_checks_passed"] == 23
+    assert reconciliation["source_url_checks_passed"] == 23
 
 
 def test_final_audit_markdown_includes_rendered_scope_counts() -> None:
@@ -88,6 +94,9 @@ def test_final_audit_markdown_includes_rendered_scope_counts() -> None:
     )
 
     markdown = final_data_release_audit_markdown(report)
-    assert "- Election events: 20" in markdown
-    assert "Post-election change-in-vote-share diagnostics: 775" in markdown
+    assert "- Election events: 23" in markdown
+    assert "Post-election change-in-vote-share diagnostics: 791" in markdown
+    # The scope sentence is interpolated from the same count, so the document
+    # cannot describe a different release from the one it tabulates.
+    assert "23-event master payload" in markdown
     assert "{election_events}" not in markdown

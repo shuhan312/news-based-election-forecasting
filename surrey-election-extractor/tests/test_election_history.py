@@ -46,12 +46,12 @@ def test_by_elections_use_only_verified_official_candidate_result_sources() -> N
         row for row in history["election_events"] if row["election_type"] == "by-election"
     ]
 
-    assert len(load_by_election_catalogue()) == 15
-    assert len(by_elections) == 15
-    assert len({row["election_id"] for row in by_elections}) == 15
-    assert sum(row["candidate_row_count"] is not None for row in by_elections) == 15
+    assert len(load_by_election_catalogue()) == 18
+    assert len(by_elections) == 18
+    assert len({row["election_id"] for row in by_elections}) == 18
+    assert sum(row["candidate_row_count"] is not None for row in by_elections) == 18
     assert sum(row["candidate_row_count"] is None for row in by_elections) == 0
-    assert sum(row["candidate_row_count"] or 0 for row in by_elections) == 73
+    assert sum(row["candidate_row_count"] or 0 for row in by_elections) == 89
     assert all(row["evidence_text"] for row in by_elections)
 
 
@@ -168,7 +168,7 @@ def test_history_build_does_not_change_raw_official_audit_file() -> None:
     assert before == after
     # The history layer preserves the 1,898 principal-election rows and adds
     # only the 73 separately verified official by-election candidate rows.
-    assert history["coverage_report"]["summary"]["raw_candidate_rows_preserved"] == 1971
+    assert history["coverage_report"]["summary"]["raw_candidate_rows_preserved"] == 1987
 
 
 def test_coverage_reports_integrated_and_unavailable_by_election_results() -> None:
@@ -178,7 +178,7 @@ def test_coverage_reports_integrated_and_unavailable_by_election_results() -> No
     report = history["coverage_report"]
     encoded = json.dumps(report)
 
-    assert report["summary"]["events_required"] == 20
-    assert report["summary"]["events_represented"] == 20
-    assert report["summary"]["by_elections_with_candidate_rows"] == 15
+    assert report["summary"]["events_required"] == 23
+    assert report["summary"]["events_represented"] == 23
+    assert report["summary"]["by_elections_with_candidate_rows"] == 18
     assert "complete_candidate_results_not_available" not in encoded

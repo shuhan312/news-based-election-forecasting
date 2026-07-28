@@ -14,7 +14,7 @@ official source fields or permit vote redistribution across changed geography.
 - Official Surrey principal-election and by-election result pages retained in
   the master payload.
 
-The release contains 201 approved predecessor relations: 81 for 2013→2017, 81
+The release contains 204 approved predecessor relations: 81 for 2013→2017, 81
 for 2017→2021, 15 same-statutory-division by-election relations and 24 reviewed
 2021→2026 direct geographic relations. Partial, unapproved or non-comparable
 crosswalks remain blocked.
@@ -27,12 +27,12 @@ crosswalks remain blocked.
 | Previous winning candidate | Same approved relations when exactly one prior elected row exists | A prior-result fact, not automatic proof of current identity. |
 | Previous winner candidate share | Published share of that prior elected row | Candidate share, not reconstructed multi-candidate party total. |
 | Previous electorate and turnout | Available only where the approved prior official result publishes the value; no-news turnout may use separately cited supplementary official evidence | Missing source values remain `NULL`. |
-| Previous party vote share | 1,021/1,971 candidate rows | The unique prior candidate share for the current row's exact published party label in an approved single-member lineage. A zero is allowed only when the complete prior candidate table proves label absence. No party aggregation or fuzzy label mapping. |
-| Change in vote share | 775/1,971 candidate rows | Current analysis share minus approved prior exact-label share. Post-election diagnostic only; excluded from the no-news baseline. |
-| Party previously contested / first observed appearance | 1,039/1,971 candidate rows | Exact published labels inside approved lineages. “First” means first observed in that permitted project lineage. |
-| Candidate previously stood | 344 True; 1,269 False; 358 Unknown | Complete chronological prior official candidate universe with exact complete-name linkage; no fuzzy matching. All Unknown rows are 2013 first-period records. |
-| Incumbent candidate | 113 Yes; 1,500 No; 358 Unknown | Complete official pre-election councillor roster reconstructed from principal results and intervening by-elections. All Unknown rows are 2013. |
-| Incumbent party | 167 Yes; 614 No; 1,190 Unknown | Exact current/prior party label comparison only for an approved comparable area. Two-member or altered geography remains Unknown. |
+| Previous party vote share | 1,037/1,987 candidate rows | The unique prior candidate share for the current row's exact published party label in an approved single-member lineage. A zero is allowed only when the complete prior candidate table proves label absence. No party aggregation or fuzzy label mapping. |
+| Change in vote share | 791/1,987 candidate rows | Current analysis share minus approved prior exact-label share. Post-election diagnostic only; excluded from the no-news baseline. |
+| Party previously contested / first observed appearance | 1,055/1,987 candidate rows | Exact published labels inside approved lineages. “First” means first observed in that permitted project lineage. |
+| Candidate previously stood | 355 True; 1,274 False; 358 Unknown | Complete chronological prior official candidate universe with exact complete-name linkage; no fuzzy matching. All Unknown rows are 2013 first-period records. |
+| Incumbent candidate | 115 Yes; 1,514 No; 358 Unknown | Complete official pre-election councillor roster reconstructed from principal results and intervening by-elections. All Unknown rows are 2013. |
+| Incumbent party | 170 Yes; 627 No; 1,190 Unknown | Exact current/prior party label comparison only for an approved comparable area. Two-member or altered geography remains Unknown. |
 | Winning margin | 0 official; 339 labelled analysis values | 258 single-seat runner-up gaps and 81 two-member final-seat cutoff gaps. Twenty-eight 2021 areas use separately cited statutory Seats evidence. |
 | Final position | 0 official; 1,971 derived competition ranks | Complete same-page official votes; eight tied rows retain tie flags. Derived rank never becomes official rank. |
 

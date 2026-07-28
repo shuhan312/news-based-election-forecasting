@@ -3,160 +3,56 @@
   "evidence_scope": "Official Surrey County Council result-page evidence and, where applicable, an official relevant local-authority declaration reviewed 2026-07-16. Null values mean that the reviewed official evidence did not publish or did not expose that field.",
   "results": [
     {
-      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
-      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=169&RPID=0",
-      "source_title": "Election results for Weybridge, 7 May 2015",
-      "source_publisher": "Surrey County Council",
-      "source_format": "official_result_page",
-      "evidence_text": "Official Surrey County Council Weybridge by-election result page. It publishes the candidate table, seats, total votes and electorate; ballot papers issued, rejected ballots and turnout are not published in its Voting Summary.",
-      "voting_summary": {"seats": 1, "total_votes": 7678, "electorate": 11460, "ballot_papers_issued": null, "rejected_ballots": null, "turnout": null},
-      "candidates": [
-        {"candidate_name": "Ramon Gray", "original_party_name": "Conservative", "votes": 4190, "vote_share": 55, "elected_status": "Elected"},
-        {"candidate_name": "Peter Michael Harman", "original_party_name": "Weybridge Independents", "votes": 1899, "vote_share": 25, "elected_status": "Not elected"},
-        {"candidate_name": "Elinor Mair Jones", "original_party_name": "Labour", "votes": 967, "vote_share": 13, "elected_status": "Not elected"},
-        {"candidate_name": "Joe Branco", "original_party_name": "UK Independence Party", "votes": 622, "vote_share": 8, "elected_status": "Not elected"}
-      ]
-    },
-    {
-      "election_id": "surrey-county-council-by-election-epsom-west-2015-11-19",
-      "source_url": "https://www.epsom-ewell.gov.uk/sites/default/files/documents/council/elections-and-voting/SCCDeclarationofResults19Nov2015.pdf",
-      "source_title": "Declaration of Result of Poll: Epsom West, 19 November 2015",
-      "source_publisher": "Epsom & Ewell Borough Council",
-      "source_format": "official_declaration",
-      "evidence_text": "Official Epsom & Ewell Borough Council declaration of the Surrey County Council Epsom West by-election result. It publishes all candidates, party descriptions, votes, the elected candidate, seats, electorate, ballot papers issued, rejected ballots and turnout. The declaration states that the word 'Elected' appears against elected candidates; only Persand is marked Elected.",
-      "voting_summary": {"seats": 1, "total_votes": null, "electorate": 10548, "ballot_papers_issued": 2602, "rejected_ballots": 7, "turnout": 24.7},
-      "candidates": [
-        {"candidate_name": "CHINN, Katherine Mary", "original_party_name": "Labour Party Candidate", "votes": 578, "vote_share": null, "elected_status": "Not elected"},
-        {"candidate_name": "CROOK, Christopher", "original_party_name": "Green Party", "votes": 58, "vote_share": null, "elected_status": "Not elected"},
-        {"candidate_name": "DALLEN, Neil Andrew", "original_party_name": "Residents Associations of Epsom and Ewell", "votes": 591, "vote_share": null, "elected_status": "Not elected"},
-        {"candidate_name": "LEACH, Robert", "original_party_name": "UK Independence Party (UKIP)", "votes": 168, "vote_share": null, "elected_status": "Not elected"},
-        {"candidate_name": "MORRIS, Julie Anne", "original_party_name": "Liberal Democrat", "votes": 588, "vote_share": null, "elected_status": "Not elected"},
-        {"candidate_name": "PERSAND, Karandeo", "original_party_name": "Local Conservatives", "votes": 612, "vote_share": null, "elected_status": "Elected"}
-      ]
-    },
-    {
-      "election_id": "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05",
-      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=171&RPID=0",
-      "source_title": "Election results for Staines South & Ashford West, 5 May 2016",
-      "source_publisher": "Surrey County Council",
-      "source_format": "official_result_page",
-      "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
-      "voting_summary": {"seats": 1, "total_votes": 3383, "electorate": null, "ballot_papers_issued": null, "rejected_ballots": 21, "turnout": null},
-      "candidates": [
-        {"candidate_name": "Turner-Stewart Denise", "original_party_name": "Conservative", "votes": 1585, "vote_share": 47, "elected_status": "Elected"},
-        {"candidate_name": "Appleford Peter Alfred", "original_party_name": "UK Independence Party", "votes": 695, "vote_share": 21, "elected_status": "Not elected"},
-        {"candidate_name": "Raymond Iain Lochiel", "original_party_name": "Labour", "votes": 543, "vote_share": 16, "elected_status": "Not elected"},
-        {"candidate_name": "Bateson Christopher Leslie", "original_party_name": "Liberal Democrats", "votes": 382, "vote_share": 11, "elected_status": "Not elected"},
-        {"candidate_name": "McLuskey Andrew", "original_party_name": "The Green Party", "votes": 145, "vote_share": 4, "elected_status": "Not elected"},
-        {"candidate_name": "Clarke Matthew David", "original_party_name": "Trade Unionist and Socialist Coalition", "votes": 33, "vote_share": 1, "elected_status": "Not elected"}
-      ]
-    },
-    {
-      "election_id": "surrey-county-council-by-election-farnham-south-2016-08-18",
-      "source_url": "https://modgov.waverley.gov.uk/mgElectionResults.aspx?ID=6&RPID=0",
-      "source_title": "Election results for Farnham South, 18 August 2016",
-      "source_publisher": "Waverley Borough Council",
-      "source_format": "official_result_page",
-      "evidence_text": "Official Waverley Borough Council County Farnham South by-election result page. It publishes the candidate table and Voting Summary, including seats, total votes, electorate, ballot papers issued, rejected ballots and turnout.",
-      "voting_summary": {"seats": 1, "total_votes": 1506, "electorate": 9952, "ballot_papers_issued": 2267, "rejected_ballots": 7, "turnout": 22.8},
-      "candidates": [
-        {"candidate_name": "Robert Wyatt Ramsdale", "original_party_name": "The Conservative Party", "votes": 932, "vote_share": 61.9, "elected_status": "Elected"},
-        {"candidate_name": "Jo Aylwin", "original_party_name": "Liberal Democrats", "votes": 269, "vote_share": 17.9, "elected_status": "Not elected"},
-        {"candidate_name": "Mark Edward Westcott", "original_party_name": "Independent", "votes": 139, "vote_share": 9.2, "elected_status": "Not elected"},
-        {"candidate_name": "Paul John Chapman", "original_party_name": "UKIP", "votes": 89, "vote_share": 5.9, "elected_status": "Not elected"},
-        {"candidate_name": "Fabian Benjamin Wood", "original_party_name": "Labour Party", "votes": 77, "vote_share": 5.1, "elected_status": "Not elected"}
-      ]
-    },
-    {
-      "election_id": "surrey-county-council-by-election-the-byfleets-2018-12-06",
-      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=255&RPID=0",
-      "source_title": "Election results for The Byfleets, 6 December 2018",
-      "source_publisher": "Surrey County Council",
-      "source_format": "official_result_page",
-      "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
-      "voting_summary": {"seats": 1, "total_votes": 2320, "electorate": 10028, "ballot_papers_issued": 2326, "rejected_ballots": 6, "turnout": 23},
-      "candidates": [
-        {"candidate_name": "Amanda Jayne Boote", "original_party_name": "Independent", "votes": 1128, "vote_share": 49, "elected_status": "Elected"},
-        {"candidate_name": "Gary William Elson", "original_party_name": "Conservative", "votes": 782, "vote_share": 34, "elected_status": "Not elected"},
-        {"candidate_name": "Ellen Sophie Nicholson", "original_party_name": "Liberal Democrats", "votes": 309, "vote_share": 13, "elected_status": "Not elected"},
-        {"candidate_name": "Lyn Sage", "original_party_name": "UK Independence Party", "votes": 101, "vote_share": 4, "elected_status": "Not elected"}
-      ]
-    },
-    {
-      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
-      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=256",
-      "source_title": "Election results for Warlingham, 31 January 2019",
-      "source_publisher": "Surrey County Council",
-      "source_format": "official_result_page",
-      "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
-      "voting_summary": {"seats": 1, "total_votes": 2491, "electorate": 10088, "ballot_papers_issued": 2492, "rejected_ballots": 1, "turnout": 25},
-      "candidates": [
-        {"candidate_name": "Becky Rush", "original_party_name": "Conservative", "votes": 1199, "vote_share": 48, "elected_status": "Elected"},
-        {"candidate_name": "Charles Edward Lister", "original_party_name": "Liberal Democrats", "votes": 990, "vote_share": 40, "elected_status": "Not elected"},
-        {"candidate_name": "Haley Martin Arthur", "original_party_name": "UK Independence Party", "votes": 176, "vote_share": 7, "elected_status": "Not elected"},
-        {"candidate_name": "Michael Snowden", "original_party_name": "Labour", "votes": 126, "vote_share": 5, "elected_status": "Not elected"}
-      ]
-    },
-    {
-      "election_id": "surrey-county-council-by-election-haslemere-2019-05-02",
-      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=257&RPID=0",
-      "source_title": "Election results for Haslemere, 2 May 2019",
-      "source_publisher": "Surrey County Council",
-      "source_format": "official_result_page",
-      "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
-      "voting_summary": {"seats": 1, "total_votes": 4087, "electorate": 9536, "ballot_papers_issued": null, "rejected_ballots": 58, "turnout": null},
-      "candidates": [
-        {"candidate_name": "Nikki Barton", "original_party_name": "Independent", "votes": 2665, "vote_share": 65, "elected_status": "Elected"},
-        {"candidate_name": "Malcolm Carter", "original_party_name": "Conservative", "votes": 1159, "vote_share": 28, "elected_status": "Not elected"},
-        {"candidate_name": "Adrian Paul La Porta", "original_party_name": "Labour", "votes": 263, "vote_share": 6, "elected_status": "Not elected"}
-      ]
-    },
-    {
-      "election_id": "surrey-county-council-by-election-horsleys-2023-10-19",
-      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=39&RPID=0",
-      "source_title": "Election results for Horsleys, 19 October 2023",
-      "source_publisher": "Surrey County Council",
-      "source_format": "official_result_page",
-      "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
-      "voting_summary": {"seats": 1, "total_votes": 2786, "electorate": 9879, "ballot_papers_issued": 2791, "rejected_ballots": 4, "turnout": 28},
-      "candidates": [
-        {"candidate_name": "Booth, Dennis George William", "original_party_name": "Residents for Guildford and Villages", "votes": 1095, "vote_share": 39, "elected_status": "Elected"},
-        {"candidate_name": "Kennedy, Paul Gilbert", "original_party_name": "Liberal Democrats", "votes": 1023, "vote_share": 37, "elected_status": "Not elected"},
-        {"candidate_name": "Stewart-Clark, Alexander", "original_party_name": "Conservative", "votes": 569, "vote_share": 20, "elected_status": "Not elected"},
-        {"candidate_name": "Barnes John Howard", "original_party_name": "Labour", "votes": 99, "vote_share": 4, "elected_status": "Not elected"}
-      ]
-    },
-    {
       "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
       "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=346",
       "source_title": "Election results for Addlestone, 21 August 2025",
       "source_publisher": "Surrey County Council",
       "source_format": "official_result_page",
       "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
-      "voting_summary": {"seats": 1, "total_votes": 2726, "electorate": 11360, "ballot_papers_issued": null, "rejected_ballots": 8, "turnout": null},
+      "voting_summary": {
+        "seats": 1,
+        "total_votes": 2726,
+        "electorate": 11360,
+        "ballot_papers_issued": null,
+        "rejected_ballots": 8,
+        "turnout": null
+      },
       "candidates": [
-        {"candidate_name": "Scott Michael Kelly", "original_party_name": "Reform UK", "votes": 931, "vote_share": 34, "elected_status": "Elected"},
-        {"candidate_name": "Shannon Saise-Marshall", "original_party_name": "Conservative", "votes": 659, "vote_share": 24, "elected_status": "Not elected"},
-        {"candidate_name": "Mike Smith", "original_party_name": "Liberal Democrats", "votes": 473, "vote_share": 17, "elected_status": "Not elected"},
-        {"candidate_name": "Steven Lee Ringham", "original_party_name": "The Green Party", "votes": 441, "vote_share": 16, "elected_status": "Not elected"},
-        {"candidate_name": "Arran Richard Neathey", "original_party_name": "Labour and Co-operative", "votes": 222, "vote_share": 8, "elected_status": "Not elected"}
-      ]
-    },
-    {
-      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
-      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=347",
-      "source_title": "Election results for Hinchley Wood, Claygate & Oxshott, 21 August 2025",
-      "source_publisher": "Surrey County Council",
-      "source_format": "official_result_page",
-      "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
-      "voting_summary": {"seats": 1, "total_votes": 4344, "electorate": 12796, "ballot_papers_issued": 4349, "rejected_ballots": 2, "turnout": 34},
-      "candidates": [
-        {"candidate_name": "Andy Burton", "original_party_name": "Liberal Democrats", "votes": 1656, "vote_share": 38, "elected_status": "Elected"},
-        {"candidate_name": "Andrew Burley", "original_party_name": "Local Conservatives", "votes": 1346, "vote_share": 31, "elected_status": "Not elected"},
-        {"candidate_name": "Mary Susan Marshall", "original_party_name": "Independent", "votes": 659, "vote_share": 15, "elected_status": "Not elected"},
-        {"candidate_name": "Nicholas David Wood", "original_party_name": "Reform UK", "votes": 551, "vote_share": 13, "elected_status": "Not elected"},
-        {"candidate_name": "Sarah Coomes", "original_party_name": "Green", "votes": 101, "vote_share": 2, "elected_status": "Not elected"},
-        {"candidate_name": "Irene Threlkeld", "original_party_name": "Labour", "votes": 31, "vote_share": 1, "elected_status": "Not elected"}
+        {
+          "candidate_name": "Scott Michael Kelly",
+          "original_party_name": "Reform UK",
+          "votes": 931,
+          "vote_share": 34,
+          "elected_status": "Elected"
+        },
+        {
+          "candidate_name": "Shannon Saise-Marshall",
+          "original_party_name": "Conservative",
+          "votes": 659,
+          "vote_share": 24,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Mike Smith",
+          "original_party_name": "Liberal Democrats",
+          "votes": 473,
+          "vote_share": 17,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Steven Lee Ringham",
+          "original_party_name": "The Green Party",
+          "votes": 441,
+          "vote_share": 16,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Arran Richard Neathey",
+          "original_party_name": "Labour and Co-operative",
+          "votes": 222,
+          "vote_share": 8,
+          "elected_status": "Not elected"
+        }
       ]
     },
     {
@@ -166,12 +62,43 @@
       "source_publisher": "Surrey County Council",
       "source_format": "official_result_page",
       "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
-      "voting_summary": {"seats": 1, "total_votes": 3268, "electorate": 12034, "ballot_papers_issued": 3283, "rejected_ballots": 15, "turnout": 27},
+      "voting_summary": {
+        "seats": 1,
+        "total_votes": 3268,
+        "electorate": 12034,
+        "ballot_papers_issued": 3283,
+        "rejected_ballots": 15,
+        "turnout": 27
+      },
       "candidates": [
-        {"candidate_name": "Alan Robert Ashbery", "original_party_name": "Liberal Democrats", "votes": 1617, "vote_share": 49, "elected_status": "Elected"},
-        {"candidate_name": "Darryl Kishand Ratiram", "original_party_name": "Reform UK", "votes": 845, "vote_share": 26, "elected_status": "Not elected"},
-        {"candidate_name": "Attieh Fard", "original_party_name": "Local Conservatives", "votes": 666, "vote_share": 20, "elected_status": "Not elected"},
-        {"candidate_name": "Simon Schofield", "original_party_name": "Labour", "votes": 140, "vote_share": 4, "elected_status": "Not elected"}
+        {
+          "candidate_name": "Alan Robert Ashbery",
+          "original_party_name": "Liberal Democrats",
+          "votes": 1617,
+          "vote_share": 49,
+          "elected_status": "Elected"
+        },
+        {
+          "candidate_name": "Darryl Kishand Ratiram",
+          "original_party_name": "Reform UK",
+          "votes": 845,
+          "vote_share": 26,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Attieh Fard",
+          "original_party_name": "Local Conservatives",
+          "votes": 666,
+          "vote_share": 20,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Simon Schofield",
+          "original_party_name": "Labour",
+          "votes": 140,
+          "vote_share": 4,
+          "elected_status": "Not elected"
+        }
       ]
     },
     {
@@ -181,14 +108,170 @@
       "source_publisher": "Surrey County Council",
       "source_format": "official_result_page",
       "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
-      "voting_summary": {"seats": 1, "total_votes": 2458, "electorate": 9803, "ballot_papers_issued": 2463, "rejected_ballots": 5, "turnout": 25},
+      "voting_summary": {
+        "seats": 1,
+        "total_votes": 2458,
+        "electorate": 9803,
+        "ballot_papers_issued": 2463,
+        "rejected_ballots": 5,
+        "turnout": 25
+      },
       "candidates": [
-        {"candidate_name": "Tony Pearce", "original_party_name": "Liberal Democrats", "votes": 1182, "vote_share": 48, "elected_status": "Elected"},
-        {"candidate_name": "Jacqueline Rosemarie Thomson", "original_party_name": "Reform UK", "votes": 601, "vote_share": 24, "elected_status": "Not elected"},
-        {"candidate_name": "Richard John Mark", "original_party_name": "Conservative", "votes": 320, "vote_share": 13, "elected_status": "Not elected"},
-        {"candidate_name": "Leo Domingues", "original_party_name": "Green", "votes": 135, "vote_share": 5, "elected_status": "Not elected"},
-        {"candidate_name": "Peter Roy Andrew Gerard Roberts", "original_party_name": "Caterham Residents", "votes": 131, "vote_share": 5, "elected_status": "Not elected"},
-        {"candidate_name": "Jon Wheale", "original_party_name": "Labour", "votes": 89, "vote_share": 4, "elected_status": "Not elected"}
+        {
+          "candidate_name": "Tony Pearce",
+          "original_party_name": "Liberal Democrats",
+          "votes": 1182,
+          "vote_share": 48,
+          "elected_status": "Elected"
+        },
+        {
+          "candidate_name": "Jacqueline Rosemarie Thomson",
+          "original_party_name": "Reform UK",
+          "votes": 601,
+          "vote_share": 24,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Richard John Mark",
+          "original_party_name": "Conservative",
+          "votes": 320,
+          "vote_share": 13,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Leo Domingues",
+          "original_party_name": "Green",
+          "votes": 135,
+          "vote_share": 5,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Peter Roy Andrew Gerard Roberts",
+          "original_party_name": "Caterham Residents",
+          "votes": 131,
+          "vote_share": 5,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Jon Wheale",
+          "original_party_name": "Labour",
+          "votes": 89,
+          "vote_share": 4,
+          "elected_status": "Not elected"
+        }
+      ]
+    },
+    {
+      "election_id": "surrey-county-council-by-election-epsom-west-2015-11-19",
+      "source_url": "https://www.epsom-ewell.gov.uk/sites/default/files/documents/council/elections-and-voting/SCCDeclarationofResults19Nov2015.pdf",
+      "source_title": "Declaration of Result of Poll: Epsom West, 19 November 2015",
+      "source_publisher": "Epsom & Ewell Borough Council",
+      "source_format": "official_declaration",
+      "evidence_text": "Official Epsom & Ewell Borough Council declaration of the Surrey County Council Epsom West by-election result. It publishes all candidates, party descriptions, votes, the elected candidate, seats, electorate, ballot papers issued, rejected ballots and turnout. The declaration states that the word 'Elected' appears against elected candidates; only Persand is marked Elected.",
+      "voting_summary": {
+        "seats": 1,
+        "total_votes": null,
+        "electorate": 10548,
+        "ballot_papers_issued": 2602,
+        "rejected_ballots": 7,
+        "turnout": 24.7
+      },
+      "candidates": [
+        {
+          "candidate_name": "CHINN, Katherine Mary",
+          "original_party_name": "Labour Party Candidate",
+          "votes": 578,
+          "vote_share": null,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "CROOK, Christopher",
+          "original_party_name": "Green Party",
+          "votes": 58,
+          "vote_share": null,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "DALLEN, Neil Andrew",
+          "original_party_name": "Residents Associations of Epsom and Ewell",
+          "votes": 591,
+          "vote_share": null,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "LEACH, Robert",
+          "original_party_name": "UK Independence Party (UKIP)",
+          "votes": 168,
+          "vote_share": null,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "MORRIS, Julie Anne",
+          "original_party_name": "Liberal Democrat",
+          "votes": 588,
+          "vote_share": null,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "PERSAND, Karandeo",
+          "original_party_name": "Local Conservatives",
+          "votes": 612,
+          "vote_share": null,
+          "elected_status": "Elected"
+        }
+      ]
+    },
+    {
+      "election_id": "surrey-county-council-by-election-farnham-south-2016-08-18",
+      "source_url": "https://modgov.waverley.gov.uk/mgElectionResults.aspx?ID=6&RPID=0",
+      "source_title": "Election results for Farnham South, 18 August 2016",
+      "source_publisher": "Waverley Borough Council",
+      "source_format": "official_result_page",
+      "evidence_text": "Official Waverley Borough Council County Farnham South by-election result page. It publishes the candidate table and Voting Summary, including seats, total votes, electorate, ballot papers issued, rejected ballots and turnout.",
+      "voting_summary": {
+        "seats": 1,
+        "total_votes": 1506,
+        "electorate": 9952,
+        "ballot_papers_issued": 2267,
+        "rejected_ballots": 7,
+        "turnout": 22.8
+      },
+      "candidates": [
+        {
+          "candidate_name": "Robert Wyatt Ramsdale",
+          "original_party_name": "The Conservative Party",
+          "votes": 932,
+          "vote_share": 61.9,
+          "elected_status": "Elected"
+        },
+        {
+          "candidate_name": "Jo Aylwin",
+          "original_party_name": "Liberal Democrats",
+          "votes": 269,
+          "vote_share": 17.9,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Mark Edward Westcott",
+          "original_party_name": "Independent",
+          "votes": 139,
+          "vote_share": 9.2,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Paul John Chapman",
+          "original_party_name": "UKIP",
+          "votes": 89,
+          "vote_share": 5.9,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Fabian Benjamin Wood",
+          "original_party_name": "Labour Party",
+          "votes": 77,
+          "vote_share": 5.1,
+          "elected_status": "Not elected"
+        }
       ]
     },
     {
@@ -198,31 +281,96 @@
       "source_publisher": "Surrey County Council",
       "source_format": "official_result_page",
       "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
-      "voting_summary": {"seats": 1, "total_votes": 3456, "electorate": 10544, "ballot_papers_issued": 3465, "rejected_ballots": 10, "turnout": 33},
+      "voting_summary": {
+        "seats": 1,
+        "total_votes": 3456,
+        "electorate": 10544,
+        "ballot_papers_issued": 3465,
+        "rejected_ballots": 10,
+        "turnout": 33
+      },
       "candidates": [
-        {"candidate_name": "Catherine Susan Houston", "original_party_name": "Liberal Democrats", "votes": 1426, "vote_share": 41, "elected_status": "Elected"},
-        {"candidate_name": "Alex Fiuza", "original_party_name": "Conservative", "votes": 788, "vote_share": 23, "elected_status": "Not elected"},
-        {"candidate_name": "John Willem Edwin Redpath", "original_party_name": "Residents for Guildford and Villages", "votes": 565, "vote_share": 16, "elected_status": "Not elected"},
-        {"candidate_name": "Dale Stephen Layman", "original_party_name": "Reform UK", "votes": 416, "vote_share": 12, "elected_status": "Not elected"},
-        {"candidate_name": "Claire Whitehouse", "original_party_name": "Green", "votes": 172, "vote_share": 5, "elected_status": "Not elected"},
-        {"candidate_name": "Richard Eggleton", "original_party_name": "Labour", "votes": 89, "vote_share": 3, "elected_status": "Not elected"}
+        {
+          "candidate_name": "Catherine Susan Houston",
+          "original_party_name": "Liberal Democrats",
+          "votes": 1426,
+          "vote_share": 41,
+          "elected_status": "Elected"
+        },
+        {
+          "candidate_name": "Alex Fiuza",
+          "original_party_name": "Conservative",
+          "votes": 788,
+          "vote_share": 23,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "John Willem Edwin Redpath",
+          "original_party_name": "Residents for Guildford and Villages",
+          "votes": 565,
+          "vote_share": 16,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Dale Stephen Layman",
+          "original_party_name": "Reform UK",
+          "votes": 416,
+          "vote_share": 12,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Claire Whitehouse",
+          "original_party_name": "Green",
+          "votes": 172,
+          "vote_share": 5,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Richard Eggleton",
+          "original_party_name": "Labour",
+          "votes": 89,
+          "vote_share": 3,
+          "elected_status": "Not elected"
+        }
       ]
     },
     {
-      "election_id": "surrey-county-council-by-election-warlingham-2026-05-07",
-      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=443&RPID=0",
-      "source_title": "Election results for Warlingham by-election, 7 May 2026",
+      "election_id": "surrey-county-council-by-election-haslemere-2019-05-02",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=257&RPID=0",
+      "source_title": "Election results for Haslemere, 2 May 2019",
       "source_publisher": "Surrey County Council",
       "source_format": "official_result_page",
       "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
-      "voting_summary": {"seats": 1, "total_votes": 5029, "electorate": 10344, "ballot_papers_issued": 5070, "rejected_ballots": 41, "turnout": 49},
+      "voting_summary": {
+        "seats": 1,
+        "total_votes": 4087,
+        "electorate": 9536,
+        "ballot_papers_issued": null,
+        "rejected_ballots": 58,
+        "turnout": null
+      },
       "candidates": [
-        {"candidate_name": "Jacquie Thomson", "original_party_name": "Reform UK", "votes": 1597, "vote_share": 32, "elected_status": "Elected"},
-        {"candidate_name": "Robin Kenneth Bloore", "original_party_name": "Conservative", "votes": 1446, "vote_share": 29, "elected_status": "Not elected"},
-        {"candidate_name": "Perry Chotai", "original_party_name": "Liberal Democrats", "votes": 1178, "vote_share": 23, "elected_status": "Not elected"},
-        {"candidate_name": "Sarah Jane Stewart", "original_party_name": "Green", "votes": 329, "vote_share": 7, "elected_status": "Not elected"},
-        {"candidate_name": "Martin Arthur Haley", "original_party_name": "Independent", "votes": 308, "vote_share": 6, "elected_status": "Not elected"},
-        {"candidate_name": "Andrew Gerald Waters", "original_party_name": "Labour", "votes": 171, "vote_share": 3, "elected_status": "Not elected"}
+        {
+          "candidate_name": "Nikki Barton",
+          "original_party_name": "Independent",
+          "votes": 2665,
+          "vote_share": 65,
+          "elected_status": "Elected"
+        },
+        {
+          "candidate_name": "Malcolm Carter",
+          "original_party_name": "Conservative",
+          "votes": 1159,
+          "vote_share": 28,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Adrian Paul La Porta",
+          "original_party_name": "Labour",
+          "votes": 263,
+          "vote_share": 6,
+          "elected_status": "Not elected"
+        }
       ]
     },
     {
@@ -232,12 +380,573 @@
       "source_publisher": "Waverley Borough Council",
       "source_format": "official_result_page",
       "evidence_text": "Official Waverley Borough Council County Haslemere by-election result page. It publishes the candidate table and Voting Summary, including seats, total votes, electorate, ballot papers issued, rejected ballots and turnout.",
-      "voting_summary": {"seats": 1, "total_votes": 2471, "electorate": 9978, "ballot_papers_issued": 2474, "rejected_ballots": 3, "turnout": 24.8},
+      "voting_summary": {
+        "seats": 1,
+        "total_votes": 2471,
+        "electorate": 9978,
+        "ballot_papers_issued": 2474,
+        "rejected_ballots": 3,
+        "turnout": 24.8
+      },
       "candidates": [
-        {"candidate_name": "Terry Weldon", "original_party_name": "Liberal Democrats", "votes": 1181, "vote_share": 47.8, "elected_status": "Elected"},
-        {"candidate_name": "Toby Byfield", "original_party_name": "The Conservative Party", "votes": 797, "vote_share": 32.3, "elected_status": "Not elected"},
-        {"candidate_name": "Thomas Oliver Shrive", "original_party_name": "Green Party", "votes": 280, "vote_share": 11.3, "elected_status": "Not elected"},
-        {"candidate_name": "Barb Witt", "original_party_name": "Reform UK", "votes": 213, "vote_share": 8.6, "elected_status": "Not elected"}
+        {
+          "candidate_name": "Terry Weldon",
+          "original_party_name": "Liberal Democrats",
+          "votes": 1181,
+          "vote_share": 47.8,
+          "elected_status": "Elected"
+        },
+        {
+          "candidate_name": "Toby Byfield",
+          "original_party_name": "The Conservative Party",
+          "votes": 797,
+          "vote_share": 32.3,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Thomas Oliver Shrive",
+          "original_party_name": "Green Party",
+          "votes": 280,
+          "vote_share": 11.3,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Barb Witt",
+          "original_party_name": "Reform UK",
+          "votes": 213,
+          "vote_share": 8.6,
+          "elected_status": "Not elected"
+        }
+      ]
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=347",
+      "source_title": "Election results for Hinchley Wood, Claygate & Oxshott, 21 August 2025",
+      "source_publisher": "Surrey County Council",
+      "source_format": "official_result_page",
+      "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
+      "voting_summary": {
+        "seats": 1,
+        "total_votes": 4344,
+        "electorate": 12796,
+        "ballot_papers_issued": 4349,
+        "rejected_ballots": 2,
+        "turnout": 34
+      },
+      "candidates": [
+        {
+          "candidate_name": "Andy Burton",
+          "original_party_name": "Liberal Democrats",
+          "votes": 1656,
+          "vote_share": 38,
+          "elected_status": "Elected"
+        },
+        {
+          "candidate_name": "Andrew Burley",
+          "original_party_name": "Local Conservatives",
+          "votes": 1346,
+          "vote_share": 31,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Mary Susan Marshall",
+          "original_party_name": "Independent",
+          "votes": 659,
+          "vote_share": 15,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Nicholas David Wood",
+          "original_party_name": "Reform UK",
+          "votes": 551,
+          "vote_share": 13,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Sarah Coomes",
+          "original_party_name": "Green",
+          "votes": 101,
+          "vote_share": 2,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Irene Threlkeld",
+          "original_party_name": "Labour",
+          "votes": 31,
+          "vote_share": 1,
+          "elected_status": "Not elected"
+        }
+      ]
+    },
+    {
+      "election_id": "surrey-county-council-by-election-horsleys-2023-10-19",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=39&RPID=0",
+      "source_title": "Election results for Horsleys, 19 October 2023",
+      "source_publisher": "Surrey County Council",
+      "source_format": "official_result_page",
+      "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
+      "voting_summary": {
+        "seats": 1,
+        "total_votes": 2786,
+        "electorate": 9879,
+        "ballot_papers_issued": 2791,
+        "rejected_ballots": 4,
+        "turnout": 28
+      },
+      "candidates": [
+        {
+          "candidate_name": "Booth, Dennis George William",
+          "original_party_name": "Residents for Guildford and Villages",
+          "votes": 1095,
+          "vote_share": 39,
+          "elected_status": "Elected"
+        },
+        {
+          "candidate_name": "Kennedy, Paul Gilbert",
+          "original_party_name": "Liberal Democrats",
+          "votes": 1023,
+          "vote_share": 37,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Stewart-Clark, Alexander",
+          "original_party_name": "Conservative",
+          "votes": 569,
+          "vote_share": 20,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Barnes John Howard",
+          "original_party_name": "Labour",
+          "votes": 99,
+          "vote_share": 4,
+          "elected_status": "Not elected"
+        }
+      ]
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=344",
+      "source_title": "Election results for Nork & Tattenhams, 1 May 2025",
+      "source_publisher": "Surrey County Council",
+      "source_format": "official_result_page",
+      "evidence_text": "Official Surrey County Council result page. It publishes the candidate table with vote shares and the Voting Summary, including seats, total votes, electorate, ballot papers issued, rejected ballots and turnout.",
+      "voting_summary": {
+        "seats": 1,
+        "total_votes": 3867,
+        "electorate": 12059,
+        "ballot_papers_issued": 3869,
+        "rejected_ballots": 2,
+        "turnout": 32.0
+      },
+      "candidates": [
+        {
+          "candidate_name": "Peter Harp",
+          "original_party_name": "Nork and Tattenhams Residents' Associations",
+          "votes": 2084,
+          "vote_share": 54.0,
+          "elected_status": "Elected"
+        },
+        {
+          "candidate_name": "Elizabeth Cooper",
+          "original_party_name": "Reform UK",
+          "votes": 902,
+          "vote_share": 23.0,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Pamela Freeman",
+          "original_party_name": "Conservative",
+          "votes": 515,
+          "vote_share": 13.0,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Esme Wright",
+          "original_party_name": "Labour",
+          "votes": 167,
+          "vote_share": 4.0,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Mike Robinson",
+          "original_party_name": "Liberal Democrats",
+          "votes": 106,
+          "vote_share": 3.0,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Alistair Morten",
+          "original_party_name": "The Green Party",
+          "votes": 93,
+          "vote_share": 2.0,
+          "elected_status": "Not elected"
+        }
+      ]
+    },
+    {
+      "election_id": "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=171&RPID=0",
+      "source_title": "Election results for Staines South & Ashford West, 5 May 2016",
+      "source_publisher": "Surrey County Council",
+      "source_format": "official_result_page",
+      "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
+      "voting_summary": {
+        "seats": 1,
+        "total_votes": 3383,
+        "electorate": null,
+        "ballot_papers_issued": null,
+        "rejected_ballots": 21,
+        "turnout": null
+      },
+      "candidates": [
+        {
+          "candidate_name": "Turner-Stewart Denise",
+          "original_party_name": "Conservative",
+          "votes": 1585,
+          "vote_share": 47,
+          "elected_status": "Elected"
+        },
+        {
+          "candidate_name": "Appleford Peter Alfred",
+          "original_party_name": "UK Independence Party",
+          "votes": 695,
+          "vote_share": 21,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Raymond Iain Lochiel",
+          "original_party_name": "Labour",
+          "votes": 543,
+          "vote_share": 16,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Bateson Christopher Leslie",
+          "original_party_name": "Liberal Democrats",
+          "votes": 382,
+          "vote_share": 11,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "McLuskey Andrew",
+          "original_party_name": "The Green Party",
+          "votes": 145,
+          "vote_share": 4,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Clarke Matthew David",
+          "original_party_name": "Trade Unionist and Socialist Coalition",
+          "votes": 33,
+          "vote_share": 1,
+          "elected_status": "Not elected"
+        }
+      ]
+    },
+    {
+      "election_id": "surrey-county-council-by-election-sunbury-common-ashford-common-2022-11-30",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionResults.aspx?ID=22&RPID=474104375",
+      "source_title": "Election results for Sunbury Common & Ashford Common, 30 November 2022",
+      "source_publisher": "Surrey County Council",
+      "source_format": "official_result_page",
+      "evidence_text": "Official Surrey County Council result page. It publishes the candidate table with vote shares and the Voting Summary, including seats, total votes, electorate, ballot papers issued, rejected ballots and turnout.",
+      "voting_summary": {
+        "seats": 1,
+        "total_votes": 2045,
+        "electorate": 11755,
+        "ballot_papers_issued": 2053,
+        "rejected_ballots": 8,
+        "turnout": 17.0
+      },
+      "candidates": [
+        {
+          "candidate_name": "Harry Boparai",
+          "original_party_name": "Liberal Democrats",
+          "votes": 735,
+          "vote_share": 36.0,
+          "elected_status": "Elected"
+        },
+        {
+          "candidate_name": "Naz Islam",
+          "original_party_name": "Conservative",
+          "votes": 720,
+          "vote_share": 35.0,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Khalid Mustafa",
+          "original_party_name": "Labour",
+          "votes": 383,
+          "vote_share": 19.0,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Rory O'Brien",
+          "original_party_name": "Reform UK",
+          "votes": 144,
+          "vote_share": 7.0,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Helen Elizabeth Couchman",
+          "original_party_name": "Trade Unionist and Socialist Coalition",
+          "votes": 63,
+          "vote_share": 3.0,
+          "elected_status": "Not elected"
+        }
+      ]
+    },
+    {
+      "election_id": "surrey-county-council-by-election-the-byfleets-2018-12-06",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=255&RPID=0",
+      "source_title": "Election results for The Byfleets, 6 December 2018",
+      "source_publisher": "Surrey County Council",
+      "source_format": "official_result_page",
+      "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
+      "voting_summary": {
+        "seats": 1,
+        "total_votes": 2320,
+        "electorate": 10028,
+        "ballot_papers_issued": 2326,
+        "rejected_ballots": 6,
+        "turnout": 23
+      },
+      "candidates": [
+        {
+          "candidate_name": "Amanda Jayne Boote",
+          "original_party_name": "Independent",
+          "votes": 1128,
+          "vote_share": 49,
+          "elected_status": "Elected"
+        },
+        {
+          "candidate_name": "Gary William Elson",
+          "original_party_name": "Conservative",
+          "votes": 782,
+          "vote_share": 34,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Ellen Sophie Nicholson",
+          "original_party_name": "Liberal Democrats",
+          "votes": 309,
+          "vote_share": 13,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Lyn Sage",
+          "original_party_name": "UK Independence Party",
+          "votes": 101,
+          "vote_share": 4,
+          "elected_status": "Not elected"
+        }
+      ]
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=256",
+      "source_title": "Election results for Warlingham, 31 January 2019",
+      "source_publisher": "Surrey County Council",
+      "source_format": "official_result_page",
+      "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
+      "voting_summary": {
+        "seats": 1,
+        "total_votes": 2491,
+        "electorate": 10088,
+        "ballot_papers_issued": 2492,
+        "rejected_ballots": 1,
+        "turnout": 25
+      },
+      "candidates": [
+        {
+          "candidate_name": "Becky Rush",
+          "original_party_name": "Conservative",
+          "votes": 1199,
+          "vote_share": 48,
+          "elected_status": "Elected"
+        },
+        {
+          "candidate_name": "Charles Edward Lister",
+          "original_party_name": "Liberal Democrats",
+          "votes": 990,
+          "vote_share": 40,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Haley Martin Arthur",
+          "original_party_name": "UK Independence Party",
+          "votes": 176,
+          "vote_share": 7,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Michael Snowden",
+          "original_party_name": "Labour",
+          "votes": 126,
+          "vote_share": 5,
+          "elected_status": "Not elected"
+        }
+      ]
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2026-05-07",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=443&RPID=0",
+      "source_title": "Election results for Warlingham by-election, 7 May 2026",
+      "source_publisher": "Surrey County Council",
+      "source_format": "official_result_page",
+      "evidence_text": "Official Surrey result-page candidate table and Voting Summary.",
+      "voting_summary": {
+        "seats": 1,
+        "total_votes": 5029,
+        "electorate": 10344,
+        "ballot_papers_issued": 5070,
+        "rejected_ballots": 41,
+        "turnout": 49
+      },
+      "candidates": [
+        {
+          "candidate_name": "Jacquie Thomson",
+          "original_party_name": "Reform UK",
+          "votes": 1597,
+          "vote_share": 32,
+          "elected_status": "Elected"
+        },
+        {
+          "candidate_name": "Robin Kenneth Bloore",
+          "original_party_name": "Conservative",
+          "votes": 1446,
+          "vote_share": 29,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Perry Chotai",
+          "original_party_name": "Liberal Democrats",
+          "votes": 1178,
+          "vote_share": 23,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Sarah Jane Stewart",
+          "original_party_name": "Green",
+          "votes": 329,
+          "vote_share": 7,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Martin Arthur Haley",
+          "original_party_name": "Independent",
+          "votes": 308,
+          "vote_share": 6,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Andrew Gerald Waters",
+          "original_party_name": "Labour",
+          "votes": 171,
+          "vote_share": 3,
+          "elected_status": "Not elected"
+        }
+      ]
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=169&RPID=0",
+      "source_title": "Election results for Weybridge, 7 May 2015",
+      "source_publisher": "Surrey County Council",
+      "source_format": "official_result_page",
+      "evidence_text": "Official Surrey County Council Weybridge by-election result page. It publishes the candidate table, seats, total votes and electorate; ballot papers issued, rejected ballots and turnout are not published in its Voting Summary.",
+      "voting_summary": {
+        "seats": 1,
+        "total_votes": 7678,
+        "electorate": 11460,
+        "ballot_papers_issued": null,
+        "rejected_ballots": null,
+        "turnout": null
+      },
+      "candidates": [
+        {
+          "candidate_name": "Ramon Gray",
+          "original_party_name": "Conservative",
+          "votes": 4190,
+          "vote_share": 55,
+          "elected_status": "Elected"
+        },
+        {
+          "candidate_name": "Peter Michael Harman",
+          "original_party_name": "Weybridge Independents",
+          "votes": 1899,
+          "vote_share": 25,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Elinor Mair Jones",
+          "original_party_name": "Labour",
+          "votes": 967,
+          "vote_share": 13,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Joe Branco",
+          "original_party_name": "UK Independence Party",
+          "votes": 622,
+          "vote_share": 8,
+          "elected_status": "Not elected"
+        }
+      ]
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "source_url": "https://mycouncil.surreycc.gov.uk/mgElectionAreaResults.aspx?ID=345&RPID=0",
+      "source_title": "Election results for Woking South, 10 July 2025",
+      "source_publisher": "Surrey County Council",
+      "source_format": "official_result_page",
+      "evidence_text": "Official Surrey County Council result page for the Woking South county division by-election. Ballot papers issued is left null: Surrey publishes 3,058 while the Woking Borough Council returning-officer page publishes 3,048, and only the latter reconciles with 3,039 total votes plus 9 rejected ballots. The conflict is recorded rather than resolved by choosing between two official sources.",
+      "voting_summary": {
+        "seats": 1,
+        "total_votes": 3039,
+        "electorate": 12139,
+        "ballot_papers_issued": null,
+        "rejected_ballots": 9,
+        "turnout": 25.0
+      },
+      "candidates": [
+        {
+          "candidate_name": "Louise Morales",
+          "original_party_name": "Liberal Democrats",
+          "votes": 1939,
+          "vote_share": 64.0,
+          "elected_status": "Elected"
+        },
+        {
+          "candidate_name": "Richard Barker",
+          "original_party_name": "Reform UK",
+          "votes": 584,
+          "vote_share": 19.0,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Martin Benstead",
+          "original_party_name": "Conservative",
+          "votes": 291,
+          "vote_share": 10.0,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Paul Hoekstra",
+          "original_party_name": "The Green Party",
+          "votes": 134,
+          "vote_share": 4.0,
+          "elected_status": "Not elected"
+        },
+        {
+          "candidate_name": "Sean O'Malley",
+          "original_party_name": "Labour",
+          "votes": 91,
+          "vote_share": 3.0,
+          "elected_status": "Not elected"
+        }
       ]
     }
   ]

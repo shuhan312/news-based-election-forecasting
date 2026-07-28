@@ -8,6 +8,7 @@ from collections.abc import Mapping, Sequence
 from pathlib import Path
 from urllib.parse import urlsplit
 
+from election_extractor.by_election_results import load_by_election_catalogue
 from election_extractor.election_history import build_election_history
 
 
@@ -30,8 +31,18 @@ def build_by_election_historical_reference_audit(
 
     config = json.loads(Path(path).read_text(encoding="utf-8"))
     decisions = config.get("decisions")
-    if not isinstance(decisions, list) or len(decisions) != 15:
-        raise ValueError("By-election historical audit requires exactly 15 decisions.")
+    # One decision per catalogued by-election. The count is read from the
+    # catalogue rather than written here as a literal: the guard's purpose is
+    # that no catalogued event goes undecided, and a hard-coded number
+    # enforces that only until the next event is added, at which point it
+    # blocks the addition instead of checking it.
+    catalogued = len(load_by_election_catalogue())
+    if not isinstance(decisions, list) or len(decisions) != catalogued:
+        raise ValueError(
+            "By-election historical audit requires exactly one decision per "
+            f"catalogued by-election ({catalogued}); found "
+            f"{len(decisions) if isinstance(decisions, list) else 'none'}."
+        )
     raw_history = history if history is not None else build_election_history()
     raw_rows = raw_history.get("canonical_candidate_results")
     if not isinstance(raw_rows, list):
