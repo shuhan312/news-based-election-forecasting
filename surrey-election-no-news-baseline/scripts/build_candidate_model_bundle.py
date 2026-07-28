@@ -58,6 +58,15 @@ from no_news_baseline.candidate_leakage_audit import (
     permitted_predictors,
 )
 from no_news_baseline.candidate_metrics import evaluate, reform_report
+from no_news_baseline.candidate_probability_model import (
+    MODEL_ID as PROBABILITY_MODEL_ID,
+)
+from no_news_baseline.candidate_probability_model import (
+    LogisticElectionModel,
+    fit_and_predict_probability_fold,
+    probability_metrics,
+    select_logistic_penalty,
+)
 from no_news_baseline.candidate_share_model import (
     MODEL_ID,
     PENALTY_GRID,
@@ -110,7 +119,11 @@ def main() -> None:
     splits = all_splits(features)
 
     # --- run every split --------------------------------------------------
+    # Two models per fold on identical rows: the share model (Architecture A)
+    # and the probability-of-election model. Fitting them on the same splits
+    # means a share metric and a Brier score always describe the same fold.
     fold_results = []
+    probability_results = []
     for split in splits:
         assignment = assign_split(features, split)
         train_rows = [row for row in features
@@ -123,6 +136,18 @@ def main() -> None:
             (
                 split,
                 fit_and_predict_fold(
+                    split_id=split.split_id,
+                    split_role=split.role,
+                    train_rows=train_rows,
+                    test_rows=test_rows,
+                    targets=targets,
+                ),
+            )
+        )
+        probability_results.append(
+            (
+                split,
+                fit_and_predict_probability_fold(
                     split_id=split.split_id,
                     split_role=split.role,
                     train_rows=train_rows,
@@ -179,6 +204,20 @@ def main() -> None:
         for record in result.predictions
     ]
 
+    # --- probability predictions, on the same folds -----------------------
+    probability_oof = [
+        record
+        for split, result in probability_results
+        if split.role == ROLLING_ORIGIN
+        for record in result.predictions
+    ]
+    probability_holdout = [
+        record
+        for split, result in probability_results
+        if split.role in {PRIMARY_HOLDOUT, SECONDARY_HOLDOUT}
+        for record in result.predictions
+    ]
+
     # --- the fitted model shipped in the bundle ---------------------------
     # Fitted on everything before the primary holdout, which is the model
     # whose holdout predictions are reported. Later folds exist to measure
@@ -197,9 +236,25 @@ def main() -> None:
     )
     model = RidgeShareModel(penalty.l2_penalty).fit(design.matrix, y_train)
 
+    # The probability model shipped alongside it, fitted on the same rows.
+    elected_outcomes = {
+        str(row["candidate_contest_id"]): targets[str(row["candidate_contest_id"])].get(
+            "target_candidate_elected"
+        )
+        == "Yes"
+        for row in features
+    }
+    probability_penalty = select_logistic_penalty(final_train, elected_outcomes)
+    probability_model = LogisticElectionModel(probability_penalty.l2_penalty).fit(
+        design.matrix,
+        np.array([float(elected_outcomes[str(row["candidate_contest_id"])])
+                  for row in final_train]),
+    )
+
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "model.pkl").write_bytes(pickle.dumps(model))
     (OUT / "preprocessor.pkl").write_bytes(pickle.dumps(encoder))
+    (OUT / "probability_model.pkl").write_bytes(pickle.dumps(probability_model))
 
     # --- metrics ----------------------------------------------------------
     metrics = {
@@ -219,6 +274,20 @@ def main() -> None:
             split.split_id: evaluate(result.predictions, with_bootstrap=False)["overall"]
             for split, result in fold_results
         },
+        # Brier, log loss and calibration, which the share model cannot
+        # produce because it returns no probability.
+        "election_probability": {
+            "model_id": PROBABILITY_MODEL_ID,
+            "out_of_fold": probability_metrics(probability_oof),
+            "primary_holdout": probability_metrics(
+                [record for split, result in probability_results
+                 if split.role == PRIMARY_HOLDOUT for record in result.predictions]
+            ),
+            "by_split": {
+                split.split_id: probability_metrics(result.predictions)
+                for split, result in probability_results
+            },
+        },
     }
     reform = {
         "bundle_version": BUNDLE_VERSION,
@@ -235,6 +304,18 @@ def main() -> None:
                 "estimable": bool(result.train_reform_rows),
             }
             for split, result in fold_results
+        },
+        # Reform-specific probability scoring, kept separate from the pooled
+        # figure because 163 of the 174 Reform rows sit in the holdout.
+        "election_probability": {
+            "out_of_fold": probability_metrics(
+                [row for row in probability_oof if row["is_reform_uk"]]
+            ),
+            "primary_holdout": probability_metrics(
+                [row for split, result in probability_results
+                 if split.role == PRIMARY_HOLDOUT
+                 for row in result.predictions if row["is_reform_uk"]]
+            ),
         },
     }
 
@@ -283,6 +364,8 @@ def main() -> None:
     # --- write everything -------------------------------------------------
     _write_csv(OUT / "out_of_fold_predictions.csv", oof_rows)
     _write_csv(OUT / "holdout_predictions.csv", holdout_rows)
+    _write_csv(OUT / "out_of_fold_election_probabilities.csv", probability_oof)
+    _write_csv(OUT / "holdout_election_probabilities.csv", probability_holdout)
     _write_csv(
         OUT / "training_rows.csv",
         [
@@ -367,6 +450,27 @@ def main() -> None:
           f"small-sample warning: {reform['out_of_fold']['small_sample_warning']}")
     print(f"Reform holdout rows: {reform['primary_holdout']['reform_uk']['rows']}  "
           f"MAE {reform['primary_holdout']['reform_uk']['mae']:.2f}")
+
+    print("\nprobability of election (seat-constrained)")
+    print(f"{'':22s} {'rows':>6s} {'Brier':>8s} {'base':>8s} {'logloss':>8s} {'slope':>7s} {'ECE':>7s}")
+    for label, block in (
+        ("out-of-fold", metrics["election_probability"]["out_of_fold"]),
+        ("primary holdout", metrics["election_probability"]["primary_holdout"]),
+    ):
+        if not block.get("rows"):
+            continue
+        constrained = block["seat_constrained"]
+        calibration = constrained["calibration"]
+        print(f"{label:22s} {block['rows']:6d} {constrained['brier_score']:8.4f} "
+              f"{block['base_rate_reference']['brier_score']:8.4f} "
+              f"{constrained['log_loss']:8.4f} "
+              f"{calibration['calibration_slope']:7.2f} "
+              f"{calibration['expected_calibration_error']:7.4f}")
+    reform_probability = reform["election_probability"]["primary_holdout"]
+    if reform_probability.get("rows"):
+        print(f"{'Reform holdout':22s} {reform_probability['rows']:6d} "
+              f"{reform_probability['seat_constrained']['brier_score']:8.4f} "
+              f"{reform_probability['base_rate_reference']['brier_score']:8.4f}")
 
 
 if __name__ == "__main__":
