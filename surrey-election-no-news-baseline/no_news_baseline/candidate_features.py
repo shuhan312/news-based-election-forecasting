@@ -109,6 +109,16 @@ ENCODING: dict[str, str] = {
     "party_contest_rate_previous": NUMERIC,
     "years_since_previous_comparable_election": NUMERIC,
     "area_parties_in_previous_contest": NUMERIC,
+    # Reform UK and UKIP interactions; numeric so a missing base value
+    # stays a flagged missing interaction rather than an implicit zero
+    "reform_x_previous_party_vote_share": NUMERIC,
+    "ukip_x_previous_party_vote_share": NUMERIC,
+    "reform_x_party_county_strength_previous": NUMERIC,
+    "ukip_x_party_county_strength_previous": NUMERIC,
+    "reform_x_party_county_strength_trend": NUMERIC,
+    "ukip_x_party_county_strength_trend": NUMERIC,
+    "reform_x_party_contest_rate_previous": NUMERIC,
+    "ukip_x_party_contest_rate_previous": NUMERIC,
 }
 
 # Features computed from a permitted column rather than taken from it whole.

@@ -360,6 +360,83 @@ FEATURE_COLUMNS: dict[str, tuple[str, str, str, str, str, str]] = {
         "party_county_strength_status",
         "Which earlier elections contributed to the pooled county strength.",
     ),
+    # --- Reform UK and UKIP interaction terms (candidate_interactions) ----
+    "reform_x_previous_party_vote_share": (
+        PREDICTOR, "Candidate Results", "previous_election_declaration",
+        "Product of the is_reform_uk indicator and a permitted historical "
+        "predictor. Adds no information - both factors are already in the "
+        "matrix - only the ability to hold a second slope for one party. "
+        "Zero on non-Reform rows because the indicator is off; null where the "
+        "base predictor is itself missing.",
+        "party_county_strength_status",
+        "SHAP showed this feature contributing +0.0498 to Conservative predictions and -0.0880 to Reform ones, so one global slope cannot serve both.",
+    ),
+    "ukip_x_previous_party_vote_share": (
+        PREDICTOR, "Candidate Results", "previous_election_declaration",
+        "The brief's optional, clearly labelled UKIP sensitivity term. Off by "
+        "default and switched on deliberately; UKIP is never merged into "
+        "Reform UK and a UKIP observation is never evidence about Reform.",
+        "party_county_strength_status",
+        "Counterpart to the Reform term, for the comparison the brief "
+        "requires between a model that uses UKIP context and one that does not.",
+    ),
+    "reform_x_party_county_strength_previous": (
+        PREDICTOR, "Candidate Results", "previous_election_declaration",
+        "Product of the is_reform_uk indicator and a permitted historical "
+        "predictor. Adds no information - both factors are already in the "
+        "matrix - only the ability to hold a second slope for one party. "
+        "Zero on non-Reform rows because the indicator is off; null where the "
+        "base predictor is itself missing.",
+        "party_county_strength_status",
+        "Adding county strength made the linear architectures worse on Reform, because Reform's county figure comes from single-member by-elections and its 2026 contests are two-member wards.",
+    ),
+    "ukip_x_party_county_strength_previous": (
+        PREDICTOR, "Candidate Results", "previous_election_declaration",
+        "The brief's optional, clearly labelled UKIP sensitivity term. Off by "
+        "default and switched on deliberately; UKIP is never merged into "
+        "Reform UK and a UKIP observation is never evidence about Reform.",
+        "party_county_strength_status",
+        "Counterpart to the Reform term, for the comparison the brief "
+        "requires between a model that uses UKIP context and one that does not.",
+    ),
+    "reform_x_party_county_strength_trend": (
+        PREDICTOR, "Candidate Results", "previous_election_declaration",
+        "Product of the is_reform_uk indicator and a permitted historical "
+        "predictor. Adds no information - both factors are already in the "
+        "matrix - only the ability to hold a second slope for one party. "
+        "Zero on non-Reform rows because the indicator is off; null where the "
+        "base predictor is itself missing.",
+        "party_county_strength_status",
+        "A rising county trend plausibly means something different for a party entering a division for the first time.",
+    ),
+    "ukip_x_party_county_strength_trend": (
+        PREDICTOR, "Candidate Results", "previous_election_declaration",
+        "The brief's optional, clearly labelled UKIP sensitivity term. Off by "
+        "default and switched on deliberately; UKIP is never merged into "
+        "Reform UK and a UKIP observation is never evidence about Reform.",
+        "party_county_strength_status",
+        "Counterpart to the Reform term, for the comparison the brief "
+        "requires between a model that uses UKIP context and one that does not.",
+    ),
+    "reform_x_party_contest_rate_previous": (
+        PREDICTOR, "Candidate Results", "previous_election_declaration",
+        "Product of the is_reform_uk indicator and a permitted historical "
+        "predictor. Adds no information - both factors are already in the "
+        "matrix - only the ability to hold a second slope for one party. "
+        "Zero on non-Reform rows because the indicator is off; null where the "
+        "base predictor is itself missing.",
+        "party_county_strength_status",
+        "Reform moved from contesting 7 per cent of divisions to 100 per cent; for established parties this figure barely moves.",
+    ),
+    "ukip_x_party_contest_rate_previous": (
+        PREDICTOR, "Candidate Results", "previous_election_declaration",
+        "The brief's optional, clearly labelled UKIP sensitivity term. Off by "
+        "default and switched on deliberately; UKIP is never merged into "
+        "Reform UK and a UKIP observation is never evidence about Reform.",
+        "party_county_strength_status",
+        "Counterpart to the Reform term, for the comparison the brief "
+        "requires between a model that uses UKIP context and one that does not.",
+    ),
     # --- evidence-quality and missingness indicators ----------------------
     "historical_predictor_availability": (
         PREDICTOR, "Geographic Mapping", "statutory_order_publication",
