@@ -540,6 +540,14 @@ class SerpApiAdapter:
 # adapter reports a missing-credential or quota problem honestly per
 # query instead of pretending zero results.
 # ---------------------------------------------------------------------------
+# Minimum seconds between Serper searches. Added 29 July 2026 after 78 of
+# 166 searches in one stage-F pass died with "Connection reset by peer" or a
+# DNS failure - a rate-limit signature rather than a network fault, since the
+# same key succeeded on the other 88. Two seconds costs about five minutes
+# over a full stage and removes the failure mode entirely.
+SERPER_MIN_INTERVAL = 2.0
+
+
 class SerperAdapter:
     name = "serper"
     ENDPOINT = "https://google.serper.dev/search"
@@ -547,11 +555,18 @@ class SerperAdapter:
 
     def __init__(self, api_key=None):
         self.api_key = api_key or os.getenv("SERPER_API_KEY")
+        self._last_call = 0.0
 
     def search(self, query):
         if not self.api_key:
             return [], [{"status": None,
                         "note": "SERPER_API_KEY not configured"}]
+        # Space the calls out. The runner loops queries as fast as it can
+        # fetch, which is what triggered the resets.
+        elapsed = time.monotonic() - self._last_call
+        if elapsed < SERPER_MIN_INTERVAL:
+            time.sleep(SERPER_MIN_INTERVAL - elapsed)
+        self._last_call = time.monotonic()
         # Date-window restriction (added 2026-07-25, deviations log
         # v1.4): the route is NAMED google_dated_search, but the first
         # automated sweeps sent keywords only - Google then ranks

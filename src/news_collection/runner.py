@@ -201,8 +201,26 @@ def run(queries, *, fetch_budget=400, per_query_fetch_cap=None,
             "protocol_version": PROTOCOL_VERSION,
             "note": json.dumps(search_meta)[:300],
         })
-        done.add(q["query_id"])
-        save_checkpoint(done)          # checkpoint after EVERY query
+        # Checkpoint only when the search actually reached the engine.
+        #
+        # A transport failure - connection reset, DNS failure, timeout -
+        # returns no hits and no HTTP status. Checkpointing it recorded the
+        # query as searched forever, so a rerun skipped it and the log said
+        # "0 results" where the truth was "never asked". Measured on the
+        # by-election run of 29 July 2026: 78 of 166 stage F searches failed
+        # this way in one pass, four whole by-elections returned nothing, and
+        # every one of them would have stayed empty on every future run.
+        #
+        # A status of 200 with zero hits is a real answer and is checkpointed.
+        # Only the case where the engine was never reached is left open.
+        reached_engine = search_status is not None
+        if reached_engine:
+            done.add(q["query_id"])
+            save_checkpoint(done)
+        else:
+            stats["transport_failures"] = stats.get("transport_failures", 0) + 1
+            print(f"  {q['query_id']}: search did not reach the engine - "
+                  "left un-checkpointed for retry")
         stats["queries_run"] += 1
         stats["written"] += written
         stats["existing"] += existing

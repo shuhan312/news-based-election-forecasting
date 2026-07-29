@@ -38,8 +38,14 @@ from .runner import load_inventory, run
 
 def main():
     ap = argparse.ArgumentParser()
+    # A-D, M  principal elections (2013, 2017, 2021, 2026)
+    # E, F     by-elections Reform UK contested - the eight training-period
+    #          contests holding its pre-2026 record, plus the two 2026
+    #          holdout by-elections whose news is needed for prediction
+    # G, H     by-elections Reform did not contest
+    # F and H are the Google CSE tier, capped at 100 free queries a day.
     ap.add_argument("--stage", required=True,
-                    choices=["A", "B", "C", "D", "M"])
+                    choices=["A", "B", "C", "D", "E", "F", "G", "H", "M", "M2"])
     ap.add_argument("--budget", type=int, default=400,
                     help="max article fetches this run (resumable)")
     ap.add_argument("--per-query-cap", type=int, default=None,
@@ -56,10 +62,28 @@ def main():
                          "otherwise stay unfetched forever. Writes are "
                          "idempotent and a re-run appends a new log "
                          "row, so the shallow pass stays auditable")
+    # Run one query family across every stage.
+    #
+    # Stages group queries by which election and how quota-bound they are;
+    # they do not group by value. Measured on 29 July 2026, ward_cdx is the
+    # only family that reliably locates an article to a division - the search
+    # engines returned 700 articles of which 10 came from a Surrey local
+    # publisher - and Wayback's six-second politeness pause makes the CDX
+    # families the slow ones. Without this, the 445 ward_cdx queries that
+    # decide the row count sit behind hours of national context queries.
+    ap.add_argument("--family",
+                    help="only run this query_family (e.g. ward_cdx)")
+    ap.add_argument("--election-contains",
+                    help="only run queries whose election_id contains this")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
     queries = [q for q in load_inventory() if q["stage"] == args.stage]
+    if args.family:
+        queries = [q for q in queries if q["query_family"] == args.family]
+    if args.election_contains:
+        queries = [q for q in queries
+                   if args.election_contains in q["election_id"]]
     if args.stage == "C":
         # Hard guard, mirroring the protocol's pre-registration rule:
         # ward-tier collection must not start before the division

@@ -42,6 +42,7 @@ import csv
 import hashlib
 import json
 import re
+from datetime import date, timedelta
 from pathlib import Path
 
 from . import PROTOCOL_VERSION
@@ -52,6 +53,12 @@ RESULTS_2017_2021 = Path("data/elections/results_2017_2024.csv")
 RESULTS_2026 = [Path("data/elections/2026_east_surrey_results.csv"),
                 Path("data/elections/2026_west_surrey_results.csv")]
 DIVISION_SAMPLE = Path("news_protocol/division_sample.csv")
+# By-election inputs. Both are committed config, not generated output, so
+# the "reproduces the identical inventory" property holds for them too.
+BY_ELECTION_CATALOGUE = Path(
+    "surrey-election-extractor/config/by_election_event_catalogue.json")
+BY_ELECTION_RESULTS = Path(
+    "surrey-election-extractor/config/by_election_official_results.json")
 EXACT_CROSSWALK = Path(
     "surrey-election-extractor/outputs/geographic_crosswalk_resolution/"
     "final_direct_mapping_dataset.json")
@@ -137,6 +144,13 @@ CDX_FILTERS = {
     # in the inventory and the log as an unedited historical record.
     "surreylive": CDX_BROAD_POLITICAL,
     "surrey_comet": CDX_BROAD_POLITICAL,
+}
+# Filters these sources used before 2026-07-28. Retained so that
+# regeneration does not silently delete queries whose results are already
+# collected and logged.
+SUPERSEDED_CDX_FILTERS = {
+    "surreylive": ".*election.*",
+    "surrey_comet": ".*election.*",
 }
 SITE_SEARCH_SOURCES = {
     "woking_news_mail":  ["SCC-2017-05", "SCC-2021-05", "ESWS-2026-05"],
@@ -411,9 +425,26 @@ def ward_queries_for(election_id, era_name, division_data, stage_c_source,
     """
     out = []
     slug = ward_slug(era_name)
-    out.append(row(election_id, "ward_cdx", f".*{slug}.*", stage_c_source,
-                   "ward-level", "wayback_cdx", "local", "C",
-                   ward=display_division))
+    # Every CDX publisher, not just one.
+    #
+    # v1.4, 29 July 2026. This emitted a single ward query against
+    # surreylive. Measured productivity of the CDX route says that left most
+    # of the local corpus unreached: surreylive has written 3,187 records,
+    # but bbc_surrey 1,684, surrey_comet 804, farnham_herald 785 and
+    # woking_news_mail 467 - 3,794 between them, none searched at ward level.
+    #
+    # Ward-level CDX is the highest-precision local signal available: a URL
+    # slug containing the division name is a story about that division, where
+    # a search engine returns whatever it ranks. The by-election run made the
+    # gap visible - 700 articles retrieved by search engine, of which 10 came
+    # from a Surrey local publisher.
+    #
+    # Existing surreylive queries keep their ids: the id hashes (election,
+    # family, source, text), and only the source differs here.
+    for cdx_source in CDX_SOURCES:
+        out.append(row(election_id, "ward_cdx", f".*{slug}.*", cdx_source,
+                       "ward-level", "wayback_cdx", "local", "C",
+                       ward=display_division))
     manual = ([era_name]
              + [f'{era_name} AND {p}' for p in sorted(division_data["parties"])]
              + [f'"Surrey County Council" AND {era_name}']
@@ -435,10 +466,264 @@ def ward_queries_for(election_id, era_name, division_data, stage_c_source,
         # the billing route, not the discovery behaviour. Either adapter
         # reports a missing-credential or quota gap honestly per query
         # rather than pretending zero results.
-        out.append(row(election_id, "ward_manual", text,
+        # Route declared as serper, which is what has actually executed
+        # these: 1,422 searches against serper and 313 against serpapi, but
+        # only 2 against google_cse - and both of those returned 403. The
+        # inventory named a route that has never once worked, so a
+        # regenerated stage M would have failed on its first call.
+        unquoted = serper_safe(text)
+        out.append(row(election_id, "ward_manual", unquoted,
                        "google_dated_search", "ward-level",
-                       "google_cse", "local", "M", ward=display_division))
+                       "serper", "local", "M", ward=display_division))
+
+        # Keep the quoted original where one existed.
+        #
+        # Removing the quotes changes the query text, and the id hashes the
+        # text, so the quoted form would otherwise vanish from the inventory.
+        # It is not a dead query: Serper's free tier rejects quoting but
+        # SerpApi accepted it, and these 52 queries returned 200 fifteen
+        # times before the SerpApi quota ran out, writing 41 articles that
+        # are still on disk. Dropping the id would orphan all 41 - records
+        # traceable to a query nobody can find.
+        #
+        # Emitted at stage M2 on the serpapi route, so a rerun of stage M
+        # does not spend Serper credits on a pattern that route rejects,
+        # while the id stays present for the articles that reference it.
+        if unquoted != text:
+            out.append(row(election_id, "ward_manual", text,
+                           "google_dated_search", "ward-level",
+                           "serpapi", "local", "M2", ward=display_division))
     return out
+
+
+# ---------------------------------------------------------------------------
+# By-elections
+# ---------------------------------------------------------------------------
+#
+# v1.3, 29 July 2026. Ward-tier collection covered the 17 sampled divisions
+# across the four principal elections and no by-election at all. Joining the
+# corpus to the Stage 1 baseline measured what that costs: twenty candidate
+# rows carry division-level news, and none of them is Reform UK
+# (news_protocol/residual_model_feasibility.md).
+#
+# The by-elections are where Reform UK's pre-2026 record actually is. Of the
+# fourteen Reform rows in the training period, eight sit in by-elections where
+# Reform polled between 12 and 34 per cent; the six 2021 rows polled 3.
+#
+# Three properties make these cheap to collect, which is why this is a
+# targeted addition rather than a general widening:
+#
+#   * a by-election contests ONE division, so ward-tier queries need no
+#     sampling decision - the division is the whole contest;
+#   * seven of the eight are 2025, inside the period where publisher archives
+#     are complete, unlike 2013 and 2017 where not one article could be
+#     located to a division at all;
+#   * the candidate and party lists come from the committed official result
+#     pages, so `candidate AND ward` queries are exact rather than guessed.
+
+# Reform UK contested every by-election below. UKIP is queried separately
+# where it also stood; the two parties are never combined into one query,
+# because a single query returning both would make an article about UKIP
+# indistinguishable from one about Reform at retrieval time.
+BY_ELECTION_CHALLENGER = ['"Reform UK"',
+                          '"Reform UK" AND (Conservatives OR "Liberal Democrats")']
+
+# The local publishers whose archives cover 2022-2025. All seven CDX sources
+# apply: unlike 2013, every one of these publishers was live and indexed
+# throughout the by-election period, so no source x election exclusion is
+# needed.
+BY_ELECTION_SITE_SEARCH = ["woking_news_mail", "farnham_herald",
+                           "guildford_dragon", "epsom_ewell_times"]
+
+# How far back to search. The same 180 days used for the principal elections:
+# the analysis windows are 30/7/1 days, and collecting only 30 would leave no
+# margin for articles whose publication date has to be recovered later.
+BY_ELECTION_WINDOW_DAYS = 180
+
+
+def load_by_elections():
+    """{election_id: {area, date, window, parties, candidates}} for every
+    by-election with a committed official result.
+
+    Both inputs are config rather than pipeline output. Reading the results
+    file gives the real candidate and party names as printed on the official
+    result page, which is what makes `candidate AND ward` queries worth
+    running - a guessed name returns nothing and looks like an absence of
+    coverage.
+    """
+
+    if not (BY_ELECTION_CATALOGUE.exists() and BY_ELECTION_RESULTS.exists()):
+        print("WARNING: by-election config not found - by-election stages "
+              "(E, F) will be empty this run.")
+        return {}
+
+    catalogue = json.loads(BY_ELECTION_CATALOGUE.read_text())
+    events = {}
+
+    def walk(node):
+        if isinstance(node, dict):
+            if node.get("election_type") == "by-election" and node.get("election_id"):
+                events[node["election_id"]] = {
+                    "area": node.get("area_name") or node.get("election_name", ""),
+                    "date": node["election_date"],
+                }
+            for value in node.values():
+                walk(value)
+        elif isinstance(node, list):
+            for value in node:
+                walk(value)
+
+    walk(catalogue)
+
+    results = json.loads(BY_ELECTION_RESULTS.read_text())["results"]
+    out = {}
+    for record in results:
+        eid = record["election_id"]
+        event = events.get(eid)
+        if not event:
+            continue
+        candidates = record.get("candidates") or []
+        # Whether Reform UK stood. This decides the stage, so the eight
+        # contests that unblock the research question can be collected first
+        # and the remaining eleven - which add candidate rows but no Reform
+        # rows - can wait for spare quota.
+        reform_stood = any(
+            "reform" in str(c.get("original_party_name", "")).lower()
+            for c in candidates
+        )
+        polling = date.fromisoformat(event["date"])
+        out[eid] = {
+            "area": event["area"],
+            "date": event["date"],
+            "reform_stood": reform_stood,
+            "window": (
+                (polling - timedelta(days=BY_ELECTION_WINDOW_DAYS)).isoformat(),
+                polling.isoformat(),
+            ),
+            "parties": sorted({
+                str(c.get("original_party_name", "")).strip()
+                for c in candidates if c.get("original_party_name")
+            }),
+            "candidates": sorted({
+                str(c.get("candidate_name", "")).strip()
+                for c in candidates if c.get("candidate_name")
+            }),
+        }
+    return out
+
+
+def serper_safe(text):
+    """Strip double quotes from a search-engine query.
+
+    Measured on 2026-07-29, not assumed. Every one of the 91 searches that
+    ever returned HTTP 400 ("Query pattern not allowed for free accounts")
+    contained a double quote, and not one of the 1,331 that returned 200 did.
+    Probing the live endpoint confirms the rule directly: `Addlestone AND
+    Reform UK` succeeds, `"Addlestone" AND Reform UK` fails. The free tier
+    rejects phrase quoting; AND is fine.
+
+    The cost of the quotes was an entire query family. Every
+    `"Surrey County Council" AND <division>` query - one per division per
+    election, 91 of them - failed silently for the whole collection, so that
+    family contributed nothing to the corpus while appearing in the inventory
+    as though it had been searched.
+
+    Quoting is dropped rather than the family, because an unquoted query is a
+    weaker but real search, whereas a quoted one is no search at all. Where
+    precision matters more than the free tier - a paid Serper plan, or a
+    different adapter - restoring the quotes is a one-line change here.
+    """
+
+    return text.replace('"', "")
+
+
+def by_election_row(eid, family, text, source, scope, route, arm, stage,
+                    window, ward=""):
+    """A query row for a by-election.
+
+    Separate from ``row`` only because the window comes from the by-election's
+    own polling date rather than from the ELECTIONS table. Everything else -
+    the content-hash id, the field set - is identical, so by-election queries
+    and principal-election queries are the same kind of record and the runner
+    needs no special case.
+    """
+
+    start, end = window
+    return {
+        "query_id": qid(eid, family, source, text),
+        "election_id": eid, "ward": ward, "arm": arm,
+        "query_family": family, "query_text": text,
+        "source_id": source, "geographic_scope": scope,
+        "retrieval_route": route,
+        "window_start": start, "window_end": end,
+        "stage": stage, "protocol_version": PROTOCOL_VERSION,
+    }
+
+
+def by_election_queries(eid, data):
+    """Every query for one by-election.
+
+    Four stages rather than reusing A-D and M, so a by-election run can be
+    budgeted and resumed on its own, and so the contests that matter most run
+    first:
+
+        E  Reform contested it - Guardian API, Wayback CDX, site search
+        F  Reform contested it - Serper (the search-engine tier)
+        G  Reform did not stand - Guardian API, Wayback CDX, site search
+        H  Reform did not stand - Serper
+
+    E and F are the eight contests holding Reform's pre-2026 record. G and H
+    add candidate rows to the residual model without adding Reform rows, so
+    they are worth collecting but not worth collecting first.
+    """
+
+    area, window = data["area"], data["window"]
+    open_stage = "E" if data["reform_stood"] else "G"
+    cse_stage = "F" if data["reform_stood"] else "H"
+    rows = []
+
+    # --- national arm ----------------------------------------------------
+    for family, text in NATIONAL_FAMILIES.items():
+        rows.append(by_election_row(eid, family, text, "guardian_api",
+                                    "uk-national", "api", "national", open_stage, window))
+    for text in BY_ELECTION_CHALLENGER:
+        rows.append(by_election_row(eid, "challenger_party", text, "guardian_api",
+                                    "uk-national", "api", "national", open_stage, window))
+
+    # --- county tier ------------------------------------------------------
+    for text in (f'Surrey AND "{area}"', f'"Reform UK" AND Surrey'):
+        rows.append(by_election_row(eid, "county_tier", text, "guardian_api",
+                                    "surrey-county", "api", "local", open_stage, window))
+    for src in CDX_SOURCES:
+        rows.append(by_election_row(eid, "county_cdx",
+                                    CDX_FILTERS.get(src, ".*election.*") or "",
+                                    src, "surrey-county", "wayback_cdx",
+                                    "local", open_stage, window))
+    for src in BY_ELECTION_SITE_SEARCH:
+        for term in SITE_SEARCH_TERMS + ["by-election"]:
+            rows.append(by_election_row(eid, "county_site_search", term, src,
+                                        "surrey-county", "site_search",
+                                        "local", open_stage, window))
+
+    # --- ward tier: the by-election's single division ---------------------
+    # No sampling decision is needed here. A principal election has 81
+    # divisions and the protocol samples 17 of them; a by-election has one,
+    # and it is the contest.
+    for cdx_source in CDX_SOURCES:
+        rows.append(by_election_row(eid, "ward_cdx", f".*{ward_slug(area)}.*",
+                                    cdx_source, "ward-level", "wayback_cdx",
+                                    "local", open_stage, window, ward=area))
+    manual = ([area, f'{area} AND by-election',
+               f'Surrey County Council AND {area}']
+              + [f'{area} AND {p}' for p in data["parties"]]
+              + [f'{area} AND {issue}' for issue in WARD_ISSUES]
+              + [f'{c} AND {area}' for c in data["candidates"]])
+    for text in manual:
+        rows.append(by_election_row(eid, "ward_manual", serper_safe(text),
+                                    "google_dated_search", "ward-level",
+                                    "serper", "local", cse_stage, window,
+                                    ward=area))
+    return rows
 
 
 def build():
@@ -465,6 +750,23 @@ def build():
             regex = CDX_FILTERS.get(src, ".*election.*")
             rows.append(row(eid, "county_cdx", regex or "", src,
                             "surrey-county", "wayback_cdx", "local", stage))
+            # Emit the superseded narrow filter too, where one exists.
+            #
+            # The comment on CDX_FILTERS states that broadening surreylive
+            # and surrey_comet left "the original narrow queries in the
+            # inventory as an unedited historical record". That was true of
+            # the committed CSV and false of this generator: regenerating
+            # dropped all eight, because only one filter per source was ever
+            # emitted. The claim and the code disagreed until the file was
+            # next regenerated, which is the worst place for a disagreement
+            # to sit. Emitting both makes the docstring's "re-running
+            # reproduces the identical inventory" true again, and the
+            # already-collected results for these query_ids stay attached to
+            # a query that still exists.
+            if src in SUPERSEDED_CDX_FILTERS:
+                rows.append(row(eid, "county_cdx", SUPERSEDED_CDX_FILTERS[src],
+                                src, "surrey-county", "wayback_cdx", "local",
+                                stage))
 
         # --- local arm, county tier: publisher site search ------------
         for src, eids in SITE_SEARCH_SOURCES.items():
@@ -497,6 +799,11 @@ def build():
             rows.extend(ward_queries_for(eid, era_name, d, "surreylive",
                                          division))
 
+    # --- by-elections: every contest, its own single division ---------
+    by_elections = load_by_elections()
+    for eid, data in sorted(by_elections.items()):
+        rows.extend(by_election_queries(eid, data))
+
     rows.sort(key=lambda r: (r["election_id"], r["stage"],
                              r["query_family"], r["source_id"],
                              r["query_text"]))
@@ -511,6 +818,16 @@ def build():
         by_stage[r["stage"]] = by_stage.get(r["stage"], 0) + 1
     print(f"{len(rows)} queries -> {OUT}")
     print("by stage:", dict(sorted(by_stage.items())))
+    priority = {e for e, d in by_elections.items() if d["reform_stood"]}
+    print(f"by-elections: {len(by_elections)} contests, "
+          f"{sum(1 for r in rows if r['stage'] in 'EFGH')} queries")
+    print(f"  priority (Reform stood): {len(priority)} contests, "
+          f"{sum(1 for r in rows if r['stage'] in 'EF')} queries "
+          "(stages E, F)")
+    print(f"  remainder:               "
+          f"{len(by_elections) - len(priority)} contests, "
+          f"{sum(1 for r in rows if r['stage'] in 'GH')} queries "
+          "(stages G, H)")
     print(f"ward-tier: {len(sampled)} sampled divisions, "
           f"{sum(1 for n in resolved.values() for e in n)} "
           "division x era combinations resolved")
