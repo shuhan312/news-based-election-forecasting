@@ -52,13 +52,25 @@ PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python -m no_news_baseline
 been applied, so an override that did not take effect is visible before
 anything is fitted. `validate` checks a file and exits.
 
+### The six-page interface
+
+```bash
+PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python -m streamlit run surrey-election-no-news-baseline/app/streamlit_app.py
+```
+
+Upload and validation, model configuration, training, results, explainability
+and export. The app **reads bundles and invokes the CLI**; it never extracts
+from the workbook and never fits a model in-process, so every figure it shows
+came from a command that can be re-run. Training is launched as a subprocess
+with its log streamed to the page.
+
 If the contract is missing or stale, regenerate it first:
 
 ```bash
 PYTHONPATH=surrey-election-extractor .venv/bin/python surrey-election-extractor/scripts/generate_no_news_candidate_contests.py
 ```
 
-Dependencies: `numpy`, `lightgbm`, `pyyaml`, `pytest`. LightGBM is required —
+Dependencies: `numpy`, `lightgbm`, `pyyaml`, `pytest`, and `streamlit`, `pandas` and `openpyxl` for the interface. LightGBM is required —
 Architecture B is a comparator the brief asks for, and a missing comparator
 that failed quietly would let the comparison report two architectures while
 claiming three were tried.
@@ -206,11 +218,13 @@ model carries its own equal-split reference in every metric block.
 PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python -m pytest surrey-election-no-news-baseline/tests -q
 ```
 
-389 tests. The ones that matter most assert that something *fails*: a
+424 tests. The ones that matter most assert that something *fails*: a
 prohibited field entering the design matrix, a contest split across folds, a
 7 May 2026 row reaching training, an unknown value silently becoming zero or
 "No", a UKIP block without its Reform base, a configuration key that does not
-exist.
+exist, a seat count larger than the number of candidates, an election with two
+polling dates, a published column with no evidence layer. All six Streamlit
+pages are rendered headlessly on every run.
 
 ---
 
@@ -238,6 +252,11 @@ results that did not work:
   what it cost
 - [`run_configuration_and_reproducibility.md`](docs/run_configuration_and_reproducibility.md)
   — the configuration design, and the manifest defect a clean rebuild exposed
+- [`technical_report.md`](docs/technical_report.md) — **the concise report for
+  the supervisor review**, and the three decisions it asks for
+- [`data_validation_and_evidence_layers.md`](docs/data_validation_and_evidence_layers.md)
+  — seat and date validation, and why two thirds of the model's inputs are
+  derived rather than official
 - [`stage2_feasibility_findings.md`](docs/stage2_feasibility_findings.md) —
   what Stage 1 implies for the news layer
 

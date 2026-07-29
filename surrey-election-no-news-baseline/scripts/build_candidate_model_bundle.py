@@ -65,6 +65,14 @@ from no_news_baseline.candidate_boosted_model import (
     select_boosting_rounds,
 )
 from no_news_baseline.candidate_cohort import group_by_contest, is_within_candidate_cohort
+from no_news_baseline.candidate_data_validation import (
+    election_date_validation,
+    seat_validation,
+)
+from no_news_baseline.candidate_evidence_layers import (
+    EVIDENCE_LAYERS,
+    evidence_layer_report,
+)
 from no_news_baseline.candidate_contestation import (
     build_contestation_records,
     contestation_summary,
@@ -279,6 +287,17 @@ def _data_quality_report(features, targets) -> dict:
         "contest_structure": dict(
             Counter(str(row["contest_structure"]) for row in features)
         ),
+        # The brief asks for seat counts and election dates to be validated.
+        # Both decide something structural rather than merely descriptive: the
+        # seat count decides which candidates are predicted elected, and the
+        # date decides which fold a row lands in.
+        "seat_validation": seat_validation(features),
+        "election_date_validation": election_date_validation(features),
+        # "Identify fields whose values are official, supplementary or
+        # derived." Reported with the per-row provenance distributions for the
+        # two fields that carry their own, because a single label would be a
+        # claim about rows it is not true of.
+        "evidence_layers": evidence_layer_report(features),
         "unknown_values_preserved": (
             "Unknown is never converted to No and missing is never converted to "
             "zero; every nullable predictor carries a separate indicator column."
@@ -628,7 +647,12 @@ def build_bundle(
           "earliest_availability_event": FEATURE_COLUMNS[c][2],
           "restrictions": FEATURE_COLUMNS[c][3], "permission_field": FEATURE_COLUMNS[c][4],
           "definition": FEATURE_COLUMNS[c][5],
-          "used_as_predictor": FEATURE_COLUMNS[c][0] == "predictor"}
+          "used_as_predictor": FEATURE_COLUMNS[c][0] == "predictor",
+          # The evidence layer sits beside the leakage verdict rather than
+          # replacing it: "may be modelled" and "is an official value" are
+          # different facts and a reader needs both.
+          "evidence_layer": EVIDENCE_LAYERS[c][0],
+          "evidence_layer_reason": EVIDENCE_LAYERS[c][1]}
          for c in sorted(FEATURE_COLUMNS)],
         written,
     )
