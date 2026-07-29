@@ -1,17 +1,17 @@
 """The store's public interface.
 
 Every method here exists so that a caller cannot do the wrong thing by
-accident. There is no ``update_extraction``, because Prompt 2 forbids
-overwriting the model's output and the way to guarantee that is to provide no
-way to do it. There is no ``set_value``, because a value is either what the
+accident. There is no ``update_extraction``: the model's output must survive
+review, and the only way to guarantee that is to provide no way to change
+it. There is no ``set_value``, because a value is either what the
 model said or what a reviewer said instead, and those are recorded
 differently. Reading a value always returns its provenance alongside it, so
 model output cannot be presented as human-reviewed simply by forgetting to
 check.
 
-The store holds no credentials of any kind. Prompt 2 forbids an API key from
-reaching the database, the logs or an export; the simplest way to comply is
-for no method to accept one.
+The store holds no credentials of any kind. An API key must never reach the
+database, the logs or an export, and the simplest way to guarantee that is
+for no method here to accept one.
 """
 
 from __future__ import annotations
@@ -72,9 +72,9 @@ def _as_text(value: object) -> str | None:
 class ResolvedValue:
     """A value and where it came from.
 
-    ``provenance`` is returned with every read because Prompt 2 requires that
-    model-generated classifications are never presented as human-reviewed, and
-    an interface that returns a bare value invites exactly that.
+    ``provenance`` is returned with every read because a model classification
+    must never be presented as human-reviewed, and an interface that returns a
+    bare value invites exactly that.
     """
 
     article_id: str
@@ -246,7 +246,7 @@ class NewsStore:
 
         if status not in REVIEW_STATUSES:
             raise ValueError(
-                f"Unknown review status {status!r}. Prompt 2's statuses are "
+                f"Unknown review status {status!r}. The statuses are "
                 f"{list(REVIEW_STATUSES)}."
             )
         if corrections and status != "reviewed_and_corrected":
@@ -294,8 +294,8 @@ class NewsStore:
         """The article's current review status.
 
         The latest event wins. An article nobody has looked at is
-        ``not_reviewed`` - Prompt 2's default, and distinct from an article
-        someone looked at and left alone.
+        ``not_reviewed`` - the default, and distinct from an article someone
+        looked at and left alone.
         """
 
         row = self.connection.execute(
@@ -308,7 +308,7 @@ class NewsStore:
         """Every correction ever made to this article, oldest first.
 
         Including superseded ones. A field corrected twice shows both, which
-        is the change history the brief asks to be retained.
+        is what makes the record a history rather than a current state.
         """
 
         rows = self.connection.execute(
@@ -363,7 +363,7 @@ class NewsStore:
     # -- dashboard --------------------------------------------------------
 
     def review_dashboard(self, *, low_confidence: float = 0.5) -> dict:
-        """The counts Prompt 2 asks the review dashboard to show."""
+        """The counts a reviewer needs to see to know where the work stands."""
 
         def one(sql: str, *params) -> int:
             return int(self.connection.execute(sql, params).fetchone()[0])
@@ -408,9 +408,9 @@ class NewsStore:
                                  assignment: Mapping[str, object]) -> None:
         """Store where an article falls for one election under one scheme.
 
-        Keyed by scheme as well as election, because the brief contains three
-        incompatible window definitions and an assignment that does not say
-        which one produced it cannot be checked.
+        Keyed by scheme as well as election, because three incompatible window
+        definitions are in play and an assignment that does not say which one
+        produced it cannot be checked against anything.
         """
 
         self.connection.execute(
@@ -454,9 +454,8 @@ class NewsStore:
     def export_rows(self) -> list[dict]:
         """Every resolved field, with both values, for the workbook export.
 
-        Prompt 2: "For exports, include both AI Value and Final Value." Both
-        columns are always present, and ``provenance`` says which is in force,
-        so a reader never has to infer whether a human saw it.
+        Both columns are always present and ``provenance`` says which is in
+        force, so a reader never has to infer whether a human saw the value.
         """
 
         return [dict(row) for row in self.connection.execute(

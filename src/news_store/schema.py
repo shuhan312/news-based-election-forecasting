@@ -1,13 +1,13 @@
 """The SQLite schema, and the one structural idea it is built around.
 
-Prompt 2 asks for a structured local store, names SQLite as acceptable for a
-local proof of concept, and requires "database migrations or a schema-version
-table so later versions can upgrade projects safely". It also states the rule
-this schema exists to make true:
+SQLite, because a single project file that can be copied, versioned and
+inspected with any tool beats a server for research work of this size. A
+schema-version table so a file written by an older build is recognised and
+upgraded rather than silently misread.
 
-    "Preserve: original AI value; final reviewed value; correction timestamp;
-     reviewer note; correction reason. Do not overwrite or destroy the
-     original AI output."
+The rule the whole schema exists to make true: after any amount of review, the
+original model output, the reviewed value, the timestamp, the reviewer and the
+reason must all still be readable.
 
 Corrections are inserted, never applied
 ---------------------------------------
@@ -19,10 +19,9 @@ So nothing here is ever updated. ``extraction_value`` holds what the model
 said and is written once. ``correction`` holds what a reviewer said instead,
 as a new row carrying both the AI value it replaces and the reason. The value
 to use is derived by looking for the most recent correction and falling back
-to the extraction - which is exactly Prompt 2's rule, "use the final value in
-aggregated feature calculations when a reviewed value exists, otherwise use
-the AI value and mark it as unreviewed", expressed as a query rather than as
-an instruction.
+to the extraction. "Use the reviewed value where one exists, otherwise the
+model value marked unreviewed" is then a query, not an instruction a caller
+can forget.
 
 Change history then costs nothing: it is simply every correction row for that
 field, in order. A reviewer who corrects a value twice leaves two rows, and
@@ -30,9 +29,9 @@ the first is still readable.
 
 Why a review event is separate from a correction
 ------------------------------------------------
-Prompt 2's review statuses include "reviewed unchanged", which a correction
-table alone cannot express - a review that changed nothing writes no
-correction, and would be indistinguishable from no review at all. A
+"Reviewed and left alone" and "nobody has looked at it" are different facts
+about an article, and a correction table alone cannot tell them apart - a
+review that changed nothing writes no correction. A
 ``review_event`` is recorded whether or not anything changed, and corrections
 hang off it. That also gives a reviewer, a timestamp and a note for a session
 in which several fields were fixed at once, rather than repeating them per
@@ -40,9 +39,9 @@ field.
 
 One generic shape, not five tables
 ----------------------------------
-Prompt 2 lists article-ward links, entity mentions, issue mentions and frames
-as separate record types, each reviewable. They have the same review needs, so
-they share one addressing scheme: ``(article_id, record_type, record_key,
+Article-ward links, entity mentions, issue mentions and frames are separate
+record types and every one of them is reviewable. They have identical review
+needs, so they share one addressing scheme: ``(article_id, record_type, record_key,
 field)``. ``record_key`` is whatever identifies the specific link - a ward id,
 a party name, an issue label - and is empty for fields that belong to the
 article itself. Five near-identical tables would need five near-identical
@@ -58,8 +57,8 @@ from pathlib import Path
 # file can be recognised and upgraded rather than silently misread.
 SCHEMA_VERSION = 1
 
-# Prompt 2's five review statuses, verbatim in meaning. "Reviewed unchanged"
-# is the one that makes a separate review_event necessary.
+# The five review statuses. "reviewed_unchanged" is the one that makes a
+# separate review_event necessary, since it leaves no correction behind.
 REVIEW_STATUSES = (
     "not_reviewed",
     "reviewed_unchanged",
@@ -68,9 +67,8 @@ REVIEW_STATUSES = (
     "excluded",
 )
 
-# Where a value in use came from. Recorded on every read, because Prompt 2
-# requires exports to show both and requires model output never to be
-# presented as human-reviewed.
+# Where a value in use came from. Recorded on every read, so model output can
+# never be presented as human-reviewed by a caller who simply forgot to ask.
 PROVENANCE_AI = "ai_unreviewed"
 PROVENANCE_REVIEWED = "human_reviewed"
 
@@ -83,10 +81,9 @@ CREATE TABLE IF NOT EXISTS schema_version (
     note        TEXT
 );
 
--- Immutable record of an article as it arrived. Prompt 2: "Do not overwrite
--- the original article text with an LLM summary, cleaned text, corrected
--- text, extracted features or reviewed classifications." Cleaned text lives
--- in its own table for that reason.
+-- Immutable record of an article as it arrived. Nothing derived - a summary,
+-- cleaned text, an extracted feature, a reviewed classification - may ever be
+-- written back over it, which is why cleaned text has its own table.
 CREATE TABLE IF NOT EXISTS raw_article (
     article_id      TEXT PRIMARY KEY,
     batch_id        TEXT,
@@ -148,7 +145,7 @@ CREATE INDEX IF NOT EXISTS idx_review_article ON review_event (article_id);
 
 -- One row per field a reviewer changed, carrying the AI value it replaces.
 -- Append-only: correcting the same field twice leaves two rows and the first
--- stays readable, which is the change history Prompt 2 asks to be retained.
+-- stays readable, so the change history exists without being maintained.
 CREATE TABLE IF NOT EXISTS correction (
     correction_id INTEGER PRIMARY KEY AUTOINCREMENT,
     event_id      INTEGER NOT NULL REFERENCES review_event(event_id),
@@ -176,8 +173,8 @@ CREATE TABLE IF NOT EXISTS duplicate_group (
 );
 
 -- Where an article sits relative to one election. Kept per scheme, because
--- the three window definitions in the brief disagree and the assignment is
--- not meaningful without saying which one produced it.
+-- three incompatible window definitions are in play, and an assignment that
+-- does not name the one that produced it cannot be checked against anything.
 CREATE TABLE IF NOT EXISTS window_assignment (
     article_id      TEXT NOT NULL REFERENCES raw_article(article_id),
     election_id     TEXT NOT NULL,
@@ -191,8 +188,8 @@ CREATE TABLE IF NOT EXISTS window_assignment (
     PRIMARY KEY (article_id, election_id, window_scheme)
 );
 
--- Which articles a computed feature rests on. Prompt 2: "Every generated
--- feature must be traceable back to its underlying article records."
+-- Which articles a computed feature rests on, so any aggregate can be traced
+-- back to the evidence behind it.
 CREATE TABLE IF NOT EXISTS feature_provenance (
     feature_key TEXT NOT NULL,      -- election|division|party|window|feature
     article_id  TEXT NOT NULL REFERENCES raw_article(article_id),
@@ -200,8 +197,8 @@ CREATE TABLE IF NOT EXISTS feature_provenance (
     PRIMARY KEY (feature_key, article_id)
 );
 
--- Append-only log of everything that touched the store, for the audit trail
--- Prompt 2 requires. Never contains a key, a secret or a request header.
+-- Append-only log of everything that touched the store. Never contains a key,
+-- a secret or a request header.
 CREATE TABLE IF NOT EXISTS audit_log (
     entry_id   INTEGER PRIMARY KEY AUTOINCREMENT,
     happened_at TEXT NOT NULL,

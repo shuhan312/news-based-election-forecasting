@@ -24,8 +24,19 @@ PYTHONPATH=src .venv/bin/python -m news_modelling.run_residual_feasibility
 
 ## The result
 
-**Approach A cannot currently be estimated for Reform UK.** Not "estimated
-imprecisely" — the Reform sample in the joinable data is **zero**.
+> **Superseded in part, 29 July 2026.** The measurement below is correct for
+> the *local* tier and wrong for the national one. It counted only rows where
+> Reform was the focal party of an election-wide record, and missed the
+> party-agnostic national rows that apply to every candidate in an election.
+> Corrected figures: **0 rows with local news, 6 with national news**. It also
+> reports 20 local rows against a join that did not match on party; the
+> party-aware figure is 17. Both are set out in
+> [`five_specification_pipeline.md`](five_specification_pipeline.md). The rest
+> of this record — which elections overlap, why, and what that costs — stands.
+
+**Approach A cannot currently be estimated for Reform UK from local news.**
+Not "estimated imprecisely" — the Reform sample in the joinable local data is
+**zero**.
 
 | | |
 | --- | ---: |
