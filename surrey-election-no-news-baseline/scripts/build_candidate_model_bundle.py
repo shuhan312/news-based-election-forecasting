@@ -64,6 +64,15 @@ from no_news_baseline.candidate_contestation import (
     contestation_summary,
 )
 from no_news_baseline.candidate_features import CandidateFeatureEncoder, target_vector
+from no_news_baseline.candidate_historical_strength import (
+    assert_no_future_contribution,
+    attach_strength_features,
+    coverage_report as strength_coverage,
+)
+from no_news_baseline.candidate_interactions import (
+    attach_interactions,
+    interaction_coverage,
+)
 from no_news_baseline.candidate_hierarchical_model import (
     PartialPoolingShareModel,
     fit_and_predict_hierarchical_fold,
@@ -98,9 +107,11 @@ from no_news_baseline.election_dates import parse_election_date
 
 BUNDLE_VERSION = "candidate_model_bundle_v1"
 
-# Selection reads this split. It is the last development fold, deliberately
-# not the holdout: an architecture chosen on the holdout has consumed it.
-DECISION_SPLIT_ID = "dev_through_first_2025_test_later_2025"
+# Selection pools every development fold rather than reading one. Reading the
+# last fold alone decided on three Reform rows, which could not separate the
+# architectures; pooling raises it to sixteen row-slots over fourteen distinct
+# Reform rows. None of them is the holdout, which is not a development fold.
+DECISION_SPLIT_ID = None
 
 ARCHITECTURES = {
     "A_regularised_linear": fit_and_predict_fold,
@@ -282,6 +293,14 @@ def main() -> None:
         str(row["candidate_contest_id"]): row
         for row in json.loads((CONTRACT / "no_news_candidate_contest_targets.json").read_text())["rows"]
     }
+
+    # Derived county-level history, then the Reform interaction terms that let
+    # a linear model read it on a different slope. The date guard runs on the
+    # published contract before anything is attached, so a violation stops the
+    # build rather than reaching a model.
+    assert_no_future_contribution(features, targets)
+    contract_rows = list(features)
+    features = list(attach_interactions(attach_strength_features(features, targets)))
     splits = all_splits(features)
 
     # --- 1. score every architecture on every split ----------------------
@@ -312,6 +331,7 @@ def main() -> None:
 
     # --- 2. select, on a development fold --------------------------------
     outcome = select_architecture(scores, decision_split_id=DECISION_SPLIT_ID)
+    print(f"selection basis: {outcome.decision_basis} ({outcome.decision_rows} rows)")
     selected = outcome.selected
 
     # --- 3. out-of-fold and holdout, from the selected architecture ------
@@ -402,6 +422,10 @@ def main() -> None:
     }
 
     contestation = build_contestation_records(features)
+    derived_coverage = {
+        "county_strength": strength_coverage(contract_rows, targets),
+        "reform_interactions": interaction_coverage(features),
+    }
     quality = _data_quality_report(features, targets)
 
     architecture_json = {
@@ -410,6 +434,16 @@ def main() -> None:
         "architectures_compared": list(COMPLEXITY_ORDER),
         "selection": {
             "decision_split_id": outcome.decision_split_id,
+            "decision_basis": outcome.decision_basis,
+            # How much evidence the decision rests on. Recorded because the
+            # earlier single-fold decision rested on three Reform rows and
+            # nothing in the bundle made that visible.
+            "decision_rows": outcome.decision_rows,
+            "decision_rows_note": (
+                "Row-slots pooled across development folds. Two folds test "
+                "overlapping 2025 by-elections, so these are not independent "
+                "observations; the distinct Reform rows number 14."
+            ),
             "decision_split_role": "development_fold",
             "primary_criterion": outcome.primary_criterion,
             "material_improvement_threshold": MATERIAL_IMPROVEMENT,
@@ -493,6 +527,7 @@ def main() -> None:
         ("data_quality_report.json", quality),
         ("training_config.yaml", training_config),
         ("contestation_summary.json", contestation_summary(contestation)),
+        ("derived_feature_coverage.json", derived_coverage),
     ):
         (OUT / name).write_text(json.dumps(payload, indent=2) + "\n")
 

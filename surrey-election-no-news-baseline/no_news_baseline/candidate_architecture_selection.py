@@ -25,6 +25,31 @@ relative terms on the primary criterion. A 1 per cent MAE advantage on 838
 holdout rows is not evidence of a better model; it is the noise floor of one
 election.
 
+Why the decision pools folds instead of reading one
+----------------------------------------------------
+An earlier version read the primary criterion from a single named development
+fold. That fold - the last one, testing the three by-elections of 16 October
+2025 - holds sixteen candidate rows, three of them Reform UK, and the primary
+criterion is Reform vote-share MAE. Three rows cannot separate three
+architectures: on the enriched feature set all three landed within 1.4 per
+cent of each other, no challenger cleared the five-per-cent gate, and the
+simplest architecture survived by default while a clearly better one sat
+outside. The mechanism behaved exactly as designed; the design was
+underpowered.
+
+Pooling the development folds raises the Reform sample from 3 rows to 14 and
+needs no sight of the holdout, which is the constraint that made single-fold
+reading attractive in the first place. It also satisfies the brief's own
+criterion more honestly: "stability across chronological folds" is not
+something one fold can demonstrate.
+
+Pooling is by **rows, not by folds**. MAE is a mean of absolute errors, so a
+row-weighted mean of per-fold MAEs is exactly the MAE that would be computed
+over the pooled rows - no approximation. Weighting folds equally instead would
+let a three-row fold count as much as a six-row one, and would have no
+sensible answer for the folds that contain no Reform rows at all, of which
+there are two.
+
 Gate 2 - stability
 ------------------
 A challenger must not lose on more than ``MAX_ADVERSE_FOLDS`` of the
@@ -145,6 +170,29 @@ def score_architecture(
     )
 
 
+def pooled_criterion(
+    scores: Sequence[ArchitectureScore],
+    criterion: str,
+) -> tuple[float | None, int]:
+    """Row-weighted pooled value of a criterion, and the rows behind it.
+
+    Returns ``(None, 0)`` when no fold contributes rows, so a caller can tell
+    "no evidence" apart from "evidence that happens to be zero". Folds with no
+    rows for the criterion contribute nothing rather than dragging the mean.
+    """
+
+    total = 0.0
+    rows = 0
+    for score in scores:
+        value = score.criterion(criterion)
+        weight = score.reform_rows if criterion.startswith("reform_") else score.rows
+        if value is None or not weight:
+            continue
+        total += value * weight
+        rows += weight
+    return ((total / rows) if rows else None), rows
+
+
 @dataclass(frozen=True)
 class SelectionOutcome:
     """Which architecture was chosen, and every reason it was."""
@@ -158,12 +206,14 @@ class SelectionOutcome:
     material_improvement_threshold: float
     max_adverse_folds: int
     min_development_folds: int
+    decision_basis: str
+    decision_rows: int
 
 
 def select_architecture(
     scores: Sequence[ArchitectureScore],
     *,
-    decision_split_id: str,
+    decision_split_id: str | None = None,
     primary_criterion: str = PRIMARY_CRITERION,
     material_improvement: float = MATERIAL_IMPROVEMENT,
     max_adverse_folds: int = MAX_ADVERSE_FOLDS,
@@ -171,12 +221,12 @@ def select_architecture(
 ) -> SelectionOutcome:
     """Apply the two gates in complexity order and record every verdict.
 
-    ``decision_split_id`` names the split the primary criterion is read on.
-    It is a parameter rather than a constant because the honest choice depends
-    on what has been opened: before the holdout is unblinded the decision
-    split must be a development fold, and afterwards it may be the holdout.
-    Making it explicit stops the selection quietly reading a holdout it was
-    not supposed to see.
+    By default the primary criterion is pooled over every development fold,
+    which is where the evidence is. ``decision_split_id`` may name one split
+    instead, which remains supported for a deliberate single-fold reading, and
+    is also what makes it possible to state in the record whether the holdout
+    was read - it never is by default, because the holdout is not a
+    development fold and pooling only ever touches those.
     """
 
     by_architecture: dict[str, list[ArchitectureScore]] = {}
@@ -194,13 +244,37 @@ def select_architecture(
             "is selected."
         )
 
-    def decision_score(architecture: str) -> ArchitectureScore:
-        for score in by_architecture[architecture]:
-            if score.split_id == decision_split_id:
-                return score
-        raise ValueError(
-            f"{architecture} has no score on decision split {decision_split_id!r}."
-        )
+    def decision_value(architecture: str) -> tuple[float | None, int]:
+        """Pool the architecture's development folds, or read one named fold.
+
+        ``decision_split_id`` remains supported so a single fold can be read
+        deliberately, but pooling is the default because one fold cannot
+        demonstrate the stability the brief asks selection to weigh.
+        """
+
+        if decision_split_id is not None:
+            for score in by_architecture[architecture]:
+                if score.split_id == decision_split_id:
+                    return score.criterion(primary_criterion), (
+                        score.reform_rows
+                        if primary_criterion.startswith("reform_")
+                        else score.rows
+                    )
+            raise ValueError(
+                f"{architecture} has no score on decision split "
+                f"{decision_split_id!r}."
+            )
+        development = [
+            score
+            for score in by_architecture[architecture]
+            if score.split_role == "development_fold"
+        ]
+        if not development:
+            raise ValueError(
+                f"{architecture} has no development folds to pool. Selection "
+                "cannot read the holdout, so there is nothing to decide on."
+            )
+        return pooled_criterion(development, primary_criterion)
 
     def development_scores(architecture: str) -> dict[str, ArchitectureScore]:
         return {
@@ -216,9 +290,11 @@ def select_architecture(
     ]
     reports: list[dict[str, object]] = []
 
+    decision_rows = 0
     for challenger in present[1:]:
-        incumbent_value = decision_score(incumbent).criterion(primary_criterion)
-        challenger_value = decision_score(challenger).criterion(primary_criterion)
+        incumbent_value, incumbent_rows = decision_value(incumbent)
+        challenger_value, challenger_rows = decision_value(challenger)
+        decision_rows = max(decision_rows, incumbent_rows, challenger_rows)
 
         if incumbent_value is None or challenger_value is None:
             reports.append({
@@ -254,6 +330,7 @@ def select_architecture(
             "challenger": challenger,
             "incumbent": incumbent,
             "decision_split_id": decision_split_id,
+            "decision_rows": challenger_rows,
             "primary_criterion": primary_criterion,
             "incumbent_value": incumbent_value,
             "challenger_value": challenger_value,
@@ -297,7 +374,11 @@ def select_architecture(
         selected=incumbent,
         incumbent=present[0],
         primary_criterion=primary_criterion,
-        decision_split_id=decision_split_id,
+        decision_split_id=decision_split_id or "pooled_development_folds",
+        decision_basis=(
+            "single_named_fold" if decision_split_id else "pooled_development_folds"
+        ),
+        decision_rows=decision_rows,
         reasons=tuple(reasons),
         challenger_reports=tuple(reports),
         material_improvement_threshold=material_improvement,
