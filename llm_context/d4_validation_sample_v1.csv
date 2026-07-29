@@ -1,0 +1,61 @@
+article_id,election_id,arm,mentions_reform,headline
+NEWS-bbc_surrey-4739f8ec453a,SCC-2013-05,local,false,French Alps shooting: UK vehicle appeal
+NEWS-bbc_surrey-8cf8f699dc50,SCC-2021-05,local,false,Walton-on-Thames murder probe after man killed in car park fight
+NEWS-bbc_surrey-9322d4431ec0,SCC-2013-05,local,false,Surrey growers lose thousands after cold spring
+NEWS-bbc_surrey-956003a841b5,SCC-2013-05,local,false,Driver grabs girl on way to school in Hersham
+NEWS-bbc_surrey-977a0d0a4f74,SCC-2017-05,local,false,Three gun smugglers jailed including a Godalming paedophile
+NEWS-bbc_surrey-efe6c71df344,SCC-2021-05,local,false,Elmbridge trees: Police make arrest over Surrey tree felling
+NEWS-guardian_api-0240a09cb3df,SCC-2021-05,national,false,Boris Johnson phones to congratulate Joe Biden and discuss 'close' relationship
+NEWS-guardian_api-0542986e54ba,SCC-2017-05,national,false,It’s not enough to moan about the new right – resist it | Nick Cohen
+NEWS-guardian_api-097b30b5bdb0,SCC-2013-05,national,false,Labour wins Cardiff byelection as Tories and Lib Dems lose ground
+NEWS-guardian_api-0b11943945c9,SCC-2013-05,national,false,Andrew Mitchell quizzed on aid to Rwanda: Politics live blog
+NEWS-guardian_api-13c48e6a3545,ESWS-2026-05,national,true,"Farage backs Tory attack on Muslim iftar event, saying public prayer ‘was a shock’ – as it happened"
+NEWS-guardian_api-1a41f71c116d,ESWS-2026-05,national,true,Three more ex-pupils at school with Nigel Farage reject ‘banter’ claims
+NEWS-guardian_api-2037e4eda9eb,SCC-2021-05,national,false,The Covid-19 blunders drive home a harsh truth: the state has failed us
+NEWS-guardian_api-2273c756b650,ESWS-2026-05,local,false,Council funding deal: who are the winners and losers – and will tax bills rise? 
+NEWS-guardian_api-24f48a444223,SCC-2021-05,national,false,Rishi Sunak says Covid economic emergency has only just begun
+NEWS-guardian_api-2fcab156b766,SCC-2013-05,national,false,"Britain could thrive outside EU, suggests IDS"
+NEWS-guardian_api-32652e99bc22,ESWS-2026-05,national,false,"Cutting aid for disease fund would be moral failure, Labour MPs tell Starmer"
+NEWS-guardian_api-33fde8b6d2bc,SCC-2017-05,national,false,Stark warning for Labour as party slips to fourth in Sleaford byelection
+NEWS-guardian_api-34881ec267e4,SCC-2021-05,national,true,UK Covid: Johnson suggests testing for people returning from ‘green list’ countries could be simplified – as it happened
+NEWS-guardian_api-351db380e072,SCC-2021-05,local,false,Trixie Chandler obituary
+NEWS-guardian_api-383fdf4ab4cd,ESWS-2026-05,national,true,Shabana Mahmood is an avatar of open Britain – that’s what makes her fable about immigration so seductive | Nesrine Malik
+NEWS-guardian_api-3867309607e1,SCC-2013-05,local,false,Working lives: using podcasts to improve my local engagement
+NEWS-guardian_api-3aa227967a6d,ESWS-2026-05,national,false,It pays to support women’s health in the workplace | Letter
+NEWS-guardian_api-3dd2ab7556e7,ESWS-2026-05,national,false,Tech shares slide after SoftBank sells Nvidia stake; UK interest rate cut expected in December – as it happened
+NEWS-guardian_api-44cbb952c1d6,SCC-2013-05,national,false,"Coalition, act two: Liberal Democrats must step away from the Tories | Richard Reeves"
+NEWS-guardian_api-5ce140b45966,SCC-2013-05,local,false,Pensioner starved to death after being left alone for nine days
+NEWS-guardian_api-5e3328cf929c,SCC-2021-05,national,false,"Protect BAME people hit financially by Covid, says UK thinktank"
+NEWS-guardian_api-64d0584b57fa,SCC-2017-05,national,false,NHS crisis: more money must be linked to reform
+NEWS-guardian_api-656a147b1b36,ESWS-2026-05,national,false,Here’s how we can save Britain’s high streets  | Letters 
+NEWS-guardian_api-7500f66e845f,SCC-2013-05,national,false,Home Oxygen Service is a breath of fresh air for patients
+NEWS-guardian_api-84a775d4ad10,ESWS-2026-05,national,true,Reform councillors accused of ‘rash promises’ as council tax rises loom
+NEWS-guardian_api-85aa2166b08c,ESWS-2026-05,local,false,"Ex-Tory minister Crispin Blunt fined £1,200 for possession of crystal meth"
+NEWS-guardian_api-896faad4b594,ESWS-2026-05,national,false,"Labour to protect existing MPs above winning more seats at next election, deputy leader says"
+NEWS-guardian_api-8a783705f74e,SCC-2013-05,national,false,How Libor rate rigging has put hospitals in crisis | Allyson Pollock and David Price
+NEWS-guardian_api-8ae0aa97db90,ESWS-2026-05,national,true,Tuesday briefing: Inside the latest Lords scandal – and the future of the peers
+NEWS-guardian_api-a44a37b3b283,SCC-2017-05,national,false,Councils accuse Home Office of dragging heels over Calais children
+NEWS-guardian_api-a876f0e9998e,SCC-2021-05,local,false,South African variant of Covid found in eight areas of England
+NEWS-guardian_api-ae8d528a0868,SCC-2017-05,national,false,Northumbria police chief leads fight against cuts to women's refuges
+NEWS-guardian_api-bb20adee0f3a,SCC-2017-05,national,false,Former Tory health minister defends Simon Stevens over NHS winter crisis
+NEWS-guardian_api-c4dcbaa0515e,SCC-2021-05,local,false,"Empty offices must not become 'rabbit hutch' homes, say English councils"
+NEWS-guardian_api-d74f5e4509df,SCC-2021-05,national,false,Labour urges UK to redouble efforts to tackle climate crisis after Biden victory
+NEWS-guardian_api-ea7dd4642df3,SCC-2013-05,local,false,How one CCG is using Facebook to improve communication
+NEWS-guardian_api-ed80536b929e,ESWS-2026-05,national,true,"Chris Wormald forced out of post as cabinet secretary, No 10 confirms – as it happened"
+NEWS-guardian_api-f179eb8f1ab9,ESWS-2026-05,national,true,Nandy rules out taking action to remove Robbie Gibb from BBC board – as it happened
+NEWS-guardian_api-f7a7a3a15568,ESWS-2026-05,local,false,"Council staff visited wrong address day before Sara Sharif’s murder, review finds"
+NEWS-guardian_api-f9c82f1235c8,SCC-2021-05,national,false,"Finance ministers hooked on Covid stimulus, Mervyn King says"
+NEWS-guardian_api-fc42fa870ddc,ESWS-2026-05,national,true,Zack Polanski tells NEU teachers’ union that Greens would abolish ‘toxic’ Ofsted – as it happened
+NEWS-guardian_api-fcfb81b2dc09,SCC-2013-05,local,false,Restorative justice: live discussion roundup
+NEWS-guildford_dragon-c4c267f5f96d,SCC-2021-05,local,false,"Letter: See Through This Blatant, Cynical Conservative Electioneering"
+NEWS-guildford_dragon-d8c0187430a0,SCC-2017-05,local,false,General Election Called For June 8: Guildford Politicians Comment
+NEWS-surreylive-1d71be81f2ae,SCC-2021-05,local,false,Body found in field near Ashtead believed to be missing man
+NEWS-surreylive-2360b288b189,SCC-2017-05,local,false,Tadworth woman has jail term CUT after Staffy brutally savaged neighbour
+NEWS-surreylive-39affecd8be2,ESWS-2026-05,local,false,Drug dealer arrested in Stanwell claimed knife in car was 'for fishing'
+NEWS-surreylive-7a29d15d8401,ESWS-2026-05,local,true,"East Surrey Local Elections: Every candidate standing in Reigate, Mole Valley, Tandridge, Elmbridge and Epsom"
+NEWS-surreylive-938b4b38443f,ESWS-2026-05,local,false,Huge police presence in Stanwell after officers called to stabbing
+NEWS-surreylive-9f80db7dd6d3,ESWS-2026-05,local,false,Every Mole Valley candidate standing in the East Surrey Local Elections including Dorking and Leatherhead
+NEWS-surreylive-b1eaf77d795f,SCC-2017-05,local,false,Jeremy Hunt launches re-election bid and calls Labour 'insincere'
+NEWS-surreylive-b1f737e52256,SCC-2017-05,local,false,Dangerous game of 'chicken' at Ashtead level crossing prompts safety warning
+NEWS-surreylive-b6967f5376d3,SCC-2017-05,local,false,Startled eyewitness recalls scary Bagshot A322 crash
+NEWS-surreylive-d05e30e901e5,SCC-2017-05,local,false,Lorry driver suffers serious injuries after three-vehicle crash

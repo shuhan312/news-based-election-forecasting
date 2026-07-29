@@ -1,0 +1,55 @@
+{
+  "version": "d4-sample-v1.0-2026-07-29",
+  "frame": {
+    "assembled_includes": 1452,
+    "pilot_excluded": 67,
+    "no_text_file": 0,
+    "frame_size": 1397
+  },
+  "strata": {
+    "ESWS-2026-05/local": {
+      "pool": 14,
+      "quota": 7,
+      "taken": 7
+    },
+    "ESWS-2026-05/national": {
+      "pool": 242,
+      "quota": 6,
+      "taken": 6
+    },
+    "SCC-2013-05/local": {
+      "pool": 7,
+      "quota": 7,
+      "taken": 7
+    },
+    "SCC-2013-05/national": {
+      "pool": 406,
+      "quota": 6,
+      "taken": 6
+    },
+    "SCC-2017-05/local": {
+      "pool": 56,
+      "quota": 7,
+      "taken": 7
+    },
+    "SCC-2017-05/national": {
+      "pool": 393,
+      "quota": 6,
+      "taken": 6
+    },
+    "SCC-2021-05/local": {
+      "pool": 30,
+      "quota": 7,
+      "taken": 7
+    },
+    "SCC-2021-05/national": {
+      "pool": 249,
+      "quota": 6,
+      "taken": 6
+    }
+  },
+  "reform_in_base": 2,
+  "reform_topped_up": 8,
+  "selected_count": 60,
+  "method": "Frame: adjudicated includes from corpus_eligibility_decisions.csv with an extracted text file, minus the 67 pilot articles. Strata: election x arm. Quotas: 7 local + 6 national per election. Within-stratum order: sha256(article_id); first k taken. Reform UK top-up to >= 10 mentioning articles in the same hash order. Drawn before the corpus-v2 freeze (re-harvest delta still under E5 review) and without the provisional duplicate mapping; both disclosed in build_d4_sample.py. No manual selection."
+}
