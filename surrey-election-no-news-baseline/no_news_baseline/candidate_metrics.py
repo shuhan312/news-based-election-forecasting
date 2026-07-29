@@ -326,8 +326,16 @@ def evaluate(
     records: Iterable[Mapping[str, object]],
     *,
     with_bootstrap: bool = True,
+    resamples: int = BOOTSTRAP_RESAMPLES,
+    seed: int = BOOTSTRAP_SEED,
 ) -> dict[str, object]:
-    """The full metric set, pooled and broken down as the brief requires."""
+    """The full metric set, pooled and broken down as the brief requires.
+
+    ``resamples`` and ``seed`` are passed through rather than read from the
+    module, so a run's interval width and its randomness both come from the
+    configuration that the bundle records. An interval whose seed is not
+    written down is not reproducible.
+    """
 
     rows = list(records)
     report: dict[str, object] = {
@@ -340,7 +348,7 @@ def evaluate(
     }
     if with_bootstrap:
         report["overall"]["mae_contest_bootstrap_95"] = bootstrap_contest_interval(
-            rows, _mae
+            rows, _mae, resamples=resamples, seed=seed
         )
 
     # A pooled headline is never published alone: single-member and
@@ -386,6 +394,8 @@ def reform_report(
     *,
     with_bootstrap: bool = True,
     small_sample_threshold: int = 30,
+    resamples: int = BOOTSTRAP_RESAMPLES,
+    seed: int = BOOTSTRAP_SEED,
 ) -> dict[str, object]:
     """Reform UK results, reported separately as the brief requires.
 
@@ -418,7 +428,7 @@ def reform_report(
     }
     if with_bootstrap:
         report["reform_uk"]["mae_contest_bootstrap_95"] = bootstrap_contest_interval(
-            reform, _mae
+            reform, _mae, resamples=resamples, seed=seed
         )
     return report
 

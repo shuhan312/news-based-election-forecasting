@@ -165,6 +165,8 @@ def build_strength_features(
     targets: Mapping[str, Mapping[str, object]],
     *,
     embargo_from: date | None = PRIMARY_HOLDOUT_DATE,
+    minimum_contests: int = MIN_CONTESTS_FOR_COUNTY_STRENGTH,
+    pooling_window_years: float = POOLING_WINDOW_YEARS,
 ) -> dict[str, dict[str, object]]:
     """Return the six derived features, keyed by candidate_contest_id.
 
@@ -172,6 +174,12 @@ def build_strength_features(
     own polling date. Values that cannot be established are ``None`` with a
     companion status, never zero: a party with no earlier county record has an
     unknown strength, not a strength of zero.
+
+    ``minimum_contests`` and ``pooling_window_years`` are the two judgement
+    calls in the pooling rule and are therefore exposed rather than buried:
+    how few contests may still support a county estimate, and how far back
+    the pooling may reach to find them. Both are set in
+    ``config/baseline_model.yaml``.
     """
 
     summaries = summarise_elections(features, targets)
@@ -213,7 +221,11 @@ def build_strength_features(
         contests_fought = contest_rate = None
         status = "no_earlier_county_record_meeting_minimum_contests"
 
-        window = _pool_backwards(available, party, own_date)
+        pooling = {
+            "minimum": minimum_contests,
+            "window_years": pooling_window_years,
+        }
+        window = _pool_backwards(available, party, own_date, **pooling)
         if window:
             strength, contests_fought, contest_rate, sources = window
             status = "pooled_from_" + "+".join(sources)
@@ -222,7 +234,7 @@ def build_strength_features(
             # comparison rather than a null.
             older = [s for s in available if s.election_date < min(
                 s2.election_date for s2 in available if s2.election_id in sources)]
-            earlier_window = _pool_backwards(older, party, own_date)
+            earlier_window = _pool_backwards(older, party, own_date, **pooling)
             if earlier_window:
                 trend = strength - earlier_window[0]
 
@@ -254,6 +266,9 @@ def build_strength_features(
 def attach_strength_features(
     features: Sequence[Mapping[str, object]],
     targets: Mapping[str, Mapping[str, object]],
+    *,
+    minimum_contests: int = MIN_CONTESTS_FOR_COUNTY_STRENGTH,
+    pooling_window_years: float = POOLING_WINDOW_YEARS,
 ) -> tuple[dict[str, object], ...]:
     """Return the feature rows with the six derived columns merged in.
 
@@ -262,7 +277,12 @@ def attach_strength_features(
     between the two is visible.
     """
 
-    derived = build_strength_features(features, targets)
+    derived = build_strength_features(
+        features,
+        targets,
+        minimum_contests=minimum_contests,
+        pooling_window_years=pooling_window_years,
+    )
     return tuple(
         {**row, **derived.get(str(row["candidate_contest_id"]), {})}
         for row in features

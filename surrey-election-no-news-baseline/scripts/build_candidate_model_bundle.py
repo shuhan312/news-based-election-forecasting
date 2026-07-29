@@ -22,10 +22,20 @@ Order of operations, which is the point
 5. Write the comparison table, so the two rejected architectures remain
    visible rather than being replaced by their winner.
 
-Usage (from the IRP repository root):
+Everything tunable arrives as a :class:`BaselineConfig`
+------------------------------------------------------
+Paths, seeds, selection gates, the two county-strength thresholds and the
+interaction switches are read from the configuration rather than from module
+constants, and the resolved configuration is written into the bundle. A
+bundle therefore records what it was built with, not what the defaults
+happened to be on the day somebody read the source.
+
+Usage (from the IRP repository root) — prefer the CLI:
 
     PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python \
-      surrey-election-no-news-baseline/scripts/build_candidate_model_bundle.py
+      -m no_news_baseline.cli train
+
+Running this file directly still works and uses the default configuration.
 """
 
 from __future__ import annotations
@@ -33,6 +43,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import logging
 import pickle
 import platform
 import subprocess
@@ -43,17 +54,12 @@ from pathlib import Path
 import numpy as np
 
 from no_news_baseline.candidate_architecture_selection import (
-    COMPLEXITY_ORDER,
-    MATERIAL_IMPROVEMENT,
-    MAX_ADVERSE_FOLDS,
-    MIN_DEVELOPMENT_FOLDS,
-    PRIMARY_CRITERION,
     comparison_table,
     score_architecture,
     select_architecture,
 )
 from no_news_baseline.candidate_boosted_model import (
-    BOOSTING_PARAMS,
+    boosting_params,
     fit_and_predict_boosted_fold,
     safe_feature_names,
     select_boosting_rounds,
@@ -103,15 +109,13 @@ from no_news_baseline.candidate_splits import (
     all_splits,
     assign_split,
 )
+from no_news_baseline.configuration import (
+    DEFAULT_CONFIG_PATH,
+    BaselineConfig,
+    load_config,
+)
 from no_news_baseline.election_dates import parse_election_date
-
-BUNDLE_VERSION = "candidate_model_bundle_v1"
-
-# Selection pools every development fold rather than reading one. Reading the
-# last fold alone decided on three Reform rows, which could not separate the
-# architectures; pooling raises it to sixteen row-slots over fourteen distinct
-# Reform rows. None of them is the holdout, which is not a development fold.
-DECISION_SPLIT_ID = None
+from no_news_baseline.logging_setup import configure_logging, get_logger
 
 ARCHITECTURES = {
     "A_regularised_linear": fit_and_predict_fold,
@@ -119,21 +123,19 @@ ARCHITECTURES = {
     "B_gradient_boosted_trees": fit_and_predict_boosted_fold,
 }
 
-CONTRACT = Path("surrey-election-extractor/outputs/no_news_candidate_contests")
-SPLIT_LEAKAGE = Path("surrey-election-no-news-baseline/outputs/candidate_split_leakage")
-OUT = Path("surrey-election-no-news-baseline/outputs/model_bundle_v1")
 
-
-def _write_csv(path: Path, rows: list[dict]) -> None:
+def _write_csv(path: Path, rows: list[dict], written: set[str] | None = None) -> None:
     if not rows:
         raise ValueError(f"Refusing to write an empty file: {path}")
     with path.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
         writer.writeheader()
         writer.writerows(rows)
+    if written is not None:
+        written.add(path.name)
 
 
-def _fit_selected(architecture, train_rows, targets):
+def _fit_selected(architecture, train_rows, targets, *, boosting_seed=None):
     """Fit the selected architecture on the pre-holdout training set.
 
     Returns the fitted object, the encoder it needs, and a record of how its
@@ -185,10 +187,11 @@ def _fit_selected(architecture, train_rows, targets):
             target_vector(train_rows, targets),
             [int(r["candidate_count_in_contest"]) for r in train_rows],
         )
-        choice = select_boosting_rounds(train_rows, targets)
+        choice = select_boosting_rounds(train_rows, targets, seed=boosting_seed)
         safe, _ = safe_feature_names(design.column_names)
+        params = boosting_params(boosting_seed)
         booster = lightgbm.train(
-            dict(BOOSTING_PARAMS),
+            params,
             lightgbm.Dataset(design.matrix, label=y, feature_name=list(safe)),
             num_boost_round=choice.num_boost_round,
         )
@@ -196,7 +199,7 @@ def _fit_selected(architecture, train_rows, targets):
             "num_boost_round": choice.num_boost_round,
             "selection_method": choice.method,
             "inner_validation_dates": list(choice.inner_validation_dates),
-            "boosting_params": dict(BOOSTING_PARAMS),
+            "boosting_params": params,
         }
 
     raise ValueError(f"Unknown architecture: {architecture!r}")
@@ -283,16 +286,43 @@ def _data_quality_report(features, targets) -> dict:
     }
 
 
-def main() -> None:
+def build_bundle(
+    config: BaselineConfig | None = None,
+    *,
+    logger: logging.Logger | None = None,
+) -> dict:
+    """Build and write the whole bundle. Returns a short summary of the run.
+
+    ``config`` carries every tunable assumption; passing ``None`` uses the
+    code defaults, which is what a bare script invocation does. A summary is
+    returned rather than only printed so a caller - the CLI, or a test - can
+    assert on the outcome without re-reading the files just written.
+    """
+
+    config = config or BaselineConfig.defaults()
+    log = logger or get_logger("bundle")
+    contract = config.paths.contract_directory
+    out = config.paths.output_directory
+
+    log.info("configuration: %s", config.source_path or "code defaults")
+    log.info(
+        "selection mode: %s | interactions reform=%s ukip=%s | boosting seed %s",
+        config.selection.mode,
+        config.features.reform_interactions,
+        config.features.ukip_interactions,
+        config.boosting_seed,
+    )
+
     features = [
         row
-        for row in json.loads((CONTRACT / "no_news_candidate_contest_features.json").read_text())["rows"]
+        for row in json.loads((contract / "no_news_candidate_contest_features.json").read_text())["rows"]
         if is_within_candidate_cohort(row)
     ]
     targets = {
         str(row["candidate_contest_id"]): row
-        for row in json.loads((CONTRACT / "no_news_candidate_contest_targets.json").read_text())["rows"]
+        for row in json.loads((contract / "no_news_candidate_contest_targets.json").read_text())["rows"]
     }
+    log.info("contract: %d cohort rows, %d targets", len(features), len(targets))
 
     # Derived county-level history, then the Reform interaction terms that let
     # a linear model read it on a different slope. The date guard runs on the
@@ -300,11 +330,31 @@ def main() -> None:
     # build rather than reaching a model.
     assert_no_future_contribution(features, targets)
     contract_rows = list(features)
-    features = list(attach_interactions(attach_strength_features(features, targets)))
+    features = list(attach_strength_features(
+        features,
+        targets,
+        minimum_contests=config.features.county_strength_minimum_contests,
+        pooling_window_years=config.features.county_strength_pooling_window_years,
+    ))
+    if config.features.reform_interactions or config.features.ukip_interactions:
+        features = list(attach_interactions(
+            features,
+            include_reform=config.features.reform_interactions,
+            include_ukip=config.features.ukip_interactions,
+        ))
     splits = all_splits(features)
 
+    # Only the architectures the configuration asks for. A manual choice is
+    # still required to be among them, so this can never leave the shipped
+    # architecture unscored.
+    architectures = {
+        name: runner
+        for name, runner in ARCHITECTURES.items()
+        if name in config.selection.compared
+    }
+
     # --- 1. score every architecture on every split ----------------------
-    fold_predictions: dict[str, dict[str, tuple]] = {name: {} for name in ARCHITECTURES}
+    fold_predictions: dict[str, dict[str, tuple]] = {name: {} for name in architectures}
     probability_predictions: dict[str, tuple] = {}
     scores = []
     split_by_id = {}
@@ -316,9 +366,12 @@ def main() -> None:
         if not train_rows or not test_rows:
             continue
         split_by_id[split.split_id] = split
-        for name, runner in ARCHITECTURES.items():
-            result = runner(split_id=split.split_id, split_role=split.role,
-                            train_rows=train_rows, test_rows=test_rows, targets=targets)
+        for name, runner in architectures.items():
+            arguments = dict(split_id=split.split_id, split_role=split.role,
+                             train_rows=train_rows, test_rows=test_rows, targets=targets)
+            if name == "B_gradient_boosted_trees":
+                arguments["seed"] = config.boosting_seed
+            result = runner(**arguments)
             fold_predictions[name][split.split_id] = result.predictions
             scores.append(score_architecture(
                 architecture=name, split_id=split.split_id,
@@ -328,11 +381,31 @@ def main() -> None:
             split_id=split.split_id, split_role=split.role,
             train_rows=train_rows, test_rows=test_rows, targets=targets,
         ).predictions
+        log.debug("scored split %s (%d train, %d test)",
+                  split.split_id, len(train_rows), len(test_rows))
 
-    # --- 2. select, on a development fold --------------------------------
-    outcome = select_architecture(scores, decision_split_id=DECISION_SPLIT_ID)
-    print(f"selection basis: {outcome.decision_basis} ({outcome.decision_rows} rows)")
-    selected = outcome.selected
+    # --- 2. select, on development folds ---------------------------------
+    # The gates run whether or not their verdict is used. A manual override
+    # that suppressed the comparison would leave no record of what it
+    # overrode, which is the opposite of what a manual mode is for.
+    outcome = select_architecture(
+        scores,
+        decision_split_id=config.selection.decision_split_id,
+        primary_criterion=config.selection.primary_criterion,
+        material_improvement=config.selection.material_improvement,
+        max_adverse_folds=config.selection.max_adverse_folds,
+        min_development_folds=config.selection.min_development_folds,
+    )
+    if config.selection.is_automatic:
+        selected = outcome.selected
+        log.info("automatic selection on %s (%d rows): %s",
+                 outcome.decision_basis, outcome.decision_rows, selected)
+    else:
+        selected = config.selection.mode
+        log.warning(
+            "manual override: shipping %s; the gates would have selected %s",
+            selected, outcome.selected,
+        )
 
     # --- 3. out-of-fold and holdout, from the selected architecture ------
     oof_rows, seen = [], set()
@@ -370,7 +443,9 @@ def main() -> None:
     primary = next(s for s in NAMED_SPLITS if s.role == PRIMARY_HOLDOUT)
     assignment = assign_split(features, primary)
     final_train = [r for r in features if assignment[str(r["candidate_contest_id"])] == TRAIN]
-    model, encoder, hyperparameters = _fit_selected(selected, final_train, targets)
+    model, encoder, hyperparameters = _fit_selected(
+        selected, final_train, targets, boosting_seed=config.boosting_seed
+    )
 
     elected_outcomes = {
         str(row["candidate_contest_id"]):
@@ -384,19 +459,35 @@ def main() -> None:
         np.array([float(elected_outcomes[str(r["candidate_contest_id"])]) for r in final_train]),
     )
 
-    OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / "model.pkl").write_bytes(pickle.dumps(model))
-    (OUT / "preprocessor.pkl").write_bytes(pickle.dumps(encoder))
-    (OUT / "probability_model.pkl").write_bytes(pickle.dumps(probability_model))
-    (OUT / "probability_preprocessor.pkl").write_bytes(pickle.dumps(probability_encoder))
+    out.mkdir(parents=True, exist_ok=True)
+    # Every file this run writes. The manifest hashes this set rather than
+    # whatever happens to be sitting in the directory, because an output
+    # directory is reused across rebuilds and a file left behind by an older
+    # version would otherwise be hashed into a manifest as though the current
+    # code had produced it - a bundle claiming files a rebuild cannot recreate.
+    written: set[str] = set()
+    for name, payload in (
+        ("model.pkl", model),
+        ("preprocessor.pkl", encoder),
+        ("probability_model.pkl", probability_model),
+        ("probability_preprocessor.pkl", probability_encoder),
+    ):
+        (out / name).write_bytes(pickle.dumps(payload))
+        written.add(name)
 
     # --- 5. metrics, selection record, and the rest ----------------------
+    # One bootstrap setting for every interval in the bundle, so two figures
+    # in the same file are never resampled differently.
+    resampling = {
+        "resamples": config.evaluation.bootstrap_resamples,
+        "seed": config.evaluation.bootstrap_seed,
+    }
     primary_holdout_rows = fold_predictions[selected][primary.split_id]
     metrics = {
-        "bundle_version": BUNDLE_VERSION,
+        "bundle_version": config.bundle_version,
         "selected_architecture": selected,
-        "out_of_fold": evaluate(oof_rows),
-        "primary_holdout": evaluate(primary_holdout_rows),
+        "out_of_fold": evaluate(oof_rows, **resampling),
+        "primary_holdout": evaluate(primary_holdout_rows, **resampling),
         "by_split": {
             split_id: evaluate(predictions, with_bootstrap=False)["overall"]
             for split_id, predictions in fold_predictions[selected].items()
@@ -410,10 +501,10 @@ def main() -> None:
         },
     }
     reform = {
-        "bundle_version": BUNDLE_VERSION,
+        "bundle_version": config.bundle_version,
         "selected_architecture": selected,
-        "out_of_fold": reform_report(oof_rows),
-        "primary_holdout": reform_report(primary_holdout_rows),
+        "out_of_fold": reform_report(oof_rows, **resampling),
+        "primary_holdout": reform_report(primary_holdout_rows, **resampling),
         # Every architecture's Reform figures, so the rejected ones stay visible.
         "by_architecture_primary_holdout": {
             name: reform_report(preds[primary.split_id], with_bootstrap=False)["reform_uk"]
@@ -429,10 +520,18 @@ def main() -> None:
     quality = _data_quality_report(features, targets)
 
     architecture_json = {
-        "bundle_version": BUNDLE_VERSION,
+        "bundle_version": config.bundle_version,
         "selected_model_type": selected,
-        "architectures_compared": list(COMPLEXITY_ORDER),
+        "architectures_compared": list(config.selection.compared),
         "selection": {
+            # Whether the gates decided this, or a person did. A bundle whose
+            # architecture was overridden must say so on its face, otherwise
+            # the reasons below read as the reasons it was shipped.
+            "mode": config.selection.mode,
+            "selected_automatically": config.selection.is_automatic,
+            "gate_verdict": outcome.selected,
+            "overridden": not config.selection.is_automatic
+            and selected != outcome.selected,
             "decision_split_id": outcome.decision_split_id,
             "decision_basis": outcome.decision_basis,
             # How much evidence the decision rests on. Recorded because the
@@ -446,9 +545,9 @@ def main() -> None:
             ),
             "decision_split_role": "development_fold",
             "primary_criterion": outcome.primary_criterion,
-            "material_improvement_threshold": MATERIAL_IMPROVEMENT,
-            "max_adverse_folds": MAX_ADVERSE_FOLDS,
-            "min_development_folds": MIN_DEVELOPMENT_FOLDS,
+            "material_improvement_threshold": config.selection.material_improvement,
+            "max_adverse_folds": config.selection.max_adverse_folds,
+            "min_development_folds": config.selection.min_development_folds,
             "reasons": list(outcome.reasons),
             "challenger_reports": list(outcome.challenger_reports),
             "holdout_not_read_for_selection": True,
@@ -466,22 +565,23 @@ def main() -> None:
         "encoded_column_count": len(encoder.column_names),
         "split_method": "date_bounded_chronological_folds_grouped_by_contest",
         "training_date": date.today().isoformat(),
-        "random_seed": BOOSTING_PARAMS["seed"] if selected == "B_gradient_boosted_trees" else None,
+        # Recorded for every architecture, not only the seeded one: "this
+        # architecture has no randomness" is itself a fact worth stating, and
+        # an absent key does not say it.
+        "random_seed": config.boosting_seed,
+        "random_seed_affects_selected_architecture":
+            selected == "B_gradient_boosted_trees",
     }
 
     training_config = {
-        "bundle_version": BUNDLE_VERSION,
-        "contract_inputs": [str(CONTRACT / "no_news_candidate_contest_features.json"),
-                            str(CONTRACT / "no_news_candidate_contest_targets.json")],
-        "decision_split_id": DECISION_SPLIT_ID,
-        "architectures": list(ARCHITECTURES),
-        "selection_gates": {
-            "material_improvement": MATERIAL_IMPROVEMENT,
-            "max_adverse_folds": MAX_ADVERSE_FOLDS,
-            "min_development_folds": MIN_DEVELOPMENT_FOLDS,
-            "primary_criterion": PRIMARY_CRITERION,
-        },
-        "boosting_params": dict(BOOSTING_PARAMS),
+        "bundle_version": config.bundle_version,
+        "contract_inputs": [str(contract / "no_news_candidate_contest_features.json"),
+                            str(contract / "no_news_candidate_contest_targets.json")],
+        # The whole resolved configuration, so a rebuild does not have to
+        # reconstruct it from the flags somebody remembers typing.
+        "resolved_configuration": config.as_record(),
+        "architectures": list(architectures),
+        "boosting_params": boosting_params(config.boosting_seed),
         "training_rows": len(final_train),
         "blinding_status": (
             "reported_holdout_not_blind: holdout metrics were read during "
@@ -491,32 +591,46 @@ def main() -> None:
         ),
     }
 
-    _write_csv(OUT / "out_of_fold_predictions.csv", oof_rows)
-    _write_csv(OUT / "holdout_predictions.csv", holdout_rows)
-    _write_csv(OUT / "architecture_comparison.csv", list(comparison_table(scores)))
-    _write_csv(OUT / "contestation_records.csv", [r.as_row() for r in contestation])
+    _write_csv(out / "out_of_fold_predictions.csv", oof_rows, written)
+    _write_csv(out / "holdout_predictions.csv", holdout_rows, written)
+    _write_csv(out / "architecture_comparison.csv", list(comparison_table(scores)), written)
+    _write_csv(out / "contestation_records.csv", [r.as_row() for r in contestation], written)
     _write_csv(
-        OUT / "out_of_fold_election_probabilities.csv",
+        out / "out_of_fold_election_probabilities.csv",
         [r for split_id, preds in probability_predictions.items()
          if split_by_id[split_id].role == ROLLING_ORIGIN for r in preds],
+        written,
+    )
+    # Restored: the rewrite dropped this file while still computing the
+    # figures behind it, so the holdout's per-candidate probabilities were
+    # summarised in metrics.json with no row-level export to check them
+    # against.
+    _write_csv(
+        out / "holdout_election_probabilities.csv",
+        [r for split_id, preds in probability_predictions.items()
+         if split_by_id[split_id].role in {PRIMARY_HOLDOUT, SECONDARY_HOLDOUT}
+         for r in preds],
+        written,
     )
     _write_csv(
-        OUT / "training_rows.csv",
+        out / "training_rows.csv",
         [{"candidate_contest_id": str(r["candidate_contest_id"]),
           "election_id": r["election_id"], "election_date": r["election_date"],
           "division_id": r["division_id"], "standard_party_name": r["standard_party_name"],
           "is_reform_uk": r["is_reform_uk"]} for r in final_train],
+        written,
     )
     if uncovered:
-        _write_csv(OUT / "rows_without_out_of_fold_prediction.csv", uncovered)
+        _write_csv(out / "rows_without_out_of_fold_prediction.csv", uncovered, written)
     _write_csv(
-        OUT / "feature_dictionary.csv",
+        out / "feature_dictionary.csv",
         [{"column": c, "role": FEATURE_COLUMNS[c][0], "source_sheet": FEATURE_COLUMNS[c][1],
           "earliest_availability_event": FEATURE_COLUMNS[c][2],
           "restrictions": FEATURE_COLUMNS[c][3], "permission_field": FEATURE_COLUMNS[c][4],
           "definition": FEATURE_COLUMNS[c][5],
           "used_as_predictor": FEATURE_COLUMNS[c][0] == "predictor"}
          for c in sorted(FEATURE_COLUMNS)],
+        written,
     )
 
     for name, payload in (
@@ -529,7 +643,8 @@ def main() -> None:
         ("contestation_summary.json", contestation_summary(contestation)),
         ("derived_feature_coverage.json", derived_coverage),
     ):
-        (OUT / name).write_text(json.dumps(payload, indent=2) + "\n")
+        (out / name).write_text(json.dumps(payload, indent=2) + "\n")
+        written.add(name)
 
     # A lock file rather than the loose requirements list, so a rebuild can be
     # attempted against the exact versions these figures came from.
@@ -537,43 +652,84 @@ def main() -> None:
         [".venv/bin/python", "-m", "pip", "freeze"],
         capture_output=True, text=True, check=False,
     )
-    (OUT / "requirements-lock.txt").write_text(frozen.stdout or "pip freeze unavailable\n")
+    (out / "requirements-lock.txt").write_text(frozen.stdout or "pip freeze unavailable\n")
+    written.add("requirements-lock.txt")
 
     for name in ("leakage_audit.csv", "split_manifest.csv"):
-        source = SPLIT_LEAKAGE / name
+        source = config.paths.split_leakage_directory / name
         if source.exists():
-            (OUT / name).write_text(source.read_text())
+            (out / name).write_text(source.read_text())
+            written.add(name)
+        else:
+            log.warning("%s not found at %s; the bundle will not contain it", name, source)
 
     card = Path("surrey-election-no-news-baseline/docs/candidate_model_card.md")
     if card.exists():
-        (OUT / "model_card.md").write_text(card.read_text())
+        (out / "model_card.md").write_text(card.read_text())
+        written.add("model_card.md")
 
     # A manifest of what was written, with hashes, so a later stage can prove
     # it loaded the same bundle these metrics describe.
     manifest = {
-        "bundle_version": BUNDLE_VERSION,
+        "bundle_version": config.bundle_version,
         "selected_architecture": selected,
         "generated": date.today().isoformat(),
         "files": {
-            path.name: hashlib.sha256(path.read_bytes()).hexdigest()
-            for path in sorted(OUT.iterdir())
-            if path.is_file() and path.name != "bundle_manifest.json"
+            name: hashlib.sha256((out / name).read_bytes()).hexdigest()
+            for name in sorted(written)
         },
     }
-    (OUT / "bundle_manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
+    # Anything else in the directory came from somewhere other than this run.
+    # training.log and the manifest itself are expected; the rest are reported
+    # so a stale artefact cannot sit in a bundle looking current.
+    strays = sorted(
+        path.name for path in out.iterdir()
+        if path.is_file()
+        and path.name not in written
+        and path.name not in {"bundle_manifest.json", "training.log"}
+    )
+    if strays:
+        log.warning(
+            "%d file(s) in %s were not written by this run and are excluded "
+            "from the manifest: %s", len(strays), out, ", ".join(strays),
+        )
+    manifest["files_not_written_by_this_run"] = strays
+    (out / "bundle_manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
 
-    # --- console summary --------------------------------------------------
-    print(f"selected architecture: {selected}")
-    for reason in outcome.reasons:
-        print(f"  • {reason}")
+    # --- summary ---------------------------------------------------------
     oof_block = metrics["out_of_fold"]["overall"]
     hold_block = metrics["primary_holdout"]["overall"]
-    print(f"\nout-of-fold {len(oof_rows)} rows  MAE {oof_block['mae']:.2f}  "
-          f"winner {oof_block['winner_accuracy']:.1%}")
-    print(f"holdout     {len(primary_holdout_rows)} rows  MAE {hold_block['mae']:.2f}  "
-          f"winner {hold_block['winner_accuracy']:.1%}")
-    print(f"rows without OOF: {len(uncovered)}")
-    print(f"\nbundle files: {len(manifest['files'])} -> {OUT}")
+    for reason in outcome.reasons:
+        log.info("gate: %s", reason)
+    log.info("out-of-fold %d rows  MAE %.2f  winner %.1f%%",
+             len(oof_rows), oof_block["mae"], 100 * oof_block["winner_accuracy"])
+    log.info("holdout     %d rows  MAE %.2f  winner %.1f%%",
+             len(primary_holdout_rows), hold_block["mae"],
+             100 * hold_block["winner_accuracy"])
+    log.info("rows without out-of-fold prediction: %d", len(uncovered))
+    log.info("wrote %d bundle files to %s", len(manifest["files"]), out)
+
+    return {
+        "selected_architecture": selected,
+        "selected_automatically": config.selection.is_automatic,
+        "gate_verdict": outcome.selected,
+        "decision_basis": outcome.decision_basis,
+        "decision_rows": outcome.decision_rows,
+        "out_of_fold_rows": len(oof_rows),
+        "out_of_fold_mae": oof_block["mae"],
+        "primary_holdout_rows": len(primary_holdout_rows),
+        "primary_holdout_mae": hold_block["mae"],
+        "bundle_files": len(manifest["files"]),
+        "output_directory": str(out),
+    }
+
+
+def main() -> None:
+    """Direct invocation: read the default configuration file if it exists."""
+
+    configure_logging()
+    path = DEFAULT_CONFIG_PATH if DEFAULT_CONFIG_PATH.exists() else None
+    build_bundle(load_config(path))
 
 
 if __name__ == "__main__":

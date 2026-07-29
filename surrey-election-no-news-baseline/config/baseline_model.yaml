@@ -1,0 +1,100 @@
+# Surrey no-news candidate baseline — run configuration
+#
+# Every value below is also a default in the code, so this file can be
+# shortened to only the keys you want to change and the rest still apply.
+# It is shipped complete because a configuration a reader has to reconstruct
+# from source is not a configuration. tests/test_configuration.py asserts
+# that these values still equal the code's defaults, so the two cannot drift
+# apart without a test failing.
+#
+# An unrecognised key stops the run rather than being ignored.
+#
+# Run:
+#   PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python -m no_news_baseline.cli train
+
+bundle_version: candidate_model_bundle_v1
+
+# LightGBM's seed. Architectures A and C have closed-form solutions and are
+# not affected by it; it is recorded for every run regardless, so a bundle
+# never has to be inspected to find out whether its figures were random.
+boosting_seed: 20260728
+
+paths:
+  # Written by the extractor. The model reads this contract and never the
+  # workbook directly, so the modelling side cannot reach a field the
+  # extractor did not deliberately publish.
+  contract_directory: surrey-election-extractor/outputs/no_news_candidate_contests
+  # leakage_audit.csv and split_manifest.csv are copied into the bundle from
+  # here rather than regenerated, so the audit shipped is the audit reviewed.
+  split_leakage_directory: surrey-election-no-news-baseline/outputs/candidate_split_leakage
+  output_directory: surrey-election-no-news-baseline/outputs/model_bundle_v1
+
+selection:
+  # auto                       run the gates below and ship the winner
+  # A_regularised_linear       manual: ship A whatever the gates say
+  # B_gradient_boosted_trees   manual: ship B
+  # C_partial_pooling          manual: ship C
+  #
+  # A manual choice does not suppress the comparison. All three are still
+  # scored on every fold and architecture_comparison.csv is still written,
+  # so an override stays visible as an override.
+  mode: auto
+
+  compared:
+    - A_regularised_linear
+    - C_partial_pooling
+    - B_gradient_boosted_trees
+
+  # The brief lists Reform UK vote-share MAE first among the selection
+  # criteria, and Reform UK is the study party.
+  primary_criterion: reform_vote_share_mae
+
+  # A challenger must beat the incumbent by more than this fraction. Set from
+  # the data's own scale: fourteen distinct Reform rows across the
+  # development folds cannot distinguish models a few hundredths of a point
+  # apart, and the brief says not to select a complex model on a negligible
+  # improvement.
+  material_improvement: 0.05
+
+  # How many development folds a challenger may lose on and still win.
+  max_adverse_folds: 1
+
+  # A challenger sharing fewer folds than this cannot demonstrate stability
+  # and is refused, rather than passing a gate that had nothing to check.
+  min_development_folds: 2
+
+  # null pools every development fold, weighted by rows. Naming one split
+  # reads that split alone — which is how an earlier version came to decide
+  # between three architectures on three Reform rows. Change this only to
+  # reproduce that earlier behaviour deliberately.
+  decision_split_id: null
+
+features:
+  # A county-level strength estimate is published only once a party has at
+  # least this many contests behind it, pooling backwards across elections
+  # until the count is met.
+  county_strength_minimum_contests: 3
+
+  # How far back the pooling may reach. Five years spans one full county
+  # cycle plus its by-elections; longer would mix political eras, shorter
+  # would leave by-election-only parties such as Reform UK with no estimate.
+  county_strength_pooling_window_years: 5.0
+
+  # Reform UK interactions with the historical predictors. The brief permits
+  # these explicitly. Setting false is the control arm of the ablation
+  # recorded in docs/reform_interaction_terms.md.
+  reform_interactions: true
+
+  # UKIP as a separate contextual block. The brief's optional, clearly
+  # labelled sensitivity feature — off by default, so switching it on is
+  # always a deliberate act. UKIP is never merged into Reform UK; this adds
+  # UKIP's own interaction columns and nothing else.
+  ukip_interactions: false
+
+evaluation:
+  # Contest-level bootstrap. Contests are resampled, never rows: candidate
+  # shares within a contest sum to 100, so rows are not independent and
+  # row-level resampling would report an interval far narrower than the data
+  # supports.
+  bootstrap_resamples: 2000
+  bootstrap_seed: 20260728

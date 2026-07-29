@@ -85,9 +85,16 @@ def ukip_interaction_names() -> tuple[str, ...]:
 def attach_interactions(
     rows: Sequence[Mapping[str, object]],
     *,
+    include_reform: bool = True,
     include_ukip: bool = False,
 ) -> tuple[dict[str, object], ...]:
     """Return copies of the rows with interaction columns added.
+
+    ``include_reform`` exists so the terms can be switched off. The brief
+    requires the optional UKIP block to be "compared with a model that does
+    not use this information", and an ablation needs a control arm; the same
+    switch is what produced the before-and-after table in
+    ``docs/reform_interaction_terms.md``.
 
     A missing base value produces a missing interaction, never zero. Zero
     would be a lie in both directions: for a Reform row it would say "Reform
@@ -99,6 +106,16 @@ def attach_interactions(
     exactly as the extractor wrote it, and any difference between the two is
     inspectable.
     """
+
+    if include_ukip and not include_reform:
+        # UKIP's block is a contextual extra to the Reform terms, never a
+        # replacement for them. Allowing it alone would produce a run that
+        # models UKIP's history conditionally and Reform's globally, which is
+        # the opposite of the study's purpose.
+        raise ValueError(
+            "include_ukip requires include_reform: the UKIP block is a "
+            "sensitivity extension of the Reform terms, not a substitute."
+        )
 
     output: list[dict[str, object]] = []
     for row in rows:
@@ -112,10 +129,11 @@ def attach_interactions(
             # indicator is off, so the product is zero and the model reads it
             # as "this term does not apply here". For a Reform row with a
             # missing base value it is unknown, not zero.
-            enriched[f"{REFORM_PREFIX}{name}"] = (
-                None if (is_reform and base is None)
-                else (float(base) if is_reform and base is not None else 0.0)
-            )
+            if include_reform:
+                enriched[f"{REFORM_PREFIX}{name}"] = (
+                    None if (is_reform and base is None)
+                    else (float(base) if is_reform and base is not None else 0.0)
+                )
             if include_ukip:
                 enriched[f"{UKIP_PREFIX}{name}"] = (
                     None if (is_ukip and base is None)

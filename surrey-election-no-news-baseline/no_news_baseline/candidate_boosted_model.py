@@ -89,6 +89,23 @@ EARLY_STOPPING_ROUNDS = 50
 DEFAULT_BOOSTING_ROUNDS = 300
 
 
+def boosting_params(seed: int | None = None) -> dict[str, object]:
+    """A fresh copy of the parameters, with the seed optionally replaced.
+
+    A copy every time because LightGBM mutates the dictionary it is handed;
+    sharing one would let a fold silently change the parameters of the fold
+    after it. The seed is the only value the configuration may override -
+    the rest were declared before any outer fold was scored, and letting a
+    run tune them from the command line would turn a fixed specification into
+    a search.
+    """
+
+    params = dict(BOOSTING_PARAMS)
+    if seed is not None:
+        params["seed"] = int(seed)
+    return params
+
+
 def safe_feature_names(column_names: Sequence[str]) -> tuple[tuple[str, ...], dict[str, str]]:
     """Rename columns for LightGBM, keeping a map back to the real names.
 
@@ -157,6 +174,7 @@ def select_boosting_rounds(
     train_rows: Sequence[Mapping[str, object]],
     targets: Mapping[str, Mapping[str, object]],
     *,
+    seed: int | None = None,
     min_inner_rows: int = MIN_INNER_VALIDATION_ROWS,
 ) -> BoostingChoice:
     """Early-stop on the most recent qualifying polling day inside training.
@@ -211,7 +229,7 @@ def select_boosting_rounds(
 
     safe_names, _ = safe_feature_names(x_train.column_names)
     booster = lightgbm.train(
-        dict(BOOSTING_PARAMS),
+        boosting_params(seed),
         lightgbm.Dataset(x_train.matrix, label=y_train,
                          feature_name=list(safe_names)),
         num_boost_round=MAX_BOOSTING_ROUNDS,
@@ -251,6 +269,7 @@ def fit_and_predict_boosted_fold(
     test_rows: Sequence[Mapping[str, object]],
     targets: Mapping[str, Mapping[str, object]],
     num_boost_round: int | None = None,
+    seed: int | None = None,
 ) -> BoostedFoldResult:
     """Fit Architecture B on one fold, in the same order as A and C."""
 
@@ -261,7 +280,7 @@ def fit_and_predict_boosted_fold(
         raise ValueError(f"Split {split_id!r} has no test rows.")
 
     choice = (
-        select_boosting_rounds(train_rows, targets)
+        select_boosting_rounds(train_rows, targets, seed=seed)
         if num_boost_round is None
         else BoostingChoice(
             num_boost_round=int(num_boost_round),
@@ -282,7 +301,7 @@ def fit_and_predict_boosted_fold(
 
     safe_names, safe_to_real = safe_feature_names(x_train.column_names)
     booster = lightgbm.train(
-        dict(BOOSTING_PARAMS),
+        boosting_params(seed),
         lightgbm.Dataset(x_train.matrix, label=y_train,
                          feature_name=list(safe_names)),
         num_boost_round=choice.num_boost_round,

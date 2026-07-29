@@ -90,14 +90,20 @@ current minus previous share and therefore contains the target.
 | C | same fit, separate penalty on party identity (partial pooling) | no |
 | **B** | **LightGBM, shallow trees, early stopping inside each fold** | **yes** |
 
-Selection ran on a **development fold**, not the holdout, and required a
+Selection ran on the **development folds**, never the holdout, and required a
 challenger to clear two gates declared before any number was computed: improve
 the primary criterion (Reform UK vote-share MAE) by more than 5 per cent, and
 lose on no more than one development fold. A challenger with fewer than two
 comparable folds is refused rather than passed vacuously.
 
-- C was rejected: 1.1 per cent improvement, below the 5 per cent threshold.
-- B was selected: 22.3 per cent improvement, losing 0 of 4 development folds.
+The criterion is pooled across all four development folds, weighted by rows —
+16 row-slots over 14 distinct Reform rows. An earlier version read a single
+named fold, which contained three Reform rows and could not separate the
+architectures at all; that failure and its correction are recorded in
+[`reform_interaction_terms.md`](reform_interaction_terms.md).
+
+- C is not selected: −2.6 per cent, and it loses on 2 of 4 development folds.
+- B displaces A: +8.3 per cent on Reform MAE, losing 1 of 4 folds (limit 1).
 
 ## Performance
 
@@ -110,28 +116,40 @@ selection; they are reported, not acted on.
 | | out of fold | primary holdout (2026) |
 | --- | ---: | ---: |
 | rows | 792 | 838 |
-| vote-share MAE | 10.04 | 4.78 |
-| relative MAE | 0.44 | 0.49 |
-| improvement over equal split | +35.5% | +14.8% |
-| winner accuracy | 73.7% | 32.9% |
-| exact seat set | 73.7% | 23.2% |
+| vote-share MAE | 9.85 | 4.53 |
+| relative MAE | 0.44 | 0.46 |
+| improvement over equal split | +36.8% | +19.2% |
+| winner accuracy | 74.3% | 30.5% |
+| exact seat set | 74.3% | 22.0% |
 
-**The holdout MAE of 4.78 must not be read as better than the out-of-fold
-10.04.** Two-member wards average 9.75 per cent per candidate against 22.65 in
-single-member divisions; relative to their own scales the two are 0.49 and
+**The holdout MAE of 4.53 must not be read as better than the out-of-fold
+9.85.** Two-member wards average 9.75 per cent per candidate against 22.65 in
+single-member divisions; relative to their own scales the two are 0.46 and
 0.44.
 
 ### All three architectures, same rows
 
-| | OOF MAE | OOF winner | holdout MAE | holdout winner | holdout Reform vs equal split |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| A regularised linear | 10.81 | 72.6% | 4.78 | 29.3% | −16.7% |
-| C partial pooling | 9.53 | 69.8% | 4.89 | 30.5% | −15.8% |
-| **B boosted trees** | 10.04 | **73.7%** | 4.78 | **32.9%** | **−12.4%** |
+Each row is a complete build of that architecture, so every figure is computed
+the same way — not a per-fold average standing in for a pooled one.
 
-C has the best out-of-fold MAE and the worst out-of-fold winner accuracy. No
-architecture dominates on every measure, which is why selection ran against
-one declared primary criterion with declared gates rather than an argmax.
+| | OOF MAE | OOF winner | holdout MAE | holdout winner | holdout seat set | Reform OOF MAE | Reform holdout MAE |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| A regularised linear | 8.97 | 75.4% | 4.75 | 28.0% | 19.5% | 16.11 | 3.26 |
+| C partial pooling | **8.87** | **76.5%** | **4.39** | **42.7%** | **23.2%** | 16.13 | **3.21** |
+| **B boosted trees (shipped)** | 9.85 | 74.3% | 4.53 | 30.5% | 22.0% | **10.18** | 3.33 |
+
+**This table does not flatter the selected architecture, and it is not meant
+to.** B is the worst of the three on every overall measure out of fold, and
+behind C on every column of the holdout. It is selected because the brief
+names Reform UK vote-share MAE as the first criterion and on out-of-fold
+Reform rows B is not marginally but dramatically better — 10.18 against
+roughly 16.1, a 37 per cent reduction.
+
+The trade is roughly one percentage point of overall MAE for that. And the
+advantage does not survive into the holdout, where B becomes the *worst* of
+the three on Reform. The complete argument, including why this is not
+resolved by switching to C, is in
+[`architecture_selection_evidence.md`](architecture_selection_evidence.md).
 
 ### Probability of election
 
@@ -141,40 +159,114 @@ log-odds shift so probabilities sum to the known seat count.
 | | out of fold | primary holdout |
 | --- | ---: | ---: |
 | rows | 792 | 838 |
-| Brier | 0.1298 | **0.1591** |
+| Brier | 0.1179 | **0.1521** |
 | Brier, predicting the base rate | 0.1749 | **0.1567** |
-| log loss | 0.4214 | 0.4928 |
-| calibration slope | 0.69 | **0.49** |
-| expected calibration error | 0.1050 | 0.0919 |
+| log loss | 0.3819 | 0.4668 |
+| log loss, predicting the base rate | 0.5344 | 0.4927 |
+| calibration slope | 1.20 | **0.63** |
+| expected calibration error | 0.0986 | 0.0652 |
+| observed election rate | 22.6% | 19.5% |
 
-**On the holdout the model is worse than telling every 2026 candidate they
-have a one-in-five chance** (0.1591 against 0.1567), and the calibration slope
-of 0.49 means it is confidently wrong rather than merely wrong.
+**An earlier version of this card stated that on the holdout the model was
+worse than telling every 2026 candidate they had a one-in-five chance. That is
+no longer true, and the reversal is recorded here rather than quietly
+overwritten.** It was true at Brier 0.1591 against a base rate of 0.1567. With
+the county-strength features and Reform interaction terms added, the model
+reaches 0.1521 against the same 0.1567 — it now beats the base rate, by 0.0046.
+
+That margin is small enough to deserve saying plainly: **on the holdout this
+probability model is barely better than a constant.** Out of fold the margin
+is real (0.1179 against 0.1749), which is the more familiar pattern of a model
+that has learned the single-member by-election setting it was trained in and
+transfers poorly to two-member wards.
+
+The calibration slopes tell the same story from the other side. Out of fold
+1.20 means predictions are slightly too conservative; on the holdout 0.63
+means they are too extreme — the model is more confident about 2026 than 2026
+justifies. Ten-bin reliability tables for both are in `metrics.json` under
+`election_probability`.
 
 ### Reform UK
+
+Figures below are from the current bundle, after the county-strength features
+and the Reform interaction terms were added.
 
 | | out of fold | primary holdout |
 | --- | ---: | ---: |
 | rows | 14 | 163 |
-| share MAE (B) | 10.27 | 3.37 |
-| improvement over equal split (B) | **+4.1%** | **−12.4%** |
-| improvement over equal split (A) | −21.2% | −16.7% |
-| improvement over equal split (C) | −22.2% | −15.8% |
-| probability Brier vs base rate | 0.0702 vs 0.0663 | 0.0893 vs 0.0836 |
-| predicted mean share (B, holdout) | | 9.44% |
+| share MAE (B, selected) | 10.18 | 3.33 |
+| improvement over equal split (B) | **+5.0%** | **−11.1%** |
+| improvement over equal split (A) | | −8.8% |
+| improvement over equal split (C) | | −7.0% |
 | observed mean share (holdout) | | 10.80% |
 
 One result deserves separating out, because it changed with the by-election
 recovery and was not true before it. **Out of fold, Architecture B is the
 first configuration in this project to beat an equal split on Reform UK
-rows — by 4.1 per cent.** Architectures A and C remain 21 to 22 per cent
-worse than an equal split on the same 14 rows. The advantage does not survive
-into the holdout, where B is still 12.4 per cent worse than an equal split,
-but it is a real difference between a tree model and a linear one on the
-party this project is about.
+rows — by 5.0 per cent.**
 
-That figure rests on **14 rows**. It is reported because it is what the data
-says, and it must not be quoted without the sample size.
+On the holdout the ordering reverses: the two linear architectures, once
+given the interaction terms, are now *closer* to an equal split on Reform
+than the tree is (−7.0 and −8.8 per cent against B's −11.1). The interactions
+gave the linear models something the tree already had implicitly, and on the
+holdout they use it better. That is the same disagreement recorded under
+[Architectures compared](#architectures-compared): development evidence
+selects B, the holdout prefers C, and neither is overruled by the other. The
+complete three-way comparison across every split role, including the overall
+metrics on which B is the worst of the three everywhere, is in
+[`architecture_selection_evidence.md`](architecture_selection_evidence.md).
+
+The out-of-fold figure rests on **14 rows**. It is reported because it is what
+the data says, and it must not be quoted without the sample size;
+`reform_metrics.json` carries a `small_sample_warning` flag that is `true` for
+exactly this reason.
+
+## Uncertainty
+
+Every interval below is a **contest-level** bootstrap: whole contests are
+resampled, never individual candidate rows. Candidates within a contest are
+not independent — their shares sum to 100, so one candidate's over-prediction
+forces another's under-prediction — and resampling rows would report an
+interval far narrower than the data supports. 2,000 resamples, seed 20260728,
+both recorded in `training_config.yaml`.
+
+| | rows | contests | MAE | 95% interval |
+| --- | ---: | ---: | ---: | :---: |
+| all candidates, out of fold | 792 | 179 | 9.85 | 9.29 – 10.44 |
+| all candidates, primary holdout | 838 | 82 | 4.53 | 4.24 – 4.86 |
+| Reform UK, out of fold | 14 | 14 | 10.18 | 7.42 – 12.74 |
+| Reform UK, primary holdout | 163 | 82 | 3.33 | 2.81 – 3.87 |
+
+**The Reform out-of-fold interval spans 5.3 percentage points.** That width is
+the honest summary of this project's central sampling problem: fourteen rows
+cannot pin down a Reform error rate, and any comparison between architectures
+on those rows is inside the noise. It is also why architecture selection pools
+development folds rather than reading one, and why the selection record
+publishes how many rows it rested on.
+
+Three further sources of uncertainty are **not** in these intervals, and no
+bootstrap can put them there:
+
+- **Architecture uncertainty.** The interval is computed for the selected
+  architecture as though it had been fixed in advance. It was not — it was
+  chosen from three, on evidence the holdout then contradicted. The true
+  uncertainty over "what this pipeline predicts" is wider than any single
+  architecture's interval.
+- **Feature-construction uncertainty.** The county-strength pooling rule
+  (three contests, five years) is a judgement call. Different defensible
+  choices give different features and therefore different errors. The
+  parameters are exposed in `config/baseline_model.yaml` so the sensitivity
+  can be run; it has not been.
+- **Coverage, not sampling.** 1,200 cohort rows have no out-of-fold
+  prediction, listed with reasons in
+  `rows_without_out_of_fold_prediction.csv`. They are absent by design — held
+  out, or too early to have anything to train on — but their absence is a
+  limit on what the out-of-fold figures describe, not random error around it.
+
+Probability calibration is reported separately, in `metrics.json` under
+`election_probability`: Brier 0.118 and log loss 0.382 out of fold, Brier
+0.152 and log loss 0.467 on the holdout, with a ten-bin reliability table
+beside each.
 
 ## Why the model predicts what it does
 
@@ -241,14 +333,22 @@ divided out of the quantity being predicted.
 ## Known limitations
 
 1. **The baseline does not predict the 2026 election.** Winner accuracy is
-   32.9 per cent against roughly 19 per cent for picking at random from a
-   ten-candidate two-seat ward; exact seat sets are right in 23.2 per cent of
-   wards; and the probability model's Brier score of 0.1591 is worse than the
-   0.1567 of predicting the base rate for everyone. The calibration slope of
-   0.49 means it is not merely wrong but confidently wrong.
+   30.5 per cent against roughly 19 per cent for picking at random from a
+   ten-candidate two-seat ward; exact seat sets are right in 22.0 per cent of
+   wards; and the probability model's Brier score of 0.1521 beats the 0.1567
+   of predicting the base rate for everyone by 0.0046 — a margin small enough
+   that "barely better than a constant" is the fair description. The
+   calibration slope of 0.63 means the predictions are more extreme than the
+   evidence supports.
 
-2. **The failure is directional.** Reform UK is under-predicted (9.44 per
-   cent against 10.80 observed) and the Conservatives over-predicted; feature
+   Architecture C, which was not selected, reaches 42.7 per cent winner
+   accuracy on the same rows. That gap is discussed in
+   [`architecture_selection_evidence.md`](architecture_selection_evidence.md)
+   and is not resolved here.
+
+2. **The failure is directional.** Reform UK is under-predicted (9.35 per
+   cent against 10.80 observed, from 8.40 before the interaction terms) and
+   the Conservatives over-predicted; feature
    importance shows why. Measured on Architecture C across sixteen rolling
    folds of the 1,987-row release, the strongest single feature is being the
    Conservative party (+0.216), while Reform's effect is 98.9 per cent
