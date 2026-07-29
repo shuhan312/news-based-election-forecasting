@@ -11,9 +11,18 @@ Per-rule sources:
 | E6     | frozen v2 (Reform-flagged only; else not_applicable) | same |
 | E5     | frozen v2 (§9, provisional) | HUMAN, from full_corpus_review.csv |
 
+A third stream sits above both: second_review_queue.csv carries the
+human adjudications of every needs_second_review flag and of the 20
+articles the LLM failed twice (all four rules judged by hand there,
+with E6 auto-filled not_applicable on non-Reform-flagged rows). A
+queue cell whose ``*_source`` is ``human`` or ``auto`` overrides the
+base streams - that is the queue's whole purpose, and the pre-sync
+backups of the queue preserve the pre-adjudication state.
+
 Every output row records, per rule, which stream the decision came
-from (``llm_v2`` / ``human`` / empty when unresolved). Reversing §9
-therefore requires no data surgery: filter e5_source and re-derive.
+from (``llm_v2`` / ``human`` / ``auto`` / empty when unresolved).
+Reversing §9 therefore requires no data surgery: filter e5_source and
+re-derive.
 
 A row's overall decision is computed by the same
 ``derive_overall_decision`` used everywhere else, and ONLY when all
@@ -32,6 +41,7 @@ from .manual_review_schema import RULES, derive_overall_decision
 
 SHEET = Path("news_collection/full_corpus_review.csv")
 LLM = Path("news_collection/manual_review_llm_v2_corpus.csv")
+QUEUE = Path("news_collection/second_review_queue.csv")
 OUT = Path("news_collection/corpus_eligibility_decisions.csv")
 
 FIELDS = (
@@ -46,7 +56,21 @@ def main() -> None:
     sheet = {r["article_id"]: r for r in csv.DictReader(SHEET.open())}
     llm = {r["article_id"]: r for r in csv.DictReader(LLM.open())}
 
+    # Adjudication layer: cells a human resolved (or the flag-derived E6
+    # not_applicable) in the second-review queue outrank both base streams.
+    overrides: dict[str, dict[str, tuple[str, str, str]]] = {}
+    if QUEUE.exists():
+        for q in csv.DictReader(QUEUE.open()):
+            for rule in RULES:
+                f = rule.lower()
+                if q.get(f"{f}_source") in ("human", "auto") and q.get(
+                        f"{f}_decision"):
+                    overrides.setdefault(q["article_id"], {})[rule] = (
+                        q[f"{f}_decision"], q[f"{f}_reason_code"],
+                        q[f"{f}_source"])
+
     rows, statuses = [], Counter()
+    n_overridden = 0
     for aid, s in sorted(sheet.items()):
         m = llm.get(aid, {})
         llm_ok = m.get("status") == "ok"
@@ -59,7 +83,11 @@ def main() -> None:
         for rule in RULES:
             f = rule.lower()
             decision = source = reason = ""
-            if rule == "E5" and s["arm"] == "local":
+            override = overrides.get(aid, {}).get(rule)
+            if override:
+                decision, reason, source = override
+                n_overridden += 1
+            elif rule == "E5" and s["arm"] == "local":
                 # §9: local relevance stays a human judgement.
                 decision = s.get("e5_decision", "")
                 reason = s.get("e5_reason_code", "")
@@ -95,6 +123,7 @@ def main() -> None:
         w.writerows(rows)
 
     print(f"{len(rows)} rows -> {OUT}")
+    print(f"queue-adjudicated rule cells applied: {n_overridden}")
     print("resolution:", dict(statuses))
     resolved = [r for r in rows if r["resolution_status"] == "resolved"]
     print("overall (resolved only):",
