@@ -182,19 +182,24 @@ prediction at all, listed with reasons in the bundle.
 
 ## 8. Honest limitations
 
-1. **The baseline does not predict 2026 well.** Winner accuracy 30.5 per cent;
-   exact seat sets right in 22.0 per cent of wards. The probability model's
-   holdout Brier score is 0.1521 against 0.1567 for predicting the base rate
-   for everyone — better, by 0.0046, which is barely better than a constant.
-   An earlier version of the model card stated it was *worse* than the base
-   rate; that was true and is no longer, and the reversal is recorded rather
-   than overwritten.
+1. **The baseline does not predict 2026 well, and the seat projection says so
+   more clearly than any error statistic.** Predicted against actual seats:
+   Conservative 118 against 30, Liberal Democrats 6 against 96, and **Reform
+   UK 0 against 12**. The model predicts Reform wins nothing in the election
+   where it won twelve contests. Winner accuracy 30.5 per cent; exact seat
+   sets right in 22.0 per cent of wards; party seat-total absolute error 232.
+   The probability model's holdout Brier score is 0.1521 against 0.1567 for
+   predicting the base rate for everyone — better, by 0.0046, which is barely
+   better than a constant. An earlier version of the model card stated it was
+   *worse* than the base rate; that was true and is no longer, and the
+   reversal is recorded rather than overwritten.
 2. **The failure is directional.** Reform is under-predicted (9.35 against
    10.80 observed, from 8.40 before the interaction terms) and the
    Conservatives over-predicted. The model faithfully learned a Surrey in
    which the Conservatives dominated and Reform did not exist.
-3. **The central historical predictor is unstable.** 31 of 106 features change
-   sign between folds, including `previous_party_vote_share` itself.
+3. **The central historical predictor is unstable.** 41 of 127 encoded
+   features change sign between folds, including `previous_party_vote_share`
+   and `party_county_strength_previous` — the two the Reform work rests on.
 4. **The holdout is not blind.** Its metrics were read during development. No
    2026 row entered training and no hyperparameter was chosen against it, but
    the discipline was weaker than the design intended.

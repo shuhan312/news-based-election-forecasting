@@ -71,10 +71,11 @@ through 6 May.
 
 ## Leakage controls
 
-A 78-field audit classifies every published column and every field the brief
-names as prohibited. Of 49 published feature columns only 25 are permitted
-predictors; identifiers, provenance, linkage and cohort labels are published
-but may not be modelled. `permitted_predictors()` is the single list modelling
+The audit classifies all 64 published columns and the 15 fields the brief
+names as prohibited. Only 39 columns are permitted predictors, and a default
+run uses 35 of them — the four UKIP interaction columns are absent unless the
+sensitivity option is on. Identifiers, provenance, linkage and cohort labels
+are published but may not be modelled. `permitted_predictors()` is the single list modelling
 code selects from, and `assert_no_prohibited_column()` rejects outcome columns
 and identity columns such as `candidate_id`.
 
@@ -332,7 +333,19 @@ divided out of the quantity being predicted.
 
 ## Known limitations
 
-1. **The baseline does not predict the 2026 election.** Winner accuracy is
+1. **The baseline does not predict the 2026 election.** The seat projection
+   states this more plainly than any error statistic:
+
+   | party | predicted seats | actual seats |
+   | --- | ---: | ---: |
+   | Conservative | 118 | 30 |
+   | Liberal Democrats | 6 | 96 |
+   | **Reform UK** | **0** | **12** |
+
+   The model awards the Conservatives four times the seats they won, gives the
+   Liberal Democrats a sixteenth of theirs, and **predicts Reform UK wins
+   nothing in a election where it won twelve contests**. Total party seat-total
+   absolute error 232. Winner accuracy is
    30.5 per cent against roughly 19 per cent for picking at random from a
    ten-candidate two-seat ward; exact seat sets are right in 22.0 per cent of
    wards; and the probability model's Brier score of 0.1521 beats the 0.1567
@@ -358,9 +371,11 @@ divided out of the quantity being predicted.
    has not been recomputed on the 1,992-row release; the four rows it adds
    cannot change its direction.
 
-3. **The central historical predictor is unstable.** 31 of 106 features change
-   sign between folds under Architecture C, and they include
-   `previous_party_vote_share` itself.
+3. **The central historical predictor is unstable.** 41 of 127 encoded
+   features change sign between folds on the linear parameterisation, and they
+   include `previous_party_vote_share` and `party_county_strength_previous` -
+   the two the Reform work rests on. The full list is in the bundle's
+   `explainability.json` under `fold_level.unstable_features`.
    Party identity is stable; historical performance is not. The tree
    architecture uses that feature most heavily, which suggests its
    relationship with the target is non-linear and a single linear slope was

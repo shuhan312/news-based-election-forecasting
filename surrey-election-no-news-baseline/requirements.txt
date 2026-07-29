@@ -1,10 +1,37 @@
-# numpy backs the linear algebra in regularised_models.py (ridge regression).
-# It is declared explicitly rather than relied on implicitly, so the fitted
-# no-news model is reproducible from a clean environment.
+# Runtime dependencies for the no-news baseline.
+#
+# Bounds rather than pins: pinning here would fight the lock file, which is
+# the artefact that records the exact versions a bundle's figures came from.
+# This file says what the code needs; a bundle's requirements-lock.txt says
+# what it last ran against.
+
+# --- modelling -------------------------------------------------------------
+# Backs the linear algebra in the ridge and partial-pooling architectures.
 numpy>=1.26,<3
-# numpyro (with its jax backend) provides the NUTS sampler and convergence
-# diagnostics for the N5a hierarchical Dirichlet model. Declared for the
-# same reproducibility reason; everything before N5a runs without it.
-numpyro>=0.21,<1
-pytest>=8,<9
+# Architecture B. Declared rather than optional: a comparator that failed
+# quietly would let the architecture comparison report two architectures
+# while claiming three were tried.
 lightgbm>=4,<5
+# Reads config/baseline_model.yaml, which is YAML rather than JSON so it can
+# carry the reasoning for each value in comments.
+PyYAML>=6,<7
+
+# --- interface -------------------------------------------------------------
+# The six-page app. Also provides AppTest, which renders every page in the
+# test suite.
+streamlit>=1.40,<2
+# Tables in the app, and the fixtures behind the app tests.
+pandas>=2,<4
+# Reads an uploaded workbook to validate its sheets and fields. Validation
+# only; extraction belongs to surrey-election-extractor.
+openpyxl>=3.1,<4
+
+# --- tests -----------------------------------------------------------------
+pytest>=8,<9
+
+# --- superseded ------------------------------------------------------------
+# numpyro (with its jax backend) backed the N5a hierarchical Dirichlet
+# exploration, which the three shipped architectures replaced. Kept because
+# run_n5_specification_audit.py and its tests still import it; nothing in the
+# model bundle depends on it.
+numpyro>=0.21,<1

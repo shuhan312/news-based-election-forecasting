@@ -155,7 +155,7 @@ UKIP into Reform UK.
 
 ## The bundle
 
-`outputs/model_bundle_v1/` — 25 files. The ones to read first:
+`outputs/model_bundle_v1/` — 29 files. The ones to read first:
 
 | file | what it answers |
 | --- | --- |
@@ -167,6 +167,9 @@ UKIP into Reform UK.
 | `leakage_audit.csv` | every field, permitted or excluded, and why |
 | `split_manifest.csv` | which fold every row belongs to |
 | `out_of_fold_predictions.csv` | **the news stage's input** |
+| `holdout_seat_projection.csv` | predicted winning party per contest, against the actual |
+| `holdout_party_seat_totals.csv` | predicted seats per party, against the actual |
+| `explainability.json` | SHAP, fold-level coefficients, unstable features, worked examples |
 | `data_quality_report.json` | missingness by field and election, party counts by election |
 | `training_config.yaml` | the resolved configuration this bundle was built with |
 | `bundle_manifest.json` | SHA-256 of every file, so a later stage can prove which bundle it loaded |
@@ -218,7 +221,7 @@ model carries its own equal-split reference in every metric block.
 PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python -m pytest surrey-election-no-news-baseline/tests -q
 ```
 
-424 tests. The ones that matter most assert that something *fails*: a
+444 tests. The ones that matter most assert that something *fails*: a
 prohibited field entering the design matrix, a contest split across folds, a
 7 May 2026 row reaching training, an unknown value silently becoming zero or
 "No", a UKIP block without its Reform base, a configuration key that does not
@@ -254,6 +257,9 @@ results that did not work:
   — the configuration design, and the manifest defect a clean rebuild exposed
 - [`technical_report.md`](docs/technical_report.md) — **the concise report for
   the supervisor review**, and the three decisions it asks for
+- [`prompt1_compliance_audit.md`](docs/prompt1_compliance_audit.md) — every
+  requirement and where it lives, and the seat projection showing Reform
+  predicted 0 seats against 12 won
 - [`data_validation_and_evidence_layers.md`](docs/data_validation_and_evidence_layers.md)
   — seat and date validation, and why two thirds of the model's inputs are
   derived rather than official

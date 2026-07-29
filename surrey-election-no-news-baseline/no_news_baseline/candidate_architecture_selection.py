@@ -76,6 +76,7 @@ import numpy as np
 
 from no_news_baseline.candidate_metrics import (
     equal_split_reference,
+    rank_metrics,
     seat_metrics,
     share_metrics,
 )
@@ -124,6 +125,12 @@ class ArchitectureScore:
     reform_improvement_over_equal_split: float | None
     winner_accuracy: float | None
     seat_set_accuracy: float | None
+    # The brief lists Reform ranking and elected-status accuracy among the
+    # selection criteria. The gate runs on one declared primary criterion, so
+    # these do not decide anything - but a selection record that omitted the
+    # criteria it was asked to weigh would be unreadable as evidence.
+    reform_rank_accuracy: float | None = None
+    reform_elected_accuracy: float | None = None
 
     def criterion(self, name: str) -> float | None:
         return {
@@ -151,6 +158,11 @@ def score_architecture(
     seats = seat_metrics(predictions)
     reform = [row for row in predictions if row.get("is_reform_uk")]
     reform_metrics = share_metrics(reform)
+    # Reform's own ranking and elected-status accuracy, computed on the Reform
+    # rows alone. Scored through the same functions as everything else so a
+    # comparison cannot turn on two definitions of the same word.
+    reform_ranks = rank_metrics(reform)
+    reform_seats = seat_metrics(reform)
 
     return ArchitectureScore(
         architecture=architecture,
@@ -167,6 +179,8 @@ def score_architecture(
         ),
         winner_accuracy=seats["winner_accuracy"],
         seat_set_accuracy=seats["seat_set_accuracy"],
+        reform_rank_accuracy=reform_ranks.get("exact_rank_accuracy"),
+        reform_elected_accuracy=reform_seats.get("elected_row_accuracy"),
     )
 
 
@@ -406,6 +420,12 @@ def comparison_table(scores: Sequence[ArchitectureScore]) -> tuple[dict[str, obj
             "reform_improvement_over_equal_split": (
                 score.reform_improvement_over_equal_split
             ),
+            # Published but not gated on. The brief lists these among the
+            # selection criteria; the gate runs on one declared primary
+            # criterion, and a reader who disagrees with that choice needs
+            # these columns to argue from.
+            "reform_rank_accuracy": score.reform_rank_accuracy,
+            "reform_elected_accuracy": score.reform_elected_accuracy,
         }
         for score in sorted(
             scores, key=lambda s: (s.split_id, COMPLEXITY_ORDER.index(s.architecture))

@@ -77,6 +77,11 @@ from no_news_baseline.candidate_contestation import (
     build_contestation_records,
     contestation_summary,
 )
+from no_news_baseline.candidate_explainability import (
+    fit_fold_coefficients,
+    summarise_across_folds,
+    unstable_features,
+)
 from no_news_baseline.candidate_features import CandidateFeatureEncoder, target_vector
 from no_news_baseline.candidate_historical_strength import (
     assert_no_future_contribution,
@@ -95,6 +100,11 @@ from no_news_baseline.candidate_hierarchical_model import (
 )
 from no_news_baseline.candidate_leakage_audit import FEATURE_COLUMNS, permitted_predictors
 from no_news_baseline.candidate_metrics import evaluate, reform_report
+from no_news_baseline.candidate_seat_projection import (
+    contest_projections,
+    party_seat_totals,
+    seat_projection_summary,
+)
 from no_news_baseline.candidate_probability_model import (
     LogisticElectionModel,
     fit_and_predict_probability_fold,
@@ -511,6 +521,12 @@ def build_bundle(
             split_id: evaluate(predictions, with_bootstrap=False)["overall"]
             for split_id, predictions in fold_predictions[selected].items()
         },
+        # Computed from the exported projection rather than beside it, so the
+        # published totals and the published error cannot disagree.
+        "seat_projection": {
+            "out_of_fold": seat_projection_summary(oof_rows),
+            "primary_holdout": seat_projection_summary(primary_holdout_rows),
+        },
         "election_probability": {
             "out_of_fold": probability_metrics([
                 r for split_id, preds in probability_predictions.items()
@@ -530,6 +546,53 @@ def build_bundle(
             for name, preds in fold_predictions.items()
         },
     }
+
+    # The brief lists predicted winning party and predicted party seat totals
+    # among the required outputs. Both were scored but never exported; the
+    # error statistic was published without the projection it summarises.
+    holdout_projection = contest_projections(primary_holdout_rows)
+    holdout_seat_totals = party_seat_totals(primary_holdout_rows)
+    oof_projection = contest_projections(oof_rows)
+
+    # Feature rows, not prediction records: the explainability functions read
+    # division_name and the predictor columns, which a prediction record does
+    # not carry.
+    holdout_features = [
+        r for r in features
+        if assignment[str(r["candidate_contest_id"])] == TEST
+    ]
+    explainability = _explainability_report(
+        selected, model, encoder, holdout_features, log
+    )
+    # Fold-level coefficients and the instability they expose. Computed on the
+    # linear parameterisation whatever ships, because "which features change
+    # sign between folds" is a property of the data that the shipped
+    # architecture cannot answer if it is a tree.
+    try:
+        folds = []
+        for split in splits:
+            if split.role != ROLLING_ORIGIN:
+                continue
+            # Assignment computed once per split. Calling assign_split inside
+            # the row comprehension would re-derive the whole assignment for
+            # every row, which is quadratic in a 1,992-row release.
+            fold_assignment = assign_split(features, split)
+            fold_train = [
+                r for r in features
+                if fold_assignment[str(r["candidate_contest_id"])] == TRAIN
+            ]
+            if fold_train:
+                folds.append(fit_fold_coefficients(
+                    split_id=split.split_id, train_rows=fold_train, targets=targets,
+                ))
+        summary = list(summarise_across_folds(folds))
+        explainability["fold_level"] = {
+            "folds": len(folds),
+            "summary": summary,
+            "unstable_features": list(unstable_features(summary)),
+        }
+    except Exception as error:  # noqa: BLE001 - reported, not fatal
+        log.warning("fold-level coefficients unavailable: %s", error)
 
     contestation = build_contestation_records(features)
     derived_coverage = {
@@ -613,6 +676,9 @@ def build_bundle(
     _write_csv(out / "out_of_fold_predictions.csv", oof_rows, written)
     _write_csv(out / "holdout_predictions.csv", holdout_rows, written)
     _write_csv(out / "architecture_comparison.csv", list(comparison_table(scores)), written)
+    _write_csv(out / "holdout_seat_projection.csv", list(holdout_projection), written)
+    _write_csv(out / "holdout_party_seat_totals.csv", list(holdout_seat_totals), written)
+    _write_csv(out / "out_of_fold_seat_projection.csv", list(oof_projection), written)
     _write_csv(out / "contestation_records.csv", [r.as_row() for r in contestation], written)
     _write_csv(
         out / "out_of_fold_election_probabilities.csv",
@@ -666,6 +732,7 @@ def build_bundle(
         ("training_config.yaml", training_config),
         ("contestation_summary.json", contestation_summary(contestation)),
         ("derived_feature_coverage.json", derived_coverage),
+        ("explainability.json", explainability),
     ):
         (out / name).write_text(json.dumps(payload, indent=2) + "\n")
         written.add(name)
@@ -746,6 +813,79 @@ def build_bundle(
         "bundle_files": len(manifest["files"]),
         "output_directory": str(out),
     }
+
+
+def _explainability_report(architecture, model, encoder, rows, log) -> dict:
+    """The explainability outputs the brief asks to be *generated*.
+
+    They existed as functions and were quoted in the model card, but nothing
+    wrote them to the bundle, so the only way to see a feature importance was
+    to recompute it. A figure that has to be recomputed to be read is a figure
+    that will eventually be recomputed differently.
+
+    Which analysis runs depends on the architecture, as the brief specifies:
+    SHAP for the tree, coefficients for the interpretable models.
+    """
+
+    report: dict = {
+        "architecture": architecture,
+        "rows_explained": len(rows),
+        "interpretation_warning": (
+            "These are model contributions, not causal effects. They describe "
+            "how this fitted model combines pre-election information; they do "
+            "not establish why any voter behaved as they did."
+        ),
+    }
+
+    if architecture == "B_gradient_boosted_trees":
+        from no_news_baseline.candidate_tree_explainability import (
+            compare_gain_and_shap,
+            global_shap_importance,
+            party_shap_profile,
+            shap_contributions,
+        )
+
+        report["method"] = "exact_treeshap"
+        report["global_importance"] = list(
+            global_shap_importance(booster=model, rows=rows, encoder=encoder)
+        )
+        report["reform_uk"] = party_shap_profile(
+            booster=model, rows=rows, encoder=encoder, reform_only=True
+        )
+        # Gain and SHAP answer different questions - how much a feature helped
+        # while the trees were built, against how much it moves these rows -
+        # so a disagreement between them is informative rather than an error.
+        report["gain_versus_shap"] = list(
+            compare_gain_and_shap(booster=model, rows=rows, encoder=encoder)
+        )
+        # A handful of worked contests, so a reader can follow one prediction
+        # end to end rather than only seeing averages.
+        examples = shap_contributions(
+            booster=model, rows=rows[:3], encoder=encoder, top_n=8
+        )
+        report["example_explanations"] = [
+            {k: v for k, v in vars(example).items()} for example in examples
+        ]
+        return report
+
+    report["method"] = "coefficients"
+    coefficients = getattr(model, "coefficients", None)
+    if coefficients is None:
+        log.warning("architecture %s exposes no coefficients", architecture)
+        return report
+    named = sorted(
+        zip(encoder.column_names, (float(value) for value in coefficients)),
+        key=lambda pair: -abs(pair[1]),
+    )
+    report["coefficients"] = [
+        {"feature": name, "coefficient": value} for name, value in named
+    ]
+    report["reform_uk_terms"] = [
+        {"feature": name, "coefficient": value}
+        for name, value in named
+        if "reform" in name.lower()
+    ]
+    return report
 
 
 def main() -> None:
