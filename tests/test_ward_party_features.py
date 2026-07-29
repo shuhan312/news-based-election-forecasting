@@ -27,12 +27,15 @@ from news_modelling.ward_party_build import (
     validate,
 )
 from news_modelling.ward_party_features import (
+    ARM_LOCAL,
+    ARM_NATIONAL,
     CUMULATIVE_SNAPSHOTS,
     PRINCIPAL_WINDOWS,
     REFORM_KEY,
     UKIP_KEY,
     WindowMappingError,
     aggregate_baseline_to_party,
+    assemble_window,
     build_observation_grid,
     index_coverage,
     index_news_rows,
@@ -89,40 +92,89 @@ PARTY_NAMES = {"P-CON": "Conservative", "P-REF": "Reform UK",
 
 
 def test_a_window_whose_days_hold_no_articles_is_empty_not_assembled():
-    """The case that first broke the build.
+    """A window with nothing in its own day range is built empty."""
 
-    `final_complete_day` means day 1; the old bucket it would be assembled
-    from spans days 1 to 3. With day 1 empty and day 2 occupied, assembling
-    would fill an empty window with articles belonging to the next one.
-    """
-
-    report = verify_window_mapping([2, 2, 5, 6, 8, 14])
-    check = report["checks"]["final_complete_day"]
+    report = verify_window_mapping([1, 2, 8, 14])
+    check = report["checks"]["7_to_4_days"]
     assert check["construction"] == "empty_no_articles_in_day_range"
     assert check["assembled_from"] == []
     assert check["exact"]
 
 
-def test_a_window_with_articles_in_a_wider_bucket_is_refused():
-    """Day 1 and day 3 both occupied: the bucket cannot be split."""
+def test_every_window_is_its_own_source():
+    """The property that makes a misassembly impossible under this scheme.
 
-    with pytest.raises(WindowMappingError, match="final_complete_day"):
+    The narrower scheme this table used to build had to derive its windows from
+    wider collection buckets, so an article could be counted into a window it
+    did not belong to - and one build was refused for exactly that. Here each
+    window is the bucket, so the mapping is the identity and there is no wider
+    bucket to borrow from. Asserted directly, because it is a property of the
+    window definitions rather than of the code: swapping in a narrower scheme
+    would reintroduce the hazard without changing a line of logic.
+    """
+
+    for name, spec in PRINCIPAL_WINDOWS.items():
+        assert spec["from_old"] == (name,)
+        assert spec["exact_only_if_empty"] == ()
+
+
+def test_no_distribution_of_days_can_be_refused():
+    """Following from the identity mapping, every corpus verifies."""
+
+    for days in ([1, 3, 5], [1, 2, 3, 4, 7, 8, 14, 15, 30, 31, 90, 91, 180],
+                 [180], []):
+        report = verify_window_mapping(days)
+        assert report["all_assemblies_exact"]
+        assert report["violations"] == []
+
+
+def test_the_guard_still_refuses_a_genuine_misassembly(monkeypatch):
+    """The safety net is intact, not merely unused.
+
+    Restores the shape the old scheme had - a window narrower than the bucket
+    it draws from - and checks the refusal still fires. Without this, the two
+    tests above would pass equally well if the check had been deleted.
+    """
+
+    monkeypatch.setitem(
+        PRINCIPAL_WINDOWS, "narrow_window",
+        {"days": (1, 1), "from_old": ("final_72_hours",),
+         "exact_only_if_empty": (2, 3)})
+
+    with pytest.raises(WindowMappingError, match="narrow_window"):
         verify_window_mapping([1, 3, 5])
 
 
 def test_an_exactly_covered_window_assembles():
     report = verify_window_mapping([10, 20])
-    check = report["checks"]["30_to_8_complete_days"]
+    check = report["checks"]["14_to_8_days"]
     assert check["construction"] == "assembled_from_legacy_windows"
-    assert check["assembled_from"] == ["14_to_8_days", "30_to_15_days"]
+    assert check["assembled_from"] == ["14_to_8_days"]
 
 
 def test_cumulative_snapshots_and_principal_windows_are_both_defined():
     assert set(PRINCIPAL_WINDOWS) == {
-        "final_complete_day", "7_to_2_complete_days", "30_to_8_complete_days"}
+        "final_72_hours", "7_to_4_days", "14_to_8_days",
+        "30_to_15_days", "90_to_31_days", "180_to_91_days"}
     assert set(CUMULATIVE_SNAPSHOTS) == {
-        "information_available_at_1_day", "information_available_at_7_days",
-        "information_available_at_30_days"}
+        "information_available_at_3_days", "information_available_at_7_days",
+        "information_available_at_14_days", "information_available_at_30_days",
+        "information_available_at_90_days", "information_available_at_180_days"}
+
+
+def test_the_windows_span_the_collection_horizon():
+    """The six windows must cover 1 to 180 days with no gap.
+
+    A gap would silently drop every article published in it. The corpus was
+    collected on a 180-day horizon, so anything short of full coverage means
+    articles that were paid for and can never be used.
+    """
+
+    covered: set[int] = set()
+    for spec in PRINCIPAL_WINDOWS.values():
+        first, last = spec["days"]
+        covered.update(range(first, last + 1))
+    assert covered == set(range(1, 181))
 
 
 def test_principal_windows_do_not_overlap():
@@ -134,6 +186,111 @@ def test_principal_windows_do_not_overlap():
         days = set(range(first, last + 1))
         assert not (covered & days)
         covered |= days
+
+
+# ---------------------------------------------------------------------------
+# Arm membership and join granularity
+#
+# These cover the bug that made the local arm look empty: election-wide local
+# coverage was read as national and dropped, taking all of 2013's and 2017's
+# local news with it. The tests assert the two properties separately, because
+# conflating them is exactly what went wrong.
+# ---------------------------------------------------------------------------
+
+
+def test_scope_alone_decides_the_arm():
+    """Surrey-wide local news is local even though it names no ward."""
+
+    rows = [news_row(scope="surrey_wide_local", division="ELECTION_WIDE")]
+    local = index_news_rows(rows, PARTY_NAMES, arm=ARM_LOCAL)
+    national = index_news_rows(rows, PARTY_NAMES, arm=ARM_NATIONAL)
+    assert local, "election-wide local coverage must reach the local arm"
+    assert not national
+
+
+def test_geography_decides_only_the_key_shape():
+    """Ward-tied rows carry the area; election-wide rows do not."""
+
+    tied = index_news_rows(
+        [news_row(scope="ward_specific_local", division="Guildford East")],
+        PARTY_NAMES, arm=ARM_LOCAL)
+    wide = index_news_rows(
+        [news_row(scope="surrey_wide_local", division="ELECTION_WIDE")],
+        PARTY_NAMES, arm=ARM_LOCAL)
+
+    assert all(len(key) == 4 for key in tied)
+    assert all(len(key) == 3 for key in wide)
+
+
+def test_a_ward_reads_both_its_own_and_election_wide_local_coverage():
+    """A ward's local features are the sum of both granularities."""
+
+    index = index_news_rows(
+        [news_row(scope="ward_specific_local", division="Guildford East",
+                  articles=3),
+         news_row(scope="surrey_wide_local", division="ELECTION_WIDE",
+                  articles=5)],
+        PARTY_NAMES, arm=ARM_LOCAL)
+
+    block = assemble_window(
+        index,
+        (("SCC-2021-05", normalise_area("Guildford East"),
+          party_key("Conservative")),
+         ("SCC-2021-05", party_key("Conservative"))),
+        {"days": (15, 30), "from_old": ("previous_30_days",),
+         "exact_only_if_empty": ()},
+        FEATURES, "local", "30_to_15_days")
+
+    assert block["local__30_to_15_days__cov_n_articles"] == 8
+
+
+def test_election_wide_coverage_is_not_counted_twice():
+    """Joined many-to-one, not copied - one row cannot land under both keys."""
+
+    index = index_news_rows(
+        [news_row(scope="surrey_wide_local", division="ELECTION_WIDE",
+                  articles=5)],
+        PARTY_NAMES, arm=ARM_LOCAL)
+
+    block = assemble_window(
+        index,
+        (("SCC-2021-05", normalise_area("Guildford East"),
+          party_key("Conservative")),
+         ("SCC-2021-05", party_key("Conservative"))),
+        {"days": (15, 30), "from_old": ("previous_30_days",),
+         "exact_only_if_empty": ()},
+        FEATURES, "local", "30_to_15_days")
+
+    assert block["local__30_to_15_days__cov_n_articles"] == 5
+
+
+def test_mixed_coverage_reaches_both_arms_symmetrically():
+    """The scope sits in both arms, so an election-wide row must reach both.
+
+    Previously it reached national only, which would have made a
+    local-versus-national comparison a measurement of the join rule.
+    """
+
+    rows = [news_row(scope="mixed_local_national", division="ELECTION_WIDE")]
+    assert index_news_rows(rows, PARTY_NAMES, arm=ARM_LOCAL)
+    assert index_news_rows(rows, PARTY_NAMES, arm=ARM_NATIONAL)
+
+
+def test_a_single_key_prefix_is_still_accepted():
+    """The national arm passes one key; both call shapes must work."""
+
+    index = index_news_rows(
+        [news_row(scope="national_political", division="ELECTION_WIDE",
+                  articles=4)],
+        PARTY_NAMES, arm=ARM_NATIONAL)
+
+    block = assemble_window(
+        index, ("SCC-2021-05", party_key("Conservative")),
+        {"days": (15, 30), "from_old": ("previous_30_days",),
+         "exact_only_if_empty": ()},
+        FEATURES, "national", "30_to_15_days")
+
+    assert block["national__30_to_15_days__cov_n_articles"] == 4
 
 
 # ---------------------------------------------------------------------------
@@ -448,12 +605,12 @@ def test_a_result_derived_column_is_excluded_with_a_reason():
 
 
 def test_the_dictionary_describes_every_column():
-    columns = ["row_key", "local__30_to_8_complete_days__cov_n_articles"]
+    columns = ["row_key", "local__14_to_8_days__cov_n_articles"]
     entries = {row["feature_name"]: row for row in feature_dictionary(columns)}
     assert set(entries) == set(columns)
-    described = entries["local__30_to_8_complete_days__cov_n_articles"]
+    described = entries["local__14_to_8_days__cov_n_articles"]
     assert described["block"] == "local"
-    assert "8-30" in described["window_definition"]
+    assert "8-14" in described["window_definition"]
     assert described["traceability"]
 
 

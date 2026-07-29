@@ -49,50 +49,98 @@ from datetime import date
 # Windows
 # ---------------------------------------------------------------------------
 
-# Each principal window, as the day range it means and the older buckets it is
-# assembled from. ``exact_only_if_empty`` names the days that must contain no
-# articles for the assembly to be exact - they are days the old scheme lumped
-# into a bucket that spans more than the new window does.
+# The six windows the corpus was collected against, and the windows the table
+# is built on.
+#
+# An earlier version of this table used three windows spanning the final 30
+# days and assembled them from these six. That assembly is gone, and the
+# reasoning for dropping it is worth keeping because it is the single decision
+# that most affects how much of the corpus reaches the model.
+#
+# Every article was collected on a 180-day horizon and assigned to one of these
+# six buckets at collection time. Three windows 30 days deep can only ever see
+# the last 30 days of that, which discards the two widest buckets entirely: of
+# 3,584 eligible articles, 366 fall inside 30 days and 3,218 do not. The
+# extracted pilot showed the same shape - 9 of 67 articles within 30 days. So
+# the narrower scheme was not a different labelling of the same evidence, it
+# was a decision to ignore nine tenths of it.
+#
+# Building on the collection buckets directly also removes a class of error the
+# assembly could produce. A 30-day scheme has to derive "the final complete
+# day" from a bucket spanning days 1 to 3, so an article published two days
+# before polling could be counted as if it were published one day before.
+# ``verify_window_mapping`` existed to catch exactly that and refused the first
+# build for exactly that reason. Here each window is its own source, so the
+# question cannot arise: the mapping is the identity, and the verification
+# below now confirms that rather than testing for a hazard.
+#
+# ``from_old`` therefore names each window itself, and ``exact_only_if_empty``
+# is empty for all six - there are no days a source bucket covers that its
+# window does not.
 PRINCIPAL_WINDOWS: dict[str, dict] = {
-    "final_complete_day": {
-        "days": (1, 1),
+    "final_72_hours": {
+        "days": (1, 3),
         "from_old": ("final_72_hours",),
-        "exact_only_if_empty": (2, 3),
+        "exact_only_if_empty": (),
     },
-    "7_to_2_complete_days": {
-        "days": (2, 7),
-        "from_old": ("7_to_4_days", "final_72_hours"),
-        "exact_only_if_empty": (1,),
+    "7_to_4_days": {
+        "days": (4, 7),
+        "from_old": ("7_to_4_days",),
+        "exact_only_if_empty": (),
     },
-    "30_to_8_complete_days": {
-        "days": (8, 30),
-        "from_old": ("14_to_8_days", "30_to_15_days"),
+    "14_to_8_days": {
+        "days": (8, 14),
+        "from_old": ("14_to_8_days",),
+        "exact_only_if_empty": (),
+    },
+    "30_to_15_days": {
+        "days": (15, 30),
+        "from_old": ("30_to_15_days",),
+        "exact_only_if_empty": (),
+    },
+    "90_to_31_days": {
+        "days": (31, 90),
+        "from_old": ("90_to_31_days",),
+        "exact_only_if_empty": (),
+    },
+    "180_to_91_days": {
+        "days": (91, 180),
+        "from_old": ("180_to_91_days",),
         "exact_only_if_empty": (),
     },
 }
 
-# Cumulative snapshots: everything known by N days before polling. Two map
-# straight onto an existing bucket; the one-day snapshot does not, because the
-# old scheme's shortest cumulative window was three days.
+# Cumulative snapshots: everything known by N days before polling, one per
+# principal window boundary. These are what answer whether timing matters -
+# comparing a model given the last 3 days against one given the last 180 is
+# only meaningful if both snapshots exist. Each maps onto the cumulative bucket
+# the collection already produced, so these are identity mappings too.
 CUMULATIVE_SNAPSHOTS: dict[str, dict] = {
-    "information_available_at_30_days": {
-        "days": 30, "from_old": ("previous_30_days",), "exact_only_if_empty": (),
+    "information_available_at_3_days": {
+        "days": 3, "from_old": ("previous_72_hours",), "exact_only_if_empty": (),
     },
     "information_available_at_7_days": {
         "days": 7, "from_old": ("previous_7_days",), "exact_only_if_empty": (),
     },
-    "information_available_at_1_day": {
-        "days": 1, "from_old": ("previous_72_hours",),
-        "exact_only_if_empty": (2, 3),
+    "information_available_at_14_days": {
+        "days": 14, "from_old": ("previous_14_days",), "exact_only_if_empty": (),
+    },
+    "information_available_at_30_days": {
+        "days": 30, "from_old": ("previous_30_days",), "exact_only_if_empty": (),
+    },
+    "information_available_at_90_days": {
+        "days": 90, "from_old": ("previous_90_days",), "exact_only_if_empty": (),
+    },
+    "information_available_at_180_days": {
+        "days": 180, "from_old": ("previous_180_days",),
+        "exact_only_if_empty": (),
     },
 }
 
-# The six-window scheme, retained so the earlier assignments stay available as
-# a sensitivity layer rather than being overwritten.
-LEGACY_WINDOWS = (
-    "final_72_hours", "7_to_4_days", "14_to_8_days",
-    "30_to_15_days", "90_to_31_days", "180_to_91_days",
-)
+# The narrower schemes are not deleted - they stay in ``window_schemes`` as
+# named alternatives, so a sensitivity run against a 30-day scheme remains
+# possible and the comparison between schemes stays reproducible.
+ALTERNATIVE_SCHEMES = ("prompt_1_and_2_30d", "desktop_spec_30d")
 
 
 class WindowMappingError(RuntimeError):
@@ -100,12 +148,20 @@ class WindowMappingError(RuntimeError):
 
 
 def verify_window_mapping(days_before: Sequence[int]) -> dict:
-    """Check the assemblies are exact for this corpus, and say why.
+    """Confirm every window is built exactly, and record the day counts.
 
-    ``days_before`` is one entry per assigned article. The check is on the days
-    an old bucket covers but a new window does not: if any article sits on one
-    of those days, the assembly would pull it into a window it does not belong
-    to, and the table would be quietly wrong rather than obviously broken.
+    ``days_before`` is one entry per assigned article. The check looks for days
+    a source bucket covers but its window does not: an article sitting on one
+    of those days would be pulled into a window it does not belong to, and the
+    table would be quietly wrong rather than obviously broken.
+
+    Under the six-window scheme no window has such days - each is its own
+    source - so the check passes by construction and its value is now the
+    record it produces rather than the hazard it guards against. It is kept
+    because that guarantee is a property of the current window definitions
+    rather than of the code, and changing them back to a narrower scheme would
+    reintroduce the hazard silently. The per-day article counts it returns are
+    also the evidence for which windows actually hold anything.
     """
 
     counts: dict[int, int] = defaultdict(int)
@@ -484,10 +540,28 @@ def index_news_rows(
 ) -> dict[tuple, list[Mapping[str, object]]]:
     """Group one arm's aggregated rows by everything a grid row must match.
 
-    Local rows key on ``(news_election, area, party, old_window)``; national
-    rows drop the area, because a national record is stored once per election
-    and party and joined many-to-one onto the wards rather than copied into
-    each of them.
+    Two independent properties decide where a row goes, and keeping them
+    independent is the point of this function.
+
+    **Which arm it belongs to** is decided by ``scope_classification`` alone.
+    That is what the scope means: ``surrey_wide_local`` is local news whether
+    or not it names a ward, and ``national_political`` is national news whether
+    or not it mentions one.
+
+    **How it joins** is decided by geography. A row tied to a ward keys on
+    ``(election, area, party, window)`` and reaches that ward's rows. A row
+    covering the whole election keys on ``(election, party, window)`` and is
+    joined many-to-one onto every ward in it, rather than copied into each.
+
+    An earlier version conflated the two: it treated an election-wide target as
+    meaning national, and dropped any local row carrying one. That silently
+    discarded 111 of 487 local article counts - including *all* local coverage
+    for 2013 and 2017, the two training elections, which is why the local arm
+    appeared to contribute nothing. Worse, it was asymmetric:
+    ``mixed_local_national`` sits in both arms' scope sets and is election-wide
+    in every case on file, so those rows were dropped from local and kept in
+    national. A comparison between the arms built on that would have measured
+    the join rule rather than the news.
     """
 
     scopes = ARM_SCOPES[arm]
@@ -497,9 +571,7 @@ def index_news_rows(
             continue
         target = str(row.get("geographic_target_id", ""))
         _, _, place = target.partition(":")
-        is_national = (not place) or place == ELECTION_WIDE
-        if (arm == ARM_LOCAL) is is_national:
-            continue
+        is_election_wide = (not place) or place == ELECTION_WIDE
 
         raw_party = str(row.get("focal_party_id") or NO_FOCAL_PARTY)
         name = party_names.get(raw_party, raw_party)
@@ -507,7 +579,7 @@ def index_news_rows(
         window = str(row.get("window") or "")
         election = str(row.get("election_id"))
 
-        key = ((election, party, window) if is_national
+        key = ((election, party, window) if is_election_wide
                else (election, normalise_area(place), party, window))
         index[key].append(row)
     return dict(index)
@@ -515,26 +587,37 @@ def index_news_rows(
 
 def assemble_window(
     index: dict[tuple, list[Mapping[str, object]]],
-    key_prefix: tuple,
+    key_prefix: tuple | Sequence[tuple],
     window_spec: Mapping[str, object],
     feature_columns: Sequence[str],
     prefix: str,
     window_name: str,
 ) -> dict[str, object]:
-    """One new window's features, assembled from the old buckets it spans.
+    """One window's features, gathered from the buckets that feed it.
 
     Counts are summed across the contributing buckets. Absent coverage stays
     ``None`` rather than becoming zero: zero says an article count of nothing
     was measured, ``None`` says nothing was found, and a model given zeros
     cannot tell them apart.
+
+    ``key_prefix`` may be a single key or several. The local arm needs several,
+    because its rows are stored at two granularities - tied to a ward, or
+    covering the whole election - and a ward's features are the sum of both.
+    A row cannot be stored under both keys, so summing across them counts
+    nothing twice.
     """
+
+    prefixes: Sequence[tuple] = (
+        [key_prefix] if key_prefix and not isinstance(key_prefix[0], tuple)
+        else list(key_prefix))
 
     # ``from_old`` is emptied by verify_window_mapping for a window whose own
     # days hold no articles, so an empty window assembles from nothing and the
     # block comes out all-None rather than borrowing a wider bucket's rows.
     rows: list[Mapping[str, object]] = []
-    for old_window in window_spec.get("from_old", ()):
-        rows.extend(index.get((*key_prefix, old_window), []))
+    for one_prefix in prefixes:
+        for old_window in window_spec.get("from_old", ()):
+            rows.extend(index.get((*one_prefix, old_window), []))
 
     block: dict[str, object] = {}
     for column in feature_columns:

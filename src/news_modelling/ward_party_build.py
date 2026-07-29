@@ -193,12 +193,18 @@ def build_master_rows(
                 (ARM_NATIONAL, weighted_national_index, weighted_feature_columns,
                  "weighted_national"),
             ):
+                # The local arm reads two keys: coverage tied to this ward, and
+                # coverage of the whole election that is local in scope -
+                # Surrey-wide reporting names no ward but is still local news
+                # about this contest. The national arm has one granularity, so
+                # one key.
                 if news_election is None:
-                    key_prefix = ("__absent__",)
+                    key_prefix = (("__absent__",),)
                 elif arm == ARM_LOCAL:
-                    key_prefix = (news_election, area, party)
+                    key_prefix = ((news_election, area, party),
+                                  (news_election, party))
                 else:
-                    key_prefix = (news_election, party)
+                    key_prefix = ((news_election, party),)
                 record.update(assemble_window(
                     index, key_prefix, spec, columns, prefix, window_name))
 
@@ -207,9 +213,10 @@ def build_master_rows(
                 # can tell "my party was covered" from "this contest was in
                 # the news".
                 context_prefix = (
-                    ("__absent__",) if news_election is None
-                    else (news_election, area, NO_FOCAL_PARTY) if arm == ARM_LOCAL
-                    else (news_election, NO_FOCAL_PARTY))
+                    (("__absent__",),) if news_election is None
+                    else ((news_election, area, NO_FOCAL_PARTY),
+                          (news_election, NO_FOCAL_PARTY)) if arm == ARM_LOCAL
+                    else ((news_election, NO_FOCAL_PARTY),))
                 record.update(assemble_window(
                     index, context_prefix, spec, columns,
                     f"{prefix}_context", window_name))

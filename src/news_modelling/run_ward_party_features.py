@@ -16,6 +16,7 @@ it would fit is defined against whichever baseline ships.
 from __future__ import annotations
 
 import csv
+from collections.abc import Sequence
 import hashlib
 import json
 from datetime import date, datetime, timezone
@@ -41,7 +42,7 @@ from news_modelling.ward_party_features import (
     ARM_LOCAL,
     ARM_NATIONAL,
     CUMULATIVE_SNAPSHOTS,
-    LEGACY_WINDOWS,
+    ALTERNATIVE_SCHEMES,
     PRINCIPAL_WINDOWS,
     aggregate_baseline_to_party,
     build_observation_grid,
@@ -82,6 +83,44 @@ def write_csv(path: Path, rows: list[dict]) -> None:
         writer = csv.DictWriter(handle, fieldnames=columns)
         writer.writeheader()
         writer.writerows(rows)
+
+
+def summary_columns(frame: pd.DataFrame) -> list[str]:
+    """The columns worth putting in a spreadsheet, in reading order.
+
+    Chosen rather than sampled. A person opening this file wants to answer
+    "which contest is this, what happened, what did Stage 1 expect, and how
+    much news was there" - so it carries the identifiers, the targets, the
+    baseline block, and one article count per arm and window. That is a few
+    dozen columns instead of 24,151, and it opens.
+
+    Every other column stays in the parquet and is described in
+    ``final_feature_dictionary.csv``. Nothing is dropped from the data; this
+    picks a view over it.
+    """
+
+    present = set(frame.columns)
+    ordered: list[str] = []
+
+    def take(columns: Sequence[str]) -> None:
+        for column in columns:
+            if column in present and column not in ordered:
+                ordered.append(column)
+
+    # Identifiers in reading order rather than alphabetically: who, where,
+    # which party, which split. Any identifier not named here still follows.
+    take(["row_key", "election_id", "election_date", "election_type",
+          "electoral_area_name", "standardised_party_name",
+          "is_reform_uk", "is_ukip", "modelling_split", "did_not_contest"])
+    take(sorted(IDENTIFIER_COLUMNS))
+    take(sorted(c for c in present if c.startswith(TARGET_PREFIX)))
+    take(sorted(c for c in present if c.startswith("baseline__")))
+
+    # One coverage count per arm and window: enough to see where the news is
+    # and where it is not, which is the question the table keeps raising.
+    take(sorted(c for c in present if c.endswith("__cov_n_articles")
+                and c.count("__") == 2))
+    return ordered
 
 
 def split_populated_columns(frame: pd.DataFrame) -> tuple[list[str], list[str]]:
@@ -225,15 +264,21 @@ def main() -> None:
     frame = coerce_for_parquet(pd.DataFrame(rows))
     frame.to_parquet(OUT / "ward_party_election_features.parquet", index=False)
 
-    # The parquet keeps every column; the CSV keeps the ones that have a value
-    # somewhere. That is not a convenience: 7,663 of the columns are empty on
-    # every row, and a CSV carrying them is a hundred megabytes of commas that
-    # nobody can open. The parquet remains the canonical artefact - columnar
-    # storage costs almost nothing for an all-null column - and the dropped
-    # list is written out, because *which* blocks are empty is the finding.
+    # The parquet is the canonical artefact and carries every column. The CSV
+    # is for reading, and under the six-window scheme it can no longer be the
+    # same table: 24,151 columns exceeds Excel's limit of 16,384, so a wide CSV
+    # is not merely large but unopenable in the tool it exists for. Writing one
+    # anyway would produce a quarter-gigabyte file whose only honest use is to
+    # be read back by the code that already prefers the parquet.
+    #
+    # So the CSV carries what a person actually reads - who the row is, what
+    # happened, what Stage 1 predicted, and how much coverage each arm and
+    # window held - and the feature dictionary documents the rest.
     populated, empty_columns = split_populated_columns(frame)
-    write_csv(OUT / "ward_party_election_features.csv",
-              frame[populated].to_dict("records"))
+    summary = summary_columns(frame)
+    write_csv(OUT / "ward_party_election_features_summary.csv",
+              frame[summary].to_dict("records"))
+    print(f"summary CSV: {len(summary)} columns, readable in a spreadsheet")
     write_csv(OUT / "empty_feature_columns.csv", [
         {"feature_name": column,
          "block": column.split("__")[0] if "__" in column else "identifier",
@@ -246,9 +291,14 @@ def main() -> None:
           f"{len(empty_columns)} empty on every row")
 
     blinded = blind(rows)
-    coerce_for_parquet(pd.DataFrame(blinded)).to_parquet(
+    blinded_frame = coerce_for_parquet(pd.DataFrame(blinded))
+    blinded_frame.to_parquet(
         OUT / "ward_party_election_features_blinded_2026.parquet", index=False)
-    write_csv(OUT / "ward_party_election_features_blinded_2026.csv", blinded)
+    # Same reasoning as above, and it matters more here: the blinded table is
+    # the one somebody opens to confirm no outcome is visible before the 2026
+    # predictions are made. A file that cannot be opened cannot be checked.
+    write_csv(OUT / "ward_party_election_features_blinded_2026_summary.csv",
+              blinded_frame[summary_columns(blinded_frame)].to_dict("records"))
     print(f"blinded 2026 table: {len(blinded)} rows, "
           f"{sum(1 for c in (blinded[0] if blinded else {}) if c.startswith(TARGET_PREFIX))} "
           "target columns")
@@ -293,7 +343,8 @@ def main() -> None:
         "window_specification": {
             "principal": {k: v["days"] for k, v in PRINCIPAL_WINDOWS.items()},
             "cumulative": {k: v["days"] for k, v in CUMULATIVE_SNAPSHOTS.items()},
-            "legacy_retained_as_sensitivity_layer": list(LEGACY_WINDOWS),
+            "scheme": "original_email_180d",
+            "alternative_schemes_available": list(ALTERNATIVE_SCHEMES),
             "assembly_verification": mapping_report,
         },
     }
