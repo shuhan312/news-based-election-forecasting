@@ -89,6 +89,7 @@ Usage:
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import sys
 import time
@@ -159,6 +160,30 @@ POLLING = {
 # Windows within thirty days of polling: the narrow tranche.
 NARROW_WINDOWS = {"final_72_hours", "7_to_4_days", "14_to_8_days",
                   "30_to_15_days"}
+
+# The far windows, and why they get a gate of their own.
+#
+# The narrow tranche was chosen for being closest to polling day, which made
+# it the right place to look for extraction faults that matter most. It is
+# also 89 of 1,638 articles - 5.4% of the corpus - and every one of them sits
+# in a window that together accounts for 5.6%. The 180-to-91-day window alone
+# is 1,308 articles, 79.9%, and the production runner had never touched it.
+#
+# The failure modes the health check looks for are mostly prompt-driven rather
+# than content-driven, and the D4 sample that validated these prompts was
+# stratified by election and arm rather than by window, so it did contain far
+# articles. But one figure will genuinely differ: an article five months
+# before polling is far less likely to carry an election frame or a codeable
+# political issue, so empty-record rates should rise. A zero is data rather
+# than a fault, which is exactly why it needs measuring rather than assuming -
+# the recalibrated empty-rate check is the only threshold that could trip on
+# it, and it should trip here if anywhere.
+#
+# Splitting the run costs nothing but a batch cycle. These 89 articles belong
+# to the 1,638 either way, and `all` now skips whatever has already been
+# extracted, so the total paid is unchanged.
+FAR_WINDOWS = {"180_to_91_days", "90_to_31_days"}
+FAR_TRANCHE_SIZE = 89          # matched to the narrow tranche, for comparison
 
 # The three original layers keep their frozen prompts and validators. The
 # two rescue layers carry no validator here: their revised outputs are a
@@ -287,6 +312,8 @@ def load_tranche(tranche: str) -> tuple[dict[str, dict], list[str], dict]:
             census["by_window"].get(placed.window, 0) + 1)
         if tranche == "narrow" and placed.window not in NARROW_WINDOWS:
             continue
+        if tranche == "far" and placed.window not in FAR_WINDOWS:
+            continue
 
         if aid in normalised:
             article = dict(normalised[aid])
@@ -318,7 +345,82 @@ def load_tranche(tranche: str) -> tuple[dict[str, dict], list[str], dict]:
             fallback.append(aid)
         article["window"] = placed.window
         out[aid] = article
+
+    if tranche == "far":
+        # A reproducible sample, proportional to each far window's share, so
+        # the tranche is not silently all one window. Ordered by
+        # sha256(article_id) for the same reason the D4 sampler was: it is
+        # deterministic, independent of the corpus's insertion order, and
+        # reproducible from the ids alone without storing a seed.
+        by_window: dict[str, list[str]] = {}
+        for aid, art in out.items():
+            by_window.setdefault(art["window"], []).append(aid)
+        total = sum(len(v) for v in by_window.values())
+        keep: set[str] = set()
+        for window, ids in sorted(by_window.items()):
+            quota = max(1, round(FAR_TRANCHE_SIZE * len(ids) / total))
+            keep.update(sorted(ids, key=lambda a: hashlib.sha256(
+                a.encode()).hexdigest())[:quota])
+        census["far_sample"] = {
+            "drawn": len(keep), "target": FAR_TRANCHE_SIZE,
+            "per_window": {w: sum(1 for a in keep if out[a]["window"] == w)
+                           for w in sorted(by_window)},
+            "frame": {w: len(v) for w, v in sorted(by_window.items())}}
+        out = {a: v for a, v in out.items() if a in keep}
+        # The fallback list was built while walking the whole far frame, so
+        # it has to be narrowed to the sample as well. Left unfiltered it
+        # recorded 95 fallback ids for an 89-article tranche, which is not a
+        # cosmetic problem: the manifest is what a reader would use to check
+        # how much of a tranche came from provisional text.
+        fallback = [a for a in fallback if a in keep]
+
+    if tranche == "all":
+        # Skip whatever earlier tranches already extracted. The docstring has
+        # claimed since this module was written that the full run reuses those
+        # extractions rather than repeating them; until now it did not, and
+        # `all` would have re-submitted and re-paid for every gated article.
+        done = already_extracted()
+        if done:
+            census["skipped_already_extracted"] = len(
+                [a for a in out if a in done])
+            out = {a: v for a, v in out.items() if a not in done}
+
     return out, fallback, census
+
+
+def already_extracted() -> set[str]:
+    """Article ids that a previous tranche already extracted successfully.
+
+    Read from the outputs files rather than tracked separately, so the source
+    of truth is the extraction itself. An article counts as done only if every
+    layer being run produced a record the validator accepted - a partial
+    extraction is not reusable, and re-running one article is cheaper than
+    reasoning about which layer is missing.
+    """
+    live = [l for l in LAYER_ARMS if l not in EXCLUDED_LAYERS]
+    done: set[str] = set()
+    for path in sorted(Path("llm_context").glob(
+            "corpus_extraction_outputs_*.json")):
+        payload = json.loads(path.read_text())
+        layers = payload.get("layers", {})
+        if not all(l in layers for l in live):
+            # A tranche collected before a layer existed, or one whose
+            # collection stopped early, cannot certify an article as done.
+            continue
+        seen: dict[str, list[bool]] = {}
+        for layer in live:
+            for r in layers[layer]:
+                accepted = (r.get("record") is not None
+                            and not r.get("validation_errors"))
+                seen.setdefault(r["article_id"], []).append(accepted)
+        # Complete within this file: every layer that asked about the article
+        # accepted its answer. Membership varies by layer on purpose -
+        # stance_revised is only asked of articles naming a study party, so
+        # requiring its presence would leave those articles permanently
+        # unfinishable. Intersect across layers within a file; union across
+        # files, because each file is a different tranche of articles.
+        done |= {aid for aid, flags in seen.items() if all(flags)}
+    return done
 
 
 def _user_message(article: dict) -> str:
