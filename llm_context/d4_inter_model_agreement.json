@@ -4,71 +4,71 @@
   "articles_compared": 60,
   "fields": {
     "primary_issue": {
-      "pairs": 60,
-      "percent_agreement": 0.817,
-      "kappa": 0.798,
-      "ac1": 0.807,
-      "max_marginal": 0.183,
+      "pairs": 23,
+      "percent_agreement": 0.783,
+      "kappa": 0.742,
+      "ac1": 0.766,
+      "max_marginal": 0.391,
       "skew_trigger": false,
       "verdict": "passes (primary kappa)",
       "passes": true
     },
     "frame_category": {
-      "pairs": 60,
-      "percent_agreement": 0.583,
-      "kappa": 0.502,
-      "ac1": 0.555,
-      "max_marginal": 0.383,
+      "pairs": 20,
+      "percent_agreement": 0.85,
+      "kappa": 0.618,
+      "ac1": 0.84,
+      "max_marginal": 0.8,
       "skew_trigger": false,
-      "verdict": "fails",
-      "passes": false
+      "verdict": "passes (primary kappa)",
+      "passes": true
     },
     "attribution_type": {
-      "pairs": 60,
-      "percent_agreement": 0.8,
-      "kappa": 0.67,
-      "ac1": 0.713,
-      "max_marginal": 0.533,
+      "pairs": 26,
+      "percent_agreement": 0.769,
+      "kappa": 0.602,
+      "ac1": 0.676,
+      "max_marginal": 0.615,
       "skew_trigger": false,
       "verdict": "passes (primary kappa)",
       "passes": true
     },
     "consequence_direction": {
-      "pairs": 60,
-      "percent_agreement": 0.8,
-      "kappa": 0.647,
-      "ac1": 0.721,
-      "max_marginal": 0.567,
+      "pairs": 29,
+      "percent_agreement": 0.793,
+      "kappa": 0.587,
+      "ac1": 0.725,
+      "max_marginal": 0.69,
       "skew_trigger": false,
-      "verdict": "passes (primary kappa)",
-      "passes": true
+      "verdict": "fails",
+      "passes": false
     },
     "impact_horizon": {
-      "pairs": 59,
-      "percent_agreement": 0.441,
-      "kappa": 0.339,
-      "ac1": 0.331,
-      "max_marginal": 0.305,
+      "pairs": 25,
+      "percent_agreement": 0.4,
+      "kappa": 0.303,
+      "ac1": 0.284,
+      "max_marginal": 0.4,
       "skew_trigger": false,
       "verdict": "fails",
       "passes": false
     },
     "stance_per_party": {
-      "pairs": 61,
-      "percent_agreement": 0.492,
-      "kappa": 0.316,
-      "ac1": 0.38,
-      "max_marginal": 0.443,
+      "pairs": 13,
+      "percent_agreement": 0.538,
+      "kappa": 0.291,
+      "ac1": 0.423,
+      "max_marginal": 0.615,
       "skew_trigger": false,
       "verdict": "fails",
       "passes": false,
       "all_pairs_including_trivial": {
-        "pairs": 360,
-        "percent_agreement": 0.914,
-        "kappa": 0.676,
-        "ac1": 0.908,
-        "max_marginal": 0.872,
-        "skew_trigger": false,
+        "pairs": 204,
+        "percent_agreement": 0.971,
+        "kappa": 0.703,
+        "ac1": 0.97,
+        "max_marginal": 0.961,
+        "skew_trigger": true,
         "verdict": "passes (primary kappa)",
         "passes": true
       }
@@ -76,11 +76,11 @@
   },
   "reproducible": [
     "primary_issue",
-    "attribution_type",
-    "consequence_direction"
+    "frame_category",
+    "attribution_type"
   ],
   "not_reproducible": [
-    "frame_category",
+    "consequence_direction",
     "impact_horizon",
     "stance_per_party"
   ]

@@ -88,32 +88,53 @@ def model_answers(layer_rows: list[dict]) -> dict[str, dict]:
     return {r["article_id"]: r for r in layer_rows}
 
 
-def extract_model_fields(llm: dict) -> tuple[dict[str, dict], Counter]:
-    """article_id -> {field: value}; plus failure counts per layer."""
+def extract_model_fields(llm: dict, *, require_valid: bool = True
+                         ) -> tuple[dict[str, dict], Counter]:
+    """article_id -> {field: value}; plus failure counts per layer.
+
+    ``require_valid`` excludes records the layer validator rejected -
+    see ``rec``. Kept as a parameter rather than hard-wired so the
+    inflated figure can still be computed and reported alongside.
+    """
     fields: dict[str, dict] = {}
     failures: Counter = Counter()
 
-    def rec(layer, aid):
+    def rec(layer, aid, *, require_valid: bool = True):
+        """One layer's record for one article, or None with a counted reason.
+
+        ``require_valid`` gates on the layer's own validator, and defaults
+        to on. Reading a field out of a record the validator rejected
+        credits the model for an answer nothing downstream can use: a
+        record whose evidence span cannot be found in the article is
+        discarded by `is_eligible_for_downstream`, yet its primary_issue
+        still parses perfectly. Scoring those inflated Haiku's issues kappa
+        to 0.729 on sixty articles, thirty-five of which the validator
+        rejects. The two figures are reported side by side so the gap is
+        visible rather than resolved silently in either direction.
+        """
         row = model_answers(llm["layers"][layer]).get(aid)
         if not row or row.get("record") is None:
             failures[layer] += 1
+            return None
+        if require_valid and row.get("validation_errors"):
+            failures[f"{layer}__validator_rejected"] += 1
             return None
         return row["record"]
 
     ids = {r["article_id"] for rows in llm["layers"].values() for r in rows}
     for aid in sorted(ids):
         out: dict = {}
-        r = rec("issues", aid)
+        r = rec("issues", aid, require_valid=require_valid)
         if r is not None:
             v = (r.get("issues") or {}).get("primary_issue")
             if isinstance(v, dict):  # schema wraps the code in an object
                 v = v.get("issue_code") or v.get("code")
             out["primary_issue"] = v or "none"
-        r = rec("framing", aid)
+        r = rec("framing", aid, require_valid=require_valid)
         if r is not None:
             pf = r.get("primary_frame") or {}
             out["frame_category"] = pf.get("frame_category") or "none"
-        r = rec("stance", aid)
+        r = rec("stance", aid, require_valid=require_valid)
         if r is not None:
             stances: dict[str, str] = {}
             for row in r.get("entity_stances") or []:
@@ -123,19 +144,19 @@ def extract_model_fields(llm: dict) -> tuple[dict[str, dict], Counter]:
             for party in PARTIES:
                 out[f"stance_{party}"] = stances.get(party,
                                                      "not_mentioned")
-        r = rec("credit_blame", aid)
+        r = rec("credit_blame", aid, require_valid=require_valid)
         if r is not None:
             rows = r.get("attributions") or []
             types = {a.get("attribution_type") for a in rows}
             out["attribution_type"] = (rows[0].get("attribution_type")
                                        if rows else "none") or "none"
             out["attribution_type_set"] = types or {"none"}
-        r = rec("consequence", aid)
+        r = rec("consequence", aid, require_valid=require_valid)
         if r is not None:
             rows = r.get("consequences") or []
             out["consequence_direction"] = (rows[0].get("direction")
                                             if rows else "none") or "none"
-        r = rec("temporal", aid)
+        r = rec("temporal", aid, require_valid=require_valid)
         if r is not None:
             out["impact_horizon"] = r.get("impact_horizon") or "uncertain"
         fields[aid] = out

@@ -3,15 +3,19 @@
 A complete record of the D4 gate and its follow-up experiments, written so
 the final report can cite specific numbers rather than a summary, and so a
 reader can see what was tried that did *not* work as well as what did.
-Seven experiments, 2026-07-29 to 2026-07-30, total API spend about $14 at
-batch pricing.
+Ten experiments, 2026-07-29 to 2026-07-30, at batch pricing.
 
-Findings are recorded in the order they happened, including the two that
-were later superseded, because the sequence is itself part of the evidence:
-two of the six failing verdicts turned out to be artefacts of how the exam
-was written, and one turned out to be a design fault in the layer being
-examined. A summary that showed only the final numbers would make the gate
-look cleaner than it was.
+Findings are recorded in the order they happened, including the ones later
+superseded, because the sequence is itself part of the evidence: three of
+the verdicts turned out to be artefacts of how the exam was written, and two
+turned out to be design faults in the layer being examined. A summary that
+showed only the final numbers would make the gate look cleaner than it was.
+
+**Reading warning.** Experiments 1 to 7 were scored without checking whether
+each record passed its own validator. Experiment 8 found that fault and
+recomputed everything; where its figures differ from the earlier sections,
+**Experiment 8 supersedes them**. The earlier numbers are left in place
+rather than edited away, because the correction is part of the record.
 
 ---
 
@@ -337,41 +341,407 @@ in this gate favouring Haiku on grounds other than price.
 
 ---
 
+## Experiment 8: the exam never checked whether the answers were admissible
+
+**What prompted it.** A question about whether the issues layer had even
+been part of the previous day's test. Checking that turned up something
+larger.
+
+**The fault.** Every kappa in Experiments 1 to 7 was computed from records
+that *parsed*. None checked whether the record passed its own validator. The
+three original layers require every `evidence_span.text` to appear
+character-for-character in the article, and `is_eligible_for_downstream`
+discards the whole record when one does not. But a record with a
+reconstructed quotation still has a perfectly readable `primary_issue`. So
+the exam was scoring answers that nothing downstream can use.
+
+This is a different fault from the two in Experiment 2. Those were about how
+the two sides were paired. This one is about which answers were admissible
+at all, and it hit the arm with the worse span fidelity hardest.
+
+**Span fidelity, measured directly.** Both arms, same 60 articles, same
+prompts, same validator:
+
+| layer | Sonnet exact | Haiku exact | Haiku opens then diverges | Haiku absent |
+|---|---|---|---|---|
+| issues | 183/184 (99%) | 122/193 (63%) | 52 | 19 |
+| credit_blame | 270/271 (99%) | 135/255 (52%) | 87 | 33 |
+| consequence | 165/167 (98%) | 76/134 (56%) | 45 | 13 |
+| **total** | **618/622 (99.4%)** | **333/582 (57.2%)** | **184** | **65** |
+
+An earlier note in this project described Haiku's failures as truncation.
+That was wrong and is corrected here: 184 of the 249 failures open faithfully
+and then diverge - a spliced or continued passage, ending in a full stop, not
+a cut-off. 65 are absent from the article altogether.
+
+Three alternative explanations were tested and rejected. Not an over-strict
+validator: whitespace normalisation recovers exactly 1 span, and Sonnet
+passes 99.4% on the same ruler. Not mismatched text: both arms read the same
+body from `load_d4_articles()`. Not truncation, per the above.
+
+**Validator rejections per layer, out of 60 articles:**
+
+| layer | Sonnet rejected | Haiku rejected |
+|---|---|---|
+| issues | 7 | 35 |
+| credit_blame | 3 | 33 |
+| consequence | 5 | 31 |
+| temporal | 12 (+1 unparseable) | 27 |
+| framing | 4 | 37 |
+| stance | 0 | 26 |
+
+**Recomputed against the human gold labels, validator-gated.** These are the
+figures that stand.
+
+| field | n (Sonnet) | Sonnet kappa | Sonnet AC1 | max marginal | n (Haiku) | Haiku kappa | earlier figure now superseded |
+|---|---|---|---|---|---|---|---|
+| primary_issue | 53 | **0.616** | 0.627 | 0.189 | - | **0.602** | Haiku 0.729 |
+| attribution_type | 57 | **0.521** | 0.647 | 0.579 | - | **0.516** | Haiku 0.600 - "passes" |
+| consequence_direction | 55 | **0.259** | 0.449 | 0.727 | - | **0.136** | - |
+| frame_category | - | 0.408 | 0.422 | - | - | 0.310 | - |
+| stance_per_party | - | 0.490 | 0.530 | - | - | 0.537 | - |
+| impact_horizon | - | 0.186 | 0.191 | - | - | 0.146 | - |
+
+Inter-model figures moved too: consequence_direction 0.647 to **0.587**,
+attribution 0.670 to **0.602**.
+
+**What changed as a result.** Two verdicts flipped. Attribution had been
+recorded as passing on Haiku at exactly 0.600; both arms now fail. And the
+consequence layer's inter-model figure fell below the bar it had cleared.
+Neither flip is a small-n artefact on the Sonnet arm, which lost only 3 and
+5 records respectively.
+
+**Neither field qualifies for the pre-registered fallback route.** It needs a
+marginal at or above 0.90 to trigger, so that Gwet's AC1 can only be reached
+for when skewed prevalence genuinely depresses kappa. Attribution's largest
+marginal is 0.579 and consequence's is 0.727. Attribution's AC1 of 0.647
+would clear 0.60 if the route were open. It is not open, and it was not
+opened.
+
+**Consequence of the span finding for production.** The three original layers
+moved to Sonnet for the corpus run. On the 89-article narrow tranche this
+was verified rather than assumed: issues on Sonnet parsed 88 of 89 and
+verified **327 of 327 spans (100%)**, against 31 of 89 clean on the earlier
+all-Haiku submission of the same tranche. The two revised layers stayed on
+Haiku and were clean there (stance 56/57, framing 88/89).
+
+---
+
+## Experiment 9: what the disagreements actually look like
+
+**Why.** Kappa is symmetric. It says two coders disagree; it does not say
+which is wrong. And unlike the eligibility layer - blind re-coded at kappa
+0.922 to 1.000 on 34 articles - these six content fields have **no human
+test-retest estimate**, so there is no bound on the human side either. Before
+concluding anything about the model, the disagreements were tabulated.
+
+**Consequence direction, human rows against Sonnet columns, n=55:**
+
+| human \ model | none | potential_benefit | potential_damage | total |
+|---|---|---|---|---|
+| none | 22 | 2 | 16 | 40 |
+| potential_damage | 0 | 0 | 7 | 7 |
+| unclear | 0 | 0 | 3 | 3 |
+| mixed_impact | 0 | 1 | 2 | 3 |
+| potential_benefit | 0 | 0 | 2 | 2 |
+| **total** | **22** | **3** | **30** | **55** |
+
+Diagonal 29 of 55. **Eighteen of the twenty-six disagreements sit in one
+place**: the human recorded no consequence, the model found one. The
+marginals are far apart - human "none" 40 of 55, model "none" 22 of 55, and
+the model chose potential_damage on 30 of 55. This is a disagreement about
+whether a consequence is present, not about which direction it runs.
+
+Supporting evidence that this is definitional rather than random: the two
+models agree with each other far better than either agrees with the human
+(0.587 against 0.259 and 0.136). Models drawing arbitrary answers would not
+converge on each other. That pattern is what the stance layer showed before
+its redesign.
+
+**Attribution type, human rows against Sonnet columns, n=57:**
+
+| human \ model | blame | credit | none | total |
+|---|---|---|---|---|
+| blame | 24 | 4 | 5 | 33 |
+| credit | 1 | 3 | 1 | 5 |
+| mixed | 2 | 1 | 0 | 3 |
+| none | 1 | 2 | 8 | 11 |
+| unclear | 1 | 1 | 3 | 5 |
+| **total** | **29** | **11** | **17** | **57** |
+
+Diagonal 35 of 57 (61.4%). The shape is the opposite of consequence's on
+every count. The marginals broadly match - human blame 33 of 57, model 29.
+The disagreements scatter across seven cells rather than concentrating in
+one. The presence axis accounts for only 12 of 57 disagreements, against
+consequence's 18 of 26. And inter-model agreement is itself only 0.602, so
+there is no shared model reading distinct from the human's to point at.
+
+**One asymmetry that is worth recording.** The human used `mixed` on 3
+articles and `unclear` on 5 - 8 of 57, 14%. The model used neither, once,
+across all 57 records; on those 8 articles it answered blame 3, credit 2,
+none 3. Both values are in the prompt's enum, so this is the model declining
+options it was offered, not an instrument fault, and the human labels are
+not excused from pairing against it. As a diagnostic only: setting those 8
+aside leaves n=49, agreement 71.4%, kappa 0.490, AC1 0.605. That is recorded
+to show where the headroom is, and was **not** used as a verdict.
+
+---
+
+## Experiment 10: the consequence layer redesigned
+
+**The diagnosis acted on.** Experiment 9 located the fault in the threshold,
+not the direction. The frozen prompt asked for "the possible electoral
+reading AS THE ARTICLE SUGGESTS IT", which leaves the model to decide how
+much suggestion is enough, and it set that bar far lower than the reviewer
+did. `src/llm_extraction/consequence_rescue.py` replaces the matter of
+degree with a testable condition: an electoral consequence requires a clause
+about an electoral quantity - votes, seats, a majority, control of the
+council, winning or losing, a party's support level, turnout. A problem being
+reported, a service failing or a politician being criticised is explicitly
+not one, however strongly it might imply one. Three values, not five
+(`mixed` and `unclear` removed). No verbatim span. One judgement per article,
+so no positional rule applies to one side only.
+
+**The scoring rule was declared in the script's docstring before the batch
+was submitted,** because this layer's verdict had already moved three times
+under successive scoring corrections. Primary test: presence binary, human
+`none` against everything else. Secondary: direction on jointly-present
+articles, with human `mixed_impact` and `unclear` excluded because the
+revised vocabulary offers no value they could match. No other variant to be
+computed.
+
+**Result, Haiku arm, n=60:**
+
+| test | n | agreement | kappa | AC1 | max marginal | verdict |
+|---|---|---|---|---|---|---|
+| **presence (primary)** | 60 | 0.850 | **0.598** | 0.763 | 0.817 | **fails by 0.002** |
+| frozen layer, same test | 29 | 0.724 | 0.318 | 0.565 | 0.897 | fails |
+| direction (secondary) | 5 | 1.000 | 1.000 | 1.000 | 0.800 | passes, but n=5 |
+
+Records accepted 60 of 60, validator rejections 0 - against 31 of 60
+rejected on the frozen layer's Haiku arm. 8 articles excluded from the
+direction test (human `mixed_impact` 5, `unclear` 3). Usage 150,117 in /
+34,173 out, about $0.16.
+
+Marginals, which is where the redesign visibly worked:
+
+| | none | asserts a consequence |
+|---|---|---|
+| model, revised | 49 of 60 (81.7%) | 11 (damage 6, benefit 5) |
+| human | 42 of 60 (70.0%) | 18 |
+| model, frozen | 22 of 55 (40.0%) | 33 |
+
+**What this shows, stated without softening.** The redesign did what the
+diagnosis said it would. It closed the threshold gap - the model went from
+calling 60% of articles consequential to 18%, against the human's 30%. It
+eliminated the validator losses, taking n from 29 to 60. On the identical
+test it nearly doubled kappa, 0.318 to 0.598. **And it lands 0.002 below the
+gate.**
+
+**The near-miss was not resolved in the layer's favour.** Recorded
+explicitly because the temptation is legible in the numbers: AC1 is 0.763
+and agreement is 85%, so both *conditions* of the fallback route are
+satisfied. The route's *trigger* is not - it requires a marginal at or above
+0.90 and the largest here is 0.817. The trigger exists precisely so that AC1
+cannot be reached for whenever kappa is inconvenient, and 0.598 against a
+0.600 bar is exactly the case it was written for. The direction test's
+kappa of 1.000 is likewise not evidence of anything at n=5.
+
+The Sonnet arm of the same experiment was submitted at the same time and is
+pending. Both arms were declared before either was scored, and the verdict
+is per-arm, as it has been throughout - the production model for a layer is
+whichever arm clears its own gate.
+
+**Attribution was not given the same treatment, and the reason was
+initially overstated.** The first statement of it - that no fix exists - was
+too strong. What Experiment 9 established is that no *diagnosis* is visible
+in a 57-row matrix: no threshold gap, no dominant cell, no shared model
+reading. But the design that worked three times over can be applied
+mechanically without a diagnosis. Attribution asks for one value from five
+while doing three jobs at once (is there an attribution, which direction, to
+whom); the framing redesign's move was to split one many-way judgement into
+independent binaries. Here that is two questions - does the article blame a
+named party, does it credit one - under which both-yes is `mixed`, both-no is
+`none`, the 14% vocabulary gap closes, and the "which is principal" rule
+disappears. Whether it would work is untested. The decision taken was to
+hold it until this experiment's Sonnet arm reports, because that arm tests
+the same design pattern on a third layer, and its result is the best
+available evidence on whether a fourth attempt is worth the run.
+
+---
+
+## Experiment 11: the tranche gate, and the one threshold that was wrong
+
+**What the gate is for.** 89 articles in the windows within thirty days of
+polling, extracted on the production prompts and models, checked on four
+thresholds before the 1,632-article corpus is committed to. It reports and
+stops; it does not retry.
+
+**First run: FAIL.** Two of the three gating layers failed.
+
+| layer | schema failure | empty records | quotes verified | verdict |
+|---|---|---|---|---|
+| issues | 10.1% (9 of 89) | 22.5% | 100.0% | fails schema and empty |
+| stance_revised | 0.0% | 0.0% | n/a | pass |
+| framing_revised | 0.0% | 34.8% | n/a | fails empty |
+| consequence (excluded) | 15.7% | 43.8% | 100.0% | not gating |
+
+**The nine issues failures, itemised.** Six were the same rule: a confidence
+of 0.4 or 0.45 correctly reported, and `review_status` not set to `flagged`
+as the contract requires. The issue code and every evidence span in those
+six records were sound. The remaining three were real - one span not found
+verbatim (a candidate-list headline), one unexpected property
+(`issue_other_label`), one unparseable response.
+
+An earlier check of this same batch reported "88 of 89 parsed, 327 of 327
+spans verified". That was accurate for what it measured and incomplete as a
+health verdict: it tested JSON parsing and span presence, while the
+validator applies the layer's whole contract. The 100% span figure stands;
+the 88 of 89 did not mean the layer passed.
+
+**The six flag failures were repaired, not waived.** The flag is derivable
+from a confidence value the model already supplied, so a validator
+discarding the record for failing to derive it costs 6.7% of a corpus over
+bookkeeping. The collector now sets the field, re-runs the *same* validator,
+and keeps the record only if nothing else is wrong - a record failing this
+rule and a span check is still rejected. Each repair is recorded per
+article. The effect on the validated figures was measured before the repair
+was adopted: on the D4 sample it admits one further Sonnet record and moves
+the issues kappa from 0.616 to **0.622**, changing no verdict, and admits
+none on Haiku. The 5% schema threshold was not moved.
+
+**The empty-record threshold was wrong, and this is the one bar that
+changed.** It was a flat 20% per layer and, alone among the four, cited no
+precedent - because there was none. Checked against the D4 sample, the same
+60 articles on which these layers were validated and adopted:
+
+| layer | D4 Sonnet | D4 Haiku | narrow tranche | old 20% bar |
+|---|---|---|---|---|
+| framing_revised | 36.4% | 40.0% | 34.8% | rejects all three |
+| issues | 18.3% | 8.3% | 22.5% | rejects the tranche |
+| stance_revised | 0.0% | 0.0% | 0.0% | passes |
+
+A bar that rejects the data on which two of the four frames were adopted is
+measuring the corpus, not the extraction. An article three weeks before
+polling can carry none of four narrative frames and no codeable political
+issue and still belong in the corpus: eligibility means in scope, not about
+the election. The replacement compares each layer against its own D4 rate on
+the arm it runs on and fails on a regression of more than 15 points - the
+same shape as the cost check, which allows twice the estimate rather than
+naming a figure.
+
+**This was a threshold changed after it failed, which is the move the gate
+exists to prevent, so the distinction is stated rather than assumed.**
+Relaxing a bar because the tranche failed it is selection on the evaluation
+data. Finding that the bar was never consistent with the prior sample that
+validated the layers, and recalibrating against that prior sample, is
+correcting the instrument. The calibration figures above all come from D4,
+which predates the tranche. What was *not* touched: the schema threshold and
+the quote threshold, both of which the tranche also failed on the issues
+layer, keep their original values.
+
+**Second run: PASS**, on the three gating layers.
+
+| layer | schema failure | empty records | allowance | quotes verified | verdict |
+|---|---|---|---|---|---|
+| issues | 3.4% (3 of 89) | 22.5% | 33.3% | 100.0% | pass |
+| stance_revised | 0.0% | 0.0% | 15.0% | n/a | pass |
+| framing_revised | 0.0% | 34.8% | 55.0% | n/a | pass |
+
+**One finding that survives the pass and belongs in the report.** The human
+reviewer recorded a primary issue in 60 of 60 D4 articles - `none` never
+once. The model returns no primary issue on 18.3% of those same articles and
+22.5% of the tranche. Every one of those is a disagreement with the
+reviewer, and the layer still clears its gate at 0.616, which means
+agreement on the articles where it does assign an issue is carrying the
+figure. The layer under-calls issue presence relative to the reviewer, and
+issue-share features built on it will be computed over a denominator that is
+roughly a fifth smaller than the reviewer would have used.
+
+**A note on the excluded layers' tranche figures.** `consequence` scores
+13.5% schema failure and 43.8% empty here. It does not gate, and the layer
+was already excluded on the D4 human comparison rather than on tranche
+health, so these figures change no decision. The `credit_blame` batch was
+**cancelled** while still in progress: it had run 68 minutes with none of its
+89 requests complete, it was blocking the collector, and its output was not
+going to be used. Cancelling avoids billing for unprocessed requests.
+Collecting it would have added a completeness figure to this log and nothing
+to any decision.
+
+---
+
 ## Where this leaves the feature set
 
-27 of 30 pre-registered features available
-(`news_features/preregistered_feature_specification.json`):
+**Superseded twice.** The version of this table written after Experiment 7
+listed credit_blame and consequence as available on figures of 0.600 and
+0.647. Both were computed before the validator gate of Experiment 8. The
+table below uses the gated figures.
 
 | Layer | Status | Basis |
 |---|---|---|
 | volume (7 features) | available | counted from the corpus, no LLM judgement, no gate applies |
-| issues (6) | available | 0.729 human, 0.798 inter-model |
-| credit_blame (4) | available | 0.600 human, 0.670 inter-model |
-| consequence (3) | available | 0.647 inter-model; human divergence documented |
+| issues (6) | **available** | 0.616 human (Sonnet, n=53), 0.742 inter-model - the only original layer to clear both rulers |
+| stance (3) | **available** | revised layer, 0.741 human, 0.848 inter-model |
+| framing (2 of 4) | **available** | revised layer: incumbent_judgement 0.705, local_impact 0.635 inter-model; human recall 0.49-0.58 |
 | reform_flag (2) | available | 0.680 on 22 blind articles |
-| stance (3) | available | revised layer, 0.848 inter-model, 0.741 human |
-| framing (2 of 4) | available | revised layer: incumbent_judgement 0.705, local_impact 0.635 inter-model; human recall only 0.49-0.58 |
+| consequence (3) | **pending** | frozen layer fails (0.259 human, n=55). Redesign reaches 0.598 on presence, 0.002 below the gate, Haiku arm; Sonnet arm outstanding |
+| credit_blame (4) | **unavailable** | 0.521 / 0.516 human at n=57; fallback route not triggered (marginal 0.579). Redesign identified but not run |
 | framing (2 of 4) | **undetermined** | challenger_emergence (2-6 positives of 55) and voter_discontent (4-5) - too few positive cases for a verdict |
-| horizon (1) | **unavailable** | failed all three (0.229 / 0.339) |
+| horizon (1) | **unavailable** | 0.186 / 0.146 human, 0.303 inter-model - fails on all three rulers |
 | reform_uk sub-fields (5) | **undetermined** | 5 pairs, below the 20-pair minimum |
 
-**Model:** `claude-haiku-4-5`, on its own gate results - it clears more
-fields than Sonnet at half the price, and the two fields where it is
-decisive (attribution at 0.600, reform applicable at 0.680) are ones
-Sonnet fails.
+**Production models, per layer, on measured compliance rather than one
+global choice:** issues on `claude-sonnet-5` (99.4% span fidelity against
+57.2%), stance and framing revised on `claude-haiku-4-5` (no span
+requirement, 0-2% format failure, and Sonnet fails the framing layer's
+format check at 8.3% against Haiku's 0-1%). The earlier recommendation of
+Haiku for all layers rested on the pre-gate figures and on the two fields
+where Haiku appeared decisive - attribution at 0.600 and reform-applicable
+at 0.680. Attribution's 0.600 did not survive Experiment 8.
+
+**On why the gate stays human-referenced.** The question was raised directly:
+if the human labels may be wrong, why not gate on inter-model agreement
+instead, where four of six fields score higher. Three reasons, recorded
+because the answer belongs in the report.
+
+First, the two rulers do not rank the layers the same way - the original
+stance layer scores 0.291 inter-model against 0.490 and 0.537 human, the
+reverse of consequence's pattern. Choosing per layer whichever ruler is
+kinder is selection on the outcome, and the pre-registration exists to
+prevent exactly that.
+
+Second, two LLMs are not independent coders. They share training data and
+read the same prompt. When both read the frozen consequence prompt's "as the
+article suggests it" and both set the bar low, their 0.587 agreement is
+produced by the shared prompt, not by two independent readings converging on
+the truth. Inter-model agreement measures reproducibility; the gate is asked
+to establish validity.
+
+Third and decisively, the redesigns that worked cleared **both** rulers -
+stance revised at 0.848 inter-model and 0.741 human. A layer that clears one
+and fails the other is reporting a broken definition, and the fix is the
+definition. That is what Experiment 10 did, and it moved the human figure
+from 0.318 to 0.598 without the ruler changing at all.
+
+What the human side's own reliability is on these six fields remains
+unmeasured, and that is a stated limitation rather than a resolved question.
+The eligibility layer was blind re-coded; D4 was not.
 
 **What the research question can and cannot measure now.** Coverage volume,
 issue composition, local/national split, independent-source counts, recency
-weighting, Reform relevance and mention counts, blame and credit
-attribution, implied electoral consequence, and three-level per-party
-portrayal. It also measures two narrative frames - whether the article judges the
+weighting, Reform relevance and mention counts, three-level per-party
+portrayal, and two narrative frames - whether the article judges the
 incumbent's record, and whether it frames matters through local
-consequences. It cannot measure effect duration, five-level sentiment
-intensity, the challenger-emergence or voter-discontent frames, or the
-Reform sub-signals (growth, challenger credibility, switching
-direction). The challenger-emergence frame is the sharpest of these
-gaps, being the one closest to the thesis; all of them need a
-Reform-enriched validation sample rather than a better prompt.
+consequences. It cannot measure blame and credit attribution, effect
+duration, five-level sentiment intensity, the challenger-emergence or
+voter-discontent frames, or the Reform sub-signals. Implied electoral
+consequence is pending one outstanding arm.
+
+Against the version written after Experiment 7, this loses the four
+attribution features outright and puts the three consequence features in
+doubt. The challenger-emergence frame remains the sharpest gap, being the
+one closest to the thesis; it needs a Reform-enriched validation sample
+rather than a better prompt.
 
 ## Where the raw answers live
 
@@ -386,12 +756,20 @@ article and layer, whether the response parsed, its validation errors, and
 a sha256 of the record - enough to prove that a figure in this log was
 computed from those exact answers, without reproducing any article text.
 
-The two rescue layers' outputs *are* in Git. They dropped the verbatim
+The three rescue layers' outputs *are* in Git. They dropped the verbatim
 evidence requirement, so their reasons are the model's own prose - 0 of 60
 framing reasons and 1 of 34 stance reasons contain a quoted fragment - and
 the files are 32-72KB rather than megabytes.
 
-**Cost:** about $14 across seven experiments. The gate stopped a $229
-full-corpus run that would have produced four unusable feature blocks. Two
-redesigns it forced recovered the most theoretically important of them
-(per-party portrayal, in full) and half of another (framing).
+**Spend across ten experiments,** at batch pricing: about $14 through
+Experiment 7, plus $0.16 for the consequence redesign's Haiku arm and its
+outstanding Sonnet arm. The 89-article narrow tranche, which is a production
+run rather than an experiment, cost $1.82 on the three layers being kept and
+$1.66 on the consequence layer that Experiment 8 then excluded - that $1.66
+is a real loss, incurred because the tranche was submitted before Experiment
+9's confusion matrix had been built.
+
+The gate stopped a full-corpus run that would have produced four unusable
+feature blocks. Three redesigns it forced recovered the most theoretically
+important of them (per-party portrayal, in full), half of another (framing),
+and brought a third to within 0.002 of its bar without clearing it.

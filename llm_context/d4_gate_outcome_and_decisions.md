@@ -201,6 +201,139 @@ stance layer, not to this block. Until the separate validation in
 section 5 runs, the block's status is *untested* - neither passed nor
 failed - and it is not used.
 
+## 4b. Decisions revised after the validator-gating fault
+
+Everything in section 4 was decided on kappas computed without checking
+whether each record passed its own validator. `d4_findings_log.md`
+Experiment 8 found that fault and recomputed. Three of the four decisions
+above change, and they are revised here rather than edited in place, because
+the sequence is part of the evidence.
+
+**D4a is revised: attribution and consequence leave the adopted set.**
+
+| field | figure D4a relied on | validator-gated figure | n |
+|---|---|---|---|
+| primary_issue | 0.729 human (Haiku) | **0.616** (Sonnet), 0.602 (Haiku) | 53 |
+| attribution_type | 0.600 human (Haiku) - "passes" | **0.521** (Sonnet), 0.516 (Haiku) | 57 |
+| consequence_direction | 0.647 inter-model | **0.587** inter-model; 0.259 / 0.136 human | 55 |
+
+`primary_issue` survives on both rulers and is the only original layer that
+does. `attribution_type` is now `excluded_failed_gate`: both arms fail, on a
+near-complete Sonnet sample (3 of 60 records rejected), and the fallback
+route does not trigger at a largest marginal of 0.579. `consequence_direction`
+is `excluded_failed_gate` in its frozen form; its redesign is at 4c below.
+
+D4a's original clause that `consequence_direction` "enters on reproducibility
+alone" is withdrawn. It rested on an inter-model figure of 0.647 that has
+since fallen to 0.587, below the bar, and on a reading of the two rulers that
+section 4c revisits.
+
+**D4c is revised: the extraction model is chosen per layer, not once.** D4c
+adopted Haiku throughout, on the strength of attribution at 0.600 and
+reform-applicable at 0.680. Attribution's 0.600 did not survive the
+recomputation. Measured directly on the same 60 articles, Haiku satisfies the
+verbatim-span contract on 333 of 582 spans (57.2%) against Sonnet's 618 of
+622 (99.4%), which the validator turns into a third of every original layer's
+records being discarded. So:
+
+| layer | model | measured reason |
+|---|---|---|
+| issues | `claude-sonnet-5` | span fidelity 99.4% against 57.2%; verified again on the narrow tranche at 327/327 |
+| stance revised | `claude-haiku-4-5` | no span requirement; 56/57 and 34/34 clean; 0.741 human against Sonnet's 0.736 |
+| framing revised | `claude-haiku-4-5` | no span requirement; format failure 0-1% against Sonnet's 8.3% (5 of 60) |
+
+The cost consequence is smaller than the correctness one: the two revised
+layers on Haiku rather than Sonnet is a difference of about $9 over 1,632
+articles. The split is not a price decision.
+
+**D4d stands unchanged.** The reform_uk block's validation in section 5 did
+not depend on the gated fields.
+
+## 4c. The redesign of the consequence layer, and its outcome
+
+**Why a redesign was attempted at all.** The disagreement was tabulated
+before it was attributed (`d4_findings_log.md` Experiment 9). Eighteen of the
+twenty-six human-model disagreements sat in a single cell - the reviewer
+recording no consequence where the model found one - and the two models
+agreed with each other far better than either agreed with the reviewer
+(0.587 against 0.259 and 0.136). That is the signature of a definitional gap,
+and it is the pattern the stance layer showed before its redesign.
+
+**Result, Haiku arm, n=60:** presence kappa **0.598**, agreement 0.850, AC1
+0.763, largest marginal 0.817. The frozen layer on the identical test scores
+0.318 at n=29. Validator rejections fell from 31 of 60 to 0.
+
+**The layer does not pass.** 0.598 against a 0.600 bar. The fallback route's
+two conditions are satisfied - AC1 0.763 and agreement 85% - but its trigger
+requires a marginal at or above 0.90 and the largest is 0.817. The trigger
+exists so that AC1 cannot be reached for whenever kappa is inconvenient, and
+this is the case it was written for. The secondary direction test returns
+kappa 1.000 on 5 pairs, which is not evidence at that n.
+
+The Sonnet arm was submitted at the same time and is outstanding. Both arms
+and the scoring rule were declared before either was scored; the verdict is
+per-arm, as it is for every other layer. Until it reports, the three
+consequence features are `pending_one_arm`, not adopted.
+
+**Two arms are two attempts at the bar, and for this layer alone that
+matters. Recorded before the second arm reports, so that the handling is not
+chosen after seeing its figure.** Everywhere else the two-arm design carries
+no selection effect, because both arms land on the same side of the line:
+`primary_issue` clears on both (0.616 and 0.602), revised stance clears on
+both (0.736 and 0.741), and `impact_horizon` fails on both (0.186 and 0.146).
+Consequence is the only layer where one arm fails and the other could pass,
+so it is the only place where "whichever arm clears its own gate" amounts to
+two chances at a 0.60 threshold rather than one.
+
+The rule, therefore:
+
+* If the Sonnet arm clears **comfortably** - kappa at or above 0.65, a tenth
+  clear of the bar and of the boundary the Haiku arm sat on - the layer is
+  adopted on that arm, with the split arms noted.
+* If it clears **marginally** - anywhere in 0.600 to 0.649 - the layer is
+  adopted but its three features are marked secondary: they enter the
+  robustness specifications and not the primary news specification, and the
+  report states that the layer rests on one of two arms at the boundary.
+  Adopting a boundary result on the second attempt and then presenting it
+  beside stance's 0.741 as if the evidence were comparable would misrepresent
+  what was measured.
+* If it **fails**, the layer is dropped and the redesign is recorded as an
+  instructive near miss: it closed the diagnosed gap and still did not reach
+  the bar, which is a finding about the construct rather than about the
+  prompt.
+
+**Attribution's redesign is identified but not run.** The design is the
+framing redesign's, applied mechanically: two independent binary questions -
+does the article blame a named party, does it credit one - under which
+both-yes is `mixed`, both-no is `none`, the 14% of human labels using
+`mixed`/`unclear` stop being unmatchable, and the "which attribution is
+principal" rule that only the human side received disappears. It is held
+until the consequence redesign's second arm reports, because that arm tests
+the same design pattern on a third layer and is the best available evidence
+on whether a fourth attempt earns its run. This is a decision to wait on
+evidence, not a decision that the layer is beyond repair - the earlier
+statement that no fix existed was too strong and is corrected here.
+
+**Why the gate was not switched to inter-model agreement.** Raised directly,
+since four of six fields score higher on that ruler. Not adopted, for three
+reasons. The two rulers do not rank the layers the same way - the original
+stance layer scores 0.291 inter-model against 0.490 and 0.537 human, the
+reverse of consequence's pattern - so choosing per layer whichever ruler is
+kinder is selection on the outcome. Two LLMs are not independent coders: they
+share training data and read the same prompt, so agreement produced by a
+shared vague instruction is not two readings converging on the truth.
+Inter-model agreement measures reproducibility; the gate is asked for
+validity. And decisively, the redesigns that worked cleared both rulers -
+stance revised at 0.848 inter-model and 0.741 human - so a layer clearing one
+and failing the other is reporting a broken definition, and the definition is
+what gets fixed. Experiment 10 moved the human figure from 0.318 to 0.598
+with the ruler unchanged.
+
+The human side's own reliability on these six fields is unmeasured, and that
+is recorded as a limitation of the study rather than as a resolved question.
+The eligibility layer was blind re-coded at kappa 0.922-1.000 on 34 articles;
+the D4 content fields never were.
+
 ## 5. reform_uk sub-field validation - result
 
 Ran 2026-07-30 on the 22-article blind sample. **Haiku's `applicable`
