@@ -1,0 +1,201 @@
+{
+  "version": "stance-rescue-v1.0-2026-07-30",
+  "arm": "haiku",
+  "model": "claude-haiku-4-5",
+  "thinking": {
+    "type": "enabled",
+    "budget_tokens": 4000
+  },
+  "batch_id": "msgbatch_01XapqtfGHB7NiwMqHLCrPNs",
+  "articles": 34,
+  "articles_without_any_study_party": [
+    "NEWS-bbc_surrey-4739f8ec453a",
+    "NEWS-bbc_surrey-8cf8f699dc50",
+    "NEWS-bbc_surrey-9322d4431ec0",
+    "NEWS-bbc_surrey-956003a841b5",
+    "NEWS-bbc_surrey-977a0d0a4f74",
+    "NEWS-bbc_surrey-efe6c71df344",
+    "NEWS-guardian_api-351db380e072",
+    "NEWS-guardian_api-3867309607e1",
+    "NEWS-guardian_api-3aa227967a6d",
+    "NEWS-guardian_api-5ce140b45966",
+    "NEWS-guardian_api-5e3328cf929c",
+    "NEWS-guardian_api-64d0584b57fa",
+    "NEWS-guardian_api-7500f66e845f",
+    "NEWS-guardian_api-8a783705f74e",
+    "NEWS-guardian_api-a44a37b3b283",
+    "NEWS-guardian_api-a876f0e9998e",
+    "NEWS-guardian_api-ea7dd4642df3",
+    "NEWS-guardian_api-f9c82f1235c8",
+    "NEWS-guardian_api-fcfb81b2dc09",
+    "NEWS-surreylive-1d71be81f2ae",
+    "NEWS-surreylive-2360b288b189",
+    "NEWS-surreylive-39affecd8be2",
+    "NEWS-surreylive-938b4b38443f",
+    "NEWS-surreylive-b1f737e52256",
+    "NEWS-surreylive-b6967f5376d3",
+    "NEWS-surreylive-d05e30e901e5"
+  ],
+  "question_sets": {
+    "NEWS-guardian_api-0240a09cb3df": [
+      "labour"
+    ],
+    "NEWS-guardian_api-0542986e54ba": [
+      "conservative",
+      "labour",
+      "ukip"
+    ],
+    "NEWS-guardian_api-097b30b5bdb0": [
+      "conservative",
+      "labour",
+      "liberal_democrat",
+      "ukip"
+    ],
+    "NEWS-guardian_api-0b11943945c9": [
+      "conservative",
+      "labour",
+      "liberal_democrat"
+    ],
+    "NEWS-guardian_api-13c48e6a3545": [
+      "conservative",
+      "labour",
+      "liberal_democrat",
+      "green",
+      "reform_uk"
+    ],
+    "NEWS-guardian_api-1a41f71c116d": [
+      "reform_uk"
+    ],
+    "NEWS-guardian_api-2037e4eda9eb": [
+      "conservative"
+    ],
+    "NEWS-guardian_api-2273c756b650": [
+      "conservative"
+    ],
+    "NEWS-guardian_api-24f48a444223": [
+      "conservative",
+      "labour"
+    ],
+    "NEWS-guardian_api-2fcab156b766": [
+      "conservative",
+      "labour"
+    ],
+    "NEWS-guardian_api-32652e99bc22": [
+      "labour"
+    ],
+    "NEWS-guardian_api-33fde8b6d2bc": [
+      "conservative",
+      "labour",
+      "liberal_democrat",
+      "ukip"
+    ],
+    "NEWS-guardian_api-34881ec267e4": [
+      "conservative",
+      "labour",
+      "liberal_democrat",
+      "reform_uk"
+    ],
+    "NEWS-guardian_api-383fdf4ab4cd": [
+      "conservative",
+      "labour",
+      "reform_uk"
+    ],
+    "NEWS-guardian_api-3dd2ab7556e7": [
+      "labour"
+    ],
+    "NEWS-guardian_api-44cbb952c1d6": [
+      "conservative",
+      "labour",
+      "liberal_democrat"
+    ],
+    "NEWS-guardian_api-656a147b1b36": [
+      "labour"
+    ],
+    "NEWS-guardian_api-84a775d4ad10": [
+      "liberal_democrat",
+      "green",
+      "reform_uk"
+    ],
+    "NEWS-guardian_api-85aa2166b08c": [
+      "conservative"
+    ],
+    "NEWS-guardian_api-896faad4b594": [
+      "conservative",
+      "labour"
+    ],
+    "NEWS-guardian_api-8ae0aa97db90": [
+      "conservative",
+      "labour",
+      "reform_uk",
+      "ukip"
+    ],
+    "NEWS-guardian_api-ae8d528a0868": [
+      "labour"
+    ],
+    "NEWS-guardian_api-bb20adee0f3a": [
+      "conservative",
+      "labour"
+    ],
+    "NEWS-guardian_api-c4dcbaa0515e": [
+      "conservative"
+    ],
+    "NEWS-guardian_api-d74f5e4509df": [
+      "conservative",
+      "labour"
+    ],
+    "NEWS-guardian_api-ed80536b929e": [
+      "conservative",
+      "labour",
+      "liberal_democrat",
+      "green",
+      "reform_uk"
+    ],
+    "NEWS-guardian_api-f179eb8f1ab9": [
+      "conservative",
+      "labour",
+      "liberal_democrat",
+      "reform_uk"
+    ],
+    "NEWS-guardian_api-f7a7a3a15568": [
+      "conservative"
+    ],
+    "NEWS-guardian_api-fc42fa870ddc": [
+      "conservative",
+      "labour",
+      "green",
+      "reform_uk"
+    ],
+    "NEWS-guildford_dragon-c4c267f5f96d": [
+      "conservative",
+      "liberal_democrat"
+    ],
+    "NEWS-guildford_dragon-d8c0187430a0": [
+      "conservative",
+      "labour",
+      "liberal_democrat",
+      "green",
+      "ukip"
+    ],
+    "NEWS-surreylive-7a29d15d8401": [
+      "conservative",
+      "labour",
+      "liberal_democrat",
+      "green",
+      "reform_uk"
+    ],
+    "NEWS-surreylive-9f80db7dd6d3": [
+      "conservative",
+      "labour",
+      "liberal_democrat",
+      "green",
+      "reform_uk"
+    ],
+    "NEWS-surreylive-b1eaf77d795f": [
+      "conservative",
+      "labour",
+      "liberal_democrat",
+      "green",
+      "ukip"
+    ]
+  }
+}

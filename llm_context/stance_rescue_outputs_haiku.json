@@ -1,0 +1,663 @@
+{
+  "version": "stance-rescue-v1.0-2026-07-30",
+  "arm": "haiku",
+  "model": "claude-haiku-4-5",
+  "usage": {
+    "input_tokens": 116982,
+    "output_tokens": 34855
+  },
+  "articles_ok": 34,
+  "articles_total": 34,
+  "results": [
+    {
+      "article_id": "NEWS-guardian_api-c4dcbaa0515e",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative"
+      ],
+      "judgements": {
+        "conservative": "unfavourable"
+      },
+      "reasons": {
+        "conservative": "The article characterizes the government's housing policy as a 'poorly judged, quick-fix solution' that sparked a rebellion among Conservative MPs and council leaders representing Conservative heartlands, forcing a humiliating 'climbdown' after widespread anger."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-097b30b5bdb0",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "judgements": {
+        "conservative": "unfavourable",
+        "labour": "favourable",
+        "liberal_democrat": "unfavourable",
+        "ukip": "neither"
+      },
+      "reasons": {
+        "conservative": "The article reports the Tories lost ground with their vote share falling from 28% to 20%, and explicitly states this result will cause concern for the coalition partners.",
+        "labour": "Labour won decisively with nearly half the votes cast, increased their majority, and are portrayed as offering a real alternative to an unpopular coalition government.",
+        "liberal_democrat": "The Lib Dems halved their vote share from 22% to 11%, came in third place, and their poor performance is noted as a concern for the coalition government.",
+        "ukip": "UKIP is mentioned only factually as having doubled their vote share alongside other minor parties, with no evaluative context or significance attached."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-3dd2ab7556e7",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "labour"
+      ],
+      "judgements": {
+        "labour": "unfavourable"
+      },
+      "reasons": {
+        "labour": "Multiple economists and commentators throughout the article blame the Labour government's tax policies (particularly national insurance contributions and anticipated budget tax rises) for the rise in unemployment and fall in payroll employment, with only a single brief government rebuttal included."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-383fdf4ab4cd",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative",
+        "labour",
+        "reform_uk"
+      ],
+      "judgements": {
+        "conservative": "unfavourable",
+        "labour": "unfavourable",
+        "reform_uk": "neither"
+      },
+      "reasons": {
+        "conservative": "The article criticizes former Conservative home secretaries' immigration policies and their use of personal identity to justify harsh restrictions on migrants and asylum seekers.",
+        "labour": "The article describes Labour's asylum crackdown under Shabana Mahmood as 'cynical and disgraceful', condemns the policies as harmful to vulnerable people, and portrays the government as attempting to 'outflank the right' on immigration through a morally bankrupt strategy.",
+        "reform_uk": "Reform UK is mentioned only in passing as being 'ascendant' and used as context for Labour's strategy, with no evaluative content about the party itself."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-85aa2166b08c",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative"
+      ],
+      "judgements": {
+        "conservative": "unfavourable"
+      },
+      "reasons": {
+        "conservative": "The article reports a significant scandal involving a former Conservative minister convicted of drug possession and hosting illegal drug parties, with the magistrate noting his actions undermined confidence in parliamentarians."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-f179eb8f1ab9",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "reform_uk"
+      ],
+      "judgements": {
+        "conservative": "unfavourable",
+        "labour": "favourable",
+        "liberal_democrat": "neither",
+        "reform_uk": "unfavourable"
+      },
+      "reasons": {
+        "conservative": "The article extensively reports Conservative MPs criticizing the BBC for bias and lack of thought diversity, but these are framed by Lisa Nandy as part of a 'sustained attack on the institution itself' that goes beyond legitimate concerns, and Robbie Gibb (the former Tory spin doctor at the BBC's centre) is repeatedly associated with the crisis.",
+        "labour": "Labour figures defend the BBC as the most trusted news organization, Lisa Nandy pushes back against accusations of institutional bias, and the party is shown reviewing past government decisions like the Waspi women compensation.",
+        "liberal_democrat": "Liberal Democrat MPs raise measured concerns about Robbie Gibb's presence on the BBC board and call for his removal, which is presented as reasonable criticism without evaluative weight either way.",
+        "reform_uk": "Nigel Farage's accusation that the BBC is 'institutionally biased' is presented as an unreasonable attack that Lisa Nandy specifically criticizes, and Jake Berry's claim about the Trump edit as 'election interference' is reported without supporting evidence."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-33fde8b6d2bc",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "judgements": {
+        "conservative": "favourable",
+        "labour": "unfavourable",
+        "liberal_democrat": "favourable",
+        "ukip": "unfavourable"
+      },
+      "reasons": {
+        "conservative": "The party won the seat, with their candidate portrayed as principled on Brexit and well-positioned to deliver the government's agenda.",
+        "labour": "Labour slipped embarrassingly from second to fourth place, the headline frames it as a stark warning of electoral danger, and voters are described as having abandoned the party.",
+        "liberal_democrat": "The article describes it as good news for the party, noting they almost doubled their vote share and came third.",
+        "ukip": "UKIP lost votes compared with 2015, showed no surge, and voters rejected the party in favour of giving May a chance to deliver Brexit instead."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-896faad4b594",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative",
+        "labour"
+      ],
+      "judgements": {
+        "labour": "unfavourable",
+        "conservative": "unfavourable"
+      },
+      "reasons": {
+        "labour": "The article emphasizes internal problems including continued discontent with Starmer's leadership, infighting among MPs, and the need for significant efforts to 'shore up' unity, alongside a defensive electoral strategy focused on protecting existing seats rather than winning new ones.",
+        "conservative": "The article attributes austerity to the previous Tory government, framing it as a problem Labour has fixed and contrasting it with Labour's achievements in improving public services."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-34881ec267e4",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "reform_uk"
+      ],
+      "judgements": {
+        "conservative": "unfavourable",
+        "labour": "unfavourable",
+        "liberal_democrat": "neither",
+        "reform_uk": "unfavourable"
+      },
+      "reasons": {
+        "conservative": "The article portrays the Conservatives as facing scientific constraints on reopening, with Johnson backtracking on holiday costs and using press conferences for party political purposes, though the Hartlepool poll showing them ahead provides some positive counterweight.",
+        "labour": "Labour is depicted as heading for a historic defeat in Hartlepool with their leader twice as unpopular as Johnson, criticized by the left for being too moderate, and managing expectations rather than defending their position.",
+        "liberal_democrat": "The Lib Dems are mentioned only in the day's agenda as holding a press conference for their local elections campaign, with no substantive coverage or evaluation.",
+        "reform_uk": "Reform UK is mentioned only to note it is polling at 1%, indicating a weak electoral position as the successor to the Brexit party."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-fc42fa870ddc",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative",
+        "labour",
+        "green",
+        "reform_uk"
+      ],
+      "judgements": {
+        "conservative": "unfavourable",
+        "labour": "favourable",
+        "green": "favourable",
+        "reform_uk": "unfavourable"
+      },
+      "reasons": {
+        "conservative": "The article portrays the Conservatives as reckless on the Iran war, with Starmer criticizing their eagerness to enter the conflict, and includes a defection story showing loss of an MP to Reform.",
+        "labour": "The article emphasizes Starmer's praised handling of the Iran war crisis and his principled refusal to be pressured into conflict, alongside an extensive list of cost-of-living measures taking effect, despite some criticism from the Greens and polling challenges.",
+        "green": "Zack Polanski receives extensive positive coverage at the NEU conference, winning a standing ovation and enthusiastic applause from teachers for his education policy proposals, with the article detailing his strong reception.",
+        "reform_uk": "The article characterizes Reform's and Farage's support for the Iran war as reckless and links them to division rather than unity, while Plaid Cymru's election message explicitly frames the contest as 'between hope and division' with Reform representing the latter."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-2273c756b650",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative"
+      ],
+      "judgements": {
+        "conservative": "neither"
+      },
+      "reasons": {
+        "conservative": "The article contains only a factual reference to Conservative councils having frozen council tax bills in the past, noting this practice is no longer routine, without evaluating the policy or placing blame on the party for current council funding challenges."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-2037e4eda9eb",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative"
+      ],
+      "judgements": {
+        "conservative": "unfavourable"
+      },
+      "reasons": {
+        "conservative": "The article documents extensive government failures during the pandemic, directly names Conservative party donors receiving contracts, and characterizes the government's response as marked by incompetence, cronyism, waste, and spin rather than effective action."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-8ae0aa97db90",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative",
+        "labour",
+        "reform_uk",
+        "ukip"
+      ],
+      "judgements": {
+        "conservative": "neither",
+        "labour": "unfavourable",
+        "reform_uk": "unfavourable",
+        "ukip": "unfavourable"
+      },
+      "reasons": {
+        "conservative": "The party is mentioned only in passing reference to its leader finding the journalistic right-to-reply process uncomfortable, which carries no substantive evaluation of the party itself.",
+        "labour": "The article notes that Labour's earlier radical promises to abolish the House of Lords have been 'kicked into the long grass' in favour of more modest reforms, portraying a retreat from its stated policy position.",
+        "reform_uk": "The article reports that Reform UK has ignored requests to provide evidence for its claimed \u00a3331m savings from running English councils, with Guardian analysis suggesting the savings claims are questionable.",
+        "ukip": "The article associates UKIP with Nathan Gill, who served as an MEP for the party and is now described as having been jailed for ten years for taking bribes to make pro-Russia statements."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-44cbb952c1d6",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative",
+        "labour",
+        "liberal_democrat"
+      ],
+      "judgements": {
+        "liberal_democrat": "favourable",
+        "conservative": "unfavourable",
+        "labour": "unfavourable"
+      },
+      "reasons": {
+        "liberal_democrat": "The article presents the Lib Dems as having made a statesmanlike decision to enter coalition, acknowledged their mistakes as part of a learning process, and argues sympathetically for their strategy to assert a separate identity while remaining in government.",
+        "conservative": "The article characterizes the Conservatives as having failed to deliver Lords reform, opposed the Lib Dems on Leveson and other issues, and the conclusion explicitly states they 'will not' fight for fairness, positioning them as the party from which the Lib Dems must differentiate.",
+        "labour": "Labour is portrayed only negatively: as having encroached on civil liberties, as incapable of taking necessary economic decisions, and as a dangerous temptation the Lib Dems must avoid following."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-656a147b1b36",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "labour"
+      ],
+      "judgements": {
+        "labour": "unfavourable"
+      },
+      "reasons": {
+        "labour": "The article cites a headline stating Labour 'risks election wipeout' over high streets policy, establishing the party as facing severe electoral consequences on this issue."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-d74f5e4509df",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative",
+        "labour"
+      ],
+      "judgements": {
+        "labour": "favourable",
+        "conservative": "unfavourable"
+      },
+      "reasons": {
+        "labour": "The article extensively features Labour's concrete policy proposals for green jobs and economic recovery, with Miliband presented as thoughtful and strategic, and includes praise for Starmer's leadership.",
+        "conservative": "The article characterizes the government as short on delivery and ambition, accepting unemployment as inevitable, with investment levels criticized as insufficient compared to Labour's proposals and international competitors."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-13c48e6a3545",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "green",
+        "reform_uk"
+      ],
+      "judgements": {
+        "conservative": "unfavourable",
+        "labour": "unfavourable",
+        "liberal_democrat": "unfavourable",
+        "green": "unfavourable",
+        "reform_uk": "unfavourable"
+      },
+      "reasons": {
+        "conservative": "Kemi Badenoch's backing of Nick Timothy's controversial attack on Muslim prayer in public spaces is presented with extensive scrutiny of inconsistent justifications and contradictions with Labour and others calling it discriminatory politics.",
+        "labour": "The article emphasises polling showing Labour faces decimation in May elections, reports of internal leadership challenges, suggestions they lack policy ideas, and criticism from their own allies about failure to deliver for workers.",
+        "liberal_democrat": "Badenoch ridicules the Liberal Democrats as unable to stand still without \"breaking into a conga,\" providing the primary substantive portrayal of the party in the article.",
+        "green": "Badenoch criticises Green policies as contradictory (saying yes to crack pipes but no to NATO), and the article notes them as a threat to Labour in London on Brexit grounds.",
+        "reform_uk": "The article contains extensive negative coverage: Farage is shown backing Muslim prayer discrimination, abandoning Cameo after selling videos to questionable figures including criminals, calling a reporter a loser, and Reform is accused of inflaming divisions during a health crisis in Kent."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-0b11943945c9",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative",
+        "labour",
+        "liberal_democrat"
+      ],
+      "judgements": {
+        "conservative": "unfavourable",
+        "labour": "neither",
+        "liberal_democrat": "neither"
+      },
+      "reasons": {
+        "conservative": "The article devotes substantial coverage to multiple Conservative controversies: Andrew Mitchell's disputed Rwanda aid decision, Nadine Dorries's suspension from the whip, and an uncomfortable confrontation over alleged Tory paedophiles, collectively portraying the party as embattled and facing serious criticisms.",
+        "labour": "Labour receives minimal coverage with mixed elements\u2014the Margaret Moran historical expenses scandal is unfavourable, but a mention of Labour on course to win Corby is slightly favourable, and most other references are procedural parliamentary questioning with no evaluative weight.",
+        "liberal_democrat": "The Liberal Democrats receive only passing mentions (a reference to Lib Dem Voice commentary and Scottish Secretary Moore's devolved power comments) that carry no significant evaluative weight."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guildford_dragon-d8c0187430a0",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "green",
+        "ukip"
+      ],
+      "judgements": {
+        "conservative": "unfavourable",
+        "labour": "neither",
+        "liberal_democrat": "favourable",
+        "green": "neither",
+        "ukip": "unfavourable"
+      },
+      "reasons": {
+        "conservative": "The article frames Conservatives as vulnerable by emphasizing Guildford's 56% Remain vote, reporting criticism of government policies from multiple candidates, and including extensive reader comments criticizing Conservative handling of the NHS, green belt protection, and wages.",
+        "labour": "Labour receives minimal coverage with contradictory information about their Brexit position; they are reported as not yet having selected a candidate but are not evaluated substantively enough to move reader opinion decisively either way.",
+        "liberal_democrat": "The Lib Dems are given extensive platform space to present clear policies on Brexit and social issues, and multiple reader comments identify them as the positive alternative to Conservative governance.",
+        "green": "The article features green-aligned local campaigners respectfully but does not substantively engage with the Green Party as a national political entity in evaluative terms.",
+        "ukip": "The article explicitly states UKIP 'has not been a happy hunting ground' for the party locally and notes their fourth-place finish in 2015 with minimal votes, establishing poor local performance."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-f7a7a3a15568",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative"
+      ],
+      "judgements": {
+        "conservative": "unfavourable"
+      },
+      "reasons": {
+        "conservative": "The article extensively details systemic failures by Surrey Council services (led by Conservative council leader Tim Oliver) to protect Sara Sharif from fatal abuse, including missed home visits and failure to act on signs of harm."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-1a41f71c116d",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "reform_uk"
+      ],
+      "judgements": {
+        "reform_uk": "unfavourable"
+      },
+      "reasons": {
+        "reform_uk": "The article documents serious allegations of racist and antisemitic behavior by Reform UK's leader Nigel Farage, presented through multiple credible witnesses who reject his minimizing claims and describe targeted bullying, while showing his responses as evasive and inconsistent."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-0240a09cb3df",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "labour"
+      ],
+      "judgements": {
+        "labour": "neither"
+      },
+      "reasons": {
+        "labour": "Labour appears only in a single brief mention of one MP's criticism of the Foreign Office's Biden congratulation, which is reported without editorial commentary and carries minimal weight in an article primarily focused on Johnson's call with Biden."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-b1eaf77d795f",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "green",
+        "ukip"
+      ],
+      "judgements": {
+        "conservative": "favourable",
+        "labour": "unfavourable",
+        "liberal_democrat": "neither",
+        "green": "neither",
+        "ukip": "neither"
+      },
+      "reasons": {
+        "conservative": "The article extensively details Jeremy Hunt's policy priorities and community engagement work in positive terms, portraying his efforts on flood defence, NHS ambulance response, and broadband as substantive achievements.",
+        "labour": "The article quotes Jeremy Hunt attacking Labour as 'insincere' over NHS pay promises and questioning where their funding would come from, presenting Labour's proposals as contradictory.",
+        "liberal_democrat": "The Liberal Democrats are mentioned only in a procedural context regarding discussion of a single progressive candidate endorsement, with no evaluative content.",
+        "green": "The Green Party is mentioned only in a procedural context regarding discussion of a single progressive candidate endorsement, with no evaluative content.",
+        "ukip": "UKIP is mentioned only as having a candidate, Mark Webber, opposing Hunt in the constituency, with no evaluative content beyond this factual statement."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-32652e99bc22",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "labour"
+      ],
+      "judgements": {
+        "labour": "unfavourable"
+      },
+      "reasons": {
+        "labour": "The article portrays the Labour government as pursuing unpopular aid cuts despite warnings from dozens of its own MPs that such reductions would be a moral and strategic failure with severe humanitarian consequences."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-ae8d528a0868",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "labour"
+      ],
+      "judgements": {
+        "labour": "unfavourable"
+      },
+      "reasons": {
+        "labour": "The article describes a Labour-led council proposing to withdraw funding for women's refuges that would force closure of services supporting vulnerable women and children, despite contextualising these cuts within broader budget pressures since 2010."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-84a775d4ad10",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "liberal_democrat",
+        "green",
+        "reform_uk"
+      ],
+      "judgements": {
+        "reform_uk": "unfavourable",
+        "liberal_democrat": "neither",
+        "green": "neither"
+      },
+      "reasons": {
+        "reform_uk": "The article documents Reform's failure to deliver on election promises to cut costs and freeze council tax, with multiple councils now facing mandatory large increases and opposition leaders criticizing 'rash promises' and 'soundbites'.",
+        "liberal_democrat": "The Liberal Democrat leader is quoted only briefly in opposition to Reform, with no substantive information about the party's own policies or record.",
+        "green": "The Green Party leader appears only to echo Reform's own election claims back at them, functioning as opposition commentary rather than being subject to independent evaluation."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-24f48a444223",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative",
+        "labour"
+      ],
+      "judgements": {
+        "conservative": "unfavourable",
+        "labour": "neither"
+      },
+      "reasons": {
+        "conservative": "The article reports the deepest economic slump in 300 years, controversial policy decisions including aid cuts that prompted ministerial resignation, and criticisms of inadequate support for vulnerable groups, which collectively paint an unfavourable picture despite the neutral reporting tone.",
+        "labour": "Labour appears only briefly as the opposition making expected criticisms of government spending decisions, without material that substantially moves reader perception of the party either way."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-0542986e54ba",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative",
+        "labour",
+        "ukip"
+      ],
+      "judgements": {
+        "conservative": "unfavourable",
+        "labour": "unfavourable",
+        "ukip": "unfavourable"
+      },
+      "reasons": {
+        "conservative": "The article portrays the Conservative Party as authoritarian and demagogic, comparing it to Putin and Trump, and criticises Theresa May for attempting to govern without parliamentary oversight.",
+        "labour": "Labour is described as having perpetrated 'the most irresponsible act in its history' by throwing itself into 'sectarian irrelevance.'",
+        "ukip": "UKIP is referred to as 'yobs' who demanded the dismissal of judges, portraying the party negatively in the context of undermining the rule of law."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-bb20adee0f3a",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative",
+        "labour"
+      ],
+      "judgements": {
+        "conservative": "unfavourable",
+        "labour": "neither"
+      },
+      "reasons": {
+        "conservative": "The article documents the NHS winter crisis with extensive negative performance data, shows the Prime Minister contradicted by NHS leadership over funding claims, reports tensions between Downing Street and NHS management, and depicts the government as dismissive of humanitarian crisis warnings.",
+        "labour": "Labour receives only minimal coverage through brief quotes from Corbyn and Ashworth raising criticisms of the NHS crisis; the article does not develop a portrayal of Labour's party platform or approach, merely including their statements as factual elements in a story primarily about the NHS and Conservative government response."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guildford_dragon-c4c267f5f96d",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative",
+        "liberal_democrat"
+      ],
+      "judgements": {
+        "conservative": "unfavourable",
+        "liberal_democrat": "neither"
+      },
+      "reasons": {
+        "conservative": "The letter accuses Conservative politicians of 'blatant, cynical electioneering' and rewriting history, specifically criticizing them for pushing through an unpopular Local Plan timed to precede elections when most Conservative councillors lost seats.",
+        "liberal_democrat": "The Liberal Democrats are mentioned only through the author's affiliation as a Lib Dem councillor; the article makes no substantive claims about Lib Dem policy, record, or performance."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-7a29d15d8401",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "green",
+        "reform_uk"
+      ],
+      "judgements": {
+        "conservative": "neither",
+        "labour": "neither",
+        "liberal_democrat": "neither",
+        "green": "neither",
+        "reform_uk": "neither"
+      },
+      "reasons": {
+        "conservative": "The article lists current Conservative representation and candidates without evaluative comment, presenting only factual information about their seat numbers in various areas.",
+        "labour": "Labour appears in the candidate lists and is noted as standing candidates in every seat, but receives no evaluative commentary beyond procedural information.",
+        "liberal_democrat": "The article factually reports that the Lib Dems run Mole Valley and are the largest party in Elmbridge, but these are neutral statements of current political control without evaluative weight.",
+        "green": "The Greens are listed as standing candidates in every seat and their current seat holdings are reported factually without any evaluative commentary.",
+        "reform_uk": "Reform UK appears only as part of candidate lists and procedural information about which parties are standing, with no evaluative content."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-9f80db7dd6d3",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "green",
+        "reform_uk"
+      ],
+      "judgements": {
+        "conservative": "neither",
+        "labour": "neither",
+        "liberal_democrat": "neither",
+        "green": "neither",
+        "reform_uk": "neither"
+      },
+      "reasons": {
+        "conservative": "The article provides a bare list of Conservative candidates across multiple wards with no evaluative commentary.",
+        "labour": "Labour candidates are listed procedurally among all candidates with no editorial analysis or commentary.",
+        "liberal_democrat": "Liberal Democrat candidates appear in the candidate lists with purely factual presentation and no evaluative content.",
+        "green": "Green Party candidates are listed alongside other parties in a neutral, procedural manner with no commentary.",
+        "reform_uk": "Reform UK candidates are presented factually as one of several parties fielding candidates with no analysis or evaluation."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-2fcab156b766",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative",
+        "labour"
+      ],
+      "judgements": {
+        "conservative": "unfavourable",
+        "labour": "neither"
+      },
+      "reasons": {
+        "conservative": "The article emphasizes internal Conservative party divisions, with reports of a cabinet minister considering resignation over EU policy and a government defeat in the previous week's budget vote, despite including supportive comments about Cameron's negotiating stance.",
+        "labour": "Labour is mentioned only in passing as having voted alongside Conservative rebels on a procedural matter, with no evaluative material about the party itself."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-ed80536b929e",
+      "batch_result": "succeeded",
+      "asked_about": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "green",
+        "reform_uk"
+      ],
+      "judgements": {
+        "conservative": "unfavourable",
+        "labour": "unfavourable",
+        "liberal_democrat": "favourable",
+        "green": "favourable",
+        "reform_uk": "unfavourable"
+      },
+      "reasons": {
+        "conservative": "The party is described as 'much more muted in its criticism' of Ratcliffe's racist remarks compared to other parties, and its shadow chancellor's response is presented as relatively weak and focused on defending migration concerns rather than condemning racism.",
+        "labour": "The dominant narrative is Starmer forcing out cabinet secretary Chris Wormald after just two months\u2014making him the shortest-serving cabinet secretary on record\u2014with critics saying the PM is 'throwing people under the bus' in a 'panicky' manner, though Labour ministers are shown strongly criticizing racism.",
+        "liberal_democrat": "The party is shown strongly and unambiguously condemning Ratcliffe's racism and xenophobia, with the leader Ed Davey calling his comments 'totally wrong' and 'totally out of step with British values.'",
+        "green": "The party is portrayed as actively standing against racism, with leader Zack Polanski and byelection candidate Hannah Spencer both strongly criticizing Ratcliffe's comments as 'disgusting' and racist.",
+        "reform_uk": "The article extensively covers accusations that Farage tolerates racism within Reform, with party candidate Sarah Pochin facing criticism over comments about minority representation in adverts, and Farage himself defending Ratcliffe's inflammatory 'colonisation' language rather than distancing the party from it."
+      },
+      "validation_errors": []
+    }
+  ]
+}

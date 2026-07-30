@@ -1,0 +1,110 @@
+{
+  "arm_a": "claude-sonnet-5",
+  "arm_b": "claude-haiku-4-5",
+  "articles_clean_in_both": 34,
+  "articles_clean_sonnet_only": [],
+  "articles_clean_haiku_only": [],
+  "inter_model": {
+    "pairs": 92,
+    "percent_agreement": 0.913,
+    "kappa": 0.848,
+    "ac1": 0.878,
+    "max_marginal": 0.587,
+    "skew_trigger": false,
+    "verdict": "passes (primary kappa)",
+    "passes": true,
+    "per_party": {
+      "conservative": {
+        "pairs": 27,
+        "percent_agreement": 0.926,
+        "kappa": 0.8,
+        "ac1": 0.909,
+        "max_marginal": 0.778,
+        "skew_trigger": false,
+        "verdict": "passes (primary kappa)",
+        "passes": true
+      },
+      "green": {
+        "pairs": 8,
+        "percent_agreement": 1.0,
+        "kappa": 1.0,
+        "ac1": 1.0,
+        "max_marginal": 0.625,
+        "skew_trigger": false,
+        "verdict": "passes (primary kappa)",
+        "passes": true
+      },
+      "labour": {
+        "pairs": 26,
+        "percent_agreement": 0.808,
+        "kappa": 0.647,
+        "ac1": 0.737,
+        "max_marginal": 0.692,
+        "skew_trigger": false,
+        "verdict": "passes (primary kappa)",
+        "passes": true
+      },
+      "liberal_democrat": {
+        "pairs": 14,
+        "percent_agreement": 1.0,
+        "kappa": 1.0,
+        "ac1": 1.0,
+        "max_marginal": 0.571,
+        "skew_trigger": false,
+        "verdict": "passes (primary kappa)",
+        "passes": true
+      },
+      "reform_uk": {
+        "pairs": 11,
+        "percent_agreement": 1.0,
+        "kappa": 1.0,
+        "ac1": 1.0,
+        "max_marginal": 0.727,
+        "skew_trigger": false,
+        "verdict": "passes (primary kappa)",
+        "passes": true
+      },
+      "ukip": {
+        "pairs": 6,
+        "percent_agreement": 0.833,
+        "kappa": 0.667,
+        "ac1": 0.78,
+        "max_marginal": 0.667,
+        "skew_trigger": false,
+        "verdict": "passes (primary kappa)",
+        "passes": true
+      }
+    }
+  },
+  "vs_human_sonnet": {
+    "pairs": 71,
+    "percent_agreement": 0.845,
+    "kappa": 0.736,
+    "ac1": 0.782,
+    "max_marginal": 0.606,
+    "skew_trigger": false,
+    "verdict": "passes (primary kappa)",
+    "passes": true,
+    "human_pairs_dropped": {
+      "mixed": 11,
+      "not_mentioned": 10,
+      "absent": 0
+    }
+  },
+  "vs_human_haiku": {
+    "pairs": 71,
+    "percent_agreement": 0.845,
+    "kappa": 0.741,
+    "ac1": 0.78,
+    "max_marginal": 0.549,
+    "skew_trigger": false,
+    "verdict": "passes (primary kappa)",
+    "passes": true,
+    "human_pairs_dropped": {
+      "mixed": 11,
+      "not_mentioned": 10,
+      "absent": 0
+    }
+  },
+  "verdict": "stance recovered at reduced granularity under the revised layer"
+}
