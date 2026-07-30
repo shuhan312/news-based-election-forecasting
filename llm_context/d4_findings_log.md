@@ -840,6 +840,123 @@ state rather than route around.
 
 ---
 
+## Experiment 13: the far gate failed twice, and twice it was my fault
+
+**far, first draw.** 89 articles from the two untested windows. issues failed
+at 5.6% schema failure against a 5% bar - five records failing five different
+ways: one unparseable, one span not verbatim, three where the model volunteered
+a property the schema forbids. Six more were saved by the review-flag repair,
+without which the layer would have failed at 12.4%. stance and framing passed
+clean.
+
+**The prediction in the code was wrong, in the opposite direction.** Empty
+records were expected to rise on far articles; they fell. issues went 22.5% to
+5.6% and framing 34.8% to 16.9%. Articles three to six months out carry more
+codeable political content than the final weeks, which are thick with
+candidate lists and election notices.
+
+**far2, second draw, after a prompt fix. Worse: 12.4%.** The fix added a rule
+naming the fields the schema provides for anything that will not fit - and it
+named `issue_other`, which does not exist. The real field is
+`issue_other_label`, and it sits inside each issue object, not at the top
+level. Eight of the eleven failures were the model obediently using the field
+I told it to use.
+
+My verification was `'issue_other' in prompt`, a substring test, which passed
+because `issue_other_label` contains `issue_other`. The check was incapable of
+catching the error it was written to catch.
+
+**far2 also reported quote verification at 0.0%, and that figure was an
+artefact of my own checker.** The health check re-derived the tranche by
+calling `load_tranche(tranche)`. But the far sampler now excludes articles that
+previous far draws used, so re-deriving `far2` *after* collecting it returns a
+third, different 89 articles - and the checker then looked for far2's evidence
+spans in articles far2 had never seen. 0 of 314. Re-run against the articles
+far2 actually extracted, verification is **99.4%**.
+
+So far2's real result is one failure, not two: schema 12.4%, of which eight
+records are traceable to my wrong field name.
+
+**Two fixes, and what each is for.**
+
+`load_tranche` takes an `only_ids` argument, and the health check passes the
+article ids read from the tranche's own output. A gate must not re-compute its
+own subject: the tranche rules are not stable over time, and any reader of a
+tranche after the fact needs the articles it actually used. This is the
+structural fault of the two, and it could have failed a sound extraction at any
+point.
+
+The issues prompt's rule 7 now lists the permitted keys explicitly at both
+levels - eight at the top, five inside an issue object - and names
+`ambiguity_notes` at the top level and `issue_other_label` inside the issue.
+Verification is now a set comparison against the parsed schema rather than a
+substring search: every name in the rule is checked to be in the schema, and
+the two name sets are checked to be complete. Prompt version v1.3.
+
+**far3 is the third draw, under v1.3, and is the real test of whether the
+field name was the whole problem.** If schema failure returns to the 3.4% the
+non-name failures imply, the diagnosis holds. If it does not, the diagnosis was
+wrong and the layer needs a different answer.
+
+**A note on how many attempts this layer has had.** Three far draws, each on
+articles the previous draws had not seen, because both intervening changes were
+corrections of my own errors rather than tuning against results. The
+distinction matters and is not self-certifying: a reader should count three
+attempts and discount accordingly.
+
+---
+
+## Experiment 14: what the Reform sample actually looks like
+
+Not an extraction experiment, but the finding that bounds every result the
+project can produce, so it belongs in the same record.
+
+The baseline holds 1,613 party-contest rows, 97 of them Reform UK. The
+distribution is the constraint:
+
+| where | Reform rows |
+|---|---|
+| 2026 East Surrey | 36 |
+| 2026 West Surrey | 45 |
+| **2026 total - the protected holdout** | **83 (86%)** |
+| 2021 | 6 |
+| ten by-elections, one row each | 10 |
+
+`new_party_indicator` is true for all 97. And the UKIP-predecessor bridge is
+nearly empty: `previous_ukip_vote_share_in_area` is a non-zero observation on
+**5 rows** (3, 3, 3, 4 and 8 per cent), an observed zero on 81, and
+unavailable on 11. Reform's own prior share is observed on 40 rows. So by the
+last comparable election UKIP had effectively vanished from Surrey, and the
+inheritance hypothesis cannot be tested on this data. That is an empirical
+finding to report, not a data problem to fix.
+
+**What it constrains.** The evaluation sample for Reform is 83 held-out rows,
+which is workable. The *training* sample for anything Reform-specific is 6
+rows, which is not. So the model must be party-generic - one set of
+coefficients learned across all 1,613 rows and applied to per-party feature
+values - and Reform must be an evaluation target reported separately, never a
+training subpopulation. Any Reform conclusion rests on one election and cannot
+claim to generalise over time.
+
+**Why this is the premise rather than a defect.** The question is whether news
+improves on an election-history-only baseline. For Reform, election history is
+close to empty by construction: a new party, in every ward, with no measurable
+predecessor. That is precisely the party where news has room to add
+information, and a baseline that predicts Reform poorly is the expected result
+and a finding in itself. What cannot be improved is the row count. What can be
+improved is how much news each 2026 contest has behind it.
+
+**A correction to the corpus figures.** The claim that 918 articles remain
+un-adjudicated, which appears in `run_corpus_extraction`'s docstring and was
+repeated in conversation, does not reconcile. The decisions table holds 2,370
+rows, all resolved - 1,452 include and **918 exclude**. The docstring's 918 is
+`3,584 - 2,666`, a different quantity that shares a value by coincidence, and
+its 2,666 does not match the table's 2,370 either. Whether any article cleared
+the mechanical rules without receiving a judgement is **not yet established**,
+and no estimate of outstanding review effort should be relied on until it is.
+
+---
+
 ## Where this leaves the feature set
 
 **Superseded twice.** The version of this table written after Experiment 7
