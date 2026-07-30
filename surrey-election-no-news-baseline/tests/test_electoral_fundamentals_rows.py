@@ -9,6 +9,7 @@ from no_news_baseline.electoral_fundamentals_rows import (
     build_fundamentals_row_index,
     load_party_feature_rows,
 )
+from contract_expectations import FUNDAMENTALS_INDEX_ROWS, FUNDAMENTALS_SOURCE_ROWS
 
 
 def _feature(
@@ -107,8 +108,8 @@ def test_local_extractor_contract_has_unique_fundamentals_keys() -> None:
     source_rows = load_party_feature_rows(path)
     index_rows = build_fundamentals_row_index(source_rows)
 
-    assert len(source_rows) == 1_603
-    assert len(index_rows) == 1_592
+    assert len(source_rows) == FUNDAMENTALS_SOURCE_ROWS
+    assert len(index_rows) == FUNDAMENTALS_INDEX_ROWS
     # Rebuild the composite keys independently to confirm that every final row
     # represents one unique election, area and standardised party combination.
     assert len(

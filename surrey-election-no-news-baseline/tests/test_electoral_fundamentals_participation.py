@@ -12,6 +12,7 @@ from no_news_baseline.electoral_fundamentals_rows import (
     build_fundamentals_row_index,
     load_party_feature_rows,
 )
+from contract_expectations import FUNDAMENTALS_INDEX_ROWS
 
 
 def _party_feature(
@@ -225,7 +226,7 @@ def test_real_release_preserves_audited_unknown_states() -> None:
         row_index, party_rows, master_payload["Candidate Results"]
     )
 
-    assert len(completed) == 1_592
+    assert len(completed) == FUNDAMENTALS_INDEX_ROWS
     assert all(
         # Party-level Independent history is intentionally unavailable even
         # when a specific Independent candidate has verified personal history.

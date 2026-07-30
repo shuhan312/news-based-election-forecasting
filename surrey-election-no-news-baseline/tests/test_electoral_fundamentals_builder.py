@@ -17,6 +17,7 @@ from no_news_baseline.electoral_fundamentals_schema import (
     PREDICTOR_COLUMNS,
     ROW_KEY_COLUMNS,
 )
+from contract_expectations import FUNDAMENTALS_INDEX_ROWS
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -55,7 +56,7 @@ def test_real_builder_completes_every_declared_predictor_column() -> None:
     party_features, master, overlap = _real_inputs()
     rows = build_electoral_fundamentals_features(party_features, master, overlap)
 
-    assert len(rows) == 1_592
+    assert len(rows) == FUNDAMENTALS_INDEX_ROWS
     assert all(all(column in row for column in PREDICTOR_COLUMNS) for row in rows)
     keys = [tuple(row[column] for column in ROW_KEY_COLUMNS) for row in rows]
     assert len(keys) == len(set(keys))

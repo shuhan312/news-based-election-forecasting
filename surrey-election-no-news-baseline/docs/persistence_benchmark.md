@@ -16,14 +16,14 @@ election event. Current votes, vote share, outcome, rank, margin and
 
 ## Evaluation cohorts
 
-The party-share cohort contains 775 rows across 177 approved single-member
-areas. All 775 have a governed prior party share and a well-defined current
+The party-share cohort contains 796 rows across 181 approved single-member
+areas. All 796 have a governed prior party share and a well-defined current
 single-member party-share target.
 
 Winner persistence is evaluated over the full current party ballot for the
-same 177 areas, including six current parties without a usable lagged share.
-This produces 781 party rows. A unique previous winner is present on the
-current ballot in 169 areas; 8 areas remain visibly unscored because the
+same 181 areas, including current parties without a usable lagged share.
+This produces 802 party rows. A unique previous winner is present on the
+current ballot in 173 areas; 8 areas remain visibly unscored because the
 previous winner is absent, generic Independent, or has an unapproved label
 identity change. No alternative party is substituted.
 
@@ -31,10 +31,10 @@ identity change. No alternative party is substituted.
 
 ### Party vote share
 
-- Mean absolute error: **9.50 percentage points**.
-- Root mean squared error: **14.05 percentage points**.
+- Mean absolute error: **9.46 percentage points**.
+- Root mean squared error: **13.96 percentage points**.
 - Median absolute error: **6.00 percentage points**.
-- Mean signed error (`previous - current`): **-3.31 percentage points**.
+- Mean signed error (`previous - current`): **-3.23 percentage points**.
 
 The negative signed error means that, among the historically matched current
 parties in this cohort, direct carry-forward tends to underpredict current
@@ -43,13 +43,13 @@ gained support.
 
 ### Winning party
 
-- Areas scored: **169 / 177**.
+- Areas scored: **173 / 181**.
 - Correct area winners: **136 / 169**.
-- Area-level winner accuracy: **80.5%**.
-- Party-row accuracy: **91.1%**.
-- Party-row balanced accuracy: **87.4%**.
-- Party-row macro F1: **87.4%**.
-- Hard-decision Brier score: **0.089**.
+- Area-level winner accuracy: **79.8%**.
+- Party-row accuracy: **90.8%**.
+- Party-row balanced accuracy: **86.9%**.
+- Party-row macro F1: **86.9%**.
+- Hard-decision Brier score: **0.092**.
 
 Area accuracy is the principal intuitive winner metric. Party-row accuracy is
 higher because every area contains several correctly rejected non-winning
@@ -66,8 +66,8 @@ The 703 principal-election party-share rows have MAE **9.09** and RMSE **13.46**
 percentage points. Their previous-winner area accuracy is **83.3%** over 156
 scored areas.
 
-The 72 by-election party-share rows have MAE **13.59** and RMSE **18.86**
-percentage points. Previous-winner area accuracy is **46.2%** over 13 scored
+The 93 by-election party-share rows have MAE **12.28** and RMSE **17.26**
+percentage points. Previous-winner area accuracy is **47.1%** over 17 scored
 areas. This difference is consistent with by-elections being less stable, but
 the by-election sample is small and heterogeneous; no inferential claim is made
 from these descriptive figures alone.

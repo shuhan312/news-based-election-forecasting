@@ -23,6 +23,7 @@ from no_news_baseline.electoral_fundamentals_schema import (
     PREDICTOR_COLUMNS,
     ROW_KEY_COLUMNS,
 )
+from contract_expectations import FUNDAMENTALS_INDEX_ROWS
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -70,7 +71,7 @@ def test_predictor_release_has_fixed_rows_columns_and_unique_keys(tmp_path: Path
     _, predictors_path, _, _ = _release(tmp_path)
     columns, rows = _read_csv(predictors_path)
     assert columns == list(PREDICTORS_ONLY_COLUMNS)
-    assert len(rows) == 1_592
+    assert len(rows) == FUNDAMENTALS_INDEX_ROWS
     keys = [tuple(row[column] for column in ROW_KEY_COLUMNS) for row in rows]
     assert len(keys) == len(set(keys))
     # All published target dates use one machine-readable format even though

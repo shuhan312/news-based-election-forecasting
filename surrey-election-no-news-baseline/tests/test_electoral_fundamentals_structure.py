@@ -14,6 +14,7 @@ from no_news_baseline.electoral_fundamentals_rows import (
 from no_news_baseline.electoral_fundamentals_structure import (
     add_contest_structure_features,
 )
+from contract_expectations import FUNDAMENTALS_INDEX_ROWS
 
 
 def _party_feature(
@@ -127,7 +128,7 @@ def test_real_release_has_complete_reconciled_structure() -> None:
         master["Candidate Results"],
     )
 
-    assert len(completed) == 1_592
+    assert len(completed) == FUNDAMENTALS_INDEX_ROWS
     assert all(isinstance(row["election_type"], str) for row in completed)
     assert all(row["number_of_seats"] in {1, 2} for row in completed)
     assert all(row["number_of_candidates"] >= row["number_of_seats"] for row in completed)

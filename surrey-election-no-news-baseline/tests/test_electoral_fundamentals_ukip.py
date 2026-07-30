@@ -16,6 +16,9 @@ from no_news_baseline.electoral_fundamentals_ukip import (
     PREVIOUS_COUNTY_ELECTION_ID,
     add_previous_ukip_feature,
 )
+from contract_expectations import (FUNDAMENTALS_INDEX_ROWS,
+                                   FUNDAMENTALS_REFORM_ROWS,
+                                   FUNDAMENTALS_REFORM_ROWS_WITH_UKIP_HISTORY)
 
 
 def _elections(*, previous_date: str = "2017-05-04") -> list[dict[str, object]]:
@@ -270,11 +273,11 @@ def test_real_release_keeps_reform_and_ukip_values_separate() -> None:
         row for row in completed if row["standard_party_name"] == "Reform UK"
     ]
 
-    assert len(completed) == 1_592
-    assert len(reform_rows) == 94
+    assert len(completed) == FUNDAMENTALS_INDEX_ROWS
+    assert len(reform_rows) == FUNDAMENTALS_REFORM_ROWS
     assert sum(
         row["previous_ukip_vote_share_in_area"] is not None for row in reform_rows
-    ) == 83
+    ) == FUNDAMENTALS_REFORM_ROWS_WITH_UKIP_HISTORY
     assert sorted(
         row["previous_ukip_vote_share_in_area"]
         for row in reform_rows

@@ -12,6 +12,8 @@ from no_news_baseline.electoral_fundamentals_release import (
     create_electoral_fundamentals_release,
 )
 
+from contract_expectations import FUNDAMENTALS_INDEX_ROWS
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 INPUT_DIRECTORY = (
@@ -75,4 +77,4 @@ def test_frozen_feature_record_matches_current_release(tmp_path: Path) -> None:
     assert input_version and input_version.group(1) in record
     assert release_version and release_version.group(1) in record
     assert RELEASE_METHOD_VERSION in record
-    assert "Rows and unique keys: 1,592" in record
+    assert f"Rows and unique keys: {FUNDAMENTALS_INDEX_ROWS:,}" in record

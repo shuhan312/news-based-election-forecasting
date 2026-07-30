@@ -12,6 +12,7 @@ from no_news_baseline.electoral_fundamentals_rows import (
     build_fundamentals_row_index,
     load_party_feature_rows,
 )
+from contract_expectations import FUNDAMENTALS_INDEX_ROWS
 
 
 def _source_feature(
@@ -243,7 +244,7 @@ def test_real_release_adds_only_earlier_approved_history() -> None:
 
     # The join must preserve the row population, use only positive historical
     # time gaps and attach a previous election to every populated party share.
-    assert len(completed) == 1_592
+    assert len(completed) == FUNDAMENTALS_INDEX_ROWS
     assert all(
         row["days_since_previous_comparable_election"] > 0
         for row in completed

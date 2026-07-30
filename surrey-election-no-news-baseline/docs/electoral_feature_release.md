@@ -6,20 +6,41 @@ are reproducible from the extractor contracts and can be large.
 
 ## Frozen release
 
-- Release date: 20 July 2026
-- Input data version: `b11534caf0fc9143`
+- Release date: 29 July 2026
+- Input data version: `54843d655cf59e81`
 - Method version: `electoral-fundamentals-v4-independent-null-semantics`
-- Release version: `09e14fa6816c3f1e`
+- Release version: `b0e7f319f46b3f97`
 - Unit of analysis: one `election × area × standardised party` row
-- Rows and unique keys: 1,592
+- Rows and unique keys: 1,613
 - Predictors: 16
 - Dictionary fields: 47
-- Full-suite result: 75 tests passed
+- Full-suite result: 444 tests passed
 
 The release contains 357 study-start rows from 2013. They can supply historical
 evidence but are not prediction targets because no earlier Surrey election is
 in scope. All 466 rows dated in 2026 remain eligible for later evaluation;
 changed-boundary NULLs are not removed by complete-case filtering.
+
+### Supersedes the 20 July release
+
+The first freeze (20 July 2026, input `b11534caf0fc9143`, release
+`09e14fa6816c3f1e`, 1,592 rows) was rebuilt on 29 July after the master
+election database was regenerated. The method version is unchanged, so the
+feature definitions and null semantics are identical; only the input grew.
+The difference is twenty-one added rows from four by-elections the earlier
+contract did not carry — Sunbury Common & Ashford Common (2022-11-30),
+Walton South & Oatlands (2023-05-04), Nork & Tattenhams (2025-05-01) and
+Woking South (2025-07-10). Verified as pure addition: twenty-one new
+`election × area × party` keys, no key removed, and no value changed on any
+key the two releases share. Three of the new rows are Reform UK, taking its
+count from 94 to 97. The superseded release is preserved at
+`outputs/electoral_fundamentals.pre-rebuild-20260729/`.
+
+Those four by-elections all post-date the 2021 validation split. The
+contract is right to carry them, but they raise a splitting question for the
+modelling layer, tracked as an open item in
+`news_protocol/feature_selection_findings.md` — this release does not decide
+it.
 
 ## Published artifacts
 

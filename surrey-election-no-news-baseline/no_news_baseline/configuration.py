@@ -53,8 +53,14 @@ from .candidate_historical_strength import (
 )
 from .candidate_metrics import BOOTSTRAP_RESAMPLES, BOOTSTRAP_SEED
 
-# The default configuration file, relative to the repository root.
-DEFAULT_CONFIG_PATH = Path("surrey-election-no-news-baseline/config/baseline_model.yaml")
+# The default configuration file, anchored to this package rather than to the
+# working directory. The previous value was relative to the repository root,
+# so it resolved only for a process launched from there - running the app or
+# the test suite from inside this project raised "Configuration file not
+# found" for a file that was present the whole time.
+DEFAULT_CONFIG_PATH = (
+    Path(__file__).resolve().parents[1] / "config/baseline_model.yaml"
+)
 
 # "auto" runs the two selection gates. Any other value names the architecture
 # to ship regardless, which is the brief's manual mode.

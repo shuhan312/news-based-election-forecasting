@@ -21,6 +21,8 @@ from no_news_baseline.model_input_preprocessing import (
     eligible_model_target_rows,
     fit_fold_imputation,
 )
+from contract_expectations import (FUNDAMENTALS_INDEX_ROWS,
+                                   FUNDAMENTALS_ELIGIBLE_ROWS)
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -133,8 +135,8 @@ def test_real_release_retains_every_2026_row_without_complete_case_filter() -> N
 
     # These release-level counts guard against an apparently harmless filter
     # silently deleting parties or all changed-boundary wards in a later edit.
-    assert len(prepared) == 1592
-    assert len(eligible) == 1235
+    assert len(prepared) == FUNDAMENTALS_INDEX_ROWS
+    assert len(eligible) == FUNDAMENTALS_ELIGIBLE_ROWS
     principal_2026 = {
         "surrey-county-council-2026-east-surrey",
         "surrey-county-council-2026-west-surrey",
