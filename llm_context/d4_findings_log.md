@@ -957,6 +957,93 @@ and no estimate of outstanding review effort should be relied on until it is.
 
 ---
 
+## Experiment 15: the gate passes, and three holes found before it did
+
+**Three faults, all mine, all found by tracing the code path the full run
+would actually take rather than by reasoning about the plan.**
+
+**The retry would not have applied to the corpus.** It was written into the
+synchronous path, and the corpus runs on batches, so the full run would have
+reproduced the 10% issues failure rate the retry exists to remove. Wired into
+the batch collector, sending the failed fraction at standard rate rather than
+waiting on a second batch.
+
+**The prompt fingerprint would have been false.** It was computed at collect
+time while the prompt is used at submit time, and the issues prompt changed
+three times in one afternoon - so records would have been labelled with a
+prompt they never came from. Provenance that looks real and is not is worse
+than none. The fingerprint is now written into the manifest at submit and read
+from there; on a mismatch collect warns and refuses to retry, because a second
+attempt on a different prompt is not the same attempt.
+
+**`cmd_collect` would have extracted the wrong articles.** It called
+`load_tranche(tranche)`, which re-derives - and the far sampler excludes
+articles previous far draws used, so re-deriving far3 after collecting it
+returns a fourth, different sample. Measured: **overlap with far3's real
+articles was zero**. A re-collect would have extracted 89 unrelated articles
+and overwritten the record of what was actually run. The manifest now carries
+`article_ids` and collect loads by them, falling back to the outputs file and
+warning if it must re-derive.
+
+The second and third were found only because the plan was checked against the
+code before running it. The first was found the same way. All three would have
+been invisible in the output.
+
+**Prompt provenance, backfilled and labelled.** The issues layer ran on three
+prompts - v1.1 for narrow and far (170 accepted records), v1.2 for far2 (78),
+v1.3 for far3 (89) - and until now the version sat only at the top of each
+tranche file, so a merged feature table would have lost it. Verified against
+git: v1.1 is byte-identical across all eight pre-rule-7 commits at 9,240
+characters, and the backfill refuses to write anything if its reconstruction
+fails to reproduce that hash. **v1.2 cannot be reconstructed** - it existed
+only in the working tree between two edits and was never committed - so those
+records carry a null hash and `unrecoverable_prompt_never_committed` rather
+than an invented value. `max_tokens` is stamped separately because nine far3
+records had come from a diagnostic run at 16,000 against production's 8,000.
+
+**far3 re-run at production settings, through the retry path.**
+
+| | first pass | after one retry |
+|---|---|---|
+| issues schema failure | **8 of 89 (9.0%)** | **1 of 89 (1.1%)** |
+| recovered on retry | - | 7 of 8 |
+| review-flag repairs | 5 | 5 |
+| quote verification | - | **100.0%** |
+| empty records | - | 4.5% |
+
+stance_revised 0.0% / 0.0%; framing_revised 0.0% after recovering 2 of 2 on
+retry, 24.7% empty against a D4 baseline of 40.0%. **Gate: PASS.**
+
+The first-pass rate replicated the earlier run's 9 of 89, so the verdict turns
+on the retry rather than on a lucky draw. All 89 records now carry v1.3 and
+max_tokens 8,000 - the nine at 16,000 are gone, which is what made the
+previous pass dishonest.
+
+**Evidence the retry is not cherry-picking.** The one residual failure failed
+**both** attempts, with different errors each time - a primary code repeated
+in `secondary_issues`, then an invented `duplicate_note_unused` property -
+both at `stop_reason: end_turn`. Both error sets are retained and the record
+stays failed. A mechanism that preferred the nicer attempt would have passed
+it.
+
+**Why re-running the same 89 articles does not contaminate this gate.** The
+gate measures format compliance and traceability, not agreement: "is this span
+present in the article" is an objective fact and "does this output satisfy the
+schema" is another. There is **no answer key to overfit to**, which is exactly
+what distinguishes it from D4, where the reviewer's labels are a gold standard
+and repeated attempts on the same articles would be selection. What would be
+illegitimate is re-running until it passes; this was the first production-
+settings run with retry, and it passed.
+
+**The caveat that remains.** The record kept is the first attempt satisfying
+the validator, which is selection over attempts. The validator checks that
+evidence spans appear verbatim, so attempts with fewer or shorter quotations
+are marginally likelier to pass, and retained records may under-represent long
+or paraphrase-prone quotation. `attempts` is recorded per article, so the
+affected records are identifiable.
+
+---
+
 ## Where this leaves the feature set
 
 **Superseded twice.** The version of this table written after Experiment 7
