@@ -108,6 +108,109 @@ Two structural facts compound it:
    should be taken before the news layer is built, because the news layer
    trains on whichever architecture's out-of-fold predictions ship.
 
+---
+
+## Resolved 30 July 2026: the differences were measured, not argued
+
+The section above says the development evidence "cannot reliably separate B
+from C". That was an assumption. Nothing in this project had measured whether a
+difference between two architectures survives resampling — the comparison
+reported a point estimate per architecture per fold, and the selection rule read
+those point estimates. So a 0.10-point gap and a 5.90-point gap were treated as
+the same kind of evidence, differing only in whether they cleared a threshold.
+
+`no_news_baseline/architecture_paired_bootstrap.py` now measures it: paired
+(both architectures predict the same rows, so their errors are correlated and
+the difference has far smaller variance than either error alone), resampled by
+contest (candidate shares within a contest sum to 100, so rows are not
+independent), 2,000 resamples on seed 20260728 — the same unit and seed used
+everywhere else in this repository. Input is each bundle's own
+`out_of_fold_predictions.csv` and its own `absolute_error` column, so nothing is
+recomputed and no second definition of the compared quantity can creep in.
+
+### The result, on the 792 out-of-fold rows
+
+| comparison | difference | 95% interval | verdict |
+| --- | ---: | :---: | --- |
+| A − C, all candidates | +0.103 | [−0.385, +0.597] | **not distinguishable** |
+| A − C, Reform only (14 rows) | −0.022 | [−0.844, +0.789] | **not distinguishable** |
+| A − B, all candidates | **−0.882** | [−1.342, −0.418] | **distinguishable — A better** |
+| A − B, Reform only (14 rows) | **+5.934** | [+0.743, +12.658] | **distinguishable — B better** |
+
+C is better than A in 67.3% of resamples and B is better than A on Reform in
+99.0% of them.
+
+### What that overturns
+
+**Two of this project's working conclusions were wrong, and in opposite
+directions.**
+
+The first: C was described in working notes as beating A "on every adequately
+sampled metric". It does not. C's overall advantage is 0.103 against an interval
+half-width of roughly 0.49, and a third of resamples put A ahead. **A and C are
+the same model to the precision this data supports** — which is unsurprising, as
+C is the same closed-form ridge with one additional penalty on the party block.
+
+The second, and the one that mattered: this document assumed 14 Reform rows
+could not separate the architectures. **They can.** The effect is 5.93 points,
+large enough that even 14 rows produce an interval excluding zero. A wide
+interval is not the same as an interval containing zero, and the earlier
+reasoning conflated them.
+
+### What follows
+
+1. **B remains the shipped architecture, and the reason is now measured rather
+   than asserted.** The brief names Reform UK vote share as the study target,
+   and B's advantage on it is distinguishable with a lower bound of +0.74
+   points. The case for re-designating the primary criterion rested on that
+   criterion being unmeasurable at this sample size; the measurement shows it is
+   measurable, so the case falls.
+2. **B's cost is also measured and also real:** 0.88 points of overall MAE,
+   distinguishable, with not one resample of 2,000 favouring it. Selecting B
+   buys accuracy on the study party by giving up accuracy on everyone else. That
+   is a defensible trade for this research question and it is not a free one.
+3. **The limitation that no measurement here can settle.** All 14 out-of-fold
+   Reform rows are single-member by-elections, where Reform's county-wide
+   strength of 20.67% applies directly. The 2026 target is two-member wards
+   where support divides across two ballot lines and the observed mean is
+   10.80%. B is therefore shown to predict Reform well **in single-member
+   by-elections**; whether that transfers to two-member wards is untested, and
+   testing it would require the holdout. This must be stated wherever B's Reform
+   advantage is cited.
+4. **The news comparison will report all three baselines, not one.** A primary
+   result against B, with A and C as robustness rows. The reason is specific
+   rather than a hedge: B has the lowest Reform error out of fold, so it is the
+   hardest baseline for news to improve upon, while A and C carry roughly 5.9
+   points more Reform error — news measured against them could appear useful
+   simply by absorbing that error. If news improves on all three, the finding is
+   robust to a choice this evidence cannot make cleanly. If it improves only
+   against A and C, that is itself the result.
+5. **The open supervisor question is closed.** Item 3 of the previous section
+   asked whether to re-designate the primary criterion, noting it should be
+   settled before the news layer is built. The supervisor's reply of 30 July
+   delegates it — "this is your methodological decision… You can keep the tree
+   model as primary and partial pooling as a robustness model, or choose a
+   broader rule based on the pre-2026 results. Just explain the reasoning
+   clearly" — subject to not using the 2026 holdout to choose retrospectively.
+   The decision above uses out-of-fold evidence only. The holdout figures in the
+   table further up this document were recorded before this decision and took no
+   part in it; had they been absent, the same measurement would have produced the
+   same choice.
+
+Reproduce the measurement:
+
+```bash
+PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python -m no_news_baseline.cli train \
+  --architecture A_regularised_linear --output surrey-election-no-news-baseline/outputs/model_bundle_paired_A
+PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python -m no_news_baseline.cli train \
+  --architecture B_gradient_boosted_trees --output surrey-election-no-news-baseline/outputs/model_bundle_paired_B
+PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python -m no_news_baseline.architecture_paired_bootstrap \
+  surrey-election-no-news-baseline/outputs/model_bundle_paired_A \
+  surrey-election-no-news-baseline/outputs/model_bundle_paired_C
+```
+
+---
+
 A manual run of C is reproducible for comparison and costs nothing to inspect:
 
 ```bash
