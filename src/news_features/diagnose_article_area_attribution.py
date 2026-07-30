@@ -22,10 +22,9 @@ area-level ones, and cannot be tested without them.
 
 Every article record carries `retrieval.search_query_id`, and the search log
 carries a `ward` column per query, so an article inherits whatever area its
-query named. Counted over the 1,452 included articles: **37 carry a specific
-ward, 1,415 came from election-level queries** (county-wide searches such as
-`county_cdx`). Every article resolves to a query, so this is a property of how
-the corpus was searched rather than of missing links.
+query named. The counts are computed from the canonical usable corpus at run
+time. This matters because the main eligibility table is only one of three
+adjudication streams; reading it alone produced the older 120-local figure.
 
 That is the problem this module measures a way around.
 
@@ -35,11 +34,11 @@ That is the problem this module measures a way around.
    may still name a town or division in its text. Matching the 164 published
    area names against the body would raise attribution from 2.5% to whatever the
    text supports. This module measures that rate rather than assuming it.
-2. **Where do the 120 local-arm articles sit?** If they concentrate in a few
-   areas, those areas can carry genuine local-news features even if the rest
-   cannot.
-3. **What survives of the local/national comparison?** 1,332 national against
-   120 local is a 11:1 imbalance that has to be reported whatever else is done.
+2. **Where do the canonical local-arm articles sit?** If they concentrate in a
+   few areas, those areas can carry genuine local-news features even if the
+   rest cannot.
+3. **What survives of the local/national comparison?** The current imbalance
+   is measured and recorded by release rather than copied into this docstring.
 
 ## What this module deliberately does not do
 
@@ -66,15 +65,13 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 RECORDS = Path("data/raw/news/records")
-TEXT = Path("data/raw/news/text")
-DECISIONS = Path("news_collection/corpus_eligibility_decisions.csv")
 SEARCH_LOG = Path("news_collection/search_log.csv")
 FUNDAMENTALS = Path("surrey-election-no-news-baseline/outputs/"
                     "electoral_fundamentals/electoral_fundamentals_features.csv")
-# The summary is committed; the per-article detail is not. 1,452 per-article
-# rows are 252KB of the 322KB file and every figure that matters is in the
-# summary, so the split follows the same rule the batch manifests do: keep what
-# a reader needs to check a claim, leave the row-level detail on disk.
+# The summary is committed; the per-article detail is not. Every figure that
+# matters is in the summary, so the split follows the same rule the batch
+# manifests do: keep what a reader needs to check a claim, leave row-level
+# detail on disk.
 OUT = Path("news_features/article_area_attribution_summary.json")
 OUT_DETAIL = Path("news_features/article_area_attribution_per_article.json")
 
@@ -131,8 +128,12 @@ def build_patterns(names: dict[str, set[str]]) -> list[tuple[str, re.Pattern]]:
 
 
 def main() -> None:
-    included = {r["article_id"]: r for r in csv.DictReader(DECISIONS.open())
-                if r["overall_decision"] == "include"}
+    # Import here to keep the light-weight pattern helpers usable in isolation.
+    # The canonical builder unions all three terminal-decision streams and
+    # applies exactly the date/window/text rules used by feature construction.
+    from src.news_collection.canonical_corpus_release import build_release
+
+    release, included = build_release()
     log = {r["query_id"]: r for r in csv.DictReader(SEARCH_LOG.open())}
     names = area_names()
     patterns = build_patterns(names)
@@ -140,7 +141,9 @@ def main() -> None:
     print(f"published area names: {len(names)} distinct, "
           f"{len(patterns)} usable as patterns "
           f"({len(names) - len(patterns)} too short or too generic)")
-    print(f"included articles: {len(included)}\n")
+    print(f"canonical release: {release['release_id']}")
+    print(f"usable articles: {len(included)} "
+          f"{release['usable_feature_corpus']['by_arm']}\n")
 
     from_query = Counter()          # how the search log attributes each article
     from_body = Counter()           # how many areas the body names
@@ -149,22 +152,23 @@ def main() -> None:
     body_missing = 0
     rows_out = []
 
-    for aid, decision in included.items():
+    for aid, article in included.items():
         record_path = RECORDS / f"{aid}.json"
         if not record_path.exists():
             continue
         record = json.loads(record_path.read_text())
         query = log.get((record.get("retrieval") or {}).get("search_query_id"))
-        arm = (query or {}).get("arm") or record.get("arm") or "unknown"
+        # Arm and election come from the canonical release. Query/record values
+        # are retrieval evidence only and must not silently redefine the corpus.
+        arm = article.get("arm") or "unknown"
         query_ward = ((query or {}).get("ward") or "").strip()
         from_query["specific_ward" if query_ward else "election_level_only"] += 1
 
-        text_path = TEXT / f"{aid}.txt"
-        if not text_path.exists():
+        body = article.get("body") or ""
+        if not body:
             body_missing += 1
             body_areas: list[str] = []
         else:
-            body = text_path.read_text(encoding="utf-8", errors="replace")
             head = (record.get("identity") or {}).get("headline") or ""
             haystack = f"{head}\n{body}"
             # Longest-first, and a matched compound removes its components so
@@ -184,7 +188,7 @@ def main() -> None:
 
         rows_out.append({
             "article_id": aid, "arm": arm,
-            "election_id": decision["election_id"],
+            "election_id": article["election_id"],
             "query_ward": query_ward,
             "body_areas": body_areas,
             "attribution": ("query_ward" if query_ward
@@ -229,6 +233,9 @@ def main() -> None:
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps({
+        "canonical_corpus_release_id": release["release_id"],
+        "canonical_corpus_manifest":
+            "news_collection/canonical_corpus_release_v1.json",
         "articles": total,
         "published_area_names": len(names),
         "usable_patterns": len(patterns),

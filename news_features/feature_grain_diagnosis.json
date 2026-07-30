@@ -1,6 +1,8 @@
 {
-  "articles": 1452,
-  "principal": 1452,
+  "canonical_corpus_release_id": "canonical-news-v1-59d113bb9c28",
+  "canonical_corpus_manifest": "news_collection/canonical_corpus_release_v1.json",
+  "articles": 1632,
+  "principal": 1632,
   "by_election": 0,
   "thresholds": {
     "min_cells_to_fit": 3,
@@ -10,8 +12,8 @@
     "election__principal_only": {
       "train": {
         "cells": 2,
-        "articles": 889,
-        "median_articles_per_cell": 462,
+        "articles": 950,
+        "median_articles_per_cell": 497,
         "verdict": "cannot fit"
       },
       "train_late": {
@@ -22,22 +24,22 @@
       },
       "validation": {
         "cells": 1,
-        "articles": 292,
-        "median_articles_per_cell": 292,
+        "articles": 333,
+        "median_articles_per_cell": 333,
         "verdict": "cannot fit"
       },
       "test": {
         "cells": 1,
-        "articles": 271,
-        "median_articles_per_cell": 271,
+        "articles": 349,
+        "median_articles_per_cell": 349,
         "verdict": "cannot fit"
       }
     },
     "election__with_by_elections": {
       "train": {
         "cells": 2,
-        "articles": 889,
-        "median_articles_per_cell": 462,
+        "articles": 950,
+        "median_articles_per_cell": 497,
         "verdict": "cannot fit"
       },
       "train_late": {
@@ -48,22 +50,22 @@
       },
       "validation": {
         "cells": 1,
-        "articles": 292,
-        "median_articles_per_cell": 292,
+        "articles": 333,
+        "median_articles_per_cell": 333,
         "verdict": "cannot fit"
       },
       "test": {
         "cells": 1,
-        "articles": 271,
-        "median_articles_per_cell": 271,
+        "articles": 349,
+        "median_articles_per_cell": 349,
         "verdict": "cannot fit"
       }
     },
     "election_party__principal_only": {
       "train": {
         "cells": 10,
-        "articles": 1606,
-        "median_articles_per_cell": 162,
+        "articles": 1697,
+        "median_articles_per_cell": 172,
         "verdict": "usable"
       },
       "train_late": {
@@ -74,22 +76,22 @@
       },
       "validation": {
         "cells": 6,
-        "articles": 413,
-        "median_articles_per_cell": 41,
+        "articles": 467,
+        "median_articles_per_cell": 48,
         "verdict": "fittable, not reportable"
       },
       "test": {
         "cells": 6,
-        "articles": 583,
-        "median_articles_per_cell": 115,
+        "articles": 770,
+        "median_articles_per_cell": 175,
         "verdict": "fittable, not reportable"
       }
     },
     "election_party__with_by_elections": {
       "train": {
         "cells": 10,
-        "articles": 1606,
-        "median_articles_per_cell": 162,
+        "articles": 1697,
+        "median_articles_per_cell": 172,
         "verdict": "usable"
       },
       "train_late": {
@@ -100,14 +102,14 @@
       },
       "validation": {
         "cells": 6,
-        "articles": 413,
-        "median_articles_per_cell": 41,
+        "articles": 467,
+        "median_articles_per_cell": 48,
         "verdict": "fittable, not reportable"
       },
       "test": {
         "cells": 6,
-        "articles": 583,
-        "median_articles_per_cell": 115,
+        "articles": 770,
+        "median_articles_per_cell": 175,
         "verdict": "fittable, not reportable"
       }
     }
@@ -115,38 +117,38 @@
   "party_by_role": [
     {
       "party": "labour",
-      "train": 479,
-      "test": 195,
-      "validation": 153
+      "train": 507,
+      "test": 247,
+      "validation": 169
     },
     {
       "party": "conservative",
-      "train": 477,
-      "validation": 161,
-      "test": 140
+      "train": 504,
+      "validation": 178,
+      "test": 175
     },
     {
       "party": "liberal_democrat",
-      "train": 266,
-      "validation": 41,
-      "test": 75
+      "train": 281,
+      "validation": 48,
+      "test": 95
     },
     {
       "party": "ukip",
-      "train": 308,
-      "validation": 35,
-      "test": 7
-    },
-    {
-      "party": "green",
-      "train": 76,
-      "validation": 14,
-      "test": 51
+      "train": 325,
+      "validation": 41,
+      "test": 13
     },
     {
       "party": "reform_uk",
-      "test": 115,
-      "validation": 9
+      "test": 175,
+      "validation": 15
+    },
+    {
+      "party": "green",
+      "train": 80,
+      "validation": 16,
+      "test": 65
     }
   ],
   "by_election_article_counts": {}

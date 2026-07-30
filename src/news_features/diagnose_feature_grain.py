@@ -5,8 +5,8 @@
 A news feature can only teach a model something if it takes different values
 across the training rows. The baseline predicts election x area x party, and a
 news feature is computed at whatever grain the corpus supports - so the question
-is not "do we have 1,452 articles" but "how many distinct cells does each grain
-have inside the training period".
+is not "how many rows are in one eligibility file" but "how many distinct cells
+does the canonical usable release provide inside the training period".
 
 A first pass over the four principal elections found:
 
@@ -55,7 +55,6 @@ Usage:
 
 from __future__ import annotations
 
-import csv
 import json
 import glob
 import sys
@@ -64,7 +63,6 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-DECISIONS = Path("news_collection/corpus_eligibility_decisions.csv")
 OUT = Path("news_features/feature_grain_diagnosis.json")
 
 # The supervisor's chronological split, so a cell count can be reported per
@@ -108,20 +106,27 @@ def by_election_role(election_id: str) -> str:
 
 
 def load_articles() -> list[dict]:
-    """Included articles with their election, arm, and split role."""
+    """Canonical usable articles with election, arm and split role.
+
+    Do not read ``corpus_eligibility_decisions.csv`` directly here. That file
+    excludes terminal decisions made in the pilot and validation passes and is
+    the source of the stale 120-local diagnostic.
+    """
+
+    from src.news_collection.canonical_corpus_release import build_release
+
+    release, articles = build_release()
     out = []
-    with DECISIONS.open(newline="") as handle:
-        for r in csv.DictReader(handle):
-            if r["overall_decision"] != "include":
-                continue
-            election = r["election_id"]
-            out.append({
-                "article_id": r["article_id"],
-                "election_id": election,
-                "arm": r["arm"],
-                "is_principal": election in PRINCIPAL,
-                "role": SPLIT_ROLE.get(election) or by_election_role(election),
-            })
+    for article_id, article in articles.items():
+        election = article["election_id"]
+        out.append({
+            "article_id": article_id,
+            "election_id": election,
+            "arm": article.get("arm") or "unknown",
+            "is_principal": election in PRINCIPAL,
+            "role": SPLIT_ROLE.get(election) or by_election_role(election),
+            "canonical_corpus_release_id": release["release_id"],
+        })
     return out
 
 
@@ -186,7 +191,14 @@ def main() -> None:
           f"({len(principal)} principal, {len(by_elec)} by-election)")
     print(f"stance judgements available for {len(judged)} articles")
 
-    report: dict = {"articles": len(articles),
+    report: dict = {
+                    "canonical_corpus_release_id": (
+                        articles[0]["canonical_corpus_release_id"]
+                        if articles else None
+                    ),
+                    "canonical_corpus_manifest":
+                        "news_collection/canonical_corpus_release_v1.json",
+                    "articles": len(articles),
                     "principal": len(principal),
                     "by_election": len(by_elec),
                     "thresholds": {"min_cells_to_fit": MIN_CELLS_TO_FIT,

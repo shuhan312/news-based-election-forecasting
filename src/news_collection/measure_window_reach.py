@@ -15,15 +15,16 @@ neither is about its content:
    of 11,787 articles as having no date evidence, so this is not a rounding
    error.
 
-2. Its date has to fall inside a window. The corpus was collected on a 180-day
-   horizon and the principal windows are 30 days deep, so an article can be
-   perfectly good, perfectly relevant, correctly dated, and still sit outside
-   every window the feature table has.
+2. Its date has to fall inside a window. The supervisor confirmed the existing
+   six-window scheme on 2026-07-30. Those windows partition days 1-180, so a
+   correctly dated pre-election article in the collection horizon should now
+   reach exactly one principal window.
 
-The extracted pilot gives a first reading on the second point and it is not
-encouraging: 67 articles, of which 9 land inside a 1-30 day window. Whether
-that ratio holds for the pending corpus is exactly what this measures, and it
-measures it from dates already on disk, so it costs nothing.
+An older version of this diagnostic still used Prompt 2's three windows inside
+30 days. Its output made days 31-180 look unusable even though the production
+extraction and feature table already used them. This version imports the same
+confirmed scheme as production so ``window_reach_assessment.json`` cannot
+silently describe a different model.
 
 Reported per election and per arm, because a headline percentage would hide
 the case that matters most - the 2021 validation split, which currently has no
@@ -39,11 +40,8 @@ from collections import Counter, defaultdict
 from datetime import date
 from pathlib import Path
 
-from news_modelling.ward_party_features import (
-    CUMULATIVE_SNAPSHOTS,
-    NEWS_ELECTION_DATES,
-    PRINCIPAL_WINDOWS,
-)
+from news_modelling.ward_party_features import NEWS_ELECTION_DATES
+from news_modelling.window_schemes import ORIGINAL_EMAIL
 
 REPO = Path(__file__).resolve().parents[2]
 ELIGIBILITY = REPO / "news_collection/eligibility_assessment_v2.csv"
@@ -108,11 +106,11 @@ def days_before_polling(published: str, election_id: str) -> int | None:
 def classify(days: int | None) -> str:
     """Which principal window a lag falls in, or why it falls in none.
 
-    The three principal windows partition days 1 to 30 and nothing outside
-    them. The two outside categories are kept apart rather than merged into
+    The six confirmed windows partition days 1 to 180. The two outside
+    categories are kept apart rather than merged into
     "excluded": an article published after polling is a leakage exclusion and
-    must stay excluded, whereas one published 90 days out is merely beyond the
-    current window depth and would be recoverable if the window scheme changed.
+    must stay excluded, whereas one published 181 days out is beyond the
+    configured collection horizon.
     Collapsing them would hide a choice behind a filter.
     """
 
@@ -121,8 +119,7 @@ def classify(days: int | None) -> str:
     if days <= 0:
         return "on_or_after_polling_day"
 
-    for name, definition in PRINCIPAL_WINDOWS.items():
-        first, last = definition["days"]
+    for name, first, last in ORIGINAL_EMAIL.windows:
         if first <= days <= last:
             return name
 
@@ -164,7 +161,7 @@ def assess() -> dict:
         by_election[election_id][bucket] += 1
         by_arm[arm][bucket] += 1
 
-    window_names = set(PRINCIPAL_WINDOWS)
+    window_names = {name for name, _first, _last in ORIGINAL_EMAIL.windows}
 
     def reachable(counts: Counter[str]) -> int:
         """Articles landing in a principal window - the ones that can matter."""
@@ -187,11 +184,11 @@ def assess() -> dict:
     # counted from the lags directly rather than summed from the buckets.
     cumulative = {}
     all_lags = [lag for lags in lags_by_election.values() for lag in lags]
-    for name, definition in CUMULATIVE_SNAPSHOTS.items():
-        depth = definition["days"]
+    for name, depth in ORIGINAL_EMAIL.cumulative:
         cumulative[name] = sum(1 for lag in all_lags if 1 <= lag <= depth)
 
     return {
+        "window_scheme": ORIGINAL_EMAIL.key,
         "pending_articles": len(pending),
         "overall": summarise(overall),
         "cumulative_snapshots": cumulative,
@@ -199,8 +196,10 @@ def assess() -> dict:
                         for election, counts in sorted(by_election.items())},
         "by_arm": {arm: summarise(counts)
                    for arm, counts in sorted(by_arm.items())},
-        "window_definitions": {name: definition["days"]
-                               for name, definition in PRINCIPAL_WINDOWS.items()},
+        "window_definitions": {
+            name: [first, last]
+            for name, first, last in ORIGINAL_EMAIL.windows
+        },
     }
 
 
