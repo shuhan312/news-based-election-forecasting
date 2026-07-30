@@ -132,3 +132,12 @@ llm_context/consequence_rescue_outputs*.json
 llm_context/issues_failure_diagnosis_*.json
 llm_context/step2_far3_rerun.log
 llm_context/full_corpus_run.log
+
+# Full batch manifests. What collect reads - the article ids to load by and the
+# per-article stance question sets - which on the full corpus is 5,975 lines of
+# machine-generated ids. corpus_extraction_batch_digests.json takes their place,
+# holding the batch ids, the prompt fingerprints, the census and a sha256 over
+# each dropped list, so the local file can be verified as the one described.
+# Same treatment d4_llm_output_manifest.json already received: 5,034 lines of
+# per-article hashes reduced to 90.
+llm_context/corpus_extraction_batches_*.json

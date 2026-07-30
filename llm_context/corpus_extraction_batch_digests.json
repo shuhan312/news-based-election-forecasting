@@ -1,0 +1,316 @@
+{
+  "all": {
+    "article_ids_count": 1374,
+    "article_ids_sha256": "2a4be277073ca7a80c69a6c82f1cd47268fc3caf6f9f67664b63ec59516ebdeb",
+    "articles": 1374,
+    "census": {
+      "by_window": {
+        "14_to_8_days": 32,
+        "180_to_91_days": 1308,
+        "30_to_15_days": 32,
+        "7_to_4_days": 11,
+        "90_to_31_days": 241,
+        "final_72_hours": 14
+      },
+      "eligible": 1638,
+      "no_effective_date": 0,
+      "no_extracted_text": 6,
+      "no_extracted_text_ids": [
+        "NEWS-guardian_api-2ef2c7bd5536",
+        "NEWS-guardian_api-4758fb4be13e",
+        "NEWS-guardian_api-8aadc09fa9eb",
+        "NEWS-guardian_api-aae0d552d3f5",
+        "NEWS-guardian_api-b14821938693",
+        "NEWS-guardian_api-ce614f0fffc6"
+      ],
+      "not_a_principal_election": 0,
+      "outside_all_windows": 0,
+      "skipped_already_extracted": 258
+    },
+    "excluded_layers": {
+      "consequence": "fails D4 gate at kappa 0.259 (n=55); a redesign replicated at 0.598 on both arms against a 0.600 bar",
+      "credit_blame": "fails D4 gate at kappa 0.521 (n=57); a binary redesign scored 0.272 on blame, worse than the layer it replaced"
+    },
+    "layer_models": {
+      "framing_revised": "claude-haiku-4-5",
+      "issues": "claude-sonnet-5",
+      "stance_revised": "claude-haiku-4-5"
+    },
+    "layer_prompt_sha256": {
+      "framing_revised": "e90e50b3dcb28d03da4f71b406db8fb90cbd065e7270b0a059f879c6665cb447",
+      "issues": "715700666acac508aea75c292e5611e9649ac0000214e28aed1e8fe357dec88f",
+      "stance_revised": "bc2d5987b2d77f33bc0e3231aa86d3303f4aed52568616c571e6e21ac96da935"
+    },
+    "layers": {
+      "framing_revised": "msgbatch_01VRgoMQoHJeZrhff5y5hv8E",
+      "issues": "msgbatch_01V76KtKD1vnnn1hjweNDc66",
+      "stance_revised": "msgbatch_01TGfRZAYjjtf6JhwS43sDaW"
+    },
+    "note": "The article ids, stance question sets and fallback id list are held in the local manifest named above, which is gitignored for size. Recompute the hashes here against that file to confirm it is the one this digest describes; the canonical form is json.dumps(value, sort_keys=True, separators=(',', ':')).",
+    "raw_text_fallback_count": 97,
+    "source_file": "corpus_extraction_batches_all.json",
+    "source_file_sha256": "2f5c569a2215803dbcf2318458604b1bbcd949d093a05a8b776741cb12654308",
+    "stance_question_sets_count": 1006,
+    "stance_question_sets_sha256": "c2e39dd533454272d5941a83ed06876b0c66a559e62447f6fc3877b7fb5c2675",
+    "tranche": "all",
+    "version": "corpus-extraction-v1.3-2026-07-30",
+    "windows_in_tranche": [
+      "14_to_8_days",
+      "180_to_91_days",
+      "30_to_15_days",
+      "90_to_31_days"
+    ]
+  },
+  "far": {
+    "article_ids_count": 0,
+    "article_ids_sha256": null,
+    "articles": 89,
+    "census": {
+      "by_window": {
+        "14_to_8_days": 32,
+        "180_to_91_days": 1308,
+        "30_to_15_days": 32,
+        "7_to_4_days": 11,
+        "90_to_31_days": 241,
+        "final_72_hours": 14
+      },
+      "eligible": 1638,
+      "far_sample": {
+        "drawn": 89,
+        "frame": {
+          "180_to_91_days": 1302,
+          "90_to_31_days": 241
+        },
+        "per_window": {
+          "180_to_91_days": 75,
+          "90_to_31_days": 14
+        },
+        "target": 89
+      },
+      "no_effective_date": 0,
+      "no_extracted_text": 6,
+      "no_extracted_text_ids": [
+        "NEWS-guardian_api-2ef2c7bd5536",
+        "NEWS-guardian_api-4758fb4be13e",
+        "NEWS-guardian_api-8aadc09fa9eb",
+        "NEWS-guardian_api-aae0d552d3f5",
+        "NEWS-guardian_api-b14821938693",
+        "NEWS-guardian_api-ce614f0fffc6"
+      ],
+      "not_a_principal_election": 0,
+      "outside_all_windows": 0
+    },
+    "excluded_layers": {
+      "consequence": "fails D4 gate, kappa 0.259 at n=55; rescue attempt pending",
+      "credit_blame": "fails D4 gate, kappa 0.521 at n=57; no definitional fix"
+    },
+    "layer_models": {
+      "framing_revised": "claude-haiku-4-5",
+      "issues": "claude-sonnet-5",
+      "stance_revised": "claude-haiku-4-5"
+    },
+    "layer_prompt_sha256": null,
+    "layers": {
+      "framing_revised": "msgbatch_01BqP9FjDU6ZS43qDQrZoyUW",
+      "issues": "msgbatch_01G7TNt7rbktEKLP2xEUPoWQ",
+      "stance_revised": "msgbatch_01HHgPFLhf4VPejQVLLfLahx"
+    },
+    "note": "The article ids, stance question sets and fallback id list are held in the local manifest named above, which is gitignored for size. Recompute the hashes here against that file to confirm it is the one this digest describes; the canonical form is json.dumps(value, sort_keys=True, separators=(',', ':')).",
+    "raw_text_fallback_count": 5,
+    "source_file": "corpus_extraction_batches_far.json",
+    "source_file_sha256": "54df54538e4dd3cbb74f860b17a09e5d0e07f77ed7d8f8ca7541f93c9f604a45",
+    "stance_question_sets_count": 72,
+    "stance_question_sets_sha256": "ee04ad530dc9abd36c45546047bc94cc17e6c8c594ca1d4064eb7266ec14fd52",
+    "tranche": "far",
+    "version": "corpus-extraction-v1.1-2026-07-30",
+    "windows_in_tranche": [
+      "180_to_91_days",
+      "90_to_31_days"
+    ]
+  },
+  "far2": {
+    "article_ids_count": 0,
+    "article_ids_sha256": null,
+    "articles": 89,
+    "census": {
+      "by_window": {
+        "14_to_8_days": 32,
+        "180_to_91_days": 1308,
+        "30_to_15_days": 32,
+        "7_to_4_days": 11,
+        "90_to_31_days": 241,
+        "final_72_hours": 14
+      },
+      "eligible": 1638,
+      "far_previously_drawn": 89,
+      "far_sample": {
+        "drawn": 89,
+        "frame": {
+          "180_to_91_days": 1227,
+          "90_to_31_days": 227
+        },
+        "per_window": {
+          "180_to_91_days": 75,
+          "90_to_31_days": 14
+        },
+        "target": 89
+      },
+      "no_effective_date": 0,
+      "no_extracted_text": 6,
+      "no_extracted_text_ids": [
+        "NEWS-guardian_api-2ef2c7bd5536",
+        "NEWS-guardian_api-4758fb4be13e",
+        "NEWS-guardian_api-8aadc09fa9eb",
+        "NEWS-guardian_api-aae0d552d3f5",
+        "NEWS-guardian_api-b14821938693",
+        "NEWS-guardian_api-ce614f0fffc6"
+      ],
+      "not_a_principal_election": 0,
+      "outside_all_windows": 0
+    },
+    "excluded_layers": {
+      "consequence": "fails D4 gate, kappa 0.259 at n=55; rescue attempt pending",
+      "credit_blame": "fails D4 gate, kappa 0.521 at n=57; no definitional fix"
+    },
+    "layer_models": {
+      "framing_revised": "claude-haiku-4-5",
+      "issues": "claude-sonnet-5",
+      "stance_revised": "claude-haiku-4-5"
+    },
+    "layer_prompt_sha256": null,
+    "layers": {
+      "framing_revised": "msgbatch_01VqifdkWRvHSYMAxCKXbF3T",
+      "issues": "msgbatch_01BgtDUGR1Aaij2eErQ52ywK",
+      "stance_revised": "msgbatch_01Mz29dRaV58kDxhFrjjyUHG"
+    },
+    "note": "The article ids, stance question sets and fallback id list are held in the local manifest named above, which is gitignored for size. Recompute the hashes here against that file to confirm it is the one this digest describes; the canonical form is json.dumps(value, sort_keys=True, separators=(',', ':')).",
+    "raw_text_fallback_count": 11,
+    "source_file": "corpus_extraction_batches_far2.json",
+    "source_file_sha256": "30a9e16e1df204d9cf9960e21ad5e531b24d5468987df3ab3a1a7215d83a9a84",
+    "stance_question_sets_count": 58,
+    "stance_question_sets_sha256": "81355f016df8acd5dcb2ab8f16efb38b5d917eb2c0f96770f75160bcfeba88a1",
+    "tranche": "far2",
+    "version": "corpus-extraction-v1.2-2026-07-30",
+    "windows_in_tranche": [
+      "180_to_91_days",
+      "90_to_31_days"
+    ]
+  },
+  "far3": {
+    "article_ids_count": 0,
+    "article_ids_sha256": null,
+    "articles": 89,
+    "census": {
+      "by_window": {
+        "14_to_8_days": 32,
+        "180_to_91_days": 1308,
+        "30_to_15_days": 32,
+        "7_to_4_days": 11,
+        "90_to_31_days": 241,
+        "final_72_hours": 14
+      },
+      "eligible": 1638,
+      "far_previously_drawn": 178,
+      "far_sample": {
+        "drawn": 89,
+        "frame": {
+          "180_to_91_days": 1152,
+          "90_to_31_days": 213
+        },
+        "per_window": {
+          "180_to_91_days": 75,
+          "90_to_31_days": 14
+        },
+        "target": 89
+      },
+      "no_effective_date": 0,
+      "no_extracted_text": 6,
+      "no_extracted_text_ids": [
+        "NEWS-guardian_api-2ef2c7bd5536",
+        "NEWS-guardian_api-4758fb4be13e",
+        "NEWS-guardian_api-8aadc09fa9eb",
+        "NEWS-guardian_api-aae0d552d3f5",
+        "NEWS-guardian_api-b14821938693",
+        "NEWS-guardian_api-ce614f0fffc6"
+      ],
+      "not_a_principal_election": 0,
+      "outside_all_windows": 0
+    },
+    "excluded_layers": {
+      "consequence": "fails D4 gate at kappa 0.259 (n=55); a redesign replicated at 0.598 on both arms against a 0.600 bar",
+      "credit_blame": "fails D4 gate at kappa 0.521 (n=57); a binary redesign scored 0.272 on blame, worse than the layer it replaced"
+    },
+    "layer_models": {
+      "framing_revised": "claude-haiku-4-5",
+      "issues": "claude-sonnet-5",
+      "stance_revised": "claude-haiku-4-5"
+    },
+    "layer_prompt_sha256": null,
+    "layers": {
+      "framing_revised": "msgbatch_01YQqbQi9zGdA4HpZDNQ8JqJ",
+      "issues": "msgbatch_01NwzgBjjsGyzvKbTgyT58uk",
+      "stance_revised": "msgbatch_0194NM64kuHZwqQKucLsZyLT"
+    },
+    "note": "The article ids, stance question sets and fallback id list are held in the local manifest named above, which is gitignored for size. Recompute the hashes here against that file to confirm it is the one this digest describes; the canonical form is json.dumps(value, sort_keys=True, separators=(',', ':')).",
+    "raw_text_fallback_count": 5,
+    "source_file": "corpus_extraction_batches_far3.json",
+    "source_file_sha256": "23ad806ddf02c721fe64d7e459b7ba4808c8f0e15316675064dbfcfba286cbeb",
+    "stance_question_sets_count": 60,
+    "stance_question_sets_sha256": "42513afe3f84c9fd1ca866029b814e6575412ea827226d5cc0c0de7a98a52b2a",
+    "tranche": "far3",
+    "version": "corpus-extraction-v1.3-2026-07-30",
+    "windows_in_tranche": [
+      "180_to_91_days",
+      "90_to_31_days"
+    ]
+  },
+  "narrow": {
+    "article_ids_count": 0,
+    "article_ids_sha256": null,
+    "articles": 89,
+    "census": {
+      "by_window": {
+        "14_to_8_days": 32,
+        "180_to_91_days": 1308,
+        "30_to_15_days": 32,
+        "7_to_4_days": 11,
+        "90_to_31_days": 241,
+        "final_72_hours": 14
+      },
+      "eligible": 1638,
+      "no_effective_date": 0,
+      "not_a_principal_election": 0,
+      "outside_all_windows": 0
+    },
+    "excluded_layers": null,
+    "layer_models": {
+      "consequence": "claude-sonnet-5",
+      "credit_blame": "claude-sonnet-5",
+      "framing_revised": "claude-haiku-4-5",
+      "issues": "claude-sonnet-5",
+      "stance_revised": "claude-haiku-4-5"
+    },
+    "layer_prompt_sha256": null,
+    "layers": {
+      "consequence": "msgbatch_019awmh6Kaf4A6kfFMv3Kwdv",
+      "credit_blame": "msgbatch_012G2NtPDopSJV5qAa1a8H3H",
+      "framing_revised": "msgbatch_0157xyRpTQsLnqbAmCXN1b24",
+      "issues": "msgbatch_016ChB1pRjiSjLTi9C68Pnyv",
+      "stance_revised": "msgbatch_01Mz38RDpZtUVFRrqcStwG8N"
+    },
+    "note": "The article ids, stance question sets and fallback id list are held in the local manifest named above, which is gitignored for size. Recompute the hashes here against that file to confirm it is the one this digest describes; the canonical form is json.dumps(value, sort_keys=True, separators=(',', ':')).",
+    "raw_text_fallback_count": 2,
+    "source_file": "corpus_extraction_batches_narrow.json",
+    "source_file_sha256": "39521f79df2fa770eee508d248d49c436f41ad68a1a39831f9b8f150513ce237",
+    "stance_question_sets_count": 57,
+    "stance_question_sets_sha256": "f623f20c57e84f5613dc887361f6ce6deeeda045a5a3b69f67afce7301ed452e",
+    "tranche": "narrow",
+    "version": "corpus-extraction-v1.1-2026-07-30",
+    "windows_in_tranche": [
+      "14_to_8_days",
+      "30_to_15_days",
+      "7_to_4_days",
+      "final_72_hours"
+    ]
+  }
+}
