@@ -125,3 +125,8 @@ llm_context/attribution_rescue.log
 # batch ids and the computed agreement figures, both of which stay.
 llm_context/attribution_rescue_outputs*.json
 llm_context/consequence_rescue_outputs*.json
+
+# Diagnostic re-runs keep the raw model response, which reproduces evidence
+# spans - 36 verbatim quotations, ~5,000 characters of article text on the far3
+# diagnosis alone. Same copyright policy as the extraction outputs.
+llm_context/issues_failure_diagnosis_*.json
