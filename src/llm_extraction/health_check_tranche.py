@@ -170,7 +170,16 @@ def main() -> None:
         Path(f"llm_context/corpus_extraction_outputs_{tranche}.json").read_text())
     batches = json.loads(
         Path(f"llm_context/corpus_extraction_batches_{tranche}.json").read_text())
-    arts, _fallback, _census = load_tranche(tranche)
+    # The articles the tranche actually extracted, read from its own output
+    # rather than re-derived from the tranche rule. The far sampler excludes
+    # what previous far draws used, so re-deriving `far2` after collecting it
+    # returns a third, different sample - and the checker then looked for
+    # far2's evidence spans in 89 articles far2 never saw, reporting 0 of 314
+    # verified. A gate that re-computes its own subject can fail an extraction
+    # for a fault in the gate.
+    extracted_ids = {r["article_id"] for rows in outputs["layers"].values()
+                     for r in rows}
+    arts, _fallback, _census = load_tranche(tranche, only_ids=extracted_ids)
 
     report: dict = {"tranche": tranche, "layer_models": outputs.get("layer_models", {}),
                     "articles": batches["articles"],

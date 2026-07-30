@@ -186,7 +186,19 @@ supporting evidence_span. List affected_actors only when the article names \
 them. Do NOT predict election outcomes.
 6. CONFIDENCE IS HONEST. Confidence in [0,1] per assignment; if any is \
 below 0.5, set review_status to "flagged".
-7. Output ONLY the JSON object - no markdown fences, no commentary.
+7. NO PROPERTY THE SCHEMA DOES NOT DEFINE. Every key you emit must appear in \
+the schema below, at the level the schema puts it. The top-level object \
+permits exactly: schema_version, article_id, canonical_article_id, \
+extraction_status, review_status, issues, political_relevance, \
+ambiguity_notes. Each issue object permits exactly: issue_code, \
+issue_other_label, explanation, evidence_span, confidence. Nothing else, at \
+either level. Do not invent a key for a note, a label or a caveat, and do not \
+move a property to a level the schema does not declare it at. If something \
+needs saying, put it in top-level ambiguity_notes; if an issue falls outside \
+the taxonomy, use issue_other_label inside that issue object. The validator \
+rejects the whole record for one undeclared key, so a volunteered note costs \
+the entire extraction.
+8. Output ONLY the JSON object - no markdown fences, no commentary.
 
 The JSON Schema (contract {CLS_SCHEMA_VERSION}):
 

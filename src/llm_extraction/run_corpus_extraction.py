@@ -1,17 +1,20 @@
-"""Full-corpus context extraction: the five layers the D4 gate adopted.
+"""Full-corpus context extraction: the three layers that survived the gate.
 
 ## What runs, and what does not
 
-Five of the original eight layers are extracted. The three that are not
-are excluded on evidence recorded in `d4_findings_log.md`:
+Three of the original eight layers are extracted. Every figure below is
+validator-gated - `d4_findings_log.md` experiment 8 found that the earlier
+kappas had been computed from records that merely parsed, and recomputing
+them flipped two verdicts. The pre-gate numbers this docstring used to quote
+are superseded, and the layers they justified are gone.
 
 | Layer | Status | Basis |
 |---|---|---|
-| issues | adopted | 0.729 against the reviewer, 0.798 between arms |
-| credit_blame | adopted | 0.600 / 0.670 |
-| consequence | adopted | 0.647 between arms; reviewer divergence documented |
-| stance (revised) | adopted | 0.848 / 0.741 after the redesign |
-| framing (revised) | adopted for 2 of 4 frames | 0.705 and 0.635 between arms |
+| issues | **adopted** | 0.616 against the reviewer (n=53), 0.742 between arms - the only original layer clearing both rulers |
+| stance (revised) | **adopted** | 0.741 / 0.848 after the redesign |
+| framing (revised) | **adopted for 2 of 4 frames** | 0.705 and 0.635 between arms |
+| credit_blame | **excluded** | 0.521 / 0.516 against the reviewer; a binary redesign scored worse still |
+| consequence | **excluded** | 0.259 frozen; a redesign replicated at 0.598 on both arms against a 0.600 bar |
 | temporal / horizon | **excluded** | failed the reviewer, the inter-model and a coarsened re-test |
 | local_national_relevance | not in the D4 gate | never validated; not used |
 | confidence_evidence | not in the D4 gate | never validated; not used |
@@ -21,14 +24,28 @@ failed. That is the whole point of the redesign, and the outputs must be
 read as three-level portrayal and four binary frames - not as the
 five-level stance or sixteen-way framing the original schema described.
 
-## Why the model is Haiku
+## Why the model is chosen per layer
 
-On its own gate results, not on price. It clears `attribution_type`
-(0.600 against 0.531) and the Reform relevance flag (0.680 against 0.288)
-where Sonnet does not, and it produced no malformed JSON in the framing
-rescue where Sonnet produced five in sixty. Its batch price also happens
-to be half Sonnet's introductory rate, which is a reason to be pleased
-rather than the reason for choosing it.
+Not once globally, and not on price. The three original layers require every
+evidence span to appear character-for-character in the article, and on the
+same 60 D4 articles Haiku satisfied that on 333 of 582 spans against Sonnet's
+618 of 622 - which the validator turns into a third of the records being
+discarded. So `issues` runs on Sonnet, verified again on the narrow tranche
+at 327 of 327 spans.
+
+The two revised layers dropped the span requirement in favour of a free-text
+reason, and there the evidence points the other way: Haiku fails 0-2% on
+format where Sonnet failed the framing rescue at 8.3%, and matches or beats
+it on the judgement (stance 0.741 against 0.736). So they run on Haiku. The
+framing choice is a genuine trade-off rather than a rout - Sonnet has better
+human recall there, 0.583 against 0.491 - and it went to Haiku because an
+8.3% format failure exceeds the health check's own 5% bar and would cost
+roughly a hundred and thirty articles their frame data.
+
+An earlier version of this docstring said the model was Haiku throughout, on
+the strength of attribution at 0.600 and the Reform flag at 0.680. Neither
+survived: attribution's 0.600 was ungated, and the Reform flag lives in the
+excluded consequence layer and is now a deterministic pattern match instead.
 
 ## Why duplicates are not deduplicated first
 
@@ -73,15 +90,28 @@ of the funnel each figure comes from.
 
 ## Tranches
 
-`--tranche narrow` extracts only articles in the four windows within
-thirty days of polling - the highest-signal subset, and small enough that
-a fault costs almost nothing to discover. `--tranche all` extracts every
-eligible article. The narrow tranche is a health check, not a sample: its
-articles are extracted once and reused, so nothing is paid twice.
+`narrow` extracts the four windows within thirty days of polling - the
+highest-signal subset, small enough that a fault costs almost nothing to
+find. It passed, and then turned out to be 89 of 1,638 articles drawn from
+windows worth 5.6% of the corpus.
+
+`far`, and any tranche whose name begins with it, draws from the two windows
+that hold the other 94% - 180-to-91 days is 1,308 articles on its own, and
+the production runner had never touched it. Each far draw excludes the
+articles previous far draws used, so a fix designed from one draw's failures
+is validated on articles it has not seen. Their manifests are separate files
+for the same reason: overwriting `far` with `far2` would erase the record of
+the gate that failed.
+
+`all` is every remaining eligible article. It skips whatever earlier tranches
+already extracted cleanly, so no article is submitted or paid for twice - the
+tranches partition the corpus rather than overlapping it.
 
 Usage:
     python3 -m src.llm_extraction.run_corpus_extraction submit narrow
     python3 -m src.llm_extraction.run_corpus_extraction collect narrow
+    python3 -m src.llm_extraction.run_corpus_extraction submit far2
+    python3 -m src.llm_extraction.run_corpus_extraction collect far2
     python3 -m src.llm_extraction.run_corpus_extraction submit all
     python3 -m src.llm_extraction.run_corpus_extraction collect all
 """
@@ -141,7 +171,17 @@ LAYER_ARMS = {
     "stance_revised": "haiku",
     "framing_revised": "haiku",
 }
-EXTRACTION_VERSION = "corpus-extraction-v1.1-2026-07-30"
+# v1.2 adds one rule to the issues prompt and changes nothing else. The far
+# gate failed on that layer at 5.6% schema failure against a 5% bar, and three
+# of its five failures were the model volunteering a property the schema
+# forbids - secondary_issues_note, issue_other_label, and political_relevance
+# at a level the schema does not declare it. Rule 7 now names the two fields
+# the schema provides for anything that needs saying, and states what an
+# undeclared key costs. The schema contract itself is untouched, so records
+# extracted under v1.1 and v1.2 are comparable; the manifest records which
+# tranche used which, because a formatting instruction added mid-run is a
+# version split a reader is entitled to see.
+EXTRACTION_VERSION = "corpus-extraction-v1.3-2026-07-30"
 
 RECORDS = Path("data/raw/news/records")
 TEXT = Path("data/raw/news/text")
@@ -238,9 +278,13 @@ ORIGINAL_LAYERS = {
 # against the human presence labels already recorded, and attribution is
 # excluded outright. Removing them from the full run also drops two of the
 # three Sonnet layers, which is the larger part of the corpus spend.
+# Both rescues have now reported, so these reasons are final rather than
+# provisional. Each layer had two attempts, the same as stance and framing.
 EXCLUDED_LAYERS = {
-    "credit_blame": "fails D4 gate, kappa 0.521 at n=57; no definitional fix",
-    "consequence": "fails D4 gate, kappa 0.259 at n=55; rescue attempt pending",
+    "credit_blame": ("fails D4 gate at kappa 0.521 (n=57); a binary redesign "
+                     "scored 0.272 on blame, worse than the layer it replaced"),
+    "consequence": ("fails D4 gate at kappa 0.259 (n=55); a redesign "
+                    "replicated at 0.598 on both arms against a 0.600 bar"),
 }
 
 STANCE_DECISIONS = ("unfavourable", "favourable", "neither")
@@ -273,8 +317,19 @@ def eligible_articles() -> dict[str, dict]:
     return include
 
 
-def load_tranche(tranche: str) -> tuple[dict[str, dict], list[str], dict]:
-    """Articles for this tranche, the raw-text fallback ids, and a census."""
+def load_tranche(tranche: str, only_ids: set[str] | None = None
+                 ) -> tuple[dict[str, dict], list[str], dict]:
+    """Articles for this tranche, the raw-text fallback ids, and a census.
+
+    ``only_ids`` returns exactly those articles and applies no sampling or
+    exclusion. Anything reading a tranche *after* it ran must use it, because
+    the tranche rules are not stable over time: the far sampler excludes
+    articles previous far draws used, so re-deriving `far2` after `far2` has
+    been collected yields a third, different sample. The health check did that
+    and scored far2's evidence spans against 89 articles far2 never saw,
+    reporting 0 of 314 verified. The figure was an artefact of the checker, not
+    a property of the extraction.
+    """
     include = eligible_articles()
     dates = {r["article_id"]: r for r in csv.DictReader(EFFECTIVE_DATES.open())}
     normalised = load_articles()
@@ -286,6 +341,8 @@ def load_tranche(tranche: str) -> tuple[dict[str, dict], list[str], dict]:
               "by_window": {}}
 
     for aid, meta in include.items():
+        if only_ids is not None and aid not in only_ids:
+            continue
         d = dates.get(aid)
         if not d or not d.get("effective_date"):
             census["no_effective_date"] += 1
@@ -312,7 +369,7 @@ def load_tranche(tranche: str) -> tuple[dict[str, dict], list[str], dict]:
             census["by_window"].get(placed.window, 0) + 1)
         if tranche == "narrow" and placed.window not in NARROW_WINDOWS:
             continue
-        if tranche == "far" and placed.window not in FAR_WINDOWS:
+        if tranche.startswith("far") and placed.window not in FAR_WINDOWS:
             continue
 
         if aid in normalised:
@@ -346,12 +403,21 @@ def load_tranche(tranche: str) -> tuple[dict[str, dict], list[str], dict]:
         article["window"] = placed.window
         out[aid] = article
 
-    if tranche == "far":
+    if tranche.startswith("far") and only_ids is None:
         # A reproducible sample, proportional to each far window's share, so
         # the tranche is not silently all one window. Ordered by
         # sha256(article_id) for the same reason the D4 sampler was: it is
         # deterministic, independent of the corpus's insertion order, and
         # reproducible from the ids alone without storing a seed.
+        # Exclude anything a previous far draw already used. A fix designed by
+        # looking at how 89 articles failed cannot be validated on those same
+        # 89: passing might mean only that the specific failures were patched.
+        # So each far draw is fresh, and the frame shrinks by what has been
+        # spent. 1,543 articles in these two windows leaves plenty of room.
+        used = far_articles_already_drawn()
+        if used:
+            census["far_previously_drawn"] = len(used)
+            out = {a: v for a, v in out.items() if a not in used}
         by_window: dict[str, list[str]] = {}
         for aid, art in out.items():
             by_window.setdefault(art["window"], []).append(aid)
@@ -374,7 +440,7 @@ def load_tranche(tranche: str) -> tuple[dict[str, dict], list[str], dict]:
         # how much of a tranche came from provisional text.
         fallback = [a for a in fallback if a in keep]
 
-    if tranche == "all":
+    if tranche == "all" and only_ids is None:
         # Skip whatever earlier tranches already extracted. The docstring has
         # claimed since this module was written that the full run reuses those
         # extractions rather than repeating them; until now it did not, and
@@ -386,6 +452,23 @@ def load_tranche(tranche: str) -> tuple[dict[str, dict], list[str], dict]:
             out = {a: v for a, v in out.items() if a not in done}
 
     return out, fallback, census
+
+
+def far_articles_already_drawn() -> set[str]:
+    """Every article a previous far draw used, whether it succeeded or not.
+
+    Read from the far batch manifests rather than the outputs, because an
+    article that was submitted and failed has still been seen by the
+    experiment: reusing it to validate a fix designed from its failure is the
+    same error as reusing a passing one.
+    """
+    used: set[str] = set()
+    for path in sorted(Path("llm_context").glob(
+            "corpus_extraction_outputs_far*.json")):
+        payload = json.loads(path.read_text())
+        for rows in payload.get("layers", {}).values():
+            used |= {r["article_id"] for r in rows}
+    return used
 
 
 def already_extracted() -> set[str]:

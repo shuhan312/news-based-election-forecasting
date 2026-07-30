@@ -1,0 +1,89 @@
+{
+  "tranche": "far2",
+  "layer_models": {
+    "issues": "claude-sonnet-5",
+    "stance_revised": "claude-haiku-4-5",
+    "framing_revised": "claude-haiku-4-5"
+  },
+  "articles": 89,
+  "thresholds": {
+    "max_schema_failure_rate": 0.05,
+    "min_quote_verification": 0.95,
+    "max_cost_multiple": 2.0,
+    "d4_empty_rate_baseline": {
+      "issues": 0.183,
+      "framing_revised": 0.4,
+      "stance_revised": 0.0,
+      "credit_blame": 0.316,
+      "consequence": 0.438
+    },
+    "empty_rate_regression_allowance": 0.15
+  },
+  "layers": {
+    "issues": {
+      "articles": 89,
+      "failed": 11,
+      "counts_toward_gate": true,
+      "excluded_reason": null,
+      "schema_failure_rate": 0.1236,
+      "empty_records": 8,
+      "empty_record_rate": 0.0899,
+      "empty_rate_d4_baseline": 0.183,
+      "empty_rate_allowance": 0.333,
+      "quote_spans_checked": 314,
+      "quote_spans_verified": 312,
+      "quote_verification_rate": 0.9936,
+      "problems": [
+        "schema failure 12.4% exceeds 5%"
+      ],
+      "passes": false
+    },
+    "stance_revised": {
+      "articles": 58,
+      "failed": 0,
+      "counts_toward_gate": true,
+      "excluded_reason": null,
+      "schema_failure_rate": 0.0,
+      "empty_records": 0,
+      "empty_record_rate": 0.0,
+      "empty_rate_d4_baseline": 0.0,
+      "empty_rate_allowance": 0.15,
+      "quote_spans_checked": 0,
+      "quote_spans_verified": 0,
+      "quote_verification_rate": null,
+      "problems": [],
+      "passes": true
+    },
+    "framing_revised": {
+      "articles": 89,
+      "failed": 0,
+      "counts_toward_gate": true,
+      "excluded_reason": null,
+      "schema_failure_rate": 0.0,
+      "empty_records": 14,
+      "empty_record_rate": 0.1573,
+      "empty_rate_d4_baseline": 0.4,
+      "empty_rate_allowance": 0.55,
+      "quote_spans_checked": 0,
+      "quote_spans_verified": 0,
+      "quote_verification_rate": null,
+      "problems": [],
+      "passes": true
+    }
+  },
+  "cost": {
+    "tranche_usd": 1.7484,
+    "per_article_usd": 0.01965,
+    "projected_full_corpus_usd": 32.18,
+    "full_corpus_articles": 1638,
+    "note": "projected from this tranche's measured cost per article, at each layer's own batch rate; the full run reuses these 89 extractions rather than repeating them"
+  },
+  "required_layers": [
+    "framing_revised",
+    "issues",
+    "stance_revised"
+  ],
+  "missing_layers": [],
+  "overall_pass": false,
+  "verdict": "FAIL - stop. Do not submit the full corpus. Fix the named layer and re-validate on a fresh tranche; do not tune against these 89 articles"
+}
