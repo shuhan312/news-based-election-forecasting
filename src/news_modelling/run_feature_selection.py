@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import csv
 import json
+import sys
 from dataclasses import asdict
 from pathlib import Path
 
@@ -41,6 +42,7 @@ OUTPUT_DIRECTORY = REPO / "news_features/feature_selection_v1"
 # are not selected for here because a feature set chosen against one target is
 # not automatically right for another.
 PRIMARY_TARGET = "target__party_vote_share"
+LEGACY_OPT_IN = "--allow-legacy-pilot"
 
 
 def write_verdicts(path: Path, selection) -> None:
@@ -57,6 +59,18 @@ def write_verdicts(path: Path, selection) -> None:
 
 
 def main() -> None:
+    # The v1 ward table is downstream of the 67-article pilot, whereas the
+    # production feature table now carries a canonical release id for 1,632
+    # articles. Do not silently turn a pilot selection report into the current
+    # methodological conclusion. Explicit opt-in remains available solely for
+    # exact reproduction of the historical analysis.
+    if LEGACY_OPT_IN not in sys.argv:
+        raise RuntimeError(
+            "Blocked: feature_selection_v1 is a legacy 67-article pilot "
+            "analysis. Use --allow-legacy-pilot only for reproduction; migrate "
+            "selection to news_feature_table_v1 before fitting the news model."
+        )
+
     OUTPUT_DIRECTORY.mkdir(parents=True, exist_ok=True)
     frame = pd.read_parquet(FEATURE_TABLE)
 

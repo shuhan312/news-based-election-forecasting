@@ -2,12 +2,11 @@
 
 ## The grain, and why it is not the one the brief imagines
 
-The brief asks for features per ward. The corpus cannot deliver that: of 1,452
-included articles, 37 came from a ward-specific search and body-text matching
-against the 108 published area names recovers only 19 more - **3.9% carry an
-unambiguous area, 94.8% name no Surrey area at all**. On the 2026 test set, at
-most fifteen of 81 wards have any attributable local coverage, so an area-level
-feature would be roughly 85% missing exactly where it has to work.
+The brief asks for features per ward. The corpus cannot deliver that: in the
+current canonical 1,632-article release, 46 came from a ward-specific search and
+body-text matching against the 108 published area names recovers 22 more -
+**4.2% carry an unambiguous area, 94.2% name no unambiguous Surrey area at
+all**. Coverage is too sparse and uneven for a general ward-level feature.
 
 So the table is keyed on **(election, party, window)**. Joining it to the
 baseline's (election, area, party) rows broadcasts each value across the areas
@@ -71,9 +70,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from src.llm_extraction.run_corpus_extraction import (EXCLUDED_LAYERS,
-                                                     FRAME_KEYS, LAYER_ARMS,
-                                                     load_tranche)
+                                                     FRAME_KEYS, LAYER_ARMS)
 from src.llm_extraction.stance_rescue import PARTY_ALIASES
+from src.news_collection.canonical_corpus_release import (
+    OUTPUT as CANONICAL_MANIFEST,
+    build_release,
+)
 
 OUT_CSV = Path("news_features/news_feature_table_v1.csv")
 OUT_META = Path("news_features/news_feature_table_v1_metadata.json")
@@ -206,11 +208,32 @@ def main() -> None:
     records, provenance = load_records()
     article_ids = set().union(*(set(v) for v in records.values()))
 
-    # Load the articles these records describe, by id, so window, arm, source
-    # and election come from the same place the extraction used. Never
-    # re-derive a tranche: the far sampler's rule depends on history.
-    articles, _fallback, census = load_tranche("all", only_ids=article_ids)
-    corpus_size = sum(census["by_window"].values())
+    # Freeze the corpus before joining extraction records. The release manifest
+    # is the one place that unions the main, pilot and validation eligibility
+    # streams and then applies dates, principal-election scope, the confirmed
+    # six windows and text availability. This prevents the 120-local main-table
+    # subset from being mixed with the 188-local corpus used here.
+    release, canonical_articles = build_release()
+    CANONICAL_MANIFEST.write_text(
+        json.dumps(release, indent=2), encoding="utf-8"
+    )
+    corpus_size = release["usable_feature_corpus"]["articles"]
+
+    # Extraction records can legitimately cover fewer articles than the corpus
+    # (a layer may fail validation), but they may never introduce an article
+    # from another release. Stopping here is safer than writing a plausible-
+    # looking table whose denominator came from a different corpus version.
+    unexpected_ids = article_ids - set(canonical_articles)
+    assert not unexpected_ids, (
+        f"{len(unexpected_ids)} extraction article(s) are outside canonical "
+        f"release {release['release_id']}; first ids: "
+        f"{sorted(unexpected_ids)[:5]}"
+    )
+    articles = {
+        aid: canonical_articles[aid]
+        for aid in article_ids
+        if aid in canonical_articles
+    }
 
     # The guard the duplicate-counting hazard demands. An inflated article count
     # would inflate every volume feature, and it would do so silently.
@@ -227,6 +250,30 @@ def main() -> None:
     # judgement list, which was built from deterministic alias matching, so a
     # party appears here exactly when the article names it.
     party_cells: dict[tuple, Counter] = defaultdict(Counter)
+    # The same counters again, split by collection arm. Added 2026-07-30 for
+    # the five-arm comparison the supervisor's original email asks for
+    # (baseline / local / national / combined / full).
+    #
+    # Without this the arm comparison is vacuous by construction: the only
+    # arm-aware columns in the table were `local_article_count`,
+    # `national_article_count` and `local_share`, all of which sit at the
+    # per-election grain and therefore carry **two** distinct training values.
+    # A "local news model" built from a feature with two training values is
+    # not a local news model; it is the election indicator under another name.
+    # Splitting the per-party portrayal counters - the only block with ten
+    # training cells - is what makes "does local coverage do a different job
+    # from national coverage" a question the table can actually be asked.
+    #
+    # `arm` here is the **collection** arm: which search stream retrieved the
+    # article, which is the same definition `local_article_count` above
+    # already uses, so the new columns reconcile with the existing ones rather
+    # than introducing a second notion of local. The alternative definition -
+    # the LLM's own `scope_classification`, mapped through
+    # `news_modelling.news_arms.SCOPE_TO_ARM` - lives at article level and is
+    # a content judgement rather than a provenance fact. Mixing the two inside
+    # one table would make `local_article_count` and `local_party_article_count`
+    # count different things under the same word.
+    party_arm_cells: dict[tuple, Counter] = defaultdict(Counter)
     # Election-level counters, kept separate because their grain differs and
     # conflating them would hide that one has two training cells and the other
     # has ten.
@@ -264,6 +311,14 @@ def main() -> None:
                 cell = party_cells[(election, party, window)]
                 cell["party_article_count"] += 1
                 cell[f"portrayal_{portrayal}"] += 1
+                # Same increments, keyed by arm as well. Written as a second
+                # accumulator rather than by deriving the all-arm figure from
+                # the arm split, so every column already published keeps
+                # exactly the value it had; the reconciliation assertion below
+                # is what proves the two stay consistent.
+                arm_cell = party_arm_cells[(election, party, arm, window)]
+                arm_cell["party_article_count"] += 1
+                arm_cell[f"portrayal_{portrayal}"] += 1
 
     # --- emit one row per (election, party, window-or-snapshot) -----------
     def summed(cells: dict, key_prefix: tuple, windows) -> Counter:
@@ -282,6 +337,14 @@ def main() -> None:
             for period_name, member_windows in periods:
                 p = summed(party_cells, (election, party), member_windows)
                 e = summed(election_cells, (election,), member_windows)
+                by_arm = {
+                    arm: summed(
+                        party_arm_cells,
+                        (election, party, arm),
+                        member_windows,
+                    )
+                    for arm in ("local", "national")
+                }
                 total = e["article_count"]
                 if not total and not p["party_article_count"]:
                     continue
@@ -311,6 +374,48 @@ def main() -> None:
                     "reform_named_count": e["reform_named_count"],
                     "reform_share_of_coverage": round(e["reform_named_count"] / total, 6) if total else "",
                 }
+
+                # Emit the same party-level signal separately for local and
+                # national collection arms. These are the columns needed for
+                # the supervisor's baseline/local/national/combined comparison;
+                # election-level local_share alone has only two training values
+                # and cannot identify a local-news coefficient.
+                for arm, arm_party in by_arm.items():
+                    arm_total = e[f"{arm}_article_count"]
+                    arm_party_count = arm_party["party_article_count"]
+                    arm_unfav = arm_party["portrayal_unfavourable"]
+                    arm_fav = arm_party["portrayal_favourable"]
+                    prefix = f"{arm}_"
+                    row[f"{prefix}party_article_count"] = arm_party_count
+                    row[f"{prefix}party_article_share"] = (
+                        round(arm_party_count / arm_total, 6)
+                        if arm_total else ""
+                    )
+                    row[f"{prefix}unfavourable_count"] = arm_unfav
+                    row[f"{prefix}favourable_count"] = arm_fav
+                    row[f"{prefix}net_portrayal"] = arm_fav - arm_unfav
+                    row[f"{prefix}net_portrayal_share"] = (
+                        round((arm_fav - arm_unfav) / arm_party_count, 6)
+                        if arm_party_count else ""
+                    )
+
+                # Collection arm is exhaustive in the canonical release. These
+                # checks catch a misspelled/new arm or an aggregation error at
+                # the exact row where it occurs, before any model can consume
+                # understated combined counts.
+                for key in (
+                    "party_article_count",
+                    "portrayal_unfavourable",
+                    "portrayal_favourable",
+                    "portrayal_neither",
+                ):
+                    assert p[key] == sum(block[key] for block in by_arm.values()), (
+                        f"arm reconciliation failed for {election}/{party}/"
+                        f"{period_name}/{key}: combined={p[key]}, "
+                        f"local+national="
+                        f"{sum(block[key] for block in by_arm.values())}"
+                    )
+
                 for group in list(ISSUE_GROUPS) + ["issue_other", "none"]:
                     n = e[f"issue_{group}_count"]
                     row[f"issue_{group}_count"] = n
@@ -325,7 +430,11 @@ def main() -> None:
 
     OUT_CSV.parent.mkdir(parents=True, exist_ok=True)
     with OUT_CSV.open("w", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+        # Pin LF so the generated CSV is byte-stable across platforms and does
+        # not appear to contain trailing whitespace in repository checks.
+        writer = csv.DictWriter(
+            handle, fieldnames=list(rows[0]), lineterminator="\n"
+        )
         writer.writeheader()
         writer.writerows(rows)
 
@@ -367,10 +476,20 @@ def main() -> None:
         "periods": [p for p, _ in periods],
         "unique_articles": len(articles),
         "corpus_size": corpus_size,
+        "canonical_corpus_release_id": release["release_id"],
+        "canonical_corpus_manifest":
+            "news_collection/canonical_corpus_release_v1.json",
+        "canonical_corpus_by_arm":
+            release["usable_feature_corpus"]["by_arm"],
+        "terminal_include_articles":
+            release["terminal_include_union"]["articles"],
+        "excluded_after_terminal_include":
+            release["excluded_after_terminal_include"],
         "grain": "election x party x period",
-        "grain_note": ("Not area-level: 94.8% of included articles name no "
-                       "Surrey area, and on the 2026 test set at most fifteen "
-                       "of 81 wards carry attributable local coverage."),
+        "grain_note": ("Not area-level: 94.2% of canonical articles carry no "
+                       "unambiguous Surrey-area attribution, and the remaining "
+                       "coverage is too sparse and uneven to support a general "
+                       "ward-level feature."),
         "reform_training_articles": sum(
             1 for r in train_rows if r["standard_party_key"] == "reform_uk"
             and r["party_article_count"]),

@@ -19,6 +19,7 @@ import csv
 from collections.abc import Sequence
 import hashlib
 import json
+import sys
 from datetime import date, datetime, timezone
 from pathlib import Path
 
@@ -59,6 +60,7 @@ CONTRACT = REPO / (
     "no_news_candidate_contest_features.json")
 NEWS = REPO / "news_features"
 OUT = REPO / "news_features/ward_party_election_features_v1"
+LEGACY_OPT_IN = "--allow-legacy-pilot"
 
 
 def read_csv(path: Path) -> list[dict]:
@@ -173,6 +175,21 @@ def bundle_fingerprint(directory: Path) -> str:
 
 
 def main() -> None:
+    # This builder still consumes the 67-article pilot chain
+    # (article_level_news_features -> context/recency aggregation). The current
+    # production corpus is the release recorded in
+    # canonical_corpus_release_v1.json and is aggregated at election x party x
+    # period. Running this command without an explicit acknowledgement would
+    # recreate a large, recent-looking ward table from the obsolete pilot and
+    # is exactly how mixed-lineage conclusions arise.
+    if LEGACY_OPT_IN not in sys.argv:
+        raise RuntimeError(
+            "Blocked: run_ward_party_features still consumes the legacy "
+            "67-article pilot, not canonical_corpus_release_v1.json. Use "
+            "--allow-legacy-pilot only to reproduce the historical pilot; "
+            "do not use that output for the final news model."
+        )
+
     OUT.mkdir(parents=True, exist_ok=True)
     before = bundle_fingerprint(BUNDLE)
 

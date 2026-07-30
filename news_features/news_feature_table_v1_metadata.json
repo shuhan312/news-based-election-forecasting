@@ -30,8 +30,30 @@
   ],
   "unique_articles": 1632,
   "corpus_size": 1632,
+  "canonical_corpus_release_id": "canonical-news-v1-59d113bb9c28",
+  "canonical_corpus_manifest": "news_collection/canonical_corpus_release_v1.json",
+  "canonical_corpus_by_arm": {
+    "local": 188,
+    "national": 1444
+  },
+  "terminal_include_articles": 1638,
+  "excluded_after_terminal_include": {
+    "articles": 6,
+    "no_effective_date": 0,
+    "not_a_principal_election": 0,
+    "outside_all_windows": 0,
+    "no_extracted_text": 6,
+    "no_extracted_text_ids": [
+      "NEWS-guardian_api-2ef2c7bd5536",
+      "NEWS-guardian_api-4758fb4be13e",
+      "NEWS-guardian_api-8aadc09fa9eb",
+      "NEWS-guardian_api-aae0d552d3f5",
+      "NEWS-guardian_api-b14821938693",
+      "NEWS-guardian_api-ce614f0fffc6"
+    ]
+  },
   "grain": "election x party x period",
-  "grain_note": "Not area-level: 94.8% of included articles name no Surrey area, and on the 2026 test set at most fifteen of 81 wards carry attributable local coverage.",
+  "grain_note": "Not area-level: 94.2% of canonical articles carry no unambiguous Surrey-area attribution, and the remaining coverage is too sparse and uneven to support a general ward-level feature.",
   "reform_training_articles": 0,
   "training_variation": {
     "party_article_count": {
@@ -98,6 +120,66 @@
       "distinct_training_values_within_period": 1,
       "distinct_training_values_pooled_across_periods": 1,
       "verdict": "insufficient"
+    },
+    "local_party_article_count": {
+      "distinct_training_values_within_period": 9,
+      "distinct_training_values_pooled_across_periods": 20,
+      "verdict": "fittable_not_reportable"
+    },
+    "local_party_article_share": {
+      "distinct_training_values_within_period": 9,
+      "distinct_training_values_pooled_across_periods": 33,
+      "verdict": "fittable_not_reportable"
+    },
+    "local_unfavourable_count": {
+      "distinct_training_values_within_period": 6,
+      "distinct_training_values_pooled_across_periods": 12,
+      "verdict": "fittable_not_reportable"
+    },
+    "local_favourable_count": {
+      "distinct_training_values_within_period": 5,
+      "distinct_training_values_pooled_across_periods": 8,
+      "verdict": "fittable_not_reportable"
+    },
+    "local_net_portrayal": {
+      "distinct_training_values_within_period": 8,
+      "distinct_training_values_pooled_across_periods": 17,
+      "verdict": "fittable_not_reportable"
+    },
+    "local_net_portrayal_share": {
+      "distinct_training_values_within_period": 7,
+      "distinct_training_values_pooled_across_periods": 24,
+      "verdict": "fittable_not_reportable"
+    },
+    "national_party_article_count": {
+      "distinct_training_values_within_period": 11,
+      "distinct_training_values_pooled_across_periods": 35,
+      "verdict": "usable"
+    },
+    "national_party_article_share": {
+      "distinct_training_values_within_period": 11,
+      "distinct_training_values_pooled_across_periods": 46,
+      "verdict": "usable"
+    },
+    "national_unfavourable_count": {
+      "distinct_training_values_within_period": 11,
+      "distinct_training_values_pooled_across_periods": 29,
+      "verdict": "usable"
+    },
+    "national_favourable_count": {
+      "distinct_training_values_within_period": 11,
+      "distinct_training_values_pooled_across_periods": 21,
+      "verdict": "usable"
+    },
+    "national_net_portrayal": {
+      "distinct_training_values_within_period": 11,
+      "distinct_training_values_pooled_across_periods": 27,
+      "verdict": "usable"
+    },
+    "national_net_portrayal_share": {
+      "distinct_training_values_within_period": 10,
+      "distinct_training_values_pooled_across_periods": 45,
+      "verdict": "usable"
     },
     "issue_immigration_count": {
       "distinct_training_values_within_period": 2,
@@ -216,7 +298,13 @@
     "unfavourable_count",
     "favourable_count",
     "net_portrayal",
-    "net_portrayal_share"
+    "net_portrayal_share",
+    "national_party_article_count",
+    "national_party_article_share",
+    "national_unfavourable_count",
+    "national_favourable_count",
+    "national_net_portrayal",
+    "national_net_portrayal_share"
   ],
   "provenance": {
     "per_layer_tranche_prompt": {
