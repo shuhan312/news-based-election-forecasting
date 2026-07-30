@@ -648,6 +648,13 @@ def cmd_submit(tranche: str) -> None:
         # looks like provenance. `collect` reads this and verifies the current
         # prompt still matches before it stamps or retries anything.
         "layer_prompt_sha256": _layer_prompt_fingerprints(),
+        # The article ids this tranche was submitted on. Without them a later
+        # collect can only re-derive the tranche, and the tranche rules are not
+        # stable over time: the far sampler excludes what previous draws used,
+        # so re-deriving `far3` after it has been collected returns a fourth,
+        # different sample. Checked rather than assumed - re-deriving far3 after
+        # collection overlaps its real articles by zero.
+        "article_ids": sorted(arts),
         "articles": len(arts), "raw_text_fallback_ids": fallback,
         "census": census, "stance_question_sets": stance_sets,
         "layers": batches,
@@ -959,11 +966,42 @@ def _sync_layer(layer: str, arts: dict, meta: dict) -> tuple[list[dict], dict]:
                   "model": model, "transport": "standard_api"}
 
 
+def _tranche_article_ids(tranche: str, meta: dict) -> set[str] | None:
+    """The article ids a tranche was submitted on, from the strongest source.
+
+    In order: the manifest's own list, written at submit time; then the ids
+    present in an outputs file from a previous collect; then None, meaning
+    re-derive, which is warned about because it is not reliable. The tranche
+    rules are not stable over time - the far sampler excludes what previous far
+    draws used - so re-deriving `far3` after collecting it returns a fourth,
+    different sample that overlaps the real one by zero articles. A collect that
+    did that would extract the wrong articles and overwrite the record of what
+    was actually run.
+    """
+    ids = meta.get("article_ids")
+    if ids:
+        return set(ids)
+    out = Path(f"llm_context/corpus_extraction_outputs_{tranche}.json")
+    if out.exists():
+        payload = json.loads(out.read_text())
+        found = {r["article_id"] for rows in payload.get("layers", {}).values()
+                 for r in rows}
+        if found:
+            print(f"manifest has no article_ids; using the {len(found)} ids "
+                  f"recorded in {out.name}")
+            return found
+    print(f"WARNING: no article_ids in the manifest and no previous outputs "
+          f"for {tranche}; falling back to re-deriving the tranche, which is "
+          f"only safe for a tranche whose rule does not depend on history")
+    return None
+
+
 def cmd_collect(tranche: str, sync_layers: set[str] | None = None) -> None:
     batch_path, out_path = _paths(tranche)
     meta = json.loads(batch_path.read_text())
     client = anthropic.Anthropic()
-    arts, _fallback, _census = load_tranche(tranche)
+    arts, _fallback, _census = load_tranche(
+        tranche, only_ids=_tranche_article_ids(tranche, meta))
 
     # Wait only for the layers the gate depends on. An excluded layer's batch
     # was already submitted and paid for, and its results stay retrievable for

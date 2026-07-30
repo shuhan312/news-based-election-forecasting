@@ -130,3 +130,4 @@ llm_context/consequence_rescue_outputs*.json
 # spans - 36 verbatim quotations, ~5,000 characters of article text on the far3
 # diagnosis alone. Same copyright policy as the extraction outputs.
 llm_context/issues_failure_diagnosis_*.json
+llm_context/step2_far3_rerun.log
