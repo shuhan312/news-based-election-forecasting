@@ -1,0 +1,67 @@
+{
+  "gate": {
+    "primary": "kappa >= 0.6",
+    "fallback": "AC1 >= 0.6 and agreement >= 0.8 when a marginal >= 0.9"
+  },
+  "scoring_rule": "declared in consequence_rescue's docstring before submission: presence binary is primary, direction on jointly-present articles is secondary, no other variant computed",
+  "arms": {
+    "sonnet": {
+      "error": "llm_context/consequence_rescue_outputs.json not collected yet"
+    },
+    "haiku": {
+      "model": "claude-haiku-4-5",
+      "records_accepted": 60,
+      "records_total": 60,
+      "validator_rejected": 0,
+      "decision_marginals": {
+        "none": 49,
+        "damage": 6,
+        "benefit": 5
+      },
+      "human_marginals": {
+        "none": 42,
+        "potential_damage": 8,
+        "mixed_impact": 5,
+        "unclear": 3,
+        "potential_benefit": 2
+      },
+      "primary_presence": {
+        "pairs": 60,
+        "percent_agreement": 0.85,
+        "kappa": 0.598,
+        "ac1": 0.763,
+        "max_marginal": 0.817,
+        "skew_trigger": false,
+        "verdict": "fails",
+        "passes": false
+      },
+      "secondary_direction": {
+        "pairs": 5,
+        "percent_agreement": 1.0,
+        "kappa": 1.0,
+        "ac1": 1.0,
+        "max_marginal": 0.8,
+        "skew_trigger": false,
+        "verdict": "passes (primary kappa)",
+        "passes": true
+      },
+      "direction_excluded_no_counterpart": 8,
+      "frozen_presence_same_test": {
+        "pairs": 29,
+        "percent_agreement": 0.724,
+        "kappa": 0.318,
+        "ac1": 0.565,
+        "max_marginal": 0.897,
+        "skew_trigger": false,
+        "verdict": "fails",
+        "passes": false
+      },
+      "usage": {
+        "input_tokens": 150117,
+        "output_tokens": 34173
+      }
+    }
+  },
+  "verdict": "PRESENCE FAILS on haiku - the rescue did not work. The layer is dropped. Per the pre-statement no further scoring variant is tried",
+  "overall_pass": false
+}

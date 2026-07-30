@@ -1,0 +1,498 @@
+{
+  "version": "consequence-rescue-v1.0-2026-07-30",
+  "arm": "haiku",
+  "model": "claude-haiku-4-5",
+  "usage": {
+    "input_tokens": 150117,
+    "output_tokens": 34173
+  },
+  "articles_ok": 60,
+  "articles_total": 60,
+  "decisions": [
+    "none",
+    "damage",
+    "benefit"
+  ],
+  "results": [
+    {
+      "article_id": "NEWS-surreylive-938b4b38443f",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports a stabbing and arrest but contains no clause asserting any consequence for votes, seats, support, or control of the council.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-32652e99bc22",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports public opinion polling and MP criticism of the aid policy, but makes no assertion about electoral consequences in terms of votes, seats, support, or control.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-1a41f71c116d",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports allegations of past racist and antisemitic behavior and contemporary rejections of Farage's explanations, but contains no clause asserting a consequence for votes, seats, party support, election outcomes, or control.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-0b11943945c9",
+      "batch_result": "succeeded",
+      "decision": "benefit",
+      "party": "Labour",
+      "reason": "The article states that John Harris at the Guardian finds Labour on course to win the byelection in Corby.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-a44a37b3b283",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports complaints about slow transfers of asylum-seeking children and funding issues, but contains no clause asserting consequences for votes, seats, council control, party support, or any other electoral quantity.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-b6967f5376d3",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports a traffic accident and police response with no mention of votes, seats, electoral support, control, or any other electoral quantity.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guildford_dragon-c4c267f5f96d",
+      "batch_result": "succeeded",
+      "decision": "damage",
+      "party": "the Conservatives",
+      "reason": "The letter asserts that residents 'will use their votes accordingly in the county elections on May 6' in response to what it characterizes as 'blatant, cynical Conservative electioneering,' implying voters will vote against the party.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-bbc_surrey-977a0d0a4f74",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports a criminal prosecution and sentencing for firearms smuggling and is devoid of any reference to votes, seats, support, electoral outcomes, or control of any council.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-fcfb81b2dc09",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article is a discussion roundup about restorative justice policy and practice with no mention of votes, seats, electoral support, or control of any council.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-ea7dd4642df3",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article discusses healthcare administration and social media use within a Clinical Commissioning Group, with no reference to votes, electoral support, seats, council control, or any other electoral quantity.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-64d0584b57fa",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article criticizes NHS management and policy decisions, including those of health secretary Jeremy Hunt, but does not assert any consequence for votes, seats, support levels, or electoral control.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-3dd2ab7556e7",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "Although the article discusses rising unemployment and its impact on the government's economic challenges and tax take, it contains no explicit assertion about votes, seats, electoral support, or control of government changing as a result.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-84a775d4ad10",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports that Reform UK made campaign promises it cannot keep and faces criticism for this, but it does not assert any electoral consequence such as lost votes, seats, support, or control.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-c4dcbaa0515e",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article describes political controversy over housing targets and a government policy reversal, but contains no clause asserting an impact on votes, seats, support, or electoral control.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-d05e30e901e5",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "This article reports on a road traffic accident, emergency response, and traffic disruption but contains no clause about votes, seats, support, control, or any other electoral quantity.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-2037e4eda9eb",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article criticizes government handling of COVID-19 extensively, but contains no clause asserting a specific electoral consequence such as loss or gain of votes, seats, support, or control.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-f179eb8f1ab9",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article covers the BBC crisis, Trump's legal threat, criticism of BBC impartiality, and government responses to various policy issues, but contains no clause asserting consequences for votes, seats, support levels, or control of elected bodies.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-b1f737e52256",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports safety concerns at a railway crossing and mentions a petition to Surrey County Council, but contains no assertion about votes, seats, support, control of the council, or any other electoral quantity.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-7a29d15d8401",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article is a factual listing of candidates and background information on current political control in the areas affected, but contains no clause asserting that any party's electoral position, votes, seats, support, or control will change as a result of this election.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-3867309607e1",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article discusses improved civic engagement and perception of local government through podcasts but does not assert any consequence for votes, seats, support, turnout, or electoral control.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-2fcab156b766",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article discusses IDS's views on EU policy and a parliamentary Commons vote on the EU budget, but contains no assertion about electoral votes, seats, support, or control.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-33fde8b6d2bc",
+      "batch_result": "succeeded",
+      "decision": "damage",
+      "party": "Labour",
+      "reason": "The article explicitly warns of 'extreme electoral danger for the party in England' if a snap election is called, based on Labour's fourth-place finish and loss of deposit in this byelection.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-896faad4b594",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports Labour's strategic decisions and messaging efforts but does not assert that these will result in specific electoral consequences such as gaining or losing votes, seats, or support.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-bbc_surrey-4739f8ec453a",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article is a crime appeal with no mention of votes, seats, support, control, electoral outcomes, or any other electoral quantity.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-ae8d528a0868",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports budget cuts and their impact on services, but contains no statement about votes, seats, electoral support, or control of the council.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-bbc_surrey-956003a841b5",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports a crime incident but contains no reference to votes, seats, electoral support, council control, or any other electoral quantity.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-bbc_surrey-efe6c71df344",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports a police investigation and arrest for criminal damage to trees but contains no clause asserting any electoral consequence such as votes, seats, support, or control.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-8a783705f74e",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article criticises government policy on PFI and NHS closures but does not assert any consequence for votes, seats, support, or control of the council.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-7500f66e845f",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports improvements to the Home Oxygen Service and cost savings to the NHS, but contains no reference to votes, seats, electoral support, council control, turnout, or any other electoral quantity.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-ed80536b929e",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "Although the article reports political controversy, government decisions, and approval rating changes, it contains no clause asserting electoral consequences such as changes in votes, seats, party support, or control of office.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-f9c82f1235c8",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article discusses economic policy criticism and inflation risks but contains no statement about votes, seats, electoral support, or control of any elected body.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-097b30b5bdb0",
+      "batch_result": "succeeded",
+      "decision": "benefit",
+      "party": "Labour",
+      "reason": "The article states that Labour increased its majority in the byelection and substantially increased its share of votes from the 2010 election.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-b1eaf77d795f",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports Hunt's campaign launch and priorities, and notes his safe seat majority of 28,556 votes, but makes no assertion that any of these elements will change his electoral position or support.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-9f80db7dd6d3",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article lists candidates and explains the electoral system and timeline but contains no clause asserting any party's electoral outcome, vote share, seats, or control of the council.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-39affecd8be2",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports criminal sentencing but contains no assertion about electoral consequences, votes, seats, party support, or control of the council.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-34881ec267e4",
+      "batch_result": "succeeded",
+      "decision": "damage",
+      "party": "Labour",
+      "reason": "The article reports a Survation poll showing the Conservatives 'on course to beat Labour by seven points in the byelection' and describes this as 'a dire result for Sir Keir Starmer,' explicitly asserting an electoral consequence for Labour's seat position.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-3aa227967a6d",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The letter discusses women's health issues, employer support, and government policy plans, but contains no clause asserting any consequence for votes, seats, support levels, or control of any council.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-24f48a444223",
+      "batch_result": "succeeded",
+      "decision": "benefit",
+      "party": "Conservatives",
+      "reason": "The article states that Downing Street hopes to win swing seats in 2024 through the levelling-up fund allocation.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-5ce140b45966",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports a service failure and calls for investigation but contains no assertion about votes, seats, support, or control of the council.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-d74f5e4509df",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article presents Labour's policy proposals and criticism of the government's climate plans, but contains no explicit statement about votes, seats, support, or electoral outcomes.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-0240a09cb3df",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports on diplomatic relations between Johnson and Biden following the US election but contains no clause asserting any electoral consequence for UK votes, seats, support, or control.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-5e3328cf929c",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports policy failures and calls for government action on BAME financial hardship but contains no assertion about votes, seats, support, or electoral outcomes.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-13c48e6a3545",
+      "batch_result": "succeeded",
+      "decision": "damage",
+      "party": "Labour",
+      "reason": "Sharon Graham of Unite, quoted in the article, asserts that Labour will be 'decimated' in the May elections, and an analysis mentioned states Labour could lose one in four councillors.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-0542986e54ba",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article criticizes Conservative governance and predicts public dissatisfaction with Brexit ('the country becomes sick of hearing about them'), but it does not explicitly assert an electoral consequence such as a change in votes, seats, support or control.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-351db380e072",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article is a biographical obituary with no mention of elections, voting, political support, seats, council control, or any other electoral quantity.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-bbc_surrey-9322d4431ec0",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports crop losses and financial damage to Surrey growers but contains no assertion about votes, seats, support, control, or any other electoral quantity.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-bb20adee0f3a",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports on NHS funding disputes and performance problems, political criticism by Labour, and tensions between Downing Street and the NHS boss, but contains no clause asserting consequences for votes, seats, support or electoral control.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-8ae0aa97db90",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article discusses a Lords scandal, investigation findings, and potential institutional reform, but contains no clause asserting consequences for votes, seats, party support, majorities, or electoral control.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-656a147b1b36",
+      "batch_result": "succeeded",
+      "decision": "damage",
+      "party": "Labour",
+      "reason": "The article references a finding that Labour risks election wipeout unless it improves Britain's high streets, explicitly asserting a potential electoral consequence.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-383fdf4ab4cd",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article criticizes Mahmood's policies and framing but contains no clause asserting that these will result in changed votes, seats, party support, or electoral control.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guildford_dragon-d8c0187430a0",
+      "batch_result": "succeeded",
+      "decision": "benefit",
+      "party": "UKIP",
+      "reason": "George Johnson, UKIP county councillor, asserts that UKIP will exceed the four million votes from the last election and achieve parliamentary representation.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-bbc_surrey-8cf8f699dc50",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports a serious crime incident and police response but contains no mention of votes, seats, support, turnout, or any other electoral quantity.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-fc42fa870ddc",
+      "batch_result": "succeeded",
+      "decision": "damage",
+      "party": "SNP",
+      "reason": "The article states that 'a couple of running stories that could impact SNP support' in relation to ferry operator disruptions and infrastructure failures under SNP governance.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-2360b288b189",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article is entirely about a criminal case involving a dog attack and sentencing; it contains no reference to elections, votes, seats, party support, council control, or any electoral quantity.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-f7a7a3a15568",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports service failures and a safeguarding review's criticisms of Surrey council but contains no assertion about electoral quantities such as votes, seats, support, or control of the council.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-a876f0e9998e",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports on a public health response to a COVID-19 variant discovery but contains no clause asserting any electoral consequence such as changes to votes, seats, support, or control.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-2273c756b650",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article discusses winners and losers in council funding, council tax changes, and financial pressures, but contains no clause asserting consequences for votes, seats, electoral support, or control of councils.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-85aa2166b08c",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports Blunt's drug conviction and mentions he stood down from parliament at the 2024 election, but contains no clause asserting a consequence for votes, seats, support, or party control.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-1d71be81f2ae",
+      "batch_result": "succeeded",
+      "decision": "none",
+      "party": null,
+      "reason": "The article reports on a missing person being found and contains no reference to votes, seats, electoral support, turnout, or control of council.",
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-44cbb952c1d6",
+      "batch_result": "succeeded",
+      "decision": "benefit",
+      "party": "Liberal Democrats",
+      "reason": "The article states that 'a more assertive stance in act two of coalition should mean greater support and more votes' for the party.",
+      "validation_errors": []
+    }
+  ]
+}
