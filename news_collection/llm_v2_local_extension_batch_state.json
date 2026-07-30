@@ -1,0 +1,9 @@
+{
+  "batch_id": "msgbatch_01Cff6XpTvtVxyULH6HospNy",
+  "submitted_at": "2026-07-30T23:38:37",
+  "request_count": 1037,
+  "request_set_sha256": "1601be0361990ed89f583264ca2805f61a6fd8c40b38ac3dce645ad073499fbd",
+  "sheet_sha256": "c4dc9246c70d0d7327a612da96e8b47167d595a9be4d567154e726773914a0b0",
+  "model": "claude-sonnet-5",
+  "retry_batch_ids": []
+}
