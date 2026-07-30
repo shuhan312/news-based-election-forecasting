@@ -100,3 +100,18 @@ llm_context/llm_context_layer_final.json
 news_features/news_scope_classification.json
 news_features/recency_weighted_features.csv
 news_features/missing_news_representation.csv
+
+# Run logs from the automated extraction chain and the rescue experiments.
+# Progress traces of a run, not evidence - every figure they carry is
+# recorded in llm_context/d4_findings_log.md against the batch that produced
+# it.
+llm_context/extraction_chain.log
+llm_context/consequence_rescue.log
+
+# Corpus extraction outputs. The original layers require verbatim evidence
+# spans, so these files reproduce substantial article text - 582 spans and
+# 77,000 characters on the 89-article tranche alone. Same copyright three-tier
+# policy as d4_llm_outputs. The batch manifest and the health-check report
+# stay in Git: they carry batch ids, the window census and aggregate figures,
+# and reproduce no article text.
+llm_context/corpus_extraction_outputs_*.json

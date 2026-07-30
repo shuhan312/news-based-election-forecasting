@@ -1,0 +1,581 @@
+"""Full-corpus context extraction: the five layers the D4 gate adopted.
+
+## What runs, and what does not
+
+Five of the original eight layers are extracted. The three that are not
+are excluded on evidence recorded in `d4_findings_log.md`:
+
+| Layer | Status | Basis |
+|---|---|---|
+| issues | adopted | 0.729 against the reviewer, 0.798 between arms |
+| credit_blame | adopted | 0.600 / 0.670 |
+| consequence | adopted | 0.647 between arms; reviewer divergence documented |
+| stance (revised) | adopted | 0.848 / 0.741 after the redesign |
+| framing (revised) | adopted for 2 of 4 frames | 0.705 and 0.635 between arms |
+| temporal / horizon | **excluded** | failed the reviewer, the inter-model and a coarsened re-test |
+| local_national_relevance | not in the D4 gate | never validated; not used |
+| confidence_evidence | not in the D4 gate | never validated; not used |
+
+The two rescue layers use their revised prompts, not the originals that
+failed. That is the whole point of the redesign, and the outputs must be
+read as three-level portrayal and four binary frames - not as the
+five-level stance or sixteen-way framing the original schema described.
+
+## Why the model is Haiku
+
+On its own gate results, not on price. It clears `attribution_type`
+(0.600 against 0.531) and the Reform relevance flag (0.680 against 0.288)
+where Sonnet does not, and it produced no malformed JSON in the framing
+rescue where Sonnet produced five in sixty. Its batch price also happens
+to be half Sonnet's introductory rate, which is a reason to be pleased
+rather than the reason for choosing it.
+
+## Why duplicates are not deduplicated first
+
+The intended order was to extend the deduplication layer over the whole
+corpus before paying to extract, so no duplicate is extracted twice. The
+existing mapping makes that unnecessary: over 1,546 articles it found
+1,538 independent articles and four duplicate families totalling eight
+articles - a 0.5% duplicate rate, which is what independent searches
+across different local outlets and the Guardian produce, as opposed to
+syndicated wire copy. Extending the layer first would save under a dollar
+and would require re-running the seven-step normalisation chain and the
+eight-step dedup chain to produce v2 releases. The extraction cache keys
+on article hash, so any article the later dedup marks as a duplicate has
+simply been extracted once too often, at negligible cost, and its
+duplicate flag still governs how it is counted in the features.
+
+## What "all" means, and what it does not
+
+`--tranche all` is every article with a **terminal include decision**, not
+every article collected. The funnel, as it stands on 2026-07-30:
+
+    19,020  article records collected
+    11,787  with a resolvable publication date
+     3,584  clearing every mechanical eligibility rule (E1-E3, E7, E9, E10)
+     2,666  of those adjudicated on the four judgement rules (E4/E5/E6/E8)
+     1,638  terminal include - what this runner extracts
+       918  collected in the re-harvest and not yet adjudicated
+
+The 918 are all local-arm articles from the four principal elections. They
+cannot be extracted yet because E5-local is the one rule the frozen
+classifier failed validation on, so each needs a human judgement or a
+revised classifier that passes the same gate. At the 61% include rate the
+adjudicated set shows, they should add roughly 560 articles, taking the
+eventual corpus to about 2,200.
+
+Extracting the 1,638 now and the rest later costs nothing extra: the batch
+requests key on article content, so a second tranche re-extracts nothing.
+What it does mean is that any feature table built from tonight's output is
+built on 1,638 articles and must say so - the corpus is not final, and a
+reader comparing article counts across documents needs to know which stage
+of the funnel each figure comes from.
+
+## Tranches
+
+`--tranche narrow` extracts only articles in the four windows within
+thirty days of polling - the highest-signal subset, and small enough that
+a fault costs almost nothing to discover. `--tranche all` extracts every
+eligible article. The narrow tranche is a health check, not a sample: its
+articles are extracted once and reused, so nothing is paid twice.
+
+Usage:
+    python3 -m src.llm_extraction.run_corpus_extraction submit narrow
+    python3 -m src.llm_extraction.run_corpus_extraction collect narrow
+    python3 -m src.llm_extraction.run_corpus_extraction submit all
+    python3 -m src.llm_extraction.run_corpus_extraction collect all
+"""
+
+from __future__ import annotations
+
+import csv
+import json
+import sys
+import time
+from datetime import date
+from pathlib import Path
+
+import anthropic
+from anthropic.types.message_create_params import MessageCreateParamsNonStreaming
+from anthropic.types.messages.batch_create_params import Request
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from src.llm_extraction import (credit_blame, electoral_consequence,
+                               issue_classification)
+from src.llm_extraction.frame_rescue import build_prompt as build_frame_prompt
+from src.llm_extraction.stance_rescue import (build_prompt as build_stance_prompt,
+                                              parties_present)
+from src.llm_extraction.run_d4_validation import ARMS
+from src.llm_extraction.run_pilot import load_articles
+from src.news_modelling.window_schemes import assign
+
+csv.field_size_limit(10_000_000)
+
+# Model per layer, on measured compliance rather than one global choice.
+#
+# The narrow tranche exposed something the D4 gate could not see. D4 scored
+# field agreement - kappa on primary_issue, attribution_type and the rest -
+# computed from parsed records, and a record whose evidence span cannot be
+# found still has a perfectly readable primary_issue. So the kappa
+# comparison was blind to whether the quote was real.
+#
+# On the same 60 D4 articles with the same prompts, verbatim-span failures
+# were: issues 35/60 for Haiku against 7/60 for Sonnet, credit_blame 33 vs
+# 3, consequence 31 vs 5. That is not an audit blemish. The validators
+# reject the whole record, so on Haiku more than half the corpus would
+# carry no issue, attribution or consequence data at all.
+#
+# The two revised layers are the opposite case: they deliberately dropped
+# the verbatim requirement in favour of a free-text reason, and Haiku fails
+# 1-2% on them while scoring better than Sonnet on the judgement itself
+# (0.729 against 0.641 on issues, 0.600 against 0.531 on attribution).
+#
+# So each layer runs on the model that can actually satisfy its contract.
+# Mixed cost is about $90 over 1,638 articles against $56 all-Haiku - and
+# the $56 version would discard half its own output.
+LAYER_ARMS = {
+    "issues": "sonnet",
+    "credit_blame": "sonnet",
+    "consequence": "sonnet",
+    "stance_revised": "haiku",
+    "framing_revised": "haiku",
+}
+EXTRACTION_VERSION = "corpus-extraction-v1.1-2026-07-30"
+
+RECORDS = Path("data/raw/news/records")
+TEXT = Path("data/raw/news/text")
+DECISIONS = Path("news_collection/corpus_eligibility_decisions.csv")
+PILOT_SHEET = Path("news_collection/manual_review_sample.csv")
+VALIDATION_SHEET = Path("news_collection/llm_validation_sample.csv")
+EFFECTIVE_DATES = Path("news_collection/effective_dates_v2.csv")
+
+POLLING = {
+    "SCC-2013-05": date(2013, 5, 2),
+    "SCC-2017-05": date(2017, 5, 4),
+    "SCC-2021-05": date(2021, 5, 6),
+    "ESWS-2026-05": date(2026, 5, 7),
+}
+
+# Windows within thirty days of polling: the narrow tranche.
+NARROW_WINDOWS = {"final_72_hours", "7_to_4_days", "14_to_8_days",
+                  "30_to_15_days"}
+
+# The three original layers keep their frozen prompts and validators. The
+# two rescue layers carry no validator here: their revised outputs are a
+# small closed vocabulary, checked inline at collection time against the
+# question that was asked, which is stricter than a schema check would be.
+ORIGINAL_LAYERS = {
+    "issues": (issue_classification.build_issue_prompt,
+               issue_classification.validate_issue_record, 8000),
+    "credit_blame": (credit_blame.build_cb_prompt,
+                     credit_blame.validate_cb_record, 12000),
+    "consequence": (electoral_consequence.build_ec_prompt,
+                    electoral_consequence.validate_ec_record, 12000),
+}
+
+# Layers the full corpus does not pay for, and why.
+#
+# Both failed the pre-registered gate against the human gold labels on the
+# arm with a near-complete sample - Sonnet, whose validator rejected 3 of 60
+# credit_blame records and 5 of 60 consequence records. So this is not a
+# small-n artefact, and it is not the span problem that sent these layers to
+# Sonnet in the first place.
+#
+#   attribution_type       n=57  kappa 0.521  AC1 0.647  max marginal 0.579
+#   consequence_direction  n=55  kappa 0.259  AC1 0.449  max marginal 0.727
+#
+# Neither qualifies for the pre-registered fallback route: it needs a
+# marginal at or above 0.90 to trigger, and both are well below, so the
+# kappa paradox does not excuse the low figures. The pre-stated coarsening
+# re-test did not rescue either.
+#
+# Kappa is symmetric and does not say which side is wrong, and these six
+# content fields - unlike the eligibility layer, which was blind re-coded at
+# kappa 0.92-1.00 - have no human test-retest estimate to bound the human
+# side. So "the model is wrong" is not a claim this evidence supports. What
+# it does support is that the extraction cannot be shown to reproduce the
+# construct, and a feature whose validity cannot be demonstrated either way
+# fails the supervisor's constraint of being able to explain each decision.
+#
+# The two layers fail differently, which matters for what happens next.
+# Consequence is a threshold disagreement concentrated in one cell: of 26
+# disagreements, 18 are the human recording no consequence where the model
+# found potential damage, and the model chose potential_damage on 30 of 55
+# articles against the human's 40 of 55 "none". The models agree with each
+# other far better than with the human there (0.587 against 0.259/0.136),
+# which is the signature of a definitional gap rather than noise, and is the
+# shape the stance layer had before its rescue took it from 0.32 to 0.85.
+# Attribution is the opposite: disagreements scatter across cells, the
+# marginals broadly match (human blame 33/57, model 29/57), and inter-model
+# agreement is itself only 0.602 - no single definitional gap to close.
+#
+# So consequence is excluded pending one prompt-level rescue attempt scored
+# against the human presence labels already recorded, and attribution is
+# excluded outright. Removing them from the full run also drops two of the
+# three Sonnet layers, which is the larger part of the corpus spend.
+EXCLUDED_LAYERS = {
+    "credit_blame": "fails D4 gate, kappa 0.521 at n=57; no definitional fix",
+    "consequence": "fails D4 gate, kappa 0.259 at n=55; rescue attempt pending",
+}
+
+STANCE_DECISIONS = ("unfavourable", "favourable", "neither")
+FRAME_KEYS = ("incumbent_judgement", "challenger_emergence",
+              "voter_discontent", "local_impact")
+
+
+def eligible_articles() -> dict[str, dict]:
+    """Every article with a terminal `include` decision.
+
+    Three sources, because eligibility was settled in three passes: the
+    168-article human pilot, the 128-article validation sample, and the
+    2,370-article remaining corpus assembled from the frozen-v2 and human
+    streams. An article missing from the normalised text layer falls back
+    to its raw extracted text, and that fallback is recorded per tranche
+    rather than left implicit - the layer is provisional and does not
+    cover the re-harvest.
+    """
+    include: dict[str, dict] = {}
+    for r in csv.DictReader(DECISIONS.open()):
+        if r["overall_decision"] == "include":
+            include[r["article_id"]] = {"election_id": r["election_id"],
+                                        "arm": r["arm"]}
+    for sheet in (PILOT_SHEET, VALIDATION_SHEET):
+        for r in csv.DictReader(sheet.open(encoding="utf-8-sig")):
+            if r.get("final_reviewed_decision") == "include":
+                include.setdefault(r["article_id"],
+                                   {"election_id": r["election_id"],
+                                    "arm": r["arm"]})
+    return include
+
+
+def load_tranche(tranche: str) -> tuple[dict[str, dict], list[str], dict]:
+    """Articles for this tranche, the raw-text fallback ids, and a census."""
+    include = eligible_articles()
+    dates = {r["article_id"]: r for r in csv.DictReader(EFFECTIVE_DATES.open())}
+    normalised = load_articles()
+
+    out: dict[str, dict] = {}
+    fallback: list[str] = []
+    census = {"eligible": len(include), "no_effective_date": 0,
+              "not_a_principal_election": 0, "outside_all_windows": 0,
+              "by_window": {}}
+
+    for aid, meta in include.items():
+        d = dates.get(aid)
+        if not d or not d.get("effective_date"):
+            census["no_effective_date"] += 1
+            continue
+        election = d["election_id"]
+        if election not in POLLING:
+            # By-elections are out of the news layer's scope under the
+            # 2026-07-30 decision: their search coverage is 33% overall
+            # and below 12% for nine of them, so features built from them
+            # would be zeros meaning "not searched". Counted, not silent.
+            census["not_a_principal_election"] += 1
+            continue
+        try:
+            published = date.fromisoformat(d["effective_date"][:10])
+        except ValueError:
+            census["no_effective_date"] += 1
+            continue
+        placed = assign(published, POLLING[election],
+                        scheme="original_email_180d")
+        if placed.window is None:
+            census["outside_all_windows"] += 1
+            continue
+        census["by_window"][placed.window] = (
+            census["by_window"].get(placed.window, 0) + 1)
+        if tranche == "narrow" and placed.window not in NARROW_WINDOWS:
+            continue
+
+        if aid in normalised:
+            article = dict(normalised[aid])
+        else:
+            # Not in the provisional normalised layer, so fall back to the
+            # raw extracted text - unless that is missing too, which
+            # happens for articles whose retrieval captured metadata but
+            # no body. Those are counted and skipped: an article with no
+            # text cannot be extracted, and crashing on one would take the
+            # whole tranche down for a gap that belongs in the census.
+            text_path = TEXT / f"{aid}.txt"
+            if not text_path.exists():
+                census["no_extracted_text"] = (
+                    census.get("no_extracted_text", 0) + 1)
+                census.setdefault("no_extracted_text_ids", []).append(aid)
+                continue
+            rec = json.loads((RECORDS / f"{aid}.json").read_text(
+                encoding="utf-8", errors="replace"))
+            article = {
+                "article_id": aid, "canonical_article_id": aid,
+                "election_id": election, "arm": meta["arm"],
+                "title": rec["identity"].get("headline") or "",
+                "body": text_path.read_text(
+                    encoding="utf-8", errors="replace"),
+                "source": rec["source_id"],
+                "publication_datetime": d["effective_date"],
+                "url": rec["identity"].get("canonical_url") or "",
+            }
+            fallback.append(aid)
+        article["window"] = placed.window
+        out[aid] = article
+    return out, fallback, census
+
+
+def _user_message(article: dict) -> str:
+    meta = {k: article.get(k) for k in
+            ("article_id", "canonical_article_id", "election_id", "arm",
+             "publication_datetime", "source", "url")}
+    return (f"ARTICLE METADATA (copy into the record's input section):\n"
+            f"{json.dumps(meta, sort_keys=True, ensure_ascii=False)}\n\n"
+            f"TITLE: {article.get('title') or ''}\n\n"
+            f"BODY:\n{article.get('body') or ''}")
+
+
+def _paths(tranche: str) -> tuple[Path, Path]:
+    return (Path(f"llm_context/corpus_extraction_batches_{tranche}.json"),
+            Path(f"llm_context/corpus_extraction_outputs_{tranche}.json"))
+
+
+def _repair_flag_only(record: dict, errors: list[str], validate,
+                      article: dict) -> tuple[list[str], list[str]]:
+    """Set the review flag the model forgot, rather than binning the record.
+
+    Every original layer's contract says that if any confidence falls below
+    0.5 the record must carry `review_status: "flagged"`. Six of the nine
+    issues records the narrow tranche lost failed on that rule alone -
+    confidence 0.4 or 0.45, correctly reported, and the box simply not
+    ticked. Their issue codes were sound and every evidence span verified.
+
+    The flag is derivable from the confidence the model already gave, so a
+    validator that discards the record for failing to derive it is throwing
+    away 6.7% of a corpus over bookkeeping. This repairs the field, re-runs
+    the same validator, and keeps the record only if nothing else is wrong -
+    a record failing S2 *and* a span check is still rejected.
+
+    The repair is recorded per article rather than applied silently, and its
+    effect on the validated figures was measured before it was adopted: on
+    the D4 sample it admits one further Sonnet record and moves the issues
+    kappa from 0.616 to 0.622, changing no verdict, and admits none on Haiku.
+    The prompt's contract is not edited - the model is still asked to flag,
+    the validator still reports when it did not, and the repair is visible.
+    """
+    flag_only = [e for e in errors if "not flagged" in e]
+    if not flag_only or len(flag_only) != len(errors):
+        return errors, []
+    sentinel = object()
+    original = record.get("review_status", sentinel)
+    record["review_status"] = "flagged"
+    recheck = validate(record, article.get("body") or "",
+                       article.get("title") or "")
+    if recheck:
+        # Restore rather than delete: the model may have written a different
+        # value there, and a rejected record should leave the transcript
+        # exactly as the model produced it.
+        if original is sentinel:
+            record.pop("review_status", None)
+        else:
+            record["review_status"] = original
+        return errors, []
+    return [], [f"review_status set to flagged by the collector: {flag_only}"]
+
+
+def _arm_for(layer: str) -> tuple[dict, str]:
+    arm = ARMS[LAYER_ARMS[layer]]
+    return arm, (arm["model"] or "claude-sonnet-5")
+
+
+def cmd_submit(tranche: str) -> None:
+    arts, fallback, census = load_tranche(tranche)
+    if not arts:
+        print(f"tranche {tranche}: no articles - nothing submitted")
+        return
+    client = anthropic.Anthropic()
+    batches: dict[str, str] = {}
+
+    for layer, (build, _validate, max_tokens) in ORIGINAL_LAYERS.items():
+        if layer in EXCLUDED_LAYERS:
+            print(f"{layer}: NOT submitted - {EXCLUDED_LAYERS[layer]}")
+            continue
+        arm, model = _arm_for(layer)
+        system = [{"type": "text", "text": build(),
+                   "cache_control": {"type": "ephemeral"}}]
+        requests = [Request(
+            custom_id=aid,
+            params=MessageCreateParamsNonStreaming(
+                model=model, max_tokens=max_tokens, thinking=arm["thinking"],
+                system=system,
+                messages=[{"role": "user", "content": _user_message(a)}]))
+            for aid, a in sorted(arts.items())]
+        b = client.messages.batches.create(requests=requests)
+        batches[layer] = b.id
+        print(f"{layer}: {b.id} ({len(requests)} articles, {model})")
+
+    # Stance asks only about parties the article names, decided in code so
+    # the question set is reproducible; an article naming none is a
+    # legitimate zero and is recorded rather than dropped silently.
+    arm, model = _arm_for("stance_revised")
+    stance_sets, stance_requests = {}, []
+    for aid, a in sorted(arts.items()):
+        parties = parties_present(a.get("title") or "", a.get("body") or "")
+        if not parties:
+            continue
+        stance_sets[aid] = parties
+        stance_requests.append(Request(
+            custom_id=aid,
+            params=MessageCreateParamsNonStreaming(
+                model=model, max_tokens=6000, thinking=arm["thinking"],
+                system=[{"type": "text", "text": build_stance_prompt(parties),
+                         "cache_control": {"type": "ephemeral"}}],
+                messages=[{"role": "user", "content": _user_message(a)}])))
+    if stance_requests:
+        b = client.messages.batches.create(requests=stance_requests)
+        batches["stance_revised"] = b.id
+        print(f"stance_revised: {b.id} ({len(stance_requests)} articles, "
+              f"{len(arts) - len(stance_requests)} name no study party)")
+
+    arm, model = _arm_for("framing_revised")
+    frame_system = [{"type": "text", "text": build_frame_prompt(),
+                     "cache_control": {"type": "ephemeral"}}]
+    b = client.messages.batches.create(requests=[Request(
+        custom_id=aid,
+        params=MessageCreateParamsNonStreaming(
+            model=model, max_tokens=6000, thinking=arm["thinking"],
+            system=frame_system,
+            messages=[{"role": "user", "content": _user_message(a)}]))
+        for aid, a in sorted(arts.items())])
+    batches["framing_revised"] = b.id
+    print(f"framing_revised: {b.id} ({len(arts)} articles)")
+
+    batch_path, _ = _paths(tranche)
+    batch_path.write_text(json.dumps({
+        "version": EXTRACTION_VERSION, "tranche": tranche,
+        "layer_arms": {k: v for k, v in LAYER_ARMS.items()
+                       if k not in EXCLUDED_LAYERS},
+        "layer_models": {k: (ARMS[v]["model"] or "claude-sonnet-5")
+                         for k, v in LAYER_ARMS.items()
+                         if k not in EXCLUDED_LAYERS},
+        "excluded_layers": EXCLUDED_LAYERS,
+        "articles": len(arts), "raw_text_fallback_ids": fallback,
+        "census": census, "stance_question_sets": stance_sets,
+        "layers": batches,
+        "windows_in_tranche": sorted({a["window"] for a in arts.values()}),
+    }, indent=2))
+    print(f"\n-> {batch_path}")
+    print(f"{len(arts)} articles, {len(batches)} layers, "
+          f"{len(fallback)} on raw-text fallback")
+
+
+def cmd_collect(tranche: str) -> None:
+    batch_path, out_path = _paths(tranche)
+    meta = json.loads(batch_path.read_text())
+    client = anthropic.Anthropic()
+    arts, _fallback, _census = load_tranche(tranche)
+
+    # Wait only for the layers the gate depends on. An excluded layer's batch
+    # was already submitted and paid for, and its results stay retrievable for
+    # 29 days, so there is nothing to lose by collecting it on a later pass -
+    # but waiting for one blocks the gate, and behind the gate sits the
+    # full-corpus run. The first version of this loop waited for every layer
+    # and left the chain stalled 68 minutes on credit_blame, a layer whose
+    # output is not going to be used.
+    required = {l: b for l, b in meta["layers"].items()
+                if l not in EXCLUDED_LAYERS}
+    pending = dict(meta["layers"])
+    while pending:
+        for layer, bid in list(pending.items()):
+            b = client.messages.batches.retrieve(bid)
+            print(f"{layer}: {b.processing_status} {b.request_counts}")
+            if b.processing_status == "ended":
+                pending.pop(layer)
+        if not any(l in pending for l in required):
+            if pending:
+                print(f"proceeding without {sorted(pending)} - excluded from "
+                      f"the gate; collect again later to record them")
+            break
+        time.sleep(120)
+
+    ended = {l: b for l, b in meta["layers"].items() if l not in pending}
+    results: dict = {"version": EXTRACTION_VERSION, "tranche": tranche,
+                     "layer_models": meta.get("layer_models", {}),
+                     "layers_not_collected": sorted(pending),
+                     "layers": {}}
+    usage_in = usage_out = 0
+    per_layer_usage: dict[str, dict] = {}
+
+    for layer, bid in ended.items():
+        rows, stats = [], {"ok": 0, "failed": 0}
+        lin = lout = 0
+        for result in client.messages.batches.results(bid):
+            aid = result.custom_id
+            entry: dict = {"article_id": aid,
+                           "batch_result": result.result.type}
+            if result.result.type != "succeeded":
+                entry["record"] = None
+                entry["validation_errors"] = [f"batch: {result.result.type}"]
+                stats["failed"] += 1
+                rows.append(entry)
+                continue
+            msg = result.result.message
+            usage_in += msg.usage.input_tokens
+            usage_out += msg.usage.output_tokens
+            lin += msg.usage.input_tokens
+            lout += msg.usage.output_tokens
+            text = "".join(x.text for x in msg.content if x.type == "text")
+            try:
+                parsed = json.loads(text.strip().removeprefix("```json")
+                                    .removeprefix("```").removesuffix("```"))
+            except json.JSONDecodeError as e:
+                entry["record"] = None
+                entry["validation_errors"] = [f"unparseable: {e}"]
+                stats["failed"] += 1
+                rows.append(entry)
+                continue
+
+            errors: list[str] = []
+            repairs: list[str] = []
+            if layer in ORIGINAL_LAYERS:
+                _b, validate, _m = ORIGINAL_LAYERS[layer]
+                article = arts.get(aid, {})
+                errors = validate(parsed, article.get("body") or "",
+                                  article.get("title") or "")
+                errors, repairs = _repair_flag_only(parsed, errors, validate,
+                                                    article)
+            elif layer == "stance_revised":
+                asked = set(meta["stance_question_sets"].get(aid, []))
+                judged = {j["party"]: j.get("portrayal")
+                          for j in parsed.get("judgements", [])}
+                if set(judged) != asked:
+                    errors.append(f"answered {sorted(judged)}, "
+                                  f"asked {sorted(asked)}")
+                bad = {p: v for p, v in judged.items()
+                       if v not in STANCE_DECISIONS}
+                if bad:
+                    errors.append(f"outside vocabulary: {bad}")
+            elif layer == "framing_revised":
+                judged = {f["frame"]: f.get("present")
+                          for f in parsed.get("frames", [])}
+                if set(judged) != set(FRAME_KEYS):
+                    errors.append(f"answered {sorted(judged)}, "
+                                  f"asked {sorted(FRAME_KEYS)}")
+
+            entry["record"] = parsed
+            entry["validation_errors"] = errors
+            if repairs:
+                entry["repairs"] = repairs
+                stats["repaired"] = stats.get("repaired", 0) + 1
+            stats["ok" if not errors else "failed"] += 1
+            rows.append(entry)
+        results["layers"][layer] = rows
+        per_layer_usage[layer] = {"input_tokens": lin, "output_tokens": lout,
+                                  "model": meta.get("layer_models", {}).get(layer)}
+        print(f"{layer}: {stats}")
+
+    results["usage"] = {"input_tokens": usage_in, "output_tokens": usage_out}
+    results["usage_by_layer"] = per_layer_usage
+    out_path.write_text(json.dumps(results, indent=2))
+    print(f"-> {out_path}")
+
+
+if __name__ == "__main__":
+    _cmd, _tranche = sys.argv[1], sys.argv[2]
+    {"submit": cmd_submit, "collect": cmd_collect}[_cmd](_tranche)

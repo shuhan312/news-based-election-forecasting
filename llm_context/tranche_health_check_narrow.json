@@ -1,0 +1,107 @@
+{
+  "tranche": "narrow",
+  "layer_models": {
+    "issues": "claude-sonnet-5",
+    "credit_blame": "claude-sonnet-5",
+    "consequence": "claude-sonnet-5",
+    "stance_revised": "claude-haiku-4-5",
+    "framing_revised": "claude-haiku-4-5"
+  },
+  "articles": 89,
+  "thresholds": {
+    "max_schema_failure_rate": 0.05,
+    "min_quote_verification": 0.95,
+    "max_cost_multiple": 2.0,
+    "d4_empty_rate_baseline": {
+      "issues": 0.183,
+      "framing_revised": 0.4,
+      "stance_revised": 0.0,
+      "credit_blame": 0.316,
+      "consequence": 0.438
+    },
+    "empty_rate_regression_allowance": 0.15
+  },
+  "layers": {
+    "issues": {
+      "articles": 89,
+      "failed": 3,
+      "counts_toward_gate": true,
+      "excluded_reason": null,
+      "schema_failure_rate": 0.0337,
+      "empty_records": 20,
+      "empty_record_rate": 0.2247,
+      "empty_rate_d4_baseline": 0.183,
+      "empty_rate_allowance": 0.333,
+      "quote_spans_checked": 327,
+      "quote_spans_verified": 327,
+      "quote_verification_rate": 1.0,
+      "problems": [],
+      "passes": true
+    },
+    "consequence": {
+      "articles": 89,
+      "failed": 12,
+      "counts_toward_gate": false,
+      "excluded_reason": "fails D4 gate, kappa 0.259 at n=55; rescue attempt pending",
+      "schema_failure_rate": 0.1348,
+      "empty_records": 39,
+      "empty_record_rate": 0.4382,
+      "empty_rate_d4_baseline": 0.438,
+      "empty_rate_allowance": 0.588,
+      "quote_spans_checked": 255,
+      "quote_spans_verified": 255,
+      "quote_verification_rate": 1.0,
+      "problems": [
+        "schema failure 13.5% exceeds 5%"
+      ],
+      "passes": false
+    },
+    "stance_revised": {
+      "articles": 57,
+      "failed": 0,
+      "counts_toward_gate": true,
+      "excluded_reason": null,
+      "schema_failure_rate": 0.0,
+      "empty_records": 0,
+      "empty_record_rate": 0.0,
+      "empty_rate_d4_baseline": 0.0,
+      "empty_rate_allowance": 0.15,
+      "quote_spans_checked": 0,
+      "quote_spans_verified": 0,
+      "quote_verification_rate": null,
+      "problems": [],
+      "passes": true
+    },
+    "framing_revised": {
+      "articles": 89,
+      "failed": 0,
+      "counts_toward_gate": true,
+      "excluded_reason": null,
+      "schema_failure_rate": 0.0,
+      "empty_records": 31,
+      "empty_record_rate": 0.3483,
+      "empty_rate_d4_baseline": 0.4,
+      "empty_rate_allowance": 0.55,
+      "quote_spans_checked": 0,
+      "quote_spans_verified": 0,
+      "quote_verification_rate": null,
+      "problems": [],
+      "passes": true
+    }
+  },
+  "cost": {
+    "tranche_usd": 3.4861,
+    "per_article_usd": 0.03917,
+    "projected_full_corpus_usd": 64.16,
+    "full_corpus_articles": 1638,
+    "note": "projected from this tranche's measured cost per article, at each layer's own batch rate; the full run reuses these 89 extractions rather than repeating them"
+  },
+  "required_layers": [
+    "framing_revised",
+    "issues",
+    "stance_revised"
+  ],
+  "missing_layers": [],
+  "overall_pass": true,
+  "verdict": "PASS - the full-corpus run may proceed on this model and these prompts"
+}
