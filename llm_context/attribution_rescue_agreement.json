@@ -1,0 +1,176 @@
+{
+  "gate": {
+    "primary": "kappa >= 0.6",
+    "fallback": "AC1 >= 0.6 and agreement >= 0.8 when a marginal >= 0.9",
+    "minimum_human_positives": 10
+  },
+  "scoring_rule": "declared in attribution_rescue's docstring before submission: each binary judged alone, human mixed positive for both, human unclear excluded from both, under-10-positive binaries undetermined",
+  "arms": {
+    "sonnet": {
+      "model": "claude-sonnet-5",
+      "records_accepted": 60,
+      "records_total": 60,
+      "validator_rejected": 0,
+      "human_excluded_unclear": 5,
+      "usage": {
+        "input_tokens": 228106,
+        "output_tokens": 24687
+      },
+      "binaries": {
+        "blame": {
+          "revised": {
+            "pairs": 55,
+            "human_positives": 39,
+            "percent_agreement": 0.6,
+            "kappa": 0.272,
+            "ac1": 0.207,
+            "max_marginal": 0.709,
+            "skew_trigger": false,
+            "verdict": "fails",
+            "passes": false,
+            "undetermined": false
+          },
+          "frozen_same_test": {
+            "pairs": 52,
+            "human_positives": 36,
+            "percent_agreement": 0.808,
+            "kappa": 0.564,
+            "ac1": 0.657,
+            "max_marginal": 0.692,
+            "skew_trigger": false,
+            "verdict": "fails",
+            "passes": false,
+            "undetermined": false
+          },
+          "model_positives": 21
+        },
+        "credit": {
+          "revised": {
+            "pairs": 55,
+            "human_positives": 8,
+            "percent_agreement": 0.764,
+            "kappa": 0.302,
+            "ac1": 0.647,
+            "max_marginal": 0.855,
+            "skew_trigger": false,
+            "verdict": "undetermined_insufficient_positives (8 < 10)",
+            "passes": false,
+            "undetermined": true
+          },
+          "frozen_same_test": {
+            "pairs": 52,
+            "human_positives": 8,
+            "percent_agreement": 0.558,
+            "kappa": 0.181,
+            "ac1": 0.183,
+            "max_marginal": 0.846,
+            "skew_trigger": false,
+            "verdict": "undetermined_insufficient_positives (8 < 10)",
+            "passes": false,
+            "undetermined": true
+          },
+          "model_positives": 15
+        }
+      }
+    },
+    "haiku": {
+      "model": "claude-haiku-4-5",
+      "records_accepted": 60,
+      "records_total": 60,
+      "validator_rejected": 0,
+      "human_excluded_unclear": 5,
+      "usage": {
+        "input_tokens": 160977,
+        "output_tokens": 67366
+      },
+      "binaries": {
+        "blame": {
+          "revised": {
+            "pairs": 55,
+            "human_positives": 39,
+            "percent_agreement": 0.636,
+            "kappa": 0.319,
+            "ac1": 0.284,
+            "max_marginal": 0.709,
+            "skew_trigger": false,
+            "verdict": "fails",
+            "passes": false,
+            "undetermined": false
+          },
+          "frozen_same_test": {
+            "pairs": 24,
+            "human_positives": 10,
+            "percent_agreement": 0.792,
+            "kappa": 0.565,
+            "ac1": 0.601,
+            "max_marginal": 0.625,
+            "skew_trigger": false,
+            "verdict": "fails",
+            "passes": false,
+            "undetermined": false
+          },
+          "model_positives": 23
+        },
+        "credit": {
+          "revised": {
+            "pairs": 55,
+            "human_positives": 8,
+            "percent_agreement": 0.764,
+            "kappa": 0.245,
+            "ac1": 0.658,
+            "max_marginal": 0.855,
+            "skew_trigger": false,
+            "verdict": "undetermined_insufficient_positives (8 < 10)",
+            "passes": false,
+            "undetermined": true
+          },
+          "frozen_same_test": {
+            "pairs": 24,
+            "human_positives": 5,
+            "percent_agreement": 0.792,
+            "kappa": 0.483,
+            "ac1": 0.656,
+            "max_marginal": 0.792,
+            "skew_trigger": false,
+            "verdict": "undetermined_insufficient_positives (5 < 10)",
+            "passes": false,
+            "undetermined": true
+          },
+          "model_positives": 13
+        }
+      }
+    }
+  },
+  "inter_model": {
+    "shared_articles": 60,
+    "binaries": {
+      "blame": {
+        "pairs": 60,
+        "human_positives": 10,
+        "percent_agreement": 0.817,
+        "kappa": 0.61,
+        "ac1": 0.655,
+        "max_marginal": 0.65,
+        "skew_trigger": false,
+        "verdict": "passes (primary kappa)",
+        "passes": true,
+        "undetermined": false
+      },
+      "credit": {
+        "pairs": 60,
+        "human_positives": 10,
+        "percent_agreement": 0.8,
+        "kappa": 0.442,
+        "ac1": 0.689,
+        "max_marginal": 0.783,
+        "skew_trigger": false,
+        "verdict": "fails",
+        "passes": false,
+        "undetermined": false
+      }
+    }
+  },
+  "features_recovered": [],
+  "verdict": "NEITHER binary clears - the layer is dropped. Per the pre-statement no further scoring variant is tried",
+  "overall_pass": false
+}

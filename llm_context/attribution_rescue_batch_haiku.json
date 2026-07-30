@@ -1,0 +1,15 @@
+{
+  "version": "attribution-rescue-v1.0-2026-07-30",
+  "arm": "haiku",
+  "model": "claude-haiku-4-5",
+  "thinking": {
+    "type": "enabled",
+    "budget_tokens": 4000
+  },
+  "batch_id": "msgbatch_01DqsxGqPR35DpTKxHFWCngS",
+  "articles": 60,
+  "directions": [
+    "blame",
+    "credit"
+  ]
+}

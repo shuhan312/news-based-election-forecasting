@@ -6,7 +6,57 @@
   "scoring_rule": "declared in consequence_rescue's docstring before submission: presence binary is primary, direction on jointly-present articles is secondary, no other variant computed",
   "arms": {
     "sonnet": {
-      "error": "llm_context/consequence_rescue_outputs.json not collected yet"
+      "model": "claude-sonnet-5",
+      "records_accepted": 60,
+      "records_total": 60,
+      "validator_rejected": 0,
+      "decision_marginals": {
+        "none": 49,
+        "damage": 8,
+        "benefit": 3
+      },
+      "human_marginals": {
+        "none": 42,
+        "potential_damage": 8,
+        "mixed_impact": 5,
+        "unclear": 3,
+        "potential_benefit": 2
+      },
+      "primary_presence": {
+        "pairs": 60,
+        "percent_agreement": 0.85,
+        "kappa": 0.598,
+        "ac1": 0.763,
+        "max_marginal": 0.817,
+        "skew_trigger": false,
+        "verdict": "fails",
+        "passes": false
+      },
+      "secondary_direction": {
+        "pairs": 5,
+        "percent_agreement": 0.8,
+        "kappa": 0.0,
+        "ac1": 0.756,
+        "max_marginal": 1.0,
+        "skew_trigger": true,
+        "verdict": "passes (fallback AC1, skew trigger met)",
+        "passes": true
+      },
+      "direction_excluded_no_counterpart": 8,
+      "frozen_presence_same_test": {
+        "pairs": 55,
+        "percent_agreement": 0.673,
+        "kappa": 0.4,
+        "ac1": 0.356,
+        "max_marginal": 0.727,
+        "skew_trigger": false,
+        "verdict": "fails",
+        "passes": false
+      },
+      "usage": {
+        "input_tokens": 211606,
+        "output_tokens": 4984
+      }
     },
     "haiku": {
       "model": "claude-haiku-4-5",
@@ -62,6 +112,29 @@
       }
     }
   },
-  "verdict": "PRESENCE FAILS on haiku - the rescue did not work. The layer is dropped. Per the pre-statement no further scoring variant is tried",
+  "inter_model": {
+    "shared_articles": 60,
+    "presence": {
+      "pairs": 60,
+      "percent_agreement": 0.967,
+      "kappa": 0.889,
+      "ac1": 0.952,
+      "max_marginal": 0.817,
+      "skew_trigger": false,
+      "verdict": "passes (primary kappa)",
+      "passes": true
+    },
+    "three_value": {
+      "pairs": 60,
+      "percent_agreement": 0.95,
+      "kappa": 0.842,
+      "ac1": 0.941,
+      "max_marginal": 0.817,
+      "skew_trigger": false,
+      "verdict": "passes (primary kappa)",
+      "passes": true
+    }
+  },
+  "verdict": "PRESENCE FAILS on sonnet, haiku - the rescue did not work. The layer is dropped. Per the pre-statement no further scoring variant is tried",
   "overall_pass": false
 }

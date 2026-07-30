@@ -1,0 +1,14 @@
+{
+  "version": "attribution-rescue-v1.0-2026-07-30",
+  "arm": "sonnet",
+  "model": "claude-sonnet-5",
+  "thinking": {
+    "type": "adaptive"
+  },
+  "batch_id": "msgbatch_011aCDrrn9u5h7HtYVjERB1Z",
+  "articles": 60,
+  "directions": [
+    "blame",
+    "credit"
+  ]
+}

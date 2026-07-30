@@ -302,6 +302,62 @@ The rule, therefore:
   the bar, which is a finding about the construct rather than about the
   prompt.
 
+**Outcome: the third clause applies. Sonnet returned presence kappa 0.598,
+the same figure as Haiku to three decimal places, at the same 85% agreement.
+The consequence layer is dropped and its three features are `unavailable`.**
+
+The replication is worth stating because it is the strongest evidence this
+project has for the possibility the reviewer's coding, not the model's, is the
+looser side - and it does not change the decision. Two models on different
+thinking configurations and price tiers agreed with each other on 89% of
+presence judgements (kappa 0.889, up from the frozen layer's 0.587) with
+near-identical marginals, 49 of 60 "none" on both arms, and both sat at 0.598
+against the reviewer's 42 of 60. The residual disagreement is therefore
+systematic and replicated rather than sampling noise.
+
+It still does not license adoption. Two models sharing training data and one
+prompt are not independent coders, so their agreement measures reproducibility
+and not validity; the gate is human-referenced by pre-registration; and the
+reviewer's own test-retest reliability on this field was never measured, so
+the human side cannot be shown to be wrong either. What the evidence supports
+is that **neither side can be demonstrated correct**, and a feature whose
+construct validity cannot be demonstrated in either direction is the case the
+gate exists to catch.
+
+Two arms were two attempts at one bar, and both missed. That removes the
+multiple-comparison concern this pre-statement was written to handle, and it
+also means no arm-selection was performed.
+
+**A sensitivity specification is left open rather than built, and the reason
+is recorded here so the option is not lost.** The 0.60 bar is a convention -
+`llm_v2_feasibility_plan.md` §D3 records that the supervisor requirement does
+not itself specify kappa or 0.60, and the figure comes from the conventional
+reading of Cohen's kappa in which 0.61 and above is substantial agreement. A
+layer sitting 0.002 below a conventional bar is exactly the case where the
+honest move is to show what the conclusion rests on rather than to argue about
+the third decimal place.
+
+So the plan, if the primary result turns out to need it: fit the news
+comparison twice, once on the 20 features that cleared the gate and once with
+the three consequence features added, and report both. If the conclusion is
+unchanged, it does not depend on where the line was drawn, which is a
+robustness result worth having. If the conclusion changes, then most of the
+news signal sits in a layer whose construct validity is contested, and that is
+a finding the report must state rather than route around. Either outcome is
+reportable, which is what separates a sensitivity analysis from choosing the
+answer one prefers: both figures are published whichever way they fall.
+
+It is not built now, for two reasons. The machinery would be speculative -
+at model-fitting time the change is three additional columns and a second fit,
+not a new status system, and it is better done with real coefficients in hand.
+And it is not free: the consequence layer was excluded from the corpus
+extraction, so those three features have no data behind them, and running the
+sensitivity specification requires extracting that layer over the full corpus.
+Committing to that before the primary result is known would be paying for a
+robustness check on a question that may not arise. Deferring costs only a
+later batch cycle, and the decision is revisited once the primary comparison
+has a number.
+
 **Attribution's redesign is identified but not run.** The design is the
 framing redesign's, applied mechanically: two independent binary questions -
 does the article blame a named party, does it credit one - under which

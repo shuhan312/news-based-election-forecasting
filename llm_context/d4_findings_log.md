@@ -510,18 +510,49 @@ articles, with human `mixed_impact` and `unclear` excluded because the
 revised vocabulary offers no value they could match. No other variant to be
 computed.
 
-**Result, Haiku arm, n=60:**
+**Result, both arms, n=60 each. They land on the same figure to three
+decimal places.**
 
-| test | n | agreement | kappa | AC1 | max marginal | verdict |
-|---|---|---|---|---|---|---|
-| **presence (primary)** | 60 | 0.850 | **0.598** | 0.763 | 0.817 | **fails by 0.002** |
-| frozen layer, same test | 29 | 0.724 | 0.318 | 0.565 | 0.897 | fails |
-| direction (secondary) | 5 | 1.000 | 1.000 | 1.000 | 0.800 | passes, but n=5 |
+| test | arm | n | agreement | kappa | verdict |
+|---|---|---|---|---|---|
+| **presence (primary)** | Haiku | 60 | 0.850 | **0.598** | **fails by 0.002** |
+| **presence (primary)** | Sonnet | 60 | 0.850 | **0.598** | **fails by 0.002** |
+| frozen layer, same test | Haiku | 29 | 0.724 | 0.318 | fails |
+| frozen layer, same test | Sonnet | 55 | - | 0.400 | fails |
+| direction (secondary) | Haiku | 5 | 1.000 | 1.000 | n too small |
+| direction (secondary) | Sonnet | 5 | - | 0.000 | n too small |
 
-Records accepted 60 of 60, validator rejections 0 - against 31 of 60
-rejected on the frozen layer's Haiku arm. 8 articles excluded from the
-direction test (human `mixed_impact` 5, `unclear` 3). Usage 150,117 in /
-34,173 out, about $0.16.
+Haiku's AC1 is 0.763 at a largest marginal of 0.817. Records accepted 60 of
+60 on both arms, validator rejections 0 - against 31 of 60 rejected on the
+frozen layer's Haiku arm. 8 articles excluded from the direction test (human
+`mixed_impact` 5, `unclear` 3). Haiku usage 150,117 in / 34,173 out.
+
+**Inter-model agreement on the revised layer: presence kappa 0.889,
+three-value kappa 0.842, on all 60 shared articles.** The frozen layer
+managed 0.587.
+
+The direction test is the clearest demonstration in this whole log of why a
+minimum sample size matters: on the same five pairs, one arm returns kappa
+1.000 and the other 0.000. Neither is evidence of anything.
+
+**What the replication means, stated plainly because it cuts both ways.** Two
+models, one on adaptive thinking and one on a fixed 4,000-token budget, at
+different price tiers, agree with each other on 89% of presence judgements and
+both land on 0.598 against the reviewer. Their model-side marginals are nearly
+identical - 49 of 60 "none" on both arms. So the residual disagreement with
+the reviewer is **systematic and replicated, not sampling noise**: the
+redesigned instrument is highly reproducible and reproducibly 0.002 short of
+agreeing with the human coding well enough to pass.
+
+That is the strongest evidence in this project for the possibility that the
+remaining gap sits on the human side rather than the model's, and it does not
+change the decision. The gate is human-referenced by pre-registration; two
+models sharing training data and one prompt are not two independent coders,
+so their agreement establishes reproducibility and not validity; and the
+reviewer's own test-retest reliability on this field was never measured, so
+the human side cannot be shown to be the wrong one either. What can be said
+is that nobody can demonstrate which side is right, which is precisely why a
+feature built on this layer could not be defended.
 
 Marginals, which is where the redesign visibly worked:
 
@@ -534,9 +565,10 @@ Marginals, which is where the redesign visibly worked:
 **What this shows, stated without softening.** The redesign did what the
 diagnosis said it would. It closed the threshold gap - the model went from
 calling 60% of articles consequential to 18%, against the human's 30%. It
-eliminated the validator losses, taking n from 29 to 60. On the identical
-test it nearly doubled kappa, 0.318 to 0.598. **And it lands 0.002 below the
-gate.**
+eliminated the validator losses, taking n from 29 to 60 on both arms. On the
+identical test it moved kappa from 0.318 to 0.598 on Haiku and 0.400 to 0.598
+on Sonnet, and took inter-model agreement from 0.587 to 0.889. **And it lands
+0.002 below the gate, on both arms.**
 
 **The near-miss was not resolved in the layer's favour.** Recorded
 explicitly because the temptation is legible in the numbers: AC1 is 0.763
@@ -547,10 +579,19 @@ cannot be reached for whenever kappa is inconvenient, and 0.598 against a
 0.600 bar is exactly the case it was written for. The direction test's
 kappa of 1.000 is likewise not evidence of anything at n=5.
 
-The Sonnet arm of the same experiment was submitted at the same time and is
-pending. Both arms were declared before either was scored, and the verdict
-is per-arm, as it has been throughout - the production model for a layer is
-whichever arm clears its own gate.
+**The Sonnet arm reported and the pre-stated rule fired.** The handling of
+each possible figure was written into
+`d4_gate_outcome_and_decisions.md` §4c before the arm returned: clear at 0.65
+or above and the layer is adopted; land in 0.600 to 0.649 and it is adopted
+but marked secondary; fall below 0.600 and it is dropped and recorded as an
+instructive near miss. Sonnet returned 0.598. **The layer is dropped.** The
+three consequence features are `unavailable`, not pending.
+
+No further scoring variant was computed, per the pre-statement. AC1 and raw
+agreement both satisfy the fallback route's conditions and its trigger does
+not fire, needing a marginal at 0.90 against 0.817. Two arms were two attempts
+at one bar and both missed it, which at least removes the multiple-comparison
+concern the pre-statement was written to handle.
 
 **Attribution was not given the same treatment, and the reason was
 initially overstated.** The first statement of it - that no fix exists - was
@@ -667,6 +708,135 @@ health, so these figures change no decision. The `credit_blame` batch was
 going to be used. Cancelling avoids billing for unprocessed requests.
 Collecting it would have added a completeness figure to this log and nothing
 to any decision.
+
+---
+
+## Experiment 12: the attribution layer, and a five-way field hiding two faults
+
+**What prompted it.** Whether the two excluded layers were really beyond
+rescue, and whether the reason had been stated clearly. Re-checking it found
+that one of my own conclusions was wrong.
+
+**The wrong conclusion.** Experiment 9 reported that attribution had no
+diagnosable definitional gap: the disagreements scattered across seven cells,
+the marginals broadly matched (human blame 33 of 57, model 29), and
+inter-model agreement was itself only 0.602, so there was no shared model
+reading distinct from the reviewer's to point at. Consequence, by contrast,
+had 18 of 26 disagreements in one cell. On that basis attribution was
+excluded outright while consequence was sent for redesign.
+
+**What the five-way field was hiding.** The two binaries a redesign would ask
+about can be derived from the frozen output already on disk -
+`attribution_type_set` records every type the model used per article, so
+`mixed` maps to both directions exactly as it does on the human side. No API
+call was needed. Derived that way, on the arms' own accepted records:
+
+| binary | Sonnet kappa | Haiku kappa | agreement | human positives | model positives |
+|---|---|---|---|---|---|
+| blame present | **0.564** (n=52) | **0.565** (n=24) | 0.808 / 0.792 | 36 / 10 | 34 / 9 |
+| credit present | **0.181** (n=52) | 0.483 (n=24) | 0.558 / 0.792 | 8 / 5 | **29** / 8 |
+
+Human `unclear` is excluded from both - the reviewer recorded that an
+attribution exists whose direction is not determinable, which neither binary
+can be paired against.
+
+These are two different failures, not one uniform one. Blame is 0.036 short
+of the bar with marginals that match closely, 36 human positives against 34
+from the model. Credit has exactly the shape consequence had: the model finds
+credit in 29 of 52 articles where the reviewer finds it in 8, a bar set some
+three and a half times lower. The five-way average hid it because blame is 33
+of 57 of the reviewer's labels - a nearly-competent majority class and an
+incompetent minority class combined into 0.521 and read as one flat failure.
+
+So Experiment 9's conclusion is corrected: the gap was there, and the
+instrument was too coarse to show it. What was true is narrower - no gap is
+visible *in a five-way confusion matrix*, which is not the same as no gap.
+
+**The redesign, submitted 2026-07-30.**
+`src/llm_extraction/attribution_rescue.py` asks the two binaries
+independently, as the framing redesign asks its four frames. Both-yes is
+`mixed` and both-no is `none`, so the 8 human labels using `mixed` or
+`unclear` - 14% of the sample, against which the model used neither value once
+in 57 records though both are in its enum - stop being structurally
+unpairable. Nothing asks which attribution is principal, so the rule that only
+the reviewer received disappears.
+
+Beyond the split it states a bar, because the credit figures say the model's
+bar is far below the reviewer's. An attribution requires all three of: a named
+party or administration; a specific outcome that already exists; and a
+statement in the article linking the two. Three exclusions name what
+pre-election coverage is full of - a promise or manifesto pledge is not an
+attribution because the outcome does not exist yet; a politician defending a
+record or rejecting criticism is not being credited; and being named in a
+candidate list or quoted on another subject is not being blamed or credited.
+
+**The scoring rule was declared before submission,** this layer's verdict
+having already moved twice under scoring corrections that were both real
+faults. Each binary is judged alone. Human `mixed` is positive for both,
+`unclear` excluded from both. A binary with fewer than 10 human positives is
+`undetermined_insufficient_positives` rather than failed - the framing
+rescue's minimum, for the framing rescue's reason.
+
+**A prediction recorded in advance.** The reviewer's credit positives number
+8, below that minimum, so **credit is expected to return undetermined rather
+than pass or fail.** Blame, at 36 positives and a derived 0.564, is the binary
+that can be settled on this sample. That matters for what is at stake:
+`blame_count` and `recency_weighted_blame` need the blame binary only, while
+`credit_count` and `net_attribution` need credit. Blame clearing on its own
+recovers two of the layer's four pre-registered features and no more.
+
+The derived 0.564 is a **lower bound**, not a forecast. It comes from a prompt
+that was never asked "does this article blame someone, yes or no" - the answer
+was reconstructed from a multi-way field. Asking directly is the intervention
+that took stance from 0.32 to 0.85 and consequence's presence axis from 0.318
+to 0.598.
+
+**Result: the redesign failed, and made the working half worse.** Both arms
+returned in three minutes, 60 of 60 clean on each.
+
+| arm | binary | n | human pos | model pos | revised kappa | frozen kappa | verdict |
+|---|---|---|---|---|---|---|---|
+| Sonnet | blame | 55 | 39 | **21** | **0.272** | 0.564 | fails, and 0.292 worse |
+| Haiku | blame | 55 | 39 | **23** | **0.319** | 0.565 | fails, and 0.246 worse |
+| Sonnet | credit | 55 | 8 | 15 | 0.302 | 0.181 | undetermined (8 positives < 10) |
+| Haiku | credit | 55 | 8 | 13 | 0.245 | 0.483 | undetermined (8 positives < 10) |
+
+Inter-model: blame 0.610, credit 0.442 over all 60 shared articles.
+
+**The cause, which is a design error of mine and not a model failure.** I
+wrote a symmetric bar for an asymmetric problem. Credit needed tightening -
+the model over-called it three and a half times. Blame did not: its marginals
+already matched at 36 human positives against 34 from the model. But the three
+conditions and the three exclusions applied to *both* questions, so the rules
+written to curb credit suppressed blame as well. The model's blame positives
+fell from 34 of 52 under the frozen prompt to 21 of 55 under the redesign,
+against the reviewer's 39. Everything the bar excluded - a promise, a
+politician defending a record, a party merely being named - the reviewer
+evidently was counting as blame in a fair number of cases.
+
+Credit moved the direction the diagnosis predicted on Sonnet, 0.181 to 0.302,
+which is the only part of this that behaved as designed. It cannot be a
+verdict: the reviewer's 8 credit positives sit below the 10-positive minimum
+declared before submission, so both arms report `undetermined` regardless of
+their figures.
+
+**The layer is dropped, and no third attempt is made.** Not because no further
+idea exists - the obvious one is an asymmetric design, leaving blame
+unconstrained and applying the bar only to credit. It is not run because that
+prompt would be chosen entirely on what these 60 gold-labelled articles just
+showed, which is fitting the instrument to the evaluation set. Attribution has
+now had two attempts, the same as stance, framing and consequence; a third
+would be one more than any other layer received, and chosen with the answers
+in hand.
+
+There is no salvage in the frozen output either. The derived blame binary at
+0.564 is the best figure this layer produced on any instrument, and it is
+still below 0.600.
+
+**What is lost:** all four features - `blame_count`, `credit_count`,
+`net_attribution`, `recency_weighted_blame`. The supervisor's brief lists
+blame and credit attribution explicitly, so this is a gap the report has to
+state rather than route around.
 
 ---
 

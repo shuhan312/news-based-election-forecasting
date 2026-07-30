@@ -89,17 +89,36 @@ LAYER_STATUS = {
                                     "definitional fix is diagnosed; the "
                                     "binary-split redesign is identified but "
                                     "unrun"),
-    "consequence": ("pending", "frozen layer fails at 0.259 (Sonnet, n=55) "
-                               "human and 0.587 between arms, both below the "
-                               "bar and both superseding ungated figures. "
-                               "The redesign reaches presence kappa 0.598 at "
-                               "n=60 on Haiku - 0.002 short - having closed "
-                               "the threshold gap the confusion matrix "
-                               "diagnosed and eliminated 31 of 60 validator "
-                               "rejections. Sonnet arm outstanding; not "
-                               "adopted until it reports"),
-    "reform_flag": ("available", "reform_uk.applicable, kappa 0.680 on "
-                                 "Haiku over all 22 blind-sample articles"),
+    # Dropped after its redesign replicated at 0.598 on both arms - see
+    # d4_findings_log.md experiment 10. The redesign worked as a diagnosis and
+    # failed as a rescue: it closed the threshold gap the confusion matrix
+    # found (the model went from calling 60% of articles consequential to 18%
+    # against the reviewer's 30%), eliminated all 31 validator rejections, and
+    # took inter-model agreement from 0.587 to 0.889 - two models with
+    # near-identical marginals, 49 of 60 "none" on each. Both then landed
+    # 0.002 below the bar against the reviewer. So the residual disagreement is
+    # systematic and replicated rather than noise, which is the best evidence
+    # here that the reviewer's coding may be the looser side, and it licenses
+    # nothing: two models sharing training data and a prompt are not
+    # independent coders, and the reviewer's own test-retest reliability on
+    # this field was never measured. Neither side can be shown correct, which
+    # is exactly the case the gate exists to catch.
+    "consequence": ("unavailable", "frozen layer fails at 0.259 (Sonnet, "
+                                   "n=55) human and 0.587 between arms. The "
+                                   "redesign reaches presence kappa 0.598 on "
+                                   "both arms at n=60, 0.002 short, with "
+                                   "inter-model agreement of 0.889. Dropped "
+                                   "under the rule stated before the second "
+                                   "arm reported"),
+    "reform_flag": ("available", "deterministic pattern match on the article "
+                                 "text, so no validation gate applies. "
+                                 "Supersedes reform_uk.applicable (kappa "
+                                 "0.680 on Haiku), which lives in the "
+                                 "excluded consequence layer and is "
+                                 "unreachable on either arm - see "
+                                 "REFORM_PATTERNS for why, and for the "
+                                 "3.4-point under-count the strict pattern "
+                                 "carries"),
     # Recovered. The original layer failed both rulers (0.482-0.490 human,
     # 0.316 inter-model); the revised single-question layer clears both
     # (0.848 inter-model, 0.736-0.741 human). Available at three levels
@@ -233,12 +252,53 @@ CONSEQUENCE = [
             "announcement'"),
 ]
 
+# Re-operationalised 2026-07-30, from an LLM judgement to a deterministic
+# string match, because the judgement has no reachable data source.
+#
+# `reform_uk.applicable` is a property of the electoral-consequence schema.
+# That layer failed the D4 gate and is not extracted, so the two features
+# below had no data behind them - which the 20-feature count concealed until
+# the corpus run was already submitted.
+#
+# Re-including the layer does not fix it, because its two arms fail in
+# opposite directions. The `applicable` judgement validated on Haiku at kappa
+# 0.680 and failed on Sonnet at 0.288; but the layer requires verbatim
+# evidence spans, which Haiku satisfies on 56% of them, and the reform_uk
+# block carries its own span requirement - so on Haiku the flag is discarded
+# with the record. The arm that can make the judgement cannot produce the
+# evidence, and the arm that can produce the evidence cannot make the
+# judgement. No amount of extraction resolves that.
+#
+# So the construct is narrowed to one that needs no judgement: does the
+# article name Reform UK. `stance_rescue.parties_present` already matches it
+# deterministically, on `reform uk` and `reform party`, with bare "reform"
+# excluded so that policy reform does not count as the party.
+#
+# THE COST OF THE CHANGE, STATED RATHER THAN ABSORBED. "Names Reform UK" is a
+# weaker construct than "is materially about Reform UK", and the report must
+# use the weaker wording. Measured on the 178 articles extracted so far, the
+# strict pattern matches 19 (10.7%) while a bare capitalised "Reform" matches
+# 25 (14.0%), so the strict form under-counts by about 3.4 percentage points -
+# articles that write "Reform" without ever writing "Reform UK". Both forms
+# are computed, the strict one as primary and the loose one as a sensitivity
+# check, because the choice between them is a judgement call and free to test.
+#
+# WHAT THE CHANGE BUYS, beyond having any data at all: no validation gate
+# applies to a string match, the count is reproducible from the corpus and the
+# pattern alone, and it can be explained in one sentence - which is one of the
+# four constraints the supervisor set in writing.
+REFORM_PATTERNS = {
+    "strict": (r"\breform uk\b", r"\breform party\b"),
+    "loose": (r"\bReform\b",),   # sensitivity form: case-sensitive, party-ish
+}
+
 REFORM_SPECIFIC = [
-    Feature("reform_applicable_count", "reform_flag",
-            "articles materially about Reform UK",
+    Feature("reform_named_count", "reform_flag",
+            "articles naming Reform UK, by deterministic pattern match "
+            "(strict form primary, loose form as a sensitivity check)",
             "section 1: Reform UK is the principal research party"),
     Feature("reform_share_of_coverage", "reform_flag",
-            "reform_applicable_count over article_count",
+            "reform_named_count over article_count",
             "section 7: 'Reform share of local political coverage'"),
 ]
 

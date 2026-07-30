@@ -1,0 +1,1037 @@
+{
+  "version": "attribution-rescue-v1.0-2026-07-30",
+  "arm": "sonnet",
+  "model": "claude-sonnet-5",
+  "usage": {
+    "input_tokens": 228106,
+    "output_tokens": 24687
+  },
+  "articles_ok": 60,
+  "articles_total": 60,
+  "directions": [
+    "blame",
+    "credit"
+  ],
+  "results": [
+    {
+      "article_id": "NEWS-guardian_api-84a775d4ad10",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": true,
+        "credit": false
+      },
+      "parties": {
+        "blame": "Reform UK",
+        "credit": null
+      },
+      "reasons": {
+        "blame": "Opposition leaders Jerry Roodhouse (Lib Dem) and Jonathan Chilvers (Green) blame Reform for making 'rash promises' and unresearched soundbites about cutting council tax during the election campaign, now exposed by the need for a maximum rise.",
+        "credit": "No group is credited for a positive outcome; the article only reports warnings, accusations, and a council leader defending proposed recommendations."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-7500f66e845f",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": true
+      },
+      "parties": {
+        "blame": null,
+        "credit": "Department of Health"
+      },
+      "reasons": {
+        "blame": "The article does not report anyone blaming a named party or group for a negative outcome, only past inefficiencies attributed to the old contract structure generally.",
+        "credit": "The article credits the Department of Health's redesigned Home Oxygen Service with saving the NHS \u00a335m a year and improving patient experience through faster response times and better equipment allocation."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-2360b288b189",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "This is a court case about an individual dog owner, not about any named party or council administration.",
+        "credit": "No named party, council or governing group is credited with anything in this article."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-5e3328cf929c",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "The article discusses disproportionate financial harm to BAME communities but does not attribute this outcome to a specific named party, council or governing group's actions.",
+        "credit": "No named party or group is credited with a specific positive outcome; the Treasury's comment describes ongoing efforts rather than a completed, credited achievement."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-3dd2ab7556e7",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": true,
+        "credit": true
+      },
+      "parties": {
+        "blame": "Rachel Reeves's budget / the Government (Labour)",
+        "credit": "Vodafone"
+      },
+      "reasons": {
+        "blame": "Multiple sources (UKHospitality's Kate Nicholls, Wealth Club's Isaac Stell, Capital Economics' Ashley Webb, and the article's own narration) explicitly blame the Chancellor's budget/national insurance rises for job losses and the rise in unemployment.",
+        "credit": "The article reports that Vodafone's own decision to raise its dividend and upgrade profit guidance, plus its turnaround in Germany, led to its share price becoming the top FTSE riser, effectively crediting the company's management for this improved performance."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-383fdf4ab4cd",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "The article criticizes Shabana Mahmood's rhetoric and policy framing personally, but this is not about a named party or governing group being blamed for a specific outcome, nor about UK national politics/Surrey council administration.",
+        "credit": "No named party or administration is credited with any specific accomplished outcome; the piece is an opinion critique of a politician's narrative strategy."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-13c48e6a3545",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": true,
+        "credit": true
+      },
+      "parties": {
+        "blame": "Reform UK (Kent county council)",
+        "credit": "Conservatives"
+      },
+      "reasons": {
+        "blame": "A Labour councillor and opposition councillors accuse the Reform-led Kent county council leadership of prioritising political manoeuvring over public safety during the meningitis outbreak by declaring an 'illegal migration emergency'.",
+        "credit": "Kemi Badenoch claims that Reform UK's Kent County Council 'Doge team' found that council tax savings had already been made by the Conservatives before Reform took over, crediting the Tories for those existing savings."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-bbc_surrey-956003a841b5",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "No named party, council or governing group is blamed; the article only describes a police incident report about an unnamed man.",
+        "credit": "No named party, council or governing group is credited; the article simply reports Surrey Police's account of the incident."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-fc42fa870ddc",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": true,
+        "credit": true
+      },
+      "parties": {
+        "blame": "Labour",
+        "credit": "Labour"
+      },
+      "reasons": {
+        "blame": "Kemi Badenoch blames Labour ministers (Ed Miliband and Rachel Reeves) for blocking North Sea drilling and hiking taxes on working families during the energy crisis.",
+        "credit": "Keir Starmer credits Labour's investment and Wes Streeting's leadership for public confidence in the NHS rising again after falling under the previous government."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-ed80536b929e",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": true,
+        "credit": true
+      },
+      "parties": {
+        "blame": "Reform UK",
+        "credit": "NHS England"
+      },
+      "reasons": {
+        "blame": "Labour's Anna Turley blames Reform UK, led by Farage, for tolerating 'flagrant racism' after Pochin's comments.",
+        "credit": "NHS England credits itself for delivering a record number of elective treatments and operations in 2025, cutting the waiting list."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-f7a7a3a15568",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": true,
+        "credit": false
+      },
+      "parties": {
+        "blame": "Surrey county council",
+        "credit": null
+      },
+      "reasons": {
+        "blame": "The safeguarding review and the council's own leader Tim Oliver attribute the failure to identify Sara's abuse and the missed home visit to Surrey children's services/council.",
+        "credit": "The article reports only failures and apologies, with no outcome credited to any named party or administration."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-351db380e072",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "This is an obituary with no criticism or blame directed at any named party, council or governing group.",
+        "credit": "This is an obituary with no credit attributed to any named party, council or governing group."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-24f48a444223",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": true,
+        "credit": true
+      },
+      "parties": {
+        "blame": "the Conservative government",
+        "credit": "the Conservative government"
+      },
+      "reasons": {
+        "blame": "Shadow chancellor Anneliese Dodds accuses the government of 'squandering public money on an industrial scale' during the crisis.",
+        "credit": "The OBR credits the government's furlough scheme extension with having saved 300,000 jobs."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guildford_dragon-c4c267f5f96d",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": true,
+        "credit": false
+      },
+      "parties": {
+        "blame": "Conservatives",
+        "credit": null
+      },
+      "reasons": {
+        "blame": "The letter blames the Conservatives for pushing through adoption of the Local Plan in April 2019 and for the government imposing the housing target that removed land from the green belt.",
+        "credit": "The article contains no statement crediting any named party or group for a positive outcome."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-0240a09cb3df",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": true,
+        "credit": true
+      },
+      "parties": {
+        "blame": "Foreign Office",
+        "credit": "UK Government"
+      },
+      "reasons": {
+        "blame": "Labour MP Chris Bryant blames the Foreign Office (via its permanent secretary Barton) for presiding over a 'half-hearted and incompetent' congratulation to Biden.",
+        "credit": "Johnson credits the UK government for having 'led the way' by being the first major country to set a net zero by 2050 target."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-3867309607e1",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "No named party or administration is blamed for any specific failure; the article only mentions general challenges like deprivation and low civic involvement without attribution.",
+        "credit": "The article praises individual councillors like Paul Deach for personal initiatives (podcasting), but this is an individual acting personally, not a named party or governing group being credited."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-64d0584b57fa",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "The article discusses systemic NHS funding and reform issues generally, without a named party, council or governing group being blamed for a specific outcome.",
+        "credit": "Councils' cost-cutting is described generically without naming a specific council or party, so no named group is credited for an outcome."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-c4dcbaa0515e",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": true,
+        "credit": false
+      },
+      "parties": {
+        "blame": "Government (MHCLG)",
+        "credit": null
+      },
+      "reasons": {
+        "blame": "Andrew Howard blames the government for a 'poorly judged, quick-fix' housing targets algorithm that upset Tory heartlands and required a U-turn.",
+        "credit": "The article discusses policy debates and criticisms but contains no statement crediting a named party or council for something that has already gone well."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-bbc_surrey-4739f8ec453a",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "The article reports an unsolved crime and police appeal but no named party or group is blamed for anything.",
+        "credit": "No named party or group is credited with any outcome; the article only describes an ongoing police investigation."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-656a147b1b36",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": true
+      },
+      "parties": {
+        "blame": null,
+        "credit": "Historic England"
+      },
+      "reasons": {
+        "blame": "The letters mention frustration or blame in passing (e.g. dismissing 'the blame game about this government'), but no specific named party or council is blamed for a concrete outcome that already occurred.",
+        "credit": "Historic England's co-CEOs credit its High Streets Heritage Action Zones programme, funded with \u00a395m of government money, for reviving more than 60 historic high streets, reducing vacancy rates and creating jobs."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-32652e99bc22",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": true,
+        "credit": true
+      },
+      "parties": {
+        "blame": "Starmer's government (UK government)",
+        "credit": "UK government (Foreign Office)"
+      },
+      "reasons": {
+        "blame": "Gareth Thomas blames the government's decision to cut Gavi funding, calling it 'a troubling signal of retreat' and saying Britain is 'moving in the wrong direction'.",
+        "credit": "A Foreign Office spokesperson credits the UK's work with the Global Fund for having 'contributed to saving 70 million lives' and reducing disease death rates by 63%."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-896faad4b594",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": true,
+        "credit": true
+      },
+      "parties": {
+        "blame": "Conservatives",
+        "credit": "Labour"
+      },
+      "reasons": {
+        "blame": "Powell blames 'Tory austerity' for the damaged state of public services that Labour is now said to be fixing.",
+        "credit": "Powell/the article credits the Labour government with already-implemented policies like frozen rail fares, high street funding and the warm home discount extension."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-2273c756b650",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "The article discusses the funding formula's effects generally but does not attribute a specific existing failure to a named party or council.",
+        "credit": "Ministers describe the settlement's aims and ambitions but this is framed as future hope/promise, not credit for an outcome already achieved."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-fcfb81b2dc09",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "The article is a discussion roundup on restorative justice with no mention of blame directed at a named party or council.",
+        "credit": "No named party, council or governing group is credited for any outcome; contributors discuss general practice and policy, not attributing results to a specific administration."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-1a41f71c116d",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "This concerns personal allegations of racist behaviour by Farage as an individual, not a named council, party, or governing group being blamed for an outcome relevant to this study's scope.",
+        "credit": "No named party, council or governing group is credited with any specific outcome in this article."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-f9c82f1235c8",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "The article reports economists' warnings and critiques of stimulus policies, not a specific attribution of a past failure to a named party or council.",
+        "credit": "No named party or governing group is credited for a specific outcome; the piece is a policy debate about future risks, not accomplished results."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-0b11943945c9",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": true,
+        "credit": true
+      },
+      "parties": {
+        "blame": "Conservative Party",
+        "credit": "Labour (Welsh Labour administration)"
+      },
+      "reasons": {
+        "blame": "A New Statesman article quoted in the blog blames the Conservatives for their continued/reinstated aid support to Rwanda despite the country's human rights record and Kagame's backing of Congolese rebels.",
+        "credit": "The article reports that the Labour administration in Wales secured an agreement with Plaid Cymru enabling it to pass its budget, crediting Labour for reaching that deal."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-bbc_surrey-9322d4431ec0",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "Losses are attributed to weather conditions, not to any named party, council or governing group.",
+        "credit": "No named party or governing group is credited; the positive outlook for Denbies is attributed to weather effects, not a group's actions."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-33fde8b6d2bc",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "The article analyses Labour's poor byelection result and Brexit dynamics but does not report anyone blaming a named party for a specific failed outcome.",
+        "credit": "No named party or administration is credited with a specific accomplished outcome; the piece is electoral commentary, not an attribution of success."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guildford_dragon-d8c0187430a0",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": true,
+        "credit": false
+      },
+      "parties": {
+        "blame": "Conservative Party",
+        "credit": null
+      },
+      "reasons": {
+        "blame": "Commenters blame the Conservatives for stripping the NHS bare, causing overcrowding and pollution in the South East, and breaking their 2015 election pledges to protect the green belt.",
+        "credit": "The article contains only future pledges and praise for an individual councillor, with no named party or administration credited for an outcome that has already occurred."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-bbc_surrey-977a0d0a4f74",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "This is a crime/court report with no named party, council or governing group blamed for anything",
+        "credit": "No named party, council or governing group is credited; the NCA's investigative work is not a political attribution relevant to this study"
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-ae8d528a0868",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": true
+      },
+      "parties": {
+        "blame": null,
+        "credit": "Sunderland council"
+      },
+      "reasons": {
+        "blame": "The withdrawal of refuge funding is described as a proposed budget cut under consultation, not a completed decision, so no named group is blamed for something that has already happened.",
+        "credit": "Vera Baird credits Sunderland councillors and council staff for being consistently committed and 'at the forefront' of innovative work tackling domestic abuse, such as the pioneering joint police-refuge patrol scheme."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-9f80db7dd6d3",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "The article is a factual list of candidates and council structure with no claims of blame for any outcome.",
+        "credit": "The article contains no statements crediting any party or group for something that has gone well."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-39affecd8be2",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "This is a crime report about individual defendants, not blame directed at a named party, council or governing group.",
+        "credit": "No named party, council or governing group is credited; Surrey Police's success is an individual force action, not one of the qualifying named groups for this study's purposes, and no political outcome is credited."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-44cbb952c1d6",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": true,
+        "credit": true
+      },
+      "parties": {
+        "blame": "Conservatives",
+        "credit": "Liberal Democrats"
+      },
+      "reasons": {
+        "blame": "The journalist states that 'the Tories failed to deliver Lords reform', blaming the Conservatives for not following through on the reform.",
+        "credit": "The article credits the Lib Dems for 'genuine victories, such as the cuts in income tax for workers', a specific policy achievement attributed to the party."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-34881ec267e4",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "The article contains criticism and disagreement (e.g., Heathrow's chief accusing government of 'too cautious' policy on future travel plans, or Ashworth criticising Johnson's proposed vaccine passport plan) but no statement attributing an already-existing negative outcome to a named party/administration.",
+        "credit": "No named party or administration is credited with a specific existing outcome; mentions of vaccine progress, falling case numbers, and Scotland's testing expansion are reported neutrally or as ongoing plans rather than attributed achievements."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-0542986e54ba",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "This is a national opinion piece about Brexit and the political right, not related to Surrey council or local pre-election issues, so no qualifying local blame attribution is present.",
+        "credit": "The article contains no credit attributed to a named council, party or governing group for a specific local outcome."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-b1eaf77d795f",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "Hunt calls Labour's NHS pay rise pledge 'insincere', but this criticizes a future promise rather than blaming Labour for an existing outcome.",
+        "credit": "The article lists Hunt's future priorities and past meetings but does not attribute any completed, specific outcome to a named party."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-bb20adee0f3a",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "The article describes disputes over who is responsible for the NHS winter crisis but no named party or administration is explicitly blamed for a specific existing outcome by anyone quoted.",
+        "credit": "No individual or quote in the article credits any named party or governing group for something that has gone well."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-2fcab156b766",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": true
+      },
+      "parties": {
+        "blame": null,
+        "credit": "David Cameron"
+      },
+      "reasons": {
+        "blame": "No named party or group is blamed for a specific negative outcome; the article discusses EU policy debate and rebel votes without attributing blame.",
+        "credit": "Duncan Smith credits Cameron for being the first to veto a European treaty, a specific past action."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-d74f5e4509df",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "Miliband criticises Boris Johnson and Rishi Sunak personally for their handling of unemployment, but this targets named individuals, not a named party, council or governing group, so it does not meet the attribution criteria.",
+        "credit": "Miliband praises Keir Starmer's personal handling of the EHRC report, but this is credit to an individual, not to a named party or governing group, so no qualifying attribution is made."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-1d71be81f2ae",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "No named party, council or group is blamed for anything; this is a factual report on a body discovery.",
+        "credit": "No named party, council or group is credited for anything; police thank the public generally but this is not a credit attribution as defined."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-097b30b5bdb0",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": true,
+        "credit": false
+      },
+      "parties": {
+        "blame": "Tory-Lib Dem coalition",
+        "credit": null
+      },
+      "reasons": {
+        "blame": "Doughty says voters are being hurt by cuts imposed by the Tory-Lib Dem coalition government.",
+        "credit": "The article reports Labour's electoral win and vote share increase but no one credits a specific policy outcome or achievement to a named party beyond the election result itself."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-f179eb8f1ab9",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": true,
+        "credit": false
+      },
+      "parties": {
+        "blame": "Conservatives",
+        "credit": null
+      },
+      "reasons": {
+        "blame": "Lammy blames the previous Conservative government for 860 prisoner releases in error and for cutting frontline prison officers by a quarter between 2010 and 2017, worsening the system.",
+        "credit": "No named party or administration is credited with an existing achievement; Davie's remarks about BBC trust are self-promotional defence rather than third-party credit, and other comments are promises or criticisms."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-938b4b38443f",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "The article reports a stabbing and arrest without anyone blaming a named party, council or governing group.",
+        "credit": "No named party, council or group is credited with any positive outcome in this crime report."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-ea7dd4642df3",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": true
+      },
+      "parties": {
+        "blame": null,
+        "credit": "Esydoc (East Surrey CCG)"
+      },
+      "reasons": {
+        "blame": "The article describes no failure or negative outcome attributed to any named group; it is a positive account of a CCG initiative.",
+        "credit": "The author, a member of Esydoc CCG, credits the CCG for successfully using Facebook to improve communication among GPs and streamline services."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-a876f0e9998e",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "No named party or council is blamed for anything; the article discusses variant discovery and testing measures without attributing fault.",
+        "credit": "No specific outcome is credited to a named party; officials describe testing measures as precautionary or ongoing actions, not completed achievements attributed to a group."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-8ae0aa97db90",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "The article notes disputed claims (e.g., Reform UK's savings figures, BBC bias allegations) but does not clearly attribute a specific, established failure to a named party or governing administration\u2014these are either claims not confirmed or refer only to unnamed 'government'.",
+        "credit": "No named party, council or governing group is credited in the article for a specific outcome that has already occurred; mentions of Reform UK's savings claim are presented as unverified and questioned rather than credited."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-bbc_surrey-efe6c71df344",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "The article describes an unidentified suspect and police investigation, with no named party, council or governing group blamed for the tree felling.",
+        "credit": "The article credits the police and community for helping identify a suspect, but no named party or governing group is credited for a specific outcome."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-7a29d15d8401",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "The article is a factual rundown of candidates and current council control with no statements blaming any group for a specific negative outcome.",
+        "credit": "The article only lists candidates and describes which parties currently hold seats, without crediting any group for a specific achievement."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-a44a37b3b283",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": true,
+        "credit": false
+      },
+      "parties": {
+        "blame": "Home Office",
+        "credit": null
+      },
+      "reasons": {
+        "blame": "Council leaders (Rishi Shori, Nick Forbes) blame the Home Office for slow, poorly communicated transfers of asylum-seeking children despite councils being ready.",
+        "credit": "No named party or administration is credited with a specific achieved outcome; the Home Office cites funding increases defensively rather than being credited by others."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-bbc_surrey-8cf8f699dc50",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "No named party, council or governing group is blamed; the article only describes a criminal incident and police investigation.",
+        "credit": "No named party, council or governing group is credited for anything positive in this crime report."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-b6967f5376d3",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "The article describes a car crash and driver fleeing but does not attribute blame to any named party, council or governing group.",
+        "credit": "No named party, council or governing group is credited with any outcome in this crash report."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-8a783705f74e",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": true,
+        "credit": false
+      },
+      "parties": {
+        "blame": "the coalition government",
+        "credit": null
+      },
+      "reasons": {
+        "blame": "The journalist blames the coalition's PFI/PF2 policy and 'government-inspired deficits' for straining NHS finances and triggering hospital closures and bed cuts.",
+        "credit": "No group is credited for a completed positive outcome; the coalition's claim that PF2 will give a better deal is a future promise, not an achieved result."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-b1f737e52256",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "The article describes dangerous behaviour by unnamed individuals at the crossing but does not blame a named party, council or governing group for it.",
+        "credit": "No named party, council or governing group is credited with anything that has gone well; the article only discusses ongoing safety concerns and a petition."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-2037e4eda9eb",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": true,
+        "credit": false
+      },
+      "parties": {
+        "blame": "Conservative Party / Boris Johnson's government",
+        "credit": null
+      },
+      "reasons": {
+        "blame": "The journalist blames the Conservative government for the failed \u00a312bn test-and-trace system, PPE that wasn't fit for purpose, and contracts awarded to Conservative party donors.",
+        "credit": "Nicola Sturgeon is said to have 'won plaudits' but this is vague praise about her performance, not a specific outcome, and the article immediately undercuts it by noting Scotland's infection rates aren't much lower."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-d05e30e901e5",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "The article reports a traffic collision without anyone blaming a named party, council or governing group.",
+        "credit": "No named party, council or group is credited with anything going well in this crash report."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-85aa2166b08c",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "The article reports Blunt's own criminal conduct and legal defence but no one blames a named party, council or governing group for a specific outcome.",
+        "credit": "No named party, council or governing group is credited with anything positive in this article about Blunt's sentencing."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-5ce140b45966",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": true,
+        "credit": false
+      },
+      "parties": {
+        "blame": "Surrey county council",
+        "credit": null
+      },
+      "reasons": {
+        "blame": "The article reports that the council was given the company's records but failed to go to Foster's aid, directly blaming the council for the fatal delay.",
+        "credit": "No named party or council is credited with anything that went well; the council's statement merely defends its ongoing investigation, not a credited success."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-3aa227967a6d",
+      "batch_result": "succeeded",
+      "attributions": {
+        "blame": false,
+        "credit": false
+      },
+      "parties": {
+        "blame": null,
+        "credit": null
+      },
+      "reasons": {
+        "blame": "No named party, council or governing group is blamed for any specific outcome; the letter only discusses general workplace health statistics.",
+        "credit": "The letter welcomes the government's future plans to renew a women's health strategy, but this is a forward-looking commitment, not credit for something already achieved."
+      },
+      "validation_errors": []
+    }
+  ]
+}

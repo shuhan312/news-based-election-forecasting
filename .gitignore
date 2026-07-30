@@ -115,3 +115,4 @@ llm_context/consequence_rescue.log
 # stay in Git: they carry batch ids, the window census and aggregate figures,
 # and reproduce no article text.
 llm_context/corpus_extraction_outputs_*.json
+llm_context/attribution_rescue.log
