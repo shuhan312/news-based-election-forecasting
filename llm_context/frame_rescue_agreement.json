@@ -1,0 +1,143 @@
+{
+  "arm_a": "claude-sonnet-5",
+  "arm_b": "claude-haiku-4-5",
+  "articles_clean_in_both": 55,
+  "articles_clean_sonnet_only": [],
+  "articles_clean_haiku_only": [
+    "NEWS-guardian_api-0b11943945c9",
+    "NEWS-guardian_api-24f48a444223",
+    "NEWS-guardian_api-383fdf4ab4cd",
+    "NEWS-guardian_api-44cbb952c1d6",
+    "NEWS-guardian_api-bb20adee0f3a"
+  ],
+  "inter_model_pooled": {
+    "pairs": 220,
+    "percent_agreement": 0.891,
+    "kappa": 0.695,
+    "ac1": 0.831,
+    "max_marginal": 0.791,
+    "skew_trigger": false,
+    "verdict": "passes (primary kappa)",
+    "passes": true
+  },
+  "inter_model_per_frame": {
+    "incumbent_judgement": {
+      "pairs": 55,
+      "percent_agreement": 0.855,
+      "kappa": 0.705,
+      "ac1": 0.714,
+      "max_marginal": 0.582,
+      "skew_trigger": false,
+      "verdict": "passes (primary kappa)",
+      "passes": true,
+      "positive_cases": {
+        "sonnet": 25,
+        "haiku": 23
+      },
+      "union_positive_cases": 28
+    },
+    "challenger_emergence": {
+      "pairs": 55,
+      "percent_agreement": 0.927,
+      "kappa": 0.471,
+      "ac1": 0.916,
+      "max_marginal": 0.964,
+      "skew_trigger": true,
+      "verdict": "undetermined - 2 positive cases on the thinner arm, below the 10-case minimum; the agreement figure is carried by articles where both arms say absent",
+      "passes": false,
+      "positive_cases": {
+        "sonnet": 6,
+        "haiku": 2
+      },
+      "union_positive_cases": 6,
+      "undetermined": true
+    },
+    "voter_discontent": {
+      "pairs": 55,
+      "percent_agreement": 0.945,
+      "kappa": 0.637,
+      "ac1": 0.936,
+      "max_marginal": 0.927,
+      "skew_trigger": true,
+      "verdict": "undetermined - 4 positive cases on the thinner arm, below the 10-case minimum; the agreement figure is carried by articles where both arms say absent",
+      "passes": false,
+      "positive_cases": {
+        "sonnet": 5,
+        "haiku": 4
+      },
+      "union_positive_cases": 6,
+      "undetermined": true
+    },
+    "local_impact": {
+      "pairs": 55,
+      "percent_agreement": 0.836,
+      "kappa": 0.635,
+      "ac1": 0.704,
+      "max_marginal": 0.691,
+      "skew_trigger": false,
+      "verdict": "passes (primary kappa)",
+      "passes": true,
+      "positive_cases": {
+        "sonnet": 20,
+        "haiku": 17
+      },
+      "union_positive_cases": 23
+    }
+  },
+  "vs_human_sonnet": {
+    "test": "one-sided: does the model also mark present the frame the human's single label implies",
+    "scored": 48,
+    "model_agrees": 28,
+    "model_says_absent": 20,
+    "recall_of_human_frame": 0.583,
+    "human_labels_unmappable_to_any_frame": 7,
+    "articles_not_in_human_labels": 0,
+    "by_frame": {
+      "incumbent_judgement": {
+        "hit": 18,
+        "miss": 11
+      },
+      "challenger_emergence": {
+        "hit": 4,
+        "miss": 3
+      },
+      "local_impact": {
+        "hit": 6,
+        "miss": 6
+      }
+    }
+  },
+  "vs_human_haiku": {
+    "test": "one-sided: does the model also mark present the frame the human's single label implies",
+    "scored": 53,
+    "model_agrees": 26,
+    "model_says_absent": 27,
+    "recall_of_human_frame": 0.491,
+    "human_labels_unmappable_to_any_frame": 7,
+    "articles_not_in_human_labels": 0,
+    "by_frame": {
+      "incumbent_judgement": {
+        "hit": 20,
+        "miss": 13
+      },
+      "local_impact": {
+        "hit": 5,
+        "miss": 7
+      },
+      "challenger_emergence": {
+        "hit": 1,
+        "miss": 7
+      }
+    }
+  },
+  "adopted_frames": [
+    "incumbent_judgement",
+    "local_impact"
+  ],
+  "undetermined_frames": [
+    "challenger_emergence",
+    "voter_discontent"
+  ],
+  "failed_frames": [],
+  "verdict": "framing partially recovered: 2 of 4 frames adopted as binary presence indicators (incumbent_judgement, local_impact); 2 undetermined on too few positive cases (challenger_emergence, voter_discontent); 0 failed (none)"
+}

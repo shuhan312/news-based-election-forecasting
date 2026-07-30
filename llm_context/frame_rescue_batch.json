@@ -1,0 +1,16 @@
+{
+  "version": "frame-rescue-v1.0-2026-07-30",
+  "arm": "sonnet",
+  "model": "claude-sonnet-5",
+  "thinking": {
+    "type": "adaptive"
+  },
+  "batch_id": "msgbatch_01NG8gWaC6G8EA2mUN98k6xY",
+  "articles": 60,
+  "frames": [
+    "incumbent_judgement",
+    "challenger_emergence",
+    "voter_discontent",
+    "local_impact"
+  ]
+}

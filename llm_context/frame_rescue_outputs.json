@@ -1,0 +1,994 @@
+{
+  "version": "frame-rescue-v1.0-2026-07-30",
+  "arm": "sonnet",
+  "model": "claude-sonnet-5",
+  "usage": {
+    "input_tokens": 220906,
+    "output_tokens": 19378
+  },
+  "articles_ok": 55,
+  "articles_total": 60,
+  "frames": [
+    "incumbent_judgement",
+    "challenger_emergence",
+    "voter_discontent",
+    "local_impact"
+  ],
+  "results": [
+    {
+      "article_id": "NEWS-surreylive-9f80db7dd6d3",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article is purely procedural, listing candidates and council mechanics without evaluating any administration's performance.",
+        "challenger_emergence": "Reform UK and other parties are listed as candidates but none is described as gaining momentum or credibility.",
+        "voter_discontent": "No mention of voter or resident sentiment, dissatisfaction, or desire for change.",
+        "local_impact": "The piece stays at the level of administrative restructuring and candidate lists, with no discussion of effects on residents' services or daily life."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-a44a37b3b283",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": true
+      },
+      "reasons": {
+        "incumbent_judgement": "The article scrutinises the Home Office's competence, communication and follow-through on funding and child transfers, quoting council leaders' criticism of its performance.",
+        "challenger_emergence": "No opposition or outsider political party is discussed as gaining support or credibility.",
+        "voter_discontent": "Frustration is expressed by council leaders and officials, not attributed to voters or residents.",
+        "local_impact": "The piece details concrete local consequences\u2014housing arrangements, foster care costs, social worker planning and strained council budgets\u2014for specific communities."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-ae8d528a0868",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": true
+      },
+      "reasons": {
+        "incumbent_judgement": "The article scrutinizes the Labour-led Sunderland council's budget cuts and their impact on services, including quotes defending its record amid criticism.",
+        "challenger_emergence": "No opposition party or rising political force is discussed; the focus is on a council decision and a police commissioner's intervention.",
+        "voter_discontent": "The article does not attribute anger or dissatisfaction to voters or residents, only to charity officials and the commissioner.",
+        "local_impact": "The piece details concrete consequences for local women and children who rely on the refuges and helpline if funding is withdrawn."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-097b30b5bdb0",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article notes the declining Tory and Lib Dem vote shares 'will cause concern for the coalition partners,' implicitly judging their standing and record.",
+        "challenger_emergence": "Plaid Cymru and Ukip doubling their vote share is mentioned only in passing, without framing them as a rising or credible force.",
+        "voter_discontent": "The claim that people are 'fed up' with the coalition is presented as Doughty's own political statement, not independently attributed to voters by the article.",
+        "local_impact": "The piece stays at the level of national political consequences (cuts, banks, economy) rather than concrete local services or projects affecting residents."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-351db380e072",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "This is an obituary with no mention of any governing administration or its performance.",
+        "challenger_emergence": "No political parties or challengers are discussed anywhere in the article.",
+        "voter_discontent": "There is no mention of voters, residents' dissatisfaction, or political sentiment.",
+        "local_impact": "The article is a personal life story, not framed around concrete local services or issues affecting residents."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-8ae0aa97db90",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The piece criticises the Labour government's stalled Lords reform and cites 'government failure and maladministration' in the carers debt scandal.",
+        "challenger_emergence": "Reform UK is mentioned only to question the credibility of its savings claims, not as a rising or credible force.",
+        "voter_discontent": "The article contains no depiction of voters or residents expressing anger or a desire to punish anyone.",
+        "local_impact": "The story is framed around national institutional scandal and abstract political reform, not concrete effects on residents' daily lives."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-bbc_surrey-4739f8ec453a",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article is a police appeal about a criminal investigation, not an assessment of any governing administration's performance.",
+        "challenger_emergence": "There is no mention of political parties or electoral competition at all.",
+        "voter_discontent": "The article contains no reference to voters, residents' political attitudes, or dissatisfaction with governance.",
+        "local_impact": "The piece focuses on a criminal investigation into a murder abroad rather than concrete local service or infrastructure impacts on Surrey residents."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-7a29d15d8401",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article only states which parties currently control each council without evaluating their performance, competence, or integrity.",
+        "challenger_emergence": "Reform UK and other parties are mentioned as standing candidates but there is no discussion of rising support or growing credibility.",
+        "voter_discontent": "The article contains no mention of voter attitudes, dissatisfaction, or desire for change.",
+        "local_impact": "The piece is a procedural listing of wards, candidates and council structures with no discussion of concrete effects on residents' services or lives."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-34881ec267e4",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article scrutinises the government's competence and coherence on Covid policy, including criticism of Johnson's press conference, vaccine passport plans, and travel testing decisions.",
+        "challenger_emergence": "Alba and Reform UK are mentioned but not portrayed as rising credible forces; Reform UK is noted as polling only 1%, and Alba's framing is about tactical voting, not emergence as a winning force.",
+        "voter_discontent": "The article discusses byelection polling and political criticism but does not attribute dissatisfaction or a desire to punish to voters or residents themselves, only reports polling numbers and pundit commentary.",
+        "local_impact": "This is a national/international live-blog covering abstract policy debates (testing rules, vaccine data, byelection polling) without dwelling on concrete consequences for specific local residents' daily lives, particularly not concerning Surrey."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guildford_dragon-c4c267f5f96d",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": false,
+        "voter_discontent": true,
+        "local_impact": true
+      },
+      "reasons": {
+        "incumbent_judgement": "The letter criticizes Conservative councillors' and government's handling of the Local Plan, housing targets, and timing of decisions, questioning their integrity and competence.",
+        "challenger_emergence": "No mention of any rising or credible alternative party is made; the focus is solely on criticizing Conservatives.",
+        "voter_discontent": "The author claims that voters in The Horsleys are well-informed and will 'see right through' the Conservatives' electioneering, implying discontent driving their vote choice.",
+        "local_impact": "The letter discusses concrete local consequences such as housing development, the Wisley Airfield site, and the A3/M25 interchange upgrade affecting residents."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-ed80536b929e",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article scrutinizes Starmer's leadership decisions (ousting Wormald, handling of Ratcliffe row, approval ratings) and quotes opposition criticism of competence and integrity.",
+        "challenger_emergence": "Reform UK and other parties are quoted reacting to events, but no party is depicted as gaining ground or becoming newly credible/winning.",
+        "voter_discontent": "The piece cites politicians' and pundits' opinions but does not attribute dissatisfaction or a desire to punish to voters or residents themselves.",
+        "local_impact": "This is a national Westminster/political roundup with no focus on Surrey or concrete local consequences for residents; it is politics in the abstract at national level."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-0b11943945c9",
+      "batch_result": "succeeded",
+      "frames": null,
+      "validation_errors": [
+        "unparseable: Expecting ',' delimiter: line 1 column 580 (char 579)"
+      ]
+    },
+    {
+      "article_id": "NEWS-guardian_api-33fde8b6d2bc",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": true,
+        "voter_discontent": true,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article focuses on electoral dynamics and Brexit positioning rather than evaluating the Conservative government's competence, finances or service delivery.",
+        "challenger_emergence": "The Liberal Democrats are described as almost doubling their vote share to take third place, framing them as a rising force among remain voters.",
+        "voter_discontent": "The article attributes to the local electorate a frustration and anxiety for May to 'get on with Brexit', reflecting voter impatience.",
+        "local_impact": "The A&E closure campaign is mentioned only briefly as part of the Labour candidate's platform, not developed as a concrete local consequence."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-bbc_surrey-9322d4431ec0",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": true
+      },
+      "reasons": {
+        "incumbent_judgement": "The article does not discuss any governing administration's performance, competence, or leadership.",
+        "challenger_emergence": "There is no mention of any political party or rising political force.",
+        "voter_discontent": "The article discusses farmers' and growers' financial losses, not voter or resident dissatisfaction with governance.",
+        "local_impact": "The article focuses on concrete financial losses to specific local farms and nurseries due to weather conditions."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guildford_dragon-d8c0187430a0",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": true,
+        "voter_discontent": true,
+        "local_impact": true
+      },
+      "reasons": {
+        "incumbent_judgement": "Multiple quotes and comments criticize the Conservative government's and council's record on Brexit strategy, NHS, social care, and green belt/local plan promises.",
+        "challenger_emergence": "Lib Dem candidate Z\u00f6e Franklin and UKIP's George Johnson both frame their parties as rising forces capable of capitalising on Brexit disillusionment and exceeding past results.",
+        "voter_discontent": "Reader comments express anger at broken Tory pledges and disillusionment with green belt development and Brexit, describing a desire to punish the party via votes.",
+        "local_impact": "Comments discuss concrete local consequences like green belt development, town centre housing schemes lacking parking, and the Local Plan's effect on residents."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-896faad4b594",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": true,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article discusses Starmer's leadership being criticised amid backbench discontent and the government's achievements it wants credit for, putting the administration's leadership and record under scrutiny.",
+        "challenger_emergence": "Powell explicitly warns that if Labour fails, 'it's Reform who win,' framing Reform as a credible alternative capable of winning.",
+        "voter_discontent": "The discontent described is among Labour MPs over Starmer's leadership, not attributed to voters or residents.",
+        "local_impact": "Local policies like rail fares and community funding are mentioned only as political talking points for MPs to use, not explored for their effect on residents' lives."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-1a41f71c116d",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article concerns Farage's personal past conduct, not the record or performance of a governing administration in Surrey.",
+        "challenger_emergence": "The article does not discuss Reform's or any party's rising electoral prospects or support levels.",
+        "voter_discontent": "There is no mention of voters or residents expressing dissatisfaction; the criticism comes from former schoolmates, not the electorate.",
+        "local_impact": "The article is about historical allegations against a national political figure and has no connection to concrete local services or issues for Surrey residents."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-938b4b38443f",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article is a crime report and does not evaluate any governing administration's performance.",
+        "challenger_emergence": "No political parties or challengers are mentioned.",
+        "voter_discontent": "There is no depiction of voter or resident dissatisfaction related to governance or elections.",
+        "local_impact": "While it names a local street, the piece focuses on the crime and police response rather than consequences for residents' daily lives."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-85aa2166b08c",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "This is a criminal case about a former MP's personal conduct, not an assessment of a governing administration's performance or services.",
+        "challenger_emergence": "No mention of any party gaining support or being framed as a rising political force.",
+        "voter_discontent": "The article contains no reference to voters' or residents' feelings or attitudes.",
+        "local_impact": "The story focuses on court proceedings and personal scandal rather than concrete consequences for local residents or services."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-3867309607e1",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article discusses podcasting as a tool without evaluating the council's performance, finances, or leadership.",
+        "challenger_emergence": "No mention of any party or challenger group rising or gaining support is made.",
+        "voter_discontent": "Suspicion of political action is described as a general regional trait, not attributed to specific voter anger or a desire to punish.",
+        "local_impact": "The piece speaks abstractly about civic engagement and technology use rather than concrete effects on specific local services or residents' daily lives."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-bbc_surrey-efe6c71df344",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": true
+      },
+      "reasons": {
+        "incumbent_judgement": "The article is about a police investigation and arrest, not an evaluation of the council's or administration's performance.",
+        "challenger_emergence": "No political parties or electoral competition are mentioned at all.",
+        "voter_discontent": "Residents are shown as mobilised and cooperative with police, not expressing political dissatisfaction or a desire to punish anyone.",
+        "local_impact": "The story centres on concrete local harm\u2014dozens of trees felled near the Thames\u2014and residents' direct community response to it."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-2fcab156b766",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article discusses internal Tory/coalition debate over EU strategy but does not evaluate the governing administration's competence, finances, services or integrity in a judgmental way.",
+        "challenger_emergence": "No outside party is presented as a rising or credible force; the piece concerns internal Conservative Eurosceptic dissent, not an external challenger party.",
+        "voter_discontent": "The article reports on cabinet and backbench politics, not on voters' or residents' feelings of dissatisfaction.",
+        "local_impact": "The piece is entirely about abstract national/EU policy debate with no concrete local consequences mentioned, and this is not a Surrey-specific story at all."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-2273c756b650",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": true,
+        "voter_discontent": false,
+        "local_impact": true
+      },
+      "reasons": {
+        "incumbent_judgement": "The article assesses government ministers' claims that the settlement is fair and will 'turn the page on cuts,' contrasting this with expert skepticism about actual service improvement.",
+        "challenger_emergence": "The article notes Reform-led councils positioning themselves distinctly by prioritizing lower council tax bills as a political stance.",
+        "voter_discontent": "The article discusses council and ministerial disagreements but does not attribute dissatisfaction or anger to voters or residents themselves.",
+        "local_impact": "The article explains concrete consequences for residents such as council tax bill increases and potential cuts to libraries, youth services, and social care."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-13c48e6a3545",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": true,
+        "voter_discontent": true,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article includes the Covid inquiry's damning assessment of NHS performance under the government and criticism of Labour's delivery record from Sharon Graham and others.",
+        "challenger_emergence": "Reform UK is depicted as a rising force with a manifesto launch, large crowds, and claims it could 'wipe out' the Conservatives, alongside discussion of its growing support.",
+        "voter_discontent": "Swinney and Sharon Graham describe voters/residents as 'angry' and 'fed up' with the state of society and Labour's lack of delivery.",
+        "local_impact": "The article is a national political liveblog focused on abstract party politics, statements and Westminster/Holyrood debates rather than concrete local services or infrastructure for residents."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-b1f737e52256",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": true
+      },
+      "reasons": {
+        "incumbent_judgement": "The article discusses Network Rail safety issues, not the record or performance of a governing political administration.",
+        "challenger_emergence": "No political parties or challengers are mentioned at all.",
+        "voter_discontent": "There is no depiction of voters expressing political dissatisfaction; concerns are about crossing safety from residents' association members.",
+        "local_impact": "The article focuses on a concrete local safety issue at a specific crossing used daily by Ashtead residents and its potential closure/footbridge replacement."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-f7a7a3a15568",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article scrutinises Surrey children's services' competence and failures, with the council leader apologising and pledging reforms.",
+        "challenger_emergence": "No party or political challenger is discussed; this is about safeguarding failures, not electoral competition.",
+        "voter_discontent": "The article contains no attribution of anger or dissatisfaction to voters or residents.",
+        "local_impact": "The focus is on the tragic case and systemic/agency failings nationally and locally, not on concrete everyday consequences for residents generally."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-1d71be81f2ae",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article is a police report on a missing person case and does not evaluate any governing administration's performance.",
+        "challenger_emergence": "No political parties or challengers are mentioned in this article.",
+        "voter_discontent": "There is no mention of voters or residents expressing dissatisfaction; the article focuses on a tragic personal event.",
+        "local_impact": "While the story is about a local area (Ashtead), it does not discuss concrete consequences for residents like services or infrastructure; it is a report on a missing person and death."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-84a775d4ad10",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": true
+      },
+      "reasons": {
+        "incumbent_judgement": "The article scrutinises Reform-led councils' financial competence and their broken campaign promises on council tax.",
+        "challenger_emergence": "Reform is discussed as an incumbent governing party facing criticism, not as a rising outside force gaining support.",
+        "voter_discontent": "The criticism comes from opposition politicians (Lib Dem and Green leaders), not from voters or residents directly.",
+        "local_impact": "The article cites concrete figures like a \u00a31.75 weekly increase on a band D property and \u00a34.2m in cuts needed per 1% reduction, tying the story to residents' finances and services."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-44cbb952c1d6",
+      "batch_result": "succeeded",
+      "frames": null,
+      "validation_errors": [
+        "unparseable: Expecting ',' delimiter: line 1 column 723 (char 722)"
+      ]
+    },
+    {
+      "article_id": "NEWS-guardian_api-bb20adee0f3a",
+      "batch_result": "succeeded",
+      "frames": null,
+      "validation_errors": [
+        "unparseable: Expecting ',' delimiter: line 1 column 675 (char 674)"
+      ]
+    },
+    {
+      "article_id": "NEWS-guardian_api-f179eb8f1ab9",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article extensively scrutinises the BBC's leadership, editorial integrity and the government's handling of the crisis, prisons, and Waspi compensation, with MPs and commentators passing judgement on competence and honesty.",
+        "challenger_emergence": "While Reform UK and Farage are mentioned criticising the BBC, the article does not frame them as a rising or increasingly credible electoral force gaining ground.",
+        "voter_discontent": "The piece reports politicians', journalists' and commentators' views but does not attribute anger or a desire to punish to voters or residents themselves.",
+        "local_impact": "The coverage stays at the level of Westminster politics, legal disputes and institutional debate, without dwelling on concrete effects for ordinary residents' daily lives."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-b1eaf77d795f",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": true
+      },
+      "reasons": {
+        "incumbent_judgement": "The article mostly reports Hunt's re-election priorities and attacks on Labour rather than scrutinising his own record in government.",
+        "challenger_emergence": "UKIP and a potential unified progressive candidate are mentioned only in passing, without any suggestion they are gaining support or credible threats.",
+        "voter_discontent": "No residents or voters are quoted or described as dissatisfied or wanting change.",
+        "local_impact": "The article details concrete local issues like the \u00a33.8m flood defence scheme, ambulance response times, and broadband access in named villages."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-8a783705f74e",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": true
+      },
+      "reasons": {
+        "incumbent_judgement": "The article criticises the coalition government's PF2 policy and the Health and Social Care Act as failing to address secrecy and financial mismanagement in PFI deals.",
+        "challenger_emergence": "The article discusses financial and policy issues but does not mention any opposition party or political challenger gaining support.",
+        "voter_discontent": "The article focuses on institutional and financial critique rather than attributing dissatisfaction or anger to voters or residents.",
+        "local_impact": "The article details concrete consequences for specific hospitals like Lewisham, Peterborough, and South London Trust, including bed cuts and closures affecting patient care."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-a876f0e9998e",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": true
+      },
+      "reasons": {
+        "incumbent_judgement": "The article reports on public health response measures without evaluating the government's competence, integrity, or overall record.",
+        "challenger_emergence": "No political parties or challengers are mentioned; the article is entirely about a virus variant and testing response.",
+        "voter_discontent": "There is no mention of voters or residents expressing dissatisfaction or anger; quoted officials only urge compliance with testing.",
+        "local_impact": "The article details specific postcodes, boroughs, and testing measures affecting residents in named local areas like Woking and Broxbourne."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-5ce140b45966",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": true
+      },
+      "reasons": {
+        "incumbent_judgement": "The article scrutinises Surrey county council's failure to act on the care company's records, prompting calls for investigation into its competence.",
+        "challenger_emergence": "No opposition party or rising political force is mentioned or discussed.",
+        "voter_discontent": "The article reports anger from a friend and MP but not general voter or resident dissatisfaction.",
+        "local_impact": "The article centers on the concrete, fatal consequences for a specific elderly resident who relied on council-arranged care."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-f9c82f1235c8",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "This is a national/global economic policy debate about central banks and fiscal stimulus, not about a local governing administration's performance.",
+        "challenger_emergence": "No party or political challenger is discussed; the article concerns economists' views on stimulus policy.",
+        "voter_discontent": "There is no mention of voters or residents expressing dissatisfaction; the article features economists debating policy.",
+        "local_impact": "The article discusses abstract macroeconomic policy and inflation risk without linking it to concrete effects on Surrey residents or any local community."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-ea7dd4642df3",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article is a first-person account of internal CCG practices and does not evaluate the administration's performance, finances, or integrity.",
+        "challenger_emergence": "There is no mention of political parties or rising alternative forces; it's about healthcare communication methods.",
+        "voter_discontent": "No voters or residents are described as dissatisfied or wanting change; the piece is about GPs and CCG staff.",
+        "local_impact": "The focus is on internal administrative and communication benefits for GPs, not on concrete consequences for local residents' services or lives."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-5e3328cf929c",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": true
+      },
+      "reasons": {
+        "incumbent_judgement": "The article implicitly and explicitly criticizes the government's response to protecting BAME communities financially, including a call to action and a Treasury defense of its measures.",
+        "challenger_emergence": "The article does not discuss political parties or challengers gaining support or credibility.",
+        "voter_discontent": "The article focuses on financial hardship data and policy calls, not on voters' anger or desire to punish politicians.",
+        "local_impact": "The article discusses concrete financial impacts such as rent, bills, and job security faced by BAME individuals due to the pandemic."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-39affecd8be2",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": true
+      },
+      "reasons": {
+        "incumbent_judgement": "The article is a crime report and does not evaluate any governing administration's performance.",
+        "challenger_emergence": "No political parties or rising political forces are discussed.",
+        "voter_discontent": "The article contains no mention of voters or residents expressing dissatisfaction.",
+        "local_impact": "The article ties the arrests and sentencing to preventing 'disruption in the local area,' framing the crime's effect on the community."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-d74f5e4509df",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "Miliband criticises Johnson's government as long on rhetoric and short on delivery, ambition and urgency on climate and jobs.",
+        "challenger_emergence": "The article is about Labour's national policy positioning, not about a minor party rising in support or credibility.",
+        "voter_discontent": "There is no depiction of voters' or residents' anger or dissatisfaction; the critique comes solely from a politician.",
+        "local_impact": "This is a national/international policy story about climate strategy and job creation in the abstract, with no Surrey or local resident-specific consequences discussed."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-0542986e54ba",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article criticises May's rhetoric and authoritarian tendencies but does not assess an administration's local service delivery, finances, or governance record in the relevant sense.",
+        "challenger_emergence": "No party outside the established order is presented as a rising or credible electoral force; discussion is about the right's ideology and threats to democracy, not electoral prospects.",
+        "voter_discontent": "The piece discusses elite rhetoric about 'the people' and Brexit divisions but does not attribute specific dissatisfaction or desire to punish to actual voters/residents.",
+        "local_impact": "The article is an abstract, national/international commentary on politics and ideology with no discussion of concrete local consequences for residents."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-fcfb81b2dc09",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article discusses restorative justice policy and practice generally without evaluating a governing administration's performance or record.",
+        "challenger_emergence": "No political party or challenger force is mentioned or framed as rising or credible.",
+        "voter_discontent": "The piece discusses victims and offenders in restorative justice, not voters or electoral dissatisfaction.",
+        "local_impact": "Although practitioners describe personal and community effects of restorative justice, this is about criminal justice practice nationally, not a specific local service like a road or school tied to Surrey residents' concrete concerns."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-d05e30e901e5",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": true
+      },
+      "reasons": {
+        "incumbent_judgement": "The article is a factual crash report with no assessment of any governing administration's performance.",
+        "challenger_emergence": "No political parties or electoral competition are mentioned at all.",
+        "voter_discontent": "Residents describe shock at the crash sound, not dissatisfaction with governance or politics.",
+        "local_impact": "The article details concrete local effects like road closure, traffic congestion, and a damaged lamppost affecting residents and motorists."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-3dd2ab7556e7",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article scrutinises the government's economic record, with critics blaming national insurance rises and Budget uncertainty for rising unemployment while a minister defends employment policy.",
+        "challenger_emergence": "This is a financial markets liveblog with no mention of political parties or electoral competition.",
+        "voter_discontent": "The article discusses investors, businesses and economists, not residents or voters expressing dissatisfaction.",
+        "local_impact": "The piece is a national/global financial markets roundup with no focus on Surrey or concrete local consequences for residents."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-3aa227967a6d",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The letter discusses a national workforce report and government strategy without evaluating any governing administration's performance, competence, or integrity.",
+        "challenger_emergence": "No opposition party or rising political force is mentioned or discussed.",
+        "voter_discontent": "The letter cites statistics on women's workplace struggles but does not portray voters or residents expressing political discontent.",
+        "local_impact": "The letter deals with national economic and workplace policy statistics, not concrete effects on a specific local community or service."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-656a147b1b36",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": true
+      },
+      "reasons": {
+        "incumbent_judgement": "The letters explicitly reject blaming 'this government' and instead discuss long-term structural and behavioural causes of high street decline, not the current administration's record.",
+        "challenger_emergence": "Although Reform is mentioned once in a referenced headline, no letter discusses a party gaining support or being a credible rising force.",
+        "voter_discontent": "There is complaint about high street decline but it is framed as residents' own contradictory behaviour, not as anger directed at politicians or a desire to punish anyone electorally.",
+        "local_impact": "The letters focus concretely on specific towns (Ipswich, Peterborough, an Essex village) and tangible effects like empty shops, parking, housing conversions, and local business survival."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-64d0584b57fa",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article critically assesses the government's NHS funding decisions and Jeremy Hunt's handling of the A&E target, questioning competence and management of the health system.",
+        "challenger_emergence": "The article does not discuss any political party or rising alternative political force.",
+        "voter_discontent": "The piece is a policy analysis with no mention of voters' or residents' attitudes or dissatisfaction.",
+        "local_impact": "The article discusses national NHS funding and systemic reform in the abstract rather than concrete effects on specific local residents or services."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-fc42fa870ddc",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": true,
+        "voter_discontent": true,
+        "local_impact": true
+      },
+      "reasons": {
+        "incumbent_judgement": "The article extensively scrutinises Labour's education record, cost-of-living response, and NHS performance, including criticism from Polanski and defence from Starmer.",
+        "challenger_emergence": "Polanski is depicted winning a standing ovation and explicitly positioning the Greens to 'replace Labour', while Plaid Cymru and Reform are shown polling ahead of Labour in Wales.",
+        "voter_discontent": "The piece notes 'growing frustration with Labour among teachers' and quotes NEU's Kebede on members feeling let down, and references islanders' complaints about transport failures.",
+        "local_impact": "Concrete local effects are cited, such as CalMac ferry disruptions affecting islanders' shopping and hospital visits, and a mother's \u00a3400/week childcare savings."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-32652e99bc22",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article scrutinises Starmer's government over its aid funding decisions, including criticism of competence and integrity from within his own party.",
+        "challenger_emergence": "The article is about internal Labour dissent over aid policy, not about a rising outside party or opposition force.",
+        "voter_discontent": "No local or national voter anger is depicted; a polling statistic on aid support is cited but not framed as discontent or a desire to punish.",
+        "local_impact": "This is a national/international policy story about UK aid funding with no connection to concrete local services or residents in Surrey or elsewhere."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-bbc_surrey-8cf8f699dc50",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article is a crime report and does not evaluate any governing administration's performance.",
+        "challenger_emergence": "There is no mention of political parties or electoral competition.",
+        "voter_discontent": "The article describes police reassurance about community concern but does not portray voters expressing political dissatisfaction.",
+        "local_impact": "While it mentions local community concern, the article centers on the crime incident itself rather than concrete effects on residents' daily lives or services."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-0240a09cb3df",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article includes criticism of the Foreign Office's handling of the congratulation as 'half-hearted and incompetent' from Chris Bryant, putting the government's competence on trial.",
+        "challenger_emergence": "This is about international diplomacy between heads of state, not about a party outside the established order gaining ground domestically.",
+        "voter_discontent": "The article contains no mention of voters or residents expressing dissatisfaction or desire for change.",
+        "local_impact": "The article discusses international diplomacy, Brexit, and Northern Ireland peace process at a high political level, not concrete consequences for identifiable local residents."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-2037e4eda9eb",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article extensively criticizes the Johnson government's competence, integrity, and handling of the pandemic, including cronyism and contract failures.",
+        "challenger_emergence": "No opposition party or outside political force is presented as gaining support or emerging as a credible alternative.",
+        "voter_discontent": "The article expresses the author's own critical analysis rather than attributing anger or dissatisfaction to voters or residents.",
+        "local_impact": "The piece discusses national-level policy failures and abstract state capacity rather than concrete effects on specific local residents or services."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-7500f66e845f",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "This is a national NHS/Department of Health procurement story unrelated to Surrey local government administration or election judgement.",
+        "challenger_emergence": "No political parties or electoral contenders are discussed at all.",
+        "voter_discontent": "The article discusses patient satisfaction with a health service, not voter or resident political discontent.",
+        "local_impact": "It describes a national contract redesign and service standards abstractly, without dwelling on effects for specific local residents or communities."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-383fdf4ab4cd",
+      "batch_result": "succeeded",
+      "frames": null,
+      "validation_errors": [
+        "unparseable: Expecting ',' delimiter: line 1 column 665 (char 664)"
+      ]
+    },
+    {
+      "article_id": "NEWS-guardian_api-c4dcbaa0515e",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": true,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": true
+      },
+      "reasons": {
+        "incumbent_judgement": "The article scrutinises the government's housing algorithm and planning reforms as a poorly judged policy requiring a climbdown.",
+        "challenger_emergence": "No opposition party or outsider political force is presented as rising or gaining support; the conflict is intra-Conservative and institutional.",
+        "voter_discontent": "The discontent described comes from councils, MPs and consultants, not from voters or residents directly.",
+        "local_impact": "The article discusses concrete effects on communities such as cramped 'rabbit hutch' homes, repurposed offices, and high street decline."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-2360b288b189",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article is about a court case and dog attack, not about the governing administration's performance.",
+        "challenger_emergence": "No political parties or challengers are mentioned.",
+        "voter_discontent": "There is no mention of voters or residents expressing political dissatisfaction.",
+        "local_impact": "While local individuals are named, the story centers on a legal proceeding rather than concrete effects on the wider community's services or infrastructure."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-bbc_surrey-977a0d0a4f74",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article is a crime/court report and makes no reference to any governing administration's performance.",
+        "challenger_emergence": "No political parties or electoral competition are mentioned at all.",
+        "voter_discontent": "There is no mention of voters or residents expressing dissatisfaction with anything.",
+        "local_impact": "The article names local towns as addresses but does not discuss consequences for residents or local services."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-surreylive-b6967f5376d3",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": false
+      },
+      "reasons": {
+        "incumbent_judgement": "The article is about a traffic incident and does not discuss any governing administration's performance.",
+        "challenger_emergence": "No political parties or electoral dynamics are mentioned.",
+        "voter_discontent": "There is no depiction of voter or resident dissatisfaction related to governance or politics.",
+        "local_impact": "The article focuses on the crash itself and eyewitness account rather than concrete consequences for local residents' services or infrastructure."
+      },
+      "validation_errors": []
+    },
+    {
+      "article_id": "NEWS-guardian_api-24f48a444223",
+      "batch_result": "succeeded",
+      "frames": null,
+      "validation_errors": [
+        "unparseable: Expecting ',' delimiter: line 1 column 790 (char 789)"
+      ]
+    },
+    {
+      "article_id": "NEWS-bbc_surrey-956003a841b5",
+      "batch_result": "succeeded",
+      "frames": {
+        "incumbent_judgement": false,
+        "challenger_emergence": false,
+        "voter_discontent": false,
+        "local_impact": true
+      },
+      "reasons": {
+        "incumbent_judgement": "The article is a crime report and does not evaluate any governing administration's performance.",
+        "challenger_emergence": "No political parties or electoral competition are mentioned.",
+        "voter_discontent": "There is no depiction of voter or resident dissatisfaction with governance.",
+        "local_impact": "The article details a specific safety incident affecting a local schoolgirl on a named street, with concrete details for residents to act on."
+      },
+      "validation_errors": []
+    }
+  ]
+}
