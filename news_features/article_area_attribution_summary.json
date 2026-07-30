@@ -1,0 +1,70 @@
+{
+  "articles": 1452,
+  "published_area_names": 108,
+  "usable_patterns": 106,
+  "excluded_as_generic": [
+    "Ash",
+    "Ewell",
+    "Hale",
+    "Horley"
+  ],
+  "attribution_routes": {
+    "election_level_only": 1377,
+    "body_single": 19,
+    "body_multiple": 19,
+    "query_ward": 37
+  },
+  "arm_split": {
+    "local": 120,
+    "national": 1332
+  },
+  "local_arm_attribution": {
+    "election_level_only": 50,
+    "body_single": 15,
+    "body_multiple": 18,
+    "query_ward": 37
+  },
+  "local_arm_areas": {
+    "Chertsey": 3,
+    "Addlestone": 3,
+    "Walton": 10,
+    "Dorking": 8,
+    "Egham": 2,
+    "Hersham": 3,
+    "Staines": 5,
+    "Weybridge": 8,
+    "Cobham": 3,
+    "Lingfield": 2,
+    "Reigate": 7,
+    "Oxted": 3,
+    "Guildford East": 2,
+    "Guildford South West": 2,
+    "Shalford": 2,
+    "Redhill East": 2,
+    "Warlingham": 2,
+    "Horsleys": 2,
+    "Stanwell, Stanwell Moor & Ashford North Ward": 6,
+    "Shere": 6,
+    "Bagshot, Windlesham & Chobham Ward": 4,
+    "Bagshot, Windlesham and Chobham": 1,
+    "Bagshot, Windlesham & Chobham": 1,
+    "Camberley East": 1,
+    "Banstead, Woodmansterne & Chipstead Ward": 6,
+    "Tadworth, Walton and Kingswood": 3,
+    "Ashtead": 8,
+    "Epsom Town & Downs": 1,
+    "Epsom West": 1,
+    "West Ewell": 1,
+    "Ashford": 1,
+    "Guildford North": 1,
+    "Guildford West": 1,
+    "Long Ditton, Hinchley Wood & Weston Green": 1,
+    "Godstone": 2,
+    "Caterham Valley": 1,
+    "Caterham Hill": 1,
+    "Nork & Tattenhams": 1,
+    "Horley East": 1,
+    "Stanwell and Stanwell Moor": 1
+  },
+  "note": "A name match is a ceiling on attribution, not a claim the article is about that area. Deciding that is what the local_impact frame is for."
+}

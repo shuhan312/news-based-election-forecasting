@@ -1,0 +1,153 @@
+{
+  "articles": 1452,
+  "principal": 1452,
+  "by_election": 0,
+  "thresholds": {
+    "min_cells_to_fit": 3,
+    "min_cells_to_report": 10
+  },
+  "grains": {
+    "election__principal_only": {
+      "train": {
+        "cells": 2,
+        "articles": 889,
+        "median_articles_per_cell": 462,
+        "verdict": "cannot fit"
+      },
+      "train_late": {
+        "cells": 0,
+        "articles": 0,
+        "median_articles_per_cell": 0,
+        "verdict": "cannot fit"
+      },
+      "validation": {
+        "cells": 1,
+        "articles": 292,
+        "median_articles_per_cell": 292,
+        "verdict": "cannot fit"
+      },
+      "test": {
+        "cells": 1,
+        "articles": 271,
+        "median_articles_per_cell": 271,
+        "verdict": "cannot fit"
+      }
+    },
+    "election__with_by_elections": {
+      "train": {
+        "cells": 2,
+        "articles": 889,
+        "median_articles_per_cell": 462,
+        "verdict": "cannot fit"
+      },
+      "train_late": {
+        "cells": 0,
+        "articles": 0,
+        "median_articles_per_cell": 0,
+        "verdict": "cannot fit"
+      },
+      "validation": {
+        "cells": 1,
+        "articles": 292,
+        "median_articles_per_cell": 292,
+        "verdict": "cannot fit"
+      },
+      "test": {
+        "cells": 1,
+        "articles": 271,
+        "median_articles_per_cell": 271,
+        "verdict": "cannot fit"
+      }
+    },
+    "election_party__principal_only": {
+      "train": {
+        "cells": 10,
+        "articles": 1606,
+        "median_articles_per_cell": 162,
+        "verdict": "usable"
+      },
+      "train_late": {
+        "cells": 0,
+        "articles": 0,
+        "median_articles_per_cell": 0,
+        "verdict": "cannot fit"
+      },
+      "validation": {
+        "cells": 6,
+        "articles": 413,
+        "median_articles_per_cell": 41,
+        "verdict": "fittable, not reportable"
+      },
+      "test": {
+        "cells": 6,
+        "articles": 583,
+        "median_articles_per_cell": 115,
+        "verdict": "fittable, not reportable"
+      }
+    },
+    "election_party__with_by_elections": {
+      "train": {
+        "cells": 10,
+        "articles": 1606,
+        "median_articles_per_cell": 162,
+        "verdict": "usable"
+      },
+      "train_late": {
+        "cells": 0,
+        "articles": 0,
+        "median_articles_per_cell": 0,
+        "verdict": "cannot fit"
+      },
+      "validation": {
+        "cells": 6,
+        "articles": 413,
+        "median_articles_per_cell": 41,
+        "verdict": "fittable, not reportable"
+      },
+      "test": {
+        "cells": 6,
+        "articles": 583,
+        "median_articles_per_cell": 115,
+        "verdict": "fittable, not reportable"
+      }
+    }
+  },
+  "party_by_role": [
+    {
+      "party": "labour",
+      "train": 479,
+      "test": 195,
+      "validation": 153
+    },
+    {
+      "party": "conservative",
+      "train": 477,
+      "validation": 161,
+      "test": 140
+    },
+    {
+      "party": "liberal_democrat",
+      "train": 266,
+      "validation": 41,
+      "test": 75
+    },
+    {
+      "party": "ukip",
+      "train": 308,
+      "validation": 35,
+      "test": 7
+    },
+    {
+      "party": "green",
+      "train": 76,
+      "validation": 14,
+      "test": 51
+    },
+    {
+      "party": "reform_uk",
+      "test": 115,
+      "validation": 9
+    }
+  ],
+  "by_election_article_counts": {}
+}

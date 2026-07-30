@@ -148,3 +148,7 @@ llm_context/corpus_extraction_batches_*.json
 # document. Keeping three near-identical bundles in history buys nothing.
 surrey-election-no-news-baseline/outputs/model_bundle_paired_*/
 surrey-election-no-news-baseline/outputs/architecture_paired_bootstrap_*.json
+
+# Per-article attribution detail. 1,452 rows, 252KB of a 322KB file; the summary
+# beside it carries every figure the findings document cites.
+news_features/article_area_attribution_per_article.json
