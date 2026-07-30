@@ -1,0 +1,104 @@
+{
+  "gate": {
+    "primary": "kappa >= 0.6",
+    "fallback": "AC1 >= 0.6 and agreement >= 0.8 when a marginal >= 0.9"
+  },
+  "layer_failures": {},
+  "fields": {
+    "primary_issue": {
+      "pairs": 60,
+      "percent_agreement": 0.75,
+      "kappa": 0.729,
+      "ac1": 0.74,
+      "max_marginal": 0.183,
+      "skew_trigger": false,
+      "verdict": "passes (primary kappa)",
+      "passes": true
+    },
+    "frame_category": {
+      "pairs": 60,
+      "percent_agreement": 0.533,
+      "kappa": 0.483,
+      "ac1": 0.499,
+      "max_marginal": 0.3,
+      "skew_trigger": false,
+      "verdict": "fails",
+      "passes": false
+    },
+    "consequence_direction": {
+      "pairs": 60,
+      "percent_agreement": 0.433,
+      "kappa": 0.202,
+      "ac1": 0.33,
+      "max_marginal": 0.7,
+      "skew_trigger": false,
+      "verdict": "fails",
+      "passes": false
+    },
+    "impact_horizon": {
+      "pairs": 60,
+      "percent_agreement": 0.317,
+      "kappa": 0.184,
+      "ac1": 0.186,
+      "max_marginal": 0.417,
+      "skew_trigger": false,
+      "verdict": "fails",
+      "passes": false
+    },
+    "attribution_type": {
+      "pairs": 60,
+      "percent_agreement": 0.767,
+      "kappa": 0.6,
+      "ac1": 0.727,
+      "max_marginal": 0.6,
+      "skew_trigger": false,
+      "verdict": "passes (primary kappa)",
+      "passes": true,
+      "scoring_note": "set-membership: human type counted correct if present anywhere in the model's attributions for that article, not just position 0"
+    },
+    "stance_per_party": {
+      "pairs": 86,
+      "percent_agreement": 0.651,
+      "kappa": 0.482,
+      "ac1": 0.552,
+      "max_marginal": 0.512,
+      "skew_trigger": false,
+      "verdict": "fails",
+      "passes": false,
+      "raw_uncollapsed": {
+        "pairs": 86,
+        "percent_agreement": 0.372,
+        "kappa": 0.249,
+        "ac1": 0.226,
+        "max_marginal": 0.465,
+        "skew_trigger": false,
+        "verdict": "fails",
+        "passes": false
+      },
+      "all_pairs_including_trivial": {
+        "pairs": 360,
+        "percent_agreement": 0.85,
+        "kappa": 0.541,
+        "ac1": 0.837,
+        "max_marginal": 0.872,
+        "skew_trigger": false,
+        "verdict": "fails",
+        "passes": false
+      },
+      "collapse_note": "neutral and not_mentioned collapsed into one category on both sides: the D4 labelling instructions told the reviewer a bare candidate-list mention still counts as neutral, but stance_classification.py rule 5 gives such a mention NO row (= not_mentioned) - the two specs disagreed, so the raw split is not trustworthy; see raw_uncollapsed for the uncorrected figure",
+      "per_party_agreement": {
+        "conservative": 0.733,
+        "labour": 0.733,
+        "liberal_democrat": 0.85,
+        "green": 0.917,
+        "reform_uk": 0.933,
+        "ukip": 0.933
+      }
+    }
+  },
+  "overall_pass": false,
+  "usage": {
+    "input_tokens": 1471294,
+    "output_tokens": 908218
+  }
+}

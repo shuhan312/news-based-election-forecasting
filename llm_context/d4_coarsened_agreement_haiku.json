@@ -1,0 +1,54 @@
+{
+  "arm": "haiku",
+  "model": "claude-haiku-4-5",
+  "note": "one pre-stated coarsening per field, chosen for what the modelling needs, applied after the fine-grained gate failed - disclosed",
+  "fields": {
+    "frame_category__grouped": {
+      "pairs": 60,
+      "percent_agreement": 0.683,
+      "kappa": 0.523,
+      "ac1": 0.595,
+      "max_marginal": 0.55,
+      "skew_trigger": false,
+      "verdict": "fails",
+      "passes": false
+    },
+    "consequence_direction__binary": {
+      "pairs": 60,
+      "percent_agreement": 0.6,
+      "kappa": 0.31,
+      "ac1": 0.2,
+      "max_marginal": 0.7,
+      "skew_trigger": false,
+      "verdict": "fails",
+      "passes": false
+    },
+    "impact_horizon__binary": {
+      "pairs": 60,
+      "percent_agreement": 0.683,
+      "kappa": 0.419,
+      "ac1": 0.567,
+      "max_marginal": 0.65,
+      "skew_trigger": false,
+      "verdict": "fails",
+      "passes": false
+    },
+    "stance_negative__binary": {
+      "pairs": 50,
+      "percent_agreement": 0.6,
+      "kappa": -0.114,
+      "ac1": 0.412,
+      "max_marginal": 0.94,
+      "skew_trigger": true,
+      "verdict": "fails",
+      "passes": false
+    }
+  },
+  "adopted_at_coarse_granularity": [],
+  "still_failing": [
+    "frame_category__grouped",
+    "consequence_direction__binary",
+    "impact_horizon__binary",
+    "stance_negative__binary"
+  ]
+}

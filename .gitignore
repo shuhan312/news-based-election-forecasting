@@ -68,6 +68,30 @@ llm_context/electoral_consequence_outputs.json
 llm_context/elect_consq_batch_id.txt
 llm_context/local_national_relevance_outputs.json
 llm_context/loc_nat_batch_id.txt
+
+# D4 validation gate: the six-layer raw outputs carry the verbatim evidence
+# spans those layers require, so the same copyright three-tier policy that
+# excludes the pilot outputs above applies to them (local + OneDrive). The
+# compact scorecards stay in Git - they hold statistics only - and
+# d4_llm_output_manifest.json records each response's hash and token counts
+# so any figure can still be traced to the answer it came from.
+llm_context/d4_llm_outputs.json
+llm_context/d4_llm_outputs_haiku.json
+llm_context/d4_batch_ids.json
+llm_context/d4_batch_ids_haiku.json
+
+# The per-experiment markdown scorecards are rendered from the .json beside
+# them, and every table they contain is already in d4_findings_log.md - so
+# committing both duplicates one document with another in the same commit.
+# The .json stay: they carry detail the log's summary tables omit (per-party
+# breakdowns, raw uncollapsed figures, penalty sweeps) and they are what
+# regenerates the markdown. The two rescue scorecards are tracked from an
+# earlier commit and are left alone rather than removed, since the history
+# is not to be rewritten.
+llm_context/d4_agreement_report*.md
+llm_context/d4_coarsened_agreement*.md
+llm_context/d4_inter_model_agreement.md
+llm_context/reform_subfield_agreement*.md
 llm_context/temporal_horizon_outputs.json
 llm_context/temporal_windows_deterministic.json
 llm_context/temporal_batch_id.txt

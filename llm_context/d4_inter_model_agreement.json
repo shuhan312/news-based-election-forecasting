@@ -1,0 +1,87 @@
+{
+  "arm_a": "claude-sonnet-5",
+  "arm_b": "claude-haiku-4-5",
+  "articles_compared": 60,
+  "fields": {
+    "primary_issue": {
+      "pairs": 60,
+      "percent_agreement": 0.817,
+      "kappa": 0.798,
+      "ac1": 0.807,
+      "max_marginal": 0.183,
+      "skew_trigger": false,
+      "verdict": "passes (primary kappa)",
+      "passes": true
+    },
+    "frame_category": {
+      "pairs": 60,
+      "percent_agreement": 0.583,
+      "kappa": 0.502,
+      "ac1": 0.555,
+      "max_marginal": 0.383,
+      "skew_trigger": false,
+      "verdict": "fails",
+      "passes": false
+    },
+    "attribution_type": {
+      "pairs": 60,
+      "percent_agreement": 0.8,
+      "kappa": 0.67,
+      "ac1": 0.713,
+      "max_marginal": 0.533,
+      "skew_trigger": false,
+      "verdict": "passes (primary kappa)",
+      "passes": true
+    },
+    "consequence_direction": {
+      "pairs": 60,
+      "percent_agreement": 0.8,
+      "kappa": 0.647,
+      "ac1": 0.721,
+      "max_marginal": 0.567,
+      "skew_trigger": false,
+      "verdict": "passes (primary kappa)",
+      "passes": true
+    },
+    "impact_horizon": {
+      "pairs": 59,
+      "percent_agreement": 0.441,
+      "kappa": 0.339,
+      "ac1": 0.331,
+      "max_marginal": 0.305,
+      "skew_trigger": false,
+      "verdict": "fails",
+      "passes": false
+    },
+    "stance_per_party": {
+      "pairs": 61,
+      "percent_agreement": 0.492,
+      "kappa": 0.316,
+      "ac1": 0.38,
+      "max_marginal": 0.443,
+      "skew_trigger": false,
+      "verdict": "fails",
+      "passes": false,
+      "all_pairs_including_trivial": {
+        "pairs": 360,
+        "percent_agreement": 0.914,
+        "kappa": 0.676,
+        "ac1": 0.908,
+        "max_marginal": 0.872,
+        "skew_trigger": false,
+        "verdict": "passes (primary kappa)",
+        "passes": true
+      }
+    }
+  },
+  "reproducible": [
+    "primary_issue",
+    "attribution_type",
+    "consequence_direction"
+  ],
+  "not_reproducible": [
+    "frame_category",
+    "impact_horizon",
+    "stance_per_party"
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "arm": "haiku",
+  "model": "claude-haiku-4-5",
+  "articles": 22,
+  "fields": {
+    "applicable": {
+      "pairs": 22,
+      "percent_agreement": 0.864,
+      "kappa": 0.68,
+      "ac1": 0.766,
+      "max_marginal": 0.773,
+      "skew_trigger": false,
+      "verdict": "passes (primary kappa)",
+      "passes": true
+    },
+    "growth_suggested": {
+      "pairs": 5,
+      "percent_agreement": 0.6,
+      "kappa": 0.167,
+      "ac1": 0.231,
+      "max_marginal": 0.6,
+      "skew_trigger": false,
+      "verdict": "undetermined - 5 pairs is below the 20-pair minimum for a meaningful verdict",
+      "passes": false,
+      "undetermined": true
+    },
+    "credible_challenger": {
+      "pairs": 5,
+      "percent_agreement": 0.6,
+      "kappa": 0.167,
+      "ac1": 0.231,
+      "max_marginal": 0.6,
+      "skew_trigger": false,
+      "verdict": "undetermined - 5 pairs is below the 20-pair minimum for a meaningful verdict",
+      "passes": false,
+      "undetermined": true
+    },
+    "established_support_affected": {
+      "pairs": 5,
+      "percent_agreement": 0.2,
+      "kappa": 0.091,
+      "ac1": 0.024,
+      "max_marginal": 0.6,
+      "skew_trigger": false,
+      "verdict": "undetermined - 5 pairs is below the 20-pair minimum for a meaningful verdict",
+      "passes": false,
+      "undetermined": true
+    },
+    "switching_directions": {
+      "pairs": 5,
+      "percent_agreement": 0.4,
+      "kappa": 0.0,
+      "ac1": -0.034,
+      "max_marginal": 1.0,
+      "skew_trigger": true,
+      "verdict": "undetermined - 5 pairs is below the 20-pair minimum for a meaningful verdict",
+      "passes": false,
+      "undetermined": true
+    },
+    "signal_nature": {
+      "pairs": 5,
+      "percent_agreement": 0.2,
+      "kappa": 0.13,
+      "ac1": 0.073,
+      "max_marginal": 0.4,
+      "skew_trigger": false,
+      "verdict": "undetermined - 5 pairs is below the 20-pair minimum for a meaningful verdict",
+      "passes": false,
+      "undetermined": true
+    }
+  },
+  "both_applicable_n": 5,
+  "adopted": [
+    "applicable"
+  ],
+  "undetermined": [
+    "growth_suggested",
+    "credible_challenger",
+    "established_support_affected",
+    "switching_directions",
+    "signal_nature"
+  ],
+  "failed": [],
+  "overall_pass": false
+}

@@ -1,0 +1,54 @@
+{
+  "arm": "sonnet",
+  "model": "claude-sonnet-5",
+  "note": "one pre-stated coarsening per field, chosen for what the modelling needs, applied after the fine-grained gate failed - disclosed",
+  "fields": {
+    "frame_category__grouped": {
+      "pairs": 60,
+      "percent_agreement": 0.633,
+      "kappa": 0.496,
+      "ac1": 0.523,
+      "max_marginal": 0.55,
+      "skew_trigger": false,
+      "verdict": "fails",
+      "passes": false
+    },
+    "consequence_direction__binary": {
+      "pairs": 60,
+      "percent_agreement": 0.667,
+      "kappa": 0.398,
+      "ac1": 0.336,
+      "max_marginal": 0.7,
+      "skew_trigger": false,
+      "verdict": "fails",
+      "passes": false
+    },
+    "impact_horizon__binary": {
+      "pairs": 59,
+      "percent_agreement": 0.695,
+      "kappa": 0.324,
+      "ac1": 0.607,
+      "max_marginal": 0.729,
+      "skew_trigger": false,
+      "verdict": "fails",
+      "passes": false
+    },
+    "stance_negative__binary": {
+      "pairs": 55,
+      "percent_agreement": 0.691,
+      "kappa": -0.182,
+      "ac1": 0.582,
+      "max_marginal": 0.855,
+      "skew_trigger": false,
+      "verdict": "fails",
+      "passes": false
+    }
+  },
+  "adopted_at_coarse_granularity": [],
+  "still_failing": [
+    "frame_category__grouped",
+    "consequence_direction__binary",
+    "impact_horizon__binary",
+    "stance_negative__binary"
+  ]
+}
