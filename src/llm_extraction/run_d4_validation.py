@@ -17,9 +17,18 @@ these text files, so both sides of the comparison read the same
 words; the corpus-v2 freeze will bring the 10 into the normalised
 layer before the full-corpus run.
 
+Model arms. The default arm is the frozen claude-sonnet-5 (the model the
+whole extraction method was developed on). A second arm, "haiku"
+(claude-haiku-4-5), exists so the cheaper model can sit the same exam
+against the same human gold labels - it is adopted for the full corpus
+only if it passes the identical pre-registered gate. Disclosure: Haiku
+4.5 does not support adaptive thinking, so that arm runs with
+enabled thinking at a fixed 4,000-token budget; everything else
+(prompts, validators, articles, max_tokens) is identical.
+
 Usage:
-    python3 -m src.llm_extraction.run_d4_validation submit
-    python3 -m src.llm_extraction.run_d4_validation collect
+    python3 -m src.llm_extraction.run_d4_validation submit [haiku]
+    python3 -m src.llm_extraction.run_d4_validation collect [haiku]
 """
 
 from __future__ import annotations
@@ -46,10 +55,24 @@ SAMPLE = Path("llm_context/d4_validation_sample_v1.csv")
 DECISIONS = Path("news_collection/corpus_eligibility_decisions.csv")
 RECORDS = Path("data/raw/news/records")
 TEXT = Path("data/raw/news/text")
-OUT_BATCHES = Path("llm_context/d4_batch_ids.json")
-OUT_RESULTS = Path("llm_context/d4_llm_outputs.json")
 
 D4_RUN_VERSION = "d4-llm-run-v1.0-2026-07-29"
+
+ARMS = {
+    "sonnet": {
+        "model": None,  # resolved to run_pilot.MODEL (frozen claude-sonnet-5)
+        "thinking": {"type": "adaptive"},
+        "batches": Path("llm_context/d4_batch_ids.json"),
+        "results": Path("llm_context/d4_llm_outputs.json"),
+    },
+    "haiku": {
+        "model": "claude-haiku-4-5",
+        # Haiku 4.5 has no adaptive thinking; fixed budget, disclosed above.
+        "thinking": {"type": "enabled", "budget_tokens": 4000},
+        "batches": Path("llm_context/d4_batch_ids_haiku.json"),
+        "results": Path("llm_context/d4_llm_outputs_haiku.json"),
+    },
+}
 
 LAYERS = {
     "issues": (issue_classification.build_issue_prompt,
@@ -113,10 +136,13 @@ def _user_message(a: dict, layer: str) -> str:
             f"TITLE: {a['title']}\n\nBODY:\n{a['body']}")
 
 
-def cmd_submit() -> None:
+def cmd_submit(arm_name: str = "sonnet") -> None:
+    arm = ARMS[arm_name]
+    model = arm["model"] or MODEL
     arts, fallback = load_d4_articles()
     client = anthropic.Anthropic()
-    batches = {"run_version": D4_RUN_VERSION, "model": MODEL,
+    batches = {"run_version": D4_RUN_VERSION, "arm": arm_name,
+               "model": model, "thinking": arm["thinking"],
                "articles": len(arts), "fallback_raw_text_ids": fallback,
                "layers": {}}
     for layer, (build_prompt, _validate, max_tokens) in LAYERS.items():
@@ -125,8 +151,8 @@ def cmd_submit() -> None:
         requests = [Request(
             custom_id=aid,
             params=MessageCreateParamsNonStreaming(
-                model=MODEL, max_tokens=max_tokens,
-                thinking={"type": "adaptive"},
+                model=model, max_tokens=max_tokens,
+                thinking=arm["thinking"],
                 system=system,
                 messages=[{"role": "user",
                            "content": _user_message(a, layer)}]))
@@ -134,13 +160,14 @@ def cmd_submit() -> None:
         batch = client.messages.batches.create(requests=requests)
         batches["layers"][layer] = batch.id
         print(f"{layer}: batch {batch.id} ({len(requests)} articles)")
-    OUT_BATCHES.write_text(json.dumps(batches, indent=2))
-    print(f"-> {OUT_BATCHES} ({len(fallback)} articles on raw-text "
+    arm["batches"].write_text(json.dumps(batches, indent=2))
+    print(f"-> {arm['batches']} ({len(fallback)} articles on raw-text "
           f"fallback: {fallback})")
 
 
-def cmd_collect() -> None:
-    batches = json.loads(OUT_BATCHES.read_text())
+def cmd_collect(arm_name: str = "sonnet") -> None:
+    arm = ARMS[arm_name]
+    batches = json.loads(arm["batches"].read_text())
     arts, _fallback = load_d4_articles()
     client = anthropic.Anthropic()
     pending = dict(batches["layers"])
@@ -155,8 +182,8 @@ def cmd_collect() -> None:
         if pending:
             time.sleep(120)
 
-    results = {"run_version": D4_RUN_VERSION, "model": MODEL,
-               "layers": {}}
+    results = {"run_version": D4_RUN_VERSION, "arm": arm_name,
+               "model": batches.get("model", MODEL), "layers": {}}
     usage_in = usage_out = 0
     for layer, bid in batches["layers"].items():
         _build, validate, _mt = LAYERS[layer]
@@ -188,9 +215,10 @@ def cmd_collect() -> None:
         print(f"{layer}: {dict(statuses)}")
     results["usage"] = {"input_tokens": usage_in,
                         "output_tokens": usage_out}
-    OUT_RESULTS.write_text(json.dumps(results, indent=2))
-    print(f"-> {OUT_RESULTS}")
+    arm["results"].write_text(json.dumps(results, indent=2))
+    print(f"-> {arm['results']}")
 
 
 if __name__ == "__main__":
-    {"submit": cmd_submit, "collect": cmd_collect}[sys.argv[1]]()
+    _arm = sys.argv[2] if len(sys.argv) > 2 else "sonnet"
+    {"submit": cmd_submit, "collect": cmd_collect}[sys.argv[1]](_arm)
