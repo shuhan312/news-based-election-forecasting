@@ -19,6 +19,79 @@ rather than edited away, because the correction is part of the record.
 
 ---
 
+## The two gates, and which is which
+
+This log has been using "the gate" for two different things. They answer
+different questions, run at different times, and one of them has no answer key
+to overfit to. Stated here because a reader cannot otherwise tell which is
+meant in a given paragraph.
+
+### Gate 1 - the D4 validation gate: *may this layer be used at all?*
+
+**Question:** does the model's judgement agree with a human coder's well
+enough to claim the extraction measures the construct it names?
+
+**How:** 60 articles were drawn from the corpus and hand-coded by the reviewer
+across six field groups. The model read the same 60 blind. Agreement is scored
+per field.
+
+**The bar,** pre-registered before any scoring: Cohen's kappa >= 0.60 on the
+primary route, or Gwet's AC1 >= 0.60 with raw agreement >= 80% on a fallback
+route that only opens when a marginal reaches 0.90 - the fallback exists for
+the kappa paradox under skewed prevalence, and its trigger exists so that AC1
+cannot be reached for whenever kappa is inconvenient. 0.60 is a convention, not
+a supervisor requirement: `llm_v2_feasibility_plan.md` §D3 records that the
+supervisor's brief specifies neither kappa nor 0.60, and the figure comes from
+the conventional reading in which 0.61 and above is substantial agreement.
+
+**What it decides:** whether a layer's features enter the model at all. It
+killed attribution, consequence and impact_horizon, and it forced the stance
+and framing redesigns. Experiments 1 to 14.
+
+**It has an answer key.** The reviewer's labels are the gold standard, so
+repeated attempts on those same 60 articles would be selection. That is why
+each layer got at most two attempts and why every scoring rule was declared
+before its batch was submitted.
+
+### Gate 2 - the tranche health check: *may the full corpus run proceed?*
+
+**Question:** on articles the production configuration has never seen, does it
+produce records that are usable at all?
+
+**How:** a small tranche - 89 articles - is extracted with the exact prompts,
+models and validators the full run will use, and four thresholds are applied.
+`src/llm_extraction/health_check_tranche.py`.
+
+**The four thresholds:**
+
+| check | bar | why |
+|---|---|---|
+| schema failure | at most 5% per layer | a record the validator rejects has no data downstream; precedent is the eligibility batch at 0.8% |
+| **verbatim quote verification** | at least 95% | a span that cannot be found in the article means the model reconstructed a quotation, and the extraction is untraceable - the single most important check |
+| empty records | at most 15 points above that layer's own D4 rate | catches a layer that has stopped finding anything, without failing it for the corpus simply being sparse |
+| cost | within twice the estimate | catches a runaway |
+
+**What it decides:** whether to spend on 1,374 articles. It stopped four
+submissions, one of them mid-flight, and it is why the corpus was extracted on
+a configuration whose failure modes were measured rather than assumed.
+Experiments 11 to 16.
+
+**It has no answer key,** and this is the crucial difference. "Is this span
+present in the article" and "does this output satisfy the schema" are objective
+facts, not judgements. There is nothing to overfit to, which is why re-running
+the same 89 articles after fixing a fault is legitimate here and would not be
+for Gate 1. What would be illegitimate is re-running until it passes.
+
+**Once the full corpus has run, the same four checks become a report rather
+than a gate** - the money is spent, so they describe what was produced instead
+of deciding whether to produce it. The response to a bad report was stated
+before the run: at or under 3% schema failure proceed, 3 to 8% record as a
+limitation and check whether failures concentrate in one kind of article, over
+8% stop and do not build features. Quote verification below 95% stops it
+outright.
+
+---
+
 ## Experiment 1: the gate as originally specified
 
 **What ran.** Six extraction layers scored against the reviewer's coding
@@ -1041,6 +1114,82 @@ evidence spans appear verbatim, so attempts with fewer or shorter quotations
 are marginally likelier to pass, and retained records may under-represent long
 or paraphrase-prone quotation. `attempts` is recorded per article, so the
 affected records are identifiable.
+
+---
+
+## Experiment 16: the corpus extracted
+
+**What ran.** 1,374 articles on three layers, prompt v1.3, 2026-07-30. The
+tranche is 1,374 rather than 1,638 because 258 articles were already extracted
+cleanly by the narrow, far and far3 tranches and are skipped, and 6 have no
+text. far2's 89 articles re-entered: its `issues` layer is marked superseded
+because the v1.2 prompt named a field the schema does not define, so the
+records that passed were selected on content - articles whose issue fell
+inside the taxonomy - with invented-field failures at 9 of 89 against 1-2 of
+89 under v1.1.
+
+**Batch latency, against everything the 89-article tranches suggested.** All
+three batches ended in **7 to 9 minutes** with zero errors, on 1,374 / 1,006 /
+1,374 requests. The same-day 89-article Sonnet batches took 15 to 90 minutes
+and two sat at zero completions for over an hour. So batch latency is not a
+function of size, and nothing about it can be predicted from a small tranche.
+
+**First-pass failure replicated the gate.**
+
+| | first pass | after one retry |
+|---|---|---|
+| issues | **146 of 1,374 (10.6%)** | **28 (2.0%)** |
+| stance_revised | 8 of 1,006 (0.8%) | 0 |
+| framing_revised | 0 of 1,374 | 0 |
+
+far3 measured 9.0% on 89 articles; the corpus gave 10.6% on 1,374. The gate's
+estimate held, which is the first direct evidence that the 89-article tranche
+was representative rather than lucky.
+
+**The retry recovered 118 of 146 issues records, 80.8%,** and 8 of 8 on
+stance. Its value is not the percentage but which articles it returned:
+failure correlates with length, so without the retry the corpus would have
+lost 118 disproportionately long articles' issue data.
+
+**Post-run report - the same four checks, run as a report rather than a gate,
+because the money was already spent.** issues 2.0% schema failure and 99.8%
+quote verification; stance_revised 0.0%; framing_revised 0.0% with 21.2% empty
+against a D4 baseline of 40.0%. Against the rule stated before the run - at or
+under 3% proceed, 3 to 8% record as a limitation and check whether failures
+concentrate, over 8% stop - **2.0% proceeds.** Cost $30.40, $0.0221 per
+article.
+
+**True coverage, after deduplicating by article.**
+
+| layer | unique articles | of 1,632 |
+|---|---|---|
+| framing_revised | **1,632** | 100.0% |
+| issues | **1,604** | 98.3% |
+| stance_revised | 1,187 | 72.7% |
+
+stance's 72.7% is not a shortfall: the layer is only asked about articles that
+name a study party, and 445 name none, so its denominator is 1,187 by design.
+issues loses 28 articles that failed both attempts.
+
+**A duplicate-counting hazard found while checking those totals, and it is not
+an extraction fault.** Concatenating the tranche files double-counts articles,
+because far2's `stance_revised` and `framing_revised` records were left in
+place while its articles were re-extracted - only `issues` was superseded.
+Measured: **98 articles appear twice for framing and 66 for stance**, 89 and 58
+of them from far2. Raw row counts therefore exceed the corpus - framing showed
+1,730 rows against 1,632 articles.
+
+Left uncorrected this would inflate every volume feature for the elections
+those articles belong to. The fix belongs in the feature table rather than in
+the extraction: deduplicate on `article_id`, preferring the most recent
+tranche, and **assert that unique articles never exceed the corpus size** so
+the same class of error cannot pass silently again.
+
+**Provenance on these records is live rather than reconstructed.** Every
+accepted record carries the prompt fingerprint written into the manifest at
+submit time - `715700666aca` for issues, `bc2d5987b2d7` for stance,
+`e90e50b3dcb2` for framing - not a hash derived afterwards. Two issues records
+carry null because neither attempt produced a parseable record at all.
 
 ---
 
