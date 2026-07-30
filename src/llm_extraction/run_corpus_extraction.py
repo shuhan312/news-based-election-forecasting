@@ -486,6 +486,17 @@ def already_extracted() -> set[str]:
             "corpus_extraction_outputs_*.json")):
         payload = json.loads(path.read_text())
         layers = payload.get("layers", {})
+        # A layer a tranche marked superseded does not certify anything. far2's
+        # issues records are the case this exists for: its prompt named a field
+        # that does not exist, so the records that passed are exactly those the
+        # model did not need it for - articles whose issue fell inside the
+        # taxonomy. Measured, that lifted invented-field failures from 1-2 of 89
+        # under v1.1 to 9 of 89, so the surviving set is selected on content and
+        # not merely on format. Dropping the layer here returns those articles
+        # to the pool for re-extraction under the current prompt, while the
+        # file itself is kept as the record of what was run.
+        superseded = set(payload.get("superseded_layers") or ())
+        layers = {l: rows for l, rows in layers.items() if l not in superseded}
         if not all(l in layers for l in live):
             # A tranche collected before a layer existed, or one whose
             # collection stopped early, cannot certify an article as done.

@@ -131,3 +131,4 @@ llm_context/consequence_rescue_outputs*.json
 # diagnosis alone. Same copyright policy as the extraction outputs.
 llm_context/issues_failure_diagnosis_*.json
 llm_context/step2_far3_rerun.log
+llm_context/full_corpus_run.log
