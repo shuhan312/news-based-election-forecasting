@@ -3,6 +3,11 @@ their two provenance streams, under §8.5 + §9 of
 eligibility_manual_review_methodology.md (as provisionally adopted
 2026-07-24, supervisor ratification due 2026-07-31).
 
+The population may arrive in two disjoint review sheets: the original
+2,370-row corpus sheet and the later local-extension sheet. Their LLM outputs
+remain separate for audit, then are unioned here by article id. Duplicate ids
+across either pair are fatal because they would make provenance ambiguous.
+
 Per-rule sources:
 
 | Rule | arm=national | arm=local |
@@ -29,6 +34,10 @@ A row's overall decision is computed by the same
 four rules are present. Rows blocked on the LLM retry (non-ok status)
 or on human E5 coding are reported as pending, never guessed.
 
+The extension sheet may still contain blank human E5 cells. Those rows are
+emitted as pending rather than guessed, so assembly can be rerun safely after
+each review tranche.
+
 Usage:
     python3 -m src.news_collection.assemble_corpus_decisions
 """
@@ -39,8 +48,14 @@ from pathlib import Path
 
 from .manual_review_schema import RULES, derive_overall_decision
 
-SHEET = Path("news_collection/full_corpus_review.csv")
-LLM = Path("news_collection/manual_review_llm_v2_corpus.csv")
+SHEETS = (
+    Path("news_collection/full_corpus_review.csv"),
+    Path("news_collection/e5_local_review_queue_round2.csv"),
+)
+LLM_OUTPUTS = (
+    Path("news_collection/manual_review_llm_v2_corpus.csv"),
+    Path("news_collection/manual_review_llm_v2_local_extension.csv"),
+)
 QUEUE = Path("news_collection/second_review_queue.csv")
 OUT = Path("news_collection/corpus_eligibility_decisions.csv")
 
@@ -52,9 +67,33 @@ FIELDS = (
 )
 
 
+def load_disjoint_rows(paths: tuple[Path, ...], *, label: str) -> dict[str, dict]:
+    """Load every existing stream and reject overlapping article identities.
+
+    The local extension is a continuation of the corpus, not a replacement for
+    the original 2,370 rows. A duplicate across streams would make provenance
+    ambiguous, so assembly fails rather than silently taking the later file.
+    """
+
+    rows: dict[str, dict] = {}
+    available = [path for path in paths if path.exists()]
+    if not available:
+        raise RuntimeError(f"no {label} files exist: {list(paths)}")
+    for path in available:
+        with path.open(encoding="utf-8-sig", newline="") as handle:
+            for row in csv.DictReader(handle):
+                article_id = row["article_id"]
+                if article_id in rows:
+                    raise RuntimeError(
+                        f"{article_id} appears in multiple {label} files; "
+                        f"latest conflict is {path}")
+                rows[article_id] = row
+    return rows
+
+
 def main() -> None:
-    sheet = {r["article_id"]: r for r in csv.DictReader(SHEET.open())}
-    llm = {r["article_id"]: r for r in csv.DictReader(LLM.open())}
+    sheet = load_disjoint_rows(SHEETS, label="review-sheet")
+    llm = load_disjoint_rows(LLM_OUTPUTS, label="LLM-output")
 
     # Adjudication layer: cells a human resolved (or the flag-derived E6
     # not_applicable) in the second-review queue outrank both base streams.

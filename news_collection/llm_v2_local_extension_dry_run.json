@@ -1,0 +1,182 @@
+{
+  "purpose": "local eligibility extension after the original corpus batch",
+  "sheet": "news_collection/e5_local_review_queue_round2.csv",
+  "sheet_sha256": "c4dc9246c70d0d7327a612da96e8b47167d595a9be4d567154e726773914a0b0",
+  "classifier_model": "claude-sonnet-5",
+  "queue_rows": 1060,
+  "request_count": 1037,
+  "not_submitted_no_full_text": 23,
+  "request_set_sha256": "1601be0361990ed89f583264ca2805f61a6fd8c40b38ac3dce645ad073499fbd",
+  "article_ids_sha256": "d3149a800f82c9dcc109e60225f60e328e189c97fec60afb17010f8849ac7a27",
+  "total_input_characters": 6847697,
+  "by_election": {
+    "ESWS-2026-05": 196,
+    "SCC-2013-05": 370,
+    "SCC-2017-05": 174,
+    "SCC-2021-05": 297
+  },
+  "by_source": {
+    "bbc_surrey": 386,
+    "epsom_ewell_times": 1,
+    "google_dated_search": 254,
+    "guardian_api": 106,
+    "guildford_dragon": 20,
+    "surrey_comet": 193,
+    "surreylive": 77
+  },
+  "by_requested_rule_set": {
+    "E4,E5,E6,E8": 20,
+    "E4,E5,E8": 1017
+  },
+  "excluded_rows": [
+    {
+      "article_id": "NEWS-google_dated_search-259b7f301cc0",
+      "election_id": "SCC-2013-05",
+      "source_id": "google_dated_search",
+      "reason": "stored full text is unavailable or empty"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-36fc99c2e0f3",
+      "election_id": "SCC-2013-05",
+      "source_id": "google_dated_search",
+      "reason": "stored full text is unavailable or empty"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-384d53128bd0",
+      "election_id": "SCC-2017-05",
+      "source_id": "google_dated_search",
+      "reason": "stored full text is unavailable or empty"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-4a0adc0f7d8f",
+      "election_id": "SCC-2017-05",
+      "source_id": "google_dated_search",
+      "reason": "stored full text is unavailable or empty"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-53bdd87c1d21",
+      "election_id": "SCC-2013-05",
+      "source_id": "google_dated_search",
+      "reason": "stored full text is unavailable or empty"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-76d02952ece1",
+      "election_id": "SCC-2013-05",
+      "source_id": "google_dated_search",
+      "reason": "stored full text is unavailable or empty"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-7e98942068ba",
+      "election_id": "SCC-2017-05",
+      "source_id": "google_dated_search",
+      "reason": "stored full text is unavailable or empty"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-8e433bda1d20",
+      "election_id": "SCC-2013-05",
+      "source_id": "google_dated_search",
+      "reason": "stored full text is unavailable or empty"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-b1dc6127abf7",
+      "election_id": "SCC-2013-05",
+      "source_id": "google_dated_search",
+      "reason": "stored full text is unavailable or empty"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-bd28d8efb064",
+      "election_id": "SCC-2013-05",
+      "source_id": "google_dated_search",
+      "reason": "stored full text is unavailable or empty"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-cae0699f3cbf",
+      "election_id": "SCC-2013-05",
+      "source_id": "google_dated_search",
+      "reason": "stored full text is unavailable or empty"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-ceb7b66ba665",
+      "election_id": "SCC-2013-05",
+      "source_id": "google_dated_search",
+      "reason": "stored full text is unavailable or empty"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-e83db6f81199",
+      "election_id": "SCC-2013-05",
+      "source_id": "google_dated_search",
+      "reason": "stored full text is unavailable or empty"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-0366f43a234f",
+      "election_id": "ESWS-2026-05",
+      "source_id": "google_dated_search",
+      "reason": "stored full text is unavailable or empty"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-04a8c7a65b28",
+      "election_id": "ESWS-2026-05",
+      "source_id": "google_dated_search",
+      "reason": "stored full text is unavailable or empty"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-0778ed3ba9e4",
+      "election_id": "ESWS-2026-05",
+      "source_id": "google_dated_search",
+      "reason": "stored full text is unavailable or empty"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-19f4e7b63e0b",
+      "election_id": "ESWS-2026-05",
+      "source_id": "google_dated_search",
+      "reason": "stored full text is unavailable or empty"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-338451dd3556",
+      "election_id": "SCC-2021-05",
+      "source_id": "google_dated_search",
+      "reason": "stored full text is unavailable or empty"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-5623d25faba3",
+      "election_id": "SCC-2021-05",
+      "source_id": "google_dated_search",
+      "reason": "stored full text is unavailable or empty"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-6ea92fcec97f",
+      "election_id": "ESWS-2026-05",
+      "source_id": "google_dated_search",
+      "reason": "stored full text is unavailable or empty"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-79509ff54301",
+      "election_id": "SCC-2021-05",
+      "source_id": "google_dated_search",
+      "reason": "stored full text is unavailable or empty"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-8341f1372884",
+      "election_id": "ESWS-2026-05",
+      "source_id": "google_dated_search",
+      "reason": "stored full text is unavailable or empty"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-edcfef04750f",
+      "election_id": "ESWS-2026-05",
+      "source_id": "google_dated_search",
+      "reason": "stored full text is unavailable or empty"
+    }
+  ],
+  "decision_ownership": {
+    "E4": "llm_v2",
+    "E5": "human; model field is audit-only",
+    "E6": "llm_v2 when applicable, otherwise deterministic not_applicable",
+    "E8": "llm_v2"
+  },
+  "separate_from_original_batch": {
+    "state": "news_collection/llm_v2_local_extension_batch_state.json",
+    "output": "news_collection/manual_review_llm_v2_local_extension.csv",
+    "raw_responses": "news_collection/llm_v2_local_extension_raw"
+  }
+}

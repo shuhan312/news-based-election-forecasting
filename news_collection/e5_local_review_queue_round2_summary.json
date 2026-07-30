@@ -1,0 +1,87 @@
+{
+  "queue_rows": 1060,
+  "local_mechanically_clear": 1394,
+  "local_already_adjudicated": 334,
+  "local_included_today": 120,
+  "llm_filter": "unfiltered; 0 of 1060 already have an llm_v2 clearance on E4/E6/E8",
+  "min_adjudicated_for_rate": 8,
+  "measured_rates_raw": {
+    "bbc_surrey": {
+      "adjudicated": 19,
+      "included": 15
+    },
+    "guardian_api": {
+      "adjudicated": 248,
+      "included": 47
+    },
+    "guildford_dragon": {
+      "adjudicated": 10,
+      "included": 10
+    },
+    "surrey_comet": {
+      "adjudicated": 2,
+      "included": 0
+    },
+    "surreylive": {
+      "adjudicated": 55,
+      "included": 48
+    }
+  },
+  "pooled_non_national_local_rate": 0.8488,
+  "per_source": [
+    {
+      "source_id": "bbc_surrey",
+      "articles": 386,
+      "rate": 0.7895,
+      "rate_basis": "measured",
+      "expected_included": 304.7
+    },
+    {
+      "source_id": "google_dated_search",
+      "articles": 277,
+      "rate": null,
+      "rate_basis": "no measured basis",
+      "expected_included": null
+    },
+    {
+      "source_id": "surrey_comet",
+      "articles": 193,
+      "rate": null,
+      "rate_basis": "no measured basis",
+      "expected_included": null
+    },
+    {
+      "source_id": "guardian_api",
+      "articles": 106,
+      "rate": 0.1895,
+      "rate_basis": "measured",
+      "expected_included": 20.1
+    },
+    {
+      "source_id": "surreylive",
+      "articles": 77,
+      "rate": 0.8727,
+      "rate_basis": "measured",
+      "expected_included": 67.2
+    },
+    {
+      "source_id": "guildford_dragon",
+      "articles": 20,
+      "rate": 1.0,
+      "rate_basis": "measured",
+      "expected_included": 20.0
+    },
+    {
+      "source_id": "epsom_ewell_times",
+      "articles": 1,
+      "rate": null,
+      "rate_basis": "no measured basis",
+      "expected_included": null
+    }
+  ],
+  "expected_additional_included_measured_only": 412.0,
+  "articles_with_no_measured_rate": 471,
+  "rows_without_stored_text": 23,
+  "ordering": "descending measured source E5 include rate, then training-period articles first within a source, then article_id",
+  "note": "Every judgement column is blank by construction. E5-local has no validated automated classifier - all 334 existing local E5 decisions are e5_source=human - so no decision is pre-filled here. E4/E6/E8 for a local article come from llm_v2 and none of these articles has an llm_v2 row yet, so each stays at awaiting_llm_retry until that pass runs, with or without E5."
+}

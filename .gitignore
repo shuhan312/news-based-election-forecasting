@@ -46,6 +46,12 @@ news_collection/structure_normalised_articles_v1.jsonl
 news_collection/structured_articles_v1.jsonl
 news_collection/normalised_text_layer_v1_provisional.jsonl
 
+# The E5-local round-2 review queue carries ~1,500-character article excerpts
+# for 1,060 articles (2.3MB of publisher text). The companion _summary.json
+# holds the counts, per-source rates and projection and IS committed, so every
+# claim made from this queue stays checkable without the text itself.
+news_collection/e5_local_review_queue_round2.csv
+
 # Phase 6 pilot: extraction outputs carry verbatim article quotes -
 # copyright three-tier policy keeps them out of Git (local + OneDrive)
 llm_context/llm_context_pilot_outputs.json
