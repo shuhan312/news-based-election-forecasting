@@ -116,3 +116,12 @@ llm_context/consequence_rescue.log
 # and reproduce no article text.
 llm_context/corpus_extraction_outputs_*.json
 llm_context/attribution_rescue.log
+
+# Raw per-article outputs for the two layers the D4 gate dropped. The stance
+# and framing rescue outputs stay in Git because those layers are live and
+# their answers feed features; attribution and consequence feed nothing, so
+# their per-article answers are dead weight - 2,572 lines of machine output
+# for layers nothing will read. Traceability for a dropped layer needs the
+# batch ids and the computed agreement figures, both of which stay.
+llm_context/attribution_rescue_outputs*.json
+llm_context/consequence_rescue_outputs*.json
