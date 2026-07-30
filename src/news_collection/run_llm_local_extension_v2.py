@@ -43,6 +43,7 @@ import argparse
 import csv
 import hashlib
 import json
+import re
 from collections import Counter
 from datetime import datetime
 from pathlib import Path
@@ -285,6 +286,20 @@ def _failure_row(article: dict, status: str, note: str) -> dict:
     return row
 
 
+def _normalise_aggregate_cell(value):
+    """Keep the review CSV to one physical row per article.
+
+    Claude can copy publisher boilerplate containing embedded line breaks into
+    ``supporting_text``. The exact API response remains in the ignored raw
+    archive; only the review-friendly aggregate replaces those line breaks
+    with spaces.
+    """
+
+    if not isinstance(value, str):
+        return value
+    return re.sub(r"\s*[\r\n]+\s*", " ", value)
+
+
 def retry() -> None:
     """Retry only technical failures with byte-identical requests."""
 
@@ -385,6 +400,10 @@ def collect() -> None:
         )
 
     rows = [rows_by_id[article_id] for article_id in sorted(rows_by_id)]
+    rows = [
+        {key: _normalise_aggregate_cell(value) for key, value in row.items()}
+        for row in rows
+    ]
     backup = backup_previous_output(OUT)
     if backup:
         print(f"previous output backed up -> {backup}")

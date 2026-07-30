@@ -46,6 +46,21 @@ def test_request_set_is_deterministic():
     assert first["article_ids_sha256"] == second["article_ids_sha256"]
 
 
+def test_normalise_aggregate_cell_keeps_each_article_on_one_csv_line():
+    """Publisher line breaks should not split one review record over lines."""
+
+    assert (
+        extension._normalise_aggregate_cell(
+            "Promoted by Example Agent\n  on behalf of Example Party"
+        )
+        == "Promoted by Example Agent on behalf of Example Party"
+    )
+    assert extension._normalise_aggregate_cell("already one line") == (
+        "already one line"
+    )
+    assert extension._normalise_aggregate_cell(3) == 3
+
+
 def test_disjoint_loader_rejects_duplicate_article_ids(tmp_path: Path):
     """Assembly cannot silently let one LLM/review stream overwrite another."""
 
