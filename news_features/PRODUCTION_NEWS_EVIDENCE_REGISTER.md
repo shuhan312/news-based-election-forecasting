@@ -671,3 +671,31 @@ fully decomposed: news corrected the realignment parties' levels; with
 only seven Reform-era training cells it could not move Reform's own
 level in a stable direction (the sign flips across windows); and it
 touched no party's geography.
+
+**The Haslemere probe: stages 1-4 executed, E5 pass pending
+(exploratory case study).** The one post-holdout by-election with
+contest-targeted news - Haslemere, single-member, polling day 7 July
+2026; Conservative, Liberal Democrat, Reform UK and Green candidates -
+is the one setting where party grain IS ward grain, and the baseline's
+failure there is Reform-shaped in the opposite direction to May: the
+before-May variant over-predicts Reform 17.55 against 8.60 observed
+(+8.95; contest MAE 4.47) and retraining through 7 May worsens it to
+23.23 (+14.63; MAE 7.32), both variants still calling the Liberal
+Democrat winner. The probe asks whether pre-polling news carried the
+ward-level signal history missed, using frozen code end to end and
+training nothing. Stages 1-3 (`run_haslemere_probe_stages.py`) judged
+its 379 collected records with the byte-identical frozen rules: 92
+fell to E1, 238 to the 180-day window (E2), 2 to E3, leaving a 47-row
+pool - all local-arm, zero Reform-flagged, disjoint from the
+enrichment population by assertion. The national arm contributed no
+eligible in-window article, so combined-arm specifications will carry
+any signal and national-arm specifications will sit near baseline.
+Stage 4 (`run_haslemere_probe_llm_batch.py`) ran the frozen v2
+eligibility classifier by batch over the pool (47 requests; 3 schema
+errors resubmitted; final 47 of 47 ok): E4 excluded nothing, E8
+excluded 2, E6 not applicable throughout. The 45 survivors form the
+human E5 queue (`e5_local_review_queue.csv`) - E5 stays a human
+judgement per the failed validations recorded in section 3 (kappa
+0.1911 then 0.4762 against the 0.6000 bar) - and that pass is pending.
+No principal or enrichment artefact was touched; all probe outputs
+live under `news_collection/haslemere_probe/`.
