@@ -1,0 +1,6 @@
+{
+  "blinded_predictions.csv": "966e03cd1c54f7de6e9c455fc382263b74e58a2ade3c793522b53394753b6b54",
+  "frozen_protocol.json": "86dd73b51dfec23f5913141711f568d234980ca1a27f14c387192e600e91468f",
+  "prediction_rows": 59904,
+  "note": "Record these hashes in the evidence register. Any change to either file after the freeze is detectable against them."
+}

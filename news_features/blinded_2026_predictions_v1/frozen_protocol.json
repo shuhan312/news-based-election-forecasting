@@ -1,0 +1,1705 @@
+{
+  "status": "blinded_2026_predictions_frozen",
+  "canonical_release_id": "canonical-news-v1-59d113bb9c28",
+  "holdout_elections": [
+    "surrey-county-council-2026-east-surrey",
+    "surrey-county-council-2026-west-surrey"
+  ],
+  "holdout_news_election": "ESWS-2026-05",
+  "blinded_candidate_rows": 832,
+  "outcome_columns_stripped_at_load": [
+    "observed_vote_share",
+    "observed_rank",
+    "observed_elected",
+    "error",
+    "absolute_error",
+    "squared_error"
+  ],
+  "fit_variants": {
+    "pooled_2017_2021": "primary: refit on train plus completed validation (2017 + 2021 election x party mean residuals), the supervisor's split structure; includes the single 2021 Reform residual row",
+    "fit_2017_only": "protocol replication of the frozen pre-2026 experiment (five 2017 party rows, no Reform); reported as sensitivity"
+  },
+  "primary_fit_variant": "pooled_2017_2021",
+  "ridge_penalty": 1.0,
+  "penalty_selection": "fixed_before_validation; unchanged from the frozen experiment",
+  "tie_break_rule": "within-contest ranks order by news-enhanced share descending, then candidate_contest_id ascending",
+  "periods": [
+    "180_to_91_days",
+    "90_to_31_days",
+    "30_to_15_days",
+    "14_to_8_days",
+    "7_to_4_days",
+    "final_72_hours",
+    "previous_72_hours",
+    "previous_7_days",
+    "previous_14_days",
+    "previous_30_days",
+    "previous_90_days",
+    "previous_180_days"
+  ],
+  "specifications": [
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "180_to_91_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "party_article_share": 3.395204277496088,
+        "net_portrayal_share": 3.09390746348301
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "90_to_31_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "party_article_share": 3.6464421353224816,
+        "net_portrayal_share": 3.477152683406405
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "30_to_15_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "party_article_share": 3.141968655546464,
+        "net_portrayal_share": 3.104042445967552
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "14_to_8_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "party_article_share": 3.9625010224565393,
+        "net_portrayal_share": 2.6284795499296547
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "7_to_4_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 252
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "party_article_share": 2.647545237247837,
+        "net_portrayal_share": 0.7415586732132458
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "final_72_hours",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "party_article_share": 2.8455394660024615,
+        "net_portrayal_share": 4.182859608099167
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_72_hours",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "party_article_share": 2.8455394660024615,
+        "net_portrayal_share": 4.182859608099167
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_7_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "party_article_share": 1.556365176376715,
+        "net_portrayal_share": 2.507787605790987
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_14_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "party_article_share": 3.8510465501778954,
+        "net_portrayal_share": 2.7379256128559546
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_30_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "party_article_share": 3.3976112790338275,
+        "net_portrayal_share": 3.004182398808986
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_90_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "party_article_share": 3.906246519015376,
+        "net_portrayal_share": 3.745685677627679
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_180_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "party_article_share": 3.6215754475049082,
+        "net_portrayal_share": 3.518876553020764
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "180_to_91_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "national_party_article_share": 3.290971023778113,
+        "national_net_portrayal_share": 3.093962823562984
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "90_to_31_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "national_party_article_share": 3.2313327563453798,
+        "national_net_portrayal_share": 3.346373175215859
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "30_to_15_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "national_party_article_share": 3.394690870804855,
+        "national_net_portrayal_share": 2.9332728947646123
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "14_to_8_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 333
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "national_party_article_share": 4.105776485447635,
+        "national_net_portrayal_share": 3.642387815832753
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "7_to_4_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "national_party_article_share": 0.0,
+        "national_net_portrayal_share": 0.0
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "final_72_hours",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "national_party_article_share": 2.3430864883743316,
+        "national_net_portrayal_share": 4.274579684917551
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_72_hours",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "national_party_article_share": 2.3430864883743316,
+        "national_net_portrayal_share": 4.274579684917551
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_7_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "national_party_article_share": 2.3430864883743316,
+        "national_net_portrayal_share": 4.274579684917551
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_14_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 370
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "national_party_article_share": 4.09355790553391,
+        "national_net_portrayal_share": 5.283092728622805
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_30_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "national_party_article_share": 4.565349622376154,
+        "national_net_portrayal_share": 5.625331565433411
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_90_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "national_party_article_share": 3.6811366197167716,
+        "national_net_portrayal_share": 4.401024358149856
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_180_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "national_party_article_share": 3.568510891944529,
+        "national_net_portrayal_share": 3.7684757685984174
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "180_to_91_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 72
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "local_party_article_share": 5.546135340409746,
+        "local_net_portrayal_share": 2.7391920219847146
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "90_to_31_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "local_party_article_share": 4.195663298511001,
+        "local_net_portrayal_share": 2.251774654568919
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "30_to_15_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "local_party_article_share": 3.0933079230933136,
+        "local_net_portrayal_share": 2.0767579528485314
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "14_to_8_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "local_party_article_share": 1.8161197780152376,
+        "local_net_portrayal_share": -0.5951364867041326
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "7_to_4_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 252
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "local_party_article_share": 2.647545237247837,
+        "local_net_portrayal_share": 0.7415586732132458
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "final_72_hours",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "local_party_article_share": 3.543907733085016,
+        "local_net_portrayal_share": 2.2774578878187652
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "previous_72_hours",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "local_party_article_share": 3.543907733085016,
+        "local_net_portrayal_share": 2.2774578878187652
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "previous_7_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "local_party_article_share": 3.309007706330404,
+        "local_net_portrayal_share": 0.6187215741262833
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "previous_14_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "local_party_article_share": 3.9372087697270004,
+        "local_net_portrayal_share": 0.313280377986136
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "previous_30_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "local_party_article_share": 3.0544770117314215,
+        "local_net_portrayal_share": -0.03120648558748392
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "previous_90_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "local_party_article_share": 4.480299206111782,
+        "local_net_portrayal_share": 1.0276733694568194
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "previous_180_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 11,
+      "training_reform_rows": 1,
+      "intercept_mean_training_residual": -2.219724305593889,
+      "standardised_coefficients": {
+        "local_party_article_share": 4.808772328702238,
+        "local_net_portrayal_share": 1.339126437050943
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "180_to_91_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 64
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "party_article_share": 6.122749310822412,
+        "net_portrayal_share": 3.2722200940733797
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "90_to_31_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "party_article_share": 6.015708555126828,
+        "net_portrayal_share": -0.001842384761255558
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "30_to_15_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 80
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "party_article_share": 7.463579743071002,
+        "net_portrayal_share": -0.2146111713588888
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "14_to_8_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 312
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "party_article_share": 7.555441022039087,
+        "net_portrayal_share": 2.7554594949916575
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "7_to_4_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "party_article_share": -6.215217272838708,
+        "net_portrayal_share": -5.119803043692619
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "final_72_hours",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "party_article_share": 0.0,
+        "net_portrayal_share": 0.0
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_72_hours",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "party_article_share": 0.0,
+        "net_portrayal_share": 0.0
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_7_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 431
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "party_article_share": -6.215217272838708,
+        "net_portrayal_share": -5.119803043692619
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_14_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "party_article_share": 7.676934859587079,
+        "net_portrayal_share": 3.7346342671077077
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_30_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "party_article_share": 7.750546147118136,
+        "net_portrayal_share": 2.8442152110011927
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_90_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "party_article_share": 7.2125020354658815,
+        "net_portrayal_share": 2.395569975457758
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_180_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 53
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "party_article_share": 6.472360930236468,
+        "net_portrayal_share": 3.397728105352875
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "180_to_91_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 59
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "national_party_article_share": 5.757069706337706,
+        "national_net_portrayal_share": 3.0631732184876874
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "90_to_31_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "national_party_article_share": 5.634367106455616,
+        "national_net_portrayal_share": -1.2467253921155528
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "30_to_15_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "national_party_article_share": 5.127195320958038,
+        "national_net_portrayal_share": 1.2912481374062517
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "14_to_8_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 542
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "national_party_article_share": 5.548964319147565,
+        "national_net_portrayal_share": 5.0732744072164735
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "7_to_4_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "national_party_article_share": 0.0,
+        "national_net_portrayal_share": 0.0
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "final_72_hours",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "national_party_article_share": 0.0,
+        "national_net_portrayal_share": 0.0
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_72_hours",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "national_party_article_share": 0.0,
+        "national_net_portrayal_share": 0.0
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_7_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "national_party_article_share": 0.0,
+        "national_net_portrayal_share": 0.0
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_14_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 542
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "national_party_article_share": 5.548964319147565,
+        "national_net_portrayal_share": 5.0732744072164735
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_30_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "national_party_article_share": 6.022215148823408,
+        "national_net_portrayal_share": 4.638683253368946
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_90_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "national_party_article_share": 5.7777867985408635,
+        "national_net_portrayal_share": 1.384478211413274
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_180_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 55
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "national_party_article_share": 5.89909756806979,
+        "national_net_portrayal_share": 3.096828120891579
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "180_to_91_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 146
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "local_party_article_share": 7.4520737720714685,
+        "local_net_portrayal_share": 2.3145565705250433
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "90_to_31_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 16
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "local_party_article_share": 6.76281027662802,
+        "local_net_portrayal_share": 2.560130828782014
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "30_to_15_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 174
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "local_party_article_share": 8.549766733967132,
+        "local_net_portrayal_share": -2.6296520142303024
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "14_to_8_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "local_party_article_share": 8.04855975499541,
+        "local_net_portrayal_share": -0.8867422934901847
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "7_to_4_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "local_party_article_share": -6.215217272838708,
+        "local_net_portrayal_share": -5.119803043692619
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "final_72_hours",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "local_party_article_share": 0.0,
+        "local_net_portrayal_share": 0.0
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "previous_72_hours",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "local_party_article_share": 0.0,
+        "local_net_portrayal_share": 0.0
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "previous_7_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 431
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "local_party_article_share": -6.215217272838708,
+        "local_net_portrayal_share": -5.119803043692619
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "previous_14_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "local_party_article_share": 6.970134876576795,
+        "local_net_portrayal_share": 1.191157122809953
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "previous_30_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "local_party_article_share": 7.909329826232209,
+        "local_net_portrayal_share": -0.14891346166463582
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "previous_90_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "local_party_article_share": 8.331298188054028,
+        "local_net_portrayal_share": 2.975243992682247
+      }
+    },
+    {
+      "fit_variant": "fit_2017_only",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "previous_180_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 5,
+      "training_reform_rows": 0,
+      "intercept_mean_training_residual": -2.0633063978555333,
+      "standardised_coefficients": {
+        "local_party_article_share": 8.20208991103005,
+        "local_net_portrayal_share": 2.821124142464935
+      }
+    }
+  ],
+  "unblinding_rule": "One unblinding event only. Report every specification in this file. The primary confirmatory family is the combined and national arms over the six confirmed windows under the pooled_2017_2021 variant, each compared against its recalibrated control on overall MAE. The local arm, cumulative periods and the fit_2017_only variant are sensitivity results. No specification, window, arm or variant may be selected or promoted after outcomes are seen. Reform UK rows are reported separately with their row count visible; coefficients are party-generic, not Reform-specific, and not causal.",
+  "input_sha256": {
+    "estimability_report.json": "71880e8e73c8535d27ad52ca2066d883cffa34063e0e98f4edcb3b818af29b3a",
+    "holdout_predictions.csv": "df8c6421301a1a3545bbd22fc776e4df254e8a4906bc115912cc866c7b9ed3d1",
+    "news_feature_table_v1.csv": "2804a478cef6cd7ded9d94bef0f209f693e2eed14e2b26dfed367f37e53840ea",
+    "out_of_fold_predictions.csv": "950e527eb1ad82522e7cc4f4cc7567660b320942ad2b6a03c16e7ad06489e6e5"
+  }
+}
