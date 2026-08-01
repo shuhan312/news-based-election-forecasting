@@ -226,7 +226,11 @@ The following results still do not exist:
 
 These are **not run or not estimable**, not negative findings. The blinded
 prediction file that the 2026 comparison requires now exists and is frozen
-(section 13); the comparison itself remains unrun.
+(section 13); the comparison has since been run once (section 16).
+Synthetic-news scenario results now also exist
+(`synthetic_scenarios_v1/`): they are labelled simulations of the frozen
+v2 model's sensitivity, produced after unblinding, and are not evidence
+about voters.
 
 ## 11. Completed production news experiment
 
@@ -528,3 +532,39 @@ seats better than the baseline (combined final-72-hours 0.8558, both
 arms 0.8317 at 180-91 days — a window that worsened share MAE). Under
 the no-promotion rule these remain secondary results; the divergence of
 the two grains is itself a registered finding for the report.
+
+## 17. Synthetic scenario results (simulations, not evidence about voters)
+
+Source: `synthetic_scenarios_v1/scenario_findings.md` and
+`scenario_results.json`; produced by
+`src/news_modelling/synthetic_news_scenarios.py` after unblinding, with
+every refit coefficient asserted equal to the frozen v2 protocol's
+values before any scenario ran. All figures describe the fitted model's
+sensitivity to injected hypothetical coverage; none is a claim about
+voter behaviour.
+
+Four preset contrasts, ten injected articles each:
+
+1. **Tone is asymmetric.** The same Reform story moved its mean
+   predicted share +1.0 points when favourable and -2.0 when
+   unfavourable (30-15-day window, combined arm): the fitted
+   coefficients weight unfavourable coverage roughly twice as heavily.
+2. **Timing trades share movement for seat movement.** The same
+   unfavourable Reform story moved shares more a month out (-2.0
+   points, 2 seat calls changed) and seats more at the end (-0.8
+   points but 8 seat calls changed in the final 72 hours).
+3. **Attacking a rival reshuffles rather than transfers.** Ten
+   unfavourable Conservative articles left Reform's share almost
+   untouched (+0.015) while changing 22 seat calls: contest
+   renormalisation redistributes a damaged party's space across the
+   whole field.
+4. **The local arm's large response measures fragility, not power.**
+   The same favourable Reform story produced +2.1 points through the
+   national arm (cell held 45 articles) and +7.4 points with 264
+   changed seat calls through the local arm - an injection that
+   roughly doubles a near-empty cell under a sensitivity-only
+   specification. Recorded as thin-cell fragility.
+
+Boundary, restated: the issue axis (a crime- or immigration-focused
+story) cannot flow through the frozen specifications, which carry
+volume and portrayal features only.
