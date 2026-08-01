@@ -102,12 +102,14 @@
         "baseline": {
           "rows": 753,
           "abs_bias": 0.2802,
+          "signed_bias": -0.2802,
           "dispersion_mae": 4.4861,
           "total_mae": 4.441
         },
         "news": {
           "rows": 753,
           "abs_bias": 0.3111,
+          "signed_bias": -0.3111,
           "dispersion_mae": 4.8245,
           "total_mae": 4.7707
         },
@@ -120,12 +122,14 @@
         "baseline": {
           "rows": 753,
           "abs_bias": 0.2802,
+          "signed_bias": -0.2802,
           "dispersion_mae": 4.4861,
           "total_mae": 4.441
         },
         "news": {
           "rows": 753,
           "abs_bias": 0.3137,
+          "signed_bias": -0.3137,
           "dispersion_mae": 5.046,
           "total_mae": 5.0206
         },
@@ -138,12 +142,14 @@
         "baseline": {
           "rows": 753,
           "abs_bias": 0.2802,
+          "signed_bias": -0.2802,
           "dispersion_mae": 4.4861,
           "total_mae": 4.441
         },
         "news": {
           "rows": 753,
           "abs_bias": 0.3187,
+          "signed_bias": -0.3187,
           "dispersion_mae": 4.3613,
           "total_mae": 4.3116
         },
@@ -156,12 +162,14 @@
         "baseline": {
           "rows": 753,
           "abs_bias": 0.2802,
+          "signed_bias": -0.2802,
           "dispersion_mae": 4.4861,
           "total_mae": 4.441
         },
         "news": {
           "rows": 753,
           "abs_bias": 0.2395,
+          "signed_bias": -0.2395,
           "dispersion_mae": 4.4984,
           "total_mae": 4.4551
         },
@@ -174,12 +182,14 @@
         "baseline": {
           "rows": 753,
           "abs_bias": 0.2802,
+          "signed_bias": -0.2802,
           "dispersion_mae": 4.4861,
           "total_mae": 4.441
         },
         "news": {
           "rows": 753,
           "abs_bias": 0.3174,
+          "signed_bias": -0.3174,
           "dispersion_mae": 4.258,
           "total_mae": 4.2051
         },
@@ -192,12 +202,14 @@
         "baseline": {
           "rows": 753,
           "abs_bias": 0.2802,
+          "signed_bias": -0.2802,
           "dispersion_mae": 4.4861,
           "total_mae": 4.441
         },
         "news": {
           "rows": 753,
           "abs_bias": 0.137,
+          "signed_bias": -0.137,
           "dispersion_mae": 4.271,
           "total_mae": 4.2572
         },
@@ -210,12 +222,14 @@
         "baseline": {
           "rows": 753,
           "abs_bias": 0.2802,
+          "signed_bias": -0.2802,
           "dispersion_mae": 4.4861,
           "total_mae": 4.441
         },
         "news": {
           "rows": 753,
           "abs_bias": 0.2813,
+          "signed_bias": -0.2813,
           "dispersion_mae": 4.4858,
           "total_mae": 4.4406
         },
@@ -228,12 +242,14 @@
         "baseline": {
           "rows": 753,
           "abs_bias": 0.2802,
+          "signed_bias": -0.2802,
           "dispersion_mae": 4.4861,
           "total_mae": 4.441
         },
         "news": {
           "rows": 753,
           "abs_bias": 0.3181,
+          "signed_bias": -0.3181,
           "dispersion_mae": 5.0609,
           "total_mae": 5.0351
         },
@@ -246,12 +262,14 @@
         "baseline": {
           "rows": 753,
           "abs_bias": 0.2802,
+          "signed_bias": -0.2802,
           "dispersion_mae": 4.4861,
           "total_mae": 4.441
         },
         "news": {
           "rows": 753,
           "abs_bias": 0.6537,
+          "signed_bias": -0.6537,
           "dispersion_mae": 4.5276,
           "total_mae": 4.4611
         },
@@ -264,12 +282,14 @@
         "baseline": {
           "rows": 753,
           "abs_bias": 0.2802,
+          "signed_bias": -0.2802,
           "dispersion_mae": 4.4861,
           "total_mae": 4.441
         },
         "news": {
           "rows": 753,
           "abs_bias": 0.2669,
+          "signed_bias": -0.2669,
           "dispersion_mae": 4.49,
           "total_mae": 4.4454
         },
@@ -282,12 +302,14 @@
         "baseline": {
           "rows": 753,
           "abs_bias": 0.2802,
+          "signed_bias": -0.2802,
           "dispersion_mae": 4.4861,
           "total_mae": 4.441
         },
         "news": {
           "rows": 753,
           "abs_bias": 0.3568,
+          "signed_bias": -0.3568,
           "dispersion_mae": 4.2386,
           "total_mae": 4.1773
         },
@@ -300,17 +322,1175 @@
         "baseline": {
           "rows": 753,
           "abs_bias": 0.2802,
+          "signed_bias": -0.2802,
           "dispersion_mae": 4.4861,
           "total_mae": 4.441
         },
         "news": {
           "rows": 753,
           "abs_bias": 0.2117,
+          "signed_bias": -0.2117,
           "dispersion_mae": 4.5072,
           "total_mae": 4.4686
         },
         "bias_change": -0.0685,
         "dispersion_change": 0.0211
+      }
+    ]
+  },
+  "mechanism_per_party": {
+    "per_specification": [
+      {
+        "analysis": "combined_exploratory",
+        "window": "14_to_8_days",
+        "parties": {
+          "conservative": {
+            "baseline": {
+              "rows": 158,
+              "abs_bias": 2.8854,
+              "signed_bias": 2.8854,
+              "dispersion_mae": 3.9602,
+              "total_mae": 4.7434
+            },
+            "news": {
+              "rows": 158,
+              "abs_bias": 1.2871,
+              "signed_bias": 1.2871,
+              "dispersion_mae": 3.9309,
+              "total_mae": 4.13
+            },
+            "abs_bias_change": -1.5983,
+            "dispersion_change": -0.0293
+          },
+          "green": {
+            "baseline": {
+              "rows": 146,
+              "abs_bias": 0.1947,
+              "signed_bias": 0.1947,
+              "dispersion_mae": 2.497,
+              "total_mae": 2.5527
+            },
+            "news": {
+              "rows": 146,
+              "abs_bias": 1.7605,
+              "signed_bias": -1.7605,
+              "dispersion_mae": 2.5057,
+              "total_mae": 2.5489
+            },
+            "abs_bias_change": 1.5658,
+            "dispersion_change": 0.0087
+          },
+          "labour": {
+            "baseline": {
+              "rows": 126,
+              "abs_bias": 3.6914,
+              "signed_bias": 3.6914,
+              "dispersion_mae": 1.4566,
+              "total_mae": 3.8471
+            },
+            "news": {
+              "rows": 126,
+              "abs_bias": 1.7599,
+              "signed_bias": 1.7599,
+              "dispersion_mae": 1.4851,
+              "total_mae": 2.1923
+            },
+            "abs_bias_change": -1.9315,
+            "dispersion_change": 0.0285
+          },
+          "liberal_democrat": {
+            "baseline": {
+              "rows": 161,
+              "abs_bias": 5.8546,
+              "signed_bias": -5.8546,
+              "dispersion_mae": 5.7238,
+              "total_mae": 7.538
+            },
+            "news": {
+              "rows": 161,
+              "abs_bias": 7.6867,
+              "signed_bias": -7.6867,
+              "dispersion_mae": 5.7659,
+              "total_mae": 8.7031
+            },
+            "abs_bias_change": 1.8321,
+            "dispersion_change": 0.0421
+          },
+          "reform_uk": {
+            "baseline": {
+              "rows": 162,
+              "abs_bias": 1.3445,
+              "signed_bias": -1.3445,
+              "dispersion_mae": 3.1725,
+              "total_mae": 3.2318
+            },
+            "news": {
+              "rows": 162,
+              "abs_bias": 5.1555,
+              "signed_bias": 5.1555,
+              "dispersion_mae": 3.1519,
+              "total_mae": 5.495
+            },
+            "abs_bias_change": 3.811,
+            "dispersion_change": -0.0206
+          }
+        }
+      },
+      {
+        "analysis": "combined_exploratory",
+        "window": "180_to_91_days",
+        "parties": {
+          "conservative": {
+            "baseline": {
+              "rows": 158,
+              "abs_bias": 2.8854,
+              "signed_bias": 2.8854,
+              "dispersion_mae": 3.9602,
+              "total_mae": 4.7434
+            },
+            "news": {
+              "rows": 158,
+              "abs_bias": 1.0654,
+              "signed_bias": -1.0654,
+              "dispersion_mae": 4.0186,
+              "total_mae": 4.0414
+            },
+            "abs_bias_change": -1.82,
+            "dispersion_change": 0.0584
+          },
+          "green": {
+            "baseline": {
+              "rows": 146,
+              "abs_bias": 0.1947,
+              "signed_bias": 0.1947,
+              "dispersion_mae": 2.497,
+              "total_mae": 2.5527
+            },
+            "news": {
+              "rows": 146,
+              "abs_bias": 5.3105,
+              "signed_bias": 5.3105,
+              "dispersion_mae": 2.5154,
+              "total_mae": 6.16
+            },
+            "abs_bias_change": 5.1158,
+            "dispersion_change": 0.0184
+          },
+          "labour": {
+            "baseline": {
+              "rows": 126,
+              "abs_bias": 3.6914,
+              "signed_bias": 3.6914,
+              "dispersion_mae": 1.4566,
+              "total_mae": 3.8471
+            },
+            "news": {
+              "rows": 126,
+              "abs_bias": 2.2675,
+              "signed_bias": 2.2675,
+              "dispersion_mae": 1.4714,
+              "total_mae": 2.5594
+            },
+            "abs_bias_change": -1.4239,
+            "dispersion_change": 0.0148
+          },
+          "liberal_democrat": {
+            "baseline": {
+              "rows": 161,
+              "abs_bias": 5.8546,
+              "signed_bias": -5.8546,
+              "dispersion_mae": 5.7238,
+              "total_mae": 7.538
+            },
+            "news": {
+              "rows": 161,
+              "abs_bias": 1.0135,
+              "signed_bias": -1.0135,
+              "dispersion_mae": 5.7741,
+              "total_mae": 5.8619
+            },
+            "abs_bias_change": -4.8411,
+            "dispersion_change": 0.0503
+          },
+          "reform_uk": {
+            "baseline": {
+              "rows": 162,
+              "abs_bias": 1.3445,
+              "signed_bias": -1.3445,
+              "dispersion_mae": 3.1725,
+              "total_mae": 3.2318
+            },
+            "news": {
+              "rows": 162,
+              "abs_bias": 5.9616,
+              "signed_bias": -5.9616,
+              "dispersion_mae": 3.2089,
+              "total_mae": 6.0267
+            },
+            "abs_bias_change": 4.6171,
+            "dispersion_change": 0.0364
+          }
+        }
+      },
+      {
+        "analysis": "combined_exploratory",
+        "window": "30_to_15_days",
+        "parties": {
+          "conservative": {
+            "baseline": {
+              "rows": 158,
+              "abs_bias": 2.8854,
+              "signed_bias": 2.8854,
+              "dispersion_mae": 3.9602,
+              "total_mae": 4.7434
+            },
+            "news": {
+              "rows": 158,
+              "abs_bias": 2.5195,
+              "signed_bias": 2.5195,
+              "dispersion_mae": 3.958,
+              "total_mae": 4.5672
+            },
+            "abs_bias_change": -0.3659,
+            "dispersion_change": -0.0022
+          },
+          "green": {
+            "baseline": {
+              "rows": 146,
+              "abs_bias": 0.1947,
+              "signed_bias": 0.1947,
+              "dispersion_mae": 2.497,
+              "total_mae": 2.5527
+            },
+            "news": {
+              "rows": 146,
+              "abs_bias": 0.3765,
+              "signed_bias": 0.3765,
+              "dispersion_mae": 2.5055,
+              "total_mae": 2.6193
+            },
+            "abs_bias_change": 0.1818,
+            "dispersion_change": 0.0085
+          },
+          "labour": {
+            "baseline": {
+              "rows": 126,
+              "abs_bias": 3.6914,
+              "signed_bias": 3.6914,
+              "dispersion_mae": 1.4566,
+              "total_mae": 3.8471
+            },
+            "news": {
+              "rows": 126,
+              "abs_bias": 3.3991,
+              "signed_bias": 3.3991,
+              "dispersion_mae": 1.4843,
+              "total_mae": 3.5725
+            },
+            "abs_bias_change": -0.2923,
+            "dispersion_change": 0.0277
+          },
+          "liberal_democrat": {
+            "baseline": {
+              "rows": 161,
+              "abs_bias": 5.8546,
+              "signed_bias": -5.8546,
+              "dispersion_mae": 5.7238,
+              "total_mae": 7.538
+            },
+            "news": {
+              "rows": 161,
+              "abs_bias": 5.1313,
+              "signed_bias": -5.1313,
+              "dispersion_mae": 5.7461,
+              "total_mae": 7.1215
+            },
+            "abs_bias_change": -0.7233,
+            "dispersion_change": 0.0223
+          },
+          "reform_uk": {
+            "baseline": {
+              "rows": 162,
+              "abs_bias": 1.3445,
+              "signed_bias": -1.3445,
+              "dispersion_mae": 3.1725,
+              "total_mae": 3.2318
+            },
+            "news": {
+              "rows": 162,
+              "abs_bias": 1.8221,
+              "signed_bias": -1.8221,
+              "dispersion_mae": 3.189,
+              "total_mae": 3.3696
+            },
+            "abs_bias_change": 0.4776,
+            "dispersion_change": 0.0165
+          }
+        }
+      },
+      {
+        "analysis": "combined_exploratory",
+        "window": "7_to_4_days",
+        "parties": {
+          "conservative": {
+            "baseline": {
+              "rows": 158,
+              "abs_bias": 2.8854,
+              "signed_bias": 2.8854,
+              "dispersion_mae": 3.9602,
+              "total_mae": 4.7434
+            },
+            "news": {
+              "rows": 158,
+              "abs_bias": 2.7538,
+              "signed_bias": 2.7538,
+              "dispersion_mae": 3.9701,
+              "total_mae": 4.6937
+            },
+            "abs_bias_change": -0.1316,
+            "dispersion_change": 0.0099
+          },
+          "green": {
+            "baseline": {
+              "rows": 146,
+              "abs_bias": 0.1947,
+              "signed_bias": 0.1947,
+              "dispersion_mae": 2.497,
+              "total_mae": 2.5527
+            },
+            "news": {
+              "rows": 146,
+              "abs_bias": 0.354,
+              "signed_bias": 0.354,
+              "dispersion_mae": 2.4889,
+              "total_mae": 2.5973
+            },
+            "abs_bias_change": 0.1593,
+            "dispersion_change": -0.0081
+          },
+          "labour": {
+            "baseline": {
+              "rows": 126,
+              "abs_bias": 3.6914,
+              "signed_bias": 3.6914,
+              "dispersion_mae": 1.4566,
+              "total_mae": 3.8471
+            },
+            "news": {
+              "rows": 126,
+              "abs_bias": 3.8378,
+              "signed_bias": 3.8378,
+              "dispersion_mae": 1.4271,
+              "total_mae": 3.983
+            },
+            "abs_bias_change": 0.1464,
+            "dispersion_change": -0.0295
+          },
+          "liberal_democrat": {
+            "baseline": {
+              "rows": 161,
+              "abs_bias": 5.8546,
+              "signed_bias": -5.8546,
+              "dispersion_mae": 5.7238,
+              "total_mae": 7.538
+            },
+            "news": {
+              "rows": 161,
+              "abs_bias": 5.8428,
+              "signed_bias": -5.8428,
+              "dispersion_mae": 5.7061,
+              "total_mae": 7.5359
+            },
+            "abs_bias_change": -0.0118,
+            "dispersion_change": -0.0177
+          },
+          "reform_uk": {
+            "baseline": {
+              "rows": 162,
+              "abs_bias": 1.3445,
+              "signed_bias": -1.3445,
+              "dispersion_mae": 3.1725,
+              "total_mae": 3.2318
+            },
+            "news": {
+              "rows": 162,
+              "abs_bias": 1.2962,
+              "signed_bias": -1.2962,
+              "dispersion_mae": 3.1582,
+              "total_mae": 3.2021
+            },
+            "abs_bias_change": -0.0483,
+            "dispersion_change": -0.0143
+          }
+        }
+      },
+      {
+        "analysis": "combined_exploratory",
+        "window": "90_to_31_days",
+        "parties": {
+          "conservative": {
+            "baseline": {
+              "rows": 158,
+              "abs_bias": 2.8854,
+              "signed_bias": 2.8854,
+              "dispersion_mae": 3.9602,
+              "total_mae": 4.7434
+            },
+            "news": {
+              "rows": 158,
+              "abs_bias": 1.1462,
+              "signed_bias": 1.1462,
+              "dispersion_mae": 3.9732,
+              "total_mae": 4.1313
+            },
+            "abs_bias_change": -1.7392,
+            "dispersion_change": 0.013
+          },
+          "green": {
+            "baseline": {
+              "rows": 146,
+              "abs_bias": 0.1947,
+              "signed_bias": 0.1947,
+              "dispersion_mae": 2.497,
+              "total_mae": 2.5527
+            },
+            "news": {
+              "rows": 146,
+              "abs_bias": 1.2976,
+              "signed_bias": 1.2976,
+              "dispersion_mae": 2.5064,
+              "total_mae": 3.0634
+            },
+            "abs_bias_change": 1.1029,
+            "dispersion_change": 0.0094
+          },
+          "labour": {
+            "baseline": {
+              "rows": 126,
+              "abs_bias": 3.6914,
+              "signed_bias": 3.6914,
+              "dispersion_mae": 1.4566,
+              "total_mae": 3.8471
+            },
+            "news": {
+              "rows": 126,
+              "abs_bias": 3.1905,
+              "signed_bias": 3.1905,
+              "dispersion_mae": 1.4806,
+              "total_mae": 3.3752
+            },
+            "abs_bias_change": -0.5009,
+            "dispersion_change": 0.024
+          },
+          "liberal_democrat": {
+            "baseline": {
+              "rows": 161,
+              "abs_bias": 5.8546,
+              "signed_bias": -5.8546,
+              "dispersion_mae": 5.7238,
+              "total_mae": 7.538
+            },
+            "news": {
+              "rows": 161,
+              "abs_bias": 3.0987,
+              "signed_bias": -3.0987,
+              "dispersion_mae": 5.75,
+              "total_mae": 6.2591
+            },
+            "abs_bias_change": -2.7559,
+            "dispersion_change": 0.0262
+          },
+          "reform_uk": {
+            "baseline": {
+              "rows": 162,
+              "abs_bias": 1.3445,
+              "signed_bias": -1.3445,
+              "dispersion_mae": 3.1725,
+              "total_mae": 3.2318
+            },
+            "news": {
+              "rows": 162,
+              "abs_bias": 3.1645,
+              "signed_bias": -3.1645,
+              "dispersion_mae": 3.1962,
+              "total_mae": 3.9099
+            },
+            "abs_bias_change": 1.82,
+            "dispersion_change": 0.0237
+          }
+        }
+      },
+      {
+        "analysis": "combined_exploratory",
+        "window": "final_72_hours",
+        "parties": {
+          "conservative": {
+            "baseline": {
+              "rows": 158,
+              "abs_bias": 2.8854,
+              "signed_bias": 2.8854,
+              "dispersion_mae": 3.9602,
+              "total_mae": 4.7434
+            },
+            "news": {
+              "rows": 158,
+              "abs_bias": 1.0933,
+              "signed_bias": -1.0933,
+              "dispersion_mae": 4.0152,
+              "total_mae": 4.0012
+            },
+            "abs_bias_change": -1.7921,
+            "dispersion_change": 0.055
+          },
+          "green": {
+            "baseline": {
+              "rows": 146,
+              "abs_bias": 0.1947,
+              "signed_bias": 0.1947,
+              "dispersion_mae": 2.497,
+              "total_mae": 2.5527
+            },
+            "news": {
+              "rows": 146,
+              "abs_bias": 1.5419,
+              "signed_bias": 1.5419,
+              "dispersion_mae": 2.4725,
+              "total_mae": 3.2396
+            },
+            "abs_bias_change": 1.3472,
+            "dispersion_change": -0.0245
+          },
+          "labour": {
+            "baseline": {
+              "rows": 126,
+              "abs_bias": 3.6914,
+              "signed_bias": 3.6914,
+              "dispersion_mae": 1.4566,
+              "total_mae": 3.8471
+            },
+            "news": {
+              "rows": 126,
+              "abs_bias": 2.8437,
+              "signed_bias": 2.8437,
+              "dispersion_mae": 1.3424,
+              "total_mae": 3.0601
+            },
+            "abs_bias_change": -0.8477,
+            "dispersion_change": -0.1142
+          },
+          "liberal_democrat": {
+            "baseline": {
+              "rows": 161,
+              "abs_bias": 5.8546,
+              "signed_bias": -5.8546,
+              "dispersion_mae": 5.7238,
+              "total_mae": 7.538
+            },
+            "news": {
+              "rows": 161,
+              "abs_bias": 1.5925,
+              "signed_bias": 1.5925,
+              "dispersion_mae": 5.6988,
+              "total_mae": 5.6777
+            },
+            "abs_bias_change": -4.2621,
+            "dispersion_change": -0.025
+          },
+          "reform_uk": {
+            "baseline": {
+              "rows": 162,
+              "abs_bias": 1.3445,
+              "signed_bias": -1.3445,
+              "dispersion_mae": 3.1725,
+              "total_mae": 3.2318
+            },
+            "news": {
+              "rows": 162,
+              "abs_bias": 4.7545,
+              "signed_bias": -4.7545,
+              "dispersion_mae": 3.1211,
+              "total_mae": 4.9435
+            },
+            "abs_bias_change": 3.41,
+            "dispersion_change": -0.0514
+          }
+        }
+      },
+      {
+        "analysis": "national_exploratory",
+        "window": "14_to_8_days",
+        "parties": {
+          "conservative": {
+            "baseline": {
+              "rows": 158,
+              "abs_bias": 2.8854,
+              "signed_bias": 2.8854,
+              "dispersion_mae": 3.9602,
+              "total_mae": 4.7434
+            },
+            "news": {
+              "rows": 158,
+              "abs_bias": 2.889,
+              "signed_bias": 2.889,
+              "dispersion_mae": 3.9599,
+              "total_mae": 4.7448
+            },
+            "abs_bias_change": 0.0036,
+            "dispersion_change": -0.0003
+          },
+          "green": {
+            "baseline": {
+              "rows": 146,
+              "abs_bias": 0.1947,
+              "signed_bias": 0.1947,
+              "dispersion_mae": 2.497,
+              "total_mae": 2.5527
+            },
+            "news": {
+              "rows": 146,
+              "abs_bias": 0.1904,
+              "signed_bias": 0.1904,
+              "dispersion_mae": 2.4972,
+              "total_mae": 2.5516
+            },
+            "abs_bias_change": -0.0043,
+            "dispersion_change": 0.0002
+          },
+          "labour": {
+            "baseline": {
+              "rows": 126,
+              "abs_bias": 3.6914,
+              "signed_bias": 3.6914,
+              "dispersion_mae": 1.4566,
+              "total_mae": 3.8471
+            },
+            "news": {
+              "rows": 126,
+              "abs_bias": 3.6875,
+              "signed_bias": 3.6875,
+              "dispersion_mae": 1.4574,
+              "total_mae": 3.8434
+            },
+            "abs_bias_change": -0.0039,
+            "dispersion_change": 0.0008
+          },
+          "liberal_democrat": {
+            "baseline": {
+              "rows": 161,
+              "abs_bias": 5.8546,
+              "signed_bias": -5.8546,
+              "dispersion_mae": 5.7238,
+              "total_mae": 7.538
+            },
+            "news": {
+              "rows": 161,
+              "abs_bias": 5.8549,
+              "signed_bias": -5.8549,
+              "dispersion_mae": 5.7243,
+              "total_mae": 7.538
+            },
+            "abs_bias_change": 0.0003,
+            "dispersion_change": 0.0005
+          },
+          "reform_uk": {
+            "baseline": {
+              "rows": 162,
+              "abs_bias": 1.3445,
+              "signed_bias": -1.3445,
+              "dispersion_mae": 3.1725,
+              "total_mae": 3.2318
+            },
+            "news": {
+              "rows": 162,
+              "abs_bias": 1.3459,
+              "signed_bias": -1.3459,
+              "dispersion_mae": 3.1729,
+              "total_mae": 3.2326
+            },
+            "abs_bias_change": 0.0014,
+            "dispersion_change": 0.0004
+          }
+        }
+      },
+      {
+        "analysis": "national_exploratory",
+        "window": "180_to_91_days",
+        "parties": {
+          "conservative": {
+            "baseline": {
+              "rows": 158,
+              "abs_bias": 2.8854,
+              "signed_bias": 2.8854,
+              "dispersion_mae": 3.9602,
+              "total_mae": 4.7434
+            },
+            "news": {
+              "rows": 158,
+              "abs_bias": 1.0024,
+              "signed_bias": -1.0024,
+              "dispersion_mae": 4.0184,
+              "total_mae": 4.0383
+            },
+            "abs_bias_change": -1.883,
+            "dispersion_change": 0.0582
+          },
+          "green": {
+            "baseline": {
+              "rows": 146,
+              "abs_bias": 0.1947,
+              "signed_bias": 0.1947,
+              "dispersion_mae": 2.497,
+              "total_mae": 2.5527
+            },
+            "news": {
+              "rows": 146,
+              "abs_bias": 5.2894,
+              "signed_bias": 5.2894,
+              "dispersion_mae": 2.5161,
+              "total_mae": 6.141
+            },
+            "abs_bias_change": 5.0947,
+            "dispersion_change": 0.0191
+          },
+          "labour": {
+            "baseline": {
+              "rows": 126,
+              "abs_bias": 3.6914,
+              "signed_bias": 3.6914,
+              "dispersion_mae": 1.4566,
+              "total_mae": 3.8471
+            },
+            "news": {
+              "rows": 126,
+              "abs_bias": 2.2822,
+              "signed_bias": 2.2822,
+              "dispersion_mae": 1.4748,
+              "total_mae": 2.5718
+            },
+            "abs_bias_change": -1.4092,
+            "dispersion_change": 0.0182
+          },
+          "liberal_democrat": {
+            "baseline": {
+              "rows": 161,
+              "abs_bias": 5.8546,
+              "signed_bias": -5.8546,
+              "dispersion_mae": 5.7238,
+              "total_mae": 7.538
+            },
+            "news": {
+              "rows": 161,
+              "abs_bias": 1.0049,
+              "signed_bias": -1.0049,
+              "dispersion_mae": 5.7754,
+              "total_mae": 5.8622
+            },
+            "abs_bias_change": -4.8497,
+            "dispersion_change": 0.0516
+          },
+          "reform_uk": {
+            "baseline": {
+              "rows": 162,
+              "abs_bias": 1.3445,
+              "signed_bias": -1.3445,
+              "dispersion_mae": 3.1725,
+              "total_mae": 3.2318
+            },
+            "news": {
+              "rows": 162,
+              "abs_bias": 6.0444,
+              "signed_bias": -6.0444,
+              "dispersion_mae": 3.2107,
+              "total_mae": 6.1043
+            },
+            "abs_bias_change": 4.6999,
+            "dispersion_change": 0.0382
+          }
+        }
+      },
+      {
+        "analysis": "national_exploratory",
+        "window": "30_to_15_days",
+        "parties": {
+          "conservative": {
+            "baseline": {
+              "rows": 158,
+              "abs_bias": 2.8854,
+              "signed_bias": 2.8854,
+              "dispersion_mae": 3.9602,
+              "total_mae": 4.7434
+            },
+            "news": {
+              "rows": 158,
+              "abs_bias": 3.9285,
+              "signed_bias": 3.9285,
+              "dispersion_mae": 3.9675,
+              "total_mae": 5.2782
+            },
+            "abs_bias_change": 1.0431,
+            "dispersion_change": 0.0073
+          },
+          "green": {
+            "baseline": {
+              "rows": 146,
+              "abs_bias": 0.1947,
+              "signed_bias": 0.1947,
+              "dispersion_mae": 2.497,
+              "total_mae": 2.5527
+            },
+            "news": {
+              "rows": 146,
+              "abs_bias": 1.4483,
+              "signed_bias": -1.4483,
+              "dispersion_mae": 2.5848,
+              "total_mae": 2.5837
+            },
+            "abs_bias_change": 1.2536,
+            "dispersion_change": 0.0878
+          },
+          "labour": {
+            "baseline": {
+              "rows": 126,
+              "abs_bias": 3.6914,
+              "signed_bias": 3.6914,
+              "dispersion_mae": 1.4566,
+              "total_mae": 3.8471
+            },
+            "news": {
+              "rows": 126,
+              "abs_bias": 2.6188,
+              "signed_bias": 2.6188,
+              "dispersion_mae": 1.7827,
+              "total_mae": 2.9107
+            },
+            "abs_bias_change": -1.0726,
+            "dispersion_change": 0.3261
+          },
+          "liberal_democrat": {
+            "baseline": {
+              "rows": 161,
+              "abs_bias": 5.8546,
+              "signed_bias": -5.8546,
+              "dispersion_mae": 5.7238,
+              "total_mae": 7.538
+            },
+            "news": {
+              "rows": 161,
+              "abs_bias": 5.6754,
+              "signed_bias": -5.6754,
+              "dispersion_mae": 5.9255,
+              "total_mae": 7.4679
+            },
+            "abs_bias_change": -0.1792,
+            "dispersion_change": 0.2017
+          },
+          "reform_uk": {
+            "baseline": {
+              "rows": 162,
+              "abs_bias": 1.3445,
+              "signed_bias": -1.3445,
+              "dispersion_mae": 3.1725,
+              "total_mae": 3.2318
+            },
+            "news": {
+              "rows": 162,
+              "abs_bias": 1.9614,
+              "signed_bias": -1.9614,
+              "dispersion_mae": 3.3218,
+              "total_mae": 3.5737
+            },
+            "abs_bias_change": 0.6169,
+            "dispersion_change": 0.1493
+          }
+        }
+      },
+      {
+        "analysis": "national_exploratory",
+        "window": "7_to_4_days",
+        "parties": {
+          "conservative": {
+            "baseline": {
+              "rows": 158,
+              "abs_bias": 2.8854,
+              "signed_bias": 2.8854,
+              "dispersion_mae": 3.9602,
+              "total_mae": 4.7434
+            },
+            "news": {
+              "rows": 158,
+              "abs_bias": 2.8424,
+              "signed_bias": 2.8424,
+              "dispersion_mae": 3.9634,
+              "total_mae": 4.7269
+            },
+            "abs_bias_change": -0.043,
+            "dispersion_change": 0.0032
+          },
+          "green": {
+            "baseline": {
+              "rows": 146,
+              "abs_bias": 0.1947,
+              "signed_bias": 0.1947,
+              "dispersion_mae": 2.497,
+              "total_mae": 2.5527
+            },
+            "news": {
+              "rows": 146,
+              "abs_bias": 0.2468,
+              "signed_bias": 0.2468,
+              "dispersion_mae": 2.4942,
+              "total_mae": 2.5669
+            },
+            "abs_bias_change": 0.0521,
+            "dispersion_change": -0.0028
+          },
+          "labour": {
+            "baseline": {
+              "rows": 126,
+              "abs_bias": 3.6914,
+              "signed_bias": 3.6914,
+              "dispersion_mae": 1.4566,
+              "total_mae": 3.8471
+            },
+            "news": {
+              "rows": 126,
+              "abs_bias": 3.7393,
+              "signed_bias": 3.7393,
+              "dispersion_mae": 1.447,
+              "total_mae": 3.8915
+            },
+            "abs_bias_change": 0.0479,
+            "dispersion_change": -0.0096
+          },
+          "liberal_democrat": {
+            "baseline": {
+              "rows": 161,
+              "abs_bias": 5.8546,
+              "signed_bias": -5.8546,
+              "dispersion_mae": 5.7238,
+              "total_mae": 7.538
+            },
+            "news": {
+              "rows": 161,
+              "abs_bias": 5.8508,
+              "signed_bias": -5.8508,
+              "dispersion_mae": 5.718,
+              "total_mae": 7.5373
+            },
+            "abs_bias_change": -0.0038,
+            "dispersion_change": -0.0058
+          },
+          "reform_uk": {
+            "baseline": {
+              "rows": 162,
+              "abs_bias": 1.3445,
+              "signed_bias": -1.3445,
+              "dispersion_mae": 3.1725,
+              "total_mae": 3.2318
+            },
+            "news": {
+              "rows": 162,
+              "abs_bias": 1.3288,
+              "signed_bias": -1.3288,
+              "dispersion_mae": 3.1675,
+              "total_mae": 3.2221
+            },
+            "abs_bias_change": -0.0157,
+            "dispersion_change": -0.005
+          }
+        }
+      },
+      {
+        "analysis": "national_exploratory",
+        "window": "90_to_31_days",
+        "parties": {
+          "conservative": {
+            "baseline": {
+              "rows": 158,
+              "abs_bias": 2.8854,
+              "signed_bias": 2.8854,
+              "dispersion_mae": 3.9602,
+              "total_mae": 4.7434
+            },
+            "news": {
+              "rows": 158,
+              "abs_bias": 1.1177,
+              "signed_bias": 1.1177,
+              "dispersion_mae": 3.9736,
+              "total_mae": 4.1192
+            },
+            "abs_bias_change": -1.7677,
+            "dispersion_change": 0.0134
+          },
+          "green": {
+            "baseline": {
+              "rows": 146,
+              "abs_bias": 0.1947,
+              "signed_bias": 0.1947,
+              "dispersion_mae": 2.497,
+              "total_mae": 2.5527
+            },
+            "news": {
+              "rows": 146,
+              "abs_bias": 1.4064,
+              "signed_bias": 1.4064,
+              "dispersion_mae": 2.515,
+              "total_mae": 3.1313
+            },
+            "abs_bias_change": 1.2117,
+            "dispersion_change": 0.018
+          },
+          "labour": {
+            "baseline": {
+              "rows": 126,
+              "abs_bias": 3.6914,
+              "signed_bias": 3.6914,
+              "dispersion_mae": 1.4566,
+              "total_mae": 3.8471
+            },
+            "news": {
+              "rows": 126,
+              "abs_bias": 2.9102,
+              "signed_bias": 2.9102,
+              "dispersion_mae": 1.5115,
+              "total_mae": 3.1235
+            },
+            "abs_bias_change": -0.7812,
+            "dispersion_change": 0.0549
+          },
+          "liberal_democrat": {
+            "baseline": {
+              "rows": 161,
+              "abs_bias": 5.8546,
+              "signed_bias": -5.8546,
+              "dispersion_mae": 5.7238,
+              "total_mae": 7.538
+            },
+            "news": {
+              "rows": 161,
+              "abs_bias": 3.204,
+              "signed_bias": -3.204,
+              "dispersion_mae": 5.774,
+              "total_mae": 6.299
+            },
+            "abs_bias_change": -2.6506,
+            "dispersion_change": 0.0502
+          },
+          "reform_uk": {
+            "baseline": {
+              "rows": 162,
+              "abs_bias": 1.3445,
+              "signed_bias": -1.3445,
+              "dispersion_mae": 3.1725,
+              "total_mae": 3.2318
+            },
+            "news": {
+              "rows": 162,
+              "abs_bias": 3.0955,
+              "signed_bias": -3.0955,
+              "dispersion_mae": 3.2121,
+              "total_mae": 3.8875
+            },
+            "abs_bias_change": 1.751,
+            "dispersion_change": 0.0396
+          }
+        }
+      },
+      {
+        "analysis": "national_exploratory",
+        "window": "final_72_hours",
+        "parties": {
+          "conservative": {
+            "baseline": {
+              "rows": 158,
+              "abs_bias": 2.8854,
+              "signed_bias": 2.8854,
+              "dispersion_mae": 3.9602,
+              "total_mae": 4.7434
+            },
+            "news": {
+              "rows": 158,
+              "abs_bias": 2.6642,
+              "signed_bias": 2.6642,
+              "dispersion_mae": 3.9768,
+              "total_mae": 4.6626
+            },
+            "abs_bias_change": -0.2212,
+            "dispersion_change": 0.0166
+          },
+          "green": {
+            "baseline": {
+              "rows": 146,
+              "abs_bias": 0.1947,
+              "signed_bias": 0.1947,
+              "dispersion_mae": 2.497,
+              "total_mae": 2.5527
+            },
+            "news": {
+              "rows": 146,
+              "abs_bias": 0.4625,
+              "signed_bias": 0.4625,
+              "dispersion_mae": 2.484,
+              "total_mae": 2.6398
+            },
+            "abs_bias_change": 0.2678,
+            "dispersion_change": -0.013
+          },
+          "labour": {
+            "baseline": {
+              "rows": 126,
+              "abs_bias": 3.6914,
+              "signed_bias": 3.6914,
+              "dispersion_mae": 1.4566,
+              "total_mae": 3.8471
+            },
+            "news": {
+              "rows": 126,
+              "abs_bias": 3.9375,
+              "signed_bias": 3.9375,
+              "dispersion_mae": 1.4072,
+              "total_mae": 4.0756
+            },
+            "abs_bias_change": 0.2461,
+            "dispersion_change": -0.0494
+          },
+          "liberal_democrat": {
+            "baseline": {
+              "rows": 161,
+              "abs_bias": 5.8546,
+              "signed_bias": -5.8546,
+              "dispersion_mae": 5.7238,
+              "total_mae": 7.538
+            },
+            "news": {
+              "rows": 161,
+              "abs_bias": 5.8347,
+              "signed_bias": -5.8347,
+              "dispersion_mae": 5.6941,
+              "total_mae": 7.5344
+            },
+            "abs_bias_change": -0.0199,
+            "dispersion_change": -0.0297
+          },
+          "reform_uk": {
+            "baseline": {
+              "rows": 162,
+              "abs_bias": 1.3445,
+              "signed_bias": -1.3445,
+              "dispersion_mae": 3.1725,
+              "total_mae": 3.2318
+            },
+            "news": {
+              "rows": 162,
+              "abs_bias": 1.2632,
+              "signed_bias": -1.2632,
+              "dispersion_mae": 3.1491,
+              "total_mae": 3.1861
+            },
+            "abs_bias_change": -0.0813,
+            "dispersion_change": -0.0234
+          }
+        }
       }
     ]
   }

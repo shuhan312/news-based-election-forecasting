@@ -651,3 +651,23 @@ candidate over the threshold or moves nearly all of them - it cannot
 locate WHICH fourteen wards break through, because that information is
 ward-geographic, precisely the dispersion term a tide-gauge correction
 cannot touch.
+
+**The declared per-party bias decomposition has now been run**
+(`exploratory_decompositions_v1/`, findings section 2b; exploratory).
+With the pooled pinning removed the tide-gauge mechanism is confirmed
+exactly: in the headline 90-31-day specifications every one of the
+five supported parties moves its election-wide level error by more
+than 0.05 points and not one moves its ward-level dispersion by that
+much. The v2 gains are located: Conservative and Liberal Democrat
+level corrections (absolute bias falls 1.74 and 2.76 points in the
+combined arm). The central party moved the wrong way: the baseline
+under-predicted Reform's level by 1.35 points, and every improving
+window deepened that error (to -3.16 at 90-31 days, -5.96 at 180-91
+days) while combined 14-8 days overshot to +5.16 - the same
+specification whose 105-seat Reform over-call the previous addendum
+recorded, giving the two addenda one consistent story. Reform's
+dispersion never moved from 3.17. The Reform failure is therefore
+fully decomposed: news corrected the realignment parties' levels; with
+only seven Reform-era training cells it could not move Reform's own
+level in a stable direction (the sign flips across windows); and it
+touched no party's geography.

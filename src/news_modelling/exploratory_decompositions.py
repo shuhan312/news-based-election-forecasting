@@ -156,43 +156,31 @@ def decomposition_one() -> dict:
     }
 
 
-def decomposition_two() -> dict:
-    """Split each party's 2026 error into mean shift and dispersion.
+def _split_errors(pairs: list[tuple[float, float]]) -> dict:
+    """Bias (mean signed error) and dispersion (MAE after removing it)."""
 
-    For a set of predictions and a party: bias is the election-wide mean
-    signed error; dispersion is the MAE that remains after subtracting
-    that bias from every error. A broadcast party-level adjustment can
-    only move the bias term.
+    errors = np.array([pred - obs for pred, obs in pairs])
+    bias = float(np.mean(errors))
+    return {
+        "rows": len(pairs),
+        "abs_bias": round(abs(bias), 4),
+        "signed_bias": round(bias, 4),
+        "dispersion_mae": round(float(np.mean(np.abs(errors - bias))), 4),
+        "total_mae": round(float(np.mean(np.abs(errors))), 4),
+    }
+
+
+def _confirmatory_blocks(observed: dict) -> dict:
+    """(analysis, window) -> party -> [(prediction, observed)] pairs.
+
+    One reading of the frozen v2 prediction file serves both mechanism
+    decompositions: per-party lists for the news predictions and, under
+    a ``baseline|`` prefix, the same lists for the baseline predictions.
     """
 
-    observed = load_observed()
-
-    def split(pairs: list[tuple[float, float]]) -> dict:
-        errors = np.array([pred - obs for pred, obs in pairs])
-        bias = float(np.mean(errors))
-        return {
-            "rows": len(pairs),
-            "abs_bias": round(abs(bias), 4),
-            "dispersion_mae": round(float(np.mean(np.abs(errors - bias))), 4),
-            "total_mae": round(float(np.mean(np.abs(errors))), 4),
-        }
-
-    # Baseline reference, per party, over the 2026 principal rows.
-    baseline_pairs: dict[str, list] = defaultdict(list)
-    for outcome in observed.values():
-        if not outcome["election_id"].startswith("surrey-county-council-2026"):
-            continue
-        # Party identity travels with the prediction files; for the
-        # baseline the Reform flag is the one party split that matters
-        # for the mechanism question, plus the overall pool.
-        baseline_pairs["all"].append(
-            (outcome["baseline_predicted_share"],
-             outcome["observed_vote_share"]))
-
-    per_spec = []
+    blocks: dict[tuple, dict[str, list]] = defaultdict(
+        lambda: defaultdict(list))
     with V2_PREDICTIONS.open(encoding="utf-8", newline="") as handle:
-        blocks: dict[tuple, dict[str, list]] = defaultdict(
-            lambda: defaultdict(list))
         for row in csv.DictReader(handle):
             if row["fit_variant"] != V2_VARIANT:
                 continue
@@ -216,7 +204,23 @@ def decomposition_two() -> dict:
             blocks[key]["baseline|all"].append(
                 (float(row["baseline_prediction"]),
                  actual["observed_vote_share"]))
+    return blocks
 
+
+def decomposition_two() -> dict:
+    """Split each party's 2026 error into mean shift and dispersion.
+
+    For a set of predictions and a party: bias is the election-wide mean
+    signed error; dispersion is the MAE that remains after subtracting
+    that bias from every error. A broadcast party-level adjustment can
+    only move the bias term.
+    """
+
+    observed = load_observed()
+    split = _split_errors
+    blocks = _confirmatory_blocks(observed)
+
+    per_spec = []
     for (analysis, window), parties in sorted(blocks.items()):
         news_all = split(parties["all"])
         base_all = split(parties["baseline|all"])
@@ -231,11 +235,51 @@ def decomposition_two() -> dict:
     return {"per_specification": per_spec}
 
 
+def decomposition_two_per_party() -> dict:
+    """The sharper test the pooled decomposition declared: per-party bias.
+
+    Pooled over all parties, contest normalisation pins the bias term
+    near zero, so a party-level tide-gauge correction is invisible in
+    the pooled bias column. Split BY party the pinning disappears: each
+    party's bias is its election-wide mean signed error, exactly the
+    quantity a broadcast party-level adjustment can move, and its
+    dispersion is the ward-to-ward variation such an adjustment cannot
+    touch. The tide-gauge reading therefore predicts: news moves the
+    per-party bias terms and leaves per-party dispersion nearly alone.
+    For the central party the baseline's Reform bias is the -1.4-point
+    under-prediction the annex recorded (9.3 predicted against 10.7
+    observed); this table shows what each frozen specification did to
+    it.
+    """
+
+    observed = load_observed()
+    blocks = _confirmatory_blocks(observed)
+
+    per_spec = []
+    for (analysis, window), parties in sorted(blocks.items()):
+        party_rows = {}
+        for party in sorted(p for p in parties
+                            if p != "all" and not p.startswith("baseline|")):
+            news = _split_errors(parties[party])
+            base = _split_errors(parties["baseline|" + party])
+            party_rows[party] = {
+                "baseline": base, "news": news,
+                "abs_bias_change": round(
+                    news["abs_bias"] - base["abs_bias"], 4),
+                "dispersion_change": round(
+                    news["dispersion_mae"] - base["dispersion_mae"], 4),
+            }
+        per_spec.append({"analysis": analysis, "window": window,
+                         "parties": party_rows})
+    return {"per_specification": per_spec}
+
+
 def main() -> None:
     results = {
         "status": STATUS,
         "attribution": decomposition_one(),
         "mechanism": decomposition_two(),
+        "mechanism_per_party": decomposition_two_per_party(),
     }
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     (OUTPUT_DIR / "decomposition_results.json").write_text(
@@ -285,8 +329,65 @@ def main() -> None:
         "observed pattern - dispersion falls in exactly the mid-range "
         "windows where MAE improved (90-31 and 30-15 days) and rises where "
         "MAE worsened (180-91 days) - is consistent with the tide-gauge "
-        "reading in that pooled form. The sharper test, a per-party bias "
-        "decomposition, is not run here and would be the next refinement.",
+        "reading in that pooled form. The sharper per-party test follows.",
+        "",
+        "## 2b. Per-party bias against dispersion (the declared refinement)",
+        "",
+        "Split by party the normalisation pinning disappears: each party's",
+        "bias is the election-wide level error a broadcast adjustment CAN",
+        "move, and its dispersion is the ward geography it cannot. Reform,",
+        "the central party, across all twelve specifications (signed bias:",
+        "positive = over-predicted):",
+        "",
+        "| analysis | window | bias base -> news | dispersion base -> news |",
+        "| --- | --- | --- | --- |",
+    ]
+    per_party = results["mechanism_per_party"]["per_specification"]
+    for spec in per_party:
+        reform = spec["parties"]["reform_uk"]
+        lines.append(
+            f"| {spec['analysis']} | {spec['window']} | "
+            f"{reform['baseline']['signed_bias']:+.3f} -> "
+            f"{reform['news']['signed_bias']:+.3f} | "
+            f"{reform['baseline']['dispersion_mae']:.3f} -> "
+            f"{reform['news']['dispersion_mae']:.3f} |")
+    lines += [
+        "",
+        "All parties in the headline 90-31-day window (change from the "
+        "baseline; negative = the news model reduced that error "
+        "component):",
+        "",
+        "| party | combined d-abs-bias | combined d-dispersion | "
+        "national d-abs-bias | national d-dispersion |",
+        "| --- | ---: | ---: | ---: | ---: |",
+    ]
+    headline = {
+        spec["analysis"]: spec["parties"] for spec in per_party
+        if spec["window"] == "90_to_31_days"
+    }
+    for party in sorted(headline["combined_exploratory"]):
+        combined = headline["combined_exploratory"][party]
+        national = headline["national_exploratory"][party]
+        lines.append(
+            f"| {party} | {combined['abs_bias_change']:+.3f} | "
+            f"{combined['dispersion_change']:+.3f} | "
+            f"{national['abs_bias_change']:+.3f} | "
+            f"{national['dispersion_change']:+.3f} |")
+    # The summary sentence is computed from the numbers above rather
+    # than written by hand, so the file cannot assert a pattern its own
+    # tables contradict.
+    combined_specs = headline["combined_exploratory"]
+    bias_moved = sum(1 for p in combined_specs.values()
+                     if abs(p["abs_bias_change"]) > 0.05)
+    disp_moved = sum(1 for p in combined_specs.values()
+                     if abs(p["dispersion_change"]) > 0.05)
+    lines += [
+        "",
+        f"In the combined 90-31-day specification, {bias_moved} of "
+        f"{len(combined_specs)} parties saw their level error move by "
+        f"more than 0.05 points while {disp_moved} saw their ward-level "
+        "dispersion move by that much - the tide-gauge reading predicts "
+        "the first number to be the larger one.",
         "",
     ]
     (OUTPUT_DIR / "decomposition_findings.md").write_text(
