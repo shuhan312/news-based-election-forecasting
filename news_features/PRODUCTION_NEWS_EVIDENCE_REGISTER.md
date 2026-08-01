@@ -17,9 +17,14 @@ has no Reform rows, while 2021 validation has six. No production
 confirmed-window comparison improved overall prediction in the frozen model,
 and leave-one-party-out checks show that even this direction is sensitive to
 whether Conservative is present in the five-row fit. The repository therefore
-does not provide stable evidence that news improves prediction. Blinded 2026
-predictions for every frozen specification are now archived (section 13); the
-one-time unblinded comparison has not been run.
+does not provide stable evidence that news improves prediction. **This
+paragraph describes the pre-enrichment, pre-unblinding state and is kept
+as history.** The corpus was subsequently enriched with the by-election
+articles (sections 14-15) and the one-time unblinding has now been run:
+the confirmatory answer - v1 0 of 12, v2 5 of 12 with four intervals
+above zero, no Reform-specific improvement - is section 16, with
+descriptive seat-level results in its addendum and the scenario and
+exploratory records in sections 17-18.
 
 ## 2. Evidence-status rules
 
@@ -568,3 +573,44 @@ Four preset contrasts, ten injected articles each:
 Boundary, restated: the issue axis (a crime- or immigration-focused
 story) cannot flow through the frozen specifications, which carry
 volume and portrayal features only.
+
+## 18. Post-unblinding exploratory record
+
+**Residual versus joint approach (the design's required comparison).**
+Source: `approach_comparison_v1/`; exploratory by construction. Both
+approaches were fitted on the 45 v2 election x party cells under the
+frozen features and penalty, evaluated leave-one-election-out across the
+ten pre-2026 elections. The residual approach had the lower held-out
+cell MAE in **16 of 18 specifications**; the joint approach won only the
+two 180-91-day cells. Neither approach beat the baseline-only reference
+(7.772) in most specifications - consistent with the confirmatory story
+that pre-2026 news signal was marginal and emerged only under the full
+v2 fit on 2026. The production choice of the residual approach as
+principal is retrospectively supported; nothing here is promoted. The
+mechanism reading, labelled interpretation: B's freedom to re-weight the
+baseline is an extra parameter to estimate on 45 cells, and with a
+well-calibrated baseline that freedom buys noise rather than correction;
+A also remains the cleaner measurement of news increment, because any
+improvement under A can only come from news, whereas B can improve by
+rescaling the baseline and let that read as a news effect.
+
+**Haslemere secondary evaluation: verified already delivered.** The
+Stage 1 bundle's `metrics.json` contains both design-required variants:
+`secondary_holdout_haslemere_before_may` (MAE 4.47, winner and seat-set
+accuracy 1.0, no 7 May information) and
+`secondary_holdout_haslemere_after_may` (MAE 7.32 after deliberate
+retraining through 7 May - the retrained variant scored worse, on a
+four-candidate contest where the difference sits within small-sample
+noise; recorded, not interpreted). A
+news-side Haslemere evaluation was never built because the news layer
+excludes holdout-period by-elections; its 379 collected articles remain
+available for exploratory use.
+
+**The two failed portrayal-adjacent layers, and their revival path.**
+`credit_blame` (frozen kappa 0.521/0.516; binary redesign scored worse)
+and `consequence` (frozen 0.259; redesign 0.598 against the 0.600 bar)
+each spent both permitted rescue attempts and remain excluded (section
+4; `EXCLUDED_LAYERS` in the extraction runner). Any revival would
+require a NEW gold-standard sample - the by-election corpus can supply
+one - and would be exploratory only; the deferred decision recorded
+here is that no third attempt has been made.
