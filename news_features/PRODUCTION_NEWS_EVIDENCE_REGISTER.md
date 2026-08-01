@@ -17,7 +17,9 @@ has no Reform rows, while 2021 validation has six. No production
 confirmed-window comparison improved overall prediction in the frozen model,
 and leave-one-party-out checks show that even this direction is sensitive to
 whether Conservative is present in the five-row fit. The repository therefore
-does not provide stable evidence that news improves prediction.
+does not provide stable evidence that news improves prediction. Blinded 2026
+predictions for every frozen specification are now archived (section 13); the
+one-time unblinded comparison has not been run.
 
 ## 2. Evidence-status rules
 
@@ -222,7 +224,9 @@ The following results still do not exist:
 - a legitimate 2026 performance comparison; and
 - synthetic-news scenario results.
 
-These are **not run or not estimable**, not negative findings.
+These are **not run or not estimable**, not negative findings. The blinded
+prediction file that the 2026 comparison requires now exists and is frozen
+(section 13); the comparison itself remains unrun.
 
 ## 11. Completed production news experiment
 
@@ -317,3 +321,57 @@ This finding strengthens the case against adding a more flexible news model to
 the current data. A tree or boosting model cannot repair the absence of
 independent elections or Reform training rows; it would add flexibility to an
 already party-sensitive relationship.
+
+## 13. Blinded 2026 prediction freeze
+
+Source: `blinded_2026_predictions_v1/frozen_protocol.json` and
+`blinded_2026_predictions_v1/sha256_manifest.json`; produced by
+`src/news_modelling/run_blinded_2026_predictions.py` on 1 August 2026.
+
+This is the first and only news-layer opening of the Stage 1 holdout file.
+The six observed-outcome columns are stripped at load, the module contains no
+metric or comparison code, and the output directory refuses to be rewritten
+once written. One caveat is recorded for honesty: the Stage 1 bundle itself
+already contains observed 2026 shares and holdout metrics, computed by its
+own training run on 29 July. The blind therefore protects the news layer —
+no news feature, window, penalty, variant or specification decision has read
+a 2026 outcome — and does not claim that no 2026 figure exists anywhere in
+the repository. Those bundle figures must stay unread until the declared
+unblinding event. The frozen file predicts the 832 primary-holdout candidate rows
+of the two 2026 principal elections; the two post-May-2026 by-elections are
+excluded because by-elections are scoped out of the news layer.
+
+Every frozen specification is applied under two fitting variants declared
+before any outcome is seen:
+
+| variant | fitting rows | Reform rows | role |
+| --- | ---: | ---: | --- |
+| pooled_2017_2021 | 11 election × party mean residuals | **1** (from 2021) | **primary** |
+| fit_2017_only | 5 party mean residuals | 0 | protocol replication, sensitivity |
+
+Pooling follows the supervisor's split (validation folds into training for
+the final test) and is legitimate because 2021 selected nothing: 0/18
+confirmed-window comparisons improved, and the interpretation rule forbade
+selection. 72 specifications (2 variants × 3 arms × 12 periods) produce
+59,904 prediction rows with baseline, recalibrated-control and news-enhanced
+shares, ranks and two-seat allocations, renormalised to 100 per contest.
+
+The declared unblinding rule: one unblinding event; every specification
+reported; the primary confirmatory family is combined and national arms ×
+six confirmed windows under pooled_2017_2021 against the recalibrated
+control on overall MAE; local, cumulative and fit_2017_only results are
+sensitivity; nothing may be selected or promoted after outcomes are seen;
+Reform rows are reported separately with n visible.
+
+Integrity anchors (SHA256, recorded at the freeze):
+
+- `blinded_predictions.csv`
+  `966e03cd1c54f7de6e9c455fc382263b74e58a2ade3c793522b53394753b6b54`
+- `frozen_protocol.json`
+  `86dd73b51dfec23f5913141711f568d234980ca1a27f14c387192e600e91468f`
+
+The protocol file also records the SHA256 of all four inputs (feature table,
+estimability report, Stage 1 out-of-fold and holdout files), so the frozen
+predictions are reproducible bit-for-bit from the recorded inputs. The 20 MB
+predictions CSV stays outside git under the large-file rule; the committed
+hashes are its tamper evidence.
