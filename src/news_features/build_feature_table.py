@@ -332,6 +332,7 @@ def main() -> None:
     periods = [(w, (w,)) for w in WINDOWS] + list(SNAPSHOTS.items())
 
     rows = []
+    zero_article_cells = []
     for election in elections:
         for party in parties:
             for period_name, member_windows in periods:
@@ -346,8 +347,25 @@ def main() -> None:
                     for arm in ("local", "national")
                 }
                 total = e["article_count"]
-                if not total and not p["party_article_count"]:
-                    continue
+                # Keep the full election x party x period grid, including a
+                # completed search that found no eligible article.  The old
+                # build dropped these rows and turned a real zero into a
+                # missing observation.  In particular, all six party rows for
+                # SCC 2017's final 72 hours disappeared, so a chronological
+                # model could silently train on a different set of elections
+                # depending on the chosen window.
+                #
+                # Count features are genuine zeroes.  Share features remain
+                # blank where their denominator is zero: zero of zero is not a
+                # party share of zero, it is undefined.  This distinction lets
+                # a later model choose an explicit missing-value policy rather
+                # than receiving a fabricated proportion.
+                if not total:
+                    zero_article_cells.append({
+                        "election_id": election,
+                        "standard_party_key": party,
+                        "period": period_name,
+                    })
                 unfav = p["portrayal_unfavourable"]
                 fav = p["portrayal_favourable"]
                 row = {
@@ -471,6 +489,7 @@ def main() -> None:
     usable = [c for c, v in verdicts.items() if v["verdict"] == "usable"]
     OUT_META.write_text(json.dumps({
         "rows": len(rows),
+        "expected_rows": len(elections) * len(parties) * len(periods),
         "elections": elections,
         "parties": parties,
         "periods": [p for p, _ in periods],
@@ -486,20 +505,31 @@ def main() -> None:
         "excluded_after_terminal_include":
             release["excluded_after_terminal_include"],
         "grain": "election x party x period",
+        "empty_cell_policy": (
+            "Retain completed election-party-period cells with zero articles. "
+            "Counts are 0; shares with a zero denominator are blank."
+        ),
+        "zero_article_cells": zero_article_cells,
         "grain_note": ("Not area-level: 94.2% of canonical articles carry no "
                        "unambiguous Surrey-area attribution, and the remaining "
                        "coverage is too sparse and uneven to support a general "
                        "ward-level feature."),
+        # Sum disjoint windows only.  Including cumulative snapshots would
+        # count the same article several times and the previous implementation
+        # actually counted non-empty *cells*, despite calling the field
+        # articles.
         "reform_training_articles": sum(
-            1 for r in train_rows if r["standard_party_key"] == "reform_uk"
-            and r["party_article_count"]),
+            r["party_article_count"] for r in train_rows
+            if r["standard_party_key"] == "reform_uk"
+            and r["period_kind"] == "window"
+        ),
         "training_variation": verdicts,
         "usable_columns": usable,
         "provenance": provenance,
     }, indent=2))
 
     print(f"\nrows: {len(rows)}  ({len(elections)} elections x {len(parties)} "
-          f"parties x {len(periods)} periods, empty cells dropped)")
+          f"parties x {len(periods)} periods, zero-article cells retained)")
     print(f"columns with usable training variation: {len(usable)} of "
           f"{len(verdicts)}")
     for column, v in sorted(

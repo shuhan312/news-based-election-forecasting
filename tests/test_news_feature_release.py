@@ -37,3 +37,40 @@ def test_feature_metadata_names_the_canonical_release():
         "local": 188,
         "national": 1444,
     }
+
+
+def test_feature_table_is_a_complete_design_grid():
+    """A zero-news period is data and must not disappear from the table."""
+
+    path = Path("news_features/news_feature_table_v1.csv")
+    with path.open(encoding="utf-8", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+
+    elections = {row["election_id"] for row in rows}
+    parties = {row["standard_party_key"] for row in rows}
+    periods = {row["period"] for row in rows}
+    keys = {
+        (row["election_id"], row["standard_party_key"], row["period"])
+        for row in rows
+    }
+
+    assert len(rows) == len(keys) == len(elections) * len(parties) * len(periods)
+    assert len(rows) == 4 * 6 * 12 == 288
+
+
+def test_zero_article_periods_keep_zero_counts_and_undefined_shares():
+    """Do not turn an empty search result into either a missing row or 0/0."""
+
+    path = Path("news_features/news_feature_table_v1.csv")
+    with path.open(encoding="utf-8", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+
+    empty = [
+        row for row in rows
+        if row["election_id"] == "SCC-2017-05"
+        and row["period"] == "final_72_hours"
+    ]
+    assert len(empty) == 6
+    assert all(row["article_count"] == "0" for row in empty)
+    assert all(row["party_article_count"] == "0" for row in empty)
+    assert all(row["party_article_share"] == "" for row in empty)

@@ -1,5 +1,6 @@
 {
-  "rows": 270,
+  "rows": 288,
+  "expected_rows": 288,
   "elections": [
     "ESWS-2026-05",
     "SCC-2013-05",
@@ -53,6 +54,99 @@
     ]
   },
   "grain": "election x party x period",
+  "empty_cell_policy": "Retain completed election-party-period cells with zero articles. Counts are 0; shares with a zero denominator are blank.",
+  "zero_article_cells": [
+    {
+      "election_id": "ESWS-2026-05",
+      "standard_party_key": "conservative",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "ESWS-2026-05",
+      "standard_party_key": "green",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "ESWS-2026-05",
+      "standard_party_key": "labour",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "ESWS-2026-05",
+      "standard_party_key": "liberal_democrat",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "ESWS-2026-05",
+      "standard_party_key": "reform_uk",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "ESWS-2026-05",
+      "standard_party_key": "ukip",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "SCC-2017-05",
+      "standard_party_key": "conservative",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "SCC-2017-05",
+      "standard_party_key": "conservative",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "SCC-2017-05",
+      "standard_party_key": "green",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "SCC-2017-05",
+      "standard_party_key": "green",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "SCC-2017-05",
+      "standard_party_key": "labour",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "SCC-2017-05",
+      "standard_party_key": "labour",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "SCC-2017-05",
+      "standard_party_key": "liberal_democrat",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "SCC-2017-05",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "SCC-2017-05",
+      "standard_party_key": "reform_uk",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "SCC-2017-05",
+      "standard_party_key": "reform_uk",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "SCC-2017-05",
+      "standard_party_key": "ukip",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "SCC-2017-05",
+      "standard_party_key": "ukip",
+      "period": "previous_72_hours"
+    }
+  ],
   "grain_note": "Not area-level: 94.2% of canonical articles carry no unambiguous Surrey-area attribution, and the remaining coverage is too sparse and uneven to support a general ward-level feature.",
   "reform_training_articles": 0,
   "training_variation": {
@@ -88,7 +182,7 @@
     },
     "article_count": {
       "distinct_training_values_within_period": 2,
-      "distinct_training_values_pooled_across_periods": 17,
+      "distinct_training_values_pooled_across_periods": 18,
       "verdict": "insufficient"
     },
     "local_article_count": {
@@ -108,7 +202,7 @@
     },
     "independent_source_count": {
       "distinct_training_values_within_period": 2,
-      "distinct_training_values_pooled_across_periods": 4,
+      "distinct_training_values_pooled_across_periods": 5,
       "verdict": "insufficient"
     },
     "reform_named_count": {
