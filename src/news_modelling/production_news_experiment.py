@@ -235,8 +235,17 @@ def run_one(
     feature_columns: list[str],
     analysis_name: str,
     analysis_role: str,
+    calculate_bootstrap: bool = True,
 ) -> tuple[dict, list[dict]]:
-    """Fit one frozen arm/period specification and evaluate it on 2021."""
+    """Fit one frozen arm/period specification and evaluate it on 2021.
+
+    `calculate_bootstrap=False` is reserved for training-perturbation checks
+    such as leave-one-party-out.  Those checks measure how the answer changes
+    when one of the five independent fitting rows is removed; repeating the
+    conditional contest bootstrap does not measure that uncertainty and would
+    add thousands of resamples to every perturbation without answering the
+    robustness question.
+    """
 
     train_rows = []
     for key, target in fitting.items():
@@ -308,6 +317,18 @@ def run_one(
             outside += 1
             outside_parties.add(row["party_key"])
 
+    def bootstrap_or_reason(rows: list[dict], comparator: str) -> dict:
+        if not calculate_bootstrap:
+            return {
+                "resamples": 0,
+                "reason": (
+                    "not repeated in leave-one-party-out; this run measures "
+                    "training-party sensitivity rather than conditional "
+                    "2021 contest-sampling uncertainty"
+                ),
+            }
+        return bootstrap_improvement(_bootstrap_rows(rows, comparator))
+
     result = {
         "analysis": analysis_name,
         "analysis_role": analysis_role,
@@ -348,14 +369,14 @@ def run_one(
             "news_enhanced": news_clipped,
         },
         "metrics": _metrics(validation_rows),
-        "bootstrap_news_vs_raw_baseline": bootstrap_improvement(
-            _bootstrap_rows(supported, "baseline_prediction")
+        "bootstrap_news_vs_raw_baseline": bootstrap_or_reason(
+            supported, "baseline_prediction"
         ),
-        "bootstrap_news_vs_recalibrated": bootstrap_improvement(
-            _bootstrap_rows(supported, "recalibrated_prediction")
+        "bootstrap_news_vs_recalibrated": bootstrap_or_reason(
+            supported, "recalibrated_prediction"
         ),
-        "reform_bootstrap_news_vs_recalibrated": bootstrap_improvement(
-            _bootstrap_rows(reform, "recalibrated_prediction")
+        "reform_bootstrap_news_vs_recalibrated": bootstrap_or_reason(
+            reform, "recalibrated_prediction"
         ),
         "warnings": [
             "Only one fitting election and a handful of party-level rows; "
