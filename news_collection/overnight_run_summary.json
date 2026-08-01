@@ -1,0 +1,15 @@
+{
+  "started": "2026-07-29 03:05:37",
+  "records_at_start": 16277,
+  "stages": {
+    "F": {
+      "status": "complete",
+      "rounds": 2,
+      "records_added": 380,
+      "queries_run": 166,
+      "written": 380,
+      "existing": 476,
+      "failures": 479
+    }
+  }
+}

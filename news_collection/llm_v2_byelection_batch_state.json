@@ -1,0 +1,10 @@
+{
+  "batch_id": "msgbatch_01Ke2CJamWcoaqZHjDR5MjqV",
+  "submitted_at": "2026-08-01T14:57:57",
+  "request_count": 1412,
+  "classifier_version": "v2-development-2026-07-24.6",
+  "model": "claude-sonnet-5",
+  "retry_batch_ids": [
+    "msgbatch_01JrLUhd95YZfZCzqEJvQAK1"
+  ]
+}

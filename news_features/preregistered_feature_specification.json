@@ -1,0 +1,279 @@
+{
+  "windows": [
+    "180_to_91_days",
+    "90_to_31_days",
+    "30_to_15_days",
+    "14_to_8_days",
+    "7_to_4_days",
+    "final_72_hours"
+  ],
+  "cumulative_snapshots": [
+    "as_at_90_days",
+    "as_at_30_days",
+    "as_at_7_days",
+    "as_at_polling_eve"
+  ],
+  "layer_status": {
+    "volume": {
+      "status": "available",
+      "reason": "counted from the eligible corpus without any LLM judgement, so no validation gate applies"
+    },
+    "issues": {
+      "status": "available",
+      "reason": "D4 kappa 0.729 (Haiku) against the human coding, 0.798 between the two model arms"
+    },
+    "credit_blame": {
+      "status": "available",
+      "reason": "D4 kappa 0.600 (Haiku), 0.670 between arms"
+    },
+    "consequence": {
+      "status": "available",
+      "reason": "0.647 between arms; diverges from the human coding at 0.251 and is adopted on reproducibility, with the construct difference documented"
+    },
+    "reform_flag": {
+      "status": "available",
+      "reason": "reform_uk.applicable, kappa 0.680 on Haiku over all 22 blind-sample articles"
+    },
+    "stance": {
+      "status": "available",
+      "reason": "revised layer: kappa 0.848 between arms and 0.736-0.741 against the human labels, after the original failed at 0.316 / 0.482. Three-level portrayal, no mixed category, no intensity"
+    },
+    "framing": {
+      "status": "available",
+      "reason": "revised layer, binary presence: incumbent_judgement kappa 0.705 and local_impact 0.635 between arms, after the sixteen-way original failed at 0.502. Human recall is only 0.49-0.58, so the construct divergence is larger than for any other adopted layer"
+    },
+    "framing_thin": {
+      "status": "undetermined",
+      "reason": "challenger_emergence (2-6 positives of 55) and voter_discontent (4-5) - too few positive cases for a verdict, not failed. A Reform-enriched sample would settle them"
+    },
+    "horizon": {
+      "status": "unavailable",
+      "reason": "failed all three, as above (0.229 / 0.339)"
+    }
+  },
+  "features_by_status": {
+    "available": [
+      {
+        "name": "article_count",
+        "layer": "volume",
+        "windowed": true,
+        "description": "eligible articles linked to this area and election",
+        "brief_reference": "section 7: 'number of Reform-related articles'"
+      },
+      {
+        "name": "party_article_count",
+        "layer": "volume",
+        "windowed": true,
+        "description": "eligible articles naming this party",
+        "brief_reference": "section 7: 'number of Reform-related articles', per party"
+      },
+      {
+        "name": "local_article_count",
+        "layer": "volume",
+        "windowed": true,
+        "description": "eligible articles from the local collection arm",
+        "brief_reference": "section 7: 'split between local Surrey vs UK national'"
+      },
+      {
+        "name": "national_article_count",
+        "layer": "volume",
+        "windowed": true,
+        "description": "eligible articles from the national collection arm",
+        "brief_reference": "section 7: 'split between local Surrey vs UK national'"
+      },
+      {
+        "name": "independent_source_count",
+        "layer": "volume",
+        "windowed": true,
+        "description": "distinct publications, one per duplicate group",
+        "brief_reference": "section 7: 'we always keep the article-level data'; guards against one syndicated story counting as many"
+      },
+      {
+        "name": "recency_weighted_count",
+        "layer": "volume",
+        "windowed": true,
+        "description": "articles weighted by proximity to polling day",
+        "brief_reference": "section 7: 'recency-weighted coverage'"
+      },
+      {
+        "name": "days_since_most_recent_article",
+        "layer": "volume",
+        "windowed": false,
+        "description": "gap between the newest eligible article and polling day",
+        "brief_reference": "section 7: 'days since the most recent Reform-related story'"
+      },
+      {
+        "name": "issue_immigration_count",
+        "layer": "issues",
+        "windowed": true,
+        "description": "articles whose primary issue is immigration",
+        "brief_reference": "section 8: 'national immigration coverage'"
+      },
+      {
+        "name": "issue_crime_policing_count",
+        "layer": "issues",
+        "windowed": true,
+        "description": "articles whose primary issue is crime and policing",
+        "brief_reference": "section 8: 'local crime reporting'"
+      },
+      {
+        "name": "issue_housing_planning_count",
+        "layer": "issues",
+        "windowed": true,
+        "description": "articles whose primary issue is housing or planning",
+        "brief_reference": "section 7: 'topic breakdowns'"
+      },
+      {
+        "name": "issue_council_services_count",
+        "layer": "issues",
+        "windowed": true,
+        "description": "articles on council services, finance or council tax",
+        "brief_reference": "section 7: 'topic breakdowns'"
+      },
+      {
+        "name": "issue_national_politics_count",
+        "layer": "issues",
+        "windowed": true,
+        "description": "articles whose primary issue is national politics or economy",
+        "brief_reference": "section 5: 'national stories that may influence local voting'"
+      },
+      {
+        "name": "issue_diversity",
+        "layer": "issues",
+        "windowed": true,
+        "description": "distinct primary issues present, as a count",
+        "brief_reference": "derived: distinguishes a single dominant story from a broad news environment, which no single-issue count can"
+      },
+      {
+        "name": "blame_count",
+        "layer": "credit_blame",
+        "windowed": true,
+        "description": "articles attributing blame to this party",
+        "brief_reference": "section 7: 'number of negative stories' - the adopted substitute for per-party sentiment"
+      },
+      {
+        "name": "credit_count",
+        "layer": "credit_blame",
+        "windowed": true,
+        "description": "articles attributing credit to this party",
+        "brief_reference": "section 7: 'net sentiment', substituted"
+      },
+      {
+        "name": "net_attribution",
+        "layer": "credit_blame",
+        "windowed": true,
+        "description": "credit_count minus blame_count",
+        "brief_reference": "section 7: 'net sentiment', substituted"
+      },
+      {
+        "name": "recency_weighted_blame",
+        "layer": "credit_blame",
+        "windowed": true,
+        "description": "blame weighted by proximity to polling day",
+        "brief_reference": "section 7: 'recency-weighted coverage' x tonal direction"
+      },
+      {
+        "name": "implied_damage_count",
+        "layer": "consequence",
+        "windowed": true,
+        "description": "articles implying potential electoral damage to this party",
+        "brief_reference": "section 7: 'relevance to Reform UK' and 'how strong the signal is'"
+      },
+      {
+        "name": "implied_benefit_count",
+        "layer": "consequence",
+        "windowed": true,
+        "description": "articles implying potential electoral benefit to this party",
+        "brief_reference": "section 7: as above, opposite sign"
+      },
+      {
+        "name": "anti_incumbent_mechanism_count",
+        "layer": "consequence",
+        "windowed": true,
+        "description": "articles whose implied mechanism is anti-incumbent sentiment",
+        "brief_reference": "section 7: 'whether it is a controversy, endorsement, policy announcement'"
+      },
+      {
+        "name": "reform_applicable_count",
+        "layer": "reform_flag",
+        "windowed": true,
+        "description": "articles materially about Reform UK",
+        "brief_reference": "section 1: Reform UK is the principal research party"
+      },
+      {
+        "name": "reform_share_of_coverage",
+        "layer": "reform_flag",
+        "windowed": true,
+        "description": "reform_applicable_count over article_count",
+        "brief_reference": "section 7: 'Reform share of local political coverage'"
+      },
+      {
+        "name": "unfavourable_count",
+        "layer": "stance",
+        "windowed": true,
+        "description": "articles portraying this party unfavourably",
+        "brief_reference": "section 7: 'number of negative stories'"
+      },
+      {
+        "name": "favourable_count",
+        "layer": "stance",
+        "windowed": true,
+        "description": "articles portraying this party favourably",
+        "brief_reference": "section 7: 'net sentiment'"
+      },
+      {
+        "name": "net_portrayal",
+        "layer": "stance",
+        "windowed": true,
+        "description": "favourable_count minus unfavourable_count",
+        "brief_reference": "section 7: 'net sentiment'"
+      },
+      {
+        "name": "frame_incumbent_judgement_count",
+        "layer": "framing",
+        "windowed": true,
+        "description": "articles passing judgement on the governing administration's record",
+        "brief_reference": "section 7: 'whether it is about a candidate, party or general issue'"
+      },
+      {
+        "name": "frame_local_impact_count",
+        "layer": "framing",
+        "windowed": true,
+        "description": "articles framing the matter through concrete local consequences",
+        "brief_reference": "section 5: 'local political reporting' vs national coverage"
+      }
+    ],
+    "undetermined": [
+      {
+        "name": "frame_challenger_emergence_count",
+        "layer": "framing_thin",
+        "windowed": true,
+        "description": "articles presenting an outsider party as a rising force - the frame most directly about Reform UK, and the one the sample cannot yet validate",
+        "brief_reference": "section 8: 'whether certain types of news are more strongly associated with changes in Reform support'"
+      },
+      {
+        "name": "frame_voter_discontent_count",
+        "layer": "framing_thin",
+        "windowed": true,
+        "description": "articles portraying voters as dissatisfied or wanting to punish",
+        "brief_reference": "section 7: 'topic breakdowns', anti-incumbent aspect"
+      }
+    ],
+    "unavailable": [
+      {
+        "name": "persistent_effect_count",
+        "layer": "horizon",
+        "windowed": true,
+        "description": "articles implying a persistent rather than transient effect",
+        "brief_reference": "section 7: 'how strong the signal is', temporal aspect"
+      }
+    ]
+  },
+  "counts": {
+    "features_declared": 30,
+    "features_available": 27,
+    "columns_per_specification": 27,
+    "specifications_to_fit": 11
+  },
+  "note": "Fixed before the feature table was rebuilt. No column here was chosen by screening against the outcome - the earlier 12,000-candidate screen produced correlations above the frozen baseline's own, which is the signature of selection on noise rather than of signal."
+}
