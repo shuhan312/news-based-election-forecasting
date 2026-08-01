@@ -1,0 +1,24 @@
+{
+  "mandatory_completed": 0,
+  "mandatory_total": 112,
+  "validation_completed": 138,
+  "validation_total": 138,
+  "invalid_started_rows": {},
+  "agreement": 0.7101,
+  "cohens_kappa": 0.4762,
+  "required_kappa": 0.6,
+  "passed_statistical_gate": false,
+  "review_sample_source": "news_collection/e5_local_risk_review_queue.csv",
+  "review_sample_is_frozen": true,
+  "per_model_decision": {
+    "exclude": {
+      "n": 63,
+      "agreement": 0.9365
+    },
+    "include": {
+      "n": 75,
+      "agreement": 0.52
+    }
+  },
+  "methodological_status": "deferred_model_decisions_remain_pending"
+}
