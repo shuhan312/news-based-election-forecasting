@@ -783,3 +783,19 @@ so every conclusion drawn from the audit stands unchanged. The
 catalogue is descriptive only - nothing re-enters any corpus or model;
 it exists so the "signal lives in non-news channels" finding is a
 citable table rather than a paragraph.
+
+**Quarantine audit: the last closable hole, closed.** The 67
+quarantined Haslemere records - listed as un-audited in the
+collection-gap limitations - have now been content-audited. All 67
+were quarantined by one schema technicality (a field holding [] where
+the schema requires string-or-null), not by content; none carries any
+political term in headline or URL, and none sits on a press domain.
+The "no press coverage of the July campaign" finding therefore
+survives its second audit. Of the limitations recorded earlier, one
+check was considered and deliberately NOT run: manual site searches of
+the three main outlets, because the Farnham Herald archive was already
+swept by the Wayback CDX route and a clean result could not change any
+report wording while the print-only hole necessarily stays open. The
+remaining uncertainty is confined to print-only publication and search
+-index gaps, both recorded; no further collection verification is
+planned for this contest.
