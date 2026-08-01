@@ -212,10 +212,8 @@ mentions. Applying principal-election funnel rates gives an **estimate** of
 roughly 213 usable Reform records. This is not an observed count and is not in
 the 1,632-article release.
 
-The following results do not yet exist:
+The following results still do not exist:
 
-- production baseline-versus-news MAE/RMSE comparisons;
-- evidence that combined, national or local news improves prediction;
 - a stable window ranking;
 - a reportable local-news effect;
 - a Reform-specific learned effect;
@@ -224,11 +222,42 @@ The following results do not yet exist:
 
 These are **not run or not estimable**, not negative findings.
 
-## 11. Immediate next experiment
+## 11. Completed production news experiment
 
-Fit frozen combined and national two-feature residual adjustments on 2017 and
-evaluate once on 2021. Run local with the same structure as sensitivity only.
-Report all confirmed windows instead of choosing the best 2021 window. Do not
-read 2026. If no stable exploratory signal appears, stop before more enrichment;
-if credible signal appears, decide prospectively whether processing the
-by-election corpus is worth the work.
+Source: `production_news_experiment_v1/experiment_findings.md`; row-level
+predictions and complete JSON results are stored beside it.
+
+The frozen residual experiment fitted five independent 2017 party rows and
+evaluated 279 supported candidate rows in 2021, including six Reform rows. It
+used a ridge penalty of 1.0 fixed before validation. Candidate shares were
+clipped at zero where necessary and renormalised within each contest. The 2026
+holdout file was not read.
+
+The untouched Stage 1 baseline MAE was 7.1585. A training-only mean-residual
+recalibration had MAE 7.5872, showing that even the average 2017 correction did
+not transfer cleanly to 2021.
+
+Across the 18 confirmed-window comparisons (three arms × six windows), **zero
+improved overall MAE over the recalibrated control**. Non-zero changes all
+worsened MAE; zero changes reproduced the recalibrated result. Contest-bootstrap
+intervals for the non-zero confirmed-window changes were below zero. This is
+the current pre-2026 result and must be reported without selecting a preferred
+window.
+
+Reform-only errors improved in several windows, worsened sharply in the
+7-to-4-day window and were unchanged in zero-signal windows. These six candidate
+rows share party-level news values, Reform has zero fitting rows, and many 2021
+feature values lie outside their 2017 ranges. The apparent improvements are
+therefore extrapolations from other parties, not evidence of a learned Reform
+effect.
+
+Two national cumulative sensitivities (`previous_14_days` and
+`previous_30_days`) improved overall MAE over both controls. They remain
+sensitivity results: they cannot be promoted to primary findings because the
+six confirmed windows were the declared main analysis and no 2021 result may be
+used retrospectively to select a window.
+
+The honest conclusion is that the frozen confirmed-window features provide no
+pre-2026 evidence of incremental overall predictive value in this design. This
+does not establish that news has no general effect: the experiment has one
+fitting election, five party-level rows and no Reform training observation.

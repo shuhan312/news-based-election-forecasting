@@ -1,7 +1,7 @@
 # What the news layer can and cannot measure
 
 **Recorded 30 July 2026 and updated 1 August 2026 after the production
-estimability audit.** Every figure
+estimability audit and 2017-to-2021 experiment.** Every figure
 below is measured from the extracted corpus, not estimated. The modules that
 produced them are named so each can be re-run.
 
@@ -220,9 +220,9 @@ that appear to vary and do not.
 
 | the brief's question | answerable |
 | --- | --- |
-| Does news improve prediction of Reform vote share over election history alone? | **Not yet answered** — the production comparison has not run; only a party-generic exploratory test is estimable |
-| Does news help more at some windows than others? | **Not yet answered** — all periods can be tested, but 2021 cannot select the best-looking one retrospectively |
-| Do local Surrey news and UK national news have different predictive value? | **Partly** — national features are reportable; local party features are fittable but below the ten-cell reporting threshold |
+| Does news improve prediction of Reform vote share over election history alone? | **No pre-2026 evidence in the confirmed-window experiment** — 0/18 arm-window comparisons improved overall MAE over the recalibrated control; this is not proof of no general effect |
+| Does news help more at some windows than others? | **No stable main-window ranking** — non-zero confirmed-window changes worsened overall MAE; two national cumulative sensitivities improved but cannot be selected retrospectively |
+| Do local Surrey news and UK national news have different predictive value? | **Not reliably in this design** — neither improved a confirmed-window overall comparison; local remains below the reporting threshold and sensitivity-only |
 | Does local coverage identify which wards convert support into seats? | **No** — 94.2% of articles carry no unambiguous area and coverage is highly uneven |
 | Do particular issues (local crime, national immigration) predict Reform support? | **No** — per-election grain, 2 training values |
 | Do narrative frames predict Reform support? | **No** — same grain |
