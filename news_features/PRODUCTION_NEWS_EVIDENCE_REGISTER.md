@@ -512,3 +512,19 @@ so.
 
 Both families are reported in full; no post-hoc model may claim
 predictive status on 2026 (section 13 rule).
+
+**Seat-level addendum (descriptive annex,
+`unblinding_2026_v1/descriptive_targets_annex.md`).** The baseline's
+0.7188 row-level seat accuracy conceals a directional failure: it
+predicted 118 Conservative seats against 30 actual, 6 Liberal Democrat
+against 96, and 0 Reform against 14, with only 18 of 81 wards fully
+correct — the 2026 realignment is invisible to election history. The
+phrase "the baseline was already strong on Reform" therefore holds for
+vote shares (MAE 3.2318, mean 9.3% predicted against 10.7% observed) and
+fails for seats (none of Reform's 14 predicted). Seat-call accuracy,
+recorded in the same unblinding run as a secondary outcome, diverges
+from the MAE endpoint: several v2 confirmatory specifications called
+seats better than the baseline (combined final-72-hours 0.8558, both
+arms 0.8317 at 180-91 days — a window that worsened share MAE). Under
+the no-promotion rule these remain secondary results; the divergence of
+the two grains is itself a registered finding for the report.
