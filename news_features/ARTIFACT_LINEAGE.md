@@ -17,6 +17,11 @@ The production feature table is `news_feature_table_v1.csv`, at
 **election × party × period** grain. It uses the supervisor-confirmed six
 non-overlapping windows plus six cumulative periods.
 
+`PRODUCTION_NEWS_EVIDENCE_REGISTER.md` is the current human-readable result
+register. `production_estimability_v1/estimability_report.json` is the
+machine-readable gate for the next model. Where an older narrative conflicts
+with either, the canonical release and estimability report take precedence.
+
 ## Historical pilot artifacts — do not use for the final model
 
 The following files form one older 67-article pilot chain:

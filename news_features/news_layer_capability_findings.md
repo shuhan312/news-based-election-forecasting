@@ -1,6 +1,7 @@
 # What the news layer can and cannot measure
 
-**Recorded 30 July 2026, after the corpus extraction completed.** Every figure
+**Recorded 30 July 2026 and updated 1 August 2026 after the production
+estimability audit.** Every figure
 below is measured from the extracted corpus, not estimated. The modules that
 produced them are named so each can be re-run.
 
@@ -175,8 +176,11 @@ articles.
 `src/news_features/build_feature_table.py` → `news_feature_table_v1.csv`
 
 Grain **election x party x period**: 4 elections, 6 parties, 6 windows plus 6
-cumulative snapshots, 270 rows after dropping empty cells. Windows are the six
-the supervisor confirmed on 30 July and were not changed.
+cumulative snapshots, **288 rows**. Eighteen zero-article rows were previously
+dropped; the corrected build retains them so a completed search with no result
+does not become a missing observation. Counts are zero and shares with a zero
+denominator remain blank. Windows are the six the supervisor confirmed on 30
+July and were not changed.
 
 **Deduplication and its guard.** Tranche files overlap — far2's articles were
 re-extracted in the full run while its stance and framing records stayed in
@@ -203,7 +207,7 @@ training values within a period: enough to fit, but not enough to report under
 the pre-declared ten-cell rule. The remaining 29 columns are insufficient.
 
 **A fault in the first version of that verdict, recorded because it would have
-matters.** Variation was first counted across all 270 rows, which pools the 12
+matters.** Variation was first counted across all rows, which pools the 12
 periods together. That gave `article_count` 14 distinct training values and
 marked it usable — but a specification uses one window, and within any single
 period it has **2**. Counting per period instead moved 29 columns from "usable"
@@ -216,16 +220,20 @@ that appear to vary and do not.
 
 | the brief's question | answerable |
 | --- | --- |
-| Does news improve prediction of Reform vote share over election history alone? | **Yes** — through the six per-party columns |
-| Does news help more at some windows than others? | **Yes** — all 12 periods are in the table |
+| Does news improve prediction of Reform vote share over election history alone? | **Not yet answered** — the production comparison has not run; only a party-generic exploratory test is estimable |
+| Does news help more at some windows than others? | **Not yet answered** — all periods can be tested, but 2021 cannot select the best-looking one retrospectively |
 | Do local Surrey news and UK national news have different predictive value? | **Partly** — national features are reportable; local party features are fittable but below the ten-cell reporting threshold |
 | Does local coverage identify which wards convert support into seats? | **No** — 94.2% of articles carry no unambiguous area and coverage is highly uneven |
 | Do particular issues (local crime, national immigration) predict Reform support? | **No** — per-election grain, 2 training values |
 | Do narrative frames predict Reform support? | **No** — same grain |
-| Can news identify an emerging party before it has a voting record? | **Partly** — no Reform training articles, so only a party-generic relationship extrapolated to Reform |
+| Can news identify an emerging party before it has a voting record? | **Not directly** — no Reform fitting rows, so only a party-generic exploratory relationship can be applied to Reform |
 
 Four of the seven are blocked by one cause: the per-election grain has two
 training cells. The by-election corpus in §3 is the only route that changes
 that, and whether it is worth walking should be decided after the first
 news-versus-baseline comparison shows whether the six usable columns carry any
 signal at all. Spending on enrichment before knowing that is the wrong order.
+
+The complete evidence register, including failed validation gates, legacy
+artifacts, residual-feasibility results and results that do not yet exist, is
+`PRODUCTION_NEWS_EVIDENCE_REGISTER.md`.
