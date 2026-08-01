@@ -1,0 +1,581 @@
+{
+  "status": "EXPLORATORY, post-unblinding, pre-declared Haslemere case study: one contest, four candidates. Nothing here joins the confirmatory verdict.",
+  "election": "surrey-county-council-by-election-haslemere-2026-07-07",
+  "reference": {
+    "before_may_baseline_mae": 4.4738,
+    "after_may_baseline_mae": 7.3169,
+    "reform_before_may_signed_error": 8.948,
+    "reform_after_may_signed_error": 14.634
+  },
+  "corpus": {
+    "articles": 20,
+    "all_local_arm": true,
+    "articles_naming_a_study_party": 3
+  },
+  "specifications": [
+    {
+      "analysis": "combined_exploratory",
+      "window": "180_to_91_days",
+      "news": {
+        "contest_mae": 8.4175,
+        "signed_error_by_party": {
+          "conservative": -16.187,
+          "liberal_democrat": 8.023,
+          "reform_uk": 8.812,
+          "green": -0.648
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "recalibrated": {
+        "contest_mae": 4.4911,
+        "signed_error_by_party": {
+          "conservative": -3.065,
+          "liberal_democrat": -5.192,
+          "reform_uk": 8.982,
+          "green": -0.725
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "baseline": {
+        "contest_mae": 4.4738,
+        "signed_error_by_party": {
+          "conservative": -3.045,
+          "liberal_democrat": -5.111,
+          "reform_uk": 8.948,
+          "green": -0.792
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "clipped_rows": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "news_adjustment_by_party": {
+        "conservative": -12.475,
+        "liberal_democrat": 15.446,
+        "reform_uk": 0.586,
+        "green": 0.586
+      }
+    },
+    {
+      "analysis": "combined_exploratory",
+      "window": "90_to_31_days",
+      "news": {
+        "contest_mae": 4.2899,
+        "signed_error_by_party": {
+          "conservative": -2.765,
+          "liberal_democrat": -1.709,
+          "reform_uk": 8.58,
+          "green": -4.106
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "recalibrated": {
+        "contest_mae": 4.4911,
+        "signed_error_by_party": {
+          "conservative": -3.065,
+          "liberal_democrat": -5.192,
+          "reform_uk": 8.982,
+          "green": -0.725
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "baseline": {
+        "contest_mae": 4.4738,
+        "signed_error_by_party": {
+          "conservative": -3.045,
+          "liberal_democrat": -5.111,
+          "reform_uk": 8.948,
+          "green": -0.792
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "clipped_rows": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "news_adjustment_by_party": {
+        "conservative": -1.268,
+        "liberal_democrat": 0.987,
+        "reform_uk": -1.268,
+        "green": -3.691
+      }
+    },
+    {
+      "analysis": "combined_exploratory",
+      "window": "30_to_15_days",
+      "news": {
+        "contest_mae": 4.5959,
+        "signed_error_by_party": {
+          "conservative": -3.184,
+          "liberal_democrat": -5.69,
+          "reform_uk": 9.192,
+          "green": -0.317
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "recalibrated": {
+        "contest_mae": 4.4911,
+        "signed_error_by_party": {
+          "conservative": -3.065,
+          "liberal_democrat": -5.192,
+          "reform_uk": 8.982,
+          "green": -0.725
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "baseline": {
+        "contest_mae": 4.4738,
+        "signed_error_by_party": {
+          "conservative": -3.045,
+          "liberal_democrat": -5.111,
+          "reform_uk": 8.948,
+          "green": -0.792
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "clipped_rows": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "news_adjustment_by_party": {
+        "conservative": 0.847,
+        "liberal_democrat": 0.847,
+        "reform_uk": 0.847,
+        "green": 0.847
+      }
+    },
+    {
+      "analysis": "combined_exploratory",
+      "window": "14_to_8_days",
+      "news": {
+        "contest_mae": 4.4373,
+        "signed_error_by_party": {
+          "conservative": -3.003,
+          "liberal_democrat": -4.937,
+          "reform_uk": 8.875,
+          "green": -0.934
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "recalibrated": {
+        "contest_mae": 4.4911,
+        "signed_error_by_party": {
+          "conservative": -3.065,
+          "liberal_democrat": -5.192,
+          "reform_uk": 8.982,
+          "green": -0.725
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "baseline": {
+        "contest_mae": 4.4738,
+        "signed_error_by_party": {
+          "conservative": -3.045,
+          "liberal_democrat": -5.111,
+          "reform_uk": 8.948,
+          "green": -0.792
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "clipped_rows": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "news_adjustment_by_party": {
+        "conservative": -0.243,
+        "liberal_democrat": -0.243,
+        "reform_uk": -0.243,
+        "green": -0.243
+      }
+    },
+    {
+      "analysis": "combined_exploratory",
+      "window": "7_to_4_days",
+      "news": {
+        "contest_mae": 4.5273,
+        "signed_error_by_party": {
+          "conservative": -3.106,
+          "liberal_democrat": -5.365,
+          "reform_uk": 9.055,
+          "green": -0.584
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "recalibrated": {
+        "contest_mae": 4.4911,
+        "signed_error_by_party": {
+          "conservative": -3.065,
+          "liberal_democrat": -5.192,
+          "reform_uk": 8.982,
+          "green": -0.725
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "baseline": {
+        "contest_mae": 4.4738,
+        "signed_error_by_party": {
+          "conservative": -3.045,
+          "liberal_democrat": -5.111,
+          "reform_uk": 8.948,
+          "green": -0.792
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "clipped_rows": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "news_adjustment_by_party": {
+        "conservative": 0.364,
+        "liberal_democrat": 0.364,
+        "reform_uk": 0.364,
+        "green": 0.364
+      }
+    },
+    {
+      "analysis": "combined_exploratory",
+      "window": "final_72_hours",
+      "news": {
+        "contest_mae": 4.5639,
+        "signed_error_by_party": {
+          "conservative": -3.148,
+          "liberal_democrat": -5.538,
+          "reform_uk": 9.128,
+          "green": -0.442
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "recalibrated": {
+        "contest_mae": 4.4911,
+        "signed_error_by_party": {
+          "conservative": -3.065,
+          "liberal_democrat": -5.192,
+          "reform_uk": 8.982,
+          "green": -0.725
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "baseline": {
+        "contest_mae": 4.4738,
+        "signed_error_by_party": {
+          "conservative": -3.045,
+          "liberal_democrat": -5.111,
+          "reform_uk": 8.948,
+          "green": -0.792
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "clipped_rows": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "news_adjustment_by_party": {
+        "conservative": 0.619,
+        "liberal_democrat": 0.619,
+        "reform_uk": 0.619,
+        "green": 0.619
+      }
+    },
+    {
+      "analysis": "national_exploratory",
+      "window": "180_to_91_days",
+      "news": {
+        "contest_mae": 4.5574,
+        "signed_error_by_party": {
+          "conservative": -3.14,
+          "liberal_democrat": -5.507,
+          "reform_uk": 9.115,
+          "green": -0.467
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "recalibrated": {
+        "contest_mae": 4.4911,
+        "signed_error_by_party": {
+          "conservative": -3.065,
+          "liberal_democrat": -5.192,
+          "reform_uk": 8.982,
+          "green": -0.725
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "baseline": {
+        "contest_mae": 4.4738,
+        "signed_error_by_party": {
+          "conservative": -3.045,
+          "liberal_democrat": -5.111,
+          "reform_uk": 8.948,
+          "green": -0.792
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "clipped_rows": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "news_adjustment_by_party": {
+        "conservative": 0.574,
+        "liberal_democrat": 0.574,
+        "reform_uk": 0.574,
+        "green": 0.574
+      }
+    },
+    {
+      "analysis": "national_exploratory",
+      "window": "90_to_31_days",
+      "news": {
+        "contest_mae": 4.5801,
+        "signed_error_by_party": {
+          "conservative": -3.166,
+          "liberal_democrat": -5.615,
+          "reform_uk": 9.16,
+          "green": -0.379
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "recalibrated": {
+        "contest_mae": 4.4911,
+        "signed_error_by_party": {
+          "conservative": -3.065,
+          "liberal_democrat": -5.192,
+          "reform_uk": 8.982,
+          "green": -0.725
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "baseline": {
+        "contest_mae": 4.4738,
+        "signed_error_by_party": {
+          "conservative": -3.045,
+          "liberal_democrat": -5.111,
+          "reform_uk": 8.948,
+          "green": -0.792
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "clipped_rows": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "news_adjustment_by_party": {
+        "conservative": 0.734,
+        "liberal_democrat": 0.734,
+        "reform_uk": 0.734,
+        "green": 0.734
+      }
+    },
+    {
+      "analysis": "national_exploratory",
+      "window": "30_to_15_days",
+      "news": {
+        "contest_mae": 4.6029,
+        "signed_error_by_party": {
+          "conservative": -3.192,
+          "liberal_democrat": -5.724,
+          "reform_uk": 9.206,
+          "green": -0.29
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "recalibrated": {
+        "contest_mae": 4.4911,
+        "signed_error_by_party": {
+          "conservative": -3.065,
+          "liberal_democrat": -5.192,
+          "reform_uk": 8.982,
+          "green": -0.725
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "baseline": {
+        "contest_mae": 4.4738,
+        "signed_error_by_party": {
+          "conservative": -3.045,
+          "liberal_democrat": -5.111,
+          "reform_uk": 8.948,
+          "green": -0.792
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "clipped_rows": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "news_adjustment_by_party": {
+        "conservative": 0.897,
+        "liberal_democrat": 0.897,
+        "reform_uk": 0.897,
+        "green": 0.897
+      }
+    },
+    {
+      "analysis": "national_exploratory",
+      "window": "14_to_8_days",
+      "news": {
+        "contest_mae": 4.4724,
+        "signed_error_by_party": {
+          "conservative": -3.043,
+          "liberal_democrat": -5.104,
+          "reform_uk": 8.945,
+          "green": -0.798
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "recalibrated": {
+        "contest_mae": 4.4911,
+        "signed_error_by_party": {
+          "conservative": -3.065,
+          "liberal_democrat": -5.192,
+          "reform_uk": 8.982,
+          "green": -0.725
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "baseline": {
+        "contest_mae": 4.4738,
+        "signed_error_by_party": {
+          "conservative": -3.045,
+          "liberal_democrat": -5.111,
+          "reform_uk": 8.948,
+          "green": -0.792
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "clipped_rows": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "news_adjustment_by_party": {
+        "conservative": -0.01,
+        "liberal_democrat": -0.01,
+        "reform_uk": -0.01,
+        "green": -0.01
+      }
+    },
+    {
+      "analysis": "national_exploratory",
+      "window": "7_to_4_days",
+      "news": {
+        "contest_mae": 4.4911,
+        "signed_error_by_party": {
+          "conservative": -3.065,
+          "liberal_democrat": -5.192,
+          "reform_uk": 8.982,
+          "green": -0.725
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "recalibrated": {
+        "contest_mae": 4.4911,
+        "signed_error_by_party": {
+          "conservative": -3.065,
+          "liberal_democrat": -5.192,
+          "reform_uk": 8.982,
+          "green": -0.725
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "baseline": {
+        "contest_mae": 4.4738,
+        "signed_error_by_party": {
+          "conservative": -3.045,
+          "liberal_democrat": -5.111,
+          "reform_uk": 8.948,
+          "green": -0.792
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "clipped_rows": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "news_adjustment_by_party": {
+        "conservative": 0.116,
+        "liberal_democrat": 0.116,
+        "reform_uk": 0.116,
+        "green": 0.116
+      }
+    },
+    {
+      "analysis": "national_exploratory",
+      "window": "final_72_hours",
+      "news": {
+        "contest_mae": 4.565,
+        "signed_error_by_party": {
+          "conservative": -3.149,
+          "liberal_democrat": -5.543,
+          "reform_uk": 9.13,
+          "green": -0.438
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "recalibrated": {
+        "contest_mae": 4.4911,
+        "signed_error_by_party": {
+          "conservative": -3.065,
+          "liberal_democrat": -5.192,
+          "reform_uk": 8.982,
+          "green": -0.725
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "baseline": {
+        "contest_mae": 4.4738,
+        "signed_error_by_party": {
+          "conservative": -3.045,
+          "liberal_democrat": -5.111,
+          "reform_uk": 8.948,
+          "green": -0.792
+        },
+        "predicted_winner": "Liberal Democrats",
+        "winner_correct": true
+      },
+      "clipped_rows": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "news_adjustment_by_party": {
+        "conservative": 0.627,
+        "liberal_democrat": 0.627,
+        "reform_uk": 0.627,
+        "green": 0.627
+      }
+    }
+  ]
+}

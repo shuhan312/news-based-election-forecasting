@@ -1,0 +1,288 @@
+{
+  "rows": 60,
+  "expected_rows": 60,
+  "elections": [
+    "surrey-county-council-by-election-haslemere-2026-07-07"
+  ],
+  "parties": [
+    "conservative",
+    "green",
+    "labour",
+    "liberal_democrat",
+    "reform_uk"
+  ],
+  "periods": [
+    "180_to_91_days",
+    "90_to_31_days",
+    "30_to_15_days",
+    "14_to_8_days",
+    "7_to_4_days",
+    "final_72_hours",
+    "previous_72_hours",
+    "previous_7_days",
+    "previous_14_days",
+    "previous_30_days",
+    "previous_90_days",
+    "previous_180_days"
+  ],
+  "unique_articles": 20,
+  "corpus_size": 20,
+  "canonical_corpus_release_id": "canonical-haslemere-fa62d90607ce",
+  "canonical_corpus_manifest": "news_collection/canonical_corpus_release_v1.json",
+  "canonical_corpus_by_arm": {
+    "local": 20
+  },
+  "terminal_include_articles": 20,
+  "excluded_after_terminal_include": 0,
+  "grain": "election x party x period",
+  "empty_cell_policy": "Retain completed election-party-period cells with zero articles. Counts are 0; shares with a zero denominator are blank.",
+  "zero_article_cells": [],
+  "grain_note": "Not area-level: 94.2% of canonical articles carry no unambiguous Surrey-area attribution, and the remaining coverage is too sparse and uneven to support a general ward-level feature.",
+  "reform_training_articles": 0,
+  "training_variation": {
+    "party_article_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "party_article_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "unfavourable_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "favourable_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "net_portrayal": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "net_portrayal_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "article_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "local_article_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "national_article_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "local_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "independent_source_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "reform_named_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "reform_share_of_coverage": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "local_party_article_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "local_party_article_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "local_unfavourable_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "local_favourable_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "local_net_portrayal": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "local_net_portrayal_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "national_party_article_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "national_party_article_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "national_unfavourable_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "national_favourable_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "national_net_portrayal": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "national_net_portrayal_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_immigration_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_immigration_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_crime_policing_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_crime_policing_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_housing_planning_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_housing_planning_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_council_services_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_council_services_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_national_politics_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_national_politics_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_issue_other_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_issue_other_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_none_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_none_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "frame_incumbent_judgement_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "frame_incumbent_judgement_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "frame_challenger_emergence_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "frame_challenger_emergence_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "frame_voter_discontent_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "frame_voter_discontent_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "frame_local_impact_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "frame_local_impact_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    }
+  },
+  "usable_columns": [],
+  "provenance": {
+    "per_layer_tranche_prompt": {
+      "issues|haslemere1|715700666aca": 20,
+      "stance_revised|haslemere1|bc2d5987b2d7": 3,
+      "framing_revised|haslemere1|e90e50b3dcb2": 20
+    },
+    "superseded_layers_honoured": {}
+  }
+}

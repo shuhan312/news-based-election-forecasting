@@ -699,3 +699,68 @@ judgement per the failed validations recorded in section 3 (kappa
 0.1911 then 0.4762 against the 0.6000 bar) - and that pass is pending.
 No principal or enrichment artefact was touched; all probe outputs
 live under `news_collection/haslemere_probe/`.
+
+**The Haslemere probe: completed and scored.** Stage 5 assembled the
+human E5 pass (45 rows, reviewer SL; imported external sheet sha256
+4fbe4079008cfed4363132c4c5bf97dcf025709cc0450b4b7b1edb676e492b1f;
+20 include / 25 exclude, both second reviews resolved to exclude with
+reasons on the sheet) with the LLM's E4/E8 verdicts under the frozen
+assembler - 45 of 45 resolved, no pending rows. Stage 6 extracted the
+20-article corpus with the production model assignment (issues on
+Sonnet 20/20 with one second-attempt recovery; revised stance on Haiku
+3/3 - seventeen articles name no study party; revised framing on Haiku
+20/20). The corpus census: all 20 articles local-arm, windows
+8/5/3/1/2/1 from 180-91 days to final-72-hours. Feature rows were
+built by the frozen builder over the one-election grid (60 rows,
+role test, never fitting input), and the twelve frozen confirmatory
+specifications - coefficient-asserted against the v2 protocol before
+each run - predicted the contest from the before-May baseline rows
+with outcome columns stripped.
+
+Result (probe_result.json / probe_findings.md): news beat its
+recalibrated control in **3 of 12** specifications. The window pattern
+of the 2026 unblinding REPLICATES on this unseen contest: combined
+90-31 days is again the best specification (contest MAE 4.290 against
+4.491, the only improvement beyond noise) and 180-91 days is again
+harmful, catastrophically so in the combined arm (8.418). On the
+central question the answer is sharp: **Reform's +8.95 over-prediction
+stays essentially untouched in every specification** (best +8.58,
+worst +9.21), because the ward-dense corpus carried almost no
+party-political content - 3 of 20 articles name any study party. For
+this contest, ward grain did not rescue the news layer: the positional
+signal was absent from the local stream itself, not lost to feature
+grain. Every specification still calls the Liberal Democrat winner the
+baseline already called. Single contest, four candidates: illustrative
+evidence only, and the replication of the 90-31-day/far-window pattern
+is the probe's most report-worthy observation.
+
+**Collection-gap audit of the Haslemere "no party signal" finding.**
+Challenged (correctly) with "could the absent signal be a collection
+problem rather than a coverage fact?", the probe's biggest funnel hole
+was audited: the 92 records excluded for unresolvable dates (E1 - a
+quarter of the collected 379). 54 of the 92 carry political terms.
+Their composition, from the stored records: 34 are candidates' own
+social-media posts (Facebook/Instagram, several on polling day or
+after), 2 are leaflet-archive scans, 1 a party site, and the 19
+remaining "news-or-other" URLs are civic databases and non-press pages
+- WhoCanIVoteFor candidate listings (including "The 4 candidates in
+Haslemere" for 7 July - a Democracy Club database page, not an
+article), council election-notice and results pages, a town-council
+staff bio, a tactical-voting campaign site (stopreformuk.vote's
+Haslemere page), a vote-forum thread, a public-notice portal, a topic
+index page, and two pages of an American namesake ministry. **Zero of
+the 54 are editorial press articles about the July campaign.** The
+query log shows the sharpest possible searches ran (each candidate's
+name AND Haslemere, party AND Haslemere, "Haslemere AND by-election",
+matching the supervisor's own query template): they surfaced the
+campaign's self-published digital trail and no press trail. The
+refined conclusion is therefore stronger, not weaker: the local press
+genuinely did not cover the campaign, while the campaign WAS visible
+in non-news channels (candidate social media, civic databases, a
+tactical-voting site) that sit outside the design's news-article
+definition (I4/E8). Recorded limitations that stand: village-name
+queries (Shottermill, Grayswood) were not run separately from
+"Haslemere"; the national arm produced no eligible article for this
+contest; 67 quarantined retrieval failures were not content-audited.
+The non-news digital trail is a future-work data-source class, not a
+usable input under the frozen protocol.
