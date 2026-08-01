@@ -630,3 +630,24 @@ corrections surface as dispersion; dispersion falls in exactly the
 mid-range windows where MAE improved and rises where it worsened,
 which is consistent with the tide-gauge reading in its pooled form.
 The sharper per-party bias decomposition is declared here and not run.
+
+**Reform-specific seat calls, specification by specification
+(descriptive addendum).** Computed from the frozen v2 prediction file's
+`news_predicted_elected` flags against observed outcomes - the same
+frozen artefacts and already-unblinded results the annex reads; no
+model was touched. Reform won 14 of its 162 contests. The baseline
+predicted 0 Reform seats (row accuracy 0.9136 - exactly what an
+all-"lose" call scores). Eleven of the twelve v2 confirmatory
+specifications leave every Reform seat call unchanged at 0 predicted:
+their share adjustments never lift any Reform candidate over a winning
+threshold. The twelfth (combined, 14-8 days - a specification whose
+share MAE was harmful) over-corrects to 105 predicted Reform seats,
+catching 8 of the 14 real winners inside 97 false positives (row
+accuracy 0.3642). The overall seat-accuracy gains recorded at
+unblinding (up to 0.8558) therefore came entirely from non-Reform
+parties. This is the mechanism finding made concrete on the central
+party: a party-level broadcast adjustment either moves no Reform
+candidate over the threshold or moves nearly all of them - it cannot
+locate WHICH fourteen wards break through, because that information is
+ward-geographic, precisely the dispersion term a tide-gauge correction
+cannot touch.
