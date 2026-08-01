@@ -126,6 +126,14 @@ SPLIT_ROLE = {"SCC-2013-05": "train", "SCC-2017-05": "train",
 MIN_CELLS_TO_FIT = 3
 MIN_CELLS_TO_REPORT = 10
 
+# The election grid. None (the default, and v1's behaviour) derives the grid
+# from the elections that have at least one corpus article. A release whose
+# scope registers elections that legitimately ended with zero eligible
+# articles sets this explicitly, because the zero-cell policy below applies
+# to elections exactly as it applies to periods: a completed search with no
+# eligible article is an observation of zero coverage, not a missing election.
+GRID_ELECTIONS: list[str] | None = None
+
 # Issue codes aggregated into the six pre-registered issue features. Anything
 # outside this map lands in `issue_other`, which is reported rather than
 # dropped: an issue the taxonomy does not cover is a fact about the coverage.
@@ -328,7 +336,8 @@ def main() -> None:
         return total
 
     parties = sorted({p for (_e, p, _w) in party_cells})
-    elections = sorted({e for (e, _w) in election_cells})
+    elections = (sorted(GRID_ELECTIONS) if GRID_ELECTIONS is not None
+                 else sorted({e for (e, _w) in election_cells}))
     periods = [(w, (w,)) for w in WINDOWS] + list(SNAPSHOTS.items())
 
     rows = []

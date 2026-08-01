@@ -1,0 +1,912 @@
+{
+  "status": "blinded_2026_predictions_v2_frozen",
+  "canonical_release_id": "canonical-news-v2-81000bf38785",
+  "holdout_news_election": "ESWS-2026-05",
+  "blinded_candidate_rows": 832,
+  "fit_variant": {
+    "pooled_2017_2021_byelections": "primary for the enrichment comparison: party-mean Stage 1 residuals per election x party over 2017, 2021 and the eight pre-holdout by-elections, joined to news feature table v2"
+  },
+  "fitting_rows": 45,
+  "fitting_elections": [
+    "surrey-county-council-2017",
+    "surrey-county-council-2021",
+    "surrey-county-council-by-election-addlestone-2025-08-21",
+    "surrey-county-council-by-election-camberley-west-2025-10-16",
+    "surrey-county-council-by-election-caterham-valley-2025-10-16",
+    "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+    "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+    "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+    "surrey-county-council-by-election-warlingham-2019-01-31",
+    "surrey-county-council-by-election-weybridge-2015-05-07"
+  ],
+  "reform_fitting_cells": [
+    {
+      "election_id": "surrey-county-council-2021",
+      "candidate_rows": 6
+    },
+    {
+      "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+      "candidate_rows": 1
+    },
+    {
+      "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+      "candidate_rows": 1
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "candidate_rows": 1
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "candidate_rows": 1
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "candidate_rows": 1
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "candidate_rows": 1
+    }
+  ],
+  "ridge_penalty": 1.0,
+  "penalty_selection": "fixed_before_validation; unchanged from the frozen experiment",
+  "periods": [
+    "180_to_91_days",
+    "90_to_31_days",
+    "30_to_15_days",
+    "14_to_8_days",
+    "7_to_4_days",
+    "final_72_hours",
+    "previous_72_hours",
+    "previous_7_days",
+    "previous_14_days",
+    "previous_30_days",
+    "previous_90_days",
+    "previous_180_days"
+  ],
+  "specifications": [
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "180_to_91_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "party_article_share": 1.7040253063165482,
+        "net_portrayal_share": 3.673377618877658
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "90_to_31_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "party_article_share": 0.17531968442308976,
+        "net_portrayal_share": 1.6216206397779376
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "30_to_15_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "party_article_share": -0.5694559325662906,
+        "net_portrayal_share": 0.7562980347183204
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "14_to_8_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "party_article_share": 3.0871958130767734,
+        "net_portrayal_share": 3.431092229088358
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "7_to_4_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "party_article_share": -0.2709480428041182,
+        "net_portrayal_share": 0.4224673074654726
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "final_72_hours",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "party_article_share": 0.6352997406819697,
+        "net_portrayal_share": 2.0798018869265804
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_72_hours",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "party_article_share": 0.6352997406819697,
+        "net_portrayal_share": 2.0798018869265804
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_7_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "party_article_share": -0.34022737475729775,
+        "net_portrayal_share": 1.4020523408543846
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_14_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "party_article_share": 2.3383008933007403,
+        "net_portrayal_share": 3.6241561313421147
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_30_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "party_article_share": 0.1333825388899311,
+        "net_portrayal_share": 1.4848560929592167
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_90_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "party_article_share": 0.48805368572383007,
+        "net_portrayal_share": 1.8157808138071039
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_180_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "party_article_share",
+        "net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "party_article_share": 1.7374872055214226,
+        "net_portrayal_share": 3.703094217585077
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "180_to_91_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "national_party_article_share": 1.6629766397695367,
+        "national_net_portrayal_share": 3.6428553360106375
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "90_to_31_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "national_party_article_share": 0.04194490312444486,
+        "national_net_portrayal_share": 1.5804274962781295
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "30_to_15_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "national_party_article_share": -1.125408571738287,
+        "national_net_portrayal_share": 0.05728453582552124
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "14_to_8_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "national_party_article_share": 2.683622522921725,
+        "national_net_portrayal_share": 3.6755599486164474
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "7_to_4_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "national_party_article_share": 0.0,
+        "national_net_portrayal_share": 0.0
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "final_72_hours",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "national_party_article_share": 0.10301760176275672,
+        "national_net_portrayal_share": 1.7607440578768245
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_72_hours",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "national_party_article_share": 0.10301760176275672,
+        "national_net_portrayal_share": 1.7607440578768245
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_7_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "national_party_article_share": 0.10301760176275672,
+        "national_net_portrayal_share": 1.7607440578768245
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_14_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "national_party_article_share": 2.6962028436035146,
+        "national_net_portrayal_share": 4.511045400957007
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_30_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 18
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "national_party_article_share": 0.8150038119156565,
+        "national_net_portrayal_share": 2.4921640539537577
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_90_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "national_party_article_share": 0.6664998506774379,
+        "national_net_portrayal_share": 2.1845874508432095
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "previous_180_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "national_party_article_share",
+        "national_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "national_party_article_share": 1.733144389711459,
+        "national_net_portrayal_share": 3.733130071779315
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "180_to_91_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "local_party_article_share": 2.366686265105777,
+        "local_net_portrayal_share": 2.480939497073793
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "90_to_31_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "local_party_article_share": 1.4085639929236735,
+        "local_net_portrayal_share": 1.5178076348927023
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "30_to_15_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "local_party_article_share": 1.020270343279945,
+        "local_net_portrayal_share": 1.6151883758060315
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "14_to_8_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "local_party_article_share": -0.2068255352740288,
+        "local_net_portrayal_share": -0.010869360291350516
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "7_to_4_days",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "local_party_article_share": -0.2709480428041182,
+        "local_net_portrayal_share": 0.4224673074654726
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "final_72_hours",
+      "period_role": "confirmed_window",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "local_party_article_share": 1.4918841366944164,
+        "local_net_portrayal_share": 1.8268083330589344
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "previous_72_hours",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "local_party_article_share": 1.4918841366944164,
+        "local_net_portrayal_share": 1.8268083330589344
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "previous_7_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "local_party_article_share": 0.03586830924658049,
+        "local_net_portrayal_share": 0.7520533240030673
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "previous_14_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "local_party_article_share": 0.08598908478009065,
+        "local_net_portrayal_share": 0.7602715289872817
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "previous_30_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "local_party_article_share": 0.20607273100810847,
+        "local_net_portrayal_share": 0.922366926452056
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "previous_90_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "local_party_article_share": 0.8946437953400983,
+        "local_net_portrayal_share": 1.1993993726770074
+      }
+    },
+    {
+      "fit_variant": "pooled_2017_2021_byelections",
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "previous_180_days",
+      "period_role": "cumulative_sensitivity",
+      "feature_columns": [
+        "local_party_article_share",
+        "local_net_portrayal_share"
+      ],
+      "ridge_penalty": 1.0,
+      "negative_raw_shares_clipped": {
+        "recalibrated": 0,
+        "news_enhanced": 0
+      },
+      "training_rows": 45,
+      "training_reform_rows": 7,
+      "intercept_mean_training_residual": 0.11630465641607238,
+      "standardised_coefficients": {
+        "local_party_article_share": 1.5088436026591683,
+        "local_net_portrayal_share": 1.7299565652269975
+      }
+    }
+  ],
+  "v1_freeze": {
+    "predictions_sha256": "966e03cd1c54f7de6e9c455fc382263b74e58a2ade3c793522b53394753b6b54",
+    "protocol_sha256": "86dd73b51dfec23f5913141711f568d234980ca1a27f14c387192e600e91468f",
+    "v1_primary_variant": "pooled_2017_2021"
+  },
+  "unblinding_rule": "One unblinding event covering the v1 and v2 files together. The enrichment's confirmatory family is the combined and national arms over the six confirmed windows under pooled_2017_2021_byelections, each against its recalibrated control on overall MAE, reported beside the v1 primary variant and the untouched baseline. The local arm, cumulative periods and all other variants are sensitivity. No specification, window, arm or variant may be selected or promoted after outcomes are seen. Reform UK rows are reported separately with their row count visible; v2 coefficients rest on real but few Reform fitting cells and are not causal.",
+  "input_sha256": {
+    "canonical_corpus_release_v2.json": "9e371794bb6e16e50d4ddcfa199378df7bdd43ef0dd777b56050032eda9b9cab",
+    "estimability_report.json": "71880e8e73c8535d27ad52ca2066d883cffa34063e0e98f4edcb3b818af29b3a",
+    "holdout_predictions.csv": "df8c6421301a1a3545bbd22fc776e4df254e8a4906bc115912cc866c7b9ed3d1",
+    "news_feature_table_v2.csv": "24f1164ad42d8a3d1d86d81f0b067e607c067928ae8132181bcd29b9e801c74e",
+    "out_of_fold_predictions.csv": "950e527eb1ad82522e7cc4f4cc7567660b320942ad2b6a03c16e7ad06489e6e5",
+    "v1_sha256_manifest.json": "73a2fd388d7a289567af42e246f0dc5f3bad30ea8f1e52395d3b306bddf425d5"
+  }
+}

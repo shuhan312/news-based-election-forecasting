@@ -406,3 +406,49 @@ implementations is development time not captured in dollars.
 The enrichment decision is not taken in this repository record; if taken,
 enrichment becomes a pre-registered model v2 with its own blinded 2026
 prediction file under the section-13 unblinding rule.
+
+## 15. Enrichment executed: corpus v2, feature table v2, blinded v2 freeze
+
+Sources: `news_collection/canonical_corpus_release_v2.json`,
+`news_features/news_feature_table_v2_metadata.json`,
+`news_features/blinded_2026_predictions_v2/`; produced 1 August 2026.
+
+Scenario A was executed with every judgement made by frozen principal
+code behind path-only wrappers. The funnel: 2,741 by-election records
+assessed, 1,412 cleared the mechanical rules, and the national arm
+resolved to **627 includes** against 285 excludes; 426 local rows remain
+unadjudicated (E5-local is human-only and was deferred), and 37
+twice-failed articles plus 53 borderline verdicts sit in a second-review
+queue. Extraction retained 534 valid issues, 527 stance and 623 framing
+records; the issues batch was resubmitted once after the account ran out
+of credit mid-run, with the outage batch id preserved in the tranche
+manifest.
+
+Release `canonical-news-v2-81000bf38785` unions the untouched v1 corpus
+(1,632 articles) with the 627 by-election articles. Feature table v2 has
+**864 rows (12 elections × 6 parties × 12 periods)**, retaining
+zero-coverage rows for the six by-elections whose national funnel ended
+empty. Against v1: **Reform training articles 300 (was 0)**, per-party
+training variation 22–23 distinct values within a period (was 10–11),
+and `insufficient` columns fall from 29 to 4. The twelve reportable
+columns are unchanged in identity; local columns remain
+`fittable_not_reportable`.
+
+The v2 blinded freeze fits **45 election × party residual cells across
+10 pre-2026 elections, including 7 real Reform UK cells** — the
+project's first — under the unchanged specification grid (3 frozen arms
+× 12 periods, ridge 1.0) and predicts the same 832 blinded holdout rows
+(29,952 prediction rows). No 2026 outcome was read. Integrity anchors:
+
+- `blinded_predictions.csv`
+  `6016a8d1240310fe5743944d52e099b8967598bb07a401e93f40de1036137c36`
+- `frozen_protocol.json`
+  `9515de566fd670e2fca8a7970fc47e7fccfd41bb8d6675cac62f37bad659a5e8`
+
+The v2 protocol binds the v1 file hashes into itself and declares one
+unblinding event over both: the enrichment's confirmatory family is the
+combined and national arms over the six confirmed windows under the
+pooled 2017+2021+by-elections variant, reported beside the v1 primary
+and the untouched baseline; all else is sensitivity. The 20 MB v2
+predictions CSV stays outside git under the large-file rule; the hashes
+above are its tamper evidence.
