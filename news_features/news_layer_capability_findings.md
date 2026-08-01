@@ -220,7 +220,7 @@ that appear to vary and do not.
 
 | the brief's question | answerable |
 | --- | --- |
-| Does news improve prediction of Reform vote share over election history alone? | **No pre-2026 evidence in the confirmed-window experiment** — 0/18 arm-window comparisons improved overall MAE over the recalibrated control; this is not proof of no general effect |
+| Does news improve prediction of Reform vote share over election history alone? | **No stable pre-2026 evidence** — 0/18 frozen comparisons improved, but 6/90 leave-one-party-out refits improve only when Conservative is removed, showing sensitivity to one training party rather than a selectable model |
 | Does news help more at some windows than others? | **No stable main-window ranking** — non-zero confirmed-window changes worsened overall MAE; two national cumulative sensitivities improved but cannot be selected retrospectively |
 | Do local Surrey news and UK national news have different predictive value? | **Not reliably in this design** — neither improved a confirmed-window overall comparison; local remains below the reporting threshold and sensitivity-only |
 | Does local coverage identify which wards convert support into seats? | **No** — 94.2% of articles carry no unambiguous area and coverage is highly uneven |

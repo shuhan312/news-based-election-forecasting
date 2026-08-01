@@ -1,0 +1,2635 @@
+{
+  "status": "completed_leave_one_party_out_robustness",
+  "canonical_release_id": "canonical-news-v1-59d113bb9c28",
+  "stage1_holdout_file_read": false,
+  "fit_election": "surrey-county-council-2017",
+  "validation_election": "surrey-county-council-2021",
+  "ridge_penalty": 1.0,
+  "penalty_selection": "unchanged from primary; no tuning",
+  "omitted_parties": [
+    "conservative",
+    "green",
+    "labour",
+    "liberal_democrat",
+    "ukip"
+  ],
+  "training_rows_per_refit": 4,
+  "confirmed_windows_only": [
+    "180_to_91_days",
+    "90_to_31_days",
+    "30_to_15_days",
+    "14_to_8_days",
+    "7_to_4_days",
+    "final_72_hours"
+  ],
+  "comparisons_per_omission": 18,
+  "total_comparisons": 90,
+  "overall_improvements_after_omission": 6,
+  "robustness_verdict": "unstable_single_party_omissions_create_improvements",
+  "by_omission": {
+    "conservative": {
+      "comparisons": 18,
+      "overall_improvements": 6,
+      "coefficient_sign_flips": 3,
+      "minimum_news_vs_recalibrated_mae": -10.861179422980987,
+      "maximum_news_vs_recalibrated_mae": 0.5349813107175159
+    },
+    "green": {
+      "comparisons": 18,
+      "overall_improvements": 0,
+      "coefficient_sign_flips": 4,
+      "minimum_news_vs_recalibrated_mae": -13.032326713808537,
+      "maximum_news_vs_recalibrated_mae": 0.0
+    },
+    "labour": {
+      "comparisons": 18,
+      "overall_improvements": 0,
+      "coefficient_sign_flips": 2,
+      "minimum_news_vs_recalibrated_mae": -12.442816790428562,
+      "maximum_news_vs_recalibrated_mae": 0.0
+    },
+    "liberal_democrat": {
+      "comparisons": 18,
+      "overall_improvements": 0,
+      "coefficient_sign_flips": 5,
+      "minimum_news_vs_recalibrated_mae": -11.992637164625132,
+      "maximum_news_vs_recalibrated_mae": 0.0
+    },
+    "ukip": {
+      "comparisons": 18,
+      "overall_improvements": 0,
+      "coefficient_sign_flips": 4,
+      "minimum_news_vs_recalibrated_mae": -12.608572656657921,
+      "maximum_news_vs_recalibrated_mae": 0.0
+    }
+  },
+  "comparison_results": [
+    {
+      "omitted_party": "conservative",
+      "remaining_training_parties": [
+        "green",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "180_to_91_days",
+      "full_model_news_vs_recalibrated_mae": -1.9276552349760996,
+      "lopo_news_vs_recalibrated_mae": 0.36826163219149066,
+      "change_from_full_model": 2.2959168671675902,
+      "lopo_news_vs_raw_baseline_mae": -1.1394000730591927,
+      "lopo_reform_news_mae": 2.8333333333333335,
+      "lopo_reform_news_vs_recalibrated_mae": 7.963345576652703,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 48,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": true
+    },
+    {
+      "omitted_party": "conservative",
+      "remaining_training_parties": [
+        "green",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "90_to_31_days",
+      "full_model_news_vs_recalibrated_mae": -2.0495481387987953,
+      "lopo_news_vs_recalibrated_mae": 0.3485798632429997,
+      "change_from_full_model": 2.398128002041795,
+      "lopo_news_vs_raw_baseline_mae": -1.1590818420076836,
+      "lopo_reform_news_mae": 3.719902280992892,
+      "lopo_reform_news_vs_recalibrated_mae": 7.076776628993144,
+      "coefficient_sign_flips": [
+        "net_portrayal_share"
+      ],
+      "negative_raw_shares_clipped": 15,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "reform_uk"
+      ],
+      "creates_overall_improvement": true
+    },
+    {
+      "omitted_party": "conservative",
+      "remaining_training_parties": [
+        "green",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "30_to_15_days",
+      "full_model_news_vs_recalibrated_mae": -6.064384784637157,
+      "lopo_news_vs_recalibrated_mae": -4.749757884062893,
+      "change_from_full_model": 1.3146269005742637,
+      "lopo_news_vs_raw_baseline_mae": -6.257419589313576,
+      "lopo_reform_news_mae": 2.8333333333333335,
+      "lopo_reform_news_vs_recalibrated_mae": 7.963345576652703,
+      "coefficient_sign_flips": [
+        "net_portrayal_share"
+      ],
+      "negative_raw_shares_clipped": 140,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "conservative",
+      "remaining_training_parties": [
+        "green",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "14_to_8_days",
+      "full_model_news_vs_recalibrated_mae": -3.5962568400083716,
+      "lopo_news_vs_recalibrated_mae": -2.3924454688218777,
+      "change_from_full_model": 1.203811371186494,
+      "lopo_news_vs_raw_baseline_mae": -3.900107174072561,
+      "lopo_reform_news_mae": 2.8333333333333335,
+      "lopo_reform_news_vs_recalibrated_mae": 7.963345576652703,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 108,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "conservative",
+      "remaining_training_parties": [
+        "green",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "7_to_4_days",
+      "full_model_news_vs_recalibrated_mae": -4.220680995005464,
+      "lopo_news_vs_recalibrated_mae": -1.7846244653309657,
+      "change_from_full_model": 2.436056529674498,
+      "lopo_news_vs_raw_baseline_mae": -3.292286170581649,
+      "lopo_reform_news_mae": 25.04460008111212,
+      "lopo_reform_news_vs_recalibrated_mae": -14.247921171126082,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 10,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "conservative",
+      "remaining_training_parties": [
+        "green",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "final_72_hours",
+      "full_model_news_vs_recalibrated_mae": 0.0,
+      "lopo_news_vs_recalibrated_mae": 0.0,
+      "change_from_full_model": 0.0,
+      "lopo_news_vs_raw_baseline_mae": -1.5076617052506833,
+      "lopo_reform_news_mae": 10.796678909986037,
+      "lopo_reform_news_vs_recalibrated_mae": 0.0,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 20,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "conservative",
+      "remaining_training_parties": [
+        "green",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "180_to_91_days",
+      "full_model_news_vs_recalibrated_mae": -1.7786677347287307,
+      "lopo_news_vs_recalibrated_mae": 0.5349813107175159,
+      "change_from_full_model": 2.3136490454462466,
+      "lopo_news_vs_raw_baseline_mae": -0.9726803945331675,
+      "lopo_reform_news_mae": 2.8333333333333335,
+      "lopo_reform_news_vs_recalibrated_mae": 7.963345576652703,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 47,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": true
+    },
+    {
+      "omitted_party": "conservative",
+      "remaining_training_parties": [
+        "green",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "90_to_31_days",
+      "full_model_news_vs_recalibrated_mae": -2.808041775381011,
+      "lopo_news_vs_recalibrated_mae": -0.4618147331922273,
+      "change_from_full_model": 2.346227042188784,
+      "lopo_news_vs_raw_baseline_mae": -1.9694764384429106,
+      "lopo_reform_news_mae": 3.826586450327531,
+      "lopo_reform_news_vs_recalibrated_mae": 6.970092459658506,
+      "coefficient_sign_flips": [
+        "national_net_portrayal_share"
+      ],
+      "negative_raw_shares_clipped": 35,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "reform_uk"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "conservative",
+      "remaining_training_parties": [
+        "green",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "30_to_15_days",
+      "full_model_news_vs_recalibrated_mae": -1.3088878910130424,
+      "lopo_news_vs_recalibrated_mae": 0.39013550558183496,
+      "change_from_full_model": 1.6990233965948773,
+      "lopo_news_vs_raw_baseline_mae": -1.1175261996688484,
+      "lopo_reform_news_mae": 5.5114558484700025,
+      "lopo_reform_news_vs_recalibrated_mae": 5.285223061516034,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 31,
+      "parties_outside_training_feature_range": [
+        "green",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": true
+    },
+    {
+      "omitted_party": "conservative",
+      "remaining_training_parties": [
+        "green",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "14_to_8_days",
+      "full_model_news_vs_recalibrated_mae": -1.776783121677524,
+      "lopo_news_vs_recalibrated_mae": 0.03275264795025912,
+      "change_from_full_model": 1.8095357696277832,
+      "lopo_news_vs_raw_baseline_mae": -1.4749090573004242,
+      "lopo_reform_news_mae": 3.843669109727235,
+      "lopo_reform_news_vs_recalibrated_mae": 6.953009800258801,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 0,
+      "parties_outside_training_feature_range": [
+        "reform_uk"
+      ],
+      "creates_overall_improvement": true
+    },
+    {
+      "omitted_party": "conservative",
+      "remaining_training_parties": [
+        "green",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "7_to_4_days",
+      "full_model_news_vs_recalibrated_mae": 0.0,
+      "lopo_news_vs_recalibrated_mae": 0.0,
+      "change_from_full_model": 0.0,
+      "lopo_news_vs_raw_baseline_mae": -1.5076617052506833,
+      "lopo_reform_news_mae": 10.796678909986037,
+      "lopo_reform_news_vs_recalibrated_mae": 0.0,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 20,
+      "parties_outside_training_feature_range": [],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "conservative",
+      "remaining_training_parties": [
+        "green",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "final_72_hours",
+      "full_model_news_vs_recalibrated_mae": 0.0,
+      "lopo_news_vs_recalibrated_mae": 0.0,
+      "change_from_full_model": 0.0,
+      "lopo_news_vs_raw_baseline_mae": -1.5076617052506833,
+      "lopo_reform_news_mae": 10.796678909986037,
+      "lopo_reform_news_vs_recalibrated_mae": 0.0,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 20,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "conservative",
+      "remaining_training_parties": [
+        "green",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "180_to_91_days",
+      "full_model_news_vs_recalibrated_mae": -0.8687328174401712,
+      "lopo_news_vs_recalibrated_mae": 0.11297216784547004,
+      "change_from_full_model": 0.9817049852856412,
+      "lopo_news_vs_raw_baseline_mae": -1.3946895374052133,
+      "lopo_reform_news_mae": 3.2766988071289274,
+      "lopo_reform_news_vs_recalibrated_mae": 7.51998010285711,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 39,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": true
+    },
+    {
+      "omitted_party": "conservative",
+      "remaining_training_parties": [
+        "green",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "90_to_31_days",
+      "full_model_news_vs_recalibrated_mae": -1.7798849857897325,
+      "lopo_news_vs_recalibrated_mae": -0.8418628682243483,
+      "change_from_full_model": 0.9380221175653842,
+      "lopo_news_vs_raw_baseline_mae": -2.3495245734750316,
+      "lopo_reform_news_mae": 8.484508843114678,
+      "lopo_reform_news_vs_recalibrated_mae": 2.3121700668713583,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 49,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "liberal_democrat"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "conservative",
+      "remaining_training_parties": [
+        "green",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "30_to_15_days",
+      "full_model_news_vs_recalibrated_mae": -7.844328688254266,
+      "lopo_news_vs_recalibrated_mae": -5.636658251530257,
+      "change_from_full_model": 2.207670436724009,
+      "lopo_news_vs_raw_baseline_mae": -7.14431995678094,
+      "lopo_reform_news_mae": 2.8333333333333335,
+      "lopo_reform_news_vs_recalibrated_mae": 7.963345576652703,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 156,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "conservative",
+      "remaining_training_parties": [
+        "green",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "14_to_8_days",
+      "full_model_news_vs_recalibrated_mae": -12.986818142230469,
+      "lopo_news_vs_recalibrated_mae": -10.861179422980987,
+      "change_from_full_model": 2.1256387192494817,
+      "lopo_news_vs_raw_baseline_mae": -12.36884112823167,
+      "lopo_reform_news_mae": 2.8333333333333335,
+      "lopo_reform_news_vs_recalibrated_mae": 7.963345576652703,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 191,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "conservative",
+      "remaining_training_parties": [
+        "green",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "7_to_4_days",
+      "full_model_news_vs_recalibrated_mae": -4.220680995005464,
+      "lopo_news_vs_recalibrated_mae": -1.7846244653309657,
+      "change_from_full_model": 2.436056529674498,
+      "lopo_news_vs_raw_baseline_mae": -3.292286170581649,
+      "lopo_reform_news_mae": 25.04460008111212,
+      "lopo_reform_news_vs_recalibrated_mae": -14.247921171126082,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 10,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "conservative",
+      "remaining_training_parties": [
+        "green",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "final_72_hours",
+      "full_model_news_vs_recalibrated_mae": 0.0,
+      "lopo_news_vs_recalibrated_mae": 0.0,
+      "change_from_full_model": 0.0,
+      "lopo_news_vs_raw_baseline_mae": -1.5076617052506833,
+      "lopo_reform_news_mae": 10.796678909986037,
+      "lopo_reform_news_vs_recalibrated_mae": 0.0,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 20,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "green",
+      "remaining_training_parties": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "180_to_91_days",
+      "full_model_news_vs_recalibrated_mae": -1.9276552349760996,
+      "lopo_news_vs_recalibrated_mae": -1.100468681891046,
+      "change_from_full_model": 0.8271865530850535,
+      "lopo_news_vs_raw_baseline_mae": -1.0306306711539897,
+      "lopo_reform_news_mae": 3.3069310403997494,
+      "lopo_reform_news_vs_recalibrated_mae": 9.689670598674484,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 21,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "green",
+      "remaining_training_parties": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "90_to_31_days",
+      "full_model_news_vs_recalibrated_mae": -2.0495481387987953,
+      "lopo_news_vs_recalibrated_mae": -1.6406096265869419,
+      "change_from_full_model": 0.4089385122118534,
+      "lopo_news_vs_raw_baseline_mae": -1.5707716158498854,
+      "lopo_reform_news_mae": 4.83364341153908,
+      "lopo_reform_news_vs_recalibrated_mae": 8.162958227535153,
+      "coefficient_sign_flips": [
+        "net_portrayal_share"
+      ],
+      "negative_raw_shares_clipped": 8,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "reform_uk"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "green",
+      "remaining_training_parties": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "30_to_15_days",
+      "full_model_news_vs_recalibrated_mae": -6.064384784637157,
+      "lopo_news_vs_recalibrated_mae": -2.244583593934287,
+      "change_from_full_model": 3.8198011907028695,
+      "lopo_news_vs_raw_baseline_mae": -2.1747455831972307,
+      "lopo_reform_news_mae": 2.831166935257731,
+      "lopo_reform_news_vs_recalibrated_mae": 10.165434703816503,
+      "coefficient_sign_flips": [
+        "net_portrayal_share"
+      ],
+      "negative_raw_shares_clipped": 60,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "green",
+      "remaining_training_parties": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "14_to_8_days",
+      "full_model_news_vs_recalibrated_mae": -3.5962568400083716,
+      "lopo_news_vs_recalibrated_mae": -3.407534807894921,
+      "change_from_full_model": 0.18872203211345084,
+      "lopo_news_vs_raw_baseline_mae": -3.3376967971578644,
+      "lopo_reform_news_mae": 2.8333333333333335,
+      "lopo_reform_news_vs_recalibrated_mae": 10.1632683057409,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 91,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "green",
+      "remaining_training_parties": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "7_to_4_days",
+      "full_model_news_vs_recalibrated_mae": -4.220680995005464,
+      "lopo_news_vs_recalibrated_mae": -1.7826581793875231,
+      "change_from_full_model": 2.4380228156179404,
+      "lopo_news_vs_raw_baseline_mae": -1.7128201686504667,
+      "lopo_reform_news_mae": 32.97741099520507,
+      "lopo_reform_news_vs_recalibrated_mae": -19.980809356130834,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 0,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "green",
+      "remaining_training_parties": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "final_72_hours",
+      "full_model_news_vs_recalibrated_mae": 0.0,
+      "lopo_news_vs_recalibrated_mae": 0.0,
+      "change_from_full_model": 0.0,
+      "lopo_news_vs_raw_baseline_mae": 0.06983801073705642,
+      "lopo_reform_news_mae": 12.996601639074234,
+      "lopo_reform_news_vs_recalibrated_mae": 0.0,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 0,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "green",
+      "remaining_training_parties": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "180_to_91_days",
+      "full_model_news_vs_recalibrated_mae": -1.7786677347287307,
+      "lopo_news_vs_recalibrated_mae": -0.6896645182430632,
+      "change_from_full_model": 1.0890032164856676,
+      "lopo_news_vs_raw_baseline_mae": -0.6198265075060068,
+      "lopo_reform_news_mae": 4.750392538876223,
+      "lopo_reform_news_vs_recalibrated_mae": 8.24620910019801,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 15,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "green",
+      "remaining_training_parties": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "90_to_31_days",
+      "full_model_news_vs_recalibrated_mae": -2.808041775381011,
+      "lopo_news_vs_recalibrated_mae": -2.1069547808559133,
+      "change_from_full_model": 0.7010869945250979,
+      "lopo_news_vs_raw_baseline_mae": -2.037116770118857,
+      "lopo_reform_news_mae": 4.828195558033451,
+      "lopo_reform_news_vs_recalibrated_mae": 8.168406081040782,
+      "coefficient_sign_flips": [
+        "national_net_portrayal_share"
+      ],
+      "negative_raw_shares_clipped": 21,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "reform_uk"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "green",
+      "remaining_training_parties": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "30_to_15_days",
+      "full_model_news_vs_recalibrated_mae": -1.3088878910130424,
+      "lopo_news_vs_recalibrated_mae": -0.2839819201351075,
+      "change_from_full_model": 1.024905970877935,
+      "lopo_news_vs_raw_baseline_mae": -0.21414390939805106,
+      "lopo_reform_news_mae": 7.432480861499148,
+      "lopo_reform_news_vs_recalibrated_mae": 5.564120777575085,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 13,
+      "parties_outside_training_feature_range": [
+        "green",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "green",
+      "remaining_training_parties": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "14_to_8_days",
+      "full_model_news_vs_recalibrated_mae": -1.776783121677524,
+      "lopo_news_vs_recalibrated_mae": -1.6662850301157945,
+      "change_from_full_model": 0.11049809156172952,
+      "lopo_news_vs_raw_baseline_mae": -1.5964470193787381,
+      "lopo_reform_news_mae": 5.244108318080414,
+      "lopo_reform_news_vs_recalibrated_mae": 7.752493320993819,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 0,
+      "parties_outside_training_feature_range": [
+        "reform_uk"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "green",
+      "remaining_training_parties": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "7_to_4_days",
+      "full_model_news_vs_recalibrated_mae": 0.0,
+      "lopo_news_vs_recalibrated_mae": 0.0,
+      "change_from_full_model": 0.0,
+      "lopo_news_vs_raw_baseline_mae": 0.06983801073705642,
+      "lopo_reform_news_mae": 12.996601639074234,
+      "lopo_reform_news_vs_recalibrated_mae": 0.0,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 0,
+      "parties_outside_training_feature_range": [],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "green",
+      "remaining_training_parties": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "final_72_hours",
+      "full_model_news_vs_recalibrated_mae": 0.0,
+      "lopo_news_vs_recalibrated_mae": 0.0,
+      "change_from_full_model": 0.0,
+      "lopo_news_vs_raw_baseline_mae": 0.06983801073705642,
+      "lopo_reform_news_mae": 12.996601639074234,
+      "lopo_reform_news_vs_recalibrated_mae": 0.0,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 0,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "green",
+      "remaining_training_parties": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "180_to_91_days",
+      "full_model_news_vs_recalibrated_mae": -0.8687328174401712,
+      "lopo_news_vs_recalibrated_mae": -0.7483113310424532,
+      "change_from_full_model": 0.12042148639771799,
+      "lopo_news_vs_raw_baseline_mae": -0.6784733203053968,
+      "lopo_reform_news_mae": 7.803501464187055,
+      "lopo_reform_news_vs_recalibrated_mae": 5.193100174887179,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 16,
+      "parties_outside_training_feature_range": [
+        "green",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "green",
+      "remaining_training_parties": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "90_to_31_days",
+      "full_model_news_vs_recalibrated_mae": -1.7798849857897325,
+      "lopo_news_vs_recalibrated_mae": -1.5737418394998723,
+      "change_from_full_model": 0.2061431462898602,
+      "lopo_news_vs_raw_baseline_mae": -1.503903828762816,
+      "lopo_reform_news_mae": 6.861834620272584,
+      "lopo_reform_news_vs_recalibrated_mae": 6.134767018801649,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 14,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "green",
+      "remaining_training_parties": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "30_to_15_days",
+      "full_model_news_vs_recalibrated_mae": -7.844328688254266,
+      "lopo_news_vs_recalibrated_mae": -3.7077119152313216,
+      "change_from_full_model": 4.136616773022944,
+      "lopo_news_vs_raw_baseline_mae": -3.637873904494265,
+      "lopo_reform_news_mae": 3.461760398682916,
+      "lopo_reform_news_vs_recalibrated_mae": 9.534841240391318,
+      "coefficient_sign_flips": [
+        "local_net_portrayal_share"
+      ],
+      "negative_raw_shares_clipped": 114,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "green",
+      "remaining_training_parties": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "14_to_8_days",
+      "full_model_news_vs_recalibrated_mae": -12.986818142230469,
+      "lopo_news_vs_recalibrated_mae": -13.032326713808537,
+      "change_from_full_model": -0.04550857157806831,
+      "lopo_news_vs_raw_baseline_mae": -12.96248870307148,
+      "lopo_reform_news_mae": 2.8333333333333335,
+      "lopo_reform_news_vs_recalibrated_mae": 10.1632683057409,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 193,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "green",
+      "remaining_training_parties": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "7_to_4_days",
+      "full_model_news_vs_recalibrated_mae": -4.220680995005464,
+      "lopo_news_vs_recalibrated_mae": -1.7826581793875231,
+      "change_from_full_model": 2.4380228156179404,
+      "lopo_news_vs_raw_baseline_mae": -1.7128201686504667,
+      "lopo_reform_news_mae": 32.97741099520507,
+      "lopo_reform_news_vs_recalibrated_mae": -19.980809356130834,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 0,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "green",
+      "remaining_training_parties": [
+        "conservative",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "final_72_hours",
+      "full_model_news_vs_recalibrated_mae": 0.0,
+      "lopo_news_vs_recalibrated_mae": 0.0,
+      "change_from_full_model": 0.0,
+      "lopo_news_vs_raw_baseline_mae": 0.06983801073705642,
+      "lopo_reform_news_mae": 12.996601639074234,
+      "lopo_reform_news_vs_recalibrated_mae": 0.0,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 0,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "labour",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "180_to_91_days",
+      "full_model_news_vs_recalibrated_mae": -1.9276552349760996,
+      "lopo_news_vs_recalibrated_mae": -3.2266311280116735,
+      "change_from_full_model": -1.298975893035574,
+      "lopo_news_vs_raw_baseline_mae": -3.7458526983883083,
+      "lopo_reform_news_mae": 2.8333333333333335,
+      "lopo_reform_news_vs_recalibrated_mae": 9.265311767010859,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 51,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "labour",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "90_to_31_days",
+      "full_model_news_vs_recalibrated_mae": -2.0495481387987953,
+      "lopo_news_vs_recalibrated_mae": -2.386130423096187,
+      "change_from_full_model": -0.3365822842973918,
+      "lopo_news_vs_raw_baseline_mae": -2.905351993472822,
+      "lopo_reform_news_mae": 2.4893383461612815,
+      "lopo_reform_news_vs_recalibrated_mae": 9.609306754182912,
+      "coefficient_sign_flips": [
+        "net_portrayal_share"
+      ],
+      "negative_raw_shares_clipped": 23,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "reform_uk"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "labour",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "30_to_15_days",
+      "full_model_news_vs_recalibrated_mae": -6.064384784637157,
+      "lopo_news_vs_recalibrated_mae": -5.923409051628102,
+      "change_from_full_model": 0.14097573300905442,
+      "lopo_news_vs_raw_baseline_mae": -6.442630622004737,
+      "lopo_reform_news_mae": 2.8333333333333335,
+      "lopo_reform_news_vs_recalibrated_mae": 9.265311767010859,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 142,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "labour",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "14_to_8_days",
+      "full_model_news_vs_recalibrated_mae": -3.5962568400083716,
+      "lopo_news_vs_recalibrated_mae": -3.4834243068710347,
+      "change_from_full_model": 0.11283253313733699,
+      "lopo_news_vs_raw_baseline_mae": -4.002645877247669,
+      "lopo_reform_news_mae": 2.8333333333333335,
+      "lopo_reform_news_vs_recalibrated_mae": 9.265311767010859,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 106,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "labour",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "7_to_4_days",
+      "full_model_news_vs_recalibrated_mae": -4.220680995005464,
+      "lopo_news_vs_recalibrated_mae": -4.368431627433372,
+      "change_from_full_model": -0.14775063242790853,
+      "lopo_news_vs_raw_baseline_mae": -4.887653197810007,
+      "lopo_reform_news_mae": 33.04132118135046,
+      "lopo_reform_news_vs_recalibrated_mae": -20.94267608100627,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 1,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "labour",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "final_72_hours",
+      "full_model_news_vs_recalibrated_mae": 0.0,
+      "lopo_news_vs_recalibrated_mae": 0.0,
+      "change_from_full_model": 0.0,
+      "lopo_news_vs_raw_baseline_mae": -0.5192215703766347,
+      "lopo_reform_news_mae": 12.098645100344193,
+      "lopo_reform_news_vs_recalibrated_mae": 0.0,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 0,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "labour",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "180_to_91_days",
+      "full_model_news_vs_recalibrated_mae": -1.7786677347287307,
+      "lopo_news_vs_recalibrated_mae": -3.1711405776095933,
+      "change_from_full_model": -1.3924728428808626,
+      "lopo_news_vs_raw_baseline_mae": -3.690362147986228,
+      "lopo_reform_news_mae": 2.8333333333333335,
+      "lopo_reform_news_vs_recalibrated_mae": 9.265311767010859,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 50,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "labour",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "90_to_31_days",
+      "full_model_news_vs_recalibrated_mae": -2.808041775381011,
+      "lopo_news_vs_recalibrated_mae": -3.7586671381494714,
+      "change_from_full_model": -0.9506253627684602,
+      "lopo_news_vs_raw_baseline_mae": -4.277888708526106,
+      "lopo_reform_news_mae": 1.9842485126473288,
+      "lopo_reform_news_vs_recalibrated_mae": 10.114396587696865,
+      "coefficient_sign_flips": [
+        "national_net_portrayal_share"
+      ],
+      "negative_raw_shares_clipped": 36,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "reform_uk"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "labour",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "30_to_15_days",
+      "full_model_news_vs_recalibrated_mae": -1.3088878910130424,
+      "lopo_news_vs_recalibrated_mae": -1.4151636172715367,
+      "change_from_full_model": -0.10627572625849435,
+      "lopo_news_vs_raw_baseline_mae": -1.9343851876481715,
+      "lopo_reform_news_mae": 2.690870838713328,
+      "lopo_reform_news_vs_recalibrated_mae": 9.407774261630864,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 44,
+      "parties_outside_training_feature_range": [
+        "green",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "labour",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "14_to_8_days",
+      "full_model_news_vs_recalibrated_mae": -1.776783121677524,
+      "lopo_news_vs_recalibrated_mae": -1.990192986628868,
+      "change_from_full_model": -0.21340986495134384,
+      "lopo_news_vs_raw_baseline_mae": -2.5094145570055026,
+      "lopo_reform_news_mae": 2.2695795303246267,
+      "lopo_reform_news_vs_recalibrated_mae": 9.829065570019566,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 2,
+      "parties_outside_training_feature_range": [
+        "reform_uk"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "labour",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "7_to_4_days",
+      "full_model_news_vs_recalibrated_mae": 0.0,
+      "lopo_news_vs_recalibrated_mae": 0.0,
+      "change_from_full_model": 0.0,
+      "lopo_news_vs_raw_baseline_mae": -0.5192215703766347,
+      "lopo_reform_news_mae": 12.098645100344193,
+      "lopo_reform_news_vs_recalibrated_mae": 0.0,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 0,
+      "parties_outside_training_feature_range": [],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "labour",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "final_72_hours",
+      "full_model_news_vs_recalibrated_mae": 0.0,
+      "lopo_news_vs_recalibrated_mae": 0.0,
+      "change_from_full_model": 0.0,
+      "lopo_news_vs_raw_baseline_mae": -0.5192215703766347,
+      "lopo_reform_news_mae": 12.098645100344193,
+      "lopo_reform_news_vs_recalibrated_mae": 0.0,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 0,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "labour",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "180_to_91_days",
+      "full_model_news_vs_recalibrated_mae": -0.8687328174401712,
+      "lopo_news_vs_recalibrated_mae": -0.7237061162130409,
+      "change_from_full_model": 0.14502670122713024,
+      "lopo_news_vs_raw_baseline_mae": -1.2429276865896757,
+      "lopo_reform_news_mae": 4.091780900515518,
+      "lopo_reform_news_vs_recalibrated_mae": 8.006864199828675,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 38,
+      "parties_outside_training_feature_range": [
+        "green",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "labour",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "90_to_31_days",
+      "full_model_news_vs_recalibrated_mae": -1.7798849857897325,
+      "lopo_news_vs_recalibrated_mae": -1.4796411930985816,
+      "change_from_full_model": 0.300243792691151,
+      "lopo_news_vs_raw_baseline_mae": -1.9988627634752163,
+      "lopo_reform_news_mae": 5.126285717264652,
+      "lopo_reform_news_vs_recalibrated_mae": 6.9723593830795405,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 21,
+      "parties_outside_training_feature_range": [
+        "conservative"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "labour",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "30_to_15_days",
+      "full_model_news_vs_recalibrated_mae": -7.844328688254266,
+      "lopo_news_vs_recalibrated_mae": -7.092314502796322,
+      "change_from_full_model": 0.7520141854579441,
+      "lopo_news_vs_raw_baseline_mae": -7.611536073172957,
+      "lopo_reform_news_mae": 2.8333333333333335,
+      "lopo_reform_news_vs_recalibrated_mae": 9.265311767010859,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 159,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "labour",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "14_to_8_days",
+      "full_model_news_vs_recalibrated_mae": -12.986818142230469,
+      "lopo_news_vs_recalibrated_mae": -12.442816790428562,
+      "change_from_full_model": 0.5440013518019065,
+      "lopo_news_vs_raw_baseline_mae": -12.962038360805197,
+      "lopo_reform_news_mae": 2.8333333333333335,
+      "lopo_reform_news_vs_recalibrated_mae": 9.265311767010859,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 193,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "labour",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "7_to_4_days",
+      "full_model_news_vs_recalibrated_mae": -4.220680995005464,
+      "lopo_news_vs_recalibrated_mae": -4.368431627433372,
+      "change_from_full_model": -0.14775063242790853,
+      "lopo_news_vs_raw_baseline_mae": -4.887653197810007,
+      "lopo_reform_news_mae": 33.04132118135046,
+      "lopo_reform_news_vs_recalibrated_mae": -20.94267608100627,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 1,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "labour",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "final_72_hours",
+      "full_model_news_vs_recalibrated_mae": 0.0,
+      "lopo_news_vs_recalibrated_mae": 0.0,
+      "change_from_full_model": 0.0,
+      "lopo_news_vs_raw_baseline_mae": -0.5192215703766347,
+      "lopo_reform_news_mae": 12.098645100344193,
+      "lopo_reform_news_vs_recalibrated_mae": 0.0,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 0,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "liberal_democrat",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "180_to_91_days",
+      "full_model_news_vs_recalibrated_mae": -1.9276552349760996,
+      "lopo_news_vs_recalibrated_mae": -2.623723188837028,
+      "change_from_full_model": -0.6960679538609282,
+      "lopo_news_vs_raw_baseline_mae": -3.736744038897738,
+      "lopo_reform_news_mae": 2.403995417284486,
+      "lopo_reform_news_vs_recalibrated_mae": 8.945303940515767,
+      "coefficient_sign_flips": [
+        "net_portrayal_share"
+      ],
+      "negative_raw_shares_clipped": 53,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "liberal_democrat",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "90_to_31_days",
+      "full_model_news_vs_recalibrated_mae": -2.0495481387987953,
+      "lopo_news_vs_recalibrated_mae": -1.9696804367442002,
+      "change_from_full_model": 0.07986770205459504,
+      "lopo_news_vs_raw_baseline_mae": -3.0827012868049106,
+      "lopo_reform_news_mae": 2.359809540211568,
+      "lopo_reform_news_vs_recalibrated_mae": 8.989489817588685,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 36,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "reform_uk"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "liberal_democrat",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "30_to_15_days",
+      "full_model_news_vs_recalibrated_mae": -6.064384784637157,
+      "lopo_news_vs_recalibrated_mae": -6.469703979620451,
+      "change_from_full_model": -0.40531919498329483,
+      "lopo_news_vs_raw_baseline_mae": -7.582724829681162,
+      "lopo_reform_news_mae": 2.8333333333333335,
+      "lopo_reform_news_vs_recalibrated_mae": 8.51596602446692,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 156,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "liberal_democrat",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "14_to_8_days",
+      "full_model_news_vs_recalibrated_mae": -3.5962568400083716,
+      "lopo_news_vs_recalibrated_mae": -3.0104309946119514,
+      "change_from_full_model": 0.5858258453964202,
+      "lopo_news_vs_raw_baseline_mae": -4.123451844672662,
+      "lopo_reform_news_mae": 2.8333333333333335,
+      "lopo_reform_news_vs_recalibrated_mae": 8.51596602446692,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 109,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "liberal_democrat",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "7_to_4_days",
+      "full_model_news_vs_recalibrated_mae": -4.220680995005464,
+      "lopo_news_vs_recalibrated_mae": -8.022975067182221,
+      "change_from_full_model": -3.8022940721767577,
+      "lopo_news_vs_raw_baseline_mae": -9.135995917242932,
+      "lopo_reform_news_mae": 26.83615921417528,
+      "lopo_reform_news_vs_recalibrated_mae": -15.486859856375025,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 76,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "liberal_democrat",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "final_72_hours",
+      "full_model_news_vs_recalibrated_mae": 0.0,
+      "lopo_news_vs_recalibrated_mae": 0.0,
+      "change_from_full_model": 0.0,
+      "lopo_news_vs_raw_baseline_mae": -1.1130208500607104,
+      "lopo_reform_news_mae": 11.349299357800254,
+      "lopo_reform_news_vs_recalibrated_mae": 0.0,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 10,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "liberal_democrat",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "180_to_91_days",
+      "full_model_news_vs_recalibrated_mae": -1.7786677347287307,
+      "lopo_news_vs_recalibrated_mae": -2.7014070257263896,
+      "change_from_full_model": -0.9227392909976588,
+      "lopo_news_vs_raw_baseline_mae": -3.8144278757871,
+      "lopo_reform_news_mae": 2.5329699567788277,
+      "lopo_reform_news_vs_recalibrated_mae": 8.816329401021425,
+      "coefficient_sign_flips": [
+        "national_net_portrayal_share"
+      ],
+      "negative_raw_shares_clipped": 53,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "liberal_democrat",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "90_to_31_days",
+      "full_model_news_vs_recalibrated_mae": -2.808041775381011,
+      "lopo_news_vs_recalibrated_mae": -3.052655215232898,
+      "change_from_full_model": -0.24461343985188666,
+      "lopo_news_vs_raw_baseline_mae": -4.165676065293608,
+      "lopo_reform_news_mae": 2.256697751166002,
+      "lopo_reform_news_vs_recalibrated_mae": 9.092601606634252,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 37,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "reform_uk"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "liberal_democrat",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "30_to_15_days",
+      "full_model_news_vs_recalibrated_mae": -1.3088878910130424,
+      "lopo_news_vs_recalibrated_mae": -5.296852506089408,
+      "change_from_full_model": -3.9879646150763657,
+      "lopo_news_vs_raw_baseline_mae": -6.409873356150118,
+      "lopo_reform_news_mae": 2.2225251763476987,
+      "lopo_reform_news_vs_recalibrated_mae": 9.126774181452555,
+      "coefficient_sign_flips": [
+        "national_net_portrayal_share"
+      ],
+      "negative_raw_shares_clipped": 112,
+      "parties_outside_training_feature_range": [
+        "green",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "liberal_democrat",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "14_to_8_days",
+      "full_model_news_vs_recalibrated_mae": -1.776783121677524,
+      "lopo_news_vs_recalibrated_mae": -1.0041043343521583,
+      "change_from_full_model": 0.7726787873253658,
+      "lopo_news_vs_raw_baseline_mae": -2.1171251844128687,
+      "lopo_reform_news_mae": 2.9347998393430763,
+      "lopo_reform_news_vs_recalibrated_mae": 8.414499518457177,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 0,
+      "parties_outside_training_feature_range": [
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "liberal_democrat",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "7_to_4_days",
+      "full_model_news_vs_recalibrated_mae": 0.0,
+      "lopo_news_vs_recalibrated_mae": 0.0,
+      "change_from_full_model": 0.0,
+      "lopo_news_vs_raw_baseline_mae": -1.1130208500607104,
+      "lopo_reform_news_mae": 11.349299357800254,
+      "lopo_reform_news_vs_recalibrated_mae": 0.0,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 10,
+      "parties_outside_training_feature_range": [],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "liberal_democrat",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "final_72_hours",
+      "full_model_news_vs_recalibrated_mae": 0.0,
+      "lopo_news_vs_recalibrated_mae": 0.0,
+      "change_from_full_model": 0.0,
+      "lopo_news_vs_raw_baseline_mae": -1.1130208500607104,
+      "lopo_reform_news_mae": 11.349299357800254,
+      "lopo_reform_news_vs_recalibrated_mae": 0.0,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 10,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "liberal_democrat",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "180_to_91_days",
+      "full_model_news_vs_recalibrated_mae": -0.8687328174401712,
+      "lopo_news_vs_recalibrated_mae": -1.1150169964759833,
+      "change_from_full_model": -0.24628417903581212,
+      "lopo_news_vs_raw_baseline_mae": -2.2280378465366937,
+      "lopo_reform_news_mae": 2.351674529169824,
+      "lopo_reform_news_vs_recalibrated_mae": 8.99762482863043,
+      "coefficient_sign_flips": [
+        "local_net_portrayal_share"
+      ],
+      "negative_raw_shares_clipped": 42,
+      "parties_outside_training_feature_range": [
+        "green",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "liberal_democrat",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "90_to_31_days",
+      "full_model_news_vs_recalibrated_mae": -1.7798849857897325,
+      "lopo_news_vs_recalibrated_mae": -2.016216885084564,
+      "change_from_full_model": -0.23633189929483134,
+      "lopo_news_vs_raw_baseline_mae": -3.1292377351452743,
+      "lopo_reform_news_mae": 2.6005631976626074,
+      "lopo_reform_news_vs_recalibrated_mae": 8.748736160137646,
+      "coefficient_sign_flips": [
+        "local_net_portrayal_share"
+      ],
+      "negative_raw_shares_clipped": 47,
+      "parties_outside_training_feature_range": [
+        "conservative"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "liberal_democrat",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "30_to_15_days",
+      "full_model_news_vs_recalibrated_mae": -7.844328688254266,
+      "lopo_news_vs_recalibrated_mae": -7.562983813587428,
+      "change_from_full_model": 0.28134487466683833,
+      "lopo_news_vs_raw_baseline_mae": -8.676004663648138,
+      "lopo_reform_news_mae": 2.8333333333333335,
+      "lopo_reform_news_vs_recalibrated_mae": 8.51596602446692,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 169,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "liberal_democrat",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "14_to_8_days",
+      "full_model_news_vs_recalibrated_mae": -12.986818142230469,
+      "lopo_news_vs_recalibrated_mae": -11.992637164625132,
+      "change_from_full_model": 0.9941809776053372,
+      "lopo_news_vs_raw_baseline_mae": -13.105658014685842,
+      "lopo_reform_news_mae": 2.8333333333333335,
+      "lopo_reform_news_vs_recalibrated_mae": 8.51596602446692,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 194,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "liberal_democrat",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "7_to_4_days",
+      "full_model_news_vs_recalibrated_mae": -4.220680995005464,
+      "lopo_news_vs_recalibrated_mae": -8.022975067182221,
+      "change_from_full_model": -3.8022940721767577,
+      "lopo_news_vs_raw_baseline_mae": -9.135995917242932,
+      "lopo_reform_news_mae": 26.83615921417528,
+      "lopo_reform_news_vs_recalibrated_mae": -15.486859856375025,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 76,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "liberal_democrat",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "ukip"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "final_72_hours",
+      "full_model_news_vs_recalibrated_mae": 0.0,
+      "lopo_news_vs_recalibrated_mae": 0.0,
+      "change_from_full_model": 0.0,
+      "lopo_news_vs_raw_baseline_mae": -1.1130208500607104,
+      "lopo_reform_news_mae": 11.349299357800254,
+      "lopo_reform_news_vs_recalibrated_mae": 0.0,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 10,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "ukip",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "180_to_91_days",
+      "full_model_news_vs_recalibrated_mae": -1.9276552349760996,
+      "lopo_news_vs_recalibrated_mae": -1.6696604926855727,
+      "change_from_full_model": 0.2579947422905269,
+      "lopo_news_vs_raw_baseline_mae": -1.5858677020843182,
+      "lopo_reform_news_mae": 6.864597802486859,
+      "lopo_reform_news_vs_recalibrated_mae": 6.168262749035895,
+      "coefficient_sign_flips": [
+        "net_portrayal_share"
+      ],
+      "negative_raw_shares_clipped": 22,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "ukip",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "90_to_31_days",
+      "full_model_news_vs_recalibrated_mae": -2.0495481387987953,
+      "lopo_news_vs_recalibrated_mae": -2.009916729130822,
+      "change_from_full_model": 0.039631409667973294,
+      "lopo_news_vs_raw_baseline_mae": -1.9261239385295674,
+      "lopo_reform_news_mae": 11.961273907293014,
+      "lopo_reform_news_vs_recalibrated_mae": 1.0715866442297397,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 35,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "reform_uk"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "ukip",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "30_to_15_days",
+      "full_model_news_vs_recalibrated_mae": -6.064384784637157,
+      "lopo_news_vs_recalibrated_mae": -8.423552401267383,
+      "change_from_full_model": -2.3591676166302262,
+      "lopo_news_vs_raw_baseline_mae": -8.339759610666128,
+      "lopo_reform_news_mae": 2.8333333333333335,
+      "lopo_reform_news_vs_recalibrated_mae": 10.19952721818942,
+      "coefficient_sign_flips": [
+        "net_portrayal_share"
+      ],
+      "negative_raw_shares_clipped": 164,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "ukip",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "14_to_8_days",
+      "full_model_news_vs_recalibrated_mae": -3.5962568400083716,
+      "lopo_news_vs_recalibrated_mae": -3.965472431923734,
+      "change_from_full_model": -0.3692155919153626,
+      "lopo_news_vs_raw_baseline_mae": -3.8816796413224797,
+      "lopo_reform_news_mae": 2.8333333333333335,
+      "lopo_reform_news_vs_recalibrated_mae": 10.19952721818942,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 103,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "ukip",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "7_to_4_days",
+      "full_model_news_vs_recalibrated_mae": -4.220680995005464,
+      "lopo_news_vs_recalibrated_mae": -3.226627681738405,
+      "change_from_full_model": 0.9940533132670586,
+      "lopo_news_vs_raw_baseline_mae": -3.1428348911371504,
+      "lopo_reform_news_mae": 24.80514827684416,
+      "lopo_reform_news_vs_recalibrated_mae": -11.772287725321407,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 0,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "ukip",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat"
+      ],
+      "training_party_rows": 4,
+      "analysis": "combined_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "final_72_hours",
+      "full_model_news_vs_recalibrated_mae": 0.0,
+      "lopo_news_vs_recalibrated_mae": 0.0,
+      "change_from_full_model": 0.0,
+      "lopo_news_vs_raw_baseline_mae": 0.08379279060125455,
+      "lopo_reform_news_mae": 13.032860551522754,
+      "lopo_reform_news_vs_recalibrated_mae": 0.0,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 0,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "ukip",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "180_to_91_days",
+      "full_model_news_vs_recalibrated_mae": -1.7786677347287307,
+      "lopo_news_vs_recalibrated_mae": -1.7057272860397674,
+      "change_from_full_model": 0.07294044868896332,
+      "lopo_news_vs_raw_baseline_mae": -1.6219344954385129,
+      "lopo_reform_news_mae": 7.389642086979563,
+      "lopo_reform_news_vs_recalibrated_mae": 5.643218464543191,
+      "coefficient_sign_flips": [
+        "national_net_portrayal_share"
+      ],
+      "negative_raw_shares_clipped": 21,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "ukip",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "90_to_31_days",
+      "full_model_news_vs_recalibrated_mae": -2.808041775381011,
+      "lopo_news_vs_recalibrated_mae": -2.407184169556345,
+      "change_from_full_model": 0.40085760582466623,
+      "lopo_news_vs_raw_baseline_mae": -2.3233913789550904,
+      "lopo_reform_news_mae": 14.241169099396615,
+      "lopo_reform_news_vs_recalibrated_mae": -1.2083085478738607,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 35,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "reform_uk"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "ukip",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "30_to_15_days",
+      "full_model_news_vs_recalibrated_mae": -1.3088878910130424,
+      "lopo_news_vs_recalibrated_mae": -1.1707242585273647,
+      "change_from_full_model": 0.13816363248567765,
+      "lopo_news_vs_raw_baseline_mae": -1.0869314679261102,
+      "lopo_reform_news_mae": 14.83028254747195,
+      "lopo_reform_news_vs_recalibrated_mae": -1.7974219959491968,
+      "coefficient_sign_flips": [
+        "national_net_portrayal_share"
+      ],
+      "negative_raw_shares_clipped": 5,
+      "parties_outside_training_feature_range": [
+        "green",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "ukip",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "14_to_8_days",
+      "full_model_news_vs_recalibrated_mae": -1.776783121677524,
+      "lopo_news_vs_recalibrated_mae": -2.773549982525923,
+      "change_from_full_model": -0.9967668608483988,
+      "lopo_news_vs_raw_baseline_mae": -2.6897571919246683,
+      "lopo_reform_news_mae": 2.6884633205712096,
+      "lopo_reform_news_vs_recalibrated_mae": 10.344397230951545,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 0,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "reform_uk"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "ukip",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "7_to_4_days",
+      "full_model_news_vs_recalibrated_mae": 0.0,
+      "lopo_news_vs_recalibrated_mae": 0.0,
+      "change_from_full_model": 0.0,
+      "lopo_news_vs_raw_baseline_mae": 0.08379279060125455,
+      "lopo_reform_news_mae": 13.032860551522754,
+      "lopo_reform_news_vs_recalibrated_mae": 0.0,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 0,
+      "parties_outside_training_feature_range": [],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "ukip",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat"
+      ],
+      "training_party_rows": 4,
+      "analysis": "national_exploratory",
+      "analysis_role": "exploratory_primary_comparison",
+      "period": "final_72_hours",
+      "full_model_news_vs_recalibrated_mae": 0.0,
+      "lopo_news_vs_recalibrated_mae": 0.0,
+      "change_from_full_model": 0.0,
+      "lopo_news_vs_raw_baseline_mae": 0.08379279060125455,
+      "lopo_reform_news_mae": 13.032860551522754,
+      "lopo_reform_news_vs_recalibrated_mae": 0.0,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 0,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "ukip",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "180_to_91_days",
+      "full_model_news_vs_recalibrated_mae": -0.8687328174401712,
+      "lopo_news_vs_recalibrated_mae": -1.3637614722481821,
+      "change_from_full_model": -0.49502865480801095,
+      "lopo_news_vs_raw_baseline_mae": -1.2799686816469276,
+      "lopo_reform_news_mae": 3.9159509251885525,
+      "lopo_reform_news_vs_recalibrated_mae": 9.116909626334202,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 38,
+      "parties_outside_training_feature_range": [
+        "green",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "ukip",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "90_to_31_days",
+      "full_model_news_vs_recalibrated_mae": -1.7798849857897325,
+      "lopo_news_vs_recalibrated_mae": -1.486018595592192,
+      "change_from_full_model": 0.29386639019754046,
+      "lopo_news_vs_raw_baseline_mae": -1.4022258049909375,
+      "lopo_reform_news_mae": 6.603798281802614,
+      "lopo_reform_news_vs_recalibrated_mae": 6.42906226972014,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 15,
+      "parties_outside_training_feature_range": [
+        "conservative"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "ukip",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "30_to_15_days",
+      "full_model_news_vs_recalibrated_mae": -7.844328688254266,
+      "lopo_news_vs_recalibrated_mae": -11.407605568383778,
+      "change_from_full_model": -3.5632768801295116,
+      "lopo_news_vs_raw_baseline_mae": -11.323812777782523,
+      "lopo_reform_news_mae": 2.8333333333333335,
+      "lopo_reform_news_vs_recalibrated_mae": 10.19952721818942,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 196,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "ukip",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "14_to_8_days",
+      "full_model_news_vs_recalibrated_mae": -12.986818142230469,
+      "lopo_news_vs_recalibrated_mae": -12.608572656657921,
+      "change_from_full_model": 0.3782454855725472,
+      "lopo_news_vs_raw_baseline_mae": -12.524779866056667,
+      "lopo_reform_news_mae": 2.8333333333333335,
+      "lopo_reform_news_vs_recalibrated_mae": 10.19952721818942,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 191,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "ukip",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "7_to_4_days",
+      "full_model_news_vs_recalibrated_mae": -4.220680995005464,
+      "lopo_news_vs_recalibrated_mae": -3.226627681738405,
+      "change_from_full_model": 0.9940533132670586,
+      "lopo_news_vs_raw_baseline_mae": -3.1428348911371504,
+      "lopo_reform_news_mae": 24.80514827684416,
+      "lopo_reform_news_vs_recalibrated_mae": -11.772287725321407,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 0,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "reform_uk",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    },
+    {
+      "omitted_party": "ukip",
+      "remaining_training_parties": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat"
+      ],
+      "training_party_rows": 4,
+      "analysis": "local_sensitivity",
+      "analysis_role": "sensitivity_only",
+      "period": "final_72_hours",
+      "full_model_news_vs_recalibrated_mae": 0.0,
+      "lopo_news_vs_recalibrated_mae": 0.0,
+      "change_from_full_model": 0.0,
+      "lopo_news_vs_raw_baseline_mae": 0.08379279060125455,
+      "lopo_reform_news_mae": 13.032860551522754,
+      "lopo_reform_news_vs_recalibrated_mae": 0.0,
+      "coefficient_sign_flips": [],
+      "negative_raw_shares_clipped": 0,
+      "parties_outside_training_feature_range": [
+        "conservative",
+        "green",
+        "labour",
+        "liberal_democrat",
+        "ukip"
+      ],
+      "creates_overall_improvement": false
+    }
+  ],
+  "interpretation_rule": "An improvement after omitting a party is evidence of sensitivity to that training party, not a candidate model to select. No LOPO result may replace the frozen primary experiment."
+}

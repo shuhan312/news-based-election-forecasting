@@ -14,8 +14,10 @@ an exploratory model; local party features can be fitted only as a sensitivity
 analysis. A Reform-specific news coefficient is not estimable: the only
 principal fitting election with a Stage 1 out-of-fold baseline is 2017, which
 has no Reform rows, while 2021 validation has six. No production
-news-enhanced score exists yet, so the repository does not yet show that news
-improves prediction.
+confirmed-window comparison improved overall prediction in the frozen model,
+and leave-one-party-out checks show that even this direction is sensitive to
+whether Conservative is present in the five-row fit. The repository therefore
+does not provide stable evidence that news improves prediction.
 
 ## 2. Evidence-status rules
 
@@ -261,3 +263,57 @@ The honest conclusion is that the frozen confirmed-window features provide no
 pre-2026 evidence of incremental overall predictive value in this design. This
 does not establish that news has no general effect: the experiment has one
 fitting election, five party-level rows and no Reform training observation.
+
+## 12. Leave-one-party-out stability result
+
+Source: `production_news_lopo_v1/lopo_findings.md`; complete machine-readable
+results are stored beside it.
+
+Each of the five 2017 fitting parties was removed in turn. The unchanged
+two-feature ridge model was refitted on the remaining four party rows and all
+18 confirmed-window comparisons were evaluated again, producing 90 robustness
+comparisons. Cumulative periods were excluded and the 2026 holdout file was not
+read.
+
+| omitted party | comparisons | overall improvements | coefficient sign flips |
+| --- | ---: | ---: | ---: |
+| Conservative | 18 | **6** | 3 |
+| Green | 18 | 0 | 4 |
+| Labour | 18 | 0 | 2 |
+| Liberal Democrats | 18 | 0 | 5 |
+| UKIP | 18 | 0 | 4 |
+
+All six apparent improvements occur only when Conservative is removed. Their
+MAE advantage over that omission's recalibrated control ranges from +0.0328 to
++0.5350. Across the 90 comparisons, 18 specifications change the sign of one
+standardised news coefficient.
+
+| omitted party | arm | confirmed window | full-model difference | omission difference |
+| --- | --- | --- | ---: | ---: |
+| Conservative | combined | 180–91 days | -1.9277 | +0.3683 |
+| Conservative | combined | 90–31 days | -2.0495 | +0.3486 |
+| Conservative | national | 180–91 days | -1.7787 | +0.5350 |
+| Conservative | national | 30–15 days | -1.3089 | +0.3901 |
+| Conservative | national | 14–8 days | -1.7768 | +0.0328 |
+| Conservative | local sensitivity | 180–91 days | -0.8687 | +0.1130 |
+
+The remaining **84/90** omission comparisons do not improve overall MAE. The
+full 90-row table records the Reform-only difference and coefficient sign
+changes; the companion JSON additionally preserves clipping counts and parties
+outside each reduced training range. Bootstrap intervals are not repeated in
+LOPO because this audit changes the independent training rows, whereas the
+primary experiment's bootstrap conditions on the fitted model and resamples
+2021 contests. These are different uncertainty questions.
+
+The pre-declared verdict is
+`unstable_single_party_omissions_create_improvements`. The six rows are not
+alternative models and must not be selected: removing Conservative after
+seeing the outcome would be retrospective model selection on 2021. The result
+instead shows that five party-level fitting rows are too fragile for a stable
+news-effect conclusion. The frozen primary result remains 0/18, but its
+generalisability is weak and must be reported together with this sensitivity.
+
+This finding strengthens the case against adding a more flexible news model to
+the current data. A tree or boosting model cannot repair the absence of
+independent elections or Reform training rows; it would add flexibility to an
+already party-sensitive relationship.
