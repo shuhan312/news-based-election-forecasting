@@ -375,3 +375,34 @@ estimability report, Stage 1 out-of-fold and holdout files), so the frozen
 predictions are reproducible bit-for-bit from the recorded inputs. The 20 MB
 predictions CSV stays outside git under the large-file rule; the committed
 hashes are its tamper evidence.
+
+## 14. By-election six-stage cost walk-through
+
+Source: `news_collection/byelection_walkthrough_v1/walkthrough_findings.md`
+and `walkthrough_report.json`; produced by
+`src/news_collection/walk_byelection_pipeline.py` on 1 August 2026.
+**Nothing was submitted and nothing was spent.**
+
+This replaces the unpriced section-10 estimate with measured figures. Two of
+the ten by-elections fall inside the 2026 holdout period; their 381 articles
+are excluded outright, leaving **2,741 usable articles (1,748 local / 993
+national) across 8 by-elections**, of which **411** mention Reform UK under
+the strict deterministic pattern (the earlier 425 included holdout-period
+articles).
+
+| scenario | LLM cost (Batch + caching) | manual E5-local | projected includes | wall-clock |
+| --- | --- | --- | ---: | --- |
+| A: both arms | $12.10–16.49 | ~4.5 h (~175 rows) | ~637 | 3–5 days |
+| B: national only | $10.49–14.25 | none | ~572 | 3–4 days |
+
+Rates are measured per arm from principal artifacts (review-pool entry
+10.4% local / 88.0% national; include-among-decided 35.9% / 65.4%; stance
+validity 81.7%) rather than the blended 61% previously quoted. Expected
+Reform training records: **~220 (Estimate)**. The dominant risks are that
+E5-local remains manual-only, that the local include rate rests on a
+334-row decided subset, and that adapting the six principal-shaped stage
+implementations is development time not captured in dollars.
+
+The enrichment decision is not taken in this repository record; if taken,
+enrichment becomes a pre-registered model v2 with its own blinded 2026
+prediction file under the section-13 unblinding rule.
