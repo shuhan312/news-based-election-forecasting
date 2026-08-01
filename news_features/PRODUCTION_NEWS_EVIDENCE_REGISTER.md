@@ -452,3 +452,63 @@ pooled 2017+2021+by-elections variant, reported beside the v1 primary
 and the untouched baseline; all else is sensitivity. The 20 MB v2
 predictions CSV stays outside git under the large-file rule; the hashes
 above are its tamper evidence.
+
+## 16. The 2026 unblinding: the confirmatory answer
+
+Source: `unblinding_2026_v1/unblinding_findings.md` and
+`unblinding_results.json`; produced by `src/news_modelling/unblind_2026.py`
+on 1 August 2026, after hash verification of both frozen files, with the
+scorer itself committed before its first run. **This section is final and
+supersedes nothing: sections 11-12 remain the pre-2026 evidence.**
+
+The untouched Stage 1 baseline scored **MAE 4.5140** over the 832
+supported-scope candidate rows of the two 2026 principal elections, with
+seat-call accuracy 0.7188; on the 162 Reform UK rows it scored **MAE
+3.2318** with seat-call accuracy 0.9136.
+
+**v1 confirmatory family (pre-enrichment, pooled 2017+2021): 0 of 12
+comparisons improved** overall MAE over the recalibrated control, and 0
+of 12 over the raw baseline; most bootstrap intervals lie entirely below
+zero. The pre-2026 negative replicated exactly on the held-out election.
+
+**v2 confirmatory family (enrichment, 2017+2021+by-elections): 5 of 12
+comparisons improved**, four with contest-bootstrap intervals entirely
+above zero — combined 30-15 days (+0.1339 [+0.0949, +0.1689]), combined
+90-31 days (+0.2404 [+0.0781, +0.3866]), national 14-8 days (+0.0048
+[+0.0008, +0.0090]) and national 90-31 days (+0.2682 [+0.1088,
++0.4110]) — while the 180-91-day window worsened prediction in both arms
+(about -0.58). Reform-only errors did not improve under any confirmatory
+specification beyond the recalibrated control; the baseline's own Reform
+accuracy was already high.
+
+Sensitivity: 4 of 60 v1 and 14 of 24 v2 sensitivity comparisons improved
+their recalibrated controls; per the pre-declared rule none may be
+promoted.
+
+The registered interpretation, stated at family level without selecting
+windows: **news carried no incremental predictive value until the
+training data contained Reform-era coverage; with the by-election
+enrichment it produced statistically supported overall improvements in
+the mid-range windows (roughly 90 to 8 days before polling) and harm in
+the earliest window, and it did not improve Reform-specific prediction,
+whose baseline was already strong.**
+
+Two honesty notes, recorded before any exploratory follow-up. First,
+the v1-to-v2 contrast changed two things at once: the fitting cells grew
+from 11 to 45, and Reform-era cells entered for the first time. Which of
+the two carried the improvement is **not identified** by the
+confirmatory result; the phrase "until the training data contained
+Reform-era coverage" describes the contrast that was run, not a proven
+mechanism. Two exploratory decompositions are declared here and listed
+as **not run**: refitting the v2 variant without its seven Reform cells,
+and splitting each party's 2026 error into an election-wide mean shift
+against a within-election dispersion component. Second, the mechanism
+reading offered alongside these numbers - that party-level news features
+act as an election-wide recalibration of relative party levels, and that
+Reform's own residual was already near the baseline's floor (MAE 3.2318
+against 4.5140 overall) - is interpretation consistent with the measured
+pattern, not itself a pre-registered test, and the report must label it
+so.
+
+Both families are reported in full; no post-hoc model may claim
+predictive status on 2026 (section 13 rule).
