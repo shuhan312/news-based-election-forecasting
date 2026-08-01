@@ -1,0 +1,192 @@
+{
+  "status": "EXPLORATORY, post-unblinding. This comparison cannot join the confirmatory verdict and no approach may be promoted from it.",
+  "cells": 45,
+  "elections": 10,
+  "specifications": [
+    {
+      "analysis": "combined_exploratory",
+      "period": "180_to_91_days",
+      "loeo_cell_mae": {
+        "residual_A": 7.4223,
+        "joint_B": 7.3914,
+        "baseline_only": 7.7719
+      },
+      "lower_mae": "B"
+    },
+    {
+      "analysis": "combined_exploratory",
+      "period": "90_to_31_days",
+      "loeo_cell_mae": {
+        "residual_A": 8.1127,
+        "joint_B": 8.2551,
+        "baseline_only": 7.7719
+      },
+      "lower_mae": "A"
+    },
+    {
+      "analysis": "combined_exploratory",
+      "period": "30_to_15_days",
+      "loeo_cell_mae": {
+        "residual_A": 8.1581,
+        "joint_B": 8.3169,
+        "baseline_only": 7.7719
+      },
+      "lower_mae": "A"
+    },
+    {
+      "analysis": "combined_exploratory",
+      "period": "14_to_8_days",
+      "loeo_cell_mae": {
+        "residual_A": 7.6787,
+        "joint_B": 7.8751,
+        "baseline_only": 7.7719
+      },
+      "lower_mae": "A"
+    },
+    {
+      "analysis": "combined_exploratory",
+      "period": "7_to_4_days",
+      "loeo_cell_mae": {
+        "residual_A": 8.5199,
+        "joint_B": 8.7353,
+        "baseline_only": 7.7719
+      },
+      "lower_mae": "A"
+    },
+    {
+      "analysis": "combined_exploratory",
+      "period": "final_72_hours",
+      "loeo_cell_mae": {
+        "residual_A": 9.1019,
+        "joint_B": 9.239,
+        "baseline_only": 7.7719
+      },
+      "lower_mae": "A"
+    },
+    {
+      "analysis": "national_exploratory",
+      "period": "180_to_91_days",
+      "loeo_cell_mae": {
+        "residual_A": 7.4164,
+        "joint_B": 7.3817,
+        "baseline_only": 7.7719
+      },
+      "lower_mae": "B"
+    },
+    {
+      "analysis": "national_exploratory",
+      "period": "90_to_31_days",
+      "loeo_cell_mae": {
+        "residual_A": 8.1149,
+        "joint_B": 8.2571,
+        "baseline_only": 7.7719
+      },
+      "lower_mae": "A"
+    },
+    {
+      "analysis": "national_exploratory",
+      "period": "30_to_15_days",
+      "loeo_cell_mae": {
+        "residual_A": 8.1723,
+        "joint_B": 8.3447,
+        "baseline_only": 7.7719
+      },
+      "lower_mae": "A"
+    },
+    {
+      "analysis": "national_exploratory",
+      "period": "14_to_8_days",
+      "loeo_cell_mae": {
+        "residual_A": 7.653,
+        "joint_B": 7.8191,
+        "baseline_only": 7.7719
+      },
+      "lower_mae": "A"
+    },
+    {
+      "analysis": "national_exploratory",
+      "period": "7_to_4_days",
+      "loeo_cell_mae": {
+        "residual_A": 7.8066,
+        "joint_B": 8.0294,
+        "baseline_only": 7.7719
+      },
+      "lower_mae": "A"
+    },
+    {
+      "analysis": "national_exploratory",
+      "period": "final_72_hours",
+      "loeo_cell_mae": {
+        "residual_A": 8.8848,
+        "joint_B": 9.0187,
+        "baseline_only": 7.7719
+      },
+      "lower_mae": "A"
+    },
+    {
+      "analysis": "local_sensitivity",
+      "period": "180_to_91_days",
+      "loeo_cell_mae": {
+        "residual_A": 7.5983,
+        "joint_B": 7.8202,
+        "baseline_only": 7.7719
+      },
+      "lower_mae": "A"
+    },
+    {
+      "analysis": "local_sensitivity",
+      "period": "90_to_31_days",
+      "loeo_cell_mae": {
+        "residual_A": 8.0357,
+        "joint_B": 8.3003,
+        "baseline_only": 7.7719
+      },
+      "lower_mae": "A"
+    },
+    {
+      "analysis": "local_sensitivity",
+      "period": "30_to_15_days",
+      "loeo_cell_mae": {
+        "residual_A": 7.7666,
+        "joint_B": 8.0001,
+        "baseline_only": 7.7719
+      },
+      "lower_mae": "A"
+    },
+    {
+      "analysis": "local_sensitivity",
+      "period": "14_to_8_days",
+      "loeo_cell_mae": {
+        "residual_A": 8.1676,
+        "joint_B": 8.417,
+        "baseline_only": 7.7719
+      },
+      "lower_mae": "A"
+    },
+    {
+      "analysis": "local_sensitivity",
+      "period": "7_to_4_days",
+      "loeo_cell_mae": {
+        "residual_A": 8.5199,
+        "joint_B": 8.7353,
+        "baseline_only": 7.7719
+      },
+      "lower_mae": "A"
+    },
+    {
+      "analysis": "local_sensitivity",
+      "period": "final_72_hours",
+      "loeo_cell_mae": {
+        "residual_A": 7.8128,
+        "joint_B": 8.0189,
+        "baseline_only": 7.7719
+      },
+      "lower_mae": "A"
+    }
+  ],
+  "summary": {
+    "A_better": 16,
+    "B_better": 2,
+    "note": "Counts of which approach had the lower leave-one-election-out cell MAE per frozen specification. The baseline_only column is the no-news reference both approaches must beat before either matters."
+  }
+}
