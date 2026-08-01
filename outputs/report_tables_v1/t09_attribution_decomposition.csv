@@ -1,0 +1,13 @@
+arm,window,full_fit_delta,no_reform_delta,verdict
+combined,180-91 days,-0.5751,-1.2684,no full-fit improvement to attribute
+combined,90-31 days,0.2404,0.0773,improvement survives without Reform cells
+combined,30-15 days,0.1339,0.0333,improvement survives without Reform cells
+combined,14-8 days,-0.3252,-0.8817,no full-fit improvement to attribute
+combined,7-4 days,-0.0097,-0.001,no full-fit improvement to attribute
+combined,final 72h,0.1882,-1.1328,improvement collapses without Reform cells
+national,180-91 days,-0.5896,-1.2782,no full-fit improvement to attribute
+national,90-31 days,0.2682,-0.0015,improvement collapses without Reform cells
+national,30-15 days,-0.0156,-2.6482,no full-fit improvement to attribute
+national,14-8 days,0.0048,0.0029,improvement survives without Reform cells
+national,7-4 days,0.0,0.0,no full-fit improvement to attribute
+national,final 72h,-0.0231,-0.005,no full-fit improvement to attribute

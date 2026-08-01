@@ -1,0 +1,13 @@
+arm,window,baseline_signed_bias,news_signed_bias,baseline_dispersion,news_dispersion
+combined,180-91 days,-1.3445,-5.9616,3.1725,3.2089
+combined,90-31 days,-1.3445,-3.1645,3.1725,3.1962
+combined,30-15 days,-1.3445,-1.8221,3.1725,3.189
+combined,14-8 days,-1.3445,5.1555,3.1725,3.1519
+combined,7-4 days,-1.3445,-1.2962,3.1725,3.1582
+combined,final 72h,-1.3445,-4.7545,3.1725,3.1211
+national,180-91 days,-1.3445,-6.0444,3.1725,3.2107
+national,90-31 days,-1.3445,-3.0955,3.1725,3.2121
+national,30-15 days,-1.3445,-1.9614,3.1725,3.3218
+national,14-8 days,-1.3445,-1.3459,3.1725,3.1729
+national,7-4 days,-1.3445,-1.3288,3.1725,3.1675
+national,final 72h,-1.3445,-1.2632,3.1725,3.1491

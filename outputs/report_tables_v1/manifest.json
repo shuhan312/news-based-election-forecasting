@@ -1,0 +1,33 @@
+{
+  "tables": {
+    "t01_baseline_2026_reference": "Untouched baseline on the 2026 principal election",
+    "t02_baseline_per_party_mae": "Baseline per-party MAE, 2026 principal election",
+    "t03_baseline_seat_totals": "Baseline seat totals, predicted vs actual (162 seats)",
+    "t04_confirmatory_v1": "Confirmatory comparisons, v1 (before enrichment): 0 of 12 improve",
+    "t05_confirmatory_v2": "Confirmatory comparisons, v2 (after enrichment): 5 of 12 improve, 4 intervals above zero",
+    "t06_sensitivity_summary": "Sensitivity families (non-promotable), summarised",
+    "t07_seat_accuracy_by_specification": "Seat-call accuracy per specification (secondary outcome)",
+    "t08_reform_seat_calls_v2": "Reform seat calls per v2 specification (actual: 14 of 162 won)",
+    "t09_attribution_decomposition": "Attribution: v2 deltas with vs without the 7 Reform cells (3 improvements survive, 2 collapse)",
+    "t10_mechanism_pooled_dispersion": "Mechanism (pooled): dispersion falls exactly in the improving windows",
+    "t11_mechanism_reform_bias": "Per-party mechanism, Reform UK: news moves the level the wrong way; dispersion never moves",
+    "t12_mechanism_headline_window": "Per-party mechanism at 90-31 days: every level moves, no dispersion does",
+    "t13_approach_comparison": "Residual (A) vs joint stacked (B): A lower in 16 of 18",
+    "t14_haslemere_probe": "Haslemere probe: frozen v2 specifications on the 7 July contest (3 of 12 beat control; window pattern replicates)",
+    "t15_haslemere_reference": "Haslemere probe: baseline references and corpus facts",
+    "t16_nonnews_trail_channels": "Non-news digital trail of the Haslemere campaign, by channel",
+    "t17_corpus_by_window": "Canonical v2 corpus per confirmed window",
+    "t18_synthetic_scenarios": "Synthetic news scenarios on the frozen v2 model (associational; register section 17)"
+  },
+  "input_sha256": {
+    "unblinding": "1fefcb13b6dada160fd35cd4c5a7471812832d555ff787915cabcee068193ef0",
+    "decompositions": "60af557078b003c61cde117575efbc525936cdbd37bdf125eb96d24d9b9e31a0",
+    "approaches": "36356e00b456d689bcd95ce56d284c3c471137fa86088b385c5be4ff3061458d",
+    "probe": "d0d4e15ae68a65c6ec29c9ef54eda492de3986d393cfa2fad985ba5a41b9385f",
+    "scenarios": "0340c092ef49abc88bd58e0304188f66df05c715ed2434c577146960c45d53d1",
+    "catalogue": "6649444637a07fc029b92f0c67f760b54217a1eef36be518edf40b89fa6b53bb",
+    "release_v2": "9e371794bb6e16e50d4ddcfa199378df7bdd43ef0dd777b56050032eda9b9cab",
+    "v2_predictions": "6016a8d1240310fe5743944d52e099b8967598bb07a401e93f40de1036137c36",
+    "holdout": "df8c6421301a1a3545bbd22fc776e4df254e8a4906bc115912cc866c7b9ed3d1"
+  }
+}

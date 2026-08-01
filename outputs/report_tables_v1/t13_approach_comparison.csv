@@ -1,0 +1,19 @@
+specification_group,window,residual_A_mae,joint_B_mae,baseline_only_mae,lower
+combined_exploratory,180-91 days,7.4223,7.3914,7.7719,B
+combined_exploratory,90-31 days,8.1127,8.2551,7.7719,A
+combined_exploratory,30-15 days,8.1581,8.3169,7.7719,A
+combined_exploratory,14-8 days,7.6787,7.8751,7.7719,A
+combined_exploratory,7-4 days,8.5199,8.7353,7.7719,A
+combined_exploratory,final 72h,9.1019,9.239,7.7719,A
+national_exploratory,180-91 days,7.4164,7.3817,7.7719,B
+national_exploratory,90-31 days,8.1149,8.2571,7.7719,A
+national_exploratory,30-15 days,8.1723,8.3447,7.7719,A
+national_exploratory,14-8 days,7.653,7.8191,7.7719,A
+national_exploratory,7-4 days,7.8066,8.0294,7.7719,A
+national_exploratory,final 72h,8.8848,9.0187,7.7719,A
+local_sensitivity,180-91 days,7.5983,7.8202,7.7719,A
+local_sensitivity,90-31 days,8.0357,8.3003,7.7719,A
+local_sensitivity,30-15 days,7.7666,8.0001,7.7719,A
+local_sensitivity,14-8 days,8.1676,8.417,7.7719,A
+local_sensitivity,7-4 days,8.5199,8.7353,7.7719,A
+local_sensitivity,final 72h,7.8128,8.0189,7.7719,A

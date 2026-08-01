@@ -1,0 +1,14 @@
+arm,window,predicted_seats,hits_of_14,row_accuracy
+baseline,-,0,0,0.9136
+combined,180-91 days,0,0,0.9136
+combined,90-31 days,0,0,0.9136
+combined,30-15 days,0,0,0.9136
+combined,14-8 days,105,8,0.3642
+combined,7-4 days,0,0,0.9136
+combined,final 72h,0,0,0.9136
+national,180-91 days,0,0,0.9136
+national,90-31 days,0,0,0.9136
+national,30-15 days,0,0,0.9136
+national,14-8 days,0,0,0.9136
+national,7-4 days,0,0,0.9136
+national,final 72h,0,0,0.9136

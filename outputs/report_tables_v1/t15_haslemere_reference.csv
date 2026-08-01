@@ -1,0 +1,8 @@
+item,value
+before-May baseline contest MAE,4.4738
+after-May baseline contest MAE,7.3169
+"Reform signed error, before-May baseline",8.948
+"Reform signed error, after-May baseline",14.634
+probe corpus articles,20
+articles naming any study party,3
+all articles local-arm,True

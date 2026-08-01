@@ -1,0 +1,13 @@
+arm,window,news_mae,recalibrated_mae,baseline_mae,news_reform_signed_error,winner_correct
+combined,180-91 days,8.4175,4.4911,4.4738,8.812,True
+combined,90-31 days,4.2899,4.4911,4.4738,8.58,True
+combined,30-15 days,4.5959,4.4911,4.4738,9.192,True
+combined,14-8 days,4.4373,4.4911,4.4738,8.875,True
+combined,7-4 days,4.5273,4.4911,4.4738,9.055,True
+combined,final 72h,4.5639,4.4911,4.4738,9.128,True
+national,180-91 days,4.5574,4.4911,4.4738,9.115,True
+national,90-31 days,4.5801,4.4911,4.4738,9.16,True
+national,30-15 days,4.6029,4.4911,4.4738,9.206,True
+national,14-8 days,4.4724,4.4911,4.4738,8.945,True
+national,7-4 days,4.4911,4.4911,4.4738,8.982,True
+national,final 72h,4.565,4.4911,4.4738,9.13,True

@@ -1,0 +1,25 @@
+version,arm,window,news_seat_accuracy,baseline_seat_accuracy
+v1,combined,180-91 days,0.7308,0.7188
+v1,combined,90-31 days,0.7404,0.7188
+v1,combined,30-15 days,0.8077,0.7188
+v1,combined,14-8 days,0.6827,0.7188
+v1,combined,7-4 days,0.7188,0.7188
+v1,combined,final 72h,0.8413,0.7188
+v1,national,180-91 days,0.7356,0.7188
+v1,national,90-31 days,0.7548,0.7188
+v1,national,30-15 days,0.8413,0.7188
+v1,national,14-8 days,0.7188,0.7188
+v1,national,7-4 days,0.7212,0.7188
+v1,national,final 72h,0.7212,0.7188
+v2,combined,180-91 days,0.8317,0.7188
+v2,combined,90-31 days,0.7909,0.7188
+v2,combined,30-15 days,0.7212,0.7188
+v2,combined,14-8 days,0.6827,0.7188
+v2,combined,7-4 days,0.7188,0.7188
+v2,combined,final 72h,0.8558,0.7188
+v2,national,180-91 days,0.8317,0.7188
+v2,national,90-31 days,0.7909,0.7188
+v2,national,30-15 days,0.7212,0.7188
+v2,national,14-8 days,0.7188,0.7188
+v2,national,7-4 days,0.7188,0.7188
+v2,national,final 72h,0.7188,0.7188

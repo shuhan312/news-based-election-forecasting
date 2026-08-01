@@ -799,3 +799,17 @@ report wording while the print-only hole necessarily stays open. The
 remaining uncertainty is confined to print-only publication and search
 -index gaps, both recorded; no further collection verification is
 planned for this contest.
+
+**Report table pack v1 built (derived artefact, no new findings).**
+`outputs/report_tables_v1/` renders eighteen report-ready tables from
+the committed artefacts this register indexes - the unblinding record,
+the decomposition, approach-comparison, probe, scenario and catalogue
+results, the frozen v2 prediction file, the Stage 1 holdout file and
+the canonical v2 release. The pack introduces no number this register
+does not already carry; its two recomputations (Reform seat calls,
+baseline descriptives) reproduce figures recorded above, its README
+states why the two baseline figures (4.514 all-rows / 4.441
+supported-party rows) coexist, and its manifest.json records the
+sha256 of every input read. Built by
+`src/news_modelling/build_report_tables.py`; regenerate with one
+command after any upstream artefact changes.

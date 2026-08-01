@@ -1,0 +1,9 @@
+preset,party,tone,arm,articles,window,cell_articles_before,target_party_delta,seat_flips
+"tone: same Reform story, favourable vs unfavourable (30-15d,",reform_uk,favourable,combined,10,30-15 days,7,1.003,2
+"tone: same Reform story, favourable vs unfavourable (30-15d,",reform_uk,unfavourable,combined,10,30-15 days,7,-2.0029,2
+"timing: unfavourable Reform story, a month out vs the final ",reform_uk,unfavourable,combined,10,30-15 days,7,-2.0029,2
+"timing: unfavourable Reform story, a month out vs the final ",reform_uk,unfavourable,combined,10,final 72h,4,-0.8153,8
+target: the same unfavourable story about Reform vs the Cons,reform_uk,unfavourable,combined,10,90-31 days,57,-0.2725,0
+target: the same unfavourable story about Reform vs the Cons,conservative,unfavourable,combined,10,90-31 days,57,-0.1601,22
+arm: one favourable Reform story via national vs local colle,reform_uk,favourable,national,10,90-31 days,45,2.1198,0
+arm: one favourable Reform story via national vs local colle,reform_uk,favourable,local,10,90-31 days,12,7.352,264

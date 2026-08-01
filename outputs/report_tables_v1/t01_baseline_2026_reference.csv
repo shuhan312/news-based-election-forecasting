@@ -1,0 +1,11 @@
+metric,value,n
+overall MAE (share points),4.514,832
+seat-call accuracy,0.7188,832
+wards with both seats exactly right,18,81
+deciding-margin MAE (share points),4.31,81
+Reform UK MAE (share points),3.232,162
+Reform UK seat-call accuracy (all-lose call),0.9136,162
+Reform UK mean predicted share (%),9.3,162
+Reform UK mean observed share (%),10.7,162
+Reform UK predicted top-two contests,0,162
+Reform UK observed top-two contests,14,162

@@ -1,0 +1,7 @@
+version,specification_group,comparisons,improved,best_delta,worst_delta
+v1,combined_exploratory,18,3,0.639,-4.66
+v1,local_sensitivity,24,1,0.32,-4.66
+v1,national_exploratory,18,0,0.0,-6.27
+v2,combined_exploratory,6,5,0.61,-0.391
+v2,local_sensitivity,12,8,0.508,-0.833
+v2,national_exploratory,6,1,0.081,-1.739

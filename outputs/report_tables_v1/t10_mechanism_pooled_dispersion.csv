@@ -1,0 +1,13 @@
+arm,window,baseline_dispersion,news_dispersion,dispersion_change
+combined,180-91 days,4.4861,5.046,0.5599
+combined,90-31 days,4.4861,4.258,-0.2281
+combined,30-15 days,4.4861,4.3613,-0.1248
+combined,14-8 days,4.4861,4.8245,0.3384
+combined,7-4 days,4.4861,4.4984,0.0123
+combined,final 72h,4.4861,4.271,-0.2151
+national,180-91 days,4.4861,5.0609,0.5748
+national,90-31 days,4.4861,4.2386,-0.2475
+national,30-15 days,4.4861,4.5276,0.0415
+national,14-8 days,4.4861,4.4858,-0.0003
+national,7-4 days,4.4861,4.49,0.0039
+national,final 72h,4.4861,4.5072,0.0211
