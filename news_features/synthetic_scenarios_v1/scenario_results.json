@@ -1,0 +1,1704 @@
+{
+  "disclaimer": "SYNTHETIC SIMULATION. These figures describe how the frozen model's predictions move when hypothetical, clearly-labelled news is injected into its inputs. They are simulations, not real-world claims, and no coefficient in the model is causal.",
+  "presets": {
+    "tone: same Reform story, favourable vs unfavourable (30-15d, combined)": [
+      {
+        "scenario": {
+          "party": "reform_uk",
+          "arm": "combined",
+          "articles": 10,
+          "tone": "favourable"
+        },
+        "window": "30_to_15_days",
+        "injection_context": {
+          "window_articles_before_injection": 7,
+          "party_articles_before_injection": 3
+        },
+        "mean_share_delta_by_party": {
+          "conservative": -0.5988,
+          "green": 0.2357,
+          "labour": 0.2451,
+          "liberal_democrat": -0.3292,
+          "reform_uk": 1.003,
+          "unsupported": -1.0147
+        },
+        "seat_flips": [
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:390",
+            "party": "Conservative",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:390",
+            "party": "Independent",
+            "now_elected": false
+          }
+        ],
+        "seat_flip_count": 2
+      },
+      {
+        "scenario": {
+          "party": "reform_uk",
+          "arm": "combined",
+          "articles": 10,
+          "tone": "unfavourable"
+        },
+        "window": "30_to_15_days",
+        "injection_context": {
+          "window_articles_before_injection": 7,
+          "party_articles_before_injection": 3
+        },
+        "mean_share_delta_by_party": {
+          "conservative": 0.43,
+          "green": 0.7063,
+          "labour": 0.7026,
+          "liberal_democrat": 0.4804,
+          "reform_uk": -2.0029,
+          "unsupported": -0.1579
+        },
+        "seat_flips": [
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:390",
+            "party": "Conservative",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:390",
+            "party": "Independent",
+            "now_elected": false
+          }
+        ],
+        "seat_flip_count": 2
+      }
+    ],
+    "timing: unfavourable Reform story, a month out vs the final 72 hours": [
+      {
+        "scenario": {
+          "party": "reform_uk",
+          "arm": "combined",
+          "articles": 10,
+          "tone": "unfavourable"
+        },
+        "window": "30_to_15_days",
+        "injection_context": {
+          "window_articles_before_injection": 7,
+          "party_articles_before_injection": 3
+        },
+        "mean_share_delta_by_party": {
+          "conservative": 0.43,
+          "green": 0.7063,
+          "labour": 0.7026,
+          "liberal_democrat": 0.4804,
+          "reform_uk": -2.0029,
+          "unsupported": -0.1579
+        },
+        "seat_flips": [
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:390",
+            "party": "Conservative",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:390",
+            "party": "Independent",
+            "now_elected": false
+          }
+        ],
+        "seat_flip_count": 2
+      },
+      {
+        "scenario": {
+          "party": "reform_uk",
+          "arm": "combined",
+          "articles": 10,
+          "tone": "unfavourable"
+        },
+        "window": "final_72_hours",
+        "injection_context": {
+          "window_articles_before_injection": 4,
+          "party_articles_before_injection": 3
+        },
+        "mean_share_delta_by_party": {
+          "conservative": 0.071,
+          "green": -0.3345,
+          "labour": -0.5516,
+          "liberal_democrat": 0.8901,
+          "reform_uk": -0.8153,
+          "unsupported": 1.2138
+        },
+        "seat_flips": [
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:369",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:369",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:369",
+            "party": "Local Conservatives",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:369",
+            "party": "Local Conservatives",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:400",
+            "party": "Farnham Residents",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:400",
+            "party": "Farnham Residents",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:400",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:400",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          }
+        ],
+        "seat_flip_count": 8
+      }
+    ],
+    "target: the same unfavourable story about Reform vs the Conservatives": [
+      {
+        "scenario": {
+          "party": "reform_uk",
+          "arm": "combined",
+          "articles": 10,
+          "tone": "unfavourable"
+        },
+        "window": "90_to_31_days",
+        "injection_context": {
+          "window_articles_before_injection": 57,
+          "party_articles_before_injection": 25
+        },
+        "mean_share_delta_by_party": {
+          "conservative": 0.0832,
+          "green": 0.0398,
+          "labour": -0.022,
+          "liberal_democrat": 0.1054,
+          "reform_uk": -0.2725,
+          "unsupported": 0.1391
+        },
+        "seat_flips": [],
+        "seat_flip_count": 0
+      },
+      {
+        "scenario": {
+          "party": "conservative",
+          "arm": "combined",
+          "articles": 10,
+          "tone": "unfavourable"
+        },
+        "window": "90_to_31_days",
+        "injection_context": {
+          "window_articles_before_injection": 57,
+          "party_articles_before_injection": 28
+        },
+        "mean_share_delta_by_party": {
+          "conservative": -0.1601,
+          "green": 0.0282,
+          "labour": -0.0308,
+          "liberal_democrat": 0.0837,
+          "reform_uk": 0.015,
+          "unsupported": 0.1159
+        },
+        "seat_flips": [
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:358",
+            "party": "Conservative",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:358",
+            "party": "Conservative",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:358",
+            "party": "Liberal Democrats",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:358",
+            "party": "Liberal Democrats",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:402",
+            "party": "Conservative",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:402",
+            "party": "Liberal Democrats",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:404",
+            "party": "Conservative",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:404",
+            "party": "Liberal Democrats",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:406",
+            "party": "Conservative",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:406",
+            "party": "Conservative",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:406",
+            "party": "Liberal Democrats",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:406",
+            "party": "Liberal Democrats",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:408",
+            "party": "Conservative",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:408",
+            "party": "Liberal Democrats",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:418",
+            "party": "Conservative",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:418",
+            "party": "Conservative",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:418",
+            "party": "Liberal Democrats",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:418",
+            "party": "Liberal Democrats",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:429",
+            "party": "Conservative",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:429",
+            "party": "Conservative",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:429",
+            "party": "Liberal Democrats",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:429",
+            "party": "Liberal Democrats",
+            "now_elected": true
+          }
+        ],
+        "seat_flip_count": 22
+      }
+    ],
+    "arm: one favourable Reform story via national vs local collection": [
+      {
+        "scenario": {
+          "party": "reform_uk",
+          "arm": "national",
+          "articles": 10,
+          "tone": "favourable"
+        },
+        "window": "90_to_31_days",
+        "injection_context": {
+          "window_articles_before_injection": 45,
+          "party_articles_before_injection": 21
+        },
+        "mean_share_delta_by_party": {
+          "conservative": -0.6467,
+          "green": -0.3552,
+          "labour": -0.2881,
+          "liberal_democrat": -0.6465,
+          "reform_uk": 2.1198,
+          "unsupported": -0.62
+        },
+        "seat_flips": [],
+        "seat_flip_count": 0
+      },
+      {
+        "scenario": {
+          "party": "reform_uk",
+          "arm": "local",
+          "articles": 10,
+          "tone": "favourable"
+        },
+        "window": "90_to_31_days",
+        "injection_context": {
+          "window_articles_before_injection": 12,
+          "party_articles_before_injection": 4
+        },
+        "mean_share_delta_by_party": {
+          "conservative": -2.6302,
+          "green": -0.8507,
+          "labour": -2.1464,
+          "liberal_democrat": -1.9666,
+          "reform_uk": 7.352,
+          "unsupported": -0.8123
+        },
+        "seat_flips": [
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:354",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:354",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:354",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:354",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:357",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:357",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:357",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:357",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:358",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:358",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:358",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:358",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:359",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:359",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:359",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:359",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:360",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:360",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:360",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:360",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:361",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:361",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:361",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:361",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:362",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:362",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:362",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:362",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:363",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:363",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:363",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:363",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:364",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:364",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:364",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:364",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:367",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:367",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:367",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:367",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:368",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:368",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:368",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:368",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:369",
+            "party": "Local Conservatives",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:369",
+            "party": "Local Conservatives",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:369",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:369",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:370",
+            "party": "Local Conservatives",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:370",
+            "party": "Local Conservatives",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:370",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:370",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:371",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:371",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:371",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:371",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:372",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:372",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:372",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:372",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:373",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:373",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:373",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:373",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:374",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:374",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:374",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:374",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:375",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:375",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:375",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:375",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:376",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:376",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:376",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:376",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:377",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:377",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:377",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:377",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:378",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:378",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:378",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:378",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:379",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:379",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:379",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:379",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:380",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:380",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:380",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:380",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:381",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:381",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:381",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:381",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:382",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:382",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:382",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:382",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:383",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:383",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:383",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:383",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:385",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:385",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:385",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:385",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:386",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:386",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:386",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:386",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:387",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:387",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:387",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-east-surrey:result:387",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:388",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:388",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:388",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:388",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:389",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:389",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:389",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:389",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:390",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:390",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:390",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:390",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:391",
+            "party": "Conservative",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:391",
+            "party": "Conservative",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:391",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:391",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:392",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:392",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:392",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:392",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:393",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:393",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:393",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:393",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:394",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:394",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:394",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:394",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:396",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:396",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:396",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:396",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:397",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:397",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:397",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:397",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:399",
+            "party": "Farnham Residents",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:399",
+            "party": "Farnham Residents",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:399",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:399",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:400",
+            "party": "Farnham Residents",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:400",
+            "party": "Farnham Residents",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:400",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:400",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:402",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:402",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:402",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:402",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:403",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:403",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:403",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:403",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:404",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:404",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:404",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:404",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:405",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:405",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:405",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:405",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:406",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:406",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:406",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:406",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:407",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:407",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:407",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:407",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:408",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:408",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:408",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:408",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:409",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:409",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:409",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:409",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:411",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:411",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:411",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:411",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:412",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:412",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:412",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:412",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:413",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:413",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:413",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:413",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:417",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:417",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:417",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:417",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:418",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:418",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:418",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:418",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:419",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:419",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:419",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:419",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:420",
+            "party": "Conservative",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:420",
+            "party": "Conservative",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:420",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:420",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:421",
+            "party": "Labour",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:421",
+            "party": "Labour",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:421",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:421",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:422",
+            "party": "Conservative",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:422",
+            "party": "Conservative",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:422",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:422",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:423",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:423",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:423",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:423",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:424",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:424",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:424",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:424",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:426",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:426",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:426",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:426",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:427",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:427",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:427",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:427",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:428",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:428",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:428",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:428",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:429",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:429",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:429",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:429",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:430",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:430",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:430",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:430",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:431",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:431",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:431",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:431",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:432",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:432",
+            "party": "Liberal Democrats",
+            "now_elected": false
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:432",
+            "party": "Reform UK",
+            "now_elected": true
+          },
+          {
+            "division_id": "surrey-county-council-2026-west-surrey:result:432",
+            "party": "Reform UK",
+            "now_elected": true
+          }
+        ],
+        "seat_flip_count": 264
+      }
+    ]
+  },
+  "not_simulatable": "The issue axis (e.g. a crime-focused story) cannot flow through the frozen specifications: they carry volume and portrayal features only, because issue-level features never cleared the ten-cell reporting threshold. Recorded as a boundary, not approximated around."
+}
