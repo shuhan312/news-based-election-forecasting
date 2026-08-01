@@ -1,0 +1,256 @@
+{
+  "status": "walkthrough_only_nothing_submitted",
+  "review_rows_per_hour_assumption": 40,
+  "corpus_measured": {
+    "byelections_found": 10,
+    "articles_total": 3122,
+    "usable": {
+      "byelections": 8,
+      "articles": 2741,
+      "local": 1748,
+      "national": 993,
+      "with_text": 2504,
+      "reform_mention_articles": 411
+    },
+    "excluded_holdout_period": {
+      "byelections": [
+        "surrey-county-council-by-election-haslemere-2026-07-07",
+        "surrey-county-council-by-election-warlingham-2026-05-07"
+      ],
+      "articles": 381,
+      "reason": "polling day on or after 2026-05-07; holdout-period news cannot become training data"
+    },
+    "article_tokens": {
+      "measured_articles": 2504,
+      "mean": 2075,
+      "median": 885
+    },
+    "per_election": {
+      "surrey-county-council-by-election-addlestone-2025-08-21": {
+        "articles": 1746,
+        "local": 1181,
+        "with_text": 1653,
+        "national": 565,
+        "reform_mentions_pre_holdout": 232
+      },
+      "surrey-county-council-by-election-camberley-west-2025-10-16": {
+        "articles": 770,
+        "local": 342,
+        "with_text": 735,
+        "national": 428,
+        "reform_mentions_pre_holdout": 170
+      },
+      "surrey-county-council-by-election-caterham-valley-2025-10-16": {
+        "articles": 102,
+        "local": 102,
+        "with_text": 55,
+        "reform_mentions_pre_holdout": 2
+      },
+      "surrey-county-council-by-election-guildford-south-east-2025-10-16": {
+        "articles": 65,
+        "local": 65,
+        "with_text": 28,
+        "reform_mentions_pre_holdout": 6
+      },
+      "surrey-county-council-by-election-haslemere-2026-07-07": {
+        "articles": 379,
+        "local": 379,
+        "holdout_period": 379,
+        "with_text": 324
+      },
+      "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21": {
+        "articles": 31,
+        "local": 31,
+        "with_text": 9,
+        "reform_mentions_pre_holdout": 1
+      },
+      "surrey-county-council-by-election-nork-tattenhams-2025-05-01": {
+        "articles": 2,
+        "local": 2,
+        "with_text": 2
+      },
+      "surrey-county-council-by-election-warlingham-2019-01-31": {
+        "articles": 4,
+        "local": 4,
+        "with_text": 4
+      },
+      "surrey-county-council-by-election-warlingham-2026-05-07": {
+        "articles": 2,
+        "local": 2,
+        "holdout_period": 2,
+        "with_text": 2
+      },
+      "surrey-county-council-by-election-weybridge-2015-05-07": {
+        "articles": 21,
+        "local": 21,
+        "with_text": 18
+      }
+    }
+  },
+  "principal_rates_measured": {
+    "review_pool_entry_rate": {
+      "local": {
+        "rate": 0.1039445231526359,
+        "from": "1394 pending_human_review of 13411 raw local records"
+      },
+      "national": {
+        "rate": 0.8802250803858521,
+        "from": "2190 pending_human_review of 2488 raw national records"
+      }
+    },
+    "include_rate_among_decided": {
+      "local": {
+        "rate": 0.3592814371257485,
+        "from": "120 include of 334 decided"
+      },
+      "national": {
+        "rate": 0.6542239685658153,
+        "from": "1332 include of 2036 decided"
+      }
+    },
+    "valid_stance_rate": {
+      "rate": 0.8174931129476584,
+      "from": "1,187 valid stance records of 1,452 includes (register s4)"
+    },
+    "date_investigation_rate": {
+      "rate": 0.004496479171969119,
+      "from": "53 of 11787 principal rows needed manual date investigation"
+    },
+    "local_decision_backlog_note": "Only 334 of 1,394 principal local pool rows were ever decided; the rest deferred behind the failed E5 classifier. The local include rate is therefore measured on a 334-row subset and is the weakest rate in this table."
+  },
+  "projection": {
+    "scenario_a_both_arms": {
+      "input_articles": {
+        "local": 1748,
+        "national": 993
+      },
+      "stage_1_to_3_deterministic": {
+        "articles": 2741,
+        "usd": 0.0,
+        "wall_clock": "runtime only; date-investigation queue projected at ~12 rows"
+      },
+      "stage_4_llm_eligibility": {
+        "model": "claude-sonnet-5",
+        "requests": 1056,
+        "input_tokens": 2317920,
+        "output_tokens": 633600,
+        "usd_standard": 8.23,
+        "usd_intro_until_2026_08_31": 5.49,
+        "e5_local_manual_review_rows": 182,
+        "e5_local_manual_review_hours": 4.5
+      },
+      "stage_5_decisions": {
+        "usd": 0.0,
+        "wall_clock": "runtime only"
+      },
+      "stage_6_extraction": {
+        "issues": {
+          "model": "claude-sonnet-5",
+          "requests": 637,
+          "input_tokens": 1398215,
+          "output_tokens": 382200,
+          "usd_standard": 4.96,
+          "usd_intro_until_2026_08_31": 3.31
+        },
+        "stance": {
+          "model": "claude-haiku-4-5",
+          "requests": 637,
+          "input_tokens": 1398215,
+          "output_tokens": 382200,
+          "usd_standard": 1.65,
+          "usd_intro_until_2026_08_31": 1.65
+        },
+        "framing": {
+          "model": "claude-haiku-4-5",
+          "requests": 637,
+          "input_tokens": 1398215,
+          "output_tokens": 382200,
+          "usd_standard": 1.65,
+          "usd_intro_until_2026_08_31": 1.65
+        }
+      },
+      "projected_review_pool": {
+        "local": 182,
+        "national": 874
+      },
+      "projected_includes": 637,
+      "usd_total_standard": 16.49,
+      "usd_total_intro_until_2026_08_31": 12.1,
+      "manual_review_hours": 4.5,
+      "wall_clock_working_days": "3-5: deterministic stages under a day, two batch rounds usually within a day each, manual E5-local review ~4.5h at 40 rows/hour, then feature rebuild and the v2 freeze"
+    },
+    "scenario_b_national_only": {
+      "input_articles": {
+        "local": 0,
+        "national": 993
+      },
+      "stage_1_to_3_deterministic": {
+        "articles": 993,
+        "usd": 0.0,
+        "wall_clock": "runtime only; date-investigation queue projected at ~4 rows"
+      },
+      "stage_4_llm_eligibility": {
+        "model": "claude-sonnet-5",
+        "requests": 874,
+        "input_tokens": 1918430,
+        "output_tokens": 524400,
+        "usd_standard": 6.81,
+        "usd_intro_until_2026_08_31": 4.54,
+        "e5_local_manual_review_rows": 0,
+        "e5_local_manual_review_hours": 0.0
+      },
+      "stage_5_decisions": {
+        "usd": 0.0,
+        "wall_clock": "runtime only"
+      },
+      "stage_6_extraction": {
+        "issues": {
+          "model": "claude-sonnet-5",
+          "requests": 572,
+          "input_tokens": 1255540,
+          "output_tokens": 343200,
+          "usd_standard": 4.46,
+          "usd_intro_until_2026_08_31": 2.97
+        },
+        "stance": {
+          "model": "claude-haiku-4-5",
+          "requests": 572,
+          "input_tokens": 1255540,
+          "output_tokens": 343200,
+          "usd_standard": 1.49,
+          "usd_intro_until_2026_08_31": 1.49
+        },
+        "framing": {
+          "model": "claude-haiku-4-5",
+          "requests": 572,
+          "input_tokens": 1255540,
+          "output_tokens": 343200,
+          "usd_standard": 1.49,
+          "usd_intro_until_2026_08_31": 1.49
+        }
+      },
+      "projected_review_pool": {
+        "local": 0,
+        "national": 874
+      },
+      "projected_includes": 572,
+      "usd_total_standard": 14.25,
+      "usd_total_intro_until_2026_08_31": 10.49,
+      "manual_review_hours": 0.0,
+      "wall_clock_working_days": "3-5: deterministic stages under a day, two batch rounds usually within a day each, manual E5-local review ~0.0h at 40 rows/hour, then feature rebuild and the v2 freeze",
+      "gives_up": "the local arm entirely: by-election local coverage is the corpus's only area-attributable-by-construction text, and local remains below the reporting threshold precisely for want of volume"
+    },
+    "expected_reform_training_records": {
+      "estimate": 220,
+      "method": "measured pre-holdout Reform-mention articles x national include rate x valid-stance rate; an Estimate under the register's rules, not an observed count"
+    },
+    "training_grain_change": "8 pre-holdout by-elections would take the per-election grain from 2 training cells toward 10; the two holdout-period by-elections add nothing",
+    "risks": [
+      "E5-local has no validated automated route: the manual hours are load-bearing, and a fresh validation attempt would be a separate cost with an uncertain outcome",
+      "review-pool and include rates are transferred from principal elections; by-election coverage may funnel differently, and the local include rate rests on a 334-row decided subset",
+      "search completeness varies by by-election (under 12% to 100%), so only share-based features are safe - already the frozen feature sets' design",
+      "cross-corpus duplicates with principal articles are not measured here and would shrink the pool at dedup",
+      "the six stage implementations are principal-election-shaped; adapting them to by-election ids is development time not priced in dollars"
+    ]
+  }
+}
