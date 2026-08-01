@@ -1,0 +1,317 @@
+{
+  "status": "EXPLORATORY, post-unblinding, pre-declared in register section 16. Nothing here joins the confirmatory verdict.",
+  "attribution": {
+    "fitting_cells": {
+      "full": 45,
+      "without_reform": 38
+    },
+    "specifications": [
+      {
+        "analysis": "combined_exploratory",
+        "window": "180_to_91_days",
+        "full_fit_delta": -0.5751,
+        "no_reform_delta": -1.2684,
+        "verdict": "no full-fit improvement to attribute"
+      },
+      {
+        "analysis": "combined_exploratory",
+        "window": "90_to_31_days",
+        "full_fit_delta": 0.2404,
+        "no_reform_delta": 0.0773,
+        "verdict": "improvement survives without Reform cells"
+      },
+      {
+        "analysis": "combined_exploratory",
+        "window": "30_to_15_days",
+        "full_fit_delta": 0.1339,
+        "no_reform_delta": 0.0333,
+        "verdict": "improvement survives without Reform cells"
+      },
+      {
+        "analysis": "combined_exploratory",
+        "window": "14_to_8_days",
+        "full_fit_delta": -0.3252,
+        "no_reform_delta": -0.8817,
+        "verdict": "no full-fit improvement to attribute"
+      },
+      {
+        "analysis": "combined_exploratory",
+        "window": "7_to_4_days",
+        "full_fit_delta": -0.0097,
+        "no_reform_delta": -0.001,
+        "verdict": "no full-fit improvement to attribute"
+      },
+      {
+        "analysis": "combined_exploratory",
+        "window": "final_72_hours",
+        "full_fit_delta": 0.1882,
+        "no_reform_delta": -1.1328,
+        "verdict": "improvement collapses without Reform cells"
+      },
+      {
+        "analysis": "national_exploratory",
+        "window": "180_to_91_days",
+        "full_fit_delta": -0.5896,
+        "no_reform_delta": -1.2782,
+        "verdict": "no full-fit improvement to attribute"
+      },
+      {
+        "analysis": "national_exploratory",
+        "window": "90_to_31_days",
+        "full_fit_delta": 0.2682,
+        "no_reform_delta": -0.0015,
+        "verdict": "improvement collapses without Reform cells"
+      },
+      {
+        "analysis": "national_exploratory",
+        "window": "30_to_15_days",
+        "full_fit_delta": -0.0156,
+        "no_reform_delta": -2.6482,
+        "verdict": "no full-fit improvement to attribute"
+      },
+      {
+        "analysis": "national_exploratory",
+        "window": "14_to_8_days",
+        "full_fit_delta": 0.0048,
+        "no_reform_delta": 0.0029,
+        "verdict": "improvement survives without Reform cells"
+      },
+      {
+        "analysis": "national_exploratory",
+        "window": "7_to_4_days",
+        "full_fit_delta": 0.0,
+        "no_reform_delta": 0.0,
+        "verdict": "no full-fit improvement to attribute"
+      },
+      {
+        "analysis": "national_exploratory",
+        "window": "final_72_hours",
+        "full_fit_delta": -0.0231,
+        "no_reform_delta": -0.005,
+        "verdict": "no full-fit improvement to attribute"
+      }
+    ],
+    "improvements_survived": 3,
+    "improvements_collapsed": 2
+  },
+  "mechanism": {
+    "per_specification": [
+      {
+        "analysis": "combined_exploratory",
+        "window": "14_to_8_days",
+        "baseline": {
+          "rows": 753,
+          "abs_bias": 0.2802,
+          "dispersion_mae": 4.4861,
+          "total_mae": 4.441
+        },
+        "news": {
+          "rows": 753,
+          "abs_bias": 0.3111,
+          "dispersion_mae": 4.8245,
+          "total_mae": 4.7707
+        },
+        "bias_change": 0.0309,
+        "dispersion_change": 0.3384
+      },
+      {
+        "analysis": "combined_exploratory",
+        "window": "180_to_91_days",
+        "baseline": {
+          "rows": 753,
+          "abs_bias": 0.2802,
+          "dispersion_mae": 4.4861,
+          "total_mae": 4.441
+        },
+        "news": {
+          "rows": 753,
+          "abs_bias": 0.3137,
+          "dispersion_mae": 5.046,
+          "total_mae": 5.0206
+        },
+        "bias_change": 0.0335,
+        "dispersion_change": 0.5599
+      },
+      {
+        "analysis": "combined_exploratory",
+        "window": "30_to_15_days",
+        "baseline": {
+          "rows": 753,
+          "abs_bias": 0.2802,
+          "dispersion_mae": 4.4861,
+          "total_mae": 4.441
+        },
+        "news": {
+          "rows": 753,
+          "abs_bias": 0.3187,
+          "dispersion_mae": 4.3613,
+          "total_mae": 4.3116
+        },
+        "bias_change": 0.0385,
+        "dispersion_change": -0.1248
+      },
+      {
+        "analysis": "combined_exploratory",
+        "window": "7_to_4_days",
+        "baseline": {
+          "rows": 753,
+          "abs_bias": 0.2802,
+          "dispersion_mae": 4.4861,
+          "total_mae": 4.441
+        },
+        "news": {
+          "rows": 753,
+          "abs_bias": 0.2395,
+          "dispersion_mae": 4.4984,
+          "total_mae": 4.4551
+        },
+        "bias_change": -0.0407,
+        "dispersion_change": 0.0123
+      },
+      {
+        "analysis": "combined_exploratory",
+        "window": "90_to_31_days",
+        "baseline": {
+          "rows": 753,
+          "abs_bias": 0.2802,
+          "dispersion_mae": 4.4861,
+          "total_mae": 4.441
+        },
+        "news": {
+          "rows": 753,
+          "abs_bias": 0.3174,
+          "dispersion_mae": 4.258,
+          "total_mae": 4.2051
+        },
+        "bias_change": 0.0372,
+        "dispersion_change": -0.2281
+      },
+      {
+        "analysis": "combined_exploratory",
+        "window": "final_72_hours",
+        "baseline": {
+          "rows": 753,
+          "abs_bias": 0.2802,
+          "dispersion_mae": 4.4861,
+          "total_mae": 4.441
+        },
+        "news": {
+          "rows": 753,
+          "abs_bias": 0.137,
+          "dispersion_mae": 4.271,
+          "total_mae": 4.2572
+        },
+        "bias_change": -0.1432,
+        "dispersion_change": -0.2151
+      },
+      {
+        "analysis": "national_exploratory",
+        "window": "14_to_8_days",
+        "baseline": {
+          "rows": 753,
+          "abs_bias": 0.2802,
+          "dispersion_mae": 4.4861,
+          "total_mae": 4.441
+        },
+        "news": {
+          "rows": 753,
+          "abs_bias": 0.2813,
+          "dispersion_mae": 4.4858,
+          "total_mae": 4.4406
+        },
+        "bias_change": 0.0011,
+        "dispersion_change": -0.0003
+      },
+      {
+        "analysis": "national_exploratory",
+        "window": "180_to_91_days",
+        "baseline": {
+          "rows": 753,
+          "abs_bias": 0.2802,
+          "dispersion_mae": 4.4861,
+          "total_mae": 4.441
+        },
+        "news": {
+          "rows": 753,
+          "abs_bias": 0.3181,
+          "dispersion_mae": 5.0609,
+          "total_mae": 5.0351
+        },
+        "bias_change": 0.0379,
+        "dispersion_change": 0.5748
+      },
+      {
+        "analysis": "national_exploratory",
+        "window": "30_to_15_days",
+        "baseline": {
+          "rows": 753,
+          "abs_bias": 0.2802,
+          "dispersion_mae": 4.4861,
+          "total_mae": 4.441
+        },
+        "news": {
+          "rows": 753,
+          "abs_bias": 0.6537,
+          "dispersion_mae": 4.5276,
+          "total_mae": 4.4611
+        },
+        "bias_change": 0.3735,
+        "dispersion_change": 0.0415
+      },
+      {
+        "analysis": "national_exploratory",
+        "window": "7_to_4_days",
+        "baseline": {
+          "rows": 753,
+          "abs_bias": 0.2802,
+          "dispersion_mae": 4.4861,
+          "total_mae": 4.441
+        },
+        "news": {
+          "rows": 753,
+          "abs_bias": 0.2669,
+          "dispersion_mae": 4.49,
+          "total_mae": 4.4454
+        },
+        "bias_change": -0.0133,
+        "dispersion_change": 0.0039
+      },
+      {
+        "analysis": "national_exploratory",
+        "window": "90_to_31_days",
+        "baseline": {
+          "rows": 753,
+          "abs_bias": 0.2802,
+          "dispersion_mae": 4.4861,
+          "total_mae": 4.441
+        },
+        "news": {
+          "rows": 753,
+          "abs_bias": 0.3568,
+          "dispersion_mae": 4.2386,
+          "total_mae": 4.1773
+        },
+        "bias_change": 0.0766,
+        "dispersion_change": -0.2475
+      },
+      {
+        "analysis": "national_exploratory",
+        "window": "final_72_hours",
+        "baseline": {
+          "rows": 753,
+          "abs_bias": 0.2802,
+          "dispersion_mae": 4.4861,
+          "total_mae": 4.441
+        },
+        "news": {
+          "rows": 753,
+          "abs_bias": 0.2117,
+          "dispersion_mae": 4.5072,
+          "total_mae": 4.4686
+        },
+        "bias_change": -0.0685,
+        "dispersion_change": 0.0211
+      }
+    ]
+  }
+}
