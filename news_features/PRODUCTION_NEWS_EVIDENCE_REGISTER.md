@@ -764,3 +764,22 @@ queries (Shottermill, Grayswood) were not run separately from
 contest; 67 quarantined retrieval failures were not content-audited.
 The non-news digital trail is a future-work data-source class, not a
 usable input under the frozen protocol.
+
+**Correction and catalogue of the non-news trail.** The audit
+paragraph above reported "54 of the 92" politically-flagged undated
+records while its own composition list (34 + 2 + 1 + 19) sums to 56:
+the headline count had used a 200-character extract window, the
+composition a 300-character one. The catalogue module
+(`catalogue_haslemere_nonnews_trail.py`, outputs beside the probe
+files) recounts under the wider window and 56 is the durable figure -
+34 candidate/party social-media posts, 7 council or government pages,
+6 civic-database pages (including WhoCanIVoteFor's July listing of all
+four candidates), 2 leaflet-archive scans, 2 namesake false positives
+(an American ministry matching a candidate's surname), and one each of
+party site, press topic-index page, public-notice portal,
+tactical-voting site (stopreformuk.vote's Haslemere page) and
+discussion forum. Editorial press articles among them: still **zero**,
+so every conclusion drawn from the audit stands unchanged. The
+catalogue is descriptive only - nothing re-enters any corpus or model;
+it exists so the "signal lives in non-news channels" finding is a
+citable table rather than a paragraph.

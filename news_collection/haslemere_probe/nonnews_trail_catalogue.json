@@ -1,0 +1,417 @@
+{
+  "status": "DESCRIPTIVE catalogue of undated politically-flagged records. Nothing here re-enters any corpus, feature table or model.",
+  "e1_records_total": 92,
+  "politically_flagged": 56,
+  "by_channel": {
+    "candidate_or_party_social_media": 34,
+    "council_or_government_page": 7,
+    "civic_database": 6,
+    "campaign_leaflet_archive": 2,
+    "namesake_false_positive": 2,
+    "press_topic_index_page": 1,
+    "party_site": 1,
+    "public_notice_portal": 1,
+    "tactical_voting_site": 1,
+    "discussion_forum": 1
+  },
+  "by_contest_reference": {
+    "undetermined": 40,
+    "july_byelection": 13,
+    "may_principal": 3
+  },
+  "editorial_press_articles_found": 0,
+  "records": [
+    {
+      "article_id": "NEWS-google_dated_search-20c46a07024d",
+      "channel": "campaign_leaflet_archive",
+      "contest_reference": "undetermined",
+      "headline": "Reform UK leaflet",
+      "url": "https://electionleaflets.org/leaflets/22257/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-2848c2a9fa17",
+      "channel": "campaign_leaflet_archive",
+      "contest_reference": "undetermined",
+      "headline": "Conservative and Unionist Party leaflet",
+      "url": "https://electionleaflets.org/leaflets/22308/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-03f659e98060",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "undetermined",
+      "headline": "1.6K views \u00b7 70 reactions | A message from Reform candidate Jonathan Ashworth. Jonathan is standing alongside our candid",
+      "url": "https://www.facebook.com/61581040001663/videos/a-message-from-reform-candidate-jonathan-ashworth-jonathan-is-standing-alongside/954111570699914/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-0bc0142f61e3",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "july_byelection",
+      "headline": "Guildford & Waverley Green Party",
+      "url": "https://www.facebook.com/GandEWgreenparty/posts/meet-tom-shrive-green-party-candidate-for-the-upcoming-haslemere-by-electionim-s/1484905230334777/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-216d09337fb1",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "undetermined",
+      "headline": "Monica Harding MP on Instagram: \"Waking up to a new Surrey with LibDem majorities in East and West! \nCongratulations to ",
+      "url": "https://www.instagram.com/p/DYG_LkCDpAW/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-219276df6a8e",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "undetermined",
+      "headline": "15 reactions \u00b7 6 comments | \ud83c\udf1eThe sun's been out and so have our Lib Dem candidates and volunteers in Haslemere.\n\n\ud83d\uddf3\ufe0fVote ",
+      "url": "https://www.facebook.com/waverleyliberaldemocrats/videos/the-suns-been-out-and-so-have-our-lib-dem-candidates-and-volunteers-in-haslemere/1872462610394473/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-23069e076527",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "july_byelection",
+      "headline": "\ud83d\udc9a\ud83d\uddf3\ufe0fHASLEMERE - #VoteGREEN Vote TOM SHRIVE Today! \n\n\ud83d\uddf3\ufe0fPolls are open 7AM - 10PM July 7th\nPolling Station: Haslewey Commun",
+      "url": "https://www.facebook.com/GandEWgreenparty/videos/%EF%B8%8Fhaslemere-votegreen-vote-tom-shrive-today-%EF%B8%8Fpolls-are-open-7am-10pm-july-7thpoll/10012168658550"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-3b71f770561c",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "undetermined",
+      "headline": "26K views \u00b7 330 reactions | The Liberal Democrats have taken control of both new councils which will launch next year in",
+      "url": "https://www.facebook.com/BBCSurrey/posts/the-liberal-democrats-have-taken-control-of-both-new-councils-which-will-launch-/1928842888054666/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-3bcb7abdb197",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "july_byelection",
+      "headline": "Guildford & Waverley Green Party on Instagram: \"\ud83d\udc9a\ud83d\uddf3\ufe0fLearn Tom Shrive\u2019s priorities for a GREENER Haslemere. Vote Tom Shriv",
+      "url": "https://www.instagram.com/reel/DaVZ-7glWZp/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-4114e69739a9",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "undetermined",
+      "headline": "5.8K views \u00b7 38 reactions | Did we mention that it's local elections on Thursday? \n\n\ud83d\udd36Your Lib Dem candidates are all loc",
+      "url": "https://www.facebook.com/Hartlibdems/videos/did-we-mention-that-its-local-elections-on-thursday-your-lib-dem-candidates-are-/2324549014735579/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-4361b23fe4e2",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "undetermined",
+      "headline": "Haslemere - Surrey residents could face rising council tax bills and deep financial uncertainty under plans to overhaul ",
+      "url": "https://www.facebook.com/haslemereherald/photos/surrey-residents-could-face-rising-council-tax-bills-and-deep-financial-uncertai/1772970383981898/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-4a703de7d56e",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "july_byelection",
+      "headline": "Waverley Liberal Democrats",
+      "url": "https://www.facebook.com/waverleyliberaldemocrats/posts/announcing-our-three-fantastic-candidates-for-the-upcoming-triple-by-election-in/1446976650804427/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-5303fd7f6b1f",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "may_principal",
+      "headline": "Waverley Liberal Democrats",
+      "url": "https://www.facebook.com/waverleyliberaldemocrats/posts/introducing-our-two-candidates-for-haslemere-in-the-upcoming-west-surrey-unitary/1344578081044285/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-538e082e82c5",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "undetermined",
+      "headline": "Kemi Badenoch on Instagram: \"Remember, if you want to get Britain working again, vote Conservative!\"",
+      "url": "https://www.instagram.com/reel/DYDDjGQCtlZ/?hl=en"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-58996e9fb488",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "july_byelection",
+      "headline": "12 reactions | A good day out canvassing in Haslemere for the Green Party in the run-up to the triple by-election next T",
+      "url": "https://www.facebook.com/GandEWgreenparty/posts/a-good-day-out-canvassing-in-haslemere-for-the-green-party-in-the-run-up-to-the-/1509597177865582/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-64cfc319530c",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "undetermined",
+      "headline": "Waverley Liberal Democrats on Instagram: \"\ud83c\udf89 Congratulations to Oli Leach & Terry Weldon, elected councillors for Hasleme",
+      "url": "https://www.instagram.com/p/DYFcDbHDmK_/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-668adec4c955",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "undetermined",
+      "headline": "Calderdale Green Party on Instagram: \"\ud83c\udf89\ud83c\udf89 Martin has been re-elected as councillor for Northowram and Shelf!!\"",
+      "url": "https://www.instagram.com/p/DYFjWOEAks1/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-8b2cea645812",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "july_byelection",
+      "headline": "25 reactions \u00b7 7 comments | \ud83d\udc9a\ud83d\uddf3\ufe0fHASLEMERE - Vote GREEN Vote TOM SHRIVE Today! \n\n\ud83d\uddf3\ufe0fPolls are open 7AM - 10PM July 7th\nPoll",
+      "url": "https://www.facebook.com/GandEWgreenparty/videos/%EF%B8%8Fhaslemere-vote-green-vote-tom-shrive-today-%EF%B8%8Fpolls-are-open-7am-10pm-july-7thpol/13373991046143"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-95cc6e156b8c",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "undetermined",
+      "headline": "Haslemere Community Chat and Debate | Vote for Toby Byfield in the Haslemere triple by election on Tuesday July 7th  | F",
+      "url": "https://www.facebook.com/groups/1343536722508653/posts/3081088822086759/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-9995d495efaa",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "undetermined",
+      "headline": "Waverley Liberal Democrats",
+      "url": "https://www.facebook.com/waverleyliberaldemocrats/posts/-congratulations-to-cllr-terry-weldon-haslemere-elected-councillor-for-the-hasle/1470471258454966/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-9ab8f9995e55",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "undetermined",
+      "headline": "Liberal Democrats on Instagram: \"Where it counts, at the ballot box, more and more people are turning to the Liberal Dem",
+      "url": "https://www.instagram.com/reel/DX-DQNUGRkB/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-9da2cee3437f",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "july_byelection",
+      "headline": "Guildford & Waverley Green Party on Instagram: \"A good day out canvassing in Haslemere for the Green Party in the run-up",
+      "url": "https://www.instagram.com/reel/Daa7olNtbl4/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-a1fb2294c37e",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "undetermined",
+      "headline": "Surrey County Council on Instagram: \"The results are in! All local counts for East Surrey Council elections are now comp",
+      "url": "https://www.instagram.com/p/DYF-Wk_jfj9/?hl=en"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-ab17d3e97664",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "undetermined",
+      "headline": "West Surrey | Introducing your Conservative candidates for Haslemere ward in the 2026 West Surrey Council Election | Fac",
+      "url": "https://www.facebook.com/groups/832559826350657/posts/889184814021491/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-bc139b0d4beb",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "undetermined",
+      "headline": "Waverley Liberal Democrats on Instagram: \"\ud83c\udf1eThe sun's been out and so have our Lib Dem candidates and volunteers in Hasle",
+      "url": "https://www.instagram.com/reel/DaYhb8LCr73/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-be32ce736830",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "undetermined",
+      "headline": "Waverley - Oli Leach, Liberal Democrats and Terry Weldon, Liberal Democrats have been elected to represent Haslemere on ",
+      "url": "https://www.facebook.com/WaverleyBC/photos/oli-leach-liberal-democrats-and-terry-weldon-liberal-democrats-have-been-elected/1408335731337208/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-c2457a699d50",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "undetermined",
+      "headline": "Farnham and Bordon Conservatives",
+      "url": "https://www.facebook.com/FarnhamBordon/posts/vote-for-toby-byfield-on-july-7th/122250385604040671/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-c642a4293503",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "undetermined",
+      "headline": "13K views \u00b7 340 reactions | \u201cThis election is going to be between the Green Party and Reform and the stakes could not be",
+      "url": "https://www.facebook.com/thegreenparty/videos/this-election-is-going-to-be-between-the-green-party-and-reform-and-the-stakes-c/27284068281262006/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-d36b59b4d333",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "undetermined",
+      "headline": "Waverley Borough Council on Instagram: \"Oli Leach, Liberal Democrats and Terry Weldon, Liberal Democrats have been elect",
+      "url": "https://www.instagram.com/p/DYFg1FfjqVw/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-d82077d9b738",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "july_byelection",
+      "headline": "Guildford & Waverley Green Party on Instagram: \"\ud83d\udc9a\ud83d\uddf3\ufe0fHASLEMERE - Vote GREEN on July 7th! \n\n\u201cDon\u2019t I need to vote tacticall",
+      "url": "https://www.instagram.com/reel/Dac4ae7NsJm/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-e30059372114",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "undetermined",
+      "headline": "Green Party of England & Wales on Instagram: \"The two-party story is broken.\n\nOn May 7, write a new one. Vote Green. \ud83d\udc9a \n",
+      "url": "https://www.instagram.com/reel/DW9Z4Q0jQDc/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-e48f78b0d70b",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "undetermined",
+      "headline": "3.3K views \u00b7 13 reactions | The council is facing a significant reduction of around \u00a3100 million in Government funding. ",
+      "url": "https://www.facebook.com/CityWestminster/posts/the-council-is-facing-a-significant-reduction-of-around-100-million-in-governmen/1769988780981274/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-ec2431ae272b",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "undetermined",
+      "headline": "2.4K views \u00b7 223 reactions | Introducing one of our two candidates for Haslemere - Barb Witt, who is standing along with",
+      "url": "https://www.facebook.com/61581040001663/videos/introducing-one-of-our-two-candidates-for-haslemere-barb-witt-who-is-standing-al/1481426540088787/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-f494449479d7",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "july_byelection",
+      "headline": "Guildford & Waverley Green Party on Instagram: \"Meet Tom Shrive, Green Party Candidate for the upcoming  Haslemere by-el",
+      "url": "https://www.instagram.com/p/DZaf8FANxYb/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-f6616bfb8b23",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "undetermined",
+      "headline": "Mario Creatura on Instagram: \"Warm weather and a warm response for Toby Byfield in Haslemere yesterday \u2600\ufe0f\n\nToby is stand",
+      "url": "https://www.instagram.com/p/DZ2SMvaR1Nx/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-feddc2c2dfbc",
+      "channel": "candidate_or_party_social_media",
+      "contest_reference": "undetermined",
+      "headline": "Alyn Smith on Instagram: \"The Greens have decided not to stand in the Stirling constituency. If you\u2019re a Green supporter",
+      "url": "https://www.instagram.com/reel/DWmE-H1DUJ9/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-114f09f3e664",
+      "channel": "civic_database",
+      "contest_reference": "july_byelection",
+      "headline": "Surrey local election: The 4 candidates in Haslemere",
+      "url": "https://whocanivotefor.co.uk/elections/local.surrey.haslemere.by.2026-07-07/haslemere/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-21fe868c1076",
+      "channel": "civic_database",
+      "contest_reference": "may_principal",
+      "headline": "West Surrey local election: The 9 candidates in Haslemere",
+      "url": "https://whocanivotefor.co.uk/elections/local.west-surrey.haslemere.2026-05-07/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-7636bc2d462a",
+      "channel": "civic_database",
+      "contest_reference": "undetermined",
+      "headline": "Terry Weldon Election History",
+      "url": "https://www.local-democracy.uk/councillors/waverley/1680/elections"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-80fc6726b1df",
+      "channel": "civic_database",
+      "contest_reference": "undetermined",
+      "headline": "Thomas Oliver Shrive for Haslemere West in the Waverley local election",
+      "url": "https://whocanivotefor.co.uk/person/139317/thomas-oliver-shrive"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-a6d3acdbce9e",
+      "channel": "civic_database",
+      "contest_reference": "undetermined",
+      "headline": "Barb Witt for Haslemere West in the Waverley local election",
+      "url": "https://whocanivotefor.co.uk/person/127188/barb-witt"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-e64982c034d9",
+      "channel": "civic_database",
+      "contest_reference": "undetermined",
+      "headline": "Thomas Oliver Shrive for Haslemere West in the Waverley local election",
+      "url": "https://whocanivotefor.co.uk/person/139317"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-2e0d135c02d3",
+      "channel": "council_or_government_page",
+      "contest_reference": "undetermined",
+      "headline": "Terry Weldon - Haslemere Town Council",
+      "url": "https://haslemere-tc.gov.uk/team_member/terry-weldon/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-417ab2ea2c4e",
+      "channel": "council_or_government_page",
+      "contest_reference": "undetermined",
+      "headline": "Home - Haslemere Town Council",
+      "url": "https://haslemere-tc.gov.uk/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-674e010508a0",
+      "channel": "council_or_government_page",
+      "contest_reference": "july_byelection",
+      "headline": "Haslemere Town Council By-election | Waverley Borough Council",
+      "url": "https://www.waverley.gov.uk/services/council-information/registering-to-vote-and-elections/elections-2026/by-elections/haslemere-town-council-haslemere-west-war"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-7c555518737b",
+      "channel": "council_or_government_page",
+      "contest_reference": "undetermined",
+      "headline": "Report A Problem | Haslemere Town Council",
+      "url": "https://haslemere-tc.gov.uk/report-a-problem/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-c340fd6c96d0",
+      "channel": "council_or_government_page",
+      "contest_reference": "undetermined",
+      "headline": "Haslemere Library - Surrey County Council",
+      "url": "https://www.surreycc.gov.uk/libraries/your-library/find-your-nearest/haslemere"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-d7cb6c0def66",
+      "channel": "council_or_government_page",
+      "contest_reference": "undetermined",
+      "headline": "Election results for Haslemere, 7 July 2026",
+      "url": "https://modgov.waverley.gov.uk/mgElectionResults.aspx?ID=93&RPID=0"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-ff320f6b3ccd",
+      "channel": "council_or_government_page",
+      "contest_reference": "july_byelection",
+      "headline": "Surrey County Council By-election | Waverley Brough Council",
+      "url": "https://www.waverley.gov.uk/services/council-information/registering-to-vote-and-elections/elections-2026/by-elections/surrey-county-council-haslemere-division-"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-d470094a8698",
+      "channel": "discussion_forum",
+      "contest_reference": "july_byelection",
+      "headline": "Local Council by-elections 7th & 9th July 2026 | Vote UK Forum",
+      "url": "https://vote-2012.proboards.com/thread/19977/local-council-elections-july-2026"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-815c10060d33",
+      "channel": "namesake_false_positive",
+      "contest_reference": "undetermined",
+      "headline": "Cookie Policy \u2013 Barb Witt Ministries",
+      "url": "https://barbwitt.org/cookie-policy/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-aa6eb0ae3c8d",
+      "channel": "namesake_false_positive",
+      "contest_reference": "undetermined",
+      "headline": "Events \u2013 Barb Witt Ministries",
+      "url": "https://barbwitt.org/events/"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-2db30ac164b3",
+      "channel": "party_site",
+      "contest_reference": "undetermined",
+      "headline": "Terry Weldon for Haslemere",
+      "url": "https://www.waverleylibdems.org.uk/team/our-may-2026-candidates/terry-weldon"
+    },
+    {
+      "article_id": "NEWS-farnham_herald-1e4cc9da3577",
+      "channel": "press_topic_index_page",
+      "contest_reference": "undetermined",
+      "headline": "Farnham News - local news at the heart of the community",
+      "url": "https://www.farnhamherald.com/topic/haslemere-neighbourhood-plan"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-4ebe33dbe4ba",
+      "channel": "public_notice_portal",
+      "contest_reference": "undetermined",
+      "headline": "Notice near GU27 1HN, GU9 7JA and 2 more",
+      "url": "https://publicnoticeportal.uk/notice/traffic-and-roads/69cbd192c5ba2d8ef00511d3"
+    },
+    {
+      "article_id": "NEWS-google_dated_search-a99679c7a924",
+      "channel": "tactical_voting_site",
+      "contest_reference": "may_principal",
+      "headline": "Stop Reform and the Tories in Haslemere, West Surrey Council",
+      "url": "https://stopreformuk.vote/local/west-surrey/haslemere"
+    }
+  ]
+}
