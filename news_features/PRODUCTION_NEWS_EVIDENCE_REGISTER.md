@@ -614,3 +614,19 @@ each spent both permitted rescue attempts and remain excluded (section
 require a NEW gold-standard sample - the by-election corpus can supply
 one - and would be exploratory only; the deferred decision recorded
 here is that no third attempt has been made.
+
+**The two pre-declared decompositions have now been run**
+(`exploratory_decompositions_v1/`; exploratory, pre-declared above).
+Attribution: refitting the v2 variant without its seven Reform cells
+(45 to 38) shrinks every confirmatory improvement substantially and
+eliminates two of the five outright (national 90-31 days +0.268 to
+-0.002; combined final-72-hours +0.188 to -1.133), while three survive
+at reduced size (combined 90-31 days +0.240 to +0.077, combined
+30-15 days +0.134 to +0.033, national 14-8 days +0.005 to +0.003).
+**Both changes contributed; the Reform-era cells carried the larger
+share of the improvement.** Mechanism: in the pooled decomposition the
+bias term is pinned near zero by contest normalisation, so party-level
+corrections surface as dispersion; dispersion falls in exactly the
+mid-range windows where MAE improved and rises where it worsened,
+which is consistent with the tide-gauge reading in its pooled form.
+The sharper per-party bias decomposition is declared here and not run.
