@@ -1,0 +1,204 @@
+{
+  "status": "UNSEALED once, against the committed predictions (blob c22c0a326dabcb43). Case study: one contest, five candidates; no promotion of any arm or combination.",
+  "election": "surrey-county-council-by-election-woking-south-2025-07-10",
+  "specifications": [
+    {
+      "arm": "combined",
+      "window": "180_to_91_days",
+      "combination_pick": false,
+      "news_mae": 9.3658,
+      "recalibrated_mae": 10.126,
+      "baseline_mae": 10.0849,
+      "news_vs_baseline": 0.7191,
+      "reform_signed_error": -8.2642,
+      "winner_correct": true
+    },
+    {
+      "arm": "local",
+      "window": "180_to_91_days",
+      "combination_pick": true,
+      "news_mae": 13.8886,
+      "recalibrated_mae": 10.126,
+      "baseline_mae": 10.0849,
+      "news_vs_baseline": -3.8037,
+      "reform_signed_error": -14.3806,
+      "winner_correct": true
+    },
+    {
+      "arm": "national",
+      "window": "180_to_91_days",
+      "combination_pick": false,
+      "news_mae": 9.2116,
+      "recalibrated_mae": 10.126,
+      "baseline_mae": 10.0849,
+      "news_vs_baseline": 0.8733,
+      "reform_signed_error": -8.1771,
+      "winner_correct": true
+    },
+    {
+      "arm": "combined",
+      "window": "90_to_31_days",
+      "combination_pick": false,
+      "news_mae": 10.3095,
+      "recalibrated_mae": 10.126,
+      "baseline_mae": 10.0849,
+      "news_vs_baseline": -0.2246,
+      "reform_signed_error": -6.4796,
+      "winner_correct": true
+    },
+    {
+      "arm": "local",
+      "window": "90_to_31_days",
+      "combination_pick": false,
+      "news_mae": 9.9168,
+      "recalibrated_mae": 10.126,
+      "baseline_mae": 10.0849,
+      "news_vs_baseline": 0.1681,
+      "reform_signed_error": -6.9059,
+      "winner_correct": true
+    },
+    {
+      "arm": "national",
+      "window": "90_to_31_days",
+      "combination_pick": true,
+      "news_mae": 10.3368,
+      "recalibrated_mae": 10.126,
+      "baseline_mae": 10.0849,
+      "news_vs_baseline": -0.2519,
+      "reform_signed_error": -6.4499,
+      "winner_correct": true
+    },
+    {
+      "arm": "combined",
+      "window": "30_to_15_days",
+      "combination_pick": true,
+      "news_mae": 10.3739,
+      "recalibrated_mae": 10.126,
+      "baseline_mae": 10.0849,
+      "news_vs_baseline": -0.289,
+      "reform_signed_error": -6.4097,
+      "winner_correct": true
+    },
+    {
+      "arm": "local",
+      "window": "30_to_15_days",
+      "combination_pick": false,
+      "news_mae": 9.7695,
+      "recalibrated_mae": 10.126,
+      "baseline_mae": 10.0849,
+      "news_vs_baseline": 0.3154,
+      "reform_signed_error": -7.0657,
+      "winner_correct": true
+    },
+    {
+      "arm": "national",
+      "window": "30_to_15_days",
+      "combination_pick": false,
+      "news_mae": 10.3904,
+      "recalibrated_mae": 10.126,
+      "baseline_mae": 10.0849,
+      "news_vs_baseline": -0.3055,
+      "reform_signed_error": -6.3917,
+      "winner_correct": true
+    },
+    {
+      "arm": "combined",
+      "window": "14_to_8_days",
+      "combination_pick": false,
+      "news_mae": 9.9975,
+      "recalibrated_mae": 10.126,
+      "baseline_mae": 10.0849,
+      "news_vs_baseline": 0.0874,
+      "reform_signed_error": -6.8182,
+      "winner_correct": true
+    },
+    {
+      "arm": "local",
+      "window": "14_to_8_days",
+      "combination_pick": true,
+      "news_mae": 10.0115,
+      "recalibrated_mae": 10.126,
+      "baseline_mae": 10.0849,
+      "news_vs_baseline": 0.0734,
+      "reform_signed_error": -6.803,
+      "winner_correct": true
+    },
+    {
+      "arm": "national",
+      "window": "14_to_8_days",
+      "combination_pick": false,
+      "news_mae": 10.0815,
+      "recalibrated_mae": 10.126,
+      "baseline_mae": 10.0849,
+      "news_vs_baseline": 0.0034,
+      "reform_signed_error": -6.7271,
+      "winner_correct": true
+    },
+    {
+      "arm": "combined",
+      "window": "7_to_4_days",
+      "combination_pick": false,
+      "news_mae": 10.2121,
+      "recalibrated_mae": 10.126,
+      "baseline_mae": 10.0849,
+      "news_vs_baseline": -0.1272,
+      "reform_signed_error": -6.5853,
+      "winner_correct": true
+    },
+    {
+      "arm": "local",
+      "window": "7_to_4_days",
+      "combination_pick": false,
+      "news_mae": 10.2121,
+      "recalibrated_mae": 10.126,
+      "baseline_mae": 10.0849,
+      "news_vs_baseline": -0.1272,
+      "reform_signed_error": -6.5853,
+      "winner_correct": true
+    },
+    {
+      "arm": "national",
+      "window": "7_to_4_days",
+      "combination_pick": true,
+      "news_mae": 10.126,
+      "recalibrated_mae": 10.126,
+      "baseline_mae": 10.0849,
+      "news_vs_baseline": -0.0411,
+      "reform_signed_error": -6.6788,
+      "winner_correct": true
+    },
+    {
+      "arm": "combined",
+      "window": "final_72_hours",
+      "combination_pick": false,
+      "news_mae": 10.2985,
+      "recalibrated_mae": 10.126,
+      "baseline_mae": 10.0849,
+      "news_vs_baseline": -0.2136,
+      "reform_signed_error": -6.4915,
+      "winner_correct": true
+    },
+    {
+      "arm": "local",
+      "window": "final_72_hours",
+      "combination_pick": true,
+      "news_mae": 10.0124,
+      "recalibrated_mae": 10.126,
+      "baseline_mae": 10.0849,
+      "news_vs_baseline": 0.0725,
+      "reform_signed_error": -6.8022,
+      "winner_correct": true
+    },
+    {
+      "arm": "national",
+      "window": "final_72_hours",
+      "combination_pick": false,
+      "news_mae": 10.3011,
+      "recalibrated_mae": 10.126,
+      "baseline_mae": 10.0849,
+      "news_vs_baseline": -0.2162,
+      "reform_signed_error": -6.4887,
+      "winner_correct": true
+    }
+  ]
+}

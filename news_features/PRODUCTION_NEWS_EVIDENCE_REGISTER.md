@@ -985,3 +985,48 @@ unseal script exists and is machine-locked: it compares the
 predictions file's bytes against the blob committed at HEAD and
 refuses to run on any mismatch, so the order predictions-then-outcome
 is enforced by git itself, not by promise.
+
+**Woking South unsealed: the blind test refuted the transfer.** The
+unseal ran once, against predictions verified byte-identical to the
+committed blob c22c0a326dabcb43. On the pre-identified informative
+panel (180-91 days) the protocol's pick - the LOCAL arm - scored
+contest MAE 13.889 against the baseline's 10.085 (-3.804, the worst
+of all eighteen specifications), while the two arms the frozen rule
+rejected both beat the baseline (national +0.873, combined +0.719).
+Reform UK took roughly 19 percent; the baseline under-predicted it
+(12.28) and the local news adjustment pushed it the wrong way to 4.62
+(signed error -14.38). The five near windows behaved exactly as the
+pre-outcome census predicted - structural-zero controls within 0.32
+of baseline - and the combination's picks beat the baseline in 2 of 6
+windows, both trivially small near-window positives. All eighteen
+specifications called the Liberal Democrat winner. Readings, in the
+protocol's own no-promotion terms: the 2026-derived far-window
+advantage of the local arm did NOT transfer (2026: national harmful
+-0.59, local helpful +0.33; this contest: national helpful +0.87,
+local harmful -3.80 - the signs swapped contests), so the arm-window
+pattern behind the window-weighted combination is unstable across
+contests and the combination hypothesis is refuted at first blind
+contact; a 13-article single-contest local corpus can inject large
+wrong-direction adjustments, and news mis-signed Reform for a third
+time in a third setting (located nowhere in 2026, over-corrected at
+Haslemere, crushed to 4.62 against ~19 here). The test's design did
+its job: a plausible, mechanically derived, data-driven rule failed
+out of sample under a protocol that made failure visible - which is
+the argument for one-time unblinding and no-promotion stated as an
+experiment. Case study, one contest, five candidates; nothing here
+joins or revises any confirmatory verdict.
+
+**Post-unseal autopsy of the pick's 3.804 gap (descriptive, from the
+unsealed data).** The contest was a Liberal Democrat landslide no
+information source encoded: LD took 64.0 (baseline 45.5), the
+Conservatives collapsed to 10.0 (baseline 24.2), Reform took 19.0
+(baseline 12.3). Decomposing news-minus-baseline MAE by party: Reform
+contributes +1.53 (pushed down to 4.62 while reality surged),
+Conservative +1.09 (pushed up to 29.63 while reality collapsed),
+Labour +0.67, Liberal Democrats +0.37, Green +0.15 - the local news
+adjustment worsened ALL FIVE parties, steering against the realignment
+on both of the contest's biggest movers. The baseline's own 10.085 is
+itself dominated by the landslide (LD error 18.5, Conservative 14.2):
+neither election history nor January-February newspapers carried any
+trace of a July landslide, which is the information-availability
+reading of this contest stated in arithmetic.
