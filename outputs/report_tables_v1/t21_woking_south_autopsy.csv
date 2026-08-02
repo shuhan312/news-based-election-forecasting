@@ -1,0 +1,6 @@
+party,observed_share,baseline_prediction,news_prediction,baseline_abs_error,news_abs_error,mae_contribution
+Reform UK,19.0,12.2766,4.6194,6.72,14.38,1.531
+Conservative,10.0,24.2009,29.6292,14.2,19.63,1.086
+Labour,3.0,8.5035,11.8284,5.5,8.83,0.665
+Liberal Democrats,64.0,45.5113,43.6591,18.49,20.34,0.37
+The Green Party,4.0,9.5078,10.2639,5.51,6.26,0.151

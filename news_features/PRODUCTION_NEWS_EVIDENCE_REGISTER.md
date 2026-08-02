@@ -1030,3 +1030,18 @@ itself dominated by the landslide (LD error 18.5, Conservative 14.2):
 neither election history nor January-February newspapers carried any
 trace of a July landslide, which is the information-availability
 reading of this contest stated in arithmetic.
+
+**Turnout: the precise scope record.** The first supervisor email
+lists turnout among ten eventual prediction targets; the later
+operative brief (the twelve-deliverable email) narrows "what we're
+predicting" to vote share, ranking, winning and win probability, and
+turnout does not appear in it. The register's earlier one-line reason
+("the leakage rules class it as known only after the fact") is
+precise about turnout as an INPUT - current-election turnout is
+outcome-side and is excluded by the leakage audit - but the reason
+turnout was never a modelled TARGET is the operative brief's
+narrower target list, not leakage. Both halves are now stated.
+Building a turnout model remains possible (turnout per contest is in
+the election database, 2013 cross-validated against Wikipedia per
+the recorded decision) and would be a new exploratory target if ever
+wanted; it is not scheduled against the writing deadline.

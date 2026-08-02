@@ -64,19 +64,19 @@ Every table is read from committed artefacts; `manifest.json` holds the sha256 o
 | Reform UK | 0 | 14 |
 | The Green Party | 0 | 8 |
 | Independent | 0 | 3 |
+| Ashtead Independent, working with Ashtead Residents | 2 | 2 |
+| Farnham Residents | 6 | 2 |
 | Residents Associations of Epsom and Ewell | 10 | 2 |
 | Nork and Tattenhams Residents' Associations | 2 | 2 |
-| Farnham Residents | 6 | 2 |
-| Ashtead Independent, working with Ashtead Residents | 2 | 2 |
+| Runnymede Independent Residents' Group | 2 | 1 |
 | The Molesey Residents Association | 2 | 1 |
 | Residents for Guildford and Villages | 2 | 1 |
-| Runnymede Independent Residents' Group | 2 | 1 |
 | Thames Ditton Residents' Association | 1 | 0 |
-| Local Conservatives | 4 | 0 |
-| Labour | 2 | 0 |
-| The Walton Society | 2 | 0 |
 | Weybridge Independents | 1 | 0 |
 | Hinchley Wood Residents - Weston, Long Ditton | 2 | 0 |
+| The Walton Society | 2 | 0 |
+| Labour | 2 | 0 |
+| Local Conservatives | 4 | 0 |
 
 ## Confirmatory comparisons, v1 (before enrichment): 0 of 12 improve
 
@@ -353,3 +353,53 @@ Every table is read from committed artefacts; `manifest.json` holds the sha256 o
 | target: the same unfavourable story about Reform vs the Cons | conservative | unfavourable | combined | 10 | 90-31 days | 57 | -0.1601 | 22 |
 | arm: one favourable Reform story via national vs local colle | reform_uk | favourable | national | 10 | 90-31 days | 45 | 2.1198 | 0 |
 | arm: one favourable Reform story via national vs local colle | reform_uk | favourable | local | 10 | 90-31 days | 12 | 7.352 | 264 |
+
+## Exploratory local re-run on v3 (4 of 6 windows improve; sign inversion at 180-91 days)
+
+*Source: rerun_results.json (register local-rerun addendum)*
+
+| window | local_v3_delta | ci_lower | ci_upper | local_v2_sensitivity | combined_confirmatory | national_confirmatory | seat_accuracy |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 180-91 days | 0.325 | 0.25 | 0.403 | 0.289 | -0.575 | -0.59 | 0.7188 |
+| 90-31 days | 0.267 | 0.084 | 0.432 | 0.188 | 0.24 | 0.268 | 0.8101 |
+| 30-15 days | -0.659 | -0.814 | -0.503 | -0.561 | 0.134 | -0.016 | 0.7115 |
+| 14-8 days | 0.015 | -0.063 | 0.094 | 0.018 | -0.325 | 0.005 | 0.7188 |
+| 7-4 days | -0.01 | -0.018 | -0.002 | -0.01 | -0.01 | 0.0 | 0.7188 |
+| final 72h | 0.259 | 0.084 | 0.417 | -0.833 | 0.188 | -0.023 | 0.8173 |
+
+## Woking South pre-registered blind test: the pick (local, 180-91d) worst of 18; transfer refuted
+
+*Source: unseal_results.json + protocol.json (register Woking South addenda)*
+
+| window | arm | combination_pick | news_mae | baseline_mae | news_vs_baseline | reform_signed_error | winner_correct |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 180-91 days | combined | False | 9.3658 | 10.0849 | 0.7191 | -8.2642 | True |
+| 180-91 days | local | True | 13.8886 | 10.0849 | -3.8037 | -14.3806 | True |
+| 180-91 days | national | False | 9.2116 | 10.0849 | 0.8733 | -8.1771 | True |
+| 90-31 days | combined | False | 10.3095 | 10.0849 | -0.2246 | -6.4796 | True |
+| 90-31 days | local | False | 9.9168 | 10.0849 | 0.1681 | -6.9059 | True |
+| 90-31 days | national | True | 10.3368 | 10.0849 | -0.2519 | -6.4499 | True |
+| 30-15 days | combined | True | 10.3739 | 10.0849 | -0.289 | -6.4097 | True |
+| 30-15 days | local | False | 9.7695 | 10.0849 | 0.3154 | -7.0657 | True |
+| 30-15 days | national | False | 10.3904 | 10.0849 | -0.3055 | -6.3917 | True |
+| 14-8 days | combined | False | 9.9975 | 10.0849 | 0.0874 | -6.8182 | True |
+| 14-8 days | local | True | 10.0115 | 10.0849 | 0.0734 | -6.803 | True |
+| 14-8 days | national | False | 10.0815 | 10.0849 | 0.0034 | -6.7271 | True |
+| 7-4 days | combined | False | 10.2121 | 10.0849 | -0.1272 | -6.5853 | True |
+| 7-4 days | local | False | 10.2121 | 10.0849 | -0.1272 | -6.5853 | True |
+| 7-4 days | national | True | 10.126 | 10.0849 | -0.0411 | -6.6788 | True |
+| final 72h | combined | False | 10.2985 | 10.0849 | -0.2136 | -6.4915 | True |
+| final 72h | local | True | 10.0124 | 10.0849 | 0.0725 | -6.8022 | True |
+| final 72h | national | False | 10.3011 | 10.0849 | -0.2162 | -6.4887 | True |
+
+## Woking South autopsy: the news adjustment worsened all five parties (LD landslide 64.0 encoded nowhere)
+
+*Source: blind_predictions.csv + out_of_fold_predictions.csv (register autopsy addendum)*
+
+| party | observed_share | baseline_prediction | news_prediction | baseline_abs_error | news_abs_error | mae_contribution |
+| --- | --- | --- | --- | --- | --- | --- |
+| Reform UK | 19.0 | 12.2766 | 4.6194 | 6.72 | 14.38 | 1.531 |
+| Conservative | 10.0 | 24.2009 | 29.6292 | 14.2 | 19.63 | 1.086 |
+| Labour | 3.0 | 8.5035 | 11.8284 | 5.5 | 8.83 | 0.665 |
+| Liberal Democrats | 64.0 | 45.5113 | 43.6591 | 18.49 | 20.34 | 0.37 |
+| The Green Party | 4.0 | 9.5078 | 10.2639 | 5.51 | 6.26 | 0.151 |

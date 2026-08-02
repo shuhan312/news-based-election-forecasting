@@ -17,7 +17,10 @@
     "t15_haslemere_reference": "Haslemere probe: baseline references and corpus facts",
     "t16_nonnews_trail_channels": "Non-news digital trail of the Haslemere campaign, by channel",
     "t17_corpus_by_window": "Canonical v2 corpus per confirmed window",
-    "t18_synthetic_scenarios": "Synthetic news scenarios on the frozen v2 model (associational; register section 17)"
+    "t18_synthetic_scenarios": "Synthetic news scenarios on the frozen v2 model (associational; register section 17)",
+    "t19_local_v3_rerun": "Exploratory local re-run on v3 (4 of 6 windows improve; sign inversion at 180-91 days)",
+    "t20_woking_south_blind_test": "Woking South pre-registered blind test: the pick (local, 180-91d) worst of 18; transfer refuted",
+    "t21_woking_south_autopsy": "Woking South autopsy: the news adjustment worsened all five parties (LD landslide 64.0 encoded nowhere)"
   },
   "input_sha256": {
     "unblinding": "1fefcb13b6dada160fd35cd4c5a7471812832d555ff787915cabcee068193ef0",
@@ -28,6 +31,11 @@
     "catalogue": "6649444637a07fc029b92f0c67f760b54217a1eef36be518edf40b89fa6b53bb",
     "release_v2": "9e371794bb6e16e50d4ddcfa199378df7bdd43ef0dd777b56050032eda9b9cab",
     "v2_predictions": "6016a8d1240310fe5743944d52e099b8967598bb07a401e93f40de1036137c36",
-    "holdout": "df8c6421301a1a3545bbd22fc776e4df254e8a4906bc115912cc866c7b9ed3d1"
+    "holdout": "df8c6421301a1a3545bbd22fc776e4df254e8a4906bc115912cc866c7b9ed3d1",
+    "local_rerun": "7f5cf6a0653fe52bd0bf8f7f02f2e50b85afa6fa4cc9cdb899ef482a8c2e8352",
+    "ws_protocol": "50dc4802f942851d9d747172a78b5e9634de9323628ff70441e2b1dc65b450c1",
+    "ws_unseal": "e47fe3efb5ad6310b66da56a7e35166e1474a876205d8b193def158d7bd80c5f",
+    "ws_blind_predictions": "769ef5406cf496ef362a9bc48db4dfb793dc90c46b25c003efd4a5774bdfd2be",
+    "baseline_out_of_fold": "950e527eb1ad82522e7cc4f4cc7567660b320942ad2b6a03c16e7ad06489e6e5"
   }
 }

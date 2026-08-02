@@ -199,6 +199,54 @@ def page_scenarios() -> None:
                          use_container_width=True, hide_index=True)
 
 
+def page_epilogue() -> None:
+    """The exploratory epilogue: what happened after the unblinding.
+    Both tables read committed artefacts; the no-promotion rule applies
+    to every number shown."""
+
+    st.header("Exploratory epilogue")
+    st.caption(WARNING)
+
+    st.subheader("The local arm, re-run on the v3 lineage (exploratory)")
+    rerun = load_json("news_features/local_v3_rerun_v1/rerun_results.json")
+    rows = []
+    for entry in rerun["windows"]:
+        overall = entry["metrics"]["all_supported_parties"]
+        ci = entry["metrics"].get("bootstrap_news_vs_recalibrated", {})
+        ref = rerun["reference_deltas"][entry["window"]]
+        rows.append({
+            "window": entry["window"],
+            "local v3 delta": round(overall["news_vs_recalibrated_mae"], 3),
+            "95% CI": f"[{ci.get('improvement_ci_lower', 0):+.3f}, "
+                      f"{ci.get('improvement_ci_upper', 0):+.3f}]",
+            "combined (conf)": ref.get("combined_confirmatory"),
+            "national (conf)": ref.get("national_confirmatory"),
+        })
+    st.dataframe(rows, use_container_width=True, hide_index=True)
+    st.caption("4 of 6 windows improve; the sign inversion at 180-91 days "
+               "(local helps where both confirmatory arms harmed) motivated "
+               "the pre-registered combination tested below.")
+
+    st.subheader("Woking South: the pre-registered blind test")
+    unseal = load_json(
+        "news_features/woking_south_blind_v1/unseal_results.json")
+    st.caption(unseal["status"])
+    st.dataframe([{
+        "window": spec["window"], "arm": spec["arm"],
+        "pick": "PICK" if spec["combination_pick"] else "",
+        "news MAE": spec["news_mae"],
+        "baseline MAE": spec["baseline_mae"],
+        "delta": spec["news_vs_baseline"],
+        "Reform err": spec["reform_signed_error"],
+        "winner": "yes" if spec["winner_correct"] else "NO",
+    } for spec in unseal["specifications"]],
+        use_container_width=True, hide_index=True)
+    st.error("The pick (local at 180-91 days) scored worst of all 18 "
+             "specifications: the 2026-derived window-arm advantage did "
+             "not transfer. Predictions were committed to git before the "
+             "outcome was read; the register carries the full autopsy.")
+
+
 def main() -> None:
     st.set_page_config(page_title="Surrey news layer", page_icon="📰",
                        layout="wide")
@@ -208,14 +256,17 @@ def main() -> None:
                        "and retrains nothing.")
     page = st.sidebar.radio("Page", ("News layer status",
                                      "Unblinding results",
-                                     "Scenario laboratory"),
+                                     "Scenario laboratory",
+                                     "Exploratory epilogue"),
                             label_visibility="collapsed")
     if page == "News layer status":
         page_status()
     elif page == "Unblinding results":
         page_results()
-    else:
+    elif page == "Scenario laboratory":
         page_scenarios()
+    else:
+        page_epilogue()
 
 
 if __name__ == "__main__":

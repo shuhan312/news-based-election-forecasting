@@ -67,6 +67,17 @@ SOURCES = {
     "holdout": Path(
         "surrey-election-no-news-baseline/outputs/model_bundle_v1/"
         "holdout_predictions.csv"),
+    "local_rerun": Path(
+        "news_features/local_v3_rerun_v1/rerun_results.json"),
+    "ws_protocol": Path(
+        "news_features/woking_south_blind_v1/protocol.json"),
+    "ws_unseal": Path(
+        "news_features/woking_south_blind_v1/unseal_results.json"),
+    "ws_blind_predictions": Path(
+        "news_features/woking_south_blind_v1/blind_predictions.csv"),
+    "baseline_out_of_fold": Path(
+        "surrey-election-no-news-baseline/outputs/model_bundle_v1/"
+        "out_of_fold_predictions.csv"),
 }
 
 WINDOW_ORDER = ("180_to_91_days", "90_to_31_days", "30_to_15_days",
@@ -500,6 +511,97 @@ def t18_scenarios(scenarios: dict) -> tuple:
             "scenario_results.json (register section 17)", rows)
 
 
+def t19_local_v3_rerun(rerun: dict) -> tuple:
+    """The exploratory local re-run: the arm comparison's final panel,
+    with the committed v2-sensitivity and confirmatory references."""
+
+    reference = rerun["reference_deltas"]
+    rows = []
+    for entry in rerun["windows"]:
+        window = entry["window"]
+        overall = entry["metrics"]["all_supported_parties"]
+        ci = entry["metrics"].get("bootstrap_news_vs_recalibrated", {})
+        ref = reference[window]
+        rows.append({
+            "window": WINDOW_LABEL[window],
+            "local_v3_delta": round(overall["news_vs_recalibrated_mae"], 3),
+            "ci_lower": round(ci.get("improvement_ci_lower", 0.0), 3),
+            "ci_upper": round(ci.get("improvement_ci_upper", 0.0), 3),
+            "local_v2_sensitivity": ref.get("local_v2_sensitivity"),
+            "combined_confirmatory": ref.get("combined_confirmatory"),
+            "national_confirmatory": ref.get("national_confirmatory"),
+            "seat_accuracy": round(
+                entry["metrics"]["seat_accuracy_news"]["accuracy"], 4),
+        })
+    return ("t19_local_v3_rerun",
+            "Exploratory local re-run on v3 (4 of 6 windows improve; "
+            "sign inversion at 180-91 days)",
+            "rerun_results.json (register local-rerun addendum)", rows)
+
+
+def t20_woking_south_unseal(unseal: dict, protocol: dict) -> tuple:
+    """The pre-registered blind test's full scoreboard: all 18
+    specifications, the derived combination marked, nothing selected."""
+
+    rows = [{
+        "window": WINDOW_LABEL[spec["window"]],
+        "arm": spec["arm"],
+        "combination_pick": spec["combination_pick"],
+        "news_mae": spec["news_mae"],
+        "baseline_mae": spec["baseline_mae"],
+        "news_vs_baseline": spec["news_vs_baseline"],
+        "reform_signed_error": spec["reform_signed_error"],
+        "winner_correct": spec["winner_correct"],
+    } for spec in unseal["specifications"]]
+    return ("t20_woking_south_blind_test",
+            "Woking South pre-registered blind test: the pick (local, "
+            "180-91d) worst of 18; transfer refuted",
+            "unseal_results.json + protocol.json (register Woking South "
+            "addenda)", rows)
+
+
+def t21_woking_south_autopsy() -> tuple:
+    """Per-party autopsy of the pick's failure, recomputed from the
+    committed blind predictions and the unsealed outcomes - reproduces
+    the register's autopsy paragraph."""
+
+    with SOURCES["v2_predictions"].open(newline="") as _:
+        pass  # placeholder guard; real inputs below
+    predictions = []
+    with Path("news_features/woking_south_blind_v1/"
+              "blind_predictions.csv").open(newline="") as fh:
+        for row in csv.DictReader(fh):
+            if (row["combination_pick"] == "True"
+                    and row["window"] == "180_to_91_days"):
+                predictions.append(row)
+    observed = {}
+    with SOURCES["baseline_out_of_fold"].open(newline="") as fh:
+        for row in csv.DictReader(fh):
+            if "woking-south-2025" in row["election_id"]:
+                observed[row["candidate_contest_id"]] = float(
+                    row["observed_vote_share"])
+    rows = []
+    for row in predictions:
+        actual = observed[row["candidate_contest_id"]]
+        baseline_error = abs(float(row["baseline_prediction"]) - actual)
+        news_error = abs(float(row["news_enhanced_prediction"]) - actual)
+        rows.append({
+            "party": row["standard_party_name"],
+            "observed_share": actual,
+            "baseline_prediction": float(row["baseline_prediction"]),
+            "news_prediction": float(row["news_enhanced_prediction"]),
+            "baseline_abs_error": round(baseline_error, 2),
+            "news_abs_error": round(news_error, 2),
+            "mae_contribution": round((news_error - baseline_error) / 5, 3),
+        })
+    rows.sort(key=lambda r: -r["mae_contribution"])
+    return ("t21_woking_south_autopsy",
+            "Woking South autopsy: the news adjustment worsened all five "
+            "parties (LD landslide 64.0 encoded nowhere)",
+            "blind_predictions.csv + out_of_fold_predictions.csv "
+            "(register autopsy addendum)", rows)
+
+
 # --------------------------------------------------------------------------
 # Writing.
 # --------------------------------------------------------------------------
@@ -522,6 +624,9 @@ def main() -> None:
     scenarios = json.loads(SOURCES["scenarios"].read_text())
     catalogue = json.loads(SOURCES["catalogue"].read_text())
     release = json.loads(SOURCES["release_v2"].read_text())
+    rerun = json.loads(SOURCES["local_rerun"].read_text())
+    ws_protocol = json.loads(SOURCES["ws_protocol"].read_text())
+    ws_unseal = json.loads(SOURCES["ws_unseal"].read_text())
     observed = load_observed()
 
     tables = [
@@ -543,6 +648,9 @@ def main() -> None:
         t16_nonnews_channels(catalogue),
         t17_corpus(release, scenarios),
         t18_scenarios(scenarios),
+        t19_local_v3_rerun(rerun),
+        t20_woking_south_unseal(ws_unseal, ws_protocol),
+        t21_woking_south_autopsy(),
     ]
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)

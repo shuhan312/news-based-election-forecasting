@@ -1,0 +1,19 @@
+window,arm,combination_pick,news_mae,baseline_mae,news_vs_baseline,reform_signed_error,winner_correct
+180-91 days,combined,False,9.3658,10.0849,0.7191,-8.2642,True
+180-91 days,local,True,13.8886,10.0849,-3.8037,-14.3806,True
+180-91 days,national,False,9.2116,10.0849,0.8733,-8.1771,True
+90-31 days,combined,False,10.3095,10.0849,-0.2246,-6.4796,True
+90-31 days,local,False,9.9168,10.0849,0.1681,-6.9059,True
+90-31 days,national,True,10.3368,10.0849,-0.2519,-6.4499,True
+30-15 days,combined,True,10.3739,10.0849,-0.289,-6.4097,True
+30-15 days,local,False,9.7695,10.0849,0.3154,-7.0657,True
+30-15 days,national,False,10.3904,10.0849,-0.3055,-6.3917,True
+14-8 days,combined,False,9.9975,10.0849,0.0874,-6.8182,True
+14-8 days,local,True,10.0115,10.0849,0.0734,-6.803,True
+14-8 days,national,False,10.0815,10.0849,0.0034,-6.7271,True
+7-4 days,combined,False,10.2121,10.0849,-0.1272,-6.5853,True
+7-4 days,local,False,10.2121,10.0849,-0.1272,-6.5853,True
+7-4 days,national,True,10.126,10.0849,-0.0411,-6.6788,True
+final 72h,combined,False,10.2985,10.0849,-0.2136,-6.4915,True
+final 72h,local,True,10.0124,10.0849,0.0725,-6.8022,True
+final 72h,national,False,10.3011,10.0849,-0.2162,-6.4887,True
