@@ -836,3 +836,29 @@ tier-tagged queue preserves the review-sheet shape. Distinct-value
 gains are upper bounds until extraction places admitted articles; any
 downstream local rerun is exploratory by construction, the unblinding
 having already occurred.
+
+**The v3 exploratory lineage: the local gate has crossed.** The
+reviewer's 38-row opening pass (imported sheet sha256
+fc9155d597684928fb14..., reviewer SL) admitted 30 articles across all
+four target by-elections (caterham-valley 3 of 3, guildford-south-east
+13, hinchley-wood 2 with four insufficient-evidence rows, weybridge
+12; one guildford-south-east row remains at needs_second_review). The
+decisions flow through a PARALLEL v3 lineage - a patched copy of the
+review sheet, assembled beside the frozen files - because the v2
+release's identity hashes its decision inputs and must stay sealed:
+v3 assembly resolves 1,002 of 1,412 rows, 656 includes = the frozen
+627 plus 29 new (one human include stays excluded overall under the
+LLM's E4/E8 verdict). Extraction ran on the 29 alone, the frame pinned
+by set difference so already-extracted articles cannot be touched:
+issues 28 of 29 (one record failed both attempts and is dropped by the
+frozen retry rule), revised stance 12 of 12 (twelve of the 29 name a
+study party - four times the Haslemere probe's density), revised
+framing 29 of 29. The v3 feature table (news_feature_table_v3exp,
+release canonical-...-v3exp) then re-ran the frozen reporting gate:
+local_party_article_count rises 9 to 11 distinct training values,
+local_party_article_share 9 to 15, and with local_net_portrayal and
+its share also crossing, usable columns rise 12 to 16 - the first
+reportable local columns in the project's history. The exploratory
+local re-run against 2026 (fit on v3 cells, local columns, scored on
+the already-unblinded outcomes) is the declared next step; everything
+in this lineage is exploratory by construction.
