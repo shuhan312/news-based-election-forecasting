@@ -945,3 +945,43 @@ locks the unseal: one named script is the only permitted reader of
 this contest's outcome columns, and it must find a predictions file
 whose exact bytes are already in git history before it will run. No
 article has been collected at freeze time.
+
+**Woking South blind test: pre-outcome corpus census and its
+consequence, recorded before any prediction exists.** The funnel
+resolved 452 of 459 rows; 272 articles are usable (13 local by the
+reviewer's E5 pass - notably zero L1 among the includes - and 259
+national via the LLM E5 column, per the production rule; two second
+reviews resolved to exclude by the reviewer; 5 rows lost to twice-
+failed LLM requests and 2 local rows unresolved, all recorded). The
+stop-loss (minimum 15) passes with room. The window census, however,
+is one-sided: ALL 272 usable articles fall in the 180-91-day window
+(January 173, February 99, March-July zero). The mechanism is the
+frozen collector's own deterministic cap - the Guardian adapter reads
+two pages of fifty, oldest first, so a window with more than a
+hundred hits per query saturates at its oldest end - the same
+mechanism behind the principal corpus's long-recorded far-window
+skew, faithfully reproduced because the protocol pinned the pipeline
+unchanged. Consequence, stated before unsealing: the five near
+windows will carry structural-zero features, so their specifications
+(and the combination's near-window assignments) will behave as
+near-null controls; the informative panel of this test is the
+180-91-day window, which the frozen combination assigned to the
+LOCAL arm. Extraction is in flight (batches wokingsouth1: issues on
+Sonnet, stance 218 of 272 naming a study party, framing all).
+
+**Woking South blind predictions written and frozen (still no outcome
+read).** `woking_south_blind_predict.py` re-verified every protocol
+pin, loaded the contest's five candidate rows with outcome columns
+stripped at load, fitted each arm's frozen specification on its
+pinned table (combined and national on v2, local on v3exp, the same
+45 residual cells), and wrote all 90 prediction rows - 18
+specifications, the derived combination marked by pick flags, nothing
+selected. The module refuses to overwrite its output; the manifest
+records the predictions file's sha256. On the informative panel the
+census pre-identified (180-91 days, assigned to LOCAL), the
+combination predicts: Liberal Democrats 43.66 and elected,
+Conservative 29.63, Labour 11.83, Green 10.26, Reform UK 4.62. The
+unseal script exists and is machine-locked: it compares the
+predictions file's bytes against the blob committed at HEAD and
+refuses to run on any mismatch, so the order predictions-then-outcome
+is enforced by git itself, not by promise.

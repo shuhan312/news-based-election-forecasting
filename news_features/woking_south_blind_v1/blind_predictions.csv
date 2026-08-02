@@ -1,0 +1,91 @@
+arm,window,combination_pick,candidate_contest_id,standard_party_name,party_key,baseline_prediction,recalibrated_prediction,news_enhanced_prediction,news_predicted_rank,news_predicted_elected,clipped_rows_in_spec
+combined,180_to_91_days,False,candidate-contest-9b4db976fd794545,Conservative,conservative,24.2009,24.1766,19.4186,2,False,0
+combined,180_to_91_days,False,candidate-contest-906433a8974995f3,Labour,labour,8.5035,8.5699,6.5252,5,False,0
+combined,180_to_91_days,False,candidate-contest-b88a7e7173bab856,Liberal Democrats,liberal_democrat,45.5113,45.3638,48.8498,1,True,0
+combined,180_to_91_days,False,candidate-contest-c1a04c6bb46166f8,Reform UK,reform_uk,12.2766,12.3212,10.7358,4,False,0
+combined,180_to_91_days,False,candidate-contest-5327881d9075b6f0,The Green Party,green,9.5078,9.5685,14.4707,3,False,0
+combined,90_to_31_days,False,candidate-contest-9b4db976fd794545,Conservative,conservative,24.2009,24.1766,24.0683,2,False,0
+combined,90_to_31_days,False,candidate-contest-906433a8974995f3,Labour,labour,8.5035,8.5699,8.8664,5,False,0
+combined,90_to_31_days,False,candidate-contest-b88a7e7173bab856,Liberal Democrats,liberal_democrat,45.5113,45.3638,44.706,1,True,0
+combined,90_to_31_days,False,candidate-contest-c1a04c6bb46166f8,Reform UK,reform_uk,12.2766,12.3212,12.5204,3,False,0
+combined,90_to_31_days,False,candidate-contest-5327881d9075b6f0,The Green Party,green,9.5078,9.5685,9.839,4,False,0
+combined,30_to_15_days,True,candidate-contest-9b4db976fd794545,Conservative,conservative,24.2009,24.1766,24.0302,2,False,0
+combined,30_to_15_days,True,candidate-contest-906433a8974995f3,Labour,labour,8.5035,8.5699,8.9705,5,False,0
+combined,30_to_15_days,True,candidate-contest-b88a7e7173bab856,Liberal Democrats,liberal_democrat,45.5113,45.3638,44.4749,1,True,0
+combined,30_to_15_days,True,candidate-contest-c1a04c6bb46166f8,Reform UK,reform_uk,12.2766,12.3212,12.5903,3,False,0
+combined,30_to_15_days,True,candidate-contest-5327881d9075b6f0,The Green Party,green,9.5078,9.5685,9.9341,4,False,0
+combined,14_to_8_days,False,candidate-contest-9b4db976fd794545,Conservative,conservative,24.2009,24.1766,24.2524,2,False,0
+combined,14_to_8_days,False,candidate-contest-906433a8974995f3,Labour,labour,8.5035,8.5699,8.3624,5,False,0
+combined,14_to_8_days,False,candidate-contest-b88a7e7173bab856,Liberal Democrats,liberal_democrat,45.5113,45.3638,45.8244,1,True,0
+combined,14_to_8_days,False,candidate-contest-c1a04c6bb46166f8,Reform UK,reform_uk,12.2766,12.3212,12.1818,3,False,0
+combined,14_to_8_days,False,candidate-contest-5327881d9075b6f0,The Green Party,green,9.5078,9.5685,9.379,4,False,0
+combined,7_to_4_days,False,candidate-contest-9b4db976fd794545,Conservative,conservative,24.2009,24.1766,24.1257,2,False,0
+combined,7_to_4_days,False,candidate-contest-906433a8974995f3,Labour,labour,8.5035,8.5699,8.7091,5,False,0
+combined,7_to_4_days,False,candidate-contest-b88a7e7173bab856,Liberal Democrats,liberal_democrat,45.5113,45.3638,45.0549,1,True,0
+combined,7_to_4_days,False,candidate-contest-c1a04c6bb46166f8,Reform UK,reform_uk,12.2766,12.3212,12.4147,3,False,0
+combined,7_to_4_days,False,candidate-contest-5327881d9075b6f0,The Green Party,green,9.5078,9.5685,9.6955,4,False,0
+combined,final_72_hours,False,candidate-contest-9b4db976fd794545,Conservative,conservative,24.2009,24.1766,24.0747,2,False,0
+combined,final_72_hours,False,candidate-contest-906433a8974995f3,Labour,labour,8.5035,8.5699,8.8487,5,False,0
+combined,final_72_hours,False,candidate-contest-b88a7e7173bab856,Liberal Democrats,liberal_democrat,45.5113,45.3638,44.7451,1,True,0
+combined,final_72_hours,False,candidate-contest-c1a04c6bb46166f8,Reform UK,reform_uk,12.2766,12.3212,12.5085,3,False,0
+combined,final_72_hours,False,candidate-contest-5327881d9075b6f0,The Green Party,green,9.5078,9.5685,9.8229,4,False,0
+national,180_to_91_days,False,candidate-contest-9b4db976fd794545,Conservative,conservative,24.2009,24.1766,19.2236,2,False,0
+national,180_to_91_days,False,candidate-contest-906433a8974995f3,Labour,labour,8.5035,8.5699,6.4548,5,False,0
+national,180_to_91_days,False,candidate-contest-b88a7e7173bab856,Liberal Democrats,liberal_democrat,45.5113,45.3638,49.148,1,True,0
+national,180_to_91_days,False,candidate-contest-c1a04c6bb46166f8,Reform UK,reform_uk,12.2766,12.3212,10.8229,4,False,0
+national,180_to_91_days,False,candidate-contest-5327881d9075b6f0,The Green Party,green,9.5078,9.5685,14.3507,3,False,0
+national,90_to_31_days,True,candidate-contest-9b4db976fd794545,Conservative,conservative,24.2009,24.1766,24.0521,2,False,0
+national,90_to_31_days,True,candidate-contest-906433a8974995f3,Labour,labour,8.5035,8.5699,8.9106,5,False,0
+national,90_to_31_days,True,candidate-contest-b88a7e7173bab856,Liberal Democrats,liberal_democrat,45.5113,45.3638,44.6079,1,True,0
+national,90_to_31_days,True,candidate-contest-c1a04c6bb46166f8,Reform UK,reform_uk,12.2766,12.3212,12.5501,3,False,0
+national,90_to_31_days,True,candidate-contest-5327881d9075b6f0,The Green Party,green,9.5078,9.5685,9.8794,4,False,0
+national,30_to_15_days,False,candidate-contest-9b4db976fd794545,Conservative,conservative,24.2009,24.1766,24.0204,2,False,0
+national,30_to_15_days,False,candidate-contest-906433a8974995f3,Labour,labour,8.5035,8.5699,8.9972,5,False,0
+national,30_to_15_days,False,candidate-contest-b88a7e7173bab856,Liberal Democrats,liberal_democrat,45.5113,45.3638,44.4156,1,True,0
+national,30_to_15_days,False,candidate-contest-c1a04c6bb46166f8,Reform UK,reform_uk,12.2766,12.3212,12.6083,3,False,0
+national,30_to_15_days,False,candidate-contest-5327881d9075b6f0,The Green Party,green,9.5078,9.5685,9.9584,4,False,0
+national,14_to_8_days,False,candidate-contest-9b4db976fd794545,Conservative,conservative,24.2009,24.1766,24.2029,2,False,0
+national,14_to_8_days,False,candidate-contest-906433a8974995f3,Labour,labour,8.5035,8.5699,8.498,5,False,0
+national,14_to_8_days,False,candidate-contest-b88a7e7173bab856,Liberal Democrats,liberal_democrat,45.5113,45.3638,45.5235,1,True,0
+national,14_to_8_days,False,candidate-contest-c1a04c6bb46166f8,Reform UK,reform_uk,12.2766,12.3212,12.2729,3,False,0
+national,14_to_8_days,False,candidate-contest-5327881d9075b6f0,The Green Party,green,9.5078,9.5685,9.5028,4,False,0
+national,7_to_4_days,True,candidate-contest-9b4db976fd794545,Conservative,conservative,24.2009,24.1766,24.1766,2,False,0
+national,7_to_4_days,True,candidate-contest-906433a8974995f3,Labour,labour,8.5035,8.5699,8.5699,5,False,0
+national,7_to_4_days,True,candidate-contest-b88a7e7173bab856,Liberal Democrats,liberal_democrat,45.5113,45.3638,45.3638,1,True,0
+national,7_to_4_days,True,candidate-contest-c1a04c6bb46166f8,Reform UK,reform_uk,12.2766,12.3212,12.3212,3,False,0
+national,7_to_4_days,True,candidate-contest-5327881d9075b6f0,The Green Party,green,9.5078,9.5685,9.5685,4,False,0
+national,final_72_hours,False,candidate-contest-9b4db976fd794545,Conservative,conservative,24.2009,24.1766,24.0732,2,False,0
+national,final_72_hours,False,candidate-contest-906433a8974995f3,Labour,labour,8.5035,8.5699,8.8529,5,False,0
+national,final_72_hours,False,candidate-contest-b88a7e7173bab856,Liberal Democrats,liberal_democrat,45.5113,45.3638,44.7359,1,True,0
+national,final_72_hours,False,candidate-contest-c1a04c6bb46166f8,Reform UK,reform_uk,12.2766,12.3212,12.5113,3,False,0
+national,final_72_hours,False,candidate-contest-5327881d9075b6f0,The Green Party,green,9.5078,9.5685,9.8267,4,False,0
+local,180_to_91_days,True,candidate-contest-9b4db976fd794545,Conservative,conservative,24.2009,24.1766,29.6292,2,False,0
+local,180_to_91_days,True,candidate-contest-906433a8974995f3,Labour,labour,8.5035,8.5699,11.8284,3,False,0
+local,180_to_91_days,True,candidate-contest-b88a7e7173bab856,Liberal Democrats,liberal_democrat,45.5113,45.3638,43.6591,1,True,0
+local,180_to_91_days,True,candidate-contest-c1a04c6bb46166f8,Reform UK,reform_uk,12.2766,12.3212,4.6194,5,False,0
+local,180_to_91_days,True,candidate-contest-5327881d9075b6f0,The Green Party,green,9.5078,9.5685,10.2639,4,False,0
+local,90_to_31_days,False,candidate-contest-9b4db976fd794545,Conservative,conservative,24.2009,24.1766,24.3001,2,False,0
+local,90_to_31_days,False,candidate-contest-906433a8974995f3,Labour,labour,8.5035,8.5699,8.2319,5,False,0
+local,90_to_31_days,False,candidate-contest-b88a7e7173bab856,Liberal Democrats,liberal_democrat,45.5113,45.3638,46.1139,1,True,0
+local,90_to_31_days,False,candidate-contest-c1a04c6bb46166f8,Reform UK,reform_uk,12.2766,12.3212,12.0941,3,False,0
+local,90_to_31_days,False,candidate-contest-5327881d9075b6f0,The Green Party,green,9.5078,9.5685,9.26,4,False,0
+local,30_to_15_days,False,candidate-contest-9b4db976fd794545,Conservative,conservative,24.2009,24.1766,24.387,2,False,0
+local,30_to_15_days,False,candidate-contest-906433a8974995f3,Labour,labour,8.5035,8.5699,7.9939,5,False,0
+local,30_to_15_days,False,candidate-contest-b88a7e7173bab856,Liberal Democrats,liberal_democrat,45.5113,45.3638,46.642,1,True,0
+local,30_to_15_days,False,candidate-contest-c1a04c6bb46166f8,Reform UK,reform_uk,12.2766,12.3212,11.9343,3,False,0
+local,30_to_15_days,False,candidate-contest-5327881d9075b6f0,The Green Party,green,9.5078,9.5685,9.0428,4,False,0
+local,14_to_8_days,True,candidate-contest-9b4db976fd794545,Conservative,conservative,24.2009,24.1766,24.2441,2,False,0
+local,14_to_8_days,True,candidate-contest-906433a8974995f3,Labour,labour,8.5035,8.5699,8.385,5,False,0
+local,14_to_8_days,True,candidate-contest-b88a7e7173bab856,Liberal Democrats,liberal_democrat,45.5113,45.3638,45.7742,1,True,0
+local,14_to_8_days,True,candidate-contest-c1a04c6bb46166f8,Reform UK,reform_uk,12.2766,12.3212,12.197,3,False,0
+local,14_to_8_days,True,candidate-contest-5327881d9075b6f0,The Green Party,green,9.5078,9.5685,9.3997,4,False,0
+local,7_to_4_days,False,candidate-contest-9b4db976fd794545,Conservative,conservative,24.2009,24.1766,24.1257,2,False,0
+local,7_to_4_days,False,candidate-contest-906433a8974995f3,Labour,labour,8.5035,8.5699,8.7091,5,False,0
+local,7_to_4_days,False,candidate-contest-b88a7e7173bab856,Liberal Democrats,liberal_democrat,45.5113,45.3638,45.0549,1,True,0
+local,7_to_4_days,False,candidate-contest-c1a04c6bb46166f8,Reform UK,reform_uk,12.2766,12.3212,12.4147,3,False,0
+local,7_to_4_days,False,candidate-contest-5327881d9075b6f0,The Green Party,green,9.5078,9.5685,9.6955,4,False,0
+local,final_72_hours,True,candidate-contest-9b4db976fd794545,Conservative,conservative,24.2009,24.1766,24.2437,2,False,0
+local,final_72_hours,True,candidate-contest-906433a8974995f3,Labour,labour,8.5035,8.5699,8.3863,5,False,0
+local,final_72_hours,True,candidate-contest-b88a7e7173bab856,Liberal Democrats,liberal_democrat,45.5113,45.3638,45.7713,1,True,0
+local,final_72_hours,True,candidate-contest-c1a04c6bb46166f8,Reform UK,reform_uk,12.2766,12.3212,12.1978,3,False,0
+local,final_72_hours,True,candidate-contest-5327881d9075b6f0,The Green Party,green,9.5078,9.5685,9.4009,4,False,0

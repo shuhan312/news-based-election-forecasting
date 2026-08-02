@@ -1,0 +1,591 @@
+{
+  "rows": 72,
+  "expected_rows": 72,
+  "elections": [
+    "surrey-county-council-by-election-woking-south-2025-07-10"
+  ],
+  "parties": [
+    "conservative",
+    "green",
+    "labour",
+    "liberal_democrat",
+    "reform_uk",
+    "ukip"
+  ],
+  "periods": [
+    "180_to_91_days",
+    "90_to_31_days",
+    "30_to_15_days",
+    "14_to_8_days",
+    "7_to_4_days",
+    "final_72_hours",
+    "previous_72_hours",
+    "previous_7_days",
+    "previous_14_days",
+    "previous_30_days",
+    "previous_90_days",
+    "previous_180_days"
+  ],
+  "unique_articles": 272,
+  "corpus_size": 272,
+  "canonical_corpus_release_id": "canonical-wokingsouth-86c8b053bbca",
+  "canonical_corpus_manifest": "news_collection/canonical_corpus_release_v1.json",
+  "canonical_corpus_by_arm": {
+    "local": 13,
+    "national": 259
+  },
+  "terminal_include_articles": 272,
+  "excluded_after_terminal_include": 0,
+  "grain": "election x party x period",
+  "empty_cell_policy": "Retain completed election-party-period cells with zero articles. Counts are 0; shares with a zero denominator are blank.",
+  "zero_article_cells": [
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "conservative",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "conservative",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "conservative",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "conservative",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "conservative",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "conservative",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "conservative",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "conservative",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "conservative",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "conservative",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "green",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "green",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "green",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "green",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "green",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "green",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "green",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "green",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "green",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "green",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "labour",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "labour",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "labour",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "labour",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "labour",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "labour",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "labour",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "labour",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "labour",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "labour",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "liberal_democrat",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "liberal_democrat",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "liberal_democrat",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "liberal_democrat",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "liberal_democrat",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "reform_uk",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "reform_uk",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "reform_uk",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "reform_uk",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "reform_uk",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "reform_uk",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "reform_uk",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "reform_uk",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "reform_uk",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "reform_uk",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "ukip",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "ukip",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "ukip",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "ukip",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "ukip",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "ukip",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "ukip",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "ukip",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "ukip",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-woking-south-2025-07-10",
+      "standard_party_key": "ukip",
+      "period": "previous_90_days"
+    }
+  ],
+  "grain_note": "Not area-level: 94.2% of canonical articles carry no unambiguous Surrey-area attribution, and the remaining coverage is too sparse and uneven to support a general ward-level feature.",
+  "reform_training_articles": 0,
+  "training_variation": {
+    "party_article_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "party_article_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "unfavourable_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "favourable_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "net_portrayal": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "net_portrayal_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "article_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "local_article_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "national_article_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "local_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "independent_source_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "reform_named_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "reform_share_of_coverage": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "local_party_article_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "local_party_article_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "local_unfavourable_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "local_favourable_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "local_net_portrayal": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "local_net_portrayal_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "national_party_article_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "national_party_article_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "national_unfavourable_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "national_favourable_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "national_net_portrayal": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "national_net_portrayal_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_immigration_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_immigration_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_crime_policing_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_crime_policing_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_housing_planning_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_housing_planning_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_council_services_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_council_services_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_national_politics_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_national_politics_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_issue_other_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_issue_other_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_none_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "issue_none_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "frame_incumbent_judgement_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "frame_incumbent_judgement_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "frame_challenger_emergence_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "frame_challenger_emergence_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "frame_voter_discontent_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "frame_voter_discontent_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "frame_local_impact_count": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    },
+    "frame_local_impact_share": {
+      "distinct_training_values_within_period": 0,
+      "distinct_training_values_pooled_across_periods": 0,
+      "verdict": "insufficient"
+    }
+  },
+  "usable_columns": [],
+  "provenance": {
+    "per_layer_tranche_prompt": {
+      "issues|wokingsouth1|715700666aca": 235,
+      "stance_revised|wokingsouth1|bc2d5987b2d7": 216,
+      "framing_revised|wokingsouth1|e90e50b3dcb2": 272
+    },
+    "superseded_layers_honoured": {}
+  }
+}
