@@ -862,3 +862,68 @@ reportable local columns in the project's history. The exploratory
 local re-run against 2026 (fit on v3 cells, local columns, scored on
 the already-unblinded outcomes) is the declared next step; everything
 in this lineage is exploratory by construction.
+
+**The exploratory local re-run: the arm comparison's final panel.**
+With its frozen specification newly reportable, the local arm was
+re-fitted on the same 45 residual cells with v3 features and scored
+against 2026 by the unblinding's own code path (same contest
+bootstrap, same seat allocation). Result: local beats its recalibrated
+control in **4 of 6 windows**, three with intervals entirely above
+zero - +0.325 [+0.250, +0.403] at 180-91 days, +0.267 [+0.084,
++0.432] at 90-31 days, +0.259 [+0.084, +0.417] in the final 72 hours
+- with 30-15 days harmful (-0.659) and seat accuracy reaching 0.8173.
+Two readings matter. First, at 90-31 days local now matches the best
+confirmatory number (national's +0.268). Second, at 180-91 days the
+signs INVERT across arms: local helps exactly where combined and
+national harm (-0.575/-0.590), which suggests the arms carry
+complementary temporal signals rather than one dominating - the
+sharpest available answer to the supervisor's which-arm question, and
+an argument that a properly-fed combination is future work rather
+than settled. Constraints stated with the result: EXPLORATORY (the
+outcomes were unblinded before any v3 judgement; the intervals are
+descriptive here, not confirmatory); only the training side was
+enriched (2026 test-side local inputs unchanged while the 203 tier-4
+rows stay unjudged); the local corpus remains small (217 articles).
+The confirmatory verdict (v1 0/12, v2 5/12) is untouched.
+
+**Warlingham 2026 scoping note: the last unseen contest, and how its
+blindness was spent.** Scoping "is any outcome still unseen?" found
+the Warlingham 7 May 2026 by-election (single-member, polling with the
+principal election): excluded from HOLDOUT_ELECTIONS, therefore never
+scored at unblinding and never touched by any news artefact - but with
+essentially no collected news (2 records against Haslemere's 379). On
+2 August 2026, during that scoping, the analyst printed the contest's
+observed shares from the holdout file; its outcomes are therefore
+EXPOSED as of that date, and no specification frozen afterwards can
+claim pre-outcome registration against it. Any future Warlingham work
+is exploratory-tier, like Haslemere. One descriptive observation is
+recorded from the exposure, because it is baseline-side and already
+computed in the committed bundle: the baseline UNDER-predicted Reform
+there by 18.8 points (13.2 predicted, 32.0 observed) - the opposite
+sign to Haslemere's +8.9 over-prediction - so the two 2026 by-elections
+bracket the baseline's Reform failure in both directions. The
+scoping's first conclusion - that no unseen outcome remained - was
+WRONG, corrected the same day by its second stage below.
+
+**Scoping, stage two: Woking South 2025 found news-blind.** The
+casual-vacancy trail led to a ninth pre-holdout by-election the news
+registry never listed: Woking South, 10 July 2025 (resignation of
+Will Forster). Verified with outcome-safe queries only (election ids
+and split labels; no observed column was read or printed): the Stage 1
+bundle holds five candidate rows WITH an out-of-fold baseline
+prediction (rolling_2025-07-10); the election appears in no news
+artefact - not in BYELECTION_POLLING_DAYS, not in FIT_ELECTION_MAP,
+never at unblinding - because its 27 logged search queries produced no
+persisted records, which silently left it outside "the eight
+by-elections with collected news". Its outcome is therefore
+news-blind AND analyst-blind, one tier above Haslemere/Warlingham
+(caveat, to be carried by any use: baseline-informed - the result sat
+inside Stage 1's rolling-origin machinery). A live check found no
+scheduled future Surrey county by-election (Democracy Club current
+elections list and the county elections page, 2 August 2026). The
+proposed use - freeze the window-weighted combination and arm
+protocol first, collect its 180-day window afresh (all historical
+dates), run the frozen funnel, predict, then unseal the result once -
+awaits the reviewer's go/no-go against the writing deadline; a
+stop-loss (abort and record if usable articles fall short of the
+Haslemere scale) is part of the proposal.
