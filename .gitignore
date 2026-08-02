@@ -55,6 +55,10 @@ news_collection/e5_local_review_queue_round2.csv
 # Contains article excerpts for blind human E5 review. The compact JSON plan
 # is versioned; the review sheet follows the repository's local-text policy.
 news_collection/e5_local_risk_review_queue.csv
+# Tier-tagged triage queue: replicates the round-2 excerpts above,
+# so the same local-text policy applies; the JSON/MD beside it are
+# committed and carry every figure.
+news_features/e5_local_triage_v1/e5_local_triage_queue*.csv
 
 # Phase 6 pilot: extraction outputs carry verbatim article quotes -
 # copyright three-tier policy keeps them out of Git (local + OneDrive)

@@ -813,3 +813,26 @@ supported-party rows) coexist, and its manifest.json records the
 sha256 of every input read. Built by
 `src/news_modelling/build_report_tables.py`; regenerate with one
 command after any upstream artefact changes.
+
+**E5-local backlog triage built (planning artefact; judges nothing).**
+The local arm's path to reportability is now costed instead of vague.
+`e5_local_triage.py` reproduces the frozen builder's reporting-gate
+arithmetic (distinct training values per period, bar 10, verdict = max
+across all twelve periods) over the committed v2 table and inventories
+all 1,576 unjudged rows (1,060 principal-extension, 426 by-election
+local, 90 second-review). Findings: the cheapest crossing is the
+previous_180_days snapshot, where local_party_article_count/share
+stand at 9 of 10 - one new distinct value crosses - and all eight
+by-election train elections sit at zero local coverage, so any
+admission there flips an election from flat to contributing. Rows are
+tiered by what judging buys (gate-flip by-election rows smallest-pile
+first: caterham-valley 3, hinchley-wood 6, weybridge 14,
+guildford-south-east 15 = a 38-row opening move with four independent
+crossing chances - an initial count said 39, but one
+guildford-south-east row belongs to the second-review queue and is
+not yet judgeable; then 2017 fit+gate depth 177; 2021 fit-only 300;
+2026 test-side 203; 2013 gate-only 380; second-review 90). The
+tier-tagged queue preserves the review-sheet shape. Distinct-value
+gains are upper bounds until extraction places admitted articles; any
+downstream local rerun is exploratory by construction, the unblinding
+having already occurred.
