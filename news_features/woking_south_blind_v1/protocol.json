@@ -1,0 +1,82 @@
+{
+  "protocol": "woking-south-blind-test-v1",
+  "election": "surrey-county-council-by-election-woking-south-2025-07-10",
+  "polling_day": "2025-07-10",
+  "evidence_tier": "news-blind and analyst-blind; baseline-informed (the outcome sat inside Stage 1's rolling-origin training); single contest - a case study, whatever the result",
+  "pinned_input_sha256": {
+    "unblinding_record": "1fefcb13b6dada160fd35cd4c5a7471812832d555ff787915cabcee068193ef0",
+    "local_v3_rerun_record": "7f5cf6a0653fe52bd0bf8f7f02f2e50b85afa6fa4cc9cdb899ef482a8c2e8352",
+    "feature_table_v2": "24f1164ad42d8a3d1d86d81f0b067e607c067928ae8132181bcd29b9e801c74e",
+    "feature_table_v3exp": "8716fec812bd0ad8b99b9a1645af1a499e4d5020e1b013ef2aada23da79669f8",
+    "estimability_audit": "71880e8e73c8535d27ad52ca2066d883cffa34063e0e98f4edcb3b818af29b3a",
+    "baseline_out_of_fold": "950e527eb1ad82522e7cc4f4cc7567660b320942ad2b6a03c16e7ad06489e6e5"
+  },
+  "combination_rule": "each window is served by the arm with the largest committed 2026 news-vs-recalibrated delta in that window; ties at 4 dp fall to alphabetical arm order",
+  "window_to_arm": {
+    "180_to_91_days": "local",
+    "90_to_31_days": "national",
+    "30_to_15_days": "combined",
+    "14_to_8_days": "local",
+    "7_to_4_days": "national",
+    "final_72_hours": "local"
+  },
+  "derivation_deltas": {
+    "180_to_91_days": {
+      "combined": -0.5751,
+      "local": 0.3247,
+      "national": -0.5896
+    },
+    "90_to_31_days": {
+      "combined": 0.2404,
+      "local": 0.2671,
+      "national": 0.2682
+    },
+    "30_to_15_days": {
+      "combined": 0.1339,
+      "local": -0.6587,
+      "national": -0.0156
+    },
+    "14_to_8_days": {
+      "combined": -0.3252,
+      "local": 0.0149,
+      "national": 0.0048
+    },
+    "7_to_4_days": {
+      "combined": -0.0097,
+      "local": -0.0097,
+      "national": 0.0
+    },
+    "final_72_hours": {
+      "combined": 0.1882,
+      "local": 0.259,
+      "national": -0.0231
+    }
+  },
+  "arm_fitting_tables": {
+    "combined": "feature_table_v2",
+    "national": "feature_table_v2",
+    "local": "feature_table_v3exp"
+  },
+  "specifications": "each arm uses its frozen two-column feature set from the estimability audit; ridge penalty and all fitting, prediction, contest-normalisation and seat-allocation code are the frozen modules already in the repository",
+  "baseline_rows": "the Stage 1 out-of-fold rows for surrey-county-council-by-election-woking-south-2025-07-10 (split rolling_2025-07-10, 5 candidates), outcome columns stripped at load by strip_outcome_columns",
+  "collection": {
+    "window": "2025-01-11 to 2025-07-10 (180 days, historical)",
+    "method": "the by-election collection pipeline unchanged: registry sources, the standard query template, CDX and dated-search routes",
+    "funnel": "frozen eligibility rules; LLM E4/E8 batch with the production models; human E5 for local rows; frozen extraction, model assignment unchanged"
+  },
+  "stop_loss": {
+    "rule": "if the assembled corpus holds fewer than MIN_USABLE_ARTICLES usable articles, the test aborts and the shortfall is recorded as the finding",
+    "min_usable_articles": 15
+  },
+  "endpoints": {
+    "primary": "contest MAE of the window-weighted combination against the untouched baseline",
+    "reference": "contest MAE of each single arm",
+    "secondary": "winner call; per-party signed errors, Reform UK reported explicitly",
+    "reading_rules": "one contest, five candidates: illustrative evidence only; no arm or combination may be promoted from this result; every specification's number is reported, none selected"
+  },
+  "unseal": {
+    "only_reader": "src/news_modelling/woking_south_unseal.py (to be written; the ONLY code permitted to read observed columns for this election)",
+    "preconditions": "a predictions file exists under news_features/woking_south_blind_v1/ AND its exact bytes are reachable in git history (verified with git cat-file); otherwise the unseal refuses to run",
+    "prohibition": "until the unseal runs, no code or person in this analysis reads observed_vote_share, observed_rank, observed_elected, error or any outcome column for surrey-county-council-by-election-woking-south-2025-07-10 from any file"
+  }
+}

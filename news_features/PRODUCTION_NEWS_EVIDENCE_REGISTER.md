@@ -927,3 +927,21 @@ dates), run the frozen funnel, predict, then unseal the result once -
 awaits the reviewer's go/no-go against the writing deadline; a
 stop-loss (abort and record if usable articles fall short of the
 Haslemere scale) is part of the proposal.
+
+**Woking South blind test: protocol frozen before contact.** The
+freeze-first step has run: `woking_south_blind_protocol.py` derived
+the window-weighted combination mechanically (each window served by
+the arm with the largest committed 2026 delta there; ties at 4 dp to
+alphabetical order), yielding local for 180-91 days, 14-8 days and
+the final 72 hours, national for 90-31 and 7-4 days, combined for
+30-15 days - the full delta table sits beside the assignment in
+protocol.md. protocol.json pins by sha256 every input the test will
+fit or read (both feature tables, the estimability audit, the
+out-of-fold file, both result records), pre-declares the endpoints
+(primary: combination contest MAE vs baseline; reference: each single
+arm; secondary: winner call and per-party signed errors), sets the
+stop-loss (abort and record if usable articles < 15) and machine-
+locks the unseal: one named script is the only permitted reader of
+this contest's outcome columns, and it must find a predictions file
+whose exact bytes are already in git history before it will run. No
+article has been collected at freeze time.
