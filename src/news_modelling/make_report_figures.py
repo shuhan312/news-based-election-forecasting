@@ -1,4 +1,4 @@
-"""Generate the report's three core figures from the archived results.
+"""Generate the report's four core figures from the archived results.
 
     PYTHONPATH=src .venv/bin/python -m news_modelling.make_report_figures
 
@@ -26,6 +26,14 @@ the baseline could not see.
 Figure 3 - the corpus by window. Article counts per confirmed window in
 canonical release v2; the far-window skew that qualifies every
 near-polling-day conclusion.
+
+Figure 4 - the transfer failure in one picture. The bootstrap annex's
+Reform-minus-fitted-group level contrast for every specification on
+both evaluation islands, with its paired contest-bootstrap interval:
+the 2021 panel sits almost entirely left of zero (the borrowed
+adjustment flattered Reform) and the 2026 panel almost entirely right
+(it hurt Reform) - the sign flip that is the register's third
+statement of the transfer failure.
 """
 
 from __future__ import annotations
@@ -42,6 +50,8 @@ import matplotlib.pyplot as plt
 
 UNBLINDING = Path("news_features/unblinding_2026_v1/unblinding_results.json")
 RELEASE = Path("news_collection/canonical_corpus_release_v2.json")
+BOOTSTRAP = Path(
+    "news_features/per_party_bootstrap_v1/per_party_bootstrap_results.json")
 HOLDOUT = Path(
     "surrey-election-no-news-baseline/outputs/model_bundle_v1/"
     "holdout_predictions.csv")
@@ -209,13 +219,101 @@ def figure_corpus() -> None:
     plt.close(fig)
 
 
+def figure_island_contrast() -> None:
+    """Figure 4: the Reform-versus-group contrast on both islands.
+
+    One horizontal bar per specification, whiskered with the annex's
+    paired interval - the interval belongs to the difference itself,
+    because Reform and the group mean are recomputed inside every
+    draw. Red = Reform's level handled worse than the fitted parties',
+    blue = better, grey = structural-zero windows (no in-window
+    signal, so news equals the recalibrated control exactly).
+    """
+
+    annex = json.loads(BOOTSTRAP.read_text(encoding="utf-8"))
+    quantity = "abs_bias_change_vs_recalibrated"
+    islands = (
+        ("validation_2021", "2021 validation - fit: five 2017 party rows, "
+                            "ZERO Reform rows",
+         (("combined_exploratory", "combined"),
+          ("national_exploratory", "national"),
+          ("local_sensitivity", "local"))),
+        ("holdout_2026_v2", "2026 holdout v2 - fit: 45 cells, seven "
+                            "Reform-era",
+         (("combined_exploratory", "combined"),
+          ("national_exploratory", "national"))),
+    )
+    by_key = {(s["island"], s["analysis"], s["period"]): s
+              for s in annex["specifications"]}
+
+    fig, axes = plt.subplots(1, 2, figsize=(11.5, 6.0), sharex=True)
+    # Value labels hang outside the whisker's far end, so the shared
+    # x-range needs headroom beyond the widest interval on either side
+    # or the leftmost label collides with the y-axis tick text.
+    all_bounds = [spec["bootstrap"]["units"]["contrast"][quantity].get(k, 0.0)
+                  for spec in annex["specifications"]
+                  for k in ("ci_lower", "ci_upper")]
+    axes[0].set_xlim(min(all_bounds) - 5.5, max(all_bounds) + 5.5)
+    for ax, (island, subtitle, arms) in zip(axes, islands):
+        rows = []
+        for window in WINDOW_ORDER:
+            for arm, tag in arms:
+                spec = by_key[(island, arm, window)]
+                interval = spec["bootstrap"]["units"]["contrast"][quantity]
+                rows.append((f"{WINDOW_LABEL[window]}  ({tag})",
+                             spec["contrast_point"][quantity],
+                             interval.get("ci_lower", 0.0),
+                             interval.get("ci_upper", 0.0)))
+        starred_neg = sum(1 for _l, _d, low, high in rows if high < 0)
+        starred_pos = sum(1 for _l, _d, low, high in rows if low > 0)
+        y = range(len(rows), 0, -1)
+        for position, (label, delta, low, high) in zip(y, rows):
+            colour = (MUTED if low == high == delta == 0
+                      else RED if delta > 0 else BLUE)
+            ax.barh(position, delta, height=0.55, color=colour, zorder=3)
+            ax.plot([low, high], [position, position],
+                    color=INK, linewidth=1, zorder=4)
+            anchor = max(high, delta) if delta >= 0 else min(low, delta)
+            ax.annotate(f"{delta:+.1f}", xy=(anchor, position),
+                        xytext=(4 if delta >= 0 else -4, 0),
+                        textcoords="offset points", va="center",
+                        ha="left" if delta >= 0 else "right",
+                        fontsize=7.5, color=INK)
+        ax.axvline(0, color=MUTED, linewidth=1)
+        ax.set_yticks(list(y))
+        ax.set_yticklabels([r[0] for r in rows], fontsize=8, color=INK)
+        ax.set_title(f"{subtitle}\n({starred_neg} starred negative, "
+                     f"{starred_pos} starred positive)",
+                     fontsize=10, color=INK, loc="left")
+        ax.grid(axis="x", color=GRID, linewidth=0.8)
+        _style(ax)
+
+    axes[0].set_xlabel("Reform |level-error| change minus fitted-party "
+                       "mean (left of zero = Reform handled better)",
+                       fontsize=9, color=MUTED)
+    fig.suptitle("The transfer failure in one picture: the Reform "
+                 "contrast flips sign between evaluation islands",
+                 fontsize=12, color=INK, x=0.01, ha="left")
+    fig.text(0.01, 0.005,
+             "Whiskers: paired contest-bootstrap 95% intervals (2,000 "
+             "resamples; Reform and the group mean recomputed in the same "
+             "draws). Grey bars: structural-zero windows.\nVersus the "
+             "recalibrated control. Source: per-party bootstrap annex "
+             "(register addendum); exploratory, promotes nothing.",
+             fontsize=7.5, color=MUTED)
+    fig.tight_layout(rect=(0, 0.055, 1, 0.94))
+    fig.savefig(OUTPUT / "fig4_island_contrast.png", dpi=200)
+    plt.close(fig)
+
+
 def main() -> None:
     OUTPUT.mkdir(parents=True, exist_ok=True)
     figure_confirmatory()
     figure_seats()
     figure_corpus()
+    figure_island_contrast()
     for name in ("fig1_confirmatory_deltas", "fig2_seat_totals",
-                 "fig3_corpus_windows"):
+                 "fig3_corpus_windows", "fig4_island_contrast"):
         print(f"-> {OUTPUT / name}.png")
 
 

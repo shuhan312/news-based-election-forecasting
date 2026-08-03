@@ -1,0 +1,31 @@
+island,arm,window,reform_level_change,fitted_group_change,contrast,ci_lower,ci_upper,excludes_zero
+2026 holdout (v2),combined,180-91 days,4.633,-0.756,5.388,4.79,6.045,yes
+2026 holdout (v2),combined,90-31 days,1.836,-0.987,2.822,2.788,3.188,yes
+2026 holdout (v2),combined,30-15 days,0.493,-0.313,0.806,0.785,0.881,yes
+2026 holdout (v2),combined,14-8 days,3.827,-0.046,3.873,2.211,5.466,yes
+2026 holdout (v2),combined,7-4 days,-0.033,0.027,-0.06,-0.071,0.0,
+2026 holdout (v2),combined,final 72h,3.426,-1.402,4.828,3.822,5.861,yes
+2026 holdout (v2),national,180-91 days,4.716,-0.775,5.491,4.909,6.123,yes
+2026 holdout (v2),national,90-31 days,1.767,-1.01,2.777,2.734,3.115,yes
+2026 holdout (v2),national,30-15 days,0.633,0.248,0.385,0.162,0.799,yes
+2026 holdout (v2),national,14-8 days,0.017,-0.014,0.032,-0.001,0.037,
+2026 holdout (v2),national,7-4 days,0.0,0.0,0.0,0.0,0.0,
+2026 holdout (v2),national,final 72h,-0.066,0.055,-0.12,-0.143,-0.003,yes
+2021 validation,combined,180-91 days,-10.257,2.715,-12.972,-16.794,-8.052,yes
+2021 validation,combined,90-31 days,-9.142,2.243,-11.385,-12.287,-10.25,yes
+2021 validation,combined,30-15 days,-9.375,5.766,-15.141,-18.442,-11.06,yes
+2021 validation,combined,14-8 days,-9.375,3.154,-12.53,-15.899,-8.518,yes
+2021 validation,combined,7-4 days,18.566,8.29,10.275,9.205,11.464,yes
+2021 validation,combined,final 72h,0.0,0.0,0.0,0.0,0.0,
+2021 validation,local,180-91 days,-9.464,1.15,-10.615,-11.347,-9.539,yes
+2021 validation,local,90-31 days,-7.64,1.494,-9.133,-10.337,-7.936,yes
+2021 validation,local,30-15 days,-9.375,3.771,-13.146,-16.657,-8.819,yes
+2021 validation,local,14-8 days,-9.375,9.235,-18.61,-22.377,-13.713,yes
+2021 validation,local,7-4 days,18.566,8.29,10.275,9.185,11.452,yes
+2021 validation,local,final 72h,0.0,0.0,0.0,0.0,0.0,
+2021 validation,national,180-91 days,-10.639,2.56,-13.199,-17.143,-7.892,yes
+2021 validation,national,90-31 days,-9.476,3.282,-12.758,-13.648,-11.536,yes
+2021 validation,national,30-15 days,-8.736,1.548,-10.284,-11.433,-8.972,yes
+2021 validation,national,14-8 days,-10.413,2.797,-13.21,-14.495,-10.438,yes
+2021 validation,national,7-4 days,0.0,0.0,0.0,0.0,0.0,
+2021 validation,national,final 72h,0.0,0.0,0.0,0.0,0.0,

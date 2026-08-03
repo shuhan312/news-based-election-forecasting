@@ -2,7 +2,7 @@
 
     PYTHONPATH=src .venv/bin/python -m news_modelling.build_report_tables
 
-One module, seventeen tables, three rules:
+One module, twenty-two tables, three rules:
 
 1. READ, NEVER MODEL. Every number is read from a committed artefact
    (the unblinding record, the decomposition and probe results, the
@@ -78,6 +78,9 @@ SOURCES = {
     "baseline_out_of_fold": Path(
         "surrey-election-no-news-baseline/outputs/model_bundle_v1/"
         "out_of_fold_predictions.csv"),
+    "per_party_bootstrap": Path(
+        "news_features/per_party_bootstrap_v1/"
+        "per_party_bootstrap_results.json"),
 }
 
 WINDOW_ORDER = ("180_to_91_days", "90_to_31_days", "30_to_15_days",
@@ -602,6 +605,48 @@ def t21_woking_south_autopsy() -> tuple:
             "(register autopsy addendum)", rows)
 
 
+def t22_per_party_contrast(bootstrap: dict) -> tuple:
+    """The bootstrap annex's contrast column, one row per island x
+    specification: Reform's |level-error| change minus the fitted
+    parties' mean change, with its PAIRED contest-bootstrap interval
+    (both quantities recomputed inside every draw, so the interval
+    belongs to the difference itself). The sign flip between the 2021
+    and 2026 blocks is the table's point; per-party detail stays in
+    the annex findings. Versus the recalibrated control throughout."""
+
+    island_label = {"validation_2021": "2021 validation",
+                    "holdout_2026_v2": "2026 holdout (v2)"}
+    quantity = "abs_bias_change_vs_recalibrated"
+    ordered = sorted(
+        bootstrap["specifications"],
+        key=lambda spec: (spec["island"], spec["analysis"],
+                          WINDOW_ORDER.index(spec["period"])))
+    rows = []
+    for spec in ordered:
+        interval = spec["bootstrap"]["units"]["contrast"][quantity]
+        low = interval.get("ci_lower")
+        high = interval.get("ci_upper")
+        rows.append({
+            "island": island_label[spec["island"]],
+            "arm": ARM_LABEL.get(spec["analysis"], spec["analysis"]),
+            "window": WINDOW_LABEL[spec["period"]],
+            "reform_level_change":
+                round(spec["parties"]["reform_uk"][quantity], 3),
+            "fitted_group_change": round(spec["group_point"][quantity], 3),
+            "contrast": round(spec["contrast_point"][quantity], 3),
+            "ci_lower": None if low is None else round(low, 3),
+            "ci_upper": None if high is None else round(high, 3),
+            "excludes_zero": ("yes" if high is not None
+                              and (high < 0 or low > 0) else ""),
+        })
+    return ("t22_per_party_contrast",
+            "Reform-minus-fitted-group level contrast with paired 95% "
+            "intervals: negative through 2021, positive through 2026 "
+            "(the sign flip)",
+            "per_party_bootstrap_results.json (register bootstrap-annex "
+            "addendum)", rows)
+
+
 # --------------------------------------------------------------------------
 # Writing.
 # --------------------------------------------------------------------------
@@ -627,6 +672,7 @@ def main() -> None:
     rerun = json.loads(SOURCES["local_rerun"].read_text())
     ws_protocol = json.loads(SOURCES["ws_protocol"].read_text())
     ws_unseal = json.loads(SOURCES["ws_unseal"].read_text())
+    bootstrap = json.loads(SOURCES["per_party_bootstrap"].read_text())
     observed = load_observed()
 
     tables = [
@@ -651,6 +697,7 @@ def main() -> None:
         t19_local_v3_rerun(rerun),
         t20_woking_south_unseal(ws_unseal, ws_protocol),
         t21_woking_south_autopsy(),
+        t22_per_party_contrast(bootstrap),
     ]
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)

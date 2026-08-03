@@ -52,10 +52,13 @@ def seat_totals(rows: list[dict]) -> list[tuple[str, int, int]]:
             predicted[row["standard_party_name"]] += 1
         if row["observed_elected"] == "True":
             actual[row["standard_party_name"]] += 1
+    # Name as the tie-break: the party pool is a set, whose iteration
+    # order is hash-randomised per process, so without it parties on
+    # equal seat counts reshuffle between otherwise identical rebuilds.
     return sorted(
         ((party, predicted[party], actual[party])
          for party in set(predicted) | set(actual)),
-        key=lambda item: -item[2],
+        key=lambda item: (-item[2], item[0]),
     )
 
 

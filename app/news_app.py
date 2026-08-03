@@ -201,8 +201,8 @@ def page_scenarios() -> None:
 
 def page_epilogue() -> None:
     """The exploratory epilogue: what happened after the unblinding.
-    Both tables read committed artefacts; the no-promotion rule applies
-    to every number shown."""
+    Every table reads committed artefacts; the no-promotion rule
+    applies to every number shown."""
 
     st.header("Exploratory epilogue")
     st.caption(WARNING)
@@ -245,6 +245,35 @@ def page_epilogue() -> None:
              "specifications: the 2026-derived window-arm advantage did "
              "not transfer. Predictions were committed to git before the "
              "outcome was read; the register carries the full autopsy.")
+
+    st.subheader("Per-party bootstrap annex: the sign flip between islands")
+    annex = load_json("news_features/per_party_bootstrap_v1/"
+                      "per_party_bootstrap_results.json")
+    quantity = "abs_bias_change_vs_recalibrated"
+    island_label = {"validation_2021": "2021 validation",
+                    "holdout_2026_v2": "2026 holdout (v2)"}
+    st.dataframe([{
+        "island": island_label[spec["island"]],
+        "arm": spec["analysis"].replace("_exploratory", "")
+                               .replace("_sensitivity", ""),
+        "window": spec["period"],
+        "Reform level change": spec["parties"]["reform_uk"][quantity],
+        "fitted-group change": spec["group_point"][quantity],
+        "contrast": spec["contrast_point"][quantity],
+        "95% CI": (lambda ci: f"[{ci.get('ci_lower', 0):+.2f}, "
+                              f"{ci.get('ci_upper', 0):+.2f}]")(
+            spec["bootstrap"]["units"]["contrast"][quantity]),
+    } for spec in annex["specifications"]],
+        use_container_width=True, hide_index=True)
+    st.info("Paired contest-bootstrap intervals (2,000 resamples) on the "
+            "Reform-minus-group level contrast, versus the recalibrated "
+            "control. The contrast sits below zero through most 2021 "
+            "windows (the borrowed adjustment flattered Reform - zero "
+            "Reform fitting rows there) and above zero through most 2026 "
+            "ones: the direction of the news layer's Reform correction "
+            "does not survive the change of island. Exploratory; the "
+            "register's bootstrap-annex addendum carries the census and "
+            "footnotes.")
 
 
 def main() -> None:
