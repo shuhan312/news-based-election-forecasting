@@ -224,3 +224,7 @@ news_features/ward_party_election_features_v1/final_feature_dictionary.csv
 news_features/ward_party_election_features_v1/final_feature_leakage_audit.csv
 news_features/ward_party_election_features_v1/feature_view_manifest.json
 news_features/ward_party_election_features_v1/empty_feature_columns.csv
+# pre-sync safety copies duplicate a state git already keeps (the one
+# tracked instance was byte-identical to full_corpus_review.csv at
+# commit d2b6891); same family as the pre-rerun/pre-rebuild patterns.
+news_collection/*.pre-sync-*.csv
