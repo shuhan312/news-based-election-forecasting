@@ -275,6 +275,28 @@ def page_epilogue() -> None:
             "register's bootstrap-annex addendum carries the census and "
             "footnotes.")
 
+    st.subheader("Design resolution: minimal detectable effects")
+    mde = load_json("news_features/minimal_detectable_effect_v1/"
+                    "mde_results.json")
+    st.dataframe([{
+        "island": entry["island"], "scope": entry["scope"],
+        "comparisons": entry["comparisons"],
+        "estimable": entry["estimable"],
+        "median MDE80": entry.get("median_mde_80"),
+        "range": (f"[{entry['min_mde_80']}, {entry['max_mde_80']}]"
+                  if entry.get("median_mde_80") is not None else "-"),
+    } for entry in mde["summary"]],
+        use_container_width=True, hide_index=True)
+    st.caption("MDE80 = the smallest true effect this design detects in "
+               "~80% of repeated samples, derived from committed interval "
+               "widths only (observed deltas never enter). 2021 resolves "
+               "overall effects no finer than ~1 share point and "
+               "Reform-specific effects no finer than ~2.6; the 2026 v2 "
+               "island resolves to ~0.2 - which is why the small legacy "
+               "level corrections could be certified only there. Single-"
+               "contest case studies (Haslemere, Woking South) admit no "
+               "interval at all.")
+
 
 def main() -> None:
     st.set_page_config(page_title="Surrey news layer", page_icon="📰",

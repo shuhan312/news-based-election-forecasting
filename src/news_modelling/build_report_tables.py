@@ -2,7 +2,7 @@
 
     PYTHONPATH=src .venv/bin/python -m news_modelling.build_report_tables
 
-One module, twenty-two tables, three rules:
+One module, twenty-three tables, three rules:
 
 1. READ, NEVER MODEL. Every number is read from a committed artefact
    (the unblinding record, the decomposition and probe results, the
@@ -81,6 +81,8 @@ SOURCES = {
     "per_party_bootstrap": Path(
         "news_features/per_party_bootstrap_v1/"
         "per_party_bootstrap_results.json"),
+    "mde": Path(
+        "news_features/minimal_detectable_effect_v1/mde_results.json"),
 }
 
 WINDOW_ORDER = ("180_to_91_days", "90_to_31_days", "30_to_15_days",
@@ -647,6 +649,36 @@ def t22_per_party_contrast(bootstrap: dict) -> tuple:
             "addendum)", rows)
 
 
+def t23_mde_summary(mde: dict) -> tuple:
+    """The design's resolution, in the quotable form: median and range
+    of the 80%-power minimal detectable effect per island and scope.
+    Derived entirely from committed interval widths (the observed
+    deltas never enter), so this table is the report's answer to
+    'how small an effect could you have seen?'."""
+
+    island_label = {"validation_2021": "2021 validation",
+                    "holdout_2026_v1": "2026 holdout (v1)",
+                    "holdout_2026_v2": "2026 holdout (v2)"}
+    scope_label = {"overall_mae": "overall MAE delta",
+                   "reform_mae": "Reform MAE delta",
+                   "reform_level": "Reform level change",
+                   "reform_vs_group_contrast": "Reform-vs-group contrast"}
+    rows = [{
+        "island": island_label[entry["island"]],
+        "scope": scope_label[entry["scope"]],
+        "comparisons": entry["comparisons"],
+        "estimable": entry["estimable"],
+        "median_mde80": entry.get("median_mde_80", ""),
+        "min_mde80": entry.get("min_mde_80", ""),
+        "max_mde80": entry.get("max_mde_80", ""),
+    } for entry in mde["summary"]]
+    return ("t23_mde_summary",
+            "Design resolution: 80%-power minimal detectable effects "
+            "(share points) - 2021 resolves ~1pt overall / ~2.6pt "
+            "Reform-specific; 2026 v2 resolves ~0.2pt",
+            "mde_results.json (register design-resolution addendum)", rows)
+
+
 # --------------------------------------------------------------------------
 # Writing.
 # --------------------------------------------------------------------------
@@ -673,6 +705,7 @@ def main() -> None:
     ws_protocol = json.loads(SOURCES["ws_protocol"].read_text())
     ws_unseal = json.loads(SOURCES["ws_unseal"].read_text())
     bootstrap = json.loads(SOURCES["per_party_bootstrap"].read_text())
+    mde = json.loads(SOURCES["mde"].read_text())
     observed = load_observed()
 
     tables = [
@@ -698,6 +731,7 @@ def main() -> None:
         t20_woking_south_unseal(ws_unseal, ws_protocol),
         t21_woking_south_autopsy(),
         t22_per_party_contrast(bootstrap),
+        t23_mde_summary(mde),
     ]
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)

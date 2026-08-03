@@ -440,3 +440,18 @@ Every table is read from committed artefacts; `manifest.json` holds the sha256 o
 | 2021 validation | national | 14-8 days | -10.413 | 2.797 | -13.21 | -14.495 | -10.438 | yes |
 | 2021 validation | national | 7-4 days | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |  |
 | 2021 validation | national | final 72h | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |  |
+
+## Design resolution: 80%-power minimal detectable effects (share points) - 2021 resolves ~1pt overall / ~2.6pt Reform-specific; 2026 v2 resolves ~0.2pt
+
+*Source: mde_results.json (register design-resolution addendum)*
+
+| island | scope | comparisons | estimable | median_mde80 | min_mde80 | max_mde80 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 2026 holdout (v1) | overall MAE delta | 12 | 11 | 0.364 | 0.02 | 0.878 |
+| 2026 holdout (v2) | overall MAE delta | 12 | 11 | 0.216 | 0.006 | 0.581 |
+| 2026 holdout (v2) | Reform level change | 12 | 11 | 0.045 | 0.006 | 2.226 |
+| 2026 holdout (v2) | Reform-vs-group contrast | 12 | 11 | 0.286 | 0.027 | 2.326 |
+| 2021 validation | overall MAE delta | 18 | 14 | 0.962 | 0.585 | 2.625 |
+| 2021 validation | Reform level change | 18 | 14 | 1.626 | 0.341 | 6.19 |
+| 2021 validation | Reform MAE delta | 18 | 14 | 2.601 | 0.809 | 5.273 |
+| 2021 validation | Reform-vs-group contrast | 18 | 14 | 2.329 | 1.292 | 6.612 |

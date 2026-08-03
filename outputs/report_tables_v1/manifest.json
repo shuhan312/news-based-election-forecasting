@@ -21,7 +21,8 @@
     "t19_local_v3_rerun": "Exploratory local re-run on v3 (4 of 6 windows improve; sign inversion at 180-91 days)",
     "t20_woking_south_blind_test": "Woking South pre-registered blind test: the pick (local, 180-91d) worst of 18; transfer refuted",
     "t21_woking_south_autopsy": "Woking South autopsy: the news adjustment worsened all five parties (LD landslide 64.0 encoded nowhere)",
-    "t22_per_party_contrast": "Reform-minus-fitted-group level contrast with paired 95% intervals: negative through 2021, positive through 2026 (the sign flip)"
+    "t22_per_party_contrast": "Reform-minus-fitted-group level contrast with paired 95% intervals: negative through 2021, positive through 2026 (the sign flip)",
+    "t23_mde_summary": "Design resolution: 80%-power minimal detectable effects (share points) - 2021 resolves ~1pt overall / ~2.6pt Reform-specific; 2026 v2 resolves ~0.2pt"
   },
   "input_sha256": {
     "unblinding": "1fefcb13b6dada160fd35cd4c5a7471812832d555ff787915cabcee068193ef0",
@@ -38,6 +39,7 @@
     "ws_unseal": "e47fe3efb5ad6310b66da56a7e35166e1474a876205d8b193def158d7bd80c5f",
     "ws_blind_predictions": "769ef5406cf496ef362a9bc48db4dfb793dc90c46b25c003efd4a5774bdfd2be",
     "baseline_out_of_fold": "950e527eb1ad82522e7cc4f4cc7567660b320942ad2b6a03c16e7ad06489e6e5",
-    "per_party_bootstrap": "e64280617131cc1ceb84274a2a302bbe3f55bdb31a61aa4117da1bdd4e8a7dcd"
+    "per_party_bootstrap": "e64280617131cc1ceb84274a2a302bbe3f55bdb31a61aa4117da1bdd4e8a7dcd",
+    "mde": "a68690b5ab4594b5b49d0976cd21962d618f6bb5e51080cdb1807a6983780ffd"
   }
 }
