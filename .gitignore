@@ -218,3 +218,5 @@ news_collection/e5_local_backlog_v3/byelection_review_v3.csv
 news_collection/woking_south_blind/llm_v2_raw/
 news_collection/woking_south_blind/review_sheet_with_human_e5.csv
 news_collection/woking_south_blind/E5_review_manual_woking_south.pdf
+news_collection/woking_south_blind/*.pre-rerun-*.csv
+news_features/ward_party_election_features_v1/ward_party_election_features*.parquet

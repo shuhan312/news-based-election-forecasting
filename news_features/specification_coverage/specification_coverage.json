@@ -1,0 +1,225 @@
+{
+  "arms": {
+    "rows_by_scope": {
+      "mixed_local_national": 69,
+      "national_political": 71,
+      "regional": 2,
+      "surrey_wide_local": 378,
+      "uncertain": 6,
+      "ward_specific_local": 18
+    },
+    "rows_by_arm_and_election": {
+      "combined": {
+        "ESWS-2026-05": 361,
+        "SCC-2013-05": 31,
+        "SCC-2017-05": 47,
+        "SCC-2021-05": 99
+      },
+      "local": {
+        "ESWS-2026-05": 338,
+        "SCC-2013-05": 13,
+        "SCC-2017-05": 33,
+        "SCC-2021-05": 81
+      },
+      "national": {
+        "ESWS-2026-05": 58,
+        "SCC-2013-05": 23,
+        "SCC-2017-05": 43,
+        "SCC-2021-05": 16
+      }
+    },
+    "elections_per_arm": {
+      "combined": 4,
+      "local": 4,
+      "national": 4
+    },
+    "arms_with_too_few_elections": []
+  },
+  "specifications": {
+    "baseline": {
+      "rows": 792,
+      "reform_rows": 14,
+      "rows_with_any_news": 0,
+      "reform_rows_with_news": 0,
+      "news_columns": 0,
+      "rows_by_feature_source": {
+        "local_party": 0,
+        "local_context": 0,
+        "national_party": 0,
+        "national_context": 0
+      },
+      "elections": [
+        "surrey-county-council-2017",
+        "surrey-county-council-2021",
+        "surrey-county-council-by-election-addlestone-2025-08-21",
+        "surrey-county-council-by-election-camberley-west-2025-10-16",
+        "surrey-county-council-by-election-caterham-valley-2025-10-16",
+        "surrey-county-council-by-election-epsom-west-2015-11-19",
+        "surrey-county-council-by-election-farnham-south-2016-08-18",
+        "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+        "surrey-county-council-by-election-haslemere-2019-05-02",
+        "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+        "surrey-county-council-by-election-horsleys-2023-10-19",
+        "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+        "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05",
+        "surrey-county-council-by-election-sunbury-common-ashford-common-2022-11-30",
+        "surrey-county-council-by-election-the-byfleets-2018-12-06",
+        "surrey-county-council-by-election-walton-south-oatlands-2023-05-04",
+        "surrey-county-council-by-election-warlingham-2019-01-31",
+        "surrey-county-council-by-election-weybridge-2015-05-07",
+        "surrey-county-council-by-election-woking-south-2025-07-10"
+      ],
+      "verdicts": [
+        "NO REFORM UK ROW HAS NEWS: 14 Reform rows are present and none carries a news feature, so nothing Reform-specific is estimable from this specification."
+      ]
+    },
+    "local": {
+      "rows": 792,
+      "reform_rows": 14,
+      "rows_with_any_news": 17,
+      "reform_rows_with_news": 0,
+      "news_columns": 40,
+      "rows_by_feature_source": {
+        "local_party": 17,
+        "local_context": 0,
+        "national_party": 0,
+        "national_context": 0
+      },
+      "elections": [
+        "surrey-county-council-2017",
+        "surrey-county-council-2021",
+        "surrey-county-council-by-election-addlestone-2025-08-21",
+        "surrey-county-council-by-election-camberley-west-2025-10-16",
+        "surrey-county-council-by-election-caterham-valley-2025-10-16",
+        "surrey-county-council-by-election-epsom-west-2015-11-19",
+        "surrey-county-council-by-election-farnham-south-2016-08-18",
+        "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+        "surrey-county-council-by-election-haslemere-2019-05-02",
+        "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+        "surrey-county-council-by-election-horsleys-2023-10-19",
+        "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+        "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05",
+        "surrey-county-council-by-election-sunbury-common-ashford-common-2022-11-30",
+        "surrey-county-council-by-election-the-byfleets-2018-12-06",
+        "surrey-county-council-by-election-walton-south-oatlands-2023-05-04",
+        "surrey-county-council-by-election-warlingham-2019-01-31",
+        "surrey-county-council-by-election-weybridge-2015-05-07",
+        "surrey-county-council-by-election-woking-south-2025-07-10"
+      ],
+      "verdicts": [
+        "NO REFORM UK ROW HAS NEWS: 14 Reform rows are present and none carries a news feature, so nothing Reform-specific is estimable from this specification."
+      ]
+    },
+    "national": {
+      "rows": 792,
+      "reform_rows": 14,
+      "rows_with_any_news": 708,
+      "reform_rows_with_news": 6,
+      "news_columns": 40,
+      "rows_by_feature_source": {
+        "local_party": 0,
+        "local_context": 0,
+        "national_party": 500,
+        "national_context": 708
+      },
+      "elections": [
+        "surrey-county-council-2017",
+        "surrey-county-council-2021",
+        "surrey-county-council-by-election-addlestone-2025-08-21",
+        "surrey-county-council-by-election-camberley-west-2025-10-16",
+        "surrey-county-council-by-election-caterham-valley-2025-10-16",
+        "surrey-county-council-by-election-epsom-west-2015-11-19",
+        "surrey-county-council-by-election-farnham-south-2016-08-18",
+        "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+        "surrey-county-council-by-election-haslemere-2019-05-02",
+        "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+        "surrey-county-council-by-election-horsleys-2023-10-19",
+        "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+        "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05",
+        "surrey-county-council-by-election-sunbury-common-ashford-common-2022-11-30",
+        "surrey-county-council-by-election-the-byfleets-2018-12-06",
+        "surrey-county-council-by-election-walton-south-oatlands-2023-05-04",
+        "surrey-county-council-by-election-warlingham-2019-01-31",
+        "surrey-county-council-by-election-weybridge-2015-05-07",
+        "surrey-county-council-by-election-woking-south-2025-07-10"
+      ],
+      "verdicts": [
+        "REFORM SAMPLE 6 ROWS WITH NEWS: any Reform-specific estimate rests on this and must be quoted with it."
+      ]
+    },
+    "combined": {
+      "rows": 792,
+      "reform_rows": 14,
+      "rows_with_any_news": 708,
+      "reform_rows_with_news": 6,
+      "news_columns": 80,
+      "rows_by_feature_source": {
+        "local_party": 17,
+        "local_context": 0,
+        "national_party": 500,
+        "national_context": 708
+      },
+      "elections": [
+        "surrey-county-council-2017",
+        "surrey-county-council-2021",
+        "surrey-county-council-by-election-addlestone-2025-08-21",
+        "surrey-county-council-by-election-camberley-west-2025-10-16",
+        "surrey-county-council-by-election-caterham-valley-2025-10-16",
+        "surrey-county-council-by-election-epsom-west-2015-11-19",
+        "surrey-county-council-by-election-farnham-south-2016-08-18",
+        "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+        "surrey-county-council-by-election-haslemere-2019-05-02",
+        "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+        "surrey-county-council-by-election-horsleys-2023-10-19",
+        "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+        "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05",
+        "surrey-county-council-by-election-sunbury-common-ashford-common-2022-11-30",
+        "surrey-county-council-by-election-the-byfleets-2018-12-06",
+        "surrey-county-council-by-election-walton-south-oatlands-2023-05-04",
+        "surrey-county-council-by-election-warlingham-2019-01-31",
+        "surrey-county-council-by-election-weybridge-2015-05-07",
+        "surrey-county-council-by-election-woking-south-2025-07-10"
+      ],
+      "verdicts": [
+        "REFORM SAMPLE 6 ROWS WITH NEWS: any Reform-specific estimate rests on this and must be quoted with it."
+      ]
+    },
+    "full": {
+      "rows": 792,
+      "reform_rows": 14,
+      "rows_with_any_news": 708,
+      "reform_rows_with_news": 6,
+      "news_columns": 80,
+      "rows_by_feature_source": {
+        "local_party": 17,
+        "local_context": 0,
+        "national_party": 500,
+        "national_context": 708
+      },
+      "elections": [
+        "surrey-county-council-2017",
+        "surrey-county-council-2021",
+        "surrey-county-council-by-election-addlestone-2025-08-21",
+        "surrey-county-council-by-election-camberley-west-2025-10-16",
+        "surrey-county-council-by-election-caterham-valley-2025-10-16",
+        "surrey-county-council-by-election-epsom-west-2015-11-19",
+        "surrey-county-council-by-election-farnham-south-2016-08-18",
+        "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+        "surrey-county-council-by-election-haslemere-2019-05-02",
+        "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+        "surrey-county-council-by-election-horsleys-2023-10-19",
+        "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+        "surrey-county-council-by-election-staines-south-ashford-west-2016-05-05",
+        "surrey-county-council-by-election-sunbury-common-ashford-common-2022-11-30",
+        "surrey-county-council-by-election-the-byfleets-2018-12-06",
+        "surrey-county-council-by-election-walton-south-oatlands-2023-05-04",
+        "surrey-county-council-by-election-warlingham-2019-01-31",
+        "surrey-county-council-by-election-weybridge-2015-05-07",
+        "surrey-county-council-by-election-woking-south-2025-07-10"
+      ],
+      "verdicts": [
+        "REFORM SAMPLE 6 ROWS WITH NEWS: any Reform-specific estimate rests on this and must be quoted with it."
+      ]
+    }
+  }
+}

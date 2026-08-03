@@ -1,0 +1,159 @@
+{
+  "target": "target__party_vote_share",
+  "split_news_coverage": {
+    "final_test_2026": {
+      "rows": 1262,
+      "rows_with_any_news": 1262,
+      "share_with_news": 1.0,
+      "news_comparison_possible": true
+    },
+    "historical_training": {
+      "rows": 3418,
+      "rows_with_any_news": 3334,
+      "share_with_news": 0.9754,
+      "news_comparison_possible": true
+    },
+    "secondary_test_2026_07": {
+      "rows": 4,
+      "rows_with_any_news": 0,
+      "share_with_news": 0.0,
+      "news_comparison_possible": false
+    },
+    "validation_2021": {
+      "rows": 1639,
+      "rows_with_any_news": 1639,
+      "share_with_news": 1.0,
+      "news_comparison_possible": true
+    }
+  },
+  "specifications": {
+    "baseline": {
+      "target": "target__party_vote_share",
+      "training_rows": 3418,
+      "candidate_columns": 161,
+      "selected_columns": 5,
+      "rows_per_selected_feature": 683.6,
+      "removed_by_stage": {
+        "all_empty": 15,
+        "constant": 72,
+        "duplicate": 68,
+        "redundant": 1
+      },
+      "budget_per_block": {
+        "baseline": 2,
+        "coverage": 4
+      },
+      "selected_per_block": {
+        "baseline": 2,
+        "coverage": 3
+      },
+      "selection_used_training_rows_only": true
+    },
+    "local": {
+      "target": "target__party_vote_share",
+      "training_rows": 3418,
+      "candidate_columns": 10793,
+      "selected_columns": 5,
+      "rows_per_selected_feature": 683.6,
+      "removed_by_stage": {
+        "all_empty": 10599,
+        "constant": 120,
+        "duplicate": 68,
+        "redundant": 1
+      },
+      "budget_per_block": {
+        "baseline": 2,
+        "coverage": 4
+      },
+      "selected_per_block": {
+        "baseline": 2,
+        "coverage": 3
+      },
+      "selection_used_training_rows_only": true
+    },
+    "national": {
+      "target": "target__party_vote_share",
+      "training_rows": 3418,
+      "candidate_columns": 10793,
+      "selected_columns": 226,
+      "rows_per_selected_feature": 15.1,
+      "removed_by_stage": {
+        "all_empty": 5615,
+        "constant": 3817,
+        "duplicate": 771,
+        "redundant": 364
+      },
+      "budget_per_block": {
+        "baseline": 2,
+        "coverage": 4,
+        "national": 149,
+        "national_context": 12,
+        "weighted_national": 149,
+        "weighted_national_context": 25
+      },
+      "selected_per_block": {
+        "baseline": 2,
+        "coverage": 3,
+        "national": 113,
+        "national_context": 2,
+        "weighted_national": 104,
+        "weighted_national_context": 2
+      },
+      "selection_used_training_rows_only": true
+    },
+    "combined": {
+      "target": "target__party_vote_share",
+      "training_rows": 3418,
+      "candidate_columns": 2861,
+      "selected_columns": 118,
+      "rows_per_selected_feature": 29.0,
+      "removed_by_stage": {
+        "all_empty": 925,
+        "constant": 1349,
+        "duplicate": 328,
+        "redundant": 141
+      },
+      "budget_per_block": {
+        "baseline": 2,
+        "combined": 253,
+        "coverage": 4
+      },
+      "selected_per_block": {
+        "baseline": 2,
+        "combined": 113,
+        "coverage": 3
+      },
+      "selection_used_training_rows_only": true
+    },
+    "full": {
+      "target": "target__party_vote_share",
+      "training_rows": 3418,
+      "candidate_columns": 21425,
+      "selected_columns": 226,
+      "rows_per_selected_feature": 15.1,
+      "removed_by_stage": {
+        "all_empty": 16199,
+        "constant": 3865,
+        "duplicate": 771,
+        "redundant": 364
+      },
+      "budget_per_block": {
+        "baseline": 2,
+        "coverage": 4,
+        "national": 149,
+        "national_context": 12,
+        "weighted_national": 149,
+        "weighted_national_context": 25
+      },
+      "selected_per_block": {
+        "baseline": 2,
+        "coverage": 3,
+        "national": 113,
+        "national_context": 2,
+        "weighted_national": 104,
+        "weighted_national_context": 2
+      },
+      "selection_used_training_rows_only": true
+    }
+  }
+}
