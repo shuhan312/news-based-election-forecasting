@@ -1097,3 +1097,33 @@ correction is now interval-backed as unstable in DIRECTION across
 islands and windows, the same transfer failure Haslemere and Woking
 South recorded, stated for a third time in resampling form. Nothing
 here selects a window, an arm or a model.
+
+**Design-resolution annex: the minimal detectable effects behind every
+verdict.** The examiner's follow-up to "no improvement" is "how small
+an improvement could this design have seen?" - without the number, the
+null over-reads. The annex (`minimal_detectable_effect_v1/`; module
+`news_modelling.minimal_detectable_effect`; exploratory, promotes
+nothing) derives it from the WIDTH of every committed contest-bootstrap
+interval - the observed delta never enters the arithmetic, which is
+what separates design sensitivity from observed-effect post-hoc power.
+120 comparisons, share points, MDE80 = interval half-width x 1.429.
+The resolutions: 2021 overall median 0.96 [0.59, 2.63] across the 14
+estimable confirmed windows, 2021 Reform-specific 2.60 [0.81, 5.27]
+(six Reform contests), 2026 v1 overall 0.36, 2026 v2 overall 0.22
+[0.006, 0.58]; the annex's own level readings resolve at 1.63 (2021)
+and 0.05 (2026) for Reform's level and 2.33 / 0.29 for the
+Reform-versus-group contrast. Reading: the 0-of-18 verdict bounds any
+true overall pre-2026 improvement below roughly one MAE point and any
+Reform-specific improvement below roughly 2.6 points - "no Reform
+evidence" is a statement about resolution as much as about news - and
+the 2026 island's 0.22-point resolution is why the small legacy level
+corrections could be certified only there. Single-contest case studies
+(Haslemere, Woking South) admit no interval and hence unbounded MDE:
+the arithmetic form of their illustrative-only status. Caveats
+recorded in the findings: normal-approximation SE from percentile
+widths; asymmetric intervals flagged per row and used at symmetric
+half-width - eleven of the 120 comparisons are flagged and all eleven
+sit in the 2021 Reform-specific block, the six-contest corner where
+the normal approximation is weakest, so the 2.6-point resolution is
+an approximation rather than a sharp threshold; and every figure
+conditional on the frozen design, not a general claim about news.
