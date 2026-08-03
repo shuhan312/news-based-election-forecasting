@@ -1045,3 +1045,55 @@ Building a turnout model remains possible (turnout per contest is in
 the election database, 2013 cross-validated against Wikipedia per
 the recorded decision) and would be a new exploratory target if ever
 wanted; it is not scheduled against the writing deadline.
+
+**Uncertainty annex to the per-party decomposition: contest-bootstrap
+intervals on both islands.** The per-party tide-gauge split (2b) was
+recorded as point estimates on the unsealed 2026 outcomes only. The
+annex (`per_party_bootstrap_v1/`; module
+`news_modelling.per_party_bootstrap`; exploratory, promotes nothing)
+recomputes it with contest-level bootstrap intervals - 2000 resamples,
+seed 20260728, the primary experiment's own constants, draws paired
+across parties so the Reform-versus-group contrast carries its own
+interval - and replicates the split on the only other candidate-level
+island the news layer owns, the frozen 2021 validation predictions (18
+specifications there, 12 on 2026; the 2026 point estimates were
+asserted cell-by-cell against the committed decomposition results, 240
+cells, zero drift). Both controls are kept; the recalibrated control
+is quoted, because in structural-zero windows the baseline control
+measures only the recalibration itself. What the intervals add: the
+2026 reading survives uncertainty - the legacy level corrections
+(Conservative -1.70 [-1.74, -1.64], Liberal Democrat -2.75 [-2.79,
+-2.72] in combined 90-31 days) and Reform's worsening (+1.84 [+1.81,
++1.86]) all exclude zero, no 90-31-day dispersion change exceeds 0.07
+(largest across all twelve specifications 0.34), and the
+Reform-minus-group contrast is positive with an interval excluding
+zero in 8 of 12 specifications, the one starred negative being
+national final-72-hours at -0.12 [-0.14, -0.00]. On 2021 the
+mirror is now also interval-backed: Reform's apparent level
+improvements (section 11's extrapolation artefact - zero Reform
+fitting rows) are large and stable within the island (-9.14 [-9.61,
+-8.70], combined 90-31 days) while the combined and local arms'
+7-to-4-day windows swing the contrast to +10.3 (the national arm
+carries no 7-4-day signal), and the contrast SIGN FLIPS between
+islands (negative in 12 starred 2021 specifications, positive in 8
+starred 2026 ones). Census: 2021, of 108 party x specification level-change
+intervals, 24 exclude zero improving, 50 worsening, 34 straddle; 2026,
+of 60: 23, 16, 21. Two footnotes the tables force. First, a constant
+per-party shift cannot move dispersion at all, so every starred
+dispersion cell measures the clip-and-renormalise step - the
+prediction arithmetic's only ward-dependent operation - not news
+content reaching geography: on 2026 the leak is negligible (21 of 60
+cells starred, largest 0.34), but in the 2021 windows where the
+borrowed adjustments were enormous it is not (26 of 108 starred,
+Conservative +20.8 in the local arm's 14-8-day window). That bounds
+how far "levels move, geography does not" may be quoted: exact where
+adjustments are modest, breached only by clipping arithmetic where
+they are wild. Second, the one starred-negative 2026 contrast is
+national final-72-hours at -0.12 against positive magnitudes up to
++5.5. Reading, in the register's own terms: the
+tide-gauge mechanism survives its uncertainty test on both islands -
+levels move, geography does not - and the news layer's Reform level
+correction is now interval-backed as unstable in DIRECTION across
+islands and windows, the same transfer failure Haslemere and Woking
+South recorded, stated for a third time in resampling form. Nothing
+here selects a window, an arm or a model.
