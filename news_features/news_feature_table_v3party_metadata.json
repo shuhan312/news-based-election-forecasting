@@ -1,0 +1,2801 @@
+{
+  "rows": 864,
+  "expected_rows": 864,
+  "elections": [
+    "ESWS-2026-05",
+    "SCC-2013-05",
+    "SCC-2017-05",
+    "SCC-2021-05",
+    "surrey-county-council-by-election-addlestone-2025-08-21",
+    "surrey-county-council-by-election-camberley-west-2025-10-16",
+    "surrey-county-council-by-election-caterham-valley-2025-10-16",
+    "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+    "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+    "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+    "surrey-county-council-by-election-warlingham-2019-01-31",
+    "surrey-county-council-by-election-weybridge-2015-05-07"
+  ],
+  "parties": [
+    "conservative",
+    "green",
+    "labour",
+    "liberal_democrat",
+    "reform_uk",
+    "ukip"
+  ],
+  "periods": [
+    "180_to_91_days",
+    "90_to_31_days",
+    "30_to_15_days",
+    "14_to_8_days",
+    "7_to_4_days",
+    "final_72_hours",
+    "previous_72_hours",
+    "previous_7_days",
+    "previous_14_days",
+    "previous_30_days",
+    "previous_90_days",
+    "previous_180_days"
+  ],
+  "unique_articles": 2259,
+  "corpus_size": 2259,
+  "canonical_corpus_release_id": "canonical-news-v2-81000bf38785",
+  "canonical_corpus_manifest": "news_collection/canonical_corpus_release_v1.json",
+  "canonical_corpus_by_arm": {
+    "local": 188,
+    "national": 2071
+  },
+  "terminal_include_articles": 2265,
+  "excluded_after_terminal_include": {
+    "articles": 6,
+    "no_effective_date": 0,
+    "not_a_principal_election": 0,
+    "outside_all_windows": 0,
+    "no_extracted_text": 6,
+    "no_extracted_text_ids": [
+      "NEWS-guardian_api-2ef2c7bd5536",
+      "NEWS-guardian_api-4758fb4be13e",
+      "NEWS-guardian_api-8aadc09fa9eb",
+      "NEWS-guardian_api-aae0d552d3f5",
+      "NEWS-guardian_api-b14821938693",
+      "NEWS-guardian_api-ce614f0fffc6"
+    ]
+  },
+  "grain": "election x party x period",
+  "empty_cell_policy": "Retain completed election-party-period cells with zero articles. Counts are 0; shares with a zero denominator are blank.",
+  "zero_article_cells": [
+    {
+      "election_id": "ESWS-2026-05",
+      "standard_party_key": "conservative",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "ESWS-2026-05",
+      "standard_party_key": "green",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "ESWS-2026-05",
+      "standard_party_key": "labour",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "ESWS-2026-05",
+      "standard_party_key": "liberal_democrat",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "ESWS-2026-05",
+      "standard_party_key": "reform_uk",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "ESWS-2026-05",
+      "standard_party_key": "ukip",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "SCC-2017-05",
+      "standard_party_key": "conservative",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "SCC-2017-05",
+      "standard_party_key": "conservative",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "SCC-2017-05",
+      "standard_party_key": "green",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "SCC-2017-05",
+      "standard_party_key": "green",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "SCC-2017-05",
+      "standard_party_key": "labour",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "SCC-2017-05",
+      "standard_party_key": "labour",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "SCC-2017-05",
+      "standard_party_key": "liberal_democrat",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "SCC-2017-05",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "SCC-2017-05",
+      "standard_party_key": "reform_uk",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "SCC-2017-05",
+      "standard_party_key": "reform_uk",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "SCC-2017-05",
+      "standard_party_key": "ukip",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "SCC-2017-05",
+      "standard_party_key": "ukip",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+      "standard_party_key": "conservative",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+      "standard_party_key": "green",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+      "standard_party_key": "labour",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+      "standard_party_key": "liberal_democrat",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+      "standard_party_key": "reform_uk",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+      "standard_party_key": "ukip",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+      "standard_party_key": "green",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "green",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "green",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "green",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "green",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "green",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "green",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "green",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "green",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "green",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "green",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "green",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "green",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "conservative",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "green",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "green",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "green",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "green",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "green",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "green",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "green",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "green",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "green",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "green",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "green",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "green",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "labour",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "reform_uk",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+      "standard_party_key": "ukip",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "conservative",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "conservative",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "conservative",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "conservative",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "conservative",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "conservative",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "conservative",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "conservative",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "conservative",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "conservative",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "conservative",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "conservative",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "green",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "green",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "green",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "green",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "green",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "green",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "green",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "green",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "green",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "green",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "green",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "green",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "labour",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "labour",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "labour",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "labour",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "labour",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "labour",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "labour",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "labour",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "labour",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "labour",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "labour",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "labour",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "liberal_democrat",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "liberal_democrat",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "liberal_democrat",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "liberal_democrat",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "liberal_democrat",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "liberal_democrat",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "reform_uk",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "reform_uk",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "reform_uk",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "reform_uk",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "reform_uk",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "reform_uk",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "reform_uk",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "reform_uk",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "reform_uk",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "reform_uk",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "reform_uk",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "reform_uk",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "ukip",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "ukip",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "ukip",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "ukip",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "ukip",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "ukip",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "ukip",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "ukip",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "ukip",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "ukip",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "ukip",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+      "standard_party_key": "ukip",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "conservative",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "conservative",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "conservative",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "conservative",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "conservative",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "conservative",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "conservative",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "conservative",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "conservative",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "conservative",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "conservative",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "conservative",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "green",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "green",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "green",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "green",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "green",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "green",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "green",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "green",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "green",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "green",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "green",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "green",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "labour",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "labour",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "labour",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "labour",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "labour",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "labour",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "labour",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "labour",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "labour",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "labour",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "labour",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "labour",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "liberal_democrat",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "liberal_democrat",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "liberal_democrat",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "liberal_democrat",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "liberal_democrat",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "liberal_democrat",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "reform_uk",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "reform_uk",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "reform_uk",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "reform_uk",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "reform_uk",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "reform_uk",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "reform_uk",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "reform_uk",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "reform_uk",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "reform_uk",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "reform_uk",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "reform_uk",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "ukip",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "ukip",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "ukip",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "ukip",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "ukip",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "ukip",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "ukip",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "ukip",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "ukip",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "ukip",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "ukip",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+      "standard_party_key": "ukip",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "conservative",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "conservative",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "conservative",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "conservative",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "conservative",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "conservative",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "conservative",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "conservative",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "conservative",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "conservative",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "conservative",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "conservative",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "green",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "green",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "green",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "green",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "green",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "green",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "green",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "green",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "green",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "green",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "green",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "green",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "labour",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "labour",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "labour",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "labour",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "labour",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "labour",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "labour",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "labour",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "labour",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "labour",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "labour",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "labour",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "liberal_democrat",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "liberal_democrat",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "liberal_democrat",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "liberal_democrat",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "liberal_democrat",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "liberal_democrat",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "reform_uk",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "reform_uk",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "reform_uk",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "reform_uk",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "reform_uk",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "reform_uk",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "reform_uk",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "reform_uk",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "reform_uk",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "reform_uk",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "reform_uk",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "reform_uk",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "ukip",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "ukip",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "ukip",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "ukip",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "ukip",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "ukip",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "ukip",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "ukip",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "ukip",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "ukip",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "ukip",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+      "standard_party_key": "ukip",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "conservative",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "conservative",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "conservative",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "conservative",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "conservative",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "conservative",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "conservative",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "conservative",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "conservative",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "conservative",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "conservative",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "conservative",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "green",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "green",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "green",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "green",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "green",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "green",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "green",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "green",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "green",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "green",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "green",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "green",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "labour",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "labour",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "labour",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "labour",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "labour",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "labour",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "labour",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "labour",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "labour",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "labour",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "labour",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "labour",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "liberal_democrat",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "liberal_democrat",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "liberal_democrat",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "liberal_democrat",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "liberal_democrat",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "liberal_democrat",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "liberal_democrat",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "reform_uk",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "reform_uk",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "reform_uk",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "reform_uk",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "reform_uk",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "reform_uk",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "reform_uk",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "reform_uk",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "reform_uk",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "reform_uk",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "reform_uk",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "reform_uk",
+      "period": "previous_180_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "ukip",
+      "period": "180_to_91_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "ukip",
+      "period": "90_to_31_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "ukip",
+      "period": "30_to_15_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "ukip",
+      "period": "14_to_8_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "ukip",
+      "period": "7_to_4_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "ukip",
+      "period": "final_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "ukip",
+      "period": "previous_72_hours"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "ukip",
+      "period": "previous_7_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "ukip",
+      "period": "previous_14_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "ukip",
+      "period": "previous_30_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "ukip",
+      "period": "previous_90_days"
+    },
+    {
+      "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+      "standard_party_key": "ukip",
+      "period": "previous_180_days"
+    }
+  ],
+  "grain_note": "Not area-level: 94.2% of canonical articles carry no unambiguous Surrey-area attribution, and the remaining coverage is too sparse and uneven to support a general ward-level feature.",
+  "reform_training_articles": 300,
+  "training_variation": {
+    "party_article_count": {
+      "distinct_training_values_within_period": 23,
+      "distinct_training_values_pooled_across_periods": 67,
+      "verdict": "usable"
+    },
+    "party_article_share": {
+      "distinct_training_values_within_period": 23,
+      "distinct_training_values_pooled_across_periods": 113,
+      "verdict": "usable"
+    },
+    "unfavourable_count": {
+      "distinct_training_values_within_period": 22,
+      "distinct_training_values_pooled_across_periods": 48,
+      "verdict": "usable"
+    },
+    "favourable_count": {
+      "distinct_training_values_within_period": 16,
+      "distinct_training_values_pooled_across_periods": 30,
+      "verdict": "usable"
+    },
+    "net_portrayal": {
+      "distinct_training_values_within_period": 21,
+      "distinct_training_values_pooled_across_periods": 52,
+      "verdict": "usable"
+    },
+    "net_portrayal_share": {
+      "distinct_training_values_within_period": 22,
+      "distinct_training_values_pooled_across_periods": 87,
+      "verdict": "usable"
+    },
+    "article_count": {
+      "distinct_training_values_within_period": 5,
+      "distinct_training_values_pooled_across_periods": 28,
+      "verdict": "fittable_not_reportable"
+    },
+    "local_article_count": {
+      "distinct_training_values_within_period": 3,
+      "distinct_training_values_pooled_across_periods": 16,
+      "verdict": "fittable_not_reportable"
+    },
+    "national_article_count": {
+      "distinct_training_values_within_period": 5,
+      "distinct_training_values_pooled_across_periods": 24,
+      "verdict": "fittable_not_reportable"
+    },
+    "local_share": {
+      "distinct_training_values_within_period": 3,
+      "distinct_training_values_pooled_across_periods": 16,
+      "verdict": "fittable_not_reportable"
+    },
+    "independent_source_count": {
+      "distinct_training_values_within_period": 4,
+      "distinct_training_values_pooled_across_periods": 5,
+      "verdict": "fittable_not_reportable"
+    },
+    "reform_named_count": {
+      "distinct_training_values_within_period": 3,
+      "distinct_training_values_pooled_across_periods": 14,
+      "verdict": "fittable_not_reportable"
+    },
+    "reform_share_of_coverage": {
+      "distinct_training_values_within_period": 3,
+      "distinct_training_values_pooled_across_periods": 15,
+      "verdict": "fittable_not_reportable"
+    },
+    "local_party_article_count": {
+      "distinct_training_values_within_period": 9,
+      "distinct_training_values_pooled_across_periods": 20,
+      "verdict": "fittable_not_reportable"
+    },
+    "local_party_article_share": {
+      "distinct_training_values_within_period": 9,
+      "distinct_training_values_pooled_across_periods": 33,
+      "verdict": "fittable_not_reportable"
+    },
+    "local_unfavourable_count": {
+      "distinct_training_values_within_period": 6,
+      "distinct_training_values_pooled_across_periods": 12,
+      "verdict": "fittable_not_reportable"
+    },
+    "local_favourable_count": {
+      "distinct_training_values_within_period": 5,
+      "distinct_training_values_pooled_across_periods": 8,
+      "verdict": "fittable_not_reportable"
+    },
+    "local_net_portrayal": {
+      "distinct_training_values_within_period": 8,
+      "distinct_training_values_pooled_across_periods": 17,
+      "verdict": "fittable_not_reportable"
+    },
+    "local_net_portrayal_share": {
+      "distinct_training_values_within_period": 7,
+      "distinct_training_values_pooled_across_periods": 24,
+      "verdict": "fittable_not_reportable"
+    },
+    "national_party_article_count": {
+      "distinct_training_values_within_period": 23,
+      "distinct_training_values_pooled_across_periods": 61,
+      "verdict": "usable"
+    },
+    "national_party_article_share": {
+      "distinct_training_values_within_period": 23,
+      "distinct_training_values_pooled_across_periods": 96,
+      "verdict": "usable"
+    },
+    "national_unfavourable_count": {
+      "distinct_training_values_within_period": 22,
+      "distinct_training_values_pooled_across_periods": 47,
+      "verdict": "usable"
+    },
+    "national_favourable_count": {
+      "distinct_training_values_within_period": 17,
+      "distinct_training_values_pooled_across_periods": 27,
+      "verdict": "usable"
+    },
+    "national_net_portrayal": {
+      "distinct_training_values_within_period": 22,
+      "distinct_training_values_pooled_across_periods": 53,
+      "verdict": "usable"
+    },
+    "national_net_portrayal_share": {
+      "distinct_training_values_within_period": 22,
+      "distinct_training_values_pooled_across_periods": 79,
+      "verdict": "usable"
+    },
+    "issue_immigration_count": {
+      "distinct_training_values_within_period": 5,
+      "distinct_training_values_pooled_across_periods": 11,
+      "verdict": "fittable_not_reportable"
+    },
+    "issue_immigration_share": {
+      "distinct_training_values_within_period": 4,
+      "distinct_training_values_pooled_across_periods": 21,
+      "verdict": "fittable_not_reportable"
+    },
+    "issue_crime_policing_count": {
+      "distinct_training_values_within_period": 1,
+      "distinct_training_values_pooled_across_periods": 1,
+      "verdict": "insufficient"
+    },
+    "issue_crime_policing_share": {
+      "distinct_training_values_within_period": 1,
+      "distinct_training_values_pooled_across_periods": 1,
+      "verdict": "insufficient"
+    },
+    "issue_housing_planning_count": {
+      "distinct_training_values_within_period": 1,
+      "distinct_training_values_pooled_across_periods": 1,
+      "verdict": "insufficient"
+    },
+    "issue_housing_planning_share": {
+      "distinct_training_values_within_period": 1,
+      "distinct_training_values_pooled_across_periods": 1,
+      "verdict": "insufficient"
+    },
+    "issue_council_services_count": {
+      "distinct_training_values_within_period": 5,
+      "distinct_training_values_pooled_across_periods": 14,
+      "verdict": "fittable_not_reportable"
+    },
+    "issue_council_services_share": {
+      "distinct_training_values_within_period": 4,
+      "distinct_training_values_pooled_across_periods": 23,
+      "verdict": "fittable_not_reportable"
+    },
+    "issue_national_politics_count": {
+      "distinct_training_values_within_period": 5,
+      "distinct_training_values_pooled_across_periods": 23,
+      "verdict": "fittable_not_reportable"
+    },
+    "issue_national_politics_share": {
+      "distinct_training_values_within_period": 4,
+      "distinct_training_values_pooled_across_periods": 26,
+      "verdict": "fittable_not_reportable"
+    },
+    "issue_issue_other_count": {
+      "distinct_training_values_within_period": 5,
+      "distinct_training_values_pooled_across_periods": 22,
+      "verdict": "fittable_not_reportable"
+    },
+    "issue_issue_other_share": {
+      "distinct_training_values_within_period": 4,
+      "distinct_training_values_pooled_across_periods": 26,
+      "verdict": "fittable_not_reportable"
+    },
+    "issue_none_count": {
+      "distinct_training_values_within_period": 5,
+      "distinct_training_values_pooled_across_periods": 16,
+      "verdict": "fittable_not_reportable"
+    },
+    "issue_none_share": {
+      "distinct_training_values_within_period": 4,
+      "distinct_training_values_pooled_across_periods": 24,
+      "verdict": "fittable_not_reportable"
+    },
+    "frame_incumbent_judgement_count": {
+      "distinct_training_values_within_period": 5,
+      "distinct_training_values_pooled_across_periods": 23,
+      "verdict": "fittable_not_reportable"
+    },
+    "frame_incumbent_judgement_share": {
+      "distinct_training_values_within_period": 4,
+      "distinct_training_values_pooled_across_periods": 27,
+      "verdict": "fittable_not_reportable"
+    },
+    "frame_challenger_emergence_count": {
+      "distinct_training_values_within_period": 5,
+      "distinct_training_values_pooled_across_periods": 18,
+      "verdict": "fittable_not_reportable"
+    },
+    "frame_challenger_emergence_share": {
+      "distinct_training_values_within_period": 4,
+      "distinct_training_values_pooled_across_periods": 27,
+      "verdict": "fittable_not_reportable"
+    },
+    "frame_voter_discontent_count": {
+      "distinct_training_values_within_period": 5,
+      "distinct_training_values_pooled_across_periods": 20,
+      "verdict": "fittable_not_reportable"
+    },
+    "frame_voter_discontent_share": {
+      "distinct_training_values_within_period": 4,
+      "distinct_training_values_pooled_across_periods": 28,
+      "verdict": "fittable_not_reportable"
+    },
+    "frame_local_impact_count": {
+      "distinct_training_values_within_period": 5,
+      "distinct_training_values_pooled_across_periods": 22,
+      "verdict": "fittable_not_reportable"
+    },
+    "frame_local_impact_share": {
+      "distinct_training_values_within_period": 4,
+      "distinct_training_values_pooled_across_periods": 29,
+      "verdict": "fittable_not_reportable"
+    },
+    "party_issues_coded": {
+      "distinct_training_values_within_period": 20,
+      "distinct_training_values_pooled_across_periods": 58,
+      "verdict": "usable"
+    },
+    "party_issue_immigration_count": {
+      "distinct_training_values_within_period": 13,
+      "distinct_training_values_pooled_across_periods": 15,
+      "verdict": "usable"
+    },
+    "party_issue_immigration_share": {
+      "distinct_training_values_within_period": 20,
+      "distinct_training_values_pooled_across_periods": 54,
+      "verdict": "usable"
+    },
+    "party_issue_crime_policing_count": {
+      "distinct_training_values_within_period": 1,
+      "distinct_training_values_pooled_across_periods": 1,
+      "verdict": "insufficient"
+    },
+    "party_issue_crime_policing_share": {
+      "distinct_training_values_within_period": 1,
+      "distinct_training_values_pooled_across_periods": 1,
+      "verdict": "insufficient"
+    },
+    "party_issue_housing_planning_count": {
+      "distinct_training_values_within_period": 1,
+      "distinct_training_values_pooled_across_periods": 1,
+      "verdict": "insufficient"
+    },
+    "party_issue_housing_planning_share": {
+      "distinct_training_values_within_period": 1,
+      "distinct_training_values_pooled_across_periods": 1,
+      "verdict": "insufficient"
+    },
+    "party_issue_council_services_count": {
+      "distinct_training_values_within_period": 11,
+      "distinct_training_values_pooled_across_periods": 15,
+      "verdict": "usable"
+    },
+    "party_issue_council_services_share": {
+      "distinct_training_values_within_period": 15,
+      "distinct_training_values_pooled_across_periods": 51,
+      "verdict": "usable"
+    },
+    "party_issue_national_politics_count": {
+      "distinct_training_values_within_period": 20,
+      "distinct_training_values_pooled_across_periods": 52,
+      "verdict": "usable"
+    },
+    "party_issue_national_politics_share": {
+      "distinct_training_values_within_period": 20,
+      "distinct_training_values_pooled_across_periods": 69,
+      "verdict": "usable"
+    },
+    "party_issue_issue_other_count": {
+      "distinct_training_values_within_period": 19,
+      "distinct_training_values_pooled_across_periods": 32,
+      "verdict": "usable"
+    },
+    "party_issue_issue_other_share": {
+      "distinct_training_values_within_period": 20,
+      "distinct_training_values_pooled_across_periods": 72,
+      "verdict": "usable"
+    },
+    "party_issue_none_count": {
+      "distinct_training_values_within_period": 2,
+      "distinct_training_values_pooled_across_periods": 2,
+      "verdict": "insufficient"
+    },
+    "party_issue_none_share": {
+      "distinct_training_values_within_period": 2,
+      "distinct_training_values_pooled_across_periods": 3,
+      "verdict": "insufficient"
+    },
+    "party_framing_coded": {
+      "distinct_training_values_within_period": 21,
+      "distinct_training_values_pooled_across_periods": 61,
+      "verdict": "usable"
+    },
+    "party_frame_incumbent_judgement_count": {
+      "distinct_training_values_within_period": 21,
+      "distinct_training_values_pooled_across_periods": 52,
+      "verdict": "usable"
+    },
+    "party_frame_incumbent_judgement_share": {
+      "distinct_training_values_within_period": 20,
+      "distinct_training_values_pooled_across_periods": 68,
+      "verdict": "usable"
+    },
+    "party_frame_challenger_emergence_count": {
+      "distinct_training_values_within_period": 18,
+      "distinct_training_values_pooled_across_periods": 40,
+      "verdict": "usable"
+    },
+    "party_frame_challenger_emergence_share": {
+      "distinct_training_values_within_period": 20,
+      "distinct_training_values_pooled_across_periods": 70,
+      "verdict": "usable"
+    },
+    "party_frame_voter_discontent_count": {
+      "distinct_training_values_within_period": 20,
+      "distinct_training_values_pooled_across_periods": 39,
+      "verdict": "usable"
+    },
+    "party_frame_voter_discontent_share": {
+      "distinct_training_values_within_period": 20,
+      "distinct_training_values_pooled_across_periods": 67,
+      "verdict": "usable"
+    },
+    "party_frame_local_impact_count": {
+      "distinct_training_values_within_period": 17,
+      "distinct_training_values_pooled_across_periods": 30,
+      "verdict": "usable"
+    },
+    "party_frame_local_impact_share": {
+      "distinct_training_values_within_period": 20,
+      "distinct_training_values_pooled_across_periods": 63,
+      "verdict": "usable"
+    }
+  },
+  "usable_columns": [
+    "party_article_count",
+    "party_article_share",
+    "unfavourable_count",
+    "favourable_count",
+    "net_portrayal",
+    "net_portrayal_share",
+    "national_party_article_count",
+    "national_party_article_share",
+    "national_unfavourable_count",
+    "national_favourable_count",
+    "national_net_portrayal",
+    "national_net_portrayal_share",
+    "party_issues_coded",
+    "party_issue_immigration_count",
+    "party_issue_immigration_share",
+    "party_issue_council_services_count",
+    "party_issue_council_services_share",
+    "party_issue_national_politics_count",
+    "party_issue_national_politics_share",
+    "party_issue_issue_other_count",
+    "party_issue_issue_other_share",
+    "party_framing_coded",
+    "party_frame_incumbent_judgement_count",
+    "party_frame_incumbent_judgement_share",
+    "party_frame_challenger_emergence_count",
+    "party_frame_challenger_emergence_share",
+    "party_frame_voter_discontent_count",
+    "party_frame_voter_discontent_share",
+    "party_frame_local_impact_count",
+    "party_frame_local_impact_share"
+  ],
+  "party_content_attribution": {
+    "articles_with_issue_record": 2138,
+    "articles_no_party_found": 770,
+    "articles_attributed": 1368,
+    "party_cell_multiplier": 2.3999
+  },
+  "provenance": {
+    "per_layer_tranche_prompt": {
+      "issues|narrow|a4e3f61d2f34": 86,
+      "stance_revised|narrow|bc2d5987b2d7": 57,
+      "framing_revised|narrow|e90e50b3dcb2": 89,
+      "issues|far|a4e3f61d2f34": 84,
+      "stance_revised|far|bc2d5987b2d7": 72,
+      "framing_revised|far|e90e50b3dcb2": 89,
+      "stance_revised|far2|bc2d5987b2d7": 58,
+      "framing_revised|far2|e90e50b3dcb2": 89,
+      "issues|far3|715700666aca": 88,
+      "stance_revised|far3|bc2d5987b2d7": 60,
+      "framing_revised|far3|e90e50b3dcb2": 89,
+      "issues|byelection1|715700666aca": 534,
+      "stance_revised|byelection1|bc2d5987b2d7": 527,
+      "framing_revised|byelection1|e90e50b3dcb2": 623,
+      "issues|all|715700666aca": 1346,
+      "stance_revised|all|bc2d5987b2d7": 1006,
+      "framing_revised|all|e90e50b3dcb2": 1374
+    },
+    "superseded_layers_honoured": {
+      "far2": [
+        "issues"
+      ]
+    }
+  }
+}
