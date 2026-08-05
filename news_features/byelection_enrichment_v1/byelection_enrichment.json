@@ -1,0 +1,92 @@
+{
+  "status": "EXPLORATORY by-election enrichment analysis, post-unblinding. Documents the quantity-quality trade-off when adding single-contest by-election cells to the fitting set.",
+  "pooled_sigma2": 96.238,
+  "total_cells": 45,
+  "general_election_cells": 11,
+  "by_election_cells": 34,
+  "by_election_events": 8,
+  "by_election_event_ids": [
+    "surrey-county-council-by-election-addlestone-2025-08-21",
+    "surrey-county-council-by-election-camberley-west-2025-10-16",
+    "surrey-county-council-by-election-caterham-valley-2025-10-16",
+    "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+    "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+    "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+    "surrey-county-council-by-election-warlingham-2019-01-31",
+    "surrey-county-council-by-election-weybridge-2015-05-07"
+  ],
+  "subsets": {
+    "all_45_cells": {
+      "n_cells": 45,
+      "mean_contests_per_cell": 14.7,
+      "single_contest_cells": 34,
+      "var_cell_means": 95.256,
+      "mean_sampling_var": 73.798,
+      "tau2": 21.458,
+      "reliability": 0.2253,
+      "r_critical": 0.294,
+      "attenuation_factor": 0.4746,
+      "true_r_required": 0.6193
+    },
+    "general_elections_only": {
+      "n_cells": 11,
+      "mean_contests_per_cell": 56.9,
+      "single_contest_cells": 0,
+      "var_cell_means": 71.015,
+      "mean_sampling_var": 4.438,
+      "tau2": 66.577,
+      "reliability": 0.9375,
+      "r_critical": 0.6021,
+      "attenuation_factor": 0.9682,
+      "true_r_required": 0.6218
+    },
+    "by_elections_only": {
+      "n_cells": 34,
+      "mean_contests_per_cell": 1.0,
+      "single_contest_cells": 34,
+      "var_cell_means": 103.08,
+      "mean_sampling_var": 96.238,
+      "tau2": 6.842,
+      "reliability": 0.0664,
+      "r_critical": 0.3388,
+      "attenuation_factor": 0.2576,
+      "true_r_required": 1.315
+    },
+    "covered_all": {
+      "n_cells": 19,
+      "mean_contests_per_cell": 33.4,
+      "single_contest_cells": 8,
+      "var_cell_means": 114.376,
+      "mean_sampling_var": 43.091,
+      "tau2": 71.286,
+      "reliability": 0.6233,
+      "r_critical": 0.4555,
+      "attenuation_factor": 0.7895,
+      "true_r_required": 0.577
+    },
+    "covered_general_elections": {
+      "n_cells": 11,
+      "mean_contests_per_cell": 56.9,
+      "single_contest_cells": 0,
+      "var_cell_means": 71.015,
+      "mean_sampling_var": 4.438,
+      "tau2": 66.577,
+      "reliability": 0.9375,
+      "r_critical": 0.6021,
+      "attenuation_factor": 0.9682,
+      "true_r_required": 0.6218
+    },
+    "covered_by_elections": {
+      "n_cells": 8,
+      "mean_contests_per_cell": 1.0,
+      "single_contest_cells": 8,
+      "var_cell_means": 181.492,
+      "mean_sampling_var": 96.238,
+      "tau2": 85.254,
+      "reliability": 0.4697,
+      "r_critical": 0.7067,
+      "attenuation_factor": 0.6854,
+      "true_r_required": 1.0312
+    }
+  }
+}
