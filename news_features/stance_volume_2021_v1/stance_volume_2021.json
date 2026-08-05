@@ -1,0 +1,115 @@
+{
+  "status": "EXPLORATORY stance-vs-volume on the 2021 validation harness, post-unblinding. Reproduces the 10-of-10 claim with code.",
+  "fit_election": "surrey-county-council-2017",
+  "validation_election": "surrey-county-council-2021",
+  "total_periods_run": 10,
+  "non_empty_periods": 10,
+  "margins": [
+    {
+      "period": "180_to_91_days",
+      "period_kind": "non_overlapping",
+      "stance_live": true,
+      "volume_live": true,
+      "stance_delta": -0.6898,
+      "volume_delta": -2.1769,
+      "margin": 1.4871,
+      "stance_wins": true
+    },
+    {
+      "period": "90_to_31_days",
+      "period_kind": "non_overlapping",
+      "stance_live": true,
+      "volume_live": true,
+      "stance_delta": -2.2616,
+      "volume_delta": -3.2666,
+      "margin": 1.005,
+      "stance_wins": true
+    },
+    {
+      "period": "30_to_15_days",
+      "period_kind": "non_overlapping",
+      "stance_live": true,
+      "volume_live": true,
+      "stance_delta": -0.8753,
+      "volume_delta": -1.2476,
+      "margin": 0.3723,
+      "stance_wins": true
+    },
+    {
+      "period": "14_to_8_days",
+      "period_kind": "non_overlapping",
+      "stance_live": true,
+      "volume_live": true,
+      "stance_delta": 0.1164,
+      "volume_delta": -7.4133,
+      "margin": 7.5297,
+      "stance_wins": true
+    },
+    {
+      "period": "7_to_4_days",
+      "period_kind": "non_overlapping",
+      "stance_live": true,
+      "volume_live": true,
+      "stance_delta": -0.3673,
+      "volume_delta": -0.8417,
+      "margin": 0.4744,
+      "stance_wins": true
+    },
+    {
+      "period": "previous_7_days",
+      "period_kind": "cumulative",
+      "stance_live": true,
+      "volume_live": true,
+      "stance_delta": -0.6983,
+      "volume_delta": -12.7046,
+      "margin": 12.0063,
+      "stance_wins": true
+    },
+    {
+      "period": "previous_14_days",
+      "period_kind": "cumulative",
+      "stance_live": true,
+      "volume_live": true,
+      "stance_delta": 0.1579,
+      "volume_delta": -2.5492,
+      "margin": 2.707,
+      "stance_wins": true
+    },
+    {
+      "period": "previous_30_days",
+      "period_kind": "cumulative",
+      "stance_live": true,
+      "volume_live": true,
+      "stance_delta": 0.0256,
+      "volume_delta": -1.5876,
+      "margin": 1.6132,
+      "stance_wins": true
+    },
+    {
+      "period": "previous_90_days",
+      "period_kind": "cumulative",
+      "stance_live": true,
+      "volume_live": true,
+      "stance_delta": -1.5748,
+      "volume_delta": -2.8205,
+      "margin": 1.2458,
+      "stance_wins": true
+    },
+    {
+      "period": "previous_180_days",
+      "period_kind": "cumulative",
+      "stance_live": true,
+      "volume_live": true,
+      "stance_delta": -0.7831,
+      "volume_delta": -1.8513,
+      "margin": 1.0682,
+      "stance_wins": true
+    }
+  ],
+  "summary": {
+    "stance_wins_non_empty": 10,
+    "total_non_empty": 10,
+    "stance_wins_non_overlapping": 5,
+    "non_overlapping_non_empty": 5
+  }
+}

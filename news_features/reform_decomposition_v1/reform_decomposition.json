@@ -1,0 +1,353 @@
+{
+  "status": "EXPLORATORY per-party delta decomposition, post-unblinding. Decomposes each arm's MAE delta into Reform and non-Reform components.",
+  "arms": {
+    "frozen": [
+      {
+        "window": "180_to_91_days",
+        "all": {
+          "n": 753,
+          "delta": -0.5751,
+          "recal_mae": 4.4454,
+          "news_mae": 5.0206
+        },
+        "reform": {
+          "n": 162,
+          "delta": -2.8046,
+          "recal_mae": 3.2221,
+          "news_mae": 6.0267
+        },
+        "non_reform": {
+          "n": 591,
+          "delta": 0.036
+        }
+      },
+      {
+        "window": "90_to_31_days",
+        "all": {
+          "n": 753,
+          "delta": 0.2404,
+          "recal_mae": 4.4454,
+          "news_mae": 4.2051
+        },
+        "reform": {
+          "n": 162,
+          "delta": -0.6877,
+          "recal_mae": 3.2221,
+          "news_mae": 3.9099
+        },
+        "non_reform": {
+          "n": 591,
+          "delta": 0.4948
+        }
+      },
+      {
+        "window": "30_to_15_days",
+        "all": {
+          "n": 753,
+          "delta": 0.1339,
+          "recal_mae": 4.4454,
+          "news_mae": 4.3116
+        },
+        "reform": {
+          "n": 162,
+          "delta": -0.1475,
+          "recal_mae": 3.2221,
+          "news_mae": 3.3696
+        },
+        "non_reform": {
+          "n": 591,
+          "delta": 0.211
+        }
+      },
+      {
+        "window": "14_to_8_days",
+        "all": {
+          "n": 753,
+          "delta": -0.3252,
+          "recal_mae": 4.4454,
+          "news_mae": 4.7707
+        },
+        "reform": {
+          "n": 162,
+          "delta": -2.2729,
+          "recal_mae": 3.2221,
+          "news_mae": 5.495
+        },
+        "non_reform": {
+          "n": 591,
+          "delta": 0.2087
+        }
+      },
+      {
+        "window": "7_to_4_days",
+        "all": {
+          "n": 753,
+          "delta": -0.0097,
+          "recal_mae": 4.4454,
+          "news_mae": 4.4551
+        },
+        "reform": {
+          "n": 162,
+          "delta": 0.02,
+          "recal_mae": 3.2221,
+          "news_mae": 3.2021
+        },
+        "non_reform": {
+          "n": 591,
+          "delta": -0.0178
+        }
+      },
+      {
+        "window": "final_72_hours",
+        "all": {
+          "n": 753,
+          "delta": 0.1882,
+          "recal_mae": 4.4454,
+          "news_mae": 4.2572
+        },
+        "reform": {
+          "n": 162,
+          "delta": -1.7214,
+          "recal_mae": 3.2221,
+          "news_mae": 4.9435
+        },
+        "non_reform": {
+          "n": 591,
+          "delta": 0.7116
+        }
+      }
+    ],
+    "placebo_party_dummies": [
+      {
+        "window": "180_to_91_days",
+        "all": {
+          "n": 753,
+          "delta": 0.8342,
+          "recal_mae": 4.4454,
+          "news_mae": 3.6112
+        },
+        "reform": {
+          "n": 162,
+          "delta": -0.2929,
+          "recal_mae": 3.2221,
+          "news_mae": 3.5151
+        },
+        "non_reform": {
+          "n": 591,
+          "delta": 1.1432
+        }
+      },
+      {
+        "window": "90_to_31_days",
+        "all": {
+          "n": 753,
+          "delta": 0.8342,
+          "recal_mae": 4.4454,
+          "news_mae": 3.6112
+        },
+        "reform": {
+          "n": 162,
+          "delta": -0.2929,
+          "recal_mae": 3.2221,
+          "news_mae": 3.5151
+        },
+        "non_reform": {
+          "n": 591,
+          "delta": 1.1432
+        }
+      },
+      {
+        "window": "30_to_15_days",
+        "all": {
+          "n": 753,
+          "delta": 0.8342,
+          "recal_mae": 4.4454,
+          "news_mae": 3.6112
+        },
+        "reform": {
+          "n": 162,
+          "delta": -0.2929,
+          "recal_mae": 3.2221,
+          "news_mae": 3.5151
+        },
+        "non_reform": {
+          "n": 591,
+          "delta": 1.1432
+        }
+      },
+      {
+        "window": "14_to_8_days",
+        "all": {
+          "n": 753,
+          "delta": 0.8342,
+          "recal_mae": 4.4454,
+          "news_mae": 3.6112
+        },
+        "reform": {
+          "n": 162,
+          "delta": -0.2929,
+          "recal_mae": 3.2221,
+          "news_mae": 3.5151
+        },
+        "non_reform": {
+          "n": 591,
+          "delta": 1.1432
+        }
+      },
+      {
+        "window": "7_to_4_days",
+        "all": {
+          "n": 753,
+          "delta": 0.8342,
+          "recal_mae": 4.4454,
+          "news_mae": 3.6112
+        },
+        "reform": {
+          "n": 162,
+          "delta": -0.2929,
+          "recal_mae": 3.2221,
+          "news_mae": 3.5151
+        },
+        "non_reform": {
+          "n": 591,
+          "delta": 1.1432
+        }
+      },
+      {
+        "window": "final_72_hours",
+        "all": {
+          "n": 753,
+          "delta": 0.8342,
+          "recal_mae": 4.4454,
+          "news_mae": 3.6112
+        },
+        "reform": {
+          "n": 162,
+          "delta": -0.2929,
+          "recal_mae": 3.2221,
+          "news_mae": 3.5151
+        },
+        "non_reform": {
+          "n": 591,
+          "delta": 1.1432
+        }
+      }
+    ],
+    "placebo_reform_dummy": [
+      {
+        "window": "180_to_91_days",
+        "all": {
+          "n": 753,
+          "delta": -0.0302,
+          "recal_mae": 4.4454,
+          "news_mae": 4.4756
+        },
+        "reform": {
+          "n": 162,
+          "delta": -0.7896,
+          "recal_mae": 3.2221,
+          "news_mae": 4.0117
+        },
+        "non_reform": {
+          "n": 591,
+          "delta": 0.178
+        }
+      },
+      {
+        "window": "90_to_31_days",
+        "all": {
+          "n": 753,
+          "delta": -0.0302,
+          "recal_mae": 4.4454,
+          "news_mae": 4.4756
+        },
+        "reform": {
+          "n": 162,
+          "delta": -0.7896,
+          "recal_mae": 3.2221,
+          "news_mae": 4.0117
+        },
+        "non_reform": {
+          "n": 591,
+          "delta": 0.178
+        }
+      },
+      {
+        "window": "30_to_15_days",
+        "all": {
+          "n": 753,
+          "delta": -0.0302,
+          "recal_mae": 4.4454,
+          "news_mae": 4.4756
+        },
+        "reform": {
+          "n": 162,
+          "delta": -0.7896,
+          "recal_mae": 3.2221,
+          "news_mae": 4.0117
+        },
+        "non_reform": {
+          "n": 591,
+          "delta": 0.178
+        }
+      },
+      {
+        "window": "14_to_8_days",
+        "all": {
+          "n": 753,
+          "delta": -0.0302,
+          "recal_mae": 4.4454,
+          "news_mae": 4.4756
+        },
+        "reform": {
+          "n": 162,
+          "delta": -0.7896,
+          "recal_mae": 3.2221,
+          "news_mae": 4.0117
+        },
+        "non_reform": {
+          "n": 591,
+          "delta": 0.178
+        }
+      },
+      {
+        "window": "7_to_4_days",
+        "all": {
+          "n": 753,
+          "delta": -0.0302,
+          "recal_mae": 4.4454,
+          "news_mae": 4.4756
+        },
+        "reform": {
+          "n": 162,
+          "delta": -0.7896,
+          "recal_mae": 3.2221,
+          "news_mae": 4.0117
+        },
+        "non_reform": {
+          "n": 591,
+          "delta": 0.178
+        }
+      },
+      {
+        "window": "final_72_hours",
+        "all": {
+          "n": 753,
+          "delta": -0.0302,
+          "recal_mae": 4.4454,
+          "news_mae": 4.4756
+        },
+        "reform": {
+          "n": 162,
+          "delta": -0.7896,
+          "recal_mae": 3.2221,
+          "news_mae": 4.0117
+        },
+        "non_reform": {
+          "n": 591,
+          "delta": 0.178
+        }
+      }
+    ]
+  }
+}

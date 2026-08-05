@@ -1,0 +1,321 @@
+{
+  "status": "DIAGNOSTIC. Reads feature columns only; the target and baseline families are dropped before anything is counted, so this can be run before deciding to spend reviewer time and without touching any outcome.",
+  "feature_table": "news_features/ward_party_election_features_v1/ward_party_election_features.parquet",
+  "rows": 6323,
+  "contests": 343,
+  "electoral_areas": 343,
+  "confirmatory_windows_only": [
+    "180_to_91_days",
+    "90_to_31_days",
+    "30_to_15_days",
+    "14_to_8_days",
+    "7_to_4_days",
+    "final_72_hours"
+  ],
+  "by_arm": {
+    "combined": {
+      "covered_group_column_pairs": 3524,
+      "varying_across_wards": 49,
+      "ward_resolution_rate": 0.0139
+    },
+    "coverage": {
+      "covered_group_column_pairs": 1546,
+      "varying_across_wards": 121,
+      "ward_resolution_rate": 0.0783
+    },
+    "local": {
+      "covered_group_column_pairs": 107,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0
+    },
+    "local_context": {
+      "covered_group_column_pairs": 322,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0
+    },
+    "national": {
+      "covered_group_column_pairs": 3531,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0
+    },
+    "national_context": {
+      "covered_group_column_pairs": 5329,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0
+    },
+    "weighted_local": {
+      "covered_group_column_pairs": 102,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0
+    },
+    "weighted_local_context": {
+      "covered_group_column_pairs": 280,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0
+    },
+    "weighted_national": {
+      "covered_group_column_pairs": 3365,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0
+    },
+    "weighted_national_context": {
+      "covered_group_column_pairs": 4916,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0
+    }
+  },
+  "by_arm_and_window": {
+    "combined/180_to_91_days": {
+      "live_columns": 180,
+      "covered_group_column_pairs": 2076,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0,
+      "median_wards_per_covered_group": 45.0
+    },
+    "combined/30_to_15_days": {
+      "live_columns": 37,
+      "covered_group_column_pairs": 77,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0,
+      "median_wards_per_covered_group": 81.0
+    },
+    "combined/7_to_4_days": {
+      "live_columns": 9,
+      "covered_group_column_pairs": 36,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0,
+      "median_wards_per_covered_group": 81.0
+    },
+    "combined/90_to_31_days": {
+      "live_columns": 129,
+      "covered_group_column_pairs": 816,
+      "varying_across_wards": 49,
+      "ward_resolution_rate": 0.06,
+      "median_wards_per_covered_group": 81.0
+    },
+    "combined/final_72_hours": {
+      "live_columns": 69,
+      "covered_group_column_pairs": 519,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0,
+      "median_wards_per_covered_group": 36.0
+    },
+    "coverage/14_to_8_days": {
+      "live_columns": 10,
+      "covered_group_column_pairs": 257,
+      "varying_across_wards": 20,
+      "ward_resolution_rate": 0.0778,
+      "median_wards_per_covered_group": 6.0
+    },
+    "coverage/180_to_91_days": {
+      "live_columns": 10,
+      "covered_group_column_pairs": 257,
+      "varying_across_wards": 20,
+      "ward_resolution_rate": 0.0778,
+      "median_wards_per_covered_group": 6.0
+    },
+    "coverage/30_to_15_days": {
+      "live_columns": 10,
+      "covered_group_column_pairs": 257,
+      "varying_across_wards": 20,
+      "ward_resolution_rate": 0.0778,
+      "median_wards_per_covered_group": 6.0
+    },
+    "coverage/7_to_4_days": {
+      "live_columns": 10,
+      "covered_group_column_pairs": 257,
+      "varying_across_wards": 20,
+      "ward_resolution_rate": 0.0778,
+      "median_wards_per_covered_group": 6.0
+    },
+    "coverage/90_to_31_days": {
+      "live_columns": 12,
+      "covered_group_column_pairs": 261,
+      "varying_across_wards": 21,
+      "ward_resolution_rate": 0.0805,
+      "median_wards_per_covered_group": 7.0
+    },
+    "coverage/final_72_hours": {
+      "live_columns": 10,
+      "covered_group_column_pairs": 257,
+      "varying_across_wards": 20,
+      "ward_resolution_rate": 0.0778,
+      "median_wards_per_covered_group": 6.0
+    },
+    "local/90_to_31_days": {
+      "live_columns": 23,
+      "covered_group_column_pairs": 107,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0,
+      "median_wards_per_covered_group": 5.0
+    },
+    "local_context/final_72_hours": {
+      "live_columns": 23,
+      "covered_group_column_pairs": 322,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0,
+      "median_wards_per_covered_group": 43.0
+    },
+    "national/180_to_91_days": {
+      "live_columns": 181,
+      "covered_group_column_pairs": 2099,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0,
+      "median_wards_per_covered_group": 45.0
+    },
+    "national/30_to_15_days": {
+      "live_columns": 38,
+      "covered_group_column_pairs": 80,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0,
+      "median_wards_per_covered_group": 81.0
+    },
+    "national/7_to_4_days": {
+      "live_columns": 10,
+      "covered_group_column_pairs": 40,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0,
+      "median_wards_per_covered_group": 81.0
+    },
+    "national/90_to_31_days": {
+      "live_columns": 128,
+      "covered_group_column_pairs": 781,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0,
+      "median_wards_per_covered_group": 81.0
+    },
+    "national/final_72_hours": {
+      "live_columns": 70,
+      "covered_group_column_pairs": 531,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0,
+      "median_wards_per_covered_group": 36.0
+    },
+    "national_context/14_to_8_days": {
+      "live_columns": 20,
+      "covered_group_column_pairs": 780,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0,
+      "median_wards_per_covered_group": 36.0
+    },
+    "national_context/180_to_91_days": {
+      "live_columns": 54,
+      "covered_group_column_pairs": 3173,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0,
+      "median_wards_per_covered_group": 45.0
+    },
+    "national_context/90_to_31_days": {
+      "live_columns": 32,
+      "covered_group_column_pairs": 1376,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0,
+      "median_wards_per_covered_group": 81.0
+    },
+    "weighted_local/90_to_31_days": {
+      "live_columns": 22,
+      "covered_group_column_pairs": 102,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0,
+      "median_wards_per_covered_group": 5.0
+    },
+    "weighted_local_context/final_72_hours": {
+      "live_columns": 20,
+      "covered_group_column_pairs": 280,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0,
+      "median_wards_per_covered_group": 43.0
+    },
+    "weighted_national/180_to_91_days": {
+      "live_columns": 178,
+      "covered_group_column_pairs": 2014,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0,
+      "median_wards_per_covered_group": 45.0
+    },
+    "weighted_national/30_to_15_days": {
+      "live_columns": 36,
+      "covered_group_column_pairs": 74,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0,
+      "median_wards_per_covered_group": 81.0
+    },
+    "weighted_national/7_to_4_days": {
+      "live_columns": 8,
+      "covered_group_column_pairs": 32,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0,
+      "median_wards_per_covered_group": 81.0
+    },
+    "weighted_national/90_to_31_days": {
+      "live_columns": 123,
+      "covered_group_column_pairs": 735,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0,
+      "median_wards_per_covered_group": 81.0
+    },
+    "weighted_national/final_72_hours": {
+      "live_columns": 66,
+      "covered_group_column_pairs": 510,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0,
+      "median_wards_per_covered_group": 36.0
+    },
+    "weighted_national_context/14_to_8_days": {
+      "live_columns": 18,
+      "covered_group_column_pairs": 702,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0,
+      "median_wards_per_covered_group": 36.0
+    },
+    "weighted_national_context/180_to_91_days": {
+      "live_columns": 52,
+      "covered_group_column_pairs": 2965,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0,
+      "median_wards_per_covered_group": 45.0
+    },
+    "weighted_national_context/90_to_31_days": {
+      "live_columns": 30,
+      "covered_group_column_pairs": 1249,
+      "varying_across_wards": 0,
+      "ward_resolution_rate": 0.0,
+      "median_wards_per_covered_group": 81.0
+    }
+  },
+  "ward_tier_ceiling": {
+    "ward_tier_cells": 18138,
+    "by_coverage_status": {
+      "not_applicable": {
+        "cells": 16116,
+        "keyed_to_a_named_ward": 16092,
+        "keyed_election_wide": 24,
+        "distinct_targets": 311
+      },
+      "observed_news": {
+        "cells": 18,
+        "keyed_to_a_named_ward": 0,
+        "keyed_election_wide": 18,
+        "distinct_targets": 4
+      },
+      "pending_external_stage": {
+        "cells": 756,
+        "keyed_to_a_named_ward": 0,
+        "keyed_election_wide": 756,
+        "distinct_targets": 4
+      },
+      "source_unavailable": {
+        "cells": 1248,
+        "keyed_to_a_named_ward": 1248,
+        "keyed_election_wide": 0,
+        "distinct_targets": 25
+      }
+    },
+    "unlockable_cells": 774,
+    "unlockable_election_party_groups": 67,
+    "wards_per_unlockable_group": {
+      "1": 67
+    },
+    "max_wards_in_any_unlockable_group": 1
+  }
+}

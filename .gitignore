@@ -228,3 +228,6 @@ news_features/ward_party_election_features_v1/empty_feature_columns.csv
 # tracked instance was byte-identical to full_corpus_review.csv at
 # commit d2b6891); same family as the pre-rerun/pre-rebuild patterns.
 news_collection/*.pre-sync-*.csv
+# one-command export from scripts/export_window_scheme_comparison.py over
+# tracked window_schemes.py + window_reach_assessment.json; workbook family
+outputs/window_scheme_comparison/
