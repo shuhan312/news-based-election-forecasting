@@ -76,6 +76,8 @@ from src.news_collection.canonical_corpus_release import (
     OUTPUT as CANONICAL_MANIFEST,
     build_release,
 )
+from src.news_features.actor_party_attribution import (parties_for_actors,
+                                                       publication_date)
 
 OUT_CSV = Path("news_features/news_feature_table_v1.csv")
 OUT_META = Path("news_features/news_feature_table_v1_metadata.json")
@@ -134,6 +136,47 @@ MIN_CELLS_TO_REPORT = 10
 # eligible article is an observation of zero coverage, not a missing election.
 GRID_ELECTIONS: list[str] | None = None
 
+# Also aggregate the issue and framing layers per (election, party, window),
+# by attributing each article to the parties its extraction record names in
+# `political_relevance.affected_actors`.
+#
+# OFF by default, and deliberately so. Every result in the repository was
+# computed from tables built with the per-election aggregation, so v1 and v2
+# must keep rebuilding byte-identically; a test asserts exactly that. The
+# v3party wrapper turns this on and writes to its own paths, which is the only
+# place the new columns appear.
+#
+# The per-election columns are still emitted when this is on. Having both
+# grains in one file is what makes the change auditable: within any cell the
+# election column is identical across all six parties by construction, and the
+# party column is not.
+PARTY_CONTENT_ATTRIBUTION = False
+
+# Extraction tranches to ignore when loading records. Empty by default, which
+# is v1's and v2's behaviour.
+#
+# `load_records` reads every `corpus_extraction_outputs_*.json` on disk, and a
+# tranche can legitimately exist whose articles no canonical release admits.
+# The E5 local extension is exactly that: its triage failed validation at
+# kappa 0.4762 against a 0.600 bar, so its Farnham Herald articles were never
+# admitted to a release - yet the tranche was extracted anyway, on 2026-08-02,
+# nine hours AFTER feature table v2 was written. The assertion in `main` is
+# right to refuse that mixture. Naming the tranche here is the scoped way to
+# satisfy it: it states which corpus a build is made of, rather than relaxing
+# the guard that checks.
+EXCLUDED_TRANCHES: set[str] = set()
+
+# The set the v1 lineage needs, named so a test can reach it: the `__main__`
+# block below is the v1 build, and configuration only reachable by running a
+# script is configuration nothing can check.
+#
+# `byelection1` is here for a different reason from the other three. It is the
+# enrichment, which release v2 admits and v1 by definition does not - a scope
+# difference, not a rejected corpus. The other three are the two single-
+# contest case studies and the E5 local extension, which no release admits.
+V1_EXCLUDED_TRANCHES = frozenset(
+    {"byelection1", "e5local1", "haslemere1", "wokingsouth1"})
+
 # Issue codes aggregated into the six pre-registered issue features. Anything
 # outside this map lands in `issue_other`, which is reported rather than
 # dropped: an issue the taxonomy does not cover is a fact about the coverage.
@@ -178,6 +221,8 @@ def load_records() -> tuple[dict[str, dict], dict]:
     for path in sorted(paths, key=rank):
         payload = json.loads(Path(path).read_text())
         tranche = payload.get("tranche", Path(path).stem)
+        if tranche in EXCLUDED_TRANCHES:
+            continue
         superseded = set(payload.get("superseded_layers") or ())
         if superseded:
             superseded_seen[tranche] = sorted(superseded)
@@ -286,6 +331,10 @@ def main() -> None:
     # conflating them would hide that one has two training cells and the other
     # has ten.
     election_cells: dict[tuple, Counter] = defaultdict(Counter)
+    # How the content attribution actually landed, recorded in the metadata.
+    # An attribution rate is the first thing to check when a party-level
+    # content feature behaves oddly, and it is not recoverable from the table.
+    attribution: Counter = Counter()
 
     for aid, article in articles.items():
         election, window, arm = (article["election_id"], article["window"],
@@ -297,11 +346,32 @@ def main() -> None:
         if article.get("mentions_reform"):
             election_cells[ekey]["reform_named_count"] += 1
 
+        # Parties this article names, for the content layers. Read from the
+        # ISSUE record because that is the only layer the extraction gave a
+        # `political_relevance` block to; the framing record for the same
+        # article inherits this set below, which is what makes a party-level
+        # frame feature possible without re-running the extraction. Empty when
+        # PARTY_CONTENT_ATTRIBUTION is off, so every loop over it is a no-op
+        # and the per-election behaviour is untouched.
+        content_parties: set[str] = set()
+
         issues = records["issues"].get(aid)
         if issues is not None:
             group = issue_group(primary_issue(issues["record"]))
             election_cells[ekey][f"issue_{group}_count"] += 1
             election_cells[ekey]["issues_coded"] += 1
+            if PARTY_CONTENT_ATTRIBUTION:
+                relevance = issues["record"].get("political_relevance") or {}
+                content_parties = parties_for_actors(
+                    relevance.get("affected_actors"),
+                    publication_date(article))
+                attribution["articles_with_issue_record"] += 1
+                attribution["articles_attributed" if content_parties
+                            else "articles_no_party_found"] += 1
+                for party in content_parties:
+                    cell = party_cells[(election, party, window)]
+                    cell[f"party_issue_{group}_count"] += 1
+                    cell["party_issues_coded"] += 1
 
         framing = records["framing_revised"].get(aid)
         if framing is not None:
@@ -311,6 +381,16 @@ def main() -> None:
             for frame in FRAME_KEYS:
                 if present.get(frame):
                     election_cells[ekey][f"frame_{frame}_count"] += 1
+            # The framing record carries no actors of its own, so it inherits
+            # the set established for its article above. An article with a
+            # framing record but no issue record contributes nothing here -
+            # 17 of 2,576 - because there is no actor list to inherit.
+            for party in content_parties:
+                cell = party_cells[(election, party, window)]
+                cell["party_framing_coded"] += 1
+                for frame in FRAME_KEYS:
+                    if present.get(frame):
+                        cell[f"party_frame_{frame}_count"] += 1
 
         stance = records["stance_revised"].get(aid)
         if stance is not None:
@@ -453,6 +533,30 @@ def main() -> None:
                     row[f"frame_{frame}_count"] = n
                     row[f"frame_{frame}_share"] = (
                         round(n / e["framing_coded"], 6) if e["framing_coded"] else "")
+
+                # The same two layers at party grain, emitted beside the
+                # per-election columns above rather than replacing them. The
+                # denominator is this party's own coded articles, so the share
+                # answers "of the coverage naming this party, how much was
+                # about immigration" - a composition, not a volume. That
+                # distinction is what stops the new feature from being the
+                # article count under another name, and it is checked before
+                # any specification uses these columns.
+                if PARTY_CONTENT_ATTRIBUTION:
+                    coded = p["party_issues_coded"]
+                    row["party_issues_coded"] = coded
+                    for group in list(ISSUE_GROUPS) + ["issue_other", "none"]:
+                        n = p[f"party_issue_{group}_count"]
+                        row[f"party_issue_{group}_count"] = n
+                        row[f"party_issue_{group}_share"] = (
+                            round(n / coded, 6) if coded else "")
+                    framed = p["party_framing_coded"]
+                    row["party_framing_coded"] = framed
+                    for frame in FRAME_KEYS:
+                        n = p[f"party_frame_{frame}_count"]
+                        row[f"party_frame_{frame}_count"] = n
+                        row[f"party_frame_{frame}_share"] = (
+                            round(n / framed, 6) if framed else "")
                 rows.append(row)
 
     OUT_CSV.parent.mkdir(parents=True, exist_ok=True)
@@ -496,6 +600,21 @@ def main() -> None:
         }
 
     usable = [c for c, v in verdicts.items() if v["verdict"] == "usable"]
+    # Absent, not null, when the attribution is off: every metadata file this
+    # builder has ever written would otherwise gain a key, which is a diff on
+    # five committed artefacts in exchange for no information.
+    #
+    # `party_cell_multiplier` is above 1 by design - an article naming two
+    # parties bears on both and is counted for both, so the party-level counts
+    # do not sum to the election-level one and should not be expected to.
+    attribution_block = {
+        **attribution,
+        "party_cell_multiplier": round(
+            sum(r["party_issues_coded"] for r in rows
+                if r["period_kind"] == "window")
+            / max(attribution["articles_attributed"], 1), 4),
+    } if PARTY_CONTENT_ATTRIBUTION else None
+
     OUT_META.write_text(json.dumps({
         "rows": len(rows),
         "expected_rows": len(elections) * len(parties) * len(periods),
@@ -534,6 +653,8 @@ def main() -> None:
         ),
         "training_variation": verdicts,
         "usable_columns": usable,
+        **({"party_content_attribution": attribution_block}
+           if attribution_block else {}),
         "provenance": provenance,
     }, indent=2))
 
@@ -556,4 +677,14 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    # Running this module IS the v1 build, and those four tranches put 948
+    # articles outside release v1, which stops it on the corpus assertion -
+    # correctly, since a table mixing corpora is the failure that assertion
+    # exists to prevent.
+    #
+    # Applied here rather than as the module default because importing this
+    # module must stay inert: `build_haslemere_probe_features` and
+    # `build_woking_south_blind_features` import it and need exactly the
+    # tranches this set removes.
+    EXCLUDED_TRANCHES = set(V1_EXCLUDED_TRANCHES)
     main()

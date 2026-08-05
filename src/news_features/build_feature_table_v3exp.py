@@ -68,9 +68,15 @@ def load_records_without_probe() -> tuple[dict[str, dict], dict]:
     filtering afterwards, so provenance counts stay exact.
     """
 
+    # The Woking South blind protocol was extracted on 2026-08-02, after this
+    # lineage was built, and its 272 articles belong to that protocol's own
+    # release - the same reason the Haslemere probe is skipped, one tranche
+    # later. Without it the build stops on the articles-subset assertion.
+    skipped = ("corpus_extraction_outputs_haslemere1.json",
+               "corpus_extraction_outputs_wokingsouth1.json")
     paths = [p for p in sorted(glob.glob(
         "llm_context/corpus_extraction_outputs_*.json"))
-        if not p.endswith("corpus_extraction_outputs_haslemere1.json")]
+        if not p.endswith(skipped)]
     order = {"narrow": 0, "far": 1, "far2": 2, "far3": 3, "all": 9}
 
     def rank(path: str) -> int:

@@ -62,6 +62,25 @@ frozen.GRID_ELECTIONS = sorted(
     | {"SCC-2013-05", "SCC-2017-05", "SCC-2021-05", "ESWS-2026-05"}
 )
 
+# Three tranches were extracted AFTER this table was written and hold 321
+# articles release v2 does not admit, which stops the build on the corpus
+# assertion:
+#
+#     news_feature_table_v2.csv   2026-08-01 16:23
+#     haslemere1                  2026-08-01 22:55    20 articles
+#     e5local1                    2026-08-02 01:31    29 articles
+#     wokingsouth1                2026-08-02 17:23   272 articles
+#
+# The first and third are single-contest case-study corpora with releases of
+# their own; the second is the E5 local extension, whose triage failed
+# validation at kappa 0.4762 against a 0.600 bar, so its articles were never
+# admitted anywhere. None of them belongs to this lineage.
+#
+# Naming them restores the property a committed table is supposed to have:
+# with this line the rebuild is byte-identical to the committed CSV, and
+# without it the table cannot be rebuilt at all.
+frozen.EXCLUDED_TRANCHES = {"haslemere1", "e5local1", "wokingsouth1"}
+
 
 def main() -> None:
     frozen.main()
