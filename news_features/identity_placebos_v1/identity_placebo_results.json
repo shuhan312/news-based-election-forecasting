@@ -1,0 +1,2371 @@
+{
+  "status": "EXPLORATORY identity placebo, post-unblinding. Every arm shares the 45 frozen fitting cells and the frozen prediction and scoring code; only `feature_columns` differs. Promotes nothing.",
+  "feature_table": "news_features/news_feature_table_v3party.csv",
+  "fitting_cells": 45,
+  "reproduction_check": {
+    "committed_combined_deltas": {
+      "180_to_91_days": -0.575,
+      "90_to_31_days": 0.24,
+      "30_to_15_days": 0.134,
+      "14_to_8_days": -0.325,
+      "7_to_4_days": -0.01,
+      "final_72_hours": 0.188
+    },
+    "reproduced": {
+      "180_to_91_days": -0.5751,
+      "90_to_31_days": 0.2404,
+      "30_to_15_days": 0.1339,
+      "14_to_8_days": -0.3252,
+      "7_to_4_days": -0.0097,
+      "final_72_hours": 0.1882
+    },
+    "max_absolute_difference": 0.0
+  },
+  "tone_centres_from_fitting_cells": {
+    "conservative/14_to_8_days": -0.4318,
+    "conservative/180_to_91_days": -0.7294,
+    "conservative/30_to_15_days": -0.7,
+    "conservative/7_to_4_days": -0.6667,
+    "conservative/90_to_31_days": -0.7801,
+    "conservative/final_72_hours": -0.875,
+    "green/14_to_8_days": -0.0833,
+    "green/180_to_91_days": 0.101,
+    "green/30_to_15_days": 0.0,
+    "green/7_to_4_days": 0.0,
+    "green/90_to_31_days": 0.2685,
+    "green/final_72_hours": 0.0,
+    "labour/14_to_8_days": -0.6583,
+    "labour/180_to_91_days": -0.3277,
+    "labour/30_to_15_days": -0.2375,
+    "labour/7_to_4_days": -0.25,
+    "labour/90_to_31_days": -0.3002,
+    "labour/final_72_hours": -0.6429,
+    "liberal_democrat/14_to_8_days": 0.1852,
+    "liberal_democrat/180_to_91_days": 0.1398,
+    "liberal_democrat/30_to_15_days": 0.0,
+    "liberal_democrat/7_to_4_days": 0.0,
+    "liberal_democrat/90_to_31_days": -0.0069,
+    "liberal_democrat/final_72_hours": -0.1667,
+    "reform_uk/14_to_8_days": -1.0,
+    "reform_uk/180_to_91_days": -0.458,
+    "reform_uk/30_to_15_days": -0.7778,
+    "reform_uk/90_to_31_days": -0.7381,
+    "reform_uk/final_72_hours": -1.0,
+    "ukip/14_to_8_days": -0.5,
+    "ukip/180_to_91_days": -0.5562,
+    "ukip/30_to_15_days": -0.8333,
+    "ukip/7_to_4_days": -0.25,
+    "ukip/90_to_31_days": -0.7333,
+    "ukip/final_72_hours": -0.4
+  },
+  "variance_split": {
+    "180_to_91_days/net_portrayal_share": {
+      "covered_cells": 19,
+      "between_party_share": 0.8634,
+      "within_party_share": 0.1366,
+      "party_means": {
+        "conservative": -0.7294,
+        "green": 0.101,
+        "labour": -0.3277,
+        "liberal_democrat": 0.1398,
+        "reform_uk": -0.458,
+        "ukip": -0.5562
+      }
+    },
+    "180_to_91_days/party_article_share": {
+      "covered_cells": 19,
+      "between_party_share": 0.7145,
+      "within_party_share": 0.2855,
+      "party_means": {
+        "conservative": 0.5711,
+        "green": 0.108,
+        "labour": 0.6399,
+        "liberal_democrat": 0.2306,
+        "reform_uk": 0.3386,
+        "ukip": 0.2336
+      }
+    },
+    "90_to_31_days/net_portrayal_share": {
+      "covered_cells": 19,
+      "between_party_share": 0.6426,
+      "within_party_share": 0.3574,
+      "party_means": {
+        "conservative": -0.7801,
+        "green": 0.2685,
+        "labour": -0.3002,
+        "liberal_democrat": -0.0069,
+        "reform_uk": -0.7381,
+        "ukip": -0.7333
+      }
+    },
+    "90_to_31_days/party_article_share": {
+      "covered_cells": 19,
+      "between_party_share": 0.7378,
+      "within_party_share": 0.2622,
+      "party_means": {
+        "conservative": 0.5293,
+        "green": 0.086,
+        "labour": 0.5591,
+        "liberal_democrat": 0.2132,
+        "reform_uk": 0.2557,
+        "ukip": 0.112
+      }
+    },
+    "30_to_15_days/net_portrayal_share": {
+      "covered_cells": 18,
+      "between_party_share": 0.7528,
+      "within_party_share": 0.2472,
+      "party_means": {
+        "conservative": -0.7,
+        "green": 0.0,
+        "labour": -0.2375,
+        "liberal_democrat": 0.0,
+        "reform_uk": -0.7778,
+        "ukip": -0.8333
+      }
+    },
+    "30_to_15_days/party_article_share": {
+      "covered_cells": 18,
+      "between_party_share": 0.3225,
+      "within_party_share": 0.6775,
+      "party_means": {
+        "conservative": 0.5833,
+        "green": 0.2986,
+        "labour": 0.7448,
+        "liberal_democrat": 0.3403,
+        "reform_uk": 0.4861,
+        "ukip": 0.2604
+      }
+    },
+    "14_to_8_days/net_portrayal_share": {
+      "covered_cells": 14,
+      "between_party_share": 0.7893,
+      "within_party_share": 0.2107,
+      "party_means": {
+        "conservative": -0.4318,
+        "green": -0.0833,
+        "labour": -0.6583,
+        "liberal_democrat": 0.1852,
+        "reform_uk": -1.0,
+        "ukip": -0.5
+      }
+    },
+    "14_to_8_days/party_article_share": {
+      "covered_cells": 14,
+      "between_party_share": 0.4939,
+      "within_party_share": 0.5061,
+      "party_means": {
+        "conservative": 0.4485,
+        "green": 0.239,
+        "labour": 0.6575,
+        "liberal_democrat": 0.5931,
+        "reform_uk": 1.0,
+        "ukip": 0.3015
+      }
+    },
+    "7_to_4_days/net_portrayal_share": {
+      "covered_cells": 9,
+      "between_party_share": 0.6311,
+      "within_party_share": 0.3689,
+      "party_means": {
+        "conservative": -0.6667,
+        "green": 0.0,
+        "labour": -0.25,
+        "liberal_democrat": 0.0,
+        "ukip": -0.25
+      }
+    },
+    "7_to_4_days/party_article_share": {
+      "covered_cells": 9,
+      "between_party_share": 0.6786,
+      "within_party_share": 0.3214,
+      "party_means": {
+        "conservative": 0.5,
+        "green": 0.5,
+        "labour": 0.5833,
+        "liberal_democrat": 0.5,
+        "ukip": 0.6667
+      }
+    },
+    "final_72_hours/net_portrayal_share": {
+      "covered_cells": 8,
+      "between_party_share": 0.7945,
+      "within_party_share": 0.2055,
+      "party_means": {
+        "conservative": -0.875,
+        "green": 0.0,
+        "labour": -0.6429,
+        "liberal_democrat": -0.1667,
+        "reform_uk": -1.0,
+        "ukip": -0.4
+      }
+    },
+    "final_72_hours/party_article_share": {
+      "covered_cells": 8,
+      "between_party_share": 0.9163,
+      "within_party_share": 0.0837,
+      "party_means": {
+        "conservative": 1.0,
+        "green": 0.625,
+        "labour": 0.9375,
+        "liberal_democrat": 0.75,
+        "reform_uk": 0.375,
+        "ukip": 0.625
+      }
+    }
+  },
+  "arms": {
+    "frozen": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": 1.7040253063165482,
+          "net_portrayal_share": 3.673377618877658
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.5751113576697371,
+        "ci_lower": -0.9339297274511013,
+        "ci_upper": -0.24461897894258372,
+        "seat_accuracy": 0.8317
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": 0.17531968442308976,
+          "net_portrayal_share": 1.6216206397779376
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.24039421213050627,
+        "ci_lower": 0.07808480936022717,
+        "ci_upper": 0.3866370375077725,
+        "seat_accuracy": 0.7909
+      },
+      {
+        "window": "30_to_15_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": -0.5694559325662906,
+          "net_portrayal_share": 0.7562980347183204
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.13389217093112293,
+        "ci_lower": 0.09488590564118993,
+        "ci_upper": 0.16891566284479353,
+        "seat_accuracy": 0.7212
+      },
+      {
+        "window": "14_to_8_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": 3.0871958130767734,
+          "net_portrayal_share": 3.431092229088358
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.32520558923642984,
+        "ci_lower": -0.5690424588342827,
+        "ci_upper": -0.058479890361581965,
+        "seat_accuracy": 0.6827
+      },
+      {
+        "window": "7_to_4_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": -0.2709480428041182,
+          "net_portrayal_share": 0.4224673074654726
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.00966295876711687,
+        "ci_lower": -0.017655948732009152,
+        "ci_upper": -0.0019190265864081934,
+        "seat_accuracy": 0.7188
+      },
+      {
+        "window": "final_72_hours",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": 0.6352997406819697,
+          "net_portrayal_share": 2.0798018869265804
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.18820062853308084,
+        "ci_lower": -0.22980032726530145,
+        "ci_upper": 0.5837575908056911,
+        "seat_accuracy": 0.8558
+      }
+    ],
+    "placebo_party_dummies": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9804551348044277,
+          "party_is_green": -0.9036235199664725,
+          "party_is_labour": -1.2846018967744302,
+          "party_is_liberal_democrat": 3.294499140123113,
+          "party_is_reform_uk": 1.7858641653143805,
+          "party_is_ukip": -2.5603755249348406
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8342312516224468,
+        "ci_lower": 0.5207628001980233,
+        "ci_upper": 1.1596851865911608,
+        "seat_accuracy": 0.8534
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9804551348044277,
+          "party_is_green": -0.9036235199664725,
+          "party_is_labour": -1.2846018967744302,
+          "party_is_liberal_democrat": 3.294499140123113,
+          "party_is_reform_uk": 1.7858641653143805,
+          "party_is_ukip": -2.5603755249348406
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8342312516224468,
+        "ci_lower": 0.5207628001980233,
+        "ci_upper": 1.1596851865911608,
+        "seat_accuracy": 0.8534
+      },
+      {
+        "window": "30_to_15_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9804551348044277,
+          "party_is_green": -0.9036235199664725,
+          "party_is_labour": -1.2846018967744302,
+          "party_is_liberal_democrat": 3.294499140123113,
+          "party_is_reform_uk": 1.7858641653143805,
+          "party_is_ukip": -2.5603755249348406
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8342312516224468,
+        "ci_lower": 0.5207628001980233,
+        "ci_upper": 1.1596851865911608,
+        "seat_accuracy": 0.8534
+      },
+      {
+        "window": "14_to_8_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9804551348044277,
+          "party_is_green": -0.9036235199664725,
+          "party_is_labour": -1.2846018967744302,
+          "party_is_liberal_democrat": 3.294499140123113,
+          "party_is_reform_uk": 1.7858641653143805,
+          "party_is_ukip": -2.5603755249348406
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8342312516224468,
+        "ci_lower": 0.5207628001980233,
+        "ci_upper": 1.1596851865911608,
+        "seat_accuracy": 0.8534
+      },
+      {
+        "window": "7_to_4_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9804551348044277,
+          "party_is_green": -0.9036235199664725,
+          "party_is_labour": -1.2846018967744302,
+          "party_is_liberal_democrat": 3.294499140123113,
+          "party_is_reform_uk": 1.7858641653143805,
+          "party_is_ukip": -2.5603755249348406
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8342312516224468,
+        "ci_lower": 0.5207628001980233,
+        "ci_upper": 1.1596851865911608,
+        "seat_accuracy": 0.8534
+      },
+      {
+        "window": "final_72_hours",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9804551348044277,
+          "party_is_green": -0.9036235199664725,
+          "party_is_labour": -1.2846018967744302,
+          "party_is_liberal_democrat": 3.294499140123113,
+          "party_is_reform_uk": 1.7858641653143805,
+          "party_is_ukip": -2.5603755249348406
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8342312516224468,
+        "ci_lower": 0.5207628001980233,
+        "ci_upper": 1.1596851865911608,
+        "seat_accuracy": 0.8534
+      }
+    ],
+    "placebo_reform_dummy": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "party_is_reform_uk"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_reform_uk": 2.072575217984731
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.03018810428071461,
+        "ci_lower": -0.2215548576358952,
+        "ci_upper": 0.17313718407250336,
+        "seat_accuracy": 0.6851
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "party_is_reform_uk"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_reform_uk": 2.072575217984731
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.03018810428071461,
+        "ci_lower": -0.2215548576358952,
+        "ci_upper": 0.17313718407250336,
+        "seat_accuracy": 0.6851
+      },
+      {
+        "window": "30_to_15_days",
+        "feature_columns": [
+          "party_is_reform_uk"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_reform_uk": 2.072575217984731
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.03018810428071461,
+        "ci_lower": -0.2215548576358952,
+        "ci_upper": 0.17313718407250336,
+        "seat_accuracy": 0.6851
+      },
+      {
+        "window": "14_to_8_days",
+        "feature_columns": [
+          "party_is_reform_uk"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_reform_uk": 2.072575217984731
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.03018810428071461,
+        "ci_lower": -0.2215548576358952,
+        "ci_upper": 0.17313718407250336,
+        "seat_accuracy": 0.6851
+      },
+      {
+        "window": "7_to_4_days",
+        "feature_columns": [
+          "party_is_reform_uk"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_reform_uk": 2.072575217984731
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.03018810428071461,
+        "ci_lower": -0.2215548576358952,
+        "ci_upper": 0.17313718407250336,
+        "seat_accuracy": 0.6851
+      },
+      {
+        "window": "final_72_hours",
+        "feature_columns": [
+          "party_is_reform_uk"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_reform_uk": 2.072575217984731
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.03018810428071461,
+        "ci_lower": -0.2215548576358952,
+        "ci_upper": 0.17313718407250336,
+        "seat_accuracy": 0.6851
+      }
+    ],
+    "placebo_prior_vote_share": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "prior_party_vote_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "prior_party_vote_share": -0.635752818492478
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.01522852055734436,
+        "ci_lower": -0.07882085696135718,
+        "ci_upper": 0.04849948820108565,
+        "seat_accuracy": 0.7212
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "prior_party_vote_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "prior_party_vote_share": -0.635752818492478
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.01522852055734436,
+        "ci_lower": -0.07882085696135718,
+        "ci_upper": 0.04849948820108565,
+        "seat_accuracy": 0.7212
+      },
+      {
+        "window": "30_to_15_days",
+        "feature_columns": [
+          "prior_party_vote_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "prior_party_vote_share": -0.635752818492478
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.01522852055734436,
+        "ci_lower": -0.07882085696135718,
+        "ci_upper": 0.04849948820108565,
+        "seat_accuracy": 0.7212
+      },
+      {
+        "window": "14_to_8_days",
+        "feature_columns": [
+          "prior_party_vote_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "prior_party_vote_share": -0.635752818492478
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.01522852055734436,
+        "ci_lower": -0.07882085696135718,
+        "ci_upper": 0.04849948820108565,
+        "seat_accuracy": 0.7212
+      },
+      {
+        "window": "7_to_4_days",
+        "feature_columns": [
+          "prior_party_vote_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "prior_party_vote_share": -0.635752818492478
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.01522852055734436,
+        "ci_lower": -0.07882085696135718,
+        "ci_upper": 0.04849948820108565,
+        "seat_accuracy": 0.7212
+      },
+      {
+        "window": "final_72_hours",
+        "feature_columns": [
+          "prior_party_vote_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "prior_party_vote_share": -0.635752818492478
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.01522852055734436,
+        "ci_lower": -0.07882085696135718,
+        "ci_upper": 0.04849948820108565,
+        "seat_accuracy": 0.7212
+      }
+    ],
+    "tone_within_party": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share_within"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": -0.6760018960629389,
+          "net_portrayal_share_within": 1.944170259052484
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 67
+        },
+        "delta_vs_recalibrated": -1.2547960785236452,
+        "ci_lower": -1.5013901774492486,
+        "ci_upper": -1.0198689329180277,
+        "seat_accuracy": 0.7188
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share_within"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": -0.6894063049505625,
+          "net_portrayal_share_within": 0.546959201745742
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.3784359281545946,
+        "ci_lower": 0.30244942916535156,
+        "ci_upper": 0.45033236411818056,
+        "seat_accuracy": 0.7212
+      },
+      {
+        "window": "30_to_15_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share_within"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": -0.9601208250850224,
+          "net_portrayal_share_within": -0.8350936188113746
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.06281125512115615,
+        "ci_lower": -0.06895236873551076,
+        "ci_upper": 0.19709891979534475,
+        "seat_accuracy": 0.7212
+      },
+      {
+        "window": "14_to_8_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share_within"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": 0.9581746790850815,
+          "net_portrayal_share_within": 0.7680498768800982
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -1.4738158523032716,
+        "ci_lower": -1.7567458820833834,
+        "ci_upper": -1.1600312185079547,
+        "seat_accuracy": 0.6755
+      },
+      {
+        "window": "7_to_4_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share_within"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": -0.43830336170255224,
+          "net_portrayal_share_within": 1.367609030746337
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.008423746699601331,
+        "ci_lower": -0.015409400348411473,
+        "ci_upper": -0.0016346389268673278,
+        "seat_accuracy": 0.7188
+      },
+      {
+        "window": "final_72_hours",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share_within"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": -0.7998859784023455,
+          "net_portrayal_share_within": 1.2545403022922998
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.4313377688562712,
+        "ci_lower": 0.011222205599673931,
+        "ci_upper": 0.846477340845269,
+        "seat_accuracy": 0.8413
+      }
+    ],
+    "tone_within_party_only": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "net_portrayal_share_within"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "net_portrayal_share_within": 1.9420875339973527
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 21
+        },
+        "delta_vs_recalibrated": -0.9480011506731616,
+        "ci_lower": -1.1723252913595938,
+        "ci_upper": -0.7362196502713381,
+        "seat_accuracy": 0.7139
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "net_portrayal_share_within"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "net_portrayal_share_within": 0.6696312668489102
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.2290906575156404,
+        "ci_lower": 0.1668967875503929,
+        "ci_upper": 0.2875581657948495,
+        "seat_accuracy": 0.7188
+      },
+      {
+        "window": "30_to_15_days",
+        "feature_columns": [
+          "net_portrayal_share_within"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "net_portrayal_share_within": -0.812856392388157
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.013401566942724763,
+        "ci_lower": -0.06019643182394607,
+        "ci_upper": 0.07870124723226492,
+        "seat_accuracy": 0.7212
+      },
+      {
+        "window": "14_to_8_days",
+        "feature_columns": [
+          "net_portrayal_share_within"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "net_portrayal_share_within": 0.6159569644122372
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -1.059370337710118,
+        "ci_lower": -1.3127834033573413,
+        "ci_upper": -0.7828320521804087,
+        "seat_accuracy": 0.6827
+      },
+      {
+        "window": "7_to_4_days",
+        "feature_columns": [
+          "net_portrayal_share_within"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "net_portrayal_share_within": 1.3884334309264745
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.0,
+        "ci_lower": 0.0,
+        "ci_upper": 0.0,
+        "seat_accuracy": 0.7188
+      },
+      {
+        "window": "final_72_hours",
+        "feature_columns": [
+          "net_portrayal_share_within"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "net_portrayal_share_within": 1.2904060004866384
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.48627641830082746,
+        "ci_lower": 0.09181617657939806,
+        "ci_upper": 0.8799585965221648,
+        "seat_accuracy": 0.8413
+      }
+    ],
+    "frozen_plus_party_dummies": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share",
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": 1.3558960188218487,
+          "net_portrayal_share": 2.5445819962718175,
+          "party_is_conservative": -0.5374898277893028,
+          "party_is_green": -1.231897248929486,
+          "party_is_labour": -1.4633115432320187,
+          "party_is_liberal_democrat": 2.7338238658991765,
+          "party_is_reform_uk": 2.0804377644751835,
+          "party_is_ukip": -2.0634247223566557
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 13
+        },
+        "delta_vs_recalibrated": 0.9580190741159837,
+        "ci_lower": 0.551199412616405,
+        "ci_upper": 1.3576349027994772,
+        "seat_accuracy": 0.851
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share",
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": 0.3215440737051572,
+          "net_portrayal_share": 1.3433509047527217,
+          "party_is_conservative": -0.8145595443726635,
+          "party_is_green": -1.199923382056993,
+          "party_is_labour": -1.38314764989794,
+          "party_is_liberal_democrat": 3.105721922219897,
+          "party_is_reform_uk": 2.0232135598054395,
+          "party_is_ukip": -2.298871187717108
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8504465714966538,
+        "ci_lower": 0.4572337022542644,
+        "ci_upper": 1.2504455313349003,
+        "seat_accuracy": 0.851
+      },
+      {
+        "window": "30_to_15_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share",
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": -0.6352343115125108,
+          "net_portrayal_share": -0.14797085651787462,
+          "party_is_conservative": -0.9760296411881982,
+          "party_is_green": -0.9225809151290847,
+          "party_is_labour": -1.180755019055994,
+          "party_is_liberal_democrat": 3.261716576886081,
+          "party_is_reform_uk": 1.770588935894543,
+          "party_is_ukip": -2.6283527244511746
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 22
+        },
+        "delta_vs_recalibrated": 0.6119705439764003,
+        "ci_lower": 0.280946047996338,
+        "ci_upper": 0.9560097720925589,
+        "seat_accuracy": 0.851
+      },
+      {
+        "window": "14_to_8_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share",
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": 1.2460776012292816,
+          "net_portrayal_share": 0.7939059503961926,
+          "party_is_conservative": -0.9065958861258941,
+          "party_is_green": -0.8509067656952842,
+          "party_is_labour": -1.2889320083313234,
+          "party_is_liberal_democrat": 3.0427341654113107,
+          "party_is_reform_uk": 1.8440603611811224,
+          "party_is_ukip": -2.440658928651417
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.662098984622669,
+        "ci_lower": 0.3718166396308382,
+        "ci_upper": 0.9509148552567253,
+        "seat_accuracy": 0.8606
+      },
+      {
+        "window": "7_to_4_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share",
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": -0.05735301608276133,
+          "net_portrayal_share": -0.44777089548095367,
+          "party_is_conservative": -1.0965886507196734,
+          "party_is_green": -0.8573848374032517,
+          "party_is_labour": -1.2875918807613738,
+          "party_is_liberal_democrat": 3.3422830408760036,
+          "party_is_reform_uk": 1.8186728523514006,
+          "party_is_ukip": -2.567821871268125
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8278172277950779,
+        "ci_lower": 0.5001951336526085,
+        "ci_upper": 1.161434927086739,
+        "seat_accuracy": 0.8534
+      },
+      {
+        "window": "final_72_hours",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share",
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": 2.1960572893668764,
+          "net_portrayal_share": 3.6210495134138427,
+          "party_is_conservative": -0.9629334444835562,
+          "party_is_green": -1.292428358757401,
+          "party_is_labour": -1.359348264352272,
+          "party_is_liberal_democrat": 2.9768322892690415,
+          "party_is_reform_uk": 2.6610991679629854,
+          "party_is_ukip": -2.6477165318641815
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.14878253596546553,
+        "ci_lower": -0.4653980098378037,
+        "ci_upper": 0.7813797052309989,
+        "seat_accuracy": 0.8413
+      }
+    ],
+    "party_dummies_plus_share": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "party_article_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9610911450111919,
+          "party_is_green": -0.9363362963681371,
+          "party_is_labour": -1.248921654166568,
+          "party_is_liberal_democrat": 3.2772409015409583,
+          "party_is_reform_uk": 1.7832085661216253,
+          "party_is_ukip": -2.569213230252931,
+          "party_article_share": -0.2024097437232221
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8378507309049885,
+        "ci_lower": 0.5136692020912718,
+        "ci_upper": 1.1692378599141338,
+        "seat_accuracy": 0.8534
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "party_article_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9194389962518453,
+          "party_is_green": -0.9814958591799812,
+          "party_is_labour": -1.1939171888450306,
+          "party_is_liberal_democrat": 3.2621803956517716,
+          "party_is_reform_uk": 1.7690553712011647,
+          "party_is_ukip": -2.6088188239311934,
+          "party_article_share": -0.49411334108947913
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 10
+        },
+        "delta_vs_recalibrated": 0.7611391744125102,
+        "ci_lower": 0.420151342392028,
+        "ci_upper": 1.1124250992091465,
+        "seat_accuracy": 0.851
+      },
+      {
+        "window": "30_to_15_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "party_article_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.960719351971535,
+          "party_is_green": -0.9440800783065333,
+          "party_is_labour": -1.2038539719672643,
+          "party_is_liberal_democrat": 3.2393307208674686,
+          "party_is_reform_uk": 1.797775571575402,
+          "party_is_ukip": -2.5909554177148157,
+          "party_article_share": -0.5620134767109287
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 7
+        },
+        "delta_vs_recalibrated": 0.6616144939091666,
+        "ci_lower": 0.3305674892441972,
+        "ci_upper": 1.0012890440122153,
+        "seat_accuracy": 0.851
+      },
+      {
+        "window": "14_to_8_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "party_article_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9336788873654964,
+          "party_is_green": -0.8204864466722168,
+          "party_is_labour": -1.387073690967035,
+          "party_is_liberal_democrat": 3.2597824589802213,
+          "party_is_reform_uk": 1.8029907584353628,
+          "party_is_ukip": -2.5524144045061603,
+          "party_article_share": 0.7295661445373036
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8782908824976818,
+        "ci_lower": 0.5949130750458607,
+        "ci_upper": 1.1702847872371713,
+        "seat_accuracy": 0.8558
+      },
+      {
+        "window": "7_to_4_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "party_article_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9861907280454927,
+          "party_is_green": -0.9146160692978081,
+          "party_is_labour": -1.2878652769515184,
+          "party_is_liberal_democrat": 3.293271084146857,
+          "party_is_reform_uk": 1.819335695598829,
+          "party_is_ukip": -2.574804805074622,
+          "party_article_share": 0.18988458099886554
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.816155525654592,
+        "ci_lower": 0.49954908226845257,
+        "ci_upper": 1.144778191033599,
+        "seat_accuracy": 0.8534
+      },
+      {
+        "window": "final_72_hours",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "party_article_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9802240322145821,
+          "party_is_green": -0.9210501585530322,
+          "party_is_labour": -1.2488771859060468,
+          "party_is_liberal_democrat": 3.271998637467886,
+          "party_is_reform_uk": 1.7772603321781903,
+          "party_is_ukip": -2.548098001724409,
+          "party_article_share": -0.3992389092032804
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 6
+        },
+        "delta_vs_recalibrated": 0.7142511099680737,
+        "ci_lower": 0.3774449072472868,
+        "ci_upper": 1.059686561446298,
+        "seat_accuracy": 0.851
+      }
+    ],
+    "party_dummies_plus_tone_within": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "net_portrayal_share_within"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9804551348044297,
+          "party_is_green": -0.903623519966474,
+          "party_is_labour": -1.2846018967744322,
+          "party_is_liberal_democrat": 3.294499140123111,
+          "party_is_reform_uk": 1.7858641653143787,
+          "party_is_ukip": -2.5603755249348423,
+          "net_portrayal_share_within": 1.942087533997353
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 114
+        },
+        "delta_vs_recalibrated": 0.7342548240390929,
+        "ci_lower": 0.42184978324880484,
+        "ci_upper": 1.0483338550056678,
+        "seat_accuracy": 0.8534
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "net_portrayal_share_within"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9804551348044297,
+          "party_is_green": -0.9036235199664744,
+          "party_is_labour": -1.2846018967744322,
+          "party_is_liberal_democrat": 3.294499140123111,
+          "party_is_reform_uk": 1.7858641653143787,
+          "party_is_ukip": -2.5603755249348423,
+          "net_portrayal_share_within": 0.6696312668489104
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.7118296181221226,
+        "ci_lower": 0.3636915164113307,
+        "ci_upper": 1.0767712613531475,
+        "seat_accuracy": 0.8606
+      },
+      {
+        "window": "30_to_15_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "net_portrayal_share_within"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9804551348044296,
+          "party_is_green": -0.9036235199664743,
+          "party_is_labour": -1.2846018967744322,
+          "party_is_liberal_democrat": 3.294499140123111,
+          "party_is_reform_uk": 1.7858641653143787,
+          "party_is_ukip": -2.5603755249348423,
+          "net_portrayal_share_within": -0.8128563923881578
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 34
+        },
+        "delta_vs_recalibrated": 0.6453185387110634,
+        "ci_lower": 0.2373022694161291,
+        "ci_upper": 1.0528819200033563,
+        "seat_accuracy": 0.8413
+      },
+      {
+        "window": "14_to_8_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "net_portrayal_share_within"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9804551348044297,
+          "party_is_green": -0.9036235199664743,
+          "party_is_labour": -1.2846018967744322,
+          "party_is_liberal_democrat": 3.294499140123111,
+          "party_is_reform_uk": 1.7858641653143787,
+          "party_is_ukip": -2.5603755249348423,
+          "net_portrayal_share_within": 0.6159569644122368
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 41
+        },
+        "delta_vs_recalibrated": -0.5782376161976881,
+        "ci_lower": -0.8824789722092758,
+        "ci_upper": -0.2647522318989803,
+        "seat_accuracy": 0.6851
+      },
+      {
+        "window": "7_to_4_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "net_portrayal_share_within"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9804551348044297,
+          "party_is_green": -0.9036235199664743,
+          "party_is_labour": -1.2846018967744322,
+          "party_is_liberal_democrat": 3.294499140123111,
+          "party_is_reform_uk": 1.7858641653143787,
+          "party_is_ukip": -2.5603755249348423,
+          "net_portrayal_share_within": 1.3884334309264745
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8342312516224477,
+        "ci_lower": 0.5207628001980233,
+        "ci_upper": 1.1596851865911608,
+        "seat_accuracy": 0.8534
+      },
+      {
+        "window": "final_72_hours",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "net_portrayal_share_within"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9804551348044297,
+          "party_is_green": -0.9036235199664743,
+          "party_is_labour": -1.2846018967744322,
+          "party_is_liberal_democrat": 3.294499140123111,
+          "party_is_reform_uk": 1.7858641653143787,
+          "party_is_ukip": -2.5603755249348423,
+          "net_portrayal_share_within": 1.2904060004866384
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.27456391449011175,
+        "ci_lower": -0.2551264594829782,
+        "ci_upper": 0.8114004930817925,
+        "seat_accuracy": 0.8413
+      }
+    ],
+    "party_dummies_plus_incumbent_judgement": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "party_frame_incumbent_judgement_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9881087504932918,
+          "party_is_green": -0.8652994611792209,
+          "party_is_labour": -1.2780988146864019,
+          "party_is_liberal_democrat": 3.312627152502222,
+          "party_is_reform_uk": 1.7817716706557238,
+          "party_is_ukip": -2.628669364635308,
+          "party_frame_incumbent_judgement_share": -0.5244592863908404
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 1
+        },
+        "delta_vs_recalibrated": 0.7417012135718495,
+        "ci_lower": 0.40361267714004484,
+        "ci_upper": 1.088271897659863,
+        "seat_accuracy": 0.851
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "party_frame_incumbent_judgement_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9844735725842202,
+          "party_is_green": -0.8564043482662239,
+          "party_is_labour": -1.2946418566499835,
+          "party_is_liberal_democrat": 3.2434800814956497,
+          "party_is_reform_uk": 1.8002534459728585,
+          "party_is_ukip": -2.5470612531108885,
+          "party_frame_incumbent_judgement_share": 0.83496126649275
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8733912813554077,
+        "ci_lower": 0.5837646769142254,
+        "ci_upper": 1.1643148053592203,
+        "seat_accuracy": 0.8606
+      },
+      {
+        "window": "30_to_15_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "party_frame_incumbent_judgement_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9755591705498444,
+          "party_is_green": -0.9529450677277828,
+          "party_is_labour": -1.292772267183781,
+          "party_is_liberal_democrat": 3.3459883250658233,
+          "party_is_reform_uk": 1.7797110409069765,
+          "party_is_ukip": -2.556738279138501,
+          "party_frame_incumbent_judgement_share": -0.5405252509883459
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8306041211890176,
+        "ci_lower": 0.5141733210989743,
+        "ci_upper": 1.1597179705810519,
+        "seat_accuracy": 0.8534
+      },
+      {
+        "window": "14_to_8_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "party_frame_incumbent_judgement_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -1.0913641028696925,
+          "party_is_green": -0.7848607762845822,
+          "party_is_labour": -1.2660326076833357,
+          "party_is_liberal_democrat": 3.322660496980439,
+          "party_is_reform_uk": 1.7447338778254629,
+          "party_is_ukip": -2.576953449308484,
+          "party_frame_incumbent_judgement_share": 0.8356163722115711
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8786183984780962,
+        "ci_lower": 0.5934535151644428,
+        "ci_upper": 1.1675442325893546,
+        "seat_accuracy": 0.8558
+      },
+      {
+        "window": "7_to_4_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "party_frame_incumbent_judgement_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9787309285763255,
+          "party_is_green": -0.8997066633238614,
+          "party_is_labour": -1.286397055833236,
+          "party_is_liberal_democrat": 3.2943421814365452,
+          "party_is_reform_uk": 1.7715158078242197,
+          "party_is_ukip": -2.5465636836280865,
+          "party_frame_incumbent_judgement_share": -0.11294608662140616
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8413900582091811,
+        "ci_lower": 0.5292644455006016,
+        "ci_upper": 1.1656205917813,
+        "seat_accuracy": 0.8534
+      },
+      {
+        "window": "final_72_hours",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "party_frame_incumbent_judgement_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9944359274682711,
+          "party_is_green": -0.8627677384231629,
+          "party_is_labour": -1.328069511198879,
+          "party_is_liberal_democrat": 3.267186774091345,
+          "party_is_reform_uk": 1.8267199468576902,
+          "party_is_ukip": -2.543767493289005,
+          "party_frame_incumbent_judgement_share": -0.8501568579288528
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.863598481198784,
+        "ci_lower": 0.5552697716324695,
+        "ci_upper": 1.17797539007914,
+        "seat_accuracy": 0.8534
+      }
+    ],
+    "party_dummies_plus_immigration": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "party_issue_immigration_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9402728291215331,
+          "party_is_green": -0.8827722754616834,
+          "party_is_labour": -1.3225359617305434,
+          "party_is_liberal_democrat": 3.3029106760576195,
+          "party_is_reform_uk": 1.723540146692016,
+          "party_is_ukip": -2.517946887442983,
+          "party_issue_immigration_share": 0.779215428570738
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.6948425741617985,
+        "ci_lower": 0.419256587391674,
+        "ci_upper": 0.96933734975982,
+        "seat_accuracy": 0.8606
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "party_issue_immigration_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9528860270642328,
+          "party_is_green": -0.9014059860267227,
+          "party_is_labour": -1.2652239410992223,
+          "party_is_liberal_democrat": 3.250001551034361,
+          "party_is_reform_uk": 1.7604586156018578,
+          "party_is_ukip": -2.5336466607049353,
+          "party_issue_immigration_share": 0.24116249428480507
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8468997622655428,
+        "ci_lower": 0.5388748782634981,
+        "ci_upper": 1.1662609070087406,
+        "seat_accuracy": 0.8534
+      },
+      {
+        "window": "30_to_15_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "party_issue_immigration_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9195857251778503,
+          "party_is_green": -0.9646984798077096,
+          "party_is_labour": -1.278370264011164,
+          "party_is_liberal_democrat": 3.227028300746668,
+          "party_is_reform_uk": 1.8876455432765316,
+          "party_is_ukip": -2.608262037145517,
+          "party_issue_immigration_share": -0.5827515554493655
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.7556366422763636,
+        "ci_lower": 0.43891518193137274,
+        "ci_upper": 1.0830872157448912,
+        "seat_accuracy": 0.851
+      },
+      {
+        "window": "14_to_8_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "party_issue_immigration_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9356836376675518,
+          "party_is_green": -0.8612020207357843,
+          "party_is_labour": -1.3260313978981872,
+          "party_is_liberal_democrat": 3.2450235239076677,
+          "party_is_reform_uk": 1.7722239650474676,
+          "party_is_ukip": -2.5271144692389194,
+          "party_issue_immigration_share": 0.4778476775641328
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8395434394312353,
+        "ci_lower": 0.531116151736962,
+        "ci_upper": 1.163654177559518,
+        "seat_accuracy": 0.8534
+      },
+      {
+        "window": "7_to_4_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "party_issue_immigration_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9804551348044297,
+          "party_is_green": -0.9036235199664743,
+          "party_is_labour": -1.2846018967744322,
+          "party_is_liberal_democrat": 3.294499140123111,
+          "party_is_reform_uk": 1.7858641653143787,
+          "party_is_ukip": -2.5603755249348423,
+          "party_issue_immigration_share": 0.0
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8342312516224477,
+        "ci_lower": 0.5207628001980242,
+        "ci_upper": 1.1596851865911608,
+        "seat_accuracy": 0.8534
+      },
+      {
+        "window": "final_72_hours",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "party_issue_immigration_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9804551348044297,
+          "party_is_green": -0.9036235199664743,
+          "party_is_labour": -1.2846018967744322,
+          "party_is_liberal_democrat": 3.294499140123111,
+          "party_is_reform_uk": 1.7858641653143787,
+          "party_is_ukip": -2.5603755249348423,
+          "party_issue_immigration_share": 0.0
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8342312516224477,
+        "ci_lower": 0.5207628001980242,
+        "ci_upper": 1.1596851865911608,
+        "seat_accuracy": 0.8534
+      }
+    ],
+    "tone_trajectory_only": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "tone_trajectory"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "tone_trajectory": -1.071960675218196
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.3192969644472896,
+        "ci_lower": -0.4158596730459621,
+        "ci_upper": -0.21815356603503497,
+        "seat_accuracy": 0.7212
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "tone_trajectory"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "tone_trajectory": -1.071960675218196
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.3192969644472896,
+        "ci_lower": -0.4158596730459621,
+        "ci_upper": -0.21815356603503497,
+        "seat_accuracy": 0.7212
+      },
+      {
+        "window": "30_to_15_days",
+        "feature_columns": [
+          "tone_trajectory"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "tone_trajectory": -1.071960675218196
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.3192969644472896,
+        "ci_lower": -0.4158596730459621,
+        "ci_upper": -0.21815356603503497,
+        "seat_accuracy": 0.7212
+      },
+      {
+        "window": "14_to_8_days",
+        "feature_columns": [
+          "tone_trajectory"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "tone_trajectory": -1.071960675218196
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.3192969644472896,
+        "ci_lower": -0.4158596730459621,
+        "ci_upper": -0.21815356603503497,
+        "seat_accuracy": 0.7212
+      },
+      {
+        "window": "7_to_4_days",
+        "feature_columns": [
+          "tone_trajectory"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "tone_trajectory": -1.071960675218196
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.3192969644472896,
+        "ci_lower": -0.4158596730459621,
+        "ci_upper": -0.21815356603503497,
+        "seat_accuracy": 0.7212
+      },
+      {
+        "window": "final_72_hours",
+        "feature_columns": [
+          "tone_trajectory"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "tone_trajectory": -1.071960675218196
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.3192969644472896,
+        "ci_lower": -0.4158596730459621,
+        "ci_upper": -0.21815356603503497,
+        "seat_accuracy": 0.7212
+      }
+    ],
+    "party_dummies_plus_trajectory": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "tone_trajectory"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9877163055670418,
+          "party_is_green": -0.9010107847897364,
+          "party_is_labour": -1.284182038723238,
+          "party_is_liberal_democrat": 3.2939082929058103,
+          "party_is_reform_uk": 1.7971955459357785,
+          "party_is_ukip": -2.568161982929391,
+          "tone_trajectory": 0.043678896063818425
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8203609779683827,
+        "ci_lower": 0.5067963013864152,
+        "ci_upper": 1.1448122514761248,
+        "seat_accuracy": 0.8534
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "tone_trajectory"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9877163055670418,
+          "party_is_green": -0.9010107847897364,
+          "party_is_labour": -1.284182038723238,
+          "party_is_liberal_democrat": 3.2939082929058103,
+          "party_is_reform_uk": 1.7971955459357785,
+          "party_is_ukip": -2.568161982929391,
+          "tone_trajectory": 0.043678896063818425
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8203609779683827,
+        "ci_lower": 0.5067963013864152,
+        "ci_upper": 1.1448122514761248,
+        "seat_accuracy": 0.8534
+      },
+      {
+        "window": "30_to_15_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "tone_trajectory"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9877163055670418,
+          "party_is_green": -0.9010107847897364,
+          "party_is_labour": -1.284182038723238,
+          "party_is_liberal_democrat": 3.2939082929058103,
+          "party_is_reform_uk": 1.7971955459357785,
+          "party_is_ukip": -2.568161982929391,
+          "tone_trajectory": 0.043678896063818425
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8203609779683827,
+        "ci_lower": 0.5067963013864152,
+        "ci_upper": 1.1448122514761248,
+        "seat_accuracy": 0.8534
+      },
+      {
+        "window": "14_to_8_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "tone_trajectory"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9877163055670418,
+          "party_is_green": -0.9010107847897364,
+          "party_is_labour": -1.284182038723238,
+          "party_is_liberal_democrat": 3.2939082929058103,
+          "party_is_reform_uk": 1.7971955459357785,
+          "party_is_ukip": -2.568161982929391,
+          "tone_trajectory": 0.043678896063818425
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8203609779683827,
+        "ci_lower": 0.5067963013864152,
+        "ci_upper": 1.1448122514761248,
+        "seat_accuracy": 0.8534
+      },
+      {
+        "window": "7_to_4_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "tone_trajectory"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9877163055670418,
+          "party_is_green": -0.9010107847897364,
+          "party_is_labour": -1.284182038723238,
+          "party_is_liberal_democrat": 3.2939082929058103,
+          "party_is_reform_uk": 1.7971955459357785,
+          "party_is_ukip": -2.568161982929391,
+          "tone_trajectory": 0.043678896063818425
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8203609779683827,
+        "ci_lower": 0.5067963013864152,
+        "ci_upper": 1.1448122514761248,
+        "seat_accuracy": 0.8534
+      },
+      {
+        "window": "final_72_hours",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "tone_trajectory"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9877163055670418,
+          "party_is_green": -0.9010107847897364,
+          "party_is_labour": -1.284182038723238,
+          "party_is_liberal_democrat": 3.2939082929058103,
+          "party_is_reform_uk": 1.7971955459357785,
+          "party_is_ukip": -2.568161982929391,
+          "tone_trajectory": 0.043678896063818425
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8203609779683827,
+        "ci_lower": 0.5067963013864152,
+        "ci_upper": 1.1448122514761248,
+        "seat_accuracy": 0.8534
+      }
+    ],
+    "party_dummies_plus_trajectory_and_level": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "tone_trajectory",
+          "net_portrayal_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.6102180993313804,
+          "party_is_green": -1.2453156675609578,
+          "party_is_labour": -1.2489561941957943,
+          "party_is_liberal_democrat": 2.883133826640242,
+          "party_is_reform_uk": 1.9229465703670476,
+          "party_is_ukip": -2.271064356269001,
+          "tone_trajectory": -0.12319586773099099,
+          "net_portrayal_share": 1.5540703614534492
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 48
+        },
+        "delta_vs_recalibrated": 0.8863936399373613,
+        "ci_lower": 0.46981083306120125,
+        "ci_upper": 1.3031146723953044,
+        "seat_accuracy": 0.851
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "tone_trajectory",
+          "net_portrayal_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.7778497506917987,
+          "party_is_green": -1.21094607055143,
+          "party_is_labour": -1.3200551721310798,
+          "party_is_liberal_democrat": 3.1164568638499706,
+          "party_is_reform_uk": 1.9396225609138837,
+          "party_is_ukip": -2.334951836653588,
+          "tone_trajectory": -0.15673350302299582,
+          "net_portrayal_share": 1.1535338260033792
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 13
+        },
+        "delta_vs_recalibrated": 0.8397089455614206,
+        "ci_lower": 0.44217339341734135,
+        "ci_upper": 1.2449093425925277,
+        "seat_accuracy": 0.8534
+      },
+      {
+        "window": "30_to_15_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "tone_trajectory",
+          "net_portrayal_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9320920235964278,
+          "party_is_green": -0.9592718856731343,
+          "party_is_labour": -1.309111284612922,
+          "party_is_liberal_democrat": 3.240078301022732,
+          "party_is_reform_uk": 1.8169225920985819,
+          "party_is_ukip": -2.4817355464945723,
+          "tone_trajectory": -0.08862321681973798,
+          "net_portrayal_share": 0.2782938973411167
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8837860752649309,
+        "ci_lower": 0.5651124139094423,
+        "ci_upper": 1.2066227076116431,
+        "seat_accuracy": 0.8534
+      },
+      {
+        "window": "14_to_8_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "tone_trajectory",
+          "net_portrayal_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.995968570990504,
+          "party_is_green": -0.8786653684092968,
+          "party_is_labour": -1.3197958768346925,
+          "party_is_liberal_democrat": 3.33391262233334,
+          "party_is_reform_uk": 1.8059357580877802,
+          "party_is_ukip": -2.6008661697977655,
+          "tone_trajectory": 0.10100909676237313,
+          "net_portrayal_share": -0.16820997229053467
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8518834634593122,
+        "ci_lower": 0.5397402546224016,
+        "ci_upper": 1.1742972052851335,
+        "seat_accuracy": 0.8558
+      },
+      {
+        "window": "7_to_4_days",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "tone_trajectory",
+          "net_portrayal_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -1.1003371489476652,
+          "party_is_green": -0.860015422195428,
+          "party_is_labour": -1.2876994955566696,
+          "party_is_liberal_democrat": 3.337725474012737,
+          "party_is_reform_uk": 1.841879991279678,
+          "party_is_ukip": -2.5824282056927332,
+          "tone_trajectory": 0.062160558497846,
+          "net_portrayal_share": -0.4161730310761923
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.8032328103336299,
+        "ci_lower": 0.4744633667004873,
+        "ci_upper": 1.139414184351575,
+        "seat_accuracy": 0.8534
+      },
+      {
+        "window": "final_72_hours",
+        "feature_columns": [
+          "party_is_conservative",
+          "party_is_green",
+          "party_is_labour",
+          "party_is_liberal_democrat",
+          "party_is_reform_uk",
+          "party_is_ukip",
+          "tone_trajectory",
+          "net_portrayal_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_is_conservative": -0.9032658960269859,
+          "party_is_green": -1.1932133328346666,
+          "party_is_labour": -1.2217634387436005,
+          "party_is_liberal_democrat": 3.058104997497419,
+          "party_is_reform_uk": 2.135039842372891,
+          "party_is_ukip": -2.4994939363771365,
+          "tone_trajectory": -0.4023924136142623,
+          "net_portrayal_share": 1.9837762459562402
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 44
+        },
+        "delta_vs_recalibrated": 0.25026351674458347,
+        "ci_lower": -0.3783774336708192,
+        "ci_upper": 0.8850951950954546,
+        "seat_accuracy": 0.8413
+      }
+    ]
+  }
+}

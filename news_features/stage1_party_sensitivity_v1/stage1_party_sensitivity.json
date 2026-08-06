@@ -1,0 +1,300 @@
+{
+  "status": "EXPLORATORY Stage 1 party-intercept sensitivity, post-unblinding. Simulates what happens to the news layer's headline when Stage 1 absorbs per-party mean residuals.",
+  "feature_table": "news_features/news_feature_table_v3party.csv",
+  "fitting_cells": 45,
+  "party_mean_residuals_all": {
+    "conservative": 2.870579,
+    "green": -5.060919,
+    "labour": 0.726439,
+    "liberal_democrat": 4.047157,
+    "reform_uk": -2.40102,
+    "ukip": -12.658815
+  },
+  "party_mean_residuals_established": {
+    "conservative": 2.870579,
+    "green": -5.060919,
+    "labour": 0.726439,
+    "liberal_democrat": 4.047157
+  },
+  "reproduction_check_passed": true,
+  "established_only": [
+    {
+      "window": "180_to_91_days",
+      "original_delta": -0.5751113576697371,
+      "original_ci": [
+        -0.9339297274511013,
+        -0.24461897894258372
+      ],
+      "demeaned_delta": 0.3920905645969208,
+      "demeaned_ci": [
+        0.019628028984949735,
+        0.7566064559598406
+      ],
+      "absorbed_by_identity": -0.9672019222666579,
+      "survival_fraction": -0.6817645997909197,
+      "original_coefficients": {
+        "party_article_share": 1.7040253063165482,
+        "net_portrayal_share": 3.673377618877658
+      },
+      "demeaned_coefficients": {
+        "party_article_share": 1.3419572256250567,
+        "net_portrayal_share": 3.6830906997065527
+      }
+    },
+    {
+      "window": "90_to_31_days",
+      "original_delta": 0.24039421213050627,
+      "original_ci": [
+        0.07808480936022717,
+        0.3866370375077725
+      ],
+      "demeaned_delta": 0.30035534862891744,
+      "demeaned_ci": [
+        0.06641029058456703,
+        0.5251890305246516
+      ],
+      "absorbed_by_identity": -0.05996113649841117,
+      "survival_fraction": 1.2494283700385398,
+      "original_coefficients": {
+        "party_article_share": 0.17531968442308976,
+        "net_portrayal_share": 1.6216206397779376
+      },
+      "demeaned_coefficients": {
+        "party_article_share": -0.09568802162171948,
+        "net_portrayal_share": 1.9026699265699436
+      }
+    },
+    {
+      "window": "30_to_15_days",
+      "original_delta": 0.13389217093112293,
+      "original_ci": [
+        0.09488590564118993,
+        0.16891566284479353
+      ],
+      "demeaned_delta": 0.09190564668756362,
+      "demeaned_ci": [
+        0.03292136035687661,
+        0.1469260206129962
+      ],
+      "absorbed_by_identity": 0.04198652424355931,
+      "survival_fraction": 0.6864153897007309,
+      "original_coefficients": {
+        "party_article_share": -0.5694559325662906,
+        "net_portrayal_share": 0.7562980347183204
+      },
+      "demeaned_coefficients": {
+        "party_article_share": -0.5629305493609378,
+        "net_portrayal_share": 0.8850810188712505
+      }
+    },
+    {
+      "window": "14_to_8_days",
+      "original_delta": -0.32520558923642984,
+      "original_ci": [
+        -0.5690424588342827,
+        -0.058479890361581965
+      ],
+      "demeaned_delta": 0.07132044175375007,
+      "demeaned_ci": [
+        -0.1636759514837965,
+        0.33692687953126765
+      ],
+      "absorbed_by_identity": -0.3965260309901799,
+      "survival_fraction": -0.219308782242051,
+      "original_coefficients": {
+        "party_article_share": 3.0871958130767734,
+        "net_portrayal_share": 3.431092229088358
+      },
+      "demeaned_coefficients": {
+        "party_article_share": 2.3505290157613397,
+        "net_portrayal_share": 2.776247859015054
+      }
+    },
+    {
+      "window": "7_to_4_days",
+      "original_delta": -0.00966295876711687,
+      "original_ci": [
+        -0.017655948732009152,
+        -0.0019190265864081934
+      ],
+      "demeaned_delta": 0.025461234674476252,
+      "demeaned_ci": [
+        0.019138794086139943,
+        0.03165413432859199
+      ],
+      "absorbed_by_identity": -0.03512419344159312,
+      "survival_fraction": -2.6349315244023446,
+      "original_coefficients": {
+        "party_article_share": -0.2709480428041182,
+        "net_portrayal_share": 0.4224673074654726
+      },
+      "demeaned_coefficients": {
+        "party_article_share": 0.09627928617722564,
+        "net_portrayal_share": 0.9718955937729593
+      }
+    },
+    {
+      "window": "final_72_hours",
+      "original_delta": 0.18820062853308084,
+      "original_ci": [
+        -0.22980032726530145,
+        0.5837575908056911
+      ],
+      "demeaned_delta": 0.24999179472211885,
+      "demeaned_ci": [
+        -0.17422417158861564,
+        0.6567241194001668
+      ],
+      "absorbed_by_identity": -0.061791166189038016,
+      "survival_fraction": 1.3283260352033135,
+      "original_coefficients": {
+        "party_article_share": 0.6352997406819697,
+        "net_portrayal_share": 2.0798018869265804
+      },
+      "demeaned_coefficients": {
+        "party_article_share": 0.7000313595530618,
+        "net_portrayal_share": 2.19132634907319
+      }
+    }
+  ],
+  "all_six": [
+    {
+      "window": "180_to_91_days",
+      "original_delta": -0.5751113576697371,
+      "original_ci": [
+        -0.9339297274511013,
+        -0.24461897894258372
+      ],
+      "demeaned_delta": 0.36098008659059655,
+      "demeaned_ci": [
+        0.12636187869890317,
+        0.5792548151514719
+      ],
+      "absorbed_by_identity": -0.9360914442603336,
+      "survival_fraction": -0.6276698969278445,
+      "original_coefficients": {
+        "party_article_share": 1.7040253063165482,
+        "net_portrayal_share": 3.673377618877658
+      },
+      "demeaned_coefficients": {
+        "party_article_share": 0.11456547180397675,
+        "net_portrayal_share": 2.088275237154281
+      }
+    },
+    {
+      "window": "90_to_31_days",
+      "original_delta": 0.24039421213050627,
+      "original_ci": [
+        0.07808480936022717,
+        0.3866370375077725
+      ],
+      "demeaned_delta": 0.04280041451332384,
+      "demeaned_ci": [
+        -0.06606268956978123,
+        0.14613722370104804
+      ],
+      "absorbed_by_identity": 0.19759379761718243,
+      "survival_fraction": 0.1780426164756752,
+      "original_coefficients": {
+        "party_article_share": 0.17531968442308976,
+        "net_portrayal_share": 1.6216206397779376
+      },
+      "demeaned_coefficients": {
+        "party_article_share": -1.556456080911452,
+        "net_portrayal_share": 0.17605664894540687
+      }
+    },
+    {
+      "window": "30_to_15_days",
+      "original_delta": 0.13389217093112293,
+      "original_ci": [
+        0.09488590564118993,
+        0.16891566284479353
+      ],
+      "demeaned_delta": -0.2419304471611472,
+      "demeaned_ci": [
+        -0.3335203191705116,
+        -0.14614507101332028
+      ],
+      "absorbed_by_identity": 0.37582261809227013,
+      "survival_fraction": -1.8069051048966973,
+      "original_coefficients": {
+        "party_article_share": -0.5694559325662906,
+        "net_portrayal_share": 0.7562980347183204
+      },
+      "demeaned_coefficients": {
+        "party_article_share": -1.5451065286095191,
+        "net_portrayal_share": -0.7066906612104322
+      }
+    },
+    {
+      "window": "14_to_8_days",
+      "original_delta": -0.32520558923642984,
+      "original_ci": [
+        -0.5690424588342827,
+        -0.058479890361581965
+      ],
+      "demeaned_delta": 0.2623565565720529,
+      "demeaned_ci": [
+        0.13317457603301916,
+        0.40314637909926965
+      ],
+      "absorbed_by_identity": -0.5875621458084828,
+      "survival_fraction": -0.8067406134933166,
+      "original_coefficients": {
+        "party_article_share": 3.0871958130767734,
+        "net_portrayal_share": 3.431092229088358
+      },
+      "demeaned_coefficients": {
+        "party_article_share": 1.563618608589153,
+        "net_portrayal_share": 1.6940461148320374
+      }
+    },
+    {
+      "window": "7_to_4_days",
+      "original_delta": -0.00966295876711687,
+      "original_ci": [
+        -0.017655948732009152,
+        -0.0019190265864081934
+      ],
+      "demeaned_delta": 0.026797476138923138,
+      "demeaned_ci": [
+        0.02167943319584842,
+        0.03196149872213385
+      ],
+      "absorbed_by_identity": -0.03646043490604001,
+      "survival_fraction": -2.7732164427851203,
+      "original_coefficients": {
+        "party_article_share": -0.2709480428041182,
+        "net_portrayal_share": 0.4224673074654726
+      },
+      "demeaned_coefficients": {
+        "party_article_share": 0.26369720877690966,
+        "net_portrayal_share": 1.058602065979931
+      }
+    },
+    {
+      "window": "final_72_hours",
+      "original_delta": 0.18820062853308084,
+      "original_ci": [
+        -0.22980032726530145,
+        0.5837575908056911
+      ],
+      "demeaned_delta": 0.23579996832909522,
+      "demeaned_ci": [
+        -0.10886777711788972,
+        0.557997792109136
+      ],
+      "absorbed_by_identity": -0.047599339796014384,
+      "survival_fraction": 1.252918070290332,
+      "original_coefficients": {
+        "party_article_share": 0.6352997406819697,
+        "net_portrayal_share": 2.0798018869265804
+      },
+      "demeaned_coefficients": {
+        "party_article_share": 0.5814198989026244,
+        "net_portrayal_share": 1.8907063909700481
+      }
+    }
+  ]
+}

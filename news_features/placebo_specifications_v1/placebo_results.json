@@ -1,0 +1,925 @@
+{
+  "status": "EXPLORATORY placebo comparison, post-unblinding. Every arm shares the frozen fitting cells, prediction code and scoring code; only `feature_columns` differs. Promotes nothing.",
+  "feature_table": "news_features/news_feature_table_v3party.csv",
+  "fitting_cells": 45,
+  "reporting_bar": 10,
+  "eligible_content_features_by_window": {
+    "180_to_91_days": [
+      "party_frame_challenger_emergence_share",
+      "party_frame_incumbent_judgement_share",
+      "party_frame_local_impact_share",
+      "party_frame_voter_discontent_share",
+      "party_issue_immigration_share",
+      "party_issue_issue_other_share",
+      "party_issue_national_politics_share"
+    ],
+    "90_to_31_days": [
+      "party_frame_challenger_emergence_share",
+      "party_frame_incumbent_judgement_share",
+      "party_frame_local_impact_share",
+      "party_frame_voter_discontent_share",
+      "party_issue_immigration_share",
+      "party_issue_issue_other_share",
+      "party_issue_national_politics_share"
+    ],
+    "30_to_15_days": [],
+    "14_to_8_days": [],
+    "7_to_4_days": [],
+    "final_72_hours": []
+  },
+  "reproduction_check": {
+    "committed_combined_deltas": {
+      "180_to_91_days": -0.575,
+      "90_to_31_days": 0.24,
+      "30_to_15_days": 0.134,
+      "14_to_8_days": -0.325,
+      "7_to_4_days": -0.01,
+      "final_72_hours": 0.188
+    },
+    "reproduced": {
+      "180_to_91_days": -0.5751,
+      "90_to_31_days": 0.2404,
+      "30_to_15_days": 0.1339,
+      "14_to_8_days": -0.3252,
+      "7_to_4_days": -0.0097,
+      "final_72_hours": 0.1882
+    },
+    "max_absolute_difference": 0.0
+  },
+  "arms": {
+    "frozen": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": 1.7040253063165482,
+          "net_portrayal_share": 3.673377618877658
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.5751113576697371,
+        "ci_lower": -0.9339297274511013,
+        "ci_upper": -0.24461897894258372,
+        "seat_accuracy": 0.8317
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": 0.17531968442308976,
+          "net_portrayal_share": 1.6216206397779376
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.24039421213050627,
+        "ci_lower": 0.07808480936022717,
+        "ci_upper": 0.3866370375077725,
+        "seat_accuracy": 0.7909
+      },
+      {
+        "window": "30_to_15_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": -0.5694559325662906,
+          "net_portrayal_share": 0.7562980347183204
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.13389217093112293,
+        "ci_lower": 0.09488590564118993,
+        "ci_upper": 0.16891566284479353,
+        "seat_accuracy": 0.7212
+      },
+      {
+        "window": "14_to_8_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": 3.0871958130767734,
+          "net_portrayal_share": 3.431092229088358
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.32520558923642984,
+        "ci_lower": -0.5690424588342827,
+        "ci_upper": -0.058479890361581965,
+        "seat_accuracy": 0.6827
+      },
+      {
+        "window": "7_to_4_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": -0.2709480428041182,
+          "net_portrayal_share": 0.4224673074654726
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.00966295876711687,
+        "ci_lower": -0.017655948732009152,
+        "ci_upper": -0.0019190265864081934,
+        "seat_accuracy": 0.7188
+      },
+      {
+        "window": "final_72_hours",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": 0.6352997406819697,
+          "net_portrayal_share": 2.0798018869265804
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.18820062853308084,
+        "ci_lower": -0.22980032726530145,
+        "ci_upper": 0.5837575908056911,
+        "seat_accuracy": 0.8558
+      }
+    ],
+    "placebo_volume": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "party_article_count"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_count": -0.7112353113625223
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.1683827810938956,
+        "ci_lower": 0.13826444765664264,
+        "ci_upper": 0.19738719455702738,
+        "seat_accuracy": 0.7212
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "party_article_count"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_count": -0.8593786856735853
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.22467784501372368,
+        "ci_lower": 0.1900906096733102,
+        "ci_upper": 0.25854185390494017,
+        "seat_accuracy": 0.7212
+      },
+      {
+        "window": "30_to_15_days",
+        "feature_columns": [
+          "party_article_count"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_count": -0.8199522846560353
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.12589394961210143,
+        "ci_lower": 0.06657453959839847,
+        "ci_upper": 0.188906849244793,
+        "seat_accuracy": 0.7212
+      },
+      {
+        "window": "14_to_8_days",
+        "feature_columns": [
+          "party_article_count"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_count": 0.34281318666076943
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.004275057104088376,
+        "ci_lower": -0.008693653859260863,
+        "ci_upper": 0.0008578002056105034,
+        "seat_accuracy": 0.7188
+      },
+      {
+        "window": "7_to_4_days",
+        "feature_columns": [
+          "party_article_count"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_count": -0.8271360022179707
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.014791608768073061,
+        "ci_lower": -0.02593464847240039,
+        "ci_upper": -0.003960387167209303,
+        "seat_accuracy": 0.7188
+      },
+      {
+        "window": "final_72_hours",
+        "feature_columns": [
+          "party_article_count"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_count": -0.5843777269660322
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.022062727065998544,
+        "ci_lower": 0.001017340312479842,
+        "ci_upper": 0.044251626103362314,
+        "seat_accuracy": 0.7212
+      }
+    ],
+    "placebo_volume_tone": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "party_article_count",
+          "net_portrayal"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_count": 2.317795360007861,
+          "net_portrayal": 3.7045678959091006
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.18918863883537007,
+        "ci_lower": -0.05037527308527974,
+        "ci_upper": 0.4110029771756576,
+        "seat_accuracy": 0.8197
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "party_article_count",
+          "net_portrayal"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_count": 0.1832265274899554,
+          "net_portrayal": 1.2710618595561378
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.34131274620948737,
+        "ci_lower": 0.20228578436648098,
+        "ci_upper": 0.46800173398212475,
+        "seat_accuracy": 0.7644
+      },
+      {
+        "window": "30_to_15_days",
+        "feature_columns": [
+          "party_article_count",
+          "net_portrayal"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_count": -1.1140843522159298,
+          "net_portrayal": -0.4455215568747095
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.026130702578670117,
+        "ci_lower": -0.1425822723099623,
+        "ci_upper": 0.09709808183638008,
+        "seat_accuracy": 0.7212
+      },
+      {
+        "window": "14_to_8_days",
+        "feature_columns": [
+          "party_article_count",
+          "net_portrayal"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_count": 0.8557658968473856,
+          "net_portrayal": 1.0989309021769544
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.07423644306425015,
+        "ci_lower": 0.03379666709906968,
+        "ci_upper": 0.11619135698511177,
+        "seat_accuracy": 0.7188
+      },
+      {
+        "window": "7_to_4_days",
+        "feature_columns": [
+          "party_article_count",
+          "net_portrayal"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_count": -0.9373046593721982,
+          "net_portrayal": -0.15257709081928847
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.014923870226565938,
+        "ci_lower": -0.026146587916900655,
+        "ci_upper": -0.004023684639392914,
+        "seat_accuracy": 0.7188
+      },
+      {
+        "window": "final_72_hours",
+        "feature_columns": [
+          "party_article_count",
+          "net_portrayal"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_count": 1.2032848110117433,
+          "net_portrayal": 2.3390102434649
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.27807647768938626,
+        "ci_lower": -0.06332296249607525,
+        "ci_upper": 0.5949728272370888,
+        "seat_accuracy": 0.8534
+      }
+    ],
+    "content_party_issue_immigration_share": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share",
+          "party_issue_immigration_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": -0.2932035029214106,
+          "net_portrayal_share": 3.032279955796,
+          "party_issue_immigration_share": 2.172294432271152
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.09581591677205648,
+        "ci_lower": -0.14183580792373496,
+        "ci_upper": 0.32742977634040427,
+        "seat_accuracy": 0.8438
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share",
+          "party_issue_immigration_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": -0.47753360524346666,
+          "net_portrayal_share": 1.6556933197022068,
+          "party_issue_immigration_share": 2.2404500837772168
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.3202358603853135,
+        "ci_lower": 0.10825888225944957,
+        "ci_upper": 0.5119435201679972,
+        "seat_accuracy": 0.8197
+      },
+      {
+        "window": "30_to_15_days",
+        "skipped": "below the 10-value bar in this window"
+      },
+      {
+        "window": "14_to_8_days",
+        "skipped": "below the 10-value bar in this window"
+      },
+      {
+        "window": "7_to_4_days",
+        "skipped": "below the 10-value bar in this window"
+      },
+      {
+        "window": "final_72_hours",
+        "skipped": "below the 10-value bar in this window"
+      }
+    ],
+    "content_party_issue_national_politics_share": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share",
+          "party_issue_national_politics_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": 1.6913119495747084,
+          "net_portrayal_share": 3.6718923495367783,
+          "party_issue_national_politics_share": 0.016308121815486187
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.576288952969481,
+        "ci_lower": -0.9354149830744471,
+        "ci_upper": -0.2455176766968122,
+        "seat_accuracy": 0.8317
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share",
+          "party_issue_national_politics_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": 0.4351703058854735,
+          "net_portrayal_share": 1.4998086414090026,
+          "party_issue_national_politics_share": -0.45266882538627445
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.20497266402257086,
+        "ci_lower": 0.06869558354434295,
+        "ci_upper": 0.32752247634150033,
+        "seat_accuracy": 0.7572
+      },
+      {
+        "window": "30_to_15_days",
+        "skipped": "below the 10-value bar in this window"
+      },
+      {
+        "window": "14_to_8_days",
+        "skipped": "below the 10-value bar in this window"
+      },
+      {
+        "window": "7_to_4_days",
+        "skipped": "below the 10-value bar in this window"
+      },
+      {
+        "window": "final_72_hours",
+        "skipped": "below the 10-value bar in this window"
+      }
+    ],
+    "content_party_issue_issue_other_share": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share",
+          "party_issue_issue_other_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": 1.3209109344568208,
+          "net_portrayal_share": 3.661674727885442,
+          "party_issue_issue_other_share": 0.5572657249560341
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.576749664310328,
+        "ci_lower": -0.9473898382626771,
+        "ci_upper": -0.23493545913720326,
+        "seat_accuracy": 0.8317
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share",
+          "party_issue_issue_other_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": -0.7286883322922294,
+          "net_portrayal_share": 1.6456736040319129,
+          "party_issue_issue_other_share": 1.510331010696703
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.3445505582261461,
+        "ci_lower": 0.18564639062499674,
+        "ci_upper": 0.4857046321887047,
+        "seat_accuracy": 0.7909
+      },
+      {
+        "window": "30_to_15_days",
+        "skipped": "below the 10-value bar in this window"
+      },
+      {
+        "window": "14_to_8_days",
+        "skipped": "below the 10-value bar in this window"
+      },
+      {
+        "window": "7_to_4_days",
+        "skipped": "below the 10-value bar in this window"
+      },
+      {
+        "window": "final_72_hours",
+        "skipped": "below the 10-value bar in this window"
+      }
+    ],
+    "content_party_frame_incumbent_judgement_share": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share",
+          "party_frame_incumbent_judgement_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": 1.5208225502508324,
+          "net_portrayal_share": 3.647486193875971,
+          "party_frame_incumbent_judgement_share": 0.24404333912600598
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.6094194633546204,
+        "ci_lower": -0.9675855230838832,
+        "ci_upper": -0.280973201317249,
+        "seat_accuracy": 0.8317
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share",
+          "party_frame_incumbent_judgement_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": -2.833479464828763,
+          "net_portrayal_share": 1.4402200679226744,
+          "party_frame_incumbent_judgement_share": 3.853424515819341
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.5718447663801243,
+        "ci_lower": 0.38637374262018676,
+        "ci_upper": 0.7532913056741258,
+        "seat_accuracy": 0.8197
+      },
+      {
+        "window": "30_to_15_days",
+        "skipped": "below the 10-value bar in this window"
+      },
+      {
+        "window": "14_to_8_days",
+        "skipped": "below the 10-value bar in this window"
+      },
+      {
+        "window": "7_to_4_days",
+        "skipped": "below the 10-value bar in this window"
+      },
+      {
+        "window": "final_72_hours",
+        "skipped": "below the 10-value bar in this window"
+      }
+    ],
+    "content_party_frame_challenger_emergence_share": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share",
+          "party_frame_challenger_emergence_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": 1.068243507616026,
+          "net_portrayal_share": 3.4551830613546093,
+          "party_frame_challenger_emergence_share": 0.7829367524651042
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.5046659434001288,
+        "ci_lower": -0.8559238156147456,
+        "ci_upper": -0.18260152855506412,
+        "seat_accuracy": 0.8269
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share",
+          "party_frame_challenger_emergence_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": -0.9458581055844261,
+          "net_portrayal_share": 1.8507914074089677,
+          "party_frame_challenger_emergence_share": 2.29280719897783
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.3166546250641211,
+        "ci_lower": 0.11920695698994306,
+        "ci_upper": 0.5022467578476888,
+        "seat_accuracy": 0.8365
+      },
+      {
+        "window": "30_to_15_days",
+        "skipped": "below the 10-value bar in this window"
+      },
+      {
+        "window": "14_to_8_days",
+        "skipped": "below the 10-value bar in this window"
+      },
+      {
+        "window": "7_to_4_days",
+        "skipped": "below the 10-value bar in this window"
+      },
+      {
+        "window": "final_72_hours",
+        "skipped": "below the 10-value bar in this window"
+      }
+    ],
+    "content_party_frame_voter_discontent_share": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share",
+          "party_frame_voter_discontent_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": 1.6698931968505815,
+          "net_portrayal_share": 3.663262255070853,
+          "party_frame_voter_discontent_share": 0.04020491931387622
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.5757948643513684,
+        "ci_lower": -0.9345201297110266,
+        "ci_upper": -0.24553956020344475,
+        "seat_accuracy": 0.8317
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share",
+          "party_frame_voter_discontent_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": -0.12314205039786238,
+          "net_portrayal_share": 1.766748432342797,
+          "party_frame_voter_discontent_share": 0.8000472715445627
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.17609690835573577,
+        "ci_lower": 0.009533359753974093,
+        "ci_upper": 0.33306387262885867,
+        "seat_accuracy": 0.7909
+      },
+      {
+        "window": "30_to_15_days",
+        "skipped": "below the 10-value bar in this window"
+      },
+      {
+        "window": "14_to_8_days",
+        "skipped": "below the 10-value bar in this window"
+      },
+      {
+        "window": "7_to_4_days",
+        "skipped": "below the 10-value bar in this window"
+      },
+      {
+        "window": "final_72_hours",
+        "skipped": "below the 10-value bar in this window"
+      }
+    ],
+    "content_party_frame_local_impact_share": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share",
+          "party_frame_local_impact_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": 2.880720263960629,
+          "net_portrayal_share": 3.8114068333315103,
+          "party_frame_local_impact_share": -1.5838225691276813
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.6554370073423135,
+        "ci_lower": -0.983565654021392,
+        "ci_upper": -0.3427862963750284,
+        "seat_accuracy": 0.8269
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share",
+          "party_frame_local_impact_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": -0.3295495759768956,
+          "net_portrayal_share": 1.6933391436179226,
+          "party_frame_local_impact_share": 1.146677016371996
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": 0.29028573841068184,
+        "ci_lower": 0.1325660676323734,
+        "ci_upper": 0.43735725959033095,
+        "seat_accuracy": 0.7885
+      },
+      {
+        "window": "30_to_15_days",
+        "skipped": "below the 10-value bar in this window"
+      },
+      {
+        "window": "14_to_8_days",
+        "skipped": "below the 10-value bar in this window"
+      },
+      {
+        "window": "7_to_4_days",
+        "skipped": "below the 10-value bar in this window"
+      },
+      {
+        "window": "final_72_hours",
+        "skipped": "below the 10-value bar in this window"
+      }
+    ],
+    "content_all_eligible": [
+      {
+        "window": "180_to_91_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share",
+          "party_frame_challenger_emergence_share",
+          "party_frame_incumbent_judgement_share",
+          "party_frame_local_impact_share",
+          "party_frame_voter_discontent_share",
+          "party_issue_immigration_share",
+          "party_issue_issue_other_share",
+          "party_issue_national_politics_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": -0.21535824211575544,
+          "net_portrayal_share": 3.1825884207527877,
+          "party_frame_challenger_emergence_share": 2.0941890138339883,
+          "party_frame_incumbent_judgement_share": 1.267435250643634,
+          "party_frame_local_impact_share": -2.0349467903531595,
+          "party_frame_voter_discontent_share": -4.35763328763992,
+          "party_issue_immigration_share": 3.164286000588703,
+          "party_issue_issue_other_share": 1.193578738898798,
+          "party_issue_national_politics_share": 0.9604984796801359
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 0
+        },
+        "delta_vs_recalibrated": -0.10711001038646373,
+        "ci_lower": -0.34900328821987475,
+        "ci_upper": 0.12631850517392026,
+        "seat_accuracy": 0.8438
+      },
+      {
+        "window": "90_to_31_days",
+        "feature_columns": [
+          "party_article_share",
+          "net_portrayal_share",
+          "party_frame_challenger_emergence_share",
+          "party_frame_incumbent_judgement_share",
+          "party_frame_local_impact_share",
+          "party_frame_voter_discontent_share",
+          "party_issue_immigration_share",
+          "party_issue_issue_other_share",
+          "party_issue_national_politics_share"
+        ],
+        "training_rows": 45,
+        "coefficients": {
+          "party_article_share": -2.2320623645767674,
+          "net_portrayal_share": -0.6027505768218849,
+          "party_frame_challenger_emergence_share": -0.8519018065335902,
+          "party_frame_incumbent_judgement_share": 7.622357250438194,
+          "party_frame_local_impact_share": 0.6803106154474253,
+          "party_frame_voter_discontent_share": -0.4265435261867542,
+          "party_issue_immigration_share": 0.9598691519032837,
+          "party_issue_issue_other_share": 0.36671772079633763,
+          "party_issue_national_politics_share": -6.562721745649088
+        },
+        "clipped_rows": {
+          "recalibrated": 0,
+          "news_enhanced": 26
+        },
+        "delta_vs_recalibrated": -0.6635481913327785,
+        "ci_lower": -0.8435692960108543,
+        "ci_upper": -0.4841269022348294,
+        "seat_accuracy": 0.7188
+      },
+      {
+        "window": "30_to_15_days",
+        "skipped": "no content feature clears the bar"
+      },
+      {
+        "window": "14_to_8_days",
+        "skipped": "no content feature clears the bar"
+      },
+      {
+        "window": "7_to_4_days",
+        "skipped": "no content feature clears the bar"
+      },
+      {
+        "window": "final_72_hours",
+        "skipped": "no content feature clears the bar"
+      }
+    ]
+  }
+}
