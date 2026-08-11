@@ -1,9 +1,18 @@
-island,scope,comparisons,estimable,median_mde80,min_mde80,max_mde80
-2026 holdout (v1),overall MAE delta,12,11,0.364,0.02,0.878
-2026 holdout (v2),overall MAE delta,12,11,0.216,0.006,0.581
-2026 holdout (v2),Reform level change,12,11,0.045,0.006,2.226
-2026 holdout (v2),Reform-vs-group contrast,12,11,0.286,0.027,2.326
-2021 validation,overall MAE delta,18,14,0.962,0.585,2.625
-2021 validation,Reform level change,18,14,1.626,0.341,6.19
-2021 validation,Reform MAE delta,18,14,2.601,0.809,5.273
-2021 validation,Reform-vs-group contrast,18,14,2.329,1.292,6.612
+island,scope,party,comparisons,estimable,distinct_estimable,median_mde80,min_mde80,max_mde80
+2026 holdout (v1),overall MAE delta,-,12,11,11,0.364,0.02,0.878
+2026 holdout (v2),overall MAE delta,-,12,11,11,0.216,0.006,0.581
+2026 holdout (v2),party level change,conservative,12,11,11,0.073,0.011,3.016
+2026 holdout (v2),party level change,green,12,11,11,1.049,0.084,1.508
+2026 holdout (v2),party level change,labour,12,11,11,0.038,0.008,0.229
+2026 holdout (v2),party level change,liberal_democrat,12,11,11,0.056,0.01,3.976
+2026 holdout (v2),party level change,reform_uk,12,11,11,0.045,0.006,2.226
+2026 holdout (v2),Reform-vs-group contrast,-,12,11,11,0.286,0.027,2.326
+2021 validation,overall MAE delta,-,18,14,13,0.962,0.585,2.625
+2021 validation,party level change,conservative,18,14,13,1.478,0.706,8.707
+2021 validation,party level change,green,18,14,13,1.11,0.392,2.959
+2021 validation,party level change,labour,18,14,13,1.105,0.158,4.09
+2021 validation,party level change,liberal_democrat,18,14,13,2.074,1.286,5.583
+2021 validation,party level change,reform_uk,18,14,13,1.626,0.341,6.19
+2021 validation,party level change,ukip,18,14,13,4.179,0.909,5.076
+2021 validation,Reform MAE delta,reform_uk,18,14,13,2.601,0.809,5.273
+2021 validation,Reform-vs-group contrast,-,18,14,13,2.329,1.292,6.612

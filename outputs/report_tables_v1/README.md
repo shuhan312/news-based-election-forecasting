@@ -129,36 +129,36 @@ Every table is read from committed artefacts; `manifest.json` holds the sha256 o
 | v2 | local_sensitivity | 12 | 8 | 0.508 | -0.833 |
 | v2 | national_exploratory | 6 | 1 | 0.081 | -1.739 |
 
-## Seat-call accuracy per specification (secondary outcome)
+## Seat-call accuracy per specification, against the recalibrated control and the elect-nobody floor (secondary outcome)
 
-*Source: unblinding_results.json (register section 16 addendum)*
+*Source: unblinding_results.json plus the committed prediction files; the recalibrated control's seat allocation is rebuilt here because the frozen record scores only against the raw baseline*
 
-| version | arm | window | news_seat_accuracy | baseline_seat_accuracy |
-| --- | --- | --- | --- | --- |
-| v1 | combined | 180-91 days | 0.7308 | 0.7188 |
-| v1 | combined | 90-31 days | 0.7404 | 0.7188 |
-| v1 | combined | 30-15 days | 0.8077 | 0.7188 |
-| v1 | combined | 14-8 days | 0.6827 | 0.7188 |
-| v1 | combined | 7-4 days | 0.7188 | 0.7188 |
-| v1 | combined | final 72h | 0.8413 | 0.7188 |
-| v1 | national | 180-91 days | 0.7356 | 0.7188 |
-| v1 | national | 90-31 days | 0.7548 | 0.7188 |
-| v1 | national | 30-15 days | 0.8413 | 0.7188 |
-| v1 | national | 14-8 days | 0.7188 | 0.7188 |
-| v1 | national | 7-4 days | 0.7212 | 0.7188 |
-| v1 | national | final 72h | 0.7212 | 0.7188 |
-| v2 | combined | 180-91 days | 0.8317 | 0.7188 |
-| v2 | combined | 90-31 days | 0.7909 | 0.7188 |
-| v2 | combined | 30-15 days | 0.7212 | 0.7188 |
-| v2 | combined | 14-8 days | 0.6827 | 0.7188 |
-| v2 | combined | 7-4 days | 0.7188 | 0.7188 |
-| v2 | combined | final 72h | 0.8558 | 0.7188 |
-| v2 | national | 180-91 days | 0.8317 | 0.7188 |
-| v2 | national | 90-31 days | 0.7909 | 0.7188 |
-| v2 | national | 30-15 days | 0.7212 | 0.7188 |
-| v2 | national | 14-8 days | 0.7188 | 0.7188 |
-| v2 | national | 7-4 days | 0.7188 | 0.7188 |
-| v2 | national | final 72h | 0.7188 | 0.7188 |
+| version | arm | window | news_seat_accuracy | recalibrated_control_seat_accuracy | news_vs_recalibrated_control | baseline_seat_accuracy | elect_nobody_floor | beats_elect_nobody_floor |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v1 | combined | 180-91 days | 0.7308 | None | None | 0.7188 | 0.8053 | False |
+| v1 | combined | 90-31 days | 0.7404 | None | None | 0.7188 | 0.8053 | False |
+| v1 | combined | 30-15 days | 0.8077 | None | None | 0.7188 | 0.8053 | True |
+| v1 | combined | 14-8 days | 0.6827 | None | None | 0.7188 | 0.8053 | False |
+| v1 | combined | 7-4 days | 0.7188 | None | None | 0.7188 | 0.8053 | False |
+| v1 | combined | final 72h | 0.8413 | None | None | 0.7188 | 0.8053 | True |
+| v1 | national | 180-91 days | 0.7356 | None | None | 0.7188 | 0.8053 | False |
+| v1 | national | 90-31 days | 0.7548 | None | None | 0.7188 | 0.8053 | False |
+| v1 | national | 30-15 days | 0.8413 | None | None | 0.7188 | 0.8053 | True |
+| v1 | national | 14-8 days | 0.7188 | None | None | 0.7188 | 0.8053 | False |
+| v1 | national | 7-4 days | 0.7212 | None | None | 0.7188 | 0.8053 | False |
+| v1 | national | final 72h | 0.7212 | None | None | 0.7188 | 0.8053 | False |
+| v2 | combined | 180-91 days | 0.8317 | 0.7188 | 0.1129 | 0.7188 | 0.8053 | True |
+| v2 | combined | 90-31 days | 0.7909 | 0.7188 | 0.0721 | 0.7188 | 0.8053 | False |
+| v2 | combined | 30-15 days | 0.7212 | 0.7188 | 0.0024 | 0.7188 | 0.8053 | False |
+| v2 | combined | 14-8 days | 0.6827 | 0.7188 | -0.0361 | 0.7188 | 0.8053 | False |
+| v2 | combined | 7-4 days | 0.7188 | 0.7188 | 0.0 | 0.7188 | 0.8053 | False |
+| v2 | combined | final 72h | 0.8558 | 0.7188 | 0.137 | 0.7188 | 0.8053 | True |
+| v2 | national | 180-91 days | 0.8317 | 0.7188 | 0.1129 | 0.7188 | 0.8053 | True |
+| v2 | national | 90-31 days | 0.7909 | 0.7188 | 0.0721 | 0.7188 | 0.8053 | False |
+| v2 | national | 30-15 days | 0.7212 | 0.7188 | 0.0024 | 0.7188 | 0.8053 | False |
+| v2 | national | 14-8 days | 0.7188 | 0.7188 | 0.0 | 0.7188 | 0.8053 | False |
+| v2 | national | 7-4 days | 0.7188 | 0.7188 | 0.0 | 0.7188 | 0.8053 | False |
+| v2 | national | final 72h | 0.7188 | 0.7188 | 0.0 | 0.7188 | 0.8053 | False |
 
 ## Reform seat calls per v2 specification (actual: 14 of 162 won)
 
@@ -441,17 +441,26 @@ Every table is read from committed artefacts; `manifest.json` holds the sha256 o
 | 2021 validation | national | 7-4 days | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |  |
 | 2021 validation | national | final 72h | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |  |
 
-## Design resolution: 80%-power minimal detectable effects (share points) - 2021 resolves ~1pt overall / ~2.6pt Reform-specific; 2026 v2 resolves ~0.2pt
+## Design resolution: 80%-power minimal detectable effects (share points) - 2021 resolves ~1pt overall / ~2.6pt Reform-specific; 2026 v2 resolves ~0.2pt; per-party thresholds span thirtyfold within one window
 
 *Source: mde_results.json (register design-resolution addendum)*
 
-| island | scope | comparisons | estimable | median_mde80 | min_mde80 | max_mde80 |
-| --- | --- | --- | --- | --- | --- | --- |
-| 2026 holdout (v1) | overall MAE delta | 12 | 11 | 0.364 | 0.02 | 0.878 |
-| 2026 holdout (v2) | overall MAE delta | 12 | 11 | 0.216 | 0.006 | 0.581 |
-| 2026 holdout (v2) | Reform level change | 12 | 11 | 0.045 | 0.006 | 2.226 |
-| 2026 holdout (v2) | Reform-vs-group contrast | 12 | 11 | 0.286 | 0.027 | 2.326 |
-| 2021 validation | overall MAE delta | 18 | 14 | 0.962 | 0.585 | 2.625 |
-| 2021 validation | Reform level change | 18 | 14 | 1.626 | 0.341 | 6.19 |
-| 2021 validation | Reform MAE delta | 18 | 14 | 2.601 | 0.809 | 5.273 |
-| 2021 validation | Reform-vs-group contrast | 18 | 14 | 2.329 | 1.292 | 6.612 |
+| island | scope | party | comparisons | estimable | distinct_estimable | median_mde80 | min_mde80 | max_mde80 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026 holdout (v1) | overall MAE delta | - | 12 | 11 | 11 | 0.364 | 0.02 | 0.878 |
+| 2026 holdout (v2) | overall MAE delta | - | 12 | 11 | 11 | 0.216 | 0.006 | 0.581 |
+| 2026 holdout (v2) | party level change | conservative | 12 | 11 | 11 | 0.073 | 0.011 | 3.016 |
+| 2026 holdout (v2) | party level change | green | 12 | 11 | 11 | 1.049 | 0.084 | 1.508 |
+| 2026 holdout (v2) | party level change | labour | 12 | 11 | 11 | 0.038 | 0.008 | 0.229 |
+| 2026 holdout (v2) | party level change | liberal_democrat | 12 | 11 | 11 | 0.056 | 0.01 | 3.976 |
+| 2026 holdout (v2) | party level change | reform_uk | 12 | 11 | 11 | 0.045 | 0.006 | 2.226 |
+| 2026 holdout (v2) | Reform-vs-group contrast | - | 12 | 11 | 11 | 0.286 | 0.027 | 2.326 |
+| 2021 validation | overall MAE delta | - | 18 | 14 | 13 | 0.962 | 0.585 | 2.625 |
+| 2021 validation | party level change | conservative | 18 | 14 | 13 | 1.478 | 0.706 | 8.707 |
+| 2021 validation | party level change | green | 18 | 14 | 13 | 1.11 | 0.392 | 2.959 |
+| 2021 validation | party level change | labour | 18 | 14 | 13 | 1.105 | 0.158 | 4.09 |
+| 2021 validation | party level change | liberal_democrat | 18 | 14 | 13 | 2.074 | 1.286 | 5.583 |
+| 2021 validation | party level change | reform_uk | 18 | 14 | 13 | 1.626 | 0.341 | 6.19 |
+| 2021 validation | party level change | ukip | 18 | 14 | 13 | 4.179 | 0.909 | 5.076 |
+| 2021 validation | Reform MAE delta | reform_uk | 18 | 14 | 13 | 2.601 | 0.809 | 5.273 |
+| 2021 validation | Reform-vs-group contrast | - | 18 | 14 | 13 | 2.329 | 1.292 | 6.612 |

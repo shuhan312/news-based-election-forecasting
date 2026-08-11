@@ -6,7 +6,7 @@
     "t04_confirmatory_v1": "Confirmatory comparisons, v1 (before enrichment): 0 of 12 improve",
     "t05_confirmatory_v2": "Confirmatory comparisons, v2 (after enrichment): 5 of 12 improve, 4 intervals above zero",
     "t06_sensitivity_summary": "Sensitivity families (non-promotable), summarised",
-    "t07_seat_accuracy_by_specification": "Seat-call accuracy per specification (secondary outcome)",
+    "t07_seat_accuracy_by_specification": "Seat-call accuracy per specification, against the recalibrated control and the elect-nobody floor (secondary outcome)",
     "t08_reform_seat_calls_v2": "Reform seat calls per v2 specification (actual: 14 of 162 won)",
     "t09_attribution_decomposition": "Attribution: v2 deltas with vs without the 7 Reform cells (3 improvements survive, 2 collapse)",
     "t10_mechanism_pooled_dispersion": "Mechanism (pooled): dispersion falls exactly in the improving windows",
@@ -22,7 +22,7 @@
     "t20_woking_south_blind_test": "Woking South pre-registered blind test: the pick (local, 180-91d) worst of 18; transfer refuted",
     "t21_woking_south_autopsy": "Woking South autopsy: the news adjustment worsened all five parties (LD landslide 64.0 encoded nowhere)",
     "t22_per_party_contrast": "Reform-minus-fitted-group level contrast with paired 95% intervals: negative through 2021, positive through 2026 (the sign flip)",
-    "t23_mde_summary": "Design resolution: 80%-power minimal detectable effects (share points) - 2021 resolves ~1pt overall / ~2.6pt Reform-specific; 2026 v2 resolves ~0.2pt"
+    "t23_mde_summary": "Design resolution: 80%-power minimal detectable effects (share points) - 2021 resolves ~1pt overall / ~2.6pt Reform-specific; 2026 v2 resolves ~0.2pt; per-party thresholds span thirtyfold within one window"
   },
   "input_sha256": {
     "unblinding": "1fefcb13b6dada160fd35cd4c5a7471812832d555ff787915cabcee068193ef0",
@@ -40,6 +40,6 @@
     "ws_blind_predictions": "769ef5406cf496ef362a9bc48db4dfb793dc90c46b25c003efd4a5774bdfd2be",
     "baseline_out_of_fold": "950e527eb1ad82522e7cc4f4cc7567660b320942ad2b6a03c16e7ad06489e6e5",
     "per_party_bootstrap": "e64280617131cc1ceb84274a2a302bbe3f55bdb31a61aa4117da1bdd4e8a7dcd",
-    "mde": "a68690b5ab4594b5b49d0976cd21962d618f6bb5e51080cdb1807a6983780ffd"
+    "mde": "24c90ca61ec57b3aae4b762c6a1a61a3529f7ed88df103d2ad8c4afd964de5b6"
   }
 }

@@ -240,27 +240,129 @@ def t06_sensitivity_summary(unblinding: dict) -> tuple:
             "unblinding_results.json (register section 16)", rows)
 
 
-def t07_seat_accuracy(unblinding: dict) -> tuple:
-    """Seat-call accuracy per confirmatory specification - the recorded
-    secondary outcome where the MAE and seat endpoints diverge."""
+def _seat_calls(rows: list[dict], share_column: str) -> dict:
+    """Allocate seats from one share column, exactly as the frozen ranker does.
 
+    Reproduces `blinded_2026_predictions._assign_ranks`: order by share
+    descending, break ties on candidate_contest_id so two runs cannot
+    disagree, and elect the contest's number of seats.
+    """
+
+    by_contest: dict[tuple[str, str], list[dict]] = defaultdict(list)
+    for row in rows:
+        by_contest[(row["election_id"], row["division_id"])].append(row)
+    elected: dict[str, bool] = {}
+    for contest_rows in by_contest.values():
+        seats = int(float(contest_rows[0]["analysis_number_of_seats"]))
+        ordered = sorted(contest_rows,
+                         key=lambda r: (-float(r[share_column]),
+                                        str(r["candidate_contest_id"])))
+        for position, row in enumerate(ordered, start=1):
+            elected[row["candidate_contest_id"]] = position <= seats
+    return elected
+
+
+def seat_accuracy_controls(observed: dict) -> dict:
+    """Seat accuracy for the news-free comparators the frozen record omits.
+
+    `unblinding_results.json` scores the news arm's seat calls against the
+    RAW Stage 1 baseline only. The recalibrated control - the model every
+    MAE delta in this project is measured against - was never given a seat
+    allocation, so t07 as first published compared news to the wrong
+    comparator. This builds the missing one, per specification, from the
+    committed prediction files.
+
+    It also records the metric's trivial floor. Every 2026 contest returns
+    two members from a longer field, so most candidate rows are
+    not-elected and a model that elects nobody is right about all of them.
+    Any seat-accuracy figure below that floor is worse than refusing to
+    answer, which is the context the published table lacked.
+    """
+
+    per_spec: dict[tuple[str, str, str], float] = {}
+    floor_rows = floor_correct = 0
+    # v2 only. The v1 prediction file is 20 MB and is deliberately outside
+    # the index (.gitignore), so citing it here would make this pack depend
+    # on a file a fresh clone does not have. v1's control column is left
+    # empty rather than silently filled from an uncommitted source; the
+    # floor and the v2 controls are enough to read the metric.
+    for version in ("v2",):
+        path = SOURCES[f"{version}_predictions"]
+        if not path.exists():
+            continue
+        by_spec: dict[tuple[str, str], list[dict]] = defaultdict(list)
+        with path.open(encoding="utf-8", newline="") as handle:
+            for row in csv.DictReader(handle):
+                if row.get("period_role") != "confirmed_window":
+                    continue
+                by_spec[(row["analysis"], row["period"])].append(row)
+        for (analysis, period), spec_rows in by_spec.items():
+            calls = _seat_calls(spec_rows, "recalibrated_prediction")
+            scored = [r for r in spec_rows
+                      if r["candidate_contest_id"] in observed]
+            correct = sum(
+                1 for r in scored
+                if str(calls[r["candidate_contest_id"]])
+                == str(observed[r["candidate_contest_id"]]["observed_elected"])
+            )
+            per_spec[(version, analysis, period)] = (
+                round(correct / len(scored), 4) if scored else None)
+            if not floor_rows:  # identical across specs; computed once
+                floor_rows = len(scored)
+                floor_correct = sum(
+                    1 for r in scored
+                    if str(observed[r["candidate_contest_id"]]
+                           ["observed_elected"]) == "False")
+    return {
+        "per_specification": per_spec,
+        "elect_nobody_floor": (round(floor_correct / floor_rows, 4)
+                               if floor_rows else None),
+    }
+
+
+def t07_seat_accuracy(unblinding: dict, controls: dict) -> tuple:
+    """Seat-call accuracy per confirmatory specification - the recorded
+    secondary outcome where the MAE and seat endpoints diverge.
+
+    Three comparators, because one is not enough to read the number. The
+    raw baseline is what the frozen record scored against; the
+    recalibrated control is what every MAE delta in the project is
+    measured against and is the like-for-like comparator; the
+    elect-nobody floor is what the metric returns for refusing to answer,
+    and it sits above both, which is the fact that makes the other two
+    hard to over-read.
+    """
+
+    floor = controls["elect_nobody_floor"]
     rows = []
     for version in ("v1", "v2"):
         entries = [e for e in unblinding["files"][version]
                    if e["family"] == "confirmatory"]
         for entry in sorted(entries, key=_window_rank):
+            news = round(entry["metrics"]["seat_accuracy_news"]["accuracy"], 4)
+            control = controls["per_specification"].get(
+                (version, entry["analysis"], entry["period"]))
             rows.append({
                 "version": version,
                 "arm": ARM_LABEL[entry["analysis"]],
                 "window": WINDOW_LABEL[entry["period"]],
-                "news_seat_accuracy": round(
-                    entry["metrics"]["seat_accuracy_news"]["accuracy"], 4),
+                "news_seat_accuracy": news,
+                "recalibrated_control_seat_accuracy": control,
+                "news_vs_recalibrated_control": (
+                    round(news - control, 4) if control is not None else None),
                 "baseline_seat_accuracy": round(
                     unblinding["baseline_seat_accuracy"]["accuracy"], 4),
+                "elect_nobody_floor": floor,
+                "beats_elect_nobody_floor": (
+                    news > floor if floor is not None else None),
             })
     return ("t07_seat_accuracy_by_specification",
-            "Seat-call accuracy per specification (secondary outcome)",
-            "unblinding_results.json (register section 16 addendum)", rows)
+            "Seat-call accuracy per specification, against the recalibrated "
+            "control and the elect-nobody floor (secondary outcome)",
+            "unblinding_results.json plus the committed prediction files; "
+            "the recalibrated control's seat allocation is rebuilt here "
+            "because the frozen record scores only against the raw baseline",
+            rows)
 
 
 def t08_reform_seat_calls(observed: dict) -> tuple:
@@ -661,13 +763,20 @@ def t23_mde_summary(mde: dict) -> tuple:
                     "holdout_2026_v2": "2026 holdout (v2)"}
     scope_label = {"overall_mae": "overall MAE delta",
                    "reform_mae": "Reform MAE delta",
-                   "reform_level": "Reform level change",
+                   "party_level": "party level change",
                    "reform_vs_group_contrast": "Reform-vs-group contrast"}
     rows = [{
         "island": island_label[entry["island"]],
         "scope": scope_label[entry["scope"]],
+        "party": entry["party"] or "-",
         "comparisons": entry["comparisons"],
         "estimable": entry["estimable"],
+        # Estimable comparisons that predicted something no earlier
+        # specification already predicted. Lower than `estimable` wherever
+        # two arms collapse onto one prediction vector, which is the number
+        # a resolution figure is actually summarising.
+        "distinct_estimable": entry.get("distinct_estimable",
+                                        entry["estimable"]),
         "median_mde80": entry.get("median_mde_80", ""),
         "min_mde80": entry.get("min_mde_80", ""),
         "max_mde80": entry.get("max_mde_80", ""),
@@ -675,7 +784,8 @@ def t23_mde_summary(mde: dict) -> tuple:
     return ("t23_mde_summary",
             "Design resolution: 80%-power minimal detectable effects "
             "(share points) - 2021 resolves ~1pt overall / ~2.6pt "
-            "Reform-specific; 2026 v2 resolves ~0.2pt",
+            "Reform-specific; 2026 v2 resolves ~0.2pt; per-party "
+            "thresholds span thirtyfold within one window",
             "mde_results.json (register design-resolution addendum)", rows)
 
 
@@ -707,6 +817,7 @@ def main() -> None:
     bootstrap = json.loads(SOURCES["per_party_bootstrap"].read_text())
     mde = json.loads(SOURCES["mde"].read_text())
     observed = load_observed()
+    seat_controls = seat_accuracy_controls(observed)
 
     tables = [
         t01_baseline_reference(unblinding),
@@ -715,7 +826,7 @@ def main() -> None:
         t04_confirmatory_v1(unblinding),
         t05_confirmatory_v2(unblinding),
         t06_sensitivity_summary(unblinding),
-        t07_seat_accuracy(unblinding),
+        t07_seat_accuracy(unblinding, seat_controls),
         t08_reform_seat_calls(observed),
         t09_attribution(decompositions),
         t10_mechanism_pooled(decompositions),
