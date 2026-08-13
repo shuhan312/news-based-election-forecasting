@@ -129,3 +129,41 @@
 - Build more geographically specific pre-election news features before testing baseline prediction models.
 
 
+## 2026-08-11 - Stage 1 Results Review Call with Mr. Antony Sommerfeld
+**Attendees:** Shuhan Liu, Mr. Antony Sommerfeld
+
+**Discussed:**
+- Went through the Stage 1 model results with Antony, focusing on how to separate the party identity effect from the news tone signal.
+- The party dummy result (+0.83) is the primary finding: it shows the original baseline was under-specified, and party identity accounts for the majority of the predictive improvement.
+- The within-party centre tone result (+0.2291) is a secondary signal. It should not be presented as a separate predictive gain on top of the baseline news result; its value is showing that the news signal is not merely a proxy for party identity.
+- Adding news on top of party dummies only moves the result from 0.83 to 0.85, so the incremental gain is modest. However, the news effect was more consistent across time, holding in 5 of 6 windows against 3 of 6 for party dummies.
+- Caution on the stance-beats-volume finding: stance and volume are correlated at −0.778, so the two overlap substantially and the claim should not be overstated.
+- Reform/baseline error analysis (window 31–19): in 2021 the baseline error of +12.21 dropped to +3.07 after news — a large adjustment, but I flagged that this mainly reflects an unusually large baseline over-prediction rather than consistently strong news evidence. In 2026 the baseline was already a slight under-prediction (−1.33) and news moved it further to −3.16, so the same directional adjustment produces different outcomes depending on where the baseline sits. Clamping also differs sharply between the two elections: 41.2% of reform prediction instances clamped to zero in 2021 vs 5.7% in 2026 (version 1). Antony found these figures hard to interpret without full election context and asked for the details by email.
+- Viva expectations: the panel will be around three people — Antony, the Imperial supervisor, and likely an independent examiner. Examiners this year are focusing hard on whether candidates know their code line by line; presenting results without showing where they come from in the code will not be enough. Antony suggested building a small web app for the viva that takes inputs (party, confidence, data parameters), runs the model live, and displays the relevant code snippets alongside each output so any result can be traced back to a specific function. The viva is arguably the most important element, since it is how examiners verify I actually did the work.
+- Feedback logistics: Antony will return a one-to-two page document with section-by-section improvement notes, not line edits or rewrites.
+
+**Decisions:**
+- Headline framing: party identity explains most of the predictive improvement, but there is a smaller and potentially more stable within-party news tone signal that is not explained by fixed party identity or volume of coverage.
+- The +0.83 party dummy result is the primary finding; the +0.2291 centre tone result is presented as evidence that the news signal is not a proxy for party identity, not as an additional predictive gain.
+- Final model check recommended: put party identity, news volume and within-party centre tone into the same specification and test whether centre tone still adds out-of-sample value after controlling for both.
+- I will send the finalised write-up to Antony by 9am on Monday 24 August; he will review it during his travel week and return notes by around the 26th, leaving a few days for amendments before submission.
+- Viva preparation (the web app demo) starts next week, only after the write-up is finalised and the codebase and results are verified as consistent.
+
+**Pending confirmation:**
+- Whether the Imperial supervisor or Marianne Begg will be the second examiner — Antony to confirm.
+- Final interpretation of the reform/baseline error figures — Antony will respond after receiving the details by email.
+- Whether centre tone survives the combined party + volume + tone specification.
+
+**Action items:**
+- Me: send Email 1 — results and analysis, including the reform/baseline error details discussed on the call (today).
+- Me: send Email 2 — the full codebase via a file-sharing service so Antony can attempt to replicate the results (today).
+- Me: finalise the IRP write-up and send it to Antony by 9am Monday 24 August.
+- Me: after the write-up is sent, start building the viva web app linking model outputs to code (next week).
+- Antony: send the meeting transcript (today).
+- Antony: review the codebase and respond with findings, likely tomorrow afternoon.
+- Antony: review the write-up during his travel week and return section-by-section notes by around the 26th.
+- Antony: confirm the second examiner.
+
+**Next meeting:**
+- No date fixed; next contact by email (Antony responding to the two emails), with further discussion after his review during the week of the 24th.
+
