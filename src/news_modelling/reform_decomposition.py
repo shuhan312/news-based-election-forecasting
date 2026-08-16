@@ -18,6 +18,9 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 import numpy as np
 
 from news_modelling.blinded_2026_predictions import (
@@ -135,6 +138,7 @@ def main() -> None:
         json.dumps(payload, indent=2) + "\n", encoding="utf-8")
 
     write_findings(payload)
+    plot_decomposition(payload)
     print(f"-> {OUT_DIR}")
 
 
@@ -192,6 +196,94 @@ def write_findings(payload: dict) -> None:
     (OUT_DIR / "reform_decomposition_findings.md").write_text(
         "\n".join(lines), encoding="utf-8")
     print("\n".join(lines))
+
+
+def plot_decomposition(payload: dict) -> None:
+    arms = payload["arms"]
+    frozen = arms["frozen"]
+    dummies = arms["placebo_party_dummies"]
+
+    labels = [w["window"].replace("_to_", "–").replace("_", " ")
+              for w in frozen]
+
+    fig, axes = plt.subplots(1, 2, figsize=(14, 5.5),
+                             gridspec_kw={"width_ratios": [3, 1.2]})
+
+    # --- Left panel: frozen arm by window ---
+    ax = axes[0]
+    x = np.arange(len(labels))
+    w = 0.28
+
+    reform_d = [r["reform"]["delta"] for r in frozen]
+    non_reform_d = [r["non_reform"]["delta"] for r in frozen]
+    overall_d = [r["all"]["delta"] for r in frozen]
+
+    bars_r = ax.bar(x - w, reform_d, w, label="Reform UK (n=162)",
+                    color="#d32f2f", alpha=0.85)
+    bars_n = ax.bar(x, non_reform_d, w, label="Non-Reform (n=591)",
+                    color="#1976d2", alpha=0.85)
+    bars_o = ax.bar(x + w, overall_d, w, label="Overall (n=753)",
+                    color="#757575", alpha=0.65)
+
+    for bars in (bars_r, bars_n, bars_o):
+        for bar in bars:
+            v = bar.get_height()
+            ax.text(bar.get_x() + bar.get_width() / 2,
+                    v + (0.04 if v >= 0 else -0.12),
+                    f"{v:+.2f}", ha="center", va="bottom" if v >= 0 else "top",
+                    fontsize=7)
+
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels, fontsize=8)
+    ax.set_ylabel("MAE delta (positive = news helped)")
+    ax.set_title("Frozen specification: Reform vs non-Reform delta by window",
+                 fontsize=10, fontweight="bold")
+    ax.axhline(0, color="black", linewidth=0.8)
+    ax.legend(fontsize=8, loc="lower left")
+
+    # --- Right panel: three arms at 90-31 days ---
+    ax2 = axes[1]
+    arm_labels = ["frozen\n(news)", "party\ndummies", "Reform\ndummy only"]
+    arm_keys = ["frozen", "placebo_party_dummies", "placebo_reform_dummy"]
+
+    reform_vals = []
+    non_reform_vals = []
+    for k in arm_keys:
+        row = next(r for r in arms[k] if r["window"] == "90_to_31_days")
+        reform_vals.append(row["reform"]["delta"])
+        non_reform_vals.append(row["non_reform"]["delta"])
+
+    x2 = np.arange(len(arm_labels))
+    w2 = 0.32
+    b_r = ax2.bar(x2 - w2 / 2, reform_vals, w2, label="Reform",
+                  color="#d32f2f", alpha=0.85)
+    b_n = ax2.bar(x2 + w2 / 2, non_reform_vals, w2, label="Non-Reform",
+                  color="#1976d2", alpha=0.85)
+
+    for bars in (b_r, b_n):
+        for bar in bars:
+            v = bar.get_height()
+            ax2.text(bar.get_x() + bar.get_width() / 2,
+                     v + (0.03 if v >= 0 else -0.06),
+                     f"{v:+.2f}", ha="center",
+                     va="bottom" if v >= 0 else "top", fontsize=8)
+
+    ax2.set_xticks(x2)
+    ax2.set_xticklabels(arm_labels, fontsize=8)
+    ax2.set_title("Three arms at 90–31 days", fontsize=10,
+                  fontweight="bold")
+    ax2.axhline(0, color="black", linewidth=0.8)
+    ax2.legend(fontsize=8)
+
+    fig.suptitle(
+        "Reform vs non-Reform: the overall delta hides opposite movements",
+        fontsize=12, fontweight="bold", y=1.01)
+    fig.tight_layout()
+
+    out = OUT_DIR / "fig7_reform_decomposition.png"
+    fig.savefig(out, dpi=150, bbox_inches="tight")
+    plt.close(fig)
+    print(f"-> {out}")
 
 
 if __name__ == "__main__":
