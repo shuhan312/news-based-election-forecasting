@@ -180,6 +180,16 @@ V1_EXCLUDED_TRANCHES = frozenset(
 # Issue codes aggregated into the six pre-registered issue features. Anything
 # outside this map lands in `issue_other`, which is reported rather than
 # dropped: an issue the taxonomy does not cover is a fact about the coverage.
+#
+# Known defect, kept verbatim (2026-08-14): these members were drafted from
+# the feature plan's shorthand, not from the extraction prompt's `issue_code`
+# enum, so `crime_policing`, `planning_housing`, `waste_recycling` and
+# `schools_send` never match and 166 coded records route to `issue_other`
+# (61/50/5/50). The frozen v1/v2 tables were built with this map, their
+# byte-identical rebuild tests pin it, and the blinded-freeze rule forbids
+# regeneration - so the defect stays here, on the record. Future builds must
+# pass ISSUE_GROUPS_CORRECTED explicitly; `tests/test_issue_group_mapping.py`
+# pins both behaviours.
 ISSUE_GROUPS = {
     "immigration": ("immigration", "asylum", "small_boats"),
     "crime_policing": ("crime", "policing", "antisocial_behaviour"),
@@ -189,6 +199,20 @@ ISSUE_GROUPS = {
                          "council_tax", "council_performance"),
     "national_politics": ("national_politics", "national_economy",
                           "party_leadership", "scandal"),
+}
+
+# The corrected map for any post-freeze (v3+) build: member strings taken
+# from the extraction prompt's `issue_code` enum itself.
+ISSUE_GROUPS_CORRECTED = {
+    "immigration": ("immigration",),
+    "crime_policing": ("crime_policing",),
+    "housing_planning": ("planning_housing",),
+    "council_services": ("council_finance", "council_tax",
+                         "roads_transport", "waste_recycling",
+                         "social_care", "schools_send",
+                         "council_performance"),
+    "national_politics": ("national_politics", "national_economy",
+                          "scandal"),
 }
 
 
@@ -248,10 +272,10 @@ def primary_issue(record: dict) -> str | None:
     return value or None
 
 
-def issue_group(code: str | None) -> str:
+def issue_group(code: str | None, groups: dict = ISSUE_GROUPS) -> str:
     if not code:
         return "none"
-    for group, members in ISSUE_GROUPS.items():
+    for group, members in groups.items():
         if code in members:
             return group
     return "issue_other"

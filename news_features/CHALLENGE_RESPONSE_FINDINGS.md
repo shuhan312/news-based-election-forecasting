@@ -428,3 +428,32 @@ right rather than merely sufficient.
   It is the obvious pre-registered hypothesis for a future election.
 - Whether local coverage would change any of it. The E5 local triage failed
   at kappa 0.4762, which is why the corpus is 91.7 per cent national.
+
+## Correction (2026-08-14): the "near-absent" issue buckets were a mapping defect
+
+Section 3.3 above records that `crime_policing` and `housing_planning`
+"carry 1 distinct value before and after" and calls them "genuinely
+near-absent from this corpus". The first half is true; the diagnosis is
+superseded. `ISSUE_GROUPS` in `src/news_features/build_feature_table.py`
+was drafted from the feature plan's shorthand ("crime", "housing", ...)
+rather than from the extraction prompt's `issue_code` enum, so the enum
+values `crime_policing`, `planning_housing`, `waste_recycling` and
+`schools_send` never matched any bucket. Across the deduplicated
+extraction record that is 166 coded articles (61 / 50 / 5 / 50) routed
+to `issue_other` - the coverage exists; the map could not see it.
+
+Disposition, per the freeze rules:
+
+- The frozen v1/v2 feature tables were built with the defective map and
+  are **not regenerated**; their byte-identical rebuild tests pin the
+  defective map in place, and `tests/test_issue_group_mapping.py` now
+  asserts the defect explicitly so it cannot be "fixed" by accident.
+- A corrected map (`ISSUE_GROUPS_CORRECTED`, member strings taken from
+  the enum itself) is available to any post-freeze build, and the same
+  test file pins every enum value's corrected routing.
+- No committed analysis changes. The confirmatory arms never read issue
+  columns; the exploratory content-feature results already excluded the
+  empty buckets via the distinct-value gates. The affected claims are
+  descriptive: `issue_other` (27.6% of v1 issue records) is inflated by
+  the misrouted articles, and no statement that crime or housing
+  coverage "was absent" survives this correction.
