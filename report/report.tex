@@ -1,0 +1,94 @@
+% Document class `report-template` accepts either project-plan or final-report option in
+% []. This will change the title page as necessary.
+%\documentclass[project-plan]{report-template}
+\documentclass[final-report]{report-template}
+
+% Packages I use in my report.
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{blindtext}
+
+% Directory where I saved my figures.
+\graphicspath{{./figures/}}
+
+% Metadata used for the title page - please modify.
+\university{Imperial College London}
+\department{Department of Earth Science and Engineering}
+\course{MSc in Applied Computational Science and Engineering}
+\title{Computational modelling and simulation of a particle in vertical motion}
+\author{Mickey Mouse}
+\email{m.mouse@imperial.ac.uk}
+\githubusername{esemsc-mm123}
+\supervisors{Dr Bugs Bunny\\
+             Prof. Donald Duck}
+\repository{https://github.com/ada-lovelace-academy/irp-mm123}
+\usepackage{csquotes}
+
+\usepackage[
+  backend=biber,
+  style=apa,
+  sorting=nyt,
+  doi=true,
+  url=true,
+  isbn=false
+]{biblatex}
+
+\addbibresource{references.bib}
+\begin{document}
+
+\maketitlepage  % generate title page
+
+% Abstract
+\section*{Abstract}
+Traditional election predictions mainly rely on historical voting patterns and regional party strengths. However, such lagging indicators may have limited effectiveness for emerging political parties that lack stable local election records. This paper takes the Surrey local election as a case study to investigate whether pre-election local news and national political news can improve the prediction of party vote shares beyond historical election data, with a particular focus on Reform UK. This study constructed a candidate-level dataset covering the elections in Surrey in 2013, 2017, 2021 and 2026, and handled the boundary changes between the historical divisions and the 2026 wards according to the pre-defined geographical comparability rules. The local news of Surrey and the national political news of the UK are handled separately. A large language model is used to assist in making judgments based on rules regarding relevance, geographical scope, and potential result leaks. At the same time, the classification results and their textual evidence are retained to ensure that the process is auditable.The articles that meet the conditions are then aggregated by election, region and pre-election time window to form news features, and are combined with historical vote rates, previous participation situations and regional party strengths to be used for comparing the prediction performance of the news-free baseline model and the news-enhanced model. This study first established a regularized non-news baseline model, and then compared it with models that incorporated local news, national news, and combinations of both. The models were evaluated in chronological order, and the average absolute error and root mean square error were used to test whether news could provide additional predictive value beyond historical election data.
+
+% Introduction section
+\section{Introduction}
+National opinion polls alone cannot determine the specific voting outcome in each constituency, so constituency-level forecasts usually also incorporate local demographic characteristics and historical election results. For instance, multilevel regression and post-stratification (MRP) combines opinion polls, census data, and historical election results to estimate party support across electoral districts \parencite{LAUDERDALE2020399}. Historical electoral information is also used more directly in aggregate
+forecasting. In 2015 UK general election, local government election results were used to estimate the national equivalent vote and Council by-election results were also used to track recent changes in party support. Together, these data informed forecasts of national vote shares and seat outcomes \parencite{RALLINGS2016}. These approaches establish historical electoral performance as an important benchmark for assessing additional predictive signals. However, when the electoral boundaries change, or when a certain political party lacks a continuous history of local elections, the role of such information may be reduced. Both limitations apply in Surrey: historical county divisions are not always directly comparable with the 2026 wards, and Reform UK has a limited and discontinuous local electoral history within the county. Therefore, Surrey  provides a suitable case study for examining whether pre-election news adds predictive information beyond the historical baseline.
+
+The historical election results fail to reflect the new political developments that emerged during the campaign period. Therefore, the campaign period news may provide more timely information. Burnap et al. combined Twitter sentiment analysis with previous party support data to conduct pre-election predictions for the 2015 UK general election. When the source of a tweet cannot be reliably identified, it is also difficult to predict which political parties with strong support are concentrated in specific regions\parencite{BURNAP2016}.This shows s single sentiment score provides only limited information and cannot adequately capture what a political event is about, which actors it involves, or which areas it affects. In broader time-series forecasting research, Wang et al. used LLM-based agents to filter irrelevant news before combining selected events with numerical data. This suggests that news should be screened separately before being used for prediction\parencite{WANG2024}.Based on this, the study processes Surrey local news and UK national
+political news separately. Each article is then screened by an LLM using predefined criteria for political relevance, geographic scope, and potential election-result leakage.
+
+According to those background, this study will examines whether pre-election news can improves predictions of later election outcomes beyond historical electoral data. Those will considers both Surrey local news and UK national political news, with
+particular attention to Reform UK. This study uses candidate-level data from Surrey elections in 2013, 2017, 2021, and 2026, and applies predefined geographic comparability rules to determine which historical county divisions can be compared with the 2026 wards. A regularised no-news baseline is compared with models incorporating local news, national news, and both sources together. The models are trained on earlier elections and tested on
+later elections. The study measures prediction errors using mean absolute error and root mean squared error.The study contributes an auditable framework for testing whether news adds predictive value beyond historical electoral information. This framework combines geographic validation, news processing restricted to
+pre-election information to avoid future information leakage, and comparison with a historical baseline.
+
+% Another section
+\section{Methods}
+In this work, we wrote a simulation package for calculating the position of a particle in vertical motion as shown in Fig.~\ref{fig:experiment}. We compute the position $y(t)$ at time $t$ using:
+
+% Equation
+\begin{equation}
+    \label{eq:vertical-position}
+    y(t) = v_{0}t - \frac{1}{2}gt^{2},
+\end{equation}
+
+where $v_{0}$ is the initial velocity, and $g$ is the acceleration due to the Earth's gravity.
+
+
+Python code we implemented for computing $y(t)$ is:
+
+% Code listing
+\begin{lstlisting}[language=Python]
+def position(t, v0=0, g=9.81):
+    """Position of a particle in verticle motion."""
+    return v0*t - 0.5*g*t**2
+\end{lstlisting}
+
+We made our computational workflows reproducible using Jupyter~\cite{Beg2021}.
+
+\section{Results}
+\blindtext[3]
+
+\section{Discussion}
+\blindtext[4]
+
+\section{Conclusion}
+\blindtext[2]
+
+% References
+\printbibliography[title={References}]  % BibTeX references are saved in references.bib
+
+\end{document}          
