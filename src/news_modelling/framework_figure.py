@@ -40,6 +40,11 @@ PROTOCOL = Path(
 TRAINING = Path(
     "surrey-election-no-news-baseline/outputs/model_bundle_v1/"
     "training_rows.csv")
+OOF = Path(
+    "surrey-election-no-news-baseline/outputs/model_bundle_v1/"
+    "out_of_fold_predictions.csv")
+CORPUS_V1 = Path("news_features/news_feature_table_v1_metadata.json")
+CORPUS_V2 = Path("news_features/news_feature_table_v2_metadata.json")
 OUTPUT = Path("outputs/report_figures_v1")
 
 
@@ -59,10 +64,18 @@ def main() -> None:
     with TRAINING.open(encoding="utf-8-sig") as handle:
         training_rows = sum(1 for _ in csv.DictReader(handle))
 
+    with OOF.open(encoding="utf-8-sig") as handle:
+        oof_rows = sum(1 for _ in csv.DictReader(handle))
+    corpus_v1 = json.loads(CORPUS_V1.read_text(encoding="utf-8"))
+    corpus_v2 = json.loads(CORPUS_V2.read_text(encoding="utf-8"))
+
     assert enrichment["general_election_cells"] == 11
     assert protocol["fitting_rows"] == 45
     assert protocol["blinded_candidate_rows"] == 832
     assert training_rows == 1150
+    assert oof_rows == 792
+    assert corpus_v1["corpus_size"] == 1632
+    assert corpus_v2["corpus_size"] == 2259
 
     fig, ax = plt.subplots(figsize=(11.5, 8.2))
     ax.set_xlim(0, 11.5)
@@ -80,12 +93,13 @@ def main() -> None:
     _arrow(ax, (2.2, 6.3), (2.2, 5.65))
 
     _box(ax, (4.6, 6.3), 2.9, 0.95, "Out-of-fold residuals",
-         "observed − predicted")
+         "observed − predicted · 792 rows")
     _arrow(ax, (3.9, 6.775), (4.6, 6.775))
 
     # --- Stage 2 chain (right) ------------------------------------------
-    _box(ax, (7.9, 7.9), 3.1, 0.95, "News features",
-         "party article share · net portrayal share")
+    _box(ax, (7.9, 7.85), 3.1, 1.0, "News features",
+         "party article share · net portrayal share\n"
+         "v1: 1,632 · v2: 2,259 articles")
     _box(ax, (7.9, 6.3), 3.1, 0.95, "Stage 2: Ridge per window",
          "election × party cells · v1: 11, v2: 45")
     _box(ax, (7.9, 4.7), 3.1, 0.95, "News adjustment",
@@ -109,8 +123,8 @@ def main() -> None:
     # --- Freeze line and sealed evaluation ------------------------------
     ax.plot([0.3, 11.2], [2.35, 2.35], color=ORANGE, linewidth=1.6,
             linestyle=(0, (6, 4)), zorder=2)
-    ax.text(11.15, 2.08, "predictions frozen and SHA-256-locked above\n"
-            "this line before the 2026 results were read",
+    ax.text(11.15, 2.08, "predictions frozen above this line\n"
+            "before the 2026 results were read",
             fontsize=9, color=ORANGE, style="italic", ha="right", va="top")
     _box(ax, (2.9, 0.45), 5.7, 1.1, "Sealed 2026 evaluation",
          "East + West Surrey · 832 candidates\n"

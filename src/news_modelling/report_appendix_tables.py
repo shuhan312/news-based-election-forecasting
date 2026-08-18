@@ -92,8 +92,16 @@ def sensitivity_summary() -> None:
     fit_names = {"fit_2017_only": "2017 only",
                  "pooled_2017_2021": "2017 + 2021",
                  "pooled_2017_2021_byelections": "2017 + 2021 + by-elections"}
+    period_short = {
+        "180_to_91_days": "91--180d", "90_to_31_days": "31--90d",
+        "30_to_15_days": "15--30d", "14_to_8_days": "8--14d",
+        "7_to_4_days": "4--7d", "final_72_hours": "1--3d",
+        "previous_72_hours": "prev 72h", "previous_7_days": "prev 7d",
+        "previous_14_days": "prev 14d", "previous_30_days": "prev 30d",
+        "previous_90_days": "prev 90d", "previous_180_days": "prev 180d",
+    }
     data = json.loads(UNBLINDING.read_text(encoding="utf-8"))
-    groups: dict[tuple, list[float]] = {}
+    groups: dict[tuple, list[tuple[float, str]]] = {}
     for version in ("v1", "v2"):
         for entry in data["files"][version]:
             if entry.get("family") == "confirmatory":
@@ -102,20 +110,23 @@ def sensitivity_summary() -> None:
                 "news_vs_recalibrated_mae"]
             key = (version, entry["fit_variant"], entry["analysis"],
                    entry["period_role"])
-            groups.setdefault(key, []).append(delta)
+            groups.setdefault(key, []).append(
+                (delta, period_short[entry["period"]]))
     role_names = {"confirmed_window": "confirmed",
                   "cumulative_sensitivity": "cumulative"}
     rows = []
     for (version, fit, family, role), deltas in sorted(groups.items()):
+        best_delta, best_period = max(deltas)
         rows.append([
             version, fit_names[fit], family_names[family], role_names[role],
-            str(len(deltas)), str(sum(1 for d in deltas if d > 0)),
-            f"{max(deltas):+.3f}", f"{min(deltas):+.3f}",
+            str(len(deltas)), str(sum(1 for d, _ in deltas if d > 0)),
+            f"{best_delta:+.3f} ({best_period})",
+            f"{min(d for d, _ in deltas):+.3f}",
         ])
     assert sum(int(r[4]) for r in rows) == 84
     _write("a3_sensitivity_summary.tex", "llllrrrr",
            ["version", "fitted on", "news arm", "windows", "n",
-            "improved", r"best $\Delta$", r"worst $\Delta$"], rows)
+            "improved", r"best $\Delta$ (window)", r"worst $\Delta$"], rows)
 
 
 def seat_accuracy() -> None:
@@ -378,6 +389,168 @@ def predictors() -> None:
            ["predictor", "meaning"], rows)
 
 
+def cumulative_results() -> None:
+    """Every v2 cumulative-window comparison, one row per specification.
+
+    Same frozen unblinding record as a3; this table expands the three v2
+    cumulative summary rows into their 18 underlying comparisons so each
+    window's result is visible. Cumulative windows carry no bootstrap
+    intervals - they are sensitivity analyses by the pre-declared rule.
+    """
+    window_names = {
+        "previous_72_hours": "previous 72 hours",
+        "previous_7_days": "previous 7 days",
+        "previous_14_days": "previous 14 days",
+        "previous_30_days": "previous 30 days",
+        "previous_90_days": "previous 90 days",
+        "previous_180_days": "previous 180 days",
+    }
+    window_order = list(window_names)
+    arm_names = {"combined_exploratory": "combined",
+                 "national_exploratory": "national",
+                 "local_sensitivity": "local"}
+    arm_order = ["combined_exploratory", "national_exploratory",
+                 "local_sensitivity"]
+    data = json.loads(UNBLINDING.read_text(encoding="utf-8"))
+    entries = [e for e in data["files"]["v2"]
+               if e["period_role"] == "cumulative_sensitivity"]
+    assert len(entries) == 18, len(entries)
+    entries.sort(key=lambda e: (arm_order.index(e["analysis"]),
+                                window_order.index(e["period"])))
+    rows = []
+    for entry in entries:
+        overall = entry["metrics"]["all_supported_parties"]
+        reform = entry["metrics"]["reform_uk"]
+        rows.append([
+            arm_names[entry["analysis"]], window_names[entry["period"]],
+            f"{overall['news_enhanced']['mae']:.4f}",
+            f"{overall['news_vs_recalibrated_mae']:+.4f}",
+            f"{reform['news_vs_recalibrated_mae']:+.4f}",
+        ])
+    assert rows[2][3] == "+0.6101"
+    _write("a12_cumulative_results.tex", "llrrr",
+           ["news arm", "window", "news MAE", r"$\Delta$MAE",
+            r"Reform $\Delta$"], rows)
+
+
+DIVISION_SAMPLE = Path("news_protocol/division_sample.csv")
+PLACEBOS = Path("news_features/placebo_specifications_v1/"
+                "placebo_results.json")
+
+
+def division_sample() -> None:
+    """The 17 local-search areas with the pre-registered reason each was picked.
+
+    Reads the committed sampling record; the evidence strings are compressed
+    to the stratum name plus its key number (margin or Reform share), with
+    the full provenance left in news_protocol/division_sample.md.
+    """
+    with DIVISION_SAMPLE.open(encoding="utf-8") as handle:
+        records = list(csv.DictReader(handle))
+    assert len(records) == 17, len(records)
+    rows = []
+    for rec in records:
+        reasons = []
+        for stratum in rec["strata"].split("; "):
+            evidence = rec["evidence"]
+            margin = re.search(r"2021 winning margin ([\d.]+)pp", evidence)
+            share = re.search(r"2026 Reform UK vote share ([\d.]+)%", evidence)
+            if stratum == "Safe":
+                reasons.append(f"safe seat (2021 margin {margin.group(1)}pp)")
+            elif stratum == "Marginal":
+                reasons.append(
+                    f"marginal seat (2021 margin {margin.group(1)}pp)")
+            elif stratum == "Changed":
+                reasons.append("winning party changed 2021--2026")
+            elif stratum == "Reform strong":
+                reasons.append(
+                    f"strongest 2026 Reform UK share ({share.group(1)}\\%)")
+            else:
+                reasons.append(_escape(stratum.lower()))
+        rows.append([_escape(rec["division"]), "; ".join(reasons)])
+    _write("a11_division_sample.tex",
+           r"p{0.40\linewidth}p{0.52\linewidth}",
+           ["electoral area", "pre-registered selection reason"], rows)
+
+
+def content_features() -> None:
+    """The seven pre-declared content features, both testable windows.
+
+    Reads the committed placebo-specification record. Each feature was
+    fixed before any was fitted and added one at a time to the frozen
+    pair; the comparison bar is the volume-plus-stance arm (+0.3413 at
+    31--90 days), the best arm carrying no judgement about article
+    content. The all-seven-at-once row is the pre-expected overfitting
+    check. Only the 91--180 and 31--90 day windows admit any content
+    feature under the ten-value reporting bar, so both are shown; at
+    91--180 days every content feature is negative or indistinguishable
+    from zero, matching the frozen effect's own sign there.
+    """
+    feature_names = {
+        "content_party_frame_incumbent_judgement_share":
+            "framing: incumbent judgement",
+        "content_party_issue_issue_other_share": "issue: other",
+        "content_party_issue_immigration_share": "issue: immigration",
+        "content_party_frame_challenger_emergence_share":
+            "framing: challenger emergence",
+        "content_party_frame_local_impact_share": "framing: local impact",
+        "content_party_issue_national_politics_share":
+            "issue: national politics",
+        "content_party_frame_voter_discontent_share":
+            "framing: voter discontent",
+    }
+    data = json.loads(PLACEBOS.read_text(encoding="utf-8"))
+    arms = data["arms"]
+
+    def at_window(arm: str, window: str) -> dict:
+        (entry,) = [r for r in arms[arm] if r["window"] == window]
+        return entry
+
+    def cell(arm: str, window: str) -> str:
+        entry = at_window(arm, window)
+        return (f"{entry['delta_vs_recalibrated']:+.4f} "
+                f"{_ci_from(entry)}")
+
+    bar = at_window("placebo_volume_tone",
+                    "90_to_31_days")["delta_vs_recalibrated"]
+    assert f"{bar:+.4f}" == "+0.3413", bar
+    rows = [["volume + stance (the bar)",
+             cell("placebo_volume_tone", "180_to_91_days"),
+             cell("placebo_volume_tone", "90_to_31_days"), "--"]]
+    content = sorted(
+        (name for name in arms if name in feature_names),
+        key=lambda n: -at_window(n, "90_to_31_days")
+        ["delta_vs_recalibrated"])
+    assert len(content) == 7, content
+    above = 0
+    for name in content:
+        entry = at_window(name, "90_to_31_days")
+        clears = entry["ci_lower"] > bar
+        above += clears
+        rows.append([feature_names[name],
+                     cell(name, "180_to_91_days"),
+                     cell(name, "90_to_31_days"),
+                     "yes" if clears else "no"])
+    assert above == 1, above
+    assert rows[1][0] == "framing: incumbent judgement"
+    assert rows[1][2] == "+0.5718 [+0.3864, +0.7533]", rows[1][2]
+    assert rows[1][1] == "-0.6094 [-0.9676, -0.2810]", rows[1][1]
+    joint = at_window("content_all_eligible", "90_to_31_days")
+    assert f"{joint['delta_vs_recalibrated']:+.4f}" == "-0.6635"
+    rows.append(["all seven at once",
+                 cell("content_all_eligible", "180_to_91_days"),
+                 cell("content_all_eligible", "90_to_31_days"), "no"])
+    eligible = data["eligible_content_features_by_window"]
+    assert sum(bool(v) for v in eligible.values()) == 2, eligible
+    _write("a13_content_features.tex", "lrrc",
+           ["arm", r"$\Delta$MAE, 91--180 days",
+            r"$\Delta$MAE, 31--90 days", "CI above bar"], rows)
+
+
+def _ci_from(entry: dict) -> str:
+    return f"[{entry['ci_lower']:+.4f}, {entry['ci_upper']:+.4f}]"
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     predictors()
@@ -391,6 +564,9 @@ def main() -> None:
     haslemere_probe()
     blind_tests()
     mde_summary()
+    division_sample()
+    cumulative_results()
+    content_features()
 
 
 if __name__ == "__main__":
