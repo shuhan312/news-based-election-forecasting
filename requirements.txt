@@ -1,9 +1,31 @@
-requests
-python-dotenv
-pandas
-beautifulsoup4
-matplotlib
-openpyxl
-pymupdf
-langdetect
-anthropic
+# Runtime and test dependencies for the main pipeline (collection,
+# LLM extraction, features, Stage 2 modelling, report pack, viva pack,
+# Streamlit app). Bounds rather than exact pins, in the same style as
+# surrey-election-no-news-baseline/requirements.txt; the versions the
+# committed artefacts were last built against are listed in the
+# comment after each bound. Python 3.14 (developed on 3.14.6).
+#
+# The Stage 1 subproject declares its own dependencies (including
+# lightgbm) in surrey-election-no-news-baseline/requirements.txt.
+
+# --- collection / parsing --------------------------------------------------
+requests>=2.32,<3          # built against 2.34.2
+python-dotenv>=1.0,<2      # 1.2.2
+beautifulsoup4>=4.12,<5    # 4.15.0
+pymupdf>=1.24,<2           # 1.28.0
+langdetect>=1.0.9,<2       # 1.0.9
+
+# --- LLM extraction --------------------------------------------------------
+anthropic>=0.34,<1         # 0.119.0
+jsonschema>=4.21,<5        # 4.26.0
+
+# --- features / modelling / tables -----------------------------------------
+numpy>=1.26,<3             # 2.5.1
+scipy>=1.11,<2             # 1.18.0
+pandas>=2.1,<4             # 3.0.3
+matplotlib>=3.8,<4         # 3.11.0
+openpyxl>=3.1,<4           # 3.1.5
+
+# --- app / tests -----------------------------------------------------------
+streamlit>=1.36,<2         # 1.59.2
+pytest>=8.0,<9             # 8.4.2
