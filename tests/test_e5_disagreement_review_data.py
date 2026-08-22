@@ -1,11 +1,23 @@
 """Tests for the human E5 disagreement-review dataset."""
 
+from pathlib import Path
+
+import pytest
+
 from src.news_collection.build_e5_disagreement_review_data import (
     _exact_place_matches,
     build_review_rows,
 )
 
+# The query inventory is derivable runtime state of the collection runner
+# (see .gitignore); a fresh clone skips the tests that rebuild from it.
+_needs_query_inventory = pytest.mark.skipif(
+    not Path("news_collection/query_inventory.csv").exists(),
+    reason="requires the derivable query inventory (collection runner state)",
+)
 
+
+@_needs_query_inventory
 def test_frozen_v1_sources_produce_48_hard_e5_disagreements():
     rows = build_review_rows()
     assert len(rows) == 48
@@ -17,6 +29,7 @@ def test_frozen_v1_sources_produce_48_hard_e5_disagreements():
     )
 
 
+@_needs_query_inventory
 def test_diagnostic_fields_begin_unadjudicated():
     rows = build_review_rows()
     diagnostic_fields = (
@@ -45,6 +58,7 @@ def test_diagnostic_fields_begin_unadjudicated():
     )
 
 
+@_needs_query_inventory
 def test_review_rows_preserve_both_source_decisions_and_evidence():
     rows = build_review_rows()
     assert all(row["human_reason_code"].startswith("E5-") for row in rows)
@@ -61,6 +75,7 @@ def test_review_rows_preserve_both_source_decisions_and_evidence():
     )
 
 
+@_needs_query_inventory
 def test_missing_local_ward_context_is_explicit_not_inferred():
     rows = build_review_rows()
     local_rows = [row for row in rows if row["arm"] == "local"]
@@ -69,6 +84,7 @@ def test_missing_local_ward_context_is_explicit_not_inferred():
     assert sum(row["query_context_missing"] == "yes" for row in rows) == 1
 
 
+@_needs_query_inventory
 def test_geographic_matching_produces_candidates_not_final_decisions():
     rows = build_review_rows()
     local_rows = [row for row in rows if row["arm"] == "local"]
@@ -93,6 +109,7 @@ def test_geographic_matching_produces_candidates_not_final_decisions():
     assert all(row["linkage_decision"] == "" for row in local_rows)
 
 
+@_needs_query_inventory
 def test_place_matching_uses_complete_names_and_preserves_evidence():
     rows = build_review_rows()
     redhill_mention = next(

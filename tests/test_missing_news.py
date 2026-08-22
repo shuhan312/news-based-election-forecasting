@@ -16,6 +16,13 @@ AGG_CSV = Path("news_features/context_aggregated_features.csv")
 CONTRIB = Path("news_features/context_aggregation_contributions.json")
 WEIGHTED = Path("news_features/recency_weighted_features.parquet")
 FROZEN = Path("llm_context/llm_context_layer_final.json")
+
+# The frozen LLM context layer stays out of git (copyright; OneDrive copy),
+# so a fresh clone skips the rebuild test that reads it.
+_needs_frozen_llm = pytest.mark.skipif(
+    not FROZEN.exists(),
+    reason="requires llm_context_layer_final.json (OneDrive; README large-artefacts table)",
+)
 MANIFEST = Path("llm_context/llm_context_version_manifest.json")
 
 KEY = ["election_id", "geographic_target_id", "focal_party_id",
@@ -237,6 +244,7 @@ def test_invalid_combinations_marked_not_applicable(grid):
 
 
 @needs_data
+@_needs_frozen_llm
 def test_deterministic_rebuild_and_previous_outputs_unchanged():
     m = json.loads(MANIFEST.read_text())
     assert sha256_file(FROZEN) \

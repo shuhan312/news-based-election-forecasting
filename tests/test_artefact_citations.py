@@ -73,7 +73,15 @@ def test_every_pack_source_is_committed():
 def test_local_by_design_exceptions_hold():
     """Each exception must exist, stay ignored and stay untracked -
     all three checks, so the table cannot silently rot in either
-    direction (file vanished, or file was committed after all)."""
+    direction (file vanished, or file was committed after all).
+
+    On a fresh clone none of the local-by-design artefacts exist yet
+    (they live on OneDrive; see the README large-artefacts table), so the
+    whole check is skipped. A partial absence on a working machine still
+    fails: that is the file-vanished case this test exists to catch."""
+
+    if not any((ROOT / path).exists() for path in LOCAL_BY_DESIGN):
+        pytest.skip("fresh clone: local-by-design artefacts live on OneDrive")
 
     tracked = _tracked_files()
     for path, reason in LOCAL_BY_DESIGN.items():

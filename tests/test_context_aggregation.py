@@ -13,6 +13,12 @@ AGG_CSV = Path("news_features/context_aggregated_features.csv")
 CONTRIB = Path("news_features/context_aggregation_contributions.json")
 ART_CSV = Path("news_features/article_level_news_features.csv")
 FROZEN = Path("llm_context/llm_context_layer_final.json")
+
+# Same local-by-design boundary as test_missing_news: skip on a fresh clone.
+_needs_frozen_llm = pytest.mark.skipif(
+    not FROZEN.exists(),
+    reason="requires llm_context_layer_final.json (OneDrive; README large-artefacts table)",
+)
 MANIFEST = Path("llm_context/llm_context_version_manifest.json")
 
 needs_data = pytest.mark.skipif(
@@ -160,6 +166,7 @@ def test_cumulative_nesting_monotone(agg):
 
 
 @needs_data
+@_needs_frozen_llm
 def test_deterministic_rebuild_and_previous_unchanged():
     m = json.loads(MANIFEST.read_text())
     assert sha256_file(FROZEN) \

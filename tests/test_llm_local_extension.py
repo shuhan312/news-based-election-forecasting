@@ -8,6 +8,13 @@ from pathlib import Path
 
 import pytest
 
+# The round-two local review queue is a regenerable collection output kept
+# out of git; a fresh clone skips the tests that read it.
+_needs_round2_queue = pytest.mark.skipif(
+    not Path("news_collection/e5_local_review_queue_round2.csv").exists(),
+    reason="requires the regenerable round-two local queue (build_e5_local_queue)",
+)
+
 from src.news_collection import assemble_corpus_decisions as assembly
 from src.news_collection import build_e5_local_queue as local_queue
 from src.news_collection import run_llm_corpus_batch_v2 as original
@@ -23,6 +30,7 @@ def test_extension_paths_cannot_overwrite_original_batch():
     assert extension.SHEET != original.SHEET
 
 
+@_needs_round2_queue
 def test_dry_run_describes_the_current_queue_without_an_api_call():
     """The manifest reconciles all 1,060 rows before money is spent."""
 
@@ -36,6 +44,7 @@ def test_dry_run_describes_the_current_queue_without_an_api_call():
     assert manifest["decision_ownership"]["E5"].startswith("human")
 
 
+@_needs_round2_queue
 def test_request_set_is_deterministic():
     """Repeated dry runs over unchanged inputs must identify the same batch."""
 

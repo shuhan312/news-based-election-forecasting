@@ -39,6 +39,16 @@ def payload():
 
 # ---- the diagnostic must not read an outcome -------------------------
 
+# The ward-grain parquet is a local-by-design artefact (OneDrive copy; see
+# the README's large-artefacts table), so a fresh clone skips these two.
+_needs_ward_parquet = pytest.mark.skipif(
+    not Path("news_features/ward_party_election_features_v1/"
+             "ward_party_election_features.parquet").exists(),
+    reason="requires the local ward-grain parquet (OneDrive; README large-artefacts table)",
+)
+
+
+@_needs_ward_parquet
 def test_outcome_families_are_dropped_before_anything_is_counted():
     frame = load_features()
     offending = [column for column in frame.columns
@@ -56,6 +66,7 @@ def test_the_outcome_prefixes_still_name_the_real_families():
 
 # ---- the counting rule is the disjoint one ---------------------------
 
+@_needs_ward_parquet
 def test_only_the_six_disjoint_windows_are_counted():
     frame = load_features()
     for _arm, window in news_columns(frame):

@@ -2,6 +2,17 @@
 
 from src.news_collection import build_e5_risk_review_plan as risk
 
+from pathlib import Path
+
+import pytest
+
+# The round-two local queue is a regenerable collection output kept out of
+# git; a fresh clone skips the one test that reads the repository copy.
+_needs_round2_queue = pytest.mark.skipif(
+    not Path("news_collection/e5_local_review_queue_round2.csv").exists(),
+    reason="requires the regenerable round-two local queue (build_e5_local_queue)",
+)
+
 
 def _queue_row(article_id, election="E1", source="source"):
     return {
@@ -114,6 +125,7 @@ def test_frozen_review_ids_come_from_saved_stage_labels():
     assert mandatory == {"A3"}
 
 
+@_needs_round2_queue
 def test_current_repository_plan_reconciles_the_current_population():
     queue = risk._read_csv(risk.OUT_QUEUE)
     plan = risk.build_plan(queue, risk._load_llm_rows())

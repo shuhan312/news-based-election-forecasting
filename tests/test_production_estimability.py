@@ -12,6 +12,13 @@ from src.news_modelling.production_estimability import (
 
 ROOT = Path("surrey-election-no-news-baseline/outputs/model_bundle_v1")
 
+# The Stage 1 bundle is a local-by-design artefact (OneDrive copy; see the
+# README's large-artefacts table), so a fresh clone skips rather than fails.
+pytestmark = pytest.mark.skipif(
+    not (ROOT / "out_of_fold_predictions.csv").exists(),
+    reason="requires the local Stage 1 model bundle (OneDrive; README large-artefacts table)",
+)
+
 
 def build_report():
     return build_estimability_report(
