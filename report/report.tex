@@ -24,7 +24,8 @@
 \supervisors{Mr Antony Sommerfeld}
 \repository{https://github.com/ese-ada-lovelace-2025/irp-sl1425.git}
 \usepackage{csquotes}
-
+\setlength{\parindent}{2em}
+\usepackage{indentfirst}
 \usepackage[
   backend=biber,
   style=apa,
@@ -42,7 +43,7 @@
 % Abstract
 \section*{Abstract}
 
-Rapid changes in party support make local election prediction difficult. This is challenging for emerging parties with little electoral history. This study uses the 2026 Surrey local elections as a case study, with particular attention to Reform UK. It tests whether pre-election news adds predictive value beyond a adjusted history-only baseline. Stage 1 builds predictions from historical election results. Stage 2 models the remaining errors using coverage volume and LLM-extracted stance features. Before reading the 2026 results, the study fixed the main model settings and predictions. The broader training design produced improvements across several windows. The clearest evidence appeared 31–90 days before the election. In this window, national news reduced candidate vote-share MAE by 0.2682 percentage points, and combined news reduced it by 0.2404. Further analysis shows that coverage volume and stance capture different parts of the news signal. In general, news can complement historical election data and improve local election prediction.
+Rapid changes in party support make local election prediction difficult. This is challenging for emerging parties with little electoral history. This study uses the 2026 Surrey local elections as a case study, with particular attention to Reform UK. It tests whether pre-election news adds predictive value beyond a adjusted history-only baseline. Stage 1 builds predictions from historical election results. Stage 2 models the remaining errors using coverage volume and LLM-extracted stance features. Before unblinding the 2026 outcomes for evaluation, the study fixed the main news-model settings and predictions. The broader training design produced improvements across several windows. The clearest evidence appeared 31–90 days before the election. In this window, national news reduced candidate vote-share MAE by 0.2682 percentage points, and combined news reduced it by 0.2404. Further analysis shows that coverage volume and stance capture different parts of the news signal. In this case study, pre-election news complemented historical election data and improved local election prediction.
 
 
 % Introduction section
@@ -56,11 +57,11 @@ These limitations suggest a need for more timely information. Previous studies h
 
 \subsection{Approach and Contributions}
 
-This study uses a two-stage framework. First, it builds a baseline from historical election data (Stage 1). Next, it uses structured news features to model the remaining prediction errors (Stage 2). Large language models (LLMs) convert unstructured political news into structured and verifiable features. Statistical models then use these features to produce the final predictions.
+This study uses a two-stage framework. First, it builds a baseline from historical election data (Stage 1). Next, it uses structured news features to model the remaining prediction errors (Stage 2). Large language models (LLMs) convert unstructured political news into structured and verifiable features. Then, statistical models use these features to produce the final predictions.
 
 The study has three objectives: (1) build a establish a history-only baseline for election prediction; (2) test whether news adds predictive value beyond a adjusted history-only baseline; and (3) examine which factors affect the predictive value of news and when it is useful, with particular attention to Reform UK.
 
-For the final evaluation, the study fixed the news-layer models and predictions before examining the 2026 Surrey results. This enabled a blind out-of-sample test.
+For the final evaluation, the study fixed the news-layer models and predictions before unblinding the 2026 outcomes for evaluation. This enabled a blind comparison of the news-layer models.
 
 \section{Literature Review and Research Positioning}
 \subsection{Election Forecasting and Local Elections}
@@ -73,12 +74,12 @@ Another problem is limited polling at the subnational level. \textcite{STOETZER2
 
 Election-news studies provide mixed evidence on predictive value. \textcite{VERMEER2024} found that media attention was associated with vote choice, especially for new parties. However, the effect of sentiment differed across media. \textcite{BELANGER2012702} found that campaign media tone did not explain errors in historical election forecasts. By contrast, \textcite{UMEDA2023956} used media reports on district-level races to successfully predict the 2017 Japanese election. However, these reports were largely based on polling. Together, these studies show that media can be informative, but its added predictive value remains uncertain.
 
-To use news in prediction, relevant articles must first be selected and converted into structured features. \textcite{WANG2024} used LLM agents to select relevant news for time-series forecasting. In political news, \textcite{kuila-sarkar-2024-deciphering} showed that LLMs can convert unstructured political news into sentiment labels for specific political actors. However, accurate extraction does not mean that the resulting features will improve election forecasts. 
+To use news in prediction, relevant articles must first be selected and converted into structured features. \textcite{WANG2024} used LLM agents to select relevant news for time-series forecasting. In political news, \textcite{kuila-sarkar-2024-deciphering} showed that LLMs can convert unstructured political news into sentiment labels for specific political actors. But accurate extraction does not mean that the resulting features will improve election forecasts. 
 
 
 \subsection{Research Gap and Study Positioning}
 
-From Above, these studies leave the predictive value of news unclear. News may provide useful information, but it may also repeat patterns already captured by historical election data. This study therefore uses LLMs to screen and structure pre-election news and tests whether these features improve predictions beyond an adjusted no-news baseline.
+From Above, these studies leave the predictive value of news unclear. News may provide useful information, but it may also repeat patterns already captured by historical election data. This study therefore uses LLMs to filter and structure pre-election news and tests whether these features improve predictions beyond an adjusted no-news baseline.
 
 
 
@@ -107,26 +108,26 @@ Across the 24 election events, the county-level dataset contains 343 electoral-a
 To keep records consistent across years, the study standardised candidate and party names for name order, character formatting and whitespace. The pipeline retained both original and standardised names and never merged records based only on name similarity. Reform UK and UKIP also remained separate throughout the pipeline. When a party did not contest an election, the dataset recorded its participation status rather than creating a zero-vote candidate row. If a party fielded multiple candidates in one area, each remained a separate record.
 
 \subsubsection{Validation and Source Tracking}
-The pipeline automatically validates the election dataset on every generated. It verifies candidate vote totals, compares recalculated vote shares with published results, and checks turnout, record consistency, seat counts and election dates. To allow for rounding on official pages, it accepts differences of up to 0.5 percentage points for vote share and turnout. The final quality report found no duplicate candidate IDs, identity mismatches, invalid vote shares or abnormal within-area totals. The pipeline also retains source and verification information. Direct source links cover 1,971 of the 1,992 candidate records, while archive listings provide the remaining 21 records from four by-elections.
+The pipeline automatically validates the election dataset on every generated. It verifies candidate vote totals, compares recalculated vote shares with published results, and checks turnout, record consistency, seat counts and election dates. To allow for rounding on official pages, it accepts differences of up to 0.5 percentage points for vote share and turnout. The final quality report found no duplicate candidate IDs, identity mismatches, invalid vote shares or abnormal within-area totals. The pipeline also retains source and verification information. 1,971 of the 1,992 candidate records are provided by direct source links, and news archive pages were used to verify the remaining 21 records from four by-elections.
 
 \subsection{News Data and Corpus Construction}
 This section outlines the process from news collection to feature construction for Stage 2.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.60\linewidth]{pipeline_overview.png}
-  \caption{News corpus construction process: screening 2,666 candidate articles produced 1,632 usable articles. The diagram shows the v1 pipeline; supplementary selection expanded the v2 corpus to 2,259 articles, as described in Section~\ref{sec:news-sources}.}
+  \caption{News data construction process. The diagram shows the v1 pipeline and the additional by-election articles included in v2, with further details in Section~\ref{sec:news-sources}.}
   \label{fig:news-pipeline}
 \end{figure}
 \subsubsection{News sources and collection scope}
 \label{sec:news-sources}
-The study treats Surrey local news and UK national political news separately. Local sources include SurreyLive, BBC News Surrey and Surrey-wide Guardian coverage, collected through search-engine APIs, publisher searches and web archives. National news comes from the Guardian Open Platform. Local searches cover 17 Surrey electoral areas selected under predefined rules, as shown in Table~\ref{tab:a11-divisions}. Links across different years are limited to verified geographic matches.
+The study treats Surrey local news and UK national political news separately. Local sources include SurreyLive, BBC News Surrey and Surrey-wide Guardian coverage, collected through search-engine APIs, publisher searches and web archives. National news comes from the Guardian Open Platform. Local searches cover 17 Surrey electoral areas selected under predefined rules, as shown in Table~\ref{tab:a11-divisions}. The pipeline retained only verified geographic matches when electoral definitions changed across years.
 
 To capture changes over time, the study uses six non-overlapping pre-election windows: 1–3, 4–7, 8–14, 15–30, 31–90 and 91–180 days. It also uses cumulative windows covering the previous 72 hours and 7, 14, 30, 90 and 180 days. Across the four principal elections, the corpus contains 1,632 articles: 188 local and 1,444 national. Adding 627 national articles from by-election periods brings the total to 2,259.
 
 \subsubsection{Eligibility and leakage screening}
 Before feature construction, the pipeline screened articles using predefined eligibility rules. Each article required a reliable publication date, usable English text, genuine editorial content and publication within 180 days before the election. The protocol allowed articles published before 07:00 on polling day, but the pipeline lacked exact publication times, so it excluded all polling-day articles. For archived articles, it used the original publication date rather than the archive date.
 
-The pipeline also filtered political relevance and result leakage. Local articles needed a clear link to the target area or Surrey politics. National articles needed to cover UK politics, national policy, Reform UK, or UKIP in earlier elections. Articles found through "Reform" queries received an extra check to confirm that "Reform" referred to Reform UK. To prevent leakage, the pipeline excluded any article containing results from the same election, even when its recorded date preceded polling day. Importantly, positive or negative coverage did not affect eligibility. The pipeline excluded unresolved cases and recorded every decision and reason.
+The pipeline also filtered political relevance and result leakage. Local articles needed strong relative to the target area or Surrey politics. National articles needed to cover UK politics, national policy, Reform UK, or UKIP in earlier elections. Articles found through "Reform" queries received an extra check to confirm that "Reform" referred to Reform UK. To prevent leakage, the pipeline excluded any article containing results from the same election, even when its recorded date preceded polling day. Importantly, positive or negative coverage did not affect eligibility. The pipeline excluded unresolved cases and recorded every decision and reason.
 
 \subsubsection{Structured news extraction and validation} 
 
@@ -151,7 +152,7 @@ Historical election data already capture stable patterns such as long-term party
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.87\linewidth]{fig0c_framework.png}
-  \caption{Two-stage prediction framework. Stage 2 adjusts the Stage 1 baseline using news, with comparison against a no-news adjustment control. Predictions above the dashed line were frozen before the 2026 results were read.}
+  \caption{Two-stage prediction framework. Stage 2 adjusts the Stage 1 baseline using news, with comparison against a no-news adjustment control. Predictions above the dashed line were frozen before unblinding.}
   \label{fig:framework}
 \end{figure}
 \end{samepage}
@@ -167,12 +168,15 @@ Stage 1 used no news features. Each candidate record was represented by 35 predi
 
 For model selection, the study compared Ridge regression, partial pooling and LightGBM \parencite{KE2017LIGHTGBM} to represent regularised linear, pooled and flexible tree-based approaches. Four temporal folds covered 2017, 2021 and two 2025 by-election periods, with training restricted to earlier elections. Because Reform UK had little historical data, the predefined model-selection rule focused on Reform UK performance. Across 14 Reform UK validation cases, LightGBM reduced MAE by 8.3\% relative to Ridge, exceeding the 5\% threshold, and was selected. Across all candidates, out-of-fold MAE was 9.85 for LightGBM, 8.97 for Ridge and 8.87 for partial pooling. The 2026 holdout was excluded from model selection.
 
-After model selection, Stage 1 produced out-of-fold predictions for 792 candidate records across 12 time-based folds. Each fold corresponded to one polling day. The resulting residuals (observed vote share minus predicted vote share) formed the Stage 2 training targets. The final LightGBM model used 1,150 candidate records from elections before 7 May 2026 to predict the 2026 holdout. Within each contest, negative predictions were set to zero and the rest rescaled to sum to 100.
+After model selection, Stage 1 produced out-of-fold predictions for 792 candidate records across 16 time-based folds(two general-election polling days and 14 by-election polling days). Each fold corresponded to one polling day. The resulting residuals (observed vote share minus predicted vote share) formed the Stage 2 training targets. The final LightGBM model used 1,150 candidate records from elections before 7 May 2026 to predict the 2026 holdout. Within each contest, negative predictions were set to zero and the rest rescaled to sum to 100.
 
 \subsection{Stage 2: Modelling incremental news information}
-Stage 2 modelled the residuals from Stage 1, where positive values indicated underestimation. Stage 1 predicted at the candidate level, but news features varied by election and party. The study therefore averaged residuals within each election--party cell. The analysis covered the Conservatives, Labour, Liberal Democrats, Green Party, UKIP and Reform UK.
+\label{sec:stage2}
+Stage 2 modelled the residuals from Stage 1, where positive values indicated underestimation. Because Stage 1 predicted at the candidate level while news features varied by election and party, so the study averaged residuals within each election--party cell. The analysis covered the Conservatives, Labour, Liberal Democrats, Green Party, UKIP and Reform UK.
 
-For each news type, Stage 2 used party article share and stance balance (Section~\ref{sec:news-feature-construction}). The main analysis used combined and national news separately. Local news was used in the sensitivity analysis. Each of the 12 windows had a separate Ridge model. Given the small training set, Ridge provided simple regularisation against overfitting \parencite{MELLON_PROSSER_2025}, with $\alpha = 1.0$ fixed before validation and not tuned later. The study standardised predictors using the training data and centred the target on the training mean.
+Based on this structure, the Stage 2 training sample expanded under v2. Under v1, it contained 11 election-party cells from 2017 and 2021. 2013 served as the initial Stage 1 training election and therefore had no out-of-fold residuals. Adding eight by-elections under v2 increased the total to 45 cells and the number of Reform UK cells to seven, compared with only one in 2021. Cells with no articles were retained, with their news features set to zero.
+
+For each news type, Stage 2 used party article share and stance balance (Section~\ref{sec:news-feature-construction}). The main analysis used combined and national news separately. Local news was used in the sensitivity analysis. Each of the 12 windows had a separate Ridge model. Because of small training set, so ridge provided simple regularisation against overfitting, with $\alpha = 1.0$ fixed before validation. The study standardised predictors using the training mean and standard deviation, and subtracted the mean training residual from the target before fitting.
 
 \[
 \widehat{r}_{ep}
@@ -184,9 +188,7 @@ For each news type, Stage 2 used party article share and stance balance (Section
 \frac{x_{epj}-\bar{x}_j}{s_j}.
 \]
 
-Here, $\widehat{r}_{ep}$ is the predicted residual for election $e$ and party $p$, based on the two standardised news predictors and the mean training residual.
-
-The Stage 2 training sample expanded under v2. Under v1, it contained 11 election--party cells from 2017 and 2021, as 2013 served as the initial Stage 1 training election and therefore had no out-of-fold residuals. Adding eight by-elections under v2 increased the total to 45 cells and introduced the first seven Reform UK cells. Cells with no articles were retained, with their news features set to zero.
+Here, $\widehat{r}_{ep}$ is the predicted residual for election $e$ and party $p$, and $\bar{r}$ is the mean training residual. The Ridge model learned how each news feature was associated with Stage 1 residuals in the training cells. Each coefficient $\beta_j$ measures the change in the residual associated with a one-standard-deviation increase in the corresponding news feature. 
 
 Later, stage 2 added each predicted residual to the corresponding Stage 1 prediction. All candidates in the same election--party--period group received the same adjustment. Negative predictions were then set to zero and each contest rescaled to sum to 100.
 
@@ -195,12 +197,12 @@ The modelling process followed time order so that each prediction used only info
 
 Although the 2026 articles were collected after the election, only articles published before polling day were used to construct the news features. This prevented post-election information from entering the model.
 
-Before unblinding the 2026 results, the study froze the v1 and v2 prediction files, covering 832 candidate predictions across the East Surrey and West Surrey elections. During Stage 1 development, performance metrics on the 2026 holdout had already been viewed, but the 2026 outcomes were not used for training or model selection. Stage 1 therefore remained out of sample. The blind procedure applied only to the frozen news-layer comparison.
+Before unblinding the 2026 results for evaluation, the v1 and v2 prediction files were frozen. This included 832 candidate predictions across the East Surrey and West Surrey elections. During Stage 1 development, performance metrics on the 2026 holdout had already been viewed, but the 2026 outcomes were not used for training or model selection. The local-news search areas (Table~\ref{tab:a11-divisions}) used pre-registered rules and publicly available 2026 outcomes before examining any news content. Hence, the blind procedure applied only to the frozen news-layer comparison. 
 
 \subsection{Evaluation Strategy}
 The main evaluation covered 832 candidate predictions across the East Surrey and West Surrey elections. The vote-share analysis used 753 candidates from the Stage 2 party groups, excluding 79 candidates from other parties or independents. Candidate vote-share MAE was the primary metric, with RMSE used to capture larger errors. Seat-call accuracy was a secondary outcome, with the top two predicted candidates in each ward treated as elected.
 
-To isolate the value of news from simple recalibration, the study compared each news-enhanced prediction with a no-news adjustment control. This control used the mean training residual as the Stage 2 intercept and added it to the Stage 1 baseline. It then applied the same clipping and within-contest normalisation. The study defined incremental news value as
+To isolate the value of news from simple adjustment, the study compared each news-enhanced prediction with a no-news adjustment control. This control used the mean training residual as the Stage 2 intercept and added it to the Stage 1 baseline. It then applied the same clipping and within-contest normalisation. The study defined incremental news value as
 
 \[
 \Delta \mathrm{MAE}
@@ -212,7 +214,7 @@ To isolate the value of news from simple recalibration, the study compared each 
 
 A positive value meant that news reduced prediction error, and the original Stage 1 baseline provided an additional reference.
 
-The confirmatory evaluation tested v1 and v2 with combined and national news across the six predefined non-overlapping windows in Section~\ref{sec:news-sources}, giving 24 comparisons. To measure uncertainty, the study drew 2,000 paired bootstrap resamples of the 81 contests. Each resample compared the two models on the same contests, and the resulting differences were used to construct a 95\% confidence interval.
+The confirmatory evaluation tested v1 and v2 with combined and national news across the six non-overlapping windows in Section~\ref{sec:news-sources}, giving 24 comparisons. Uncertainty was estimated using a pairs cluster bootstrap with 2,000 resamples, treating the 81 contests as the resampling units \parencite{MACKINNON2023272}. Stage 2 was fitted on 45 election--party cells (Section~\ref{sec:stage2}), and candidates within the same cell shared the same news adjustment. Therefore, candidate-level observations were not treated as independent, and uncertainty was estimated at the contest level. This approach was appropriate because the estimated quantity was the difference in MAE rather than a regression coefficient, and the number of clusters (81) was reasonably large \parencite{MACKINNON2023272}. Each resample compared the two models on the same contests, and the resulting differences were used to construct a 95\% confidence interval.
 
 \subsection{Diagnostic and Robustness Tests}
 \label{sec:diagnostic-robustness}
@@ -220,14 +222,14 @@ In addition to the confirmatory analysis, the study tested four sensitivity sett
 
 The study also checked whether news features had enough variation for reliable analysis. A feature needed at least three distinct training values for model fitting and at least ten for reported confirmatory analysis. The election-level issue and framing features had four distinct values. Therefore, they passed the fitting threshold but not the reporting threshold, so the study excluded them from the reported confirmatory models.
 
-After unblinding the 2026 results, the study used exploratory diagnostics to examine other explanations for the main findings. Party-indicator models tested whether fixed party differences explained the improvement. Next, the within-party stance analysis removed each party's average stance within the same training window. Finally, article-volume placebos tested whether the signal reflected the amount of coverage rather than its content. Under the pre-declared rule, the study kept all sensitivity and exploratory results separate and did not promote them to confirmatory findings.
+After unblinding the 2026 results, the study used exploratory diagnostics to examine other explanations for the main findings. Party-indicator models tested whether fixed party differences explained the improvement. Within-party stance analysis removed each party's average stance within the same training window. And this study also used volume-only control tested whether the signal reflected the amount of coverage rather than its content. Under the pre-declared rule, the study kept all sensitivity and exploratory results separate and did not promote them to confirmatory findings.
 
 
 \section{Results}
 \subsection{Main Confirmatory Results}
 The confirmatory evaluation on the 2026 holdout covered 753 candidate predictions from the Stage 2 party groups. The Stage 1 historical baseline achieved an MAE of 4.4410 percentage points. After the no-news residual adjustment, MAE was 4.4414 under v1 and 4.4454 under v2. The main comparison therefore tested whether news reduced prediction error beyond this recalibration.
 
-The strongest confirmatory evidence came from v2. Five of its 12 specifications reduced MAE, and four had 95\% bootstrap confidence intervals entirely above zero (Figure~\ref{fig:confirmatory}; Appendix Tables~\ref{tab:a2a}--\ref{tab:a2b}).In contrast, v1 produced no MAE improvements, and most 95\% confidence intervals lay entirely below zero, indicating worse performance than the no-news control. Relative to v1, v2 expanded the training set from 11 to 45 election–party cells and introduced the first seven Reform UK cells. The confirmatory results do not separate the effects of these two changes, which are examined later.
+The strongest confirmatory evidence came from v2. Five of its 12 specifications reduced MAE, and four had 95\% bootstrap confidence intervals entirely above zero (Figure~\ref{fig:confirmatory}; Appendix Tables~\ref{tab:a2a}--\ref{tab:a2b}).In contrast, v1 produced no MAE improvements, and most 95\% confidence intervals lay entirely below zero, this means worse performance than the no-news control. The difference between v1 and v2 reflects changes introduced in v2, and their individual effects are examined later.
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{fig1_confirmatory_deltas.png}
@@ -235,15 +237,17 @@ The strongest confirmatory evidence came from v2. Five of its 12 specifications 
   \label{fig:confirmatory}
 \end{figure}
 
-The clearest improvement appeared in the 31–90 day window. Combined news reduced MAE from 4.4454 to 4.2051, an improvement of 0.2404 percentage points [0.0781, 0.3866], while national news reduced MAE to 4.1773, an improvement of 0.2682 [0.1088, 0.4110]. This was the only v2 window where both news types had positive confidence intervals. The main negative result appeared at 91–180 days, where both news types worsened MAE. Overall, news improved prediction in several v2 specifications, with the strongest and most consistent evidence at 31–90 days.
+The clearest improvement appeared in the 31–90 day window. Combined news reduced MAE from 4.4454 to 4.2051, an improvement of 0.2404 percentage points [0.0781, 0.3866]. National news reduced MAE to 4.1773, an improvement of 0.2682 [0.1088, 0.4110]. This was the only v2 window where both news types had positive confidence intervals. The main negative result appeared at 91–180 days, where both news types worsened MAE. Hence, news improved prediction in several v2 time-windows.
 
 \subsection{Sensitivity to Training Design and News Specification}
 \label{sec:sensitivity}
-The local-news analysis tested whether the positive signal also appeared when using local news only. Under v2, local news at 31–90 days reduced MAE from 4.4454 to 4.2571, an improvement of 0.1884 percentage points, while RMSE fell from 5.7538 to 5.3110. Local news also improved MAE at 8–14 and 91–180 days, with the largest gain at 91–180 days (+0.2894). This extends the positive evidence to local coverage, with the strongest window differing from the combined and national specifications (Appendix Table~\ref{tab:a3}).
+Sensitivity was assessed along two dimensions: news specification and training design. The first two checks varied the construction of the news signal. And the final check examined training composition.
 
-The cumulative-window analysis provided a second robustness check for the positive signal. Under v2, combined news reduced MAE in all five cumulative windows up to 90 days. The largest improvement appeared over the previous 14 days, where MAE fell from 4.4454 to 3.8353 and RMSE from 5.7538 to 4.8741. National news also improved MAE over the previous 90 days. Only the 180-day combined window moved in the opposite direction(Appendix Table~\ref{tab:a12-cumulative}).
+Using local news only, v2 continued to reduce MAE at key windows. At 31--90 days, MAE fell from 4.4454 to 4.2571, with additional improvements at 8--14 and 91--180 days. The largest gain occurred at 91--180 days (+0.2894), showing that the timing of the strongest local-news signal differed from the main reults. (Appendix Table~\ref{tab:a15-local-sensitivity}).
 
-Finally, the training-sample tests examined how sensitive the news signal was to training composition. The 2017-only setting had five training cells and showed improvement in 0 of 18 comparisons, reproducing the negative v1 pattern. (Appendix Table~\ref{tab:a3}). The leave-one-party-out analysis was a pre-holdout audit using 2017 fitting data and 2021 validation data, without reading the 2026 holdout. It removed one of the five parties at a time and repeated the 18 comparisons. Removing the Conservatives produced positive MAE improvements in 6 of 18 comparisons, while removing any of the other four parties produced none. These results show that training composition affected the news comparison.
+The window coverage also affected the strength of the signal. Under v2, combined news reduced MAE across the shorter cumulative windows. However, the 180-day combined window moved in the opposite direction. The largest improvement occurred over the previous 14 days, where MAE fell from 4.4454 to 3.8353 and RMSE from 5.7538 to 4.8741. Local news also showed improvements over shorter cumulative windows (Appendix Table~\ref{tab:a12-cumulative}).
+
+In contrast, the signal was more sensitive to training design. The 2017-only setting contained five training cells and improved MAE in 0 of 18 comparisons, reproducing the v1 pattern (Appendix Table~\ref{tab:a3}). In the leave-one-party-out analysis, removing the Conservatives produced improvements in 6 of 18 comparisons, but removing any of the other four parties produced none(Appendix Table~\ref{tab:a17-lopo})
 
 \subsection{Alternative Explanations for the News Signal}
 \label{sec:news-signal-diagnostics}
@@ -256,22 +260,22 @@ The study then tested whether stance remained informative after removing average
 
 \subsection{Reform UK and Model Behaviour}
 \label{sec:reform}
-Reform UK had limited historical representation in v2, with 12 candidate-level observations compared with 65–168 for the other five parties. Even so, Stage 1 achieved a Reform MAE of 3.2318 in 2026, below the overall MAE of 4.4410.
+Reform UK had limited historical representation in v2, with 12 candidate-level observations compared with 65--168 for the other five parties. Even so, Stage 1 achieved a Reform MAE of 3.2318 in 2026, below the overall MAE of 4.4410.
 
-In the 31–90 day combined specification, Reform's signed error relative to the recalibrated control fell from +12.21 to +3.07 in 2021, correcting much of the overprediction. In 2026, it moved from $-1.33$ to $-3.16$, increasing the existing underprediction. News therefore shifted Reform downward in both elections, but the effect depended on the starting baseline.
+After adding news, the effect differed sharply between Reform and non-Reform candidates. In the 31--90 day combined specification, $\Delta$MAE was $+0.4948$ for non-Reform candidates but $-0.6877$ for Reform UK candidates, while the overall gain of $+0.2404$ was a candidate-count-weighted average that masked this difference (Figure~\ref{fig:reform-decomposition}). The direction of the adjustment was consistent across elections, but its effect depended on the starting baseline. In 2021, Reform's signed error relative to the recalibrated control fell from $+12.21$ to $+3.07$, correcting much of the overprediction. In 2026, however, it moved from $-1.33$ to $-3.16$, increasing the existing underprediction.
 
-Clipping affected 41.2\% of Reform predictions in 2021 across all 36 specifications, compared with 5.7\% across the two v1 fit variants in 2026 and 0\% under v2. A post-unblinding decomposition showed that gains appeared mainly among non-Reform candidates: combined-news $\Delta$MAE was about $+0.49$ for non-Reform candidates, while Reform $\Delta$MAE was $-0.6877$ for combined and $-0.6654$ for national news. Removing the seven Reform UK training cells reduced the combined gain from $+0.2404$ to $+0.0773$ and the national gain from $+0.2682$ to $-0.0015$ (Figure~\ref{fig:reform-decomposition}). These results show that the Reform UK training cells contained important predictive information.
+The difference between v1 and v2 was partly associated with the inclusion of Reform UK training cells. The 2021 validation setting contained no Reform UK training cells, whereas v2 included seven Reform UK cells. Removing these cells reduced the combined-news gain from $+0.2404$ to $+0.0773$ and the national-news gain from $+0.2682$ to $-0.0015$ (Appendix Table~\ref{tab:a18-reform-attribution}). These results suggest that Reform UK training cells contributed to how the news adjustment generalised to the 2026 holdout.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\linewidth]{fig7_reform_decomposition.png}
-  \caption{Post-unblinding decomposition of $\Delta$MAE for Reform, non-Reform, and all candidates across time windows relative to the recalibrated control. The right panel compares three 31--90 day specifications.}% <- 两句:各窗口Reform/非Reform/总体的ΔMAE分解(vs recalibrated control);右半为31-90窗三种规格对比;解盲后探索性分析
+  \includegraphics[width=\linewidth]{image-1787354207515.png}
+  \caption{Post-unblinding exploratory decomposition of $\Delta$MAE after news adjustment by party group and prediction window in the 2026 holdout under the combined-news specification. Bars show non-Reform, overall, and Reform UK candidates. Positive values indicate reduced error after the news adjustment, with overall values calculated as candidate-count-weighted averages.}
   \label{fig:reform-decomposition}
 \end{figure}
 
 \subsection{Seat-level prediction results}
 
-Seat-call accuracy was a secondary outcome. Stage 1 achieved 0.7188 accuracy but missed the 2026 seat shift. It predicted 118 Conservative seats (actual: 30), 6 Liberal Democrat seats (actual: 96), and no Reform UK seats (actual: 14). It identified both elected candidates in only 18 of 81 wards (Figure~\ref{fig:seat-totals}).
+Seat-call accuracy was a secondary outcome. Although Stage 1 achieved an accuracy of 0.7188, it failed to capture the 2026 seat-level changes. It correctly predicted both winning candidates in only 18 of 81 wards  (Figure~\ref{fig:seat-totals}).
 
 \begin{figure}[H]
   \centering
@@ -280,14 +284,14 @@ Seat-call accuracy was a secondary outcome. Stage 1 achieved 0.7188 accuracy but
   \label{fig:seat-totals}
 \end{figure}
 
-The simple ``elect-nobody'' baseline classified every candidate as not elected and achieved 0.8053 accuracy. All four v2 specifications with 95\% confidence intervals for $\Delta$MAE entirely above zero remained below this benchmark (Appendix Table~\ref{tab:a4}). Seat-call accuracy followed a different pattern: combined and national news reached 0.8317 at 91--180 days, while combined news reached 0.8558 at 1--3 days. None of these three specifications had a confirmed MAE improvement. Thus, news affected vote-share error and seat-call accuracy differently. Because seat-call accuracy was secondary, these results provide supplementary evidence.
+The simple ``elect-nobody'' baseline classified every candidate as not elected and achieved 0.8053 accuracy. The four confirmed vote-share specifications remained below this benchmark for seat-call accuracy (Appendix Table~\ref{tab:a4}). In contrast, other windows achieved higher seat-call accuracy, with combined and national news reaching 0.8317 at 91--180 days and combined news reaching 0.8558 at 1--3 days. However, these specifications showed no confirmed MAE improvement for vote-share prediction. This suggests that news affected vote-share error and seat-call accuracy through different specifications. As seat-call accuracy was secondary, these results provide supplementary evidence.
 
 \subsection{Transfer and replication tests}
 \label{sec:transfer}
 
-For Woking South, the pre-registered rule selected local news from the 91--180 day window. It was the worst of 18 candidate specifications, with a $\Delta$MAE of $-3.80$ relative to the no-news baseline, and increased error for all five parties (Appendix Table~\ref{tab:blind-tests}). Therefore, the pre-registered transfer rule was not supported.
+For Woking South, the pre-registered transfer rule was applied to the only informative window (91--180 days). Local news was selected within this window based on the highest 2026 $\Delta$MAE. But this specification was the worst of the 18 candidate specifications on transfer, with a $\Delta$MAE of $-3.80$ relative to the no-news baseline and increased error across all five parties (Appendix Table~\ref{tab:blind-tests}). The transfer rule was therefore not supported.
 
-The same window pattern appeared in Haslemere: 31--90 days performed best and 91--180 days worst, matching the main 2026 results. Three of the 12 frozen v2 specifications had lower MAE than the recalibrated control (Appendix Table~\ref{tab:blind-tests}). The performance of individual specifications varied across tests. However, the mid-range window again performed relatively well in a new unseen election.
+Haslemere showed the same window pattern as the main 2026 results, with 31--90 days performing best and 91--180 days performing worst. Three of the 12 frozen v2 specifications had lower MAE than the no-news adjustment control (Appendix Table~\ref{tab:blind-tests}). The performance of individual specifications varied across tests. However, the mid-range window again performed relatively well in a new unseen election.
 
 \section{Discussion}
 \subsection{Interpreting the Incremental Predictive Value of News}
@@ -301,33 +305,35 @@ This conditional pattern is consistent with mixed evidence in previous election 
 
 \subsection{What the News Signal Represents}
 
-The results suggest that some of the information in the news features was also related to party identity. Removing the average residual for four established parties increased the frozen-news improvement from 0.2404 to 0.3004 percentage points. However, removing the average residual for all six parties reduced it to 0.0428, with the confidence interval crossing zero [$-0.0661$, 0.1461]. A similar result was reported by \textcite{Titelman_Lauderdale_2025}, who found that once candidate party was taken into account, candidate positions explained much less of vote choice.
+The results suggest that some information in the news features overlapped with party identity. Removing the average residual for four established parties increased the frozen-news improvement from 0.2404 to 0.3004 percentage points. However, removing the average residual for all six parties reduced it to 0.0428, with the confidence interval crossing zero [$-0.0661$, 0.1461]. This is consistent with the finding of \textcite{Titelman_Lauderdale_2025} that candidate positions and party labels can act as substitutes in explaining vote choice, suggesting that some news signals may capture information already associated with party identity.
 
-Party identity did not explain everything. Article volume and within-party centred stance each improved prediction when tested alone. \textcite{VERMEER2024} also found that media visibility and sentiment had different relationships with vote choice. However, article volume and stance balance were strongly correlated in this study ($r=-0.778$). After party identity and article volume were included, adding centred stance did not improve prediction. ($\Delta$MAE $=-0.1229$, 95\% CI [$-0.1595$, $-0.0879$]). Thus, the result show that stance contained useful predictive information, but much of this information was already captured by party identity or reporting volume.
+Party identity did not explain everything. Article volume and within-party centred stance each improved prediction when tested separately. \textcite{VERMEER2024} also showed that media visibility and sentiment can have different relationships with vote choice, including cases where sentiment effects are not straightforward. However, article volume and stance balance were strongly correlated in this study ($r=-0.778$). After party identity and article volume were included, adding centred stance did not improve prediction ($\Delta$MAE $=-0.1229$, 95\% CI [$-0.1595$, $-0.0879$]). Thus, stance contained useful predictive information, but much of it was already captured by party identity or reporting volume.
+
+These results also highlight that news effects may vary across parties. As shown in Section~\ref{sec:reform}, the same adjustment that improved non-Reform predictions increased Reform error. This is consistent with \textcite{VERMEER2024}, who found that media effects differed for newer parties, particularly in terms of visibility effects. Average party-level relationships may therefore not generalise equally across parties.
 
 
 \subsection{Dependence on Training Design and Baseline Error}
 
 The v2 expansion added more elections and residual patterns to Stage 2. The added by-election cells were less reliable on their own, with estimated cell-level reliability falling from 0.9375 to 0.2253. However, the estimated correlation needed for detection changed very little, from 0.6218 to 0.6193. This suggests that the larger training sample largely made up for the lower reliability of the added cells.
 
-Training composition also mattered. The LOPO results changed when different parties were excluded (Section~\ref{sec:sensitivity}), and removing the seven Reform UK training cells substantially reduced the news improvement (Section~\ref{sec:reform}). \textcite{STOETZER2025102939} show that information from similar subnational elections can improve forecasts when local data are limited. The results here extend this point by showing that the benefit also depends on which party--election cases are included in training
+Training composition also mattered. The LOPO results changed when different parties were excluded (Section~\ref{sec:sensitivity}), and removing the seven Reform UK training cells substantially reduced the news improvement (Section~\ref{sec:reform}). \textcite{STOETZER2025102939} show that information from similar subnational elections can improve forecasts when local data are limited. The results here extend this point by showing that the benefit also depends on which party--election cases are included in training.
 
 The news adjustment also depended on the baseline error. The same downward adjustment reduced Reform UK overprediction in 2021 but increased underprediction in 2026 (Section~\ref{sec:reform}). Because Stage 2 learns from past residuals rather than the target election's actual error, a correction that helps when the baseline is too high can worsen predictions when the baseline is already too low.
 
 \subsection{Methodological Implications and Limitations}
 
-The news corpus covered both national and local reporting, but geographic detail remained limited. Only 68 of 1,632 articles could be linked to a single Surrey division, so division-level news features were not be used. This is consistent with earlier text-based election forecasting research highlighting the importance of geographic information for local prediction \parencite{BURNAP2016230}.
+The news content covered both national and local reporting, but geographic detail remained limited. Only 68 of 1,632 articles could be linked to a single Surrey division, so division-level news features were not used. This is consistent with earlier text-based election forecasting research highlighting geographic challenges in local prediction \parencite{BURNAP2016230}. The local search areas were selected based on 2026 election outcomes (Table~\ref{tab:a11-divisions}). However, this limitation was likely to have a small impact because local articles represented only a small share of the corpus. Specifically, the v2 corpus consisted of 2,071 national articles (91.7\%) and 188 local articles (8.3\%). The local-only specification was only used in sensitivity analysis, although local articles also contributed to the combined specification. Therefore, results involving local news and the local component of combined specifications should be interpreted more cautiously.
 
-Issue and framing features also had limited training variation. They passed the fitting threshold but not the reporting threshold (Section~\ref{sec:diagnostic-robustness}), so their positive exploratory results require further testing (Section~\ref{sec:news-signal-diagnostics}). More comparable election--party observations would allow these features to be tested confirmatorily.
+Issue and framing features also had limited training variation. They passed the fitting threshold but not the reporting threshold (Section~\ref{sec:diagnostic-robustness}), so their positive exploratory results require further testing. More comparable election--party observations would allow these features to be evaluated confirmatorily.
 
-The confirmatory analysis included 24 comparisons without multiplicity correction, so some positive findings may have occurred by chance \parencite{Liu_Shiraito_2023}. However, the 31--90 day window was positive for both combined and national news, providing some support for this pattern. Transfer results were mixed, so it is not yet clear whether the same pattern would hold beyond Surrey. Further testing across other areas and elections is therefore needed.
+The confirmatory analysis involved 24 comparisons without formal multiplicity correction, meaning some positive findings could occur by chance \parencite{Liu_Shiraito_2023}. However, the specifications, windows, and ridge penalty were pre-registered and fixed before unblinding. This reduced the risk of changing the analysis after seeing the results or selectively reporting favourable findings. Nevertheless, pre-registration cannot fully eliminate the chance of false positives. Formal multiplicity correction procedures could be applied in future work. The 31--90 day window was positive for both combined and national news, providing some support for this pattern. Transfer results were mixed, so further testing across other areas and elections is needed.
 
 \section{Conclusion}
-This study examined whether pre-election news adds predictive information beyond historical election data. The confirmatory results show that news improved prediction beyond the no-news recalibrated control under v2. All confirmatory improvements appeared in v2, with the strongest and most consistent evidence at 31--90 days before the election. Pre-election news can therefore complement historical information and add useful signal for party vote-share prediction.
+This study examined whether pre-election news adds predictive information beyond historical election data. The confirmatory results show that news improved vote-share prediction beyond the no-news adjustment control under v2, with the strongest evidence at 31--90 days before the election. In this case study, pre-election news added predictive value under specific conditions, although transfer results were mixed and require further validation.
 
-Further analysis explains what this signal captures. Party identity provided strong structural information, while article volume also had predictive value and within-party centred stance was informative on its own. The combined analysis showed overlap between stance, party identity and reporting volume. The news adjustment also depended on the Stage 2 training design and the starting baseline error.
+Further analysis showed that this signal reflected both structural and news-specific information. Party identity and article volume explained a substantial part of the predictive gain. Centred stance also provided additional information when tested alone. However, these components overlapped, and the effect of news depended on training composition and baseline error.
 
-The study also developed a pre-registered and auditable framework combining historical election results, structured news features and residual modelling. The confirmatory and diagnostic analyses tested the value of news and identified when it was strongest. Future work could add broader local news coverage, finer geographic information and more comparable election--party observations.
+The study developed a pre-registered and auditable framework combining historical election results, structured news features and residual modelling. Future work should expand local news coverage, improve geographic resolution and include more comparable election-party observations.
 
 
 
@@ -341,6 +347,18 @@ The study also developed a pre-registered and auditable framework combining hist
 
 \clearpage
 \appendix
+
+\clearpage
+\section{Local News Search Areas}
+
+\begin{table}[htbp]
+  \centering
+  \input{a11_division_sample.tex}
+  \caption{The 17 Surrey electoral areas included in the local news search sample and their pre-registered selection reasons. Areas were selected across four electoral-structure categories: safe seats (2021 winning margin $\geq 20$ percentage points), marginal seats ($\leq 5$ percentage points), areas where the winning party changed between 2021 and 2026, and areas with the highest Reform UK vote shares in 2026. The top five areas in each category were selected and then deduplicated. The rules and thresholds were fixed before any news content was examined, and the selection used only publicly available election-result data. An area could satisfy more than one criterion.}
+  \label{tab:a11-divisions}
+\end{table}
+
+\clearpage
 \section{LLM extraction validation}
 
 \begin{table}[htbp]
@@ -397,12 +415,52 @@ The study also developed a pre-registered and auditable framework combining hist
   \label{tab:a3}
 \end{table}
 
+\section{Local News Sensitivity Analysis}
+
+\begin{table}[htbp]
+  \centering\small
+  \input{a15_local_sensitivity.tex}
+  \caption{Sensitivity analysis using local news features. The table reports MAE and RMSE for local news across the six non-overlapping windows, with $\Delta\mathrm{MAE}$ measured relative to the v2 no-news control (MAE 4.4454); positive values indicate lower error with news.}
+  \label{tab:a15-local-sensitivity}
+\end{table}
+
+\clearpage
+\section{Cumulative-Window Results}
+
+\begin{table}[htbp]
+  \centering
+  \input{a12_cumulative_results.tex}
+  \caption{Cumulative-window results for all 18 comparisons(three news arms: local, national and combined across six non-overlapping windows). $\Delta$MAE is measured relative to the v2 no-news control MAE of 4.4454, with positive values indicating lower error with news. The Reform UK column reports the corresponding $\Delta$MAE for Reform UK candidates only.}
+  \label{tab:a12-cumulative}
+\end{table}
+
+
+\section{Leave-One-Party-Out Sensitivity Analysis}
+
+\begin{table}[htbp]
+  \centering\small
+  \input{a17_lopo_results.tex}
+  \caption{Leave-one-party-out sensitivity analysis. The table reports the number of MAE improvements across the 18 comparisons(three news arms: local, national and combined across six non-overlapping windows) when each party is removed from the training sample.}
+  \label{tab:a17-lopo}
+\end{table}
+
+\clearpage
+\section{Reform UK Training Cell Attribution Analysis}
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \input{a18_reform_attribution.tex}
+  \caption{Post-unblinding exploratory attribution of $\Delta$MAE to Reform UK training cells. The table compares the full-fit model with 45 training cells, including seven Reform UK cells, against a no-Reform specification with 38 cells across combined and national news settings and prediction windows. The difference between specifications represents the contribution of the Reform UK training cells. Positive $\Delta$MAE values indicate that news reduced prediction error.}
+  \label{tab:a18-reform-attribution}
+\end{table}
+
 \clearpage
 \section{Seat-call Accuracy Results}
 \begin{table}[htbp] 
 \centering\small 
 \input{a4_seat_accuracy_v2.tex} 
-\caption{Seat-call accuracy for each v2 specification and its difference from the recalibrated control. The final column shows whether each specification exceeded the 0.8053 elect-nobody benchmark; seat-call accuracy remained a secondary outcome and was not promoted to a confirmatory finding.} 
+\caption{Seat-call accuracy for each v2 specification and its difference from the non-news adjustment control. The final column shows whether each specification exceeded the 0.8053 elect-nobody benchmark; seat-call accuracy remained a secondary outcome and was not promoted to a confirmatory finding.} 
 \label{tab:a4}
 \end{table}
 
@@ -412,29 +470,11 @@ The study also developed a pre-registered and auditable framework combining hist
 \begin{table}[htbp]
   \centering\small
   \input{a10_blind_tests.tex}
-  \caption{Full results for the Woking South and Haslemere transfer tests. Woking South results are measured relative to the no-news baseline (MAE 10.085), and Haslemere results are measured relative to the recalibrated control (MAE 4.491). The asterisk marks the specification selected by the pre-registered rule. Haslemere replayed only the two confirmatory arms, combined and national news, so local entries are shown as ``--''. Its news corpus contained 20 articles, of which three mentioned a study party.}
+  \caption{Full results for the Woking South and Haslemere transfer tests. Woking South results are measured relative to the no-news baseline (MAE 10.085), and Haslemere results are measured relative to the non-news adjustment control (MAE 4.491). The asterisk marks the specification selected by the pre-registered rule as the arm with the highest 2026 $\Delta$MAE in each window. Haslemere replayed only the two confirmatory arms, combined and national news, so local entries are shown as ``--''. Its news corpus contained 20 articles, but only three mentioned a study party.}
   \label{tab:blind-tests}
 \end{table}
 
-\clearpage
-\section{Local News Search Areas}
 
-\begin{table}[htbp]
-  \centering
-  \input{a11_division_sample.tex}
-  \caption{The 17 Surrey electoral areas included in the local news search sample and their pre-registered selection reasons. Areas were selected across four electoral-structure categories: safe seats (2021 winning margin $\geq 20$ percentage points), marginal seats ($\leq 5$ percentage points), areas where the winning party changed between 2021 and 2026, and areas with the highest Reform UK vote shares in 2026. The top five areas in each category were selected and then deduplicated. The rules and thresholds were fixed before any news content was examined, and the selection used only election-result data. An area could satisfy more than one criterion.}
-  \label{tab:a11-divisions}
-\end{table}
-
-\clearpage
-\section{Cumulative-Window Results}
-
-\begin{table}[htbp]
-  \centering
-  \input{a12_cumulative_results.tex}
-  \caption{Cumulative-window results for all 18 comparisons. $\Delta$MAE is measured relative to the v2 no-news control MAE of 4.4454, with positive values indicating lower error with news. The Reform UK column reports the corresponding $\Delta$MAE for Reform UK candidates only. Under the pre-registered rule, these sensitivity results have no bootstrap confidence intervals and were not promoted to confirmatory findings.}
-  \label{tab:a12-cumulative}
-\end{table}
 
 \clearpage
 \section{Exploratory Issue and Framing Features}
@@ -445,6 +485,9 @@ The study also developed a pre-registered and auditable framework combining hist
 \caption{Exploratory results for seven issue and framing features defined before fitting. Each was added separately to the frozen specification. In the 31--90 day window, the +0.3413 volume-plus-stance improvement was used as the reference. The final row tests all seven features together for overfitting. Only the 91--180 and 31--90 day windows met the ten-value reporting threshold. At 91--180 days, six feature effects were negative, matching the frozen news effect, with confidence intervals below zero. The immigration effect was the exception, with a confidence interval including zero.}
 \label{tab:a13-content-features}
 \end{table}
+
+
+
 
 
 \end{document}          

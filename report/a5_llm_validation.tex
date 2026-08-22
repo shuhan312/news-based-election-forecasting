@@ -1,0 +1,13 @@
+\begin{tabular}{p{0.26\linewidth}p{0.42\linewidth}p{0.23\linewidth}}
+\toprule
+extraction layer & validation evidence & decision \\
+\midrule
+Issue classification & $\kappa$ = 0.742 between the two models; 0.616 against human labels (Sonnet, 53 articles) & passed; run with Sonnet 5 \\
+Stance (revised three-level) & $\kappa$ = 0.848 between the two models (92 articles); 0.741 (Haiku) and 0.736 (Sonnet) against human labels (71 articles) & passed; run with Haiku 4.5 \\
+Framing: incumbent judgement & $\kappa$ = 0.705 between the two models & passed, limited evidence \\
+Framing: local impact & $\kappa$ = 0.635 between the two models & passed, limited evidence \\
+Framing: challenger emergence and voter discontent & only 2--6 and 4--5 positive articles among the 55 validation articles: too few to measure agreement & not assessable; exploratory use only \\
+Expected impact & $\kappa$ = 0.598 for both models after redesign (60 articles) & excluded, below 0.60 \\
+Credit--blame & $\kappa$ = 0.521 / 0.516 against human labels (57 articles); a redesign did not improve it & excluded \\
+\bottomrule
+\end{tabular}
