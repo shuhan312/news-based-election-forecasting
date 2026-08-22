@@ -153,10 +153,17 @@ def tex_tabular_html(path: Path, caption: str, source: str,
         line = line.rstrip("\\").strip()
         line = line.replace(r"\allowbreak{}", "")
         line = re.sub(r"\\texttt\{([^}]*)\}", r"<code>\1</code>", line)
-        for a, b in ((r"\_", "_"), (r"$\kappa$", "&kappa;"), ("--", "&ndash;"),
-                     (r"\%", "%"), (r"\times", "&times;"), ("$", "")):
-            line = line.replace(a, b)
-        cells = [c.strip() for c in line.split("&")]
+        # Split into cells BEFORE any replacement that emits an HTML
+        # entity: entities contain "&", and splitting after inserting
+        # them shears the row into phantom columns (the a13 header bug).
+        cells = []
+        for cell in line.split("&"):
+            cell = cell.strip()
+            for a, b in ((r"\_", "_"), (r"$\kappa$", "&kappa;"),
+                         (r"\Delta", "&Delta;"), ("--", "&ndash;"),
+                         (r"\%", "%"), (r"\times", "&times;"), ("$", "")):
+                cell = cell.replace(a, b)
+            cells.append(cell)
         if header is None:
             header = cells
         else:
@@ -226,8 +233,19 @@ def parse_sources() -> dict[str, str]:
 # that computed the numbers, and the exact functions worth reading.
 BRT = "build_report_tables"
 PROV: dict[str, dict] = {
-    "t01": {"inputs": ["unblinding"], "modules": [("unblind_2026", [])],
-            "builders": ["t01_baseline_reference"]},
+    "t01": {"inputs": ["unblinding", "holdout"],
+            "modules": [("unblind_2026",
+                         ["score_specification", "_seat_accuracy"]),
+                        ("descriptive_2026_targets",
+                         ["load_2026_rows", "contests_fully_correct",
+                          "reform_block", "deciding_margin_mae"])],
+            "builders": ["t01_baseline_reference"],
+            "note": "Two sources by design: the MAEs and seat-call "
+                    "accuracies come from the frozen unblinding record "
+                    "(same scorer as t04/t05); the margin, per-ward "
+                    "correctness and Reform descriptives are recomputed "
+                    "from the scored holdout file by the annex module "
+                    "excerpted here."},
     "t02": {"inputs": ["holdout"],
             "modules": [("descriptive_2026_targets",
                          ["load_2026_rows", "per_party_mae"])],
@@ -249,28 +267,42 @@ PROV: dict[str, dict] = {
                          ["score_specification", "_bootstrap_rows"]),
                         ("news_estimator", ["bootstrap_improvement"])],
             "builders": ["t05_confirmatory_v2", "_confirmatory_rows"]},
-    "t06": {"inputs": ["unblinding"], "modules": [("unblind_2026", [])],
-            "builders": ["t06_sensitivity_summary"]},
+    "t06": {"inputs": ["unblinding"],
+            "modules": [("unblind_2026", ["score_specification"])],
+            "builders": ["t06_sensitivity_summary"],
+            "note": "Every sensitivity cell was scored by the SAME "
+                    "score_specification as the confirmatory grid, only "
+                    "with with_bootstrap=False (the pre-registered rule: "
+                    "sensitivity results carry no CI and can never be "
+                    "promoted). The builder then computes this table's "
+                    "own numbers — counts and delta ranges per family — "
+                    "from those frozen per-cell deltas."},
     "t07": {"inputs": ["unblinding", "v2_predictions"],
             "modules": [("unblind_2026", ["_seat_accuracy"])],
             "builders": ["t07_seat_accuracy", "seat_accuracy_controls"]},
     "t08": {"inputs": ["v2_predictions"], "modules": [],
             "builders": ["t08_reform_seat_calls", "_seat_calls"]},
     "t09": {"inputs": ["decompositions"],
-            "modules": [("exploratory_decompositions", [])],
+            "modules": [("exploratory_decompositions",
+                         ["decomposition_one", "_score"])],
             "builders": ["t09_attribution"]},
     "t10": {"inputs": ["decompositions"],
-            "modules": [("exploratory_decompositions", [])],
+            "modules": [("exploratory_decompositions",
+                         ["_confirmatory_blocks", "_split_errors",
+                          "decomposition_two"])],
             "builders": ["t10_mechanism_pooled"]},
     "t13": {"inputs": ["approaches"],
-            "modules": [("compare_news_approaches", []),
-                        ("news_estimator", [])],
+            "modules": [("compare_news_approaches",
+                         ["fitting_cells", "leave_one_election_out"]),
+                        ("news_estimator", ["fit"])],
             "builders": ["t13_approaches"]},
     "t14": {"inputs": ["probe"],
-            "modules": [("haslemere_probe_prediction", [])],
+            "modules": [("haslemere_probe_prediction",
+                         ["load_haslemere_baseline", "score"])],
             "builders": ["t14_probe"]},
     "t15": {"inputs": ["probe"],
-            "modules": [("haslemere_probe_prediction", [])],
+            "modules": [("haslemere_probe_prediction",
+                         ["load_haslemere_baseline", "score"])],
             "builders": ["t15_probe_reference"]},
     "t16": {"inputs": ["catalogue"], "modules": [],
             "builders": ["t16_nonnews_channels"],
@@ -297,20 +329,31 @@ PROV: dict[str, dict] = {
                          ["perturb_features", "fit_frozen_specification",
                           "run_scenario"])],
             "builders": ["t18_scenarios"]},
-    "t19": {"inputs": ["local_rerun"], "modules": [("local_v3_rerun", [])],
+    "t19": {"inputs": ["local_rerun"],
+            "modules": [("local_v3_rerun",
+                         ["reference_deltas", "main"]),
+                        ("unblind_2026", ["score_specification"])],
             "builders": ["t19_local_v3_rerun"]},
     "t20": {"inputs": ["ws_unseal", "ws_protocol"],
-            "modules": [("woking_south_unseal", []),
-                        ("woking_south_blind_protocol", [])],
+            "modules": [("woking_south_unseal",
+                         ["assert_predictions_committed",
+                          "read_outcomes_once", "main"]),
+                        ("woking_south_blind_protocol",
+                         ["committed_delta", "derive_combination"])],
             "builders": ["t20_woking_south_unseal"]},
     "t21": {"inputs": ["ws_unseal", "ws_blind_predictions"],
-            "modules": [("woking_south_unseal", [])],
+            "modules": [("woking_south_unseal",
+                         ["read_outcomes_once", "main"])],
             "builders": ["t21_woking_south_autopsy"]},
     "t22": {"inputs": ["per_party_bootstrap"],
-            "modules": [("per_party_bootstrap", [])],
+            "modules": [("per_party_bootstrap",
+                         ["error_split", "block_analysis",
+                          "_summarise_draws"])],
             "builders": ["t22_per_party_contrast"]},
     "t23": {"inputs": ["mde"],
-            "modules": [("minimal_detectable_effect", [])],
+            "modules": [("minimal_detectable_effect",
+                         ["mde_from_interval", "comparisons_annex",
+                          "summarise"])],
             "builders": ["t23_mde_summary"]},
     # Non-table provenance keys.
     "elecdata": {"inputs": [],
@@ -340,7 +383,8 @@ PROV: dict[str, dict] = {
                          "only re-assert against that record."},
     "newsfeat": {"inputs": ["release_v2"],
                  "modules": [("news_features/build_feature_table", ["main"]),
-                             ("news_features/build_feature_table_v2", [])],
+                             ("news_features/build_feature_table_v2",
+                              ["main"])],
                  "builders": [],
                  "note": "Every aggregation rule, share definition and "
                          "zero-cell policy is frozen in the v1 builder; "
@@ -348,7 +392,9 @@ PROV: dict[str, dict] = {
                          "enriched corpus. Output: "
                          "news_features/news_feature_table_v2.csv, the "
                          "table the frozen Stage 2 models read."},
-    "identity": {"inputs": [], "modules": [("identity_placebos", [])],
+    "identity": {"inputs": [],
+                 "modules": [("identity_placebos",
+                              ["tone_trajectories", "variance_split"])],
                  "builders": [],
                  "note": "Committed artefacts: news_features/"
                          "identity_placebos_v1/ (results JSON + findings). "
@@ -357,7 +403,9 @@ PROV: dict[str, dict] = {
                          "so their per-window direction agreement with the "
                          "frozen specification (3 of 6) follows from the "
                          "frozen row's signs."},
-    "margins": {"inputs": [], "modules": [("stance_volume_margins", [])],
+    "margins": {"inputs": [],
+                "modules": [("stance_volume_margins",
+                             ["_pearson", "volume_weighting_check"])],
                 "builders": [],
                 "note": "Committed artefacts: news_features/"
                         "stance_volume_margins_v1/ (margins JSON + "
@@ -365,7 +413,9 @@ PROV: dict[str, dict] = {
                         "per-period margins at the supervisor's direction "
                         "(2026-08-05), because cumulative windows overlap "
                         "and are not independent trials."},
-    "lopo": {"inputs": [], "modules": [("run_production_news_lopo", [])],
+    "lopo": {"inputs": [],
+             "modules": [("production_news_lopo", ["run_lopo"]),
+                         ("run_production_news_lopo", ["main"])],
              "builders": [],
              "note": "Pre-holdout leave-one-party-out: refit Stage 2 "
                      "with one party's training cells removed, re-score "
@@ -383,7 +433,7 @@ PROV: dict[str, dict] = {
                 "ever disagree — the table cannot drift from the "
                 "model."},
     "a12cum": {"inputs": ["unblinding"],
-        "modules": [("unblind_2026", []),
+        "modules": [("unblind_2026", ["score_specification"]),
                     ("report_appendix_tables", ["cumulative_results"])],
         "builders": [],
         "note": "Cumulative-window results were computed once at "
@@ -393,7 +443,7 @@ PROV: dict[str, dict] = {
                 "only expands the 18 comparisons out of the frozen "
                 "record."},
     "a13feat": {"inputs": [],
-        "modules": [("placebo_specifications", []),
+        "modules": [("placebo_specifications", ["run_arm"]),
                     ("report_appendix_tables", ["content_features"])],
         "builders": [],
         "note": "Underlying record: news_features/"
@@ -453,6 +503,136 @@ PROV: dict[str, dict] = {
         ("news_estimator", ["fit"])], "builders": [],
         "note": "The Stage 2 fit itself: residuals aggregated per "
                 "election-party cell, then the per-window ridge."},
+    "combospec": {"inputs": [],
+        "modules": [("combined_specification",
+                     ["supported_absolute_errors", "paired_contrast"]),
+                    ("placebo_specifications", ["run_arm"]),
+                    ("news_estimator", ["bootstrap_improvement"])],
+        "builders": [],
+        "note": "Committed artefact: news_features/"
+                "combined_specification_v1/ (results JSON + findings). "
+                "The final cell of the identity factorial: party "
+                "identity, volume and within-party centred tone in one "
+                "fit on the 45 frozen cells, via the same frozen "
+                "fit/predict/score chain as every placebo arm. Each "
+                "ingredient's marginal is a PAIRED contest-bootstrap "
+                "contrast — both arms scored inside the same draws — "
+                "and the run first re-derives every comparator arm's "
+                "committed identity-placebo delta to drift 0.0, "
+                "aborting on mismatch. Exploratory, post-unblinding, "
+                "promotes nothing."},
+    "fit2017": {"inputs": ["unblinding"],
+        "modules": [("blinded_2026_predictions",
+                     ["_fitting_rows_for_variant", "_fit_specification"]),
+                    ("unblind_2026", ["score_specification"])],
+        "builders": [],
+        "note": "The 2017-only replication variant: the same frozen "
+                "pipeline refitted on the 2017 party rows alone "
+                "(reusing the v1 experiment's own aggregator so the "
+                "replication cannot drift from the protocol it "
+                "replicates), predicted on the blinded 2026 rows, and "
+                "scored by the same score_specification without "
+                "bootstrap. Result: 0 of 18 improve — reproducing the "
+                "v1 failure and showing the signal needs the enriched "
+                "training sample."},
+    # Per-figure provenance: the code that COMPUTES the numbers printed
+    # on each figure, not the matplotlib layout that draws them.
+    "fig1": {"inputs": ["unblinding"],
+        "modules": [("unblind_2026",
+                     ["score_specification", "_bootstrap_rows"]),
+                    ("news_estimator", ["bootstrap_improvement"]),
+                    ("make_report_figures", ["figure_confirmatory"])],
+        "builders": [],
+        "note": "Every dot on the forest plot is a news-vs-recalibrated "
+                "MAE delta and every whisker a contest-bootstrap 95% "
+                "interval, both computed ONCE at unblinding by "
+                "score_specification and _bootstrap_rows (via the frozen "
+                "bootstrap_improvement) and written to the unblinding "
+                "record — the same record t04/t05 tabulate. "
+                "figure_confirmatory only reads that frozen JSON and "
+                "draws; it computes nothing new."},
+    "fig2": {"inputs": ["holdout"],
+        "modules": [("descriptive_2026_targets",
+                     ["load_2026_rows", "seat_totals"]),
+                    ("make_report_figures", ["figure_seats"])],
+        "builders": [],
+        "note": "Each bar is a count of predicted_elected / "
+                "observed_elected flags per party over the 832 scored "
+                "2026 rows. seat_totals() is the annex's exact per-party "
+                "count (the numbers t03 tabulates: Conservative 118 vs "
+                "30, Liberal Democrats 6 vs 96, Reform 0 vs 14); "
+                "figure_seats() recomputes the same counts inline with "
+                "one extra step — the small local parties are grouped "
+                "into a single 'Residents' assocs & other local' bar "
+                "(36 predicted vs 11 actual), which is why the figure "
+                "shows seven bars while t03 lists every party "
+                "separately."},
+    "fig4": {"inputs": ["per_party_bootstrap"],
+        "modules": [("per_party_bootstrap",
+                     ["error_split", "block_analysis",
+                      "_summarise_draws"])],
+        "builders": [],
+        "note": "Each bar is contrast_point: Reform's |level-error| "
+                "change minus the unweighted mean of the fitted "
+                "parties' changes, for one (island, arm, window) "
+                "specification; each whisker is the paired "
+                "contest-bootstrap interval in which Reform AND the "
+                "group mean are recomputed inside every one of the "
+                "2,000 draws, so the interval belongs to the difference "
+                "itself. All computed by block_analysis (point "
+                "estimates via error_split, intervals via "
+                "_summarise_draws) and frozen in the per-party "
+                "bootstrap annex; the figure module only reads that "
+                "JSON. Same source as t22."},
+    "fig5": {"inputs": ["mde", "per_party_bootstrap"],
+        "modules": [("minimal_detectable_effect",
+                     ["mde_from_interval", "comparisons_annex"]),
+                    ("per_party_bootstrap", ["block_analysis"])],
+        "builders": [],
+        "note": "Two numbers per row: the DOT is that party's observed "
+                "|level-error| change in the 31-90-day combined cell "
+                "(the abs_bias_change point estimate computed by "
+                "block_analysis, read out by comparisons_annex); the "
+                "GREY BAR is that party's MDE80 — the smallest effect "
+                "its own bootstrap interval width could certify with "
+                "~80% power, derived from the interval half-width by "
+                "mde_from_interval. A dot inside its bar = an effect "
+                "the design cannot distinguish from resampling noise. "
+                "Same records as t22 (intervals) and t23 "
+                "(thresholds)."},
+    "fig6": {"inputs": ["per_party_bootstrap", "unblinding"],
+        "modules": [("per_party_bootstrap",
+                     ["error_split", "block_analysis"]),
+                    ("unblind_2026", ["score_specification"]),
+                    ("news_estimator", ["bootstrap_improvement"])],
+        "builders": [],
+        "note": "Two layers, two frozen sources. TOP (heatmap): each "
+                "cell is one party's abs_bias_change_vs_recalibrated in "
+                "one window — the per-party level-error change computed "
+                "by block_analysis/error_split and stored in the "
+                "bootstrap annex (same numbers as t22's party rows). "
+                "BOTTOM (bars): the overall MAE delta the SAME "
+                "specifications produced, with contest-bootstrap "
+                "whiskers — read from the unblinding record computed by "
+                "score_specification (same numbers as t05's combined "
+                "rows). The figure juxtaposes the two committed "
+                "records; it computes neither."},
+    "fig0b": {"inputs": ["release_v2"],
+        "modules": [("pipeline_overview_figure", ["_candidate_counts"]),
+                    ("news_collection/canonical_corpus_release_v2",
+                     ["build_release"]),
+                    ("corpus_funnel_figure", ["main"])],
+        "builders": [],
+        "note": "The three bar totals have three computed sources: "
+                "2,666 assessed = _candidate_counts() summing the three "
+                "disjoint adjudication sheets the v1 release hashes; "
+                "1,632 usable v1 = the count the v1 release builder "
+                "froze after the five screening rules; 2,259 v2 = "
+                "build_release() merging the 627 by-election articles "
+                "into the v1 corpus (disjointness asserted) and "
+                "re-counting. corpus_funnel_figure.main() re-reads all "
+                "three counts and ASSERTS them (2,666 / 1,632 / 2,259 / "
+                "national 2,071) before drawing a single bar."},
     "figs": {"inputs": ["unblinding", "release_v2", "holdout"],
              "modules": [("make_report_figures", ["figure_confirmatory"]),
                          ("study_design_figure", ["_counts"]),
@@ -472,6 +652,62 @@ PROV: dict[str, dict] = {
 # stay byte-identical to the repository (a test enforces it), so the
 # explanation lives beside the code, never inside it. Keys: "module.func".
 ANNOTATIONS: dict[str, dict] = {
+    "descriptive_2026_targets.contests_fully_correct": {
+        "problem": "Compute t01's 'wards with both seats exactly "
+                   "right': in how many contests did the baseline call "
+                   "the WHOLE result perfectly?",
+        "how": "Group rows by contest; a contest counts as fully "
+               "correct only when the SET of predicted winners equals "
+               "the SET of actual winners — both seats, exactly the "
+               "same two people.",
+        "numbers": "18 of 81 wards — the baseline got both seats right "
+                   "in under a quarter of contests.",
+        "lines": [
+            ("{predicted_elected} == {observed_elected} (as sets)",
+             "set equality: both predicted winners must be exactly the "
+             "two real winners — one wrong name fails the ward"),
+        ],
+    },
+    "descriptive_2026_targets.reform_block": {
+        "problem": "Compute t01's Reform descriptives: how the baseline "
+                   "saw (and missed) the party with no history.",
+        "how": "Filter to the 162 Reform rows; average predicted and "
+               "observed shares; count candidates ranked top-two "
+               "(elected) in prediction vs reality.",
+        "numbers": "Mean predicted 9.3% vs observed 10.7%; predicted "
+                   "top-two contests 0 vs observed 14 — the baseline "
+                   "never put a single Reform candidate in the top "
+                   "two.",
+        "lines": [
+            ("sum(r[\"pred\"] for r in reform) / len(reform)",
+             "mean predicted share over the 162 Reform candidates"),
+            ("sum(1 for r in reform if int(r[\"predicted_rank\"]) <= 2)",
+             "how many Reform candidates the baseline ranked in the "
+             "top two: zero"),
+        ],
+    },
+    "descriptive_2026_targets.deciding_margin_mae": {
+        "problem": "Compute t01's deciding-margin MAE: how well did the "
+                   "baseline predict the GAP that decides the last "
+                   "seat?",
+        "how": "Per contest, sort candidates by predicted share and by "
+               "observed share; the deciding margin is 2nd place minus "
+               "3rd place (the gap between the last winner and the "
+               "first loser in a two-seat ward); average "
+               "|predicted gap − observed gap| across contests with at "
+               "least three candidates.",
+        "numbers": "4.31 share points over 81 contests — the closeness "
+                   "of races was mispredicted by about as much as the "
+                   "shares themselves.",
+        "lines": [
+            ("predicted_gap = by_pred[1][\"pred\"] - by_pred[2][\"pred\"]",
+             "the deciding margin: 2nd (last winner) minus 3rd (first "
+             "loser) in the predicted ordering"),
+            ("errors.append(abs(predicted_gap - observed_gap))",
+             "per-contest error of that gap; the table reports its "
+             "mean"),
+        ],
+    },
     "descriptive_2026_targets.load_2026_rows": {
         "problem": "Load the scored 2026 holdout rows for the "
                    "descriptive baseline tables.",
@@ -1267,6 +1503,38 @@ ANNOTATIONS: dict[str, dict] = {
              "the denominator context recorded with every scenario"),
         ],
     },
+    "news_features/build_feature_table_v2.main": {
+        "problem": "The v2 wrapper: rebuild the feature table on the "
+                   "enriched corpus WITHOUT touching a single "
+                   "aggregation rule — its main() is one line, "
+                   "delegating to the frozen v1 builder.",
+        "how": "The module overrides exactly three globals before "
+               "delegating: the output paths (news_feature_table_v2.*), "
+               "the corpus source (release v2 instead of v1), and the "
+               "election grid (adding the eight by-elections). It also "
+               "names three tranches extracted AFTER this table was "
+               "written (haslemere1, e5local1, wokingsouth1 — 321 "
+               "articles belonging to other lineages, one of which "
+               "failed its own kappa gate at 0.476) and excludes them, "
+               "which restores the property that the rebuild is "
+               "byte-identical to the committed CSV.",
+        "numbers": "news_feature_table_v2.csv — 864 rows, the table the "
+                   "frozen Stage 2 models read.",
+        "lines": [
+            ("def main(): frozen.main()",
+             "the whole wrapper: every rule runs from the v1 builder, "
+             "unchanged"),
+            ("frozen.GRID_ELECTIONS = ... | {SCC-2013..., ESWS-2026...}",
+             "(module level) the grid gains the eight enrichment "
+             "by-elections"),
+            ("frozen.EXCLUDED_TRANCHES = {haslemere1, e5local1, "
+             "wokingsouth1}",
+             "(module level) three later tranches from other lineages "
+             "are named and excluded — with this line the rebuild is "
+             "byte-identical to the committed CSV; without it the table "
+             "cannot be rebuilt at all"),
+        ],
+    },
     "news_features/build_feature_table.main": {
         "problem": "THE feature factory: turn labelled articles into "
                    "the election\u00d7party\u00d7period feature table "
@@ -1433,6 +1701,606 @@ ANNOTATIONS: dict[str, dict] = {
              "it"),
         ],
     },
+    "combined_specification.supported_absolute_errors": {
+        "problem": "Produce one arm's per-candidate error list, keyed "
+                   "by candidate id, so two arms can later be compared "
+                   "on IDENTICAL rows.",
+        "how": "Step 1: fit the arm's ridge on the 45 frozen cells and "
+               "predict the blinded 2026 rows — same frozen calls as "
+               "run_arm, so an arm's errors here and its delta there "
+               "come from identical predictions. "
+               "Step 2: per supported candidate, store |prediction − "
+               "observed| along with the contest ids the bootstrap "
+               "needs.",
+        "numbers": "The raw material of every cell in the marginals "
+                   "table (753 error pairs per contrast).",
+        "lines": [
+            ("errors[row[\"candidate_contest_id\"]] = {...}",
+             "keyed by candidate id — the pairing handle: the same "
+             "person's error under two arms"),
+        ],
+    },
+    "combined_specification.paired_contrast": {
+        "problem": "Compute one ingredient's marginal: does the full "
+                   "three-ingredient arm beat the nested arm missing "
+                   "that ingredient — with an interval on the "
+                   "DIFFERENCE?",
+        "how": "Step 1: join the two arms' error lists by candidate id "
+               "into one row per person (comparator error, full "
+               "error). "
+               "Step 2: point estimate = comparator MAE − full MAE "
+               "(positive = the full arm is better, i.e. the "
+               "ingredient adds value). "
+               "Step 3: reuse the FROZEN bootstrap (same resampler, "
+               "same seed): each draw picks contests once and scores "
+               "both arms on that draw, so the interval belongs to "
+               "the difference, not to two overlapping marginals.",
+        "numbers": "Every cell of the paired-marginals table, "
+                   "including tone's marginal at 31-90d: −0.1229 "
+                   "[−0.1595, −0.0879] — centred tone SUBTRACTS "
+                   "out-of-sample value once identity and volume are "
+                   "known.",
+        "lines": [
+            ("\"baseline_absolute_error\": entry[\"absolute_error\"], "
+             "\"news_absolute_error\": full_errors[key][...]",
+             "the pairing: one row = one candidate under both arms — "
+             "the same trick as the headline CI"),
+            ("interval = bootstrap_improvement(rows)",
+             "the same frozen CI machine, re-aimed at an arm-vs-arm "
+             "difference"),
+        ],
+    },
+    "placebo_specifications.run_arm": {
+        "problem": "Run one content-feature placebo specification "
+                   "through the FROZEN pipeline: the frozen pair plus "
+                   "one extra content feature, scored exactly like the "
+                   "real thing.",
+        "how": "Step 1: fit the frozen per-window ridge with the "
+               "augmented column list on the same 45 cells. "
+               "Step 2: predict the blinded 2026 rows with the frozen "
+               "applier (clipping and renormalisation included). "
+               "Step 3: rank seats deterministically, then hand the "
+               "predictions to score_specification WITH bootstrap. "
+               "Post-unblinding and register-recorded — these CIs "
+               "diagnose, they cannot promote.",
+        "numbers": "Every delta and CI in a13 — e.g. positive_share "
+                   "at 31-90d +0.5718 [+0.3864, +0.7533], the only "
+                   "whole-CI pass; the all-seven bundle −0.6635.",
+        "lines": [
+            ("model, record = _fit_specification(cells, feature_index, "
+             "period=window, feature_columns=columns)",
+             "same frozen fit, one extra column — the ONLY thing that "
+             "changes per placebo arm"),
+            ("metrics = score_specification(predictions, observed, "
+             "with_bootstrap=True)",
+             "same marking machine as the confirmatory grid, so a13's "
+             "numbers are comparable by construction"),
+        ],
+    },
+    "woking_south_blind_protocol.committed_delta": {
+        "problem": "Look up one arm×window's committed 2026 delta — "
+                   "the raw material for the blind test's arm-picking "
+                   "rule.",
+        "how": "Local deltas come from the v3 re-run record; combined "
+               "and national from the frozen unblinding record's "
+               "confirmatory entries. Read, never recomputed.",
+        "numbers": "The 18 deltas in t20's derivation table.",
+        "lines": [
+            ("if (entry[\"family\"] == \"confirmatory\" ...",
+             "only committed, pre-existing numbers may steer the "
+             "blind pick"),
+        ],
+    },
+    "woking_south_blind_protocol.derive_combination": {
+        "problem": "Freeze the blind test's arm-picking rule as code: "
+                   "which arm serves each window, decided BEFORE the "
+                   "Woking South result exists.",
+        "how": "Step 1: per window, look up the three arms' committed "
+               "2026 deltas. "
+               "Step 2: the window goes to the arm with the largest "
+               "delta; ties at 4 dp fall to alphabetical order — even "
+               "the tie-break is frozen. "
+               "Step 3: return the full delta table beside the "
+               "winners, so the derivation is visible, not just its "
+               "result.",
+        "numbers": "t20's combination_pick column — including the "
+                   "pre-registered pick (local, 91-180d) that turned "
+                   "out worst of 18.",
+        "lines": [
+            ("winner = max(sorted(deltas), key=lambda arm: deltas[arm])",
+             "the whole rule in one line: largest committed delta "
+             "wins, sorted() fixes the tie-break"),
+        ],
+    },
+    "run_production_news_lopo.main": {
+        "problem": "The LOPO runner: wire the committed inputs into "
+                   "run_lopo and print the verdict.",
+        "how": "Calls run_lopo on the frozen feature table, audit, "
+               "OOF file and primary results; writes the record and "
+               "prints the counts — including the explicit '2026 "
+               "holdout read: no'.",
+        "numbers": "The printed summary of the LOPO record.",
+        "lines": [
+            ("print(\"2026 holdout read       : no\")",
+             "the check is pre-holdout by construction and says so"),
+        ],
+    },
+    "blinded_2026_predictions._fitting_rows_for_variant": {
+        "problem": "Serve the training cells for whichever declared "
+                   "fit variant is being run — the main pooled fit or "
+                   "the 2017-only replication.",
+        "how": "Step 1: 'pooled_2017_2021' → the standard pooled "
+               "residual cells (the production v1 fit). "
+               "Step 2: 'fit_2017_only' → ONLY the 2017 party rows, "
+               "produced by the v1 experiment's own aggregator, so the "
+               "replication variant cannot drift from the protocol it "
+               "replicates. "
+               "Step 3: any other name raises — variants must be "
+               "declared, not improvised.",
+        "numbers": "The training cells behind the 2017-only "
+                   "sensitivity family in t06 (0 of 18 improve).",
+        "lines": [
+            ("if variant == \"fit_2017_only\":",
+             "the replication fork: same pipeline, smaller declared "
+             "training set"),
+            ("raise ProductionExperimentError(f\"Unknown fitting "
+             "variant: {variant!r}\")",
+             "no undeclared variants can ever run"),
+        ],
+    },
+    "build_report_tables.t06_sensitivity_summary": {
+        "problem": "Compute t06's numbers: per (version, family), how "
+                   "many sensitivity comparisons ran, how many improved, "
+                   "and the best/worst delta — a summary instead of 84 "
+                   "rows of non-promotable detail.",
+        "how": "Step 1: walk the frozen unblinding record and keep only "
+               "entries whose family is 'sensitivity' (the mirror image "
+               "of t04/t05's confirmatory filter). "
+               "Step 2: bucket the deltas by (version, analysis group). "
+               "Step 3: per bucket, count the comparisons, count deltas "
+               "> 0, and take max and min.",
+        "numbers": "All of t06 — e.g. v2 local_sensitivity: 12 "
+                   "comparisons, 8 improved, best +0.508, worst −0.833.",
+        "lines": [
+            ("if entry[\"family\"] != \"sensitivity\": continue",
+             "only sensitivity cells enter — the same one-line boundary "
+             "that keeps them OUT of t04/t05"),
+            ("\"improved\": sum(1 for d in deltas if d > 0)",
+             "the improved count: how many of the bucket's deltas are "
+             "positive"),
+            ("\"best_delta\": round(max(deltas), 3)",
+             "best and worst delta bracket the family's range — the "
+             "table's last two columns"),
+        ],
+    },
+    "exploratory_decompositions._score": {
+        "problem": "Score one refitted specification the same way the "
+                   "official scorer would: supported-row MAE for news "
+                   "and control, and their difference.",
+        "how": "Step 1: skip rows without a party key (unsupported). "
+               "Step 2: per row take |prediction − observed| for the "
+               "news and the recalibrated columns. "
+               "Step 3: average each and subtract — the same ΔMAE "
+               "definition as score_specification, reimplemented "
+               "minimally for refit experiments.",
+        "numbers": "t09's no_reform_delta column: each refit's ΔMAE on "
+                   "the same 753-row scoring population.",
+        "lines": [
+            ("if row[\"party_key\"] is None: continue",
+             "same 832→753 gate as the official scorer, expressed via "
+             "the party key"),
+            ("float(np.mean(recal) - np.mean(news))",
+             "ΔMAE = control error − news error, identical convention "
+             "to t04/t05"),
+        ],
+    },
+    "exploratory_decompositions.decomposition_one": {
+        "problem": "Compute t09: is the headline improvement carried by "
+                   "the seven Reform-era training cells? Refit every "
+                   "confirmatory specification WITHOUT them and compare "
+                   "deltas.",
+        "how": "Step 1: rebuild the 45 v2 fitting cells, then drop the "
+               "Reform ones (45 → 38). "
+               "Step 2: for each of the 12 confirmatory (arm, window) "
+               "specifications, refit the frozen ridge on the reduced "
+               "cells and re-predict the blinded 2026 rows with the "
+               "frozen applier. "
+               "Step 3: score each refit (_score) and set it beside the "
+               "full fit's frozen delta — read from the unblinding "
+               "record, never recomputed, so the reference cannot "
+               "drift. "
+               "Step 4: verdict per row — improvement survives or "
+               "collapses without the Reform cells.",
+        "numbers": "All of t09: e.g. combined 31-90d +0.2404 → +0.0773 "
+                   "(survives, shrunken); national 31-90d +0.2683 → "
+                   "−0.0015 (collapses); 3 survive, 2 collapse.",
+        "lines": [
+            ("no_reform = [c for c in full_cells if c[\"party_key\"] != "
+             "\"reform_uk\"]",
+             "the intervention: the same fit minus the 7 Reform-era "
+             "cells"),
+            ("full_delta = {... for e in unblinding[\"files\"][\"v2\"] "
+             "if e[\"family\"] == \"confirmatory\"}",
+             "the comparison column comes from the frozen record — this "
+             "table can never disagree with section 16"),
+            ("entry[\"verdict\"] = \"improvement collapses without "
+             "Reform cells\"",
+             "the plain-language verdict printed in t09's last column"),
+        ],
+    },
+    "exploratory_decompositions._confirmatory_blocks": {
+        "problem": "Prepare the raw material for the mechanism "
+                   "decompositions: per (arm, window), each party's "
+                   "(prediction, observed) pairs for both the news and "
+                   "the baseline predictions.",
+        "how": "Step 1: read the frozen v2 prediction file once. "
+               "Step 2: keep only confirmed-window, reported-metric "
+               "rows of the v2 variant. "
+               "Step 3: file each row's (news prediction, observed) "
+               "pair under its party and under 'all', and the same "
+               "row's (baseline prediction, observed) pair under a "
+               "'baseline|' prefix — one read serves both sides of "
+               "every comparison.",
+        "numbers": "The input pairs behind every cell of t10 (pooled) "
+                   "and t11/t12 (per-party).",
+        "lines": [
+            ("if row[\"included_in_reported_metrics\"] != \"True\": "
+             "continue",
+             "same 753 scoring population as everywhere else"),
+            ("blocks[key][\"baseline|\" + row[\"party_key\"]].append(...)",
+             "news and baseline pairs travel together, so each party's "
+             "before/after split uses identical rows"),
+        ],
+    },
+    "exploratory_decompositions._split_errors": {
+        "problem": "The mechanism lens: split a set of signed errors "
+                   "into LEVEL (bias) and SPREAD (dispersion).",
+        "how": "Step 1: errors = prediction − observed (signed). "
+               "Step 2: bias = their mean; |bias| is the level error. "
+               "Step 3: dispersion = mean |error − bias| — what remains "
+               "after the level is removed. A broadcast party-level "
+               "adjustment can only move the bias term, so this split "
+               "is exactly the test of the tide-gauge reading.",
+        "numbers": "Every bias/dispersion cell in t10-t12 (and the "
+                   "same split, byte-compatible, underlies t22).",
+        "lines": [
+            ("bias = float(np.mean(errors))",
+             "the level: the party's average signed miss"),
+            ("\"dispersion_mae\": ... np.mean(np.abs(errors - bias))",
+             "the spread news cannot touch: ward-to-ward variation "
+             "after removing the level"),
+        ],
+    },
+    "exploratory_decompositions.decomposition_two": {
+        "problem": "Compute t10: pooled over all parties, did news move "
+                   "the bias term or the dispersion term?",
+        "how": "Step 1: per (arm, window), pool every supported row's "
+               "pairs. "
+               "Step 2: _split_errors on the news pairs and on the "
+               "baseline pairs. "
+               "Step 3: report the change in each component. Pooled "
+               "bias is pinned near zero by contest normalisation "
+               "(shares in a contest sum to 100), so the informative "
+               "pooled column is DISPERSION — which falls exactly in "
+               "the improving windows.",
+        "numbers": "All of t10: baseline vs news dispersion and its "
+                   "change, per confirmatory specification.",
+        "lines": [
+            ("news_all = split(parties[\"all\"])",
+             "the pooled split: all 753 rows as one crowd"),
+            ("\"dispersion_change\": round(news_all[\"dispersion_mae\"] "
+             "- base_all[\"dispersion_mae\"], 4)",
+             "t10's key column: negative = news tightened the "
+             "ward-to-ward spread"),
+        ],
+    },
+    "compare_news_approaches.fitting_cells": {
+        "problem": "Build the training cells for the A-vs-B design "
+                   "comparison, keeping the observed and baseline means "
+                   "separate (the joint approach needs both).",
+        "how": "Step 1: walk the OOF rows of the fitting elections. "
+               "Step 2: group by (election, party) — the same "
+               "anti-pseudo-replication grain as every production fit. "
+               "Step 3: per cell store mean observed share and mean "
+               "baseline prediction (their difference is the residual "
+               "approach's target).",
+        "numbers": "The cells both approaches in t13 train on.",
+        "lines": [
+            ("sums[(election, key)]",
+             "one cell per election×party — news is party-level, so "
+             "the fit must be too"),
+            ("\"mean_observed\": ... \"mean_baseline\": ...",
+             "kept separate: A models observed−baseline; B models "
+             "observed with baseline as a feature"),
+        ],
+    },
+    "compare_news_approaches.leave_one_election_out": {
+        "problem": "Compute t13's numbers: with the tiny v1 sample, "
+                   "which design wins — residual correction (A) or "
+                   "joint model (B)?",
+        "how": "Step 1: hold out one fitting election at a time. "
+               "Step 2: approach A — fit the ridge on news features "
+               "only, target = observed − baseline; predict the "
+               "held-out cells' adjustment; error = |baseline + "
+               "adjustment − observed|. "
+               "Step 3: approach B — fit the same ridge but with the "
+               "baseline as an extra feature the model may re-weight; "
+               "target = observed itself. "
+               "Step 4: baseline-only reference: |baseline − observed| "
+               "untouched. Pool the held-out errors per approach.",
+        "numbers": "t13's three MAE columns per window — the record "
+                   "behind choosing the residual design (Approach A) "
+                   "for the frozen pipeline.",
+        "lines": [
+            ("target_a = ... cell[\"mean_observed\"] - "
+             "cell[\"mean_baseline\"]",
+             "A's target is the residual: what history got wrong"),
+            ("design_b ... with_baseline=True",
+             "B lets the ridge re-weight the baseline itself — riskier "
+             "with 11 cells, and it showed"),
+            ("errors[\"baseline_only\"].append(...)",
+             "the do-nothing reference both approaches must beat"),
+        ],
+    },
+    "haslemere_probe_prediction.load_haslemere_baseline": {
+        "problem": "Assemble the Haslemere by-election's five candidate "
+                   "rows exactly as the frozen pipeline would see a "
+                   "holdout contest: baseline prediction, recalibrated "
+                   "control, blinded fields.",
+        "how": "Step 1: read the Stage 1 bundle's rows for the sealed "
+               "Haslemere contest. "
+               "Step 2: build the same blinded row shape the 2026 "
+               "holdout used (outcome columns stripped). "
+               "Step 3: return the observed results separately, for "
+               "scoring only.",
+        "numbers": "The five-row contest behind every t14/t15 cell.",
+        "lines": [
+            ("sanitise_holdout_rows(...)",
+             "the same blinding guard as the 2026 holdout — the probe "
+             "predicts first, looks second"),
+        ],
+    },
+    "haslemere_probe_prediction.score": {
+        "problem": "Compute t14/t15's numbers for one specification on "
+                   "the Haslemere contest: MAE, per-party signed "
+                   "errors, and the winner call — for all three "
+                   "prediction columns.",
+        "how": "Step 1: define one inner scorer and run it three times "
+               "(news / recalibrated / baseline) — same "
+               "one-scorer-many-crowds pattern as score_specification. "
+               "Step 2: per candidate, error = prediction − observed "
+               "share; MAE = mean |error|. "
+               "Step 3: the predicted winner is the highest predicted "
+               "share; compare against the real winner.",
+        "numbers": "Every t14 row (3 of 12 specifications beat the "
+                   "control; window ordering 31-90 best / 91-180 worst "
+                   "replicates) and t15's reference columns.",
+        "lines": [
+            ("def one(column: str) -> dict:",
+             "defined once, called for news, control and baseline — "
+             "identical arithmetic per column"),
+            ("\"winner_correct\": top_party == winner_observed",
+             "the seat-level call for this one-seat contest"),
+        ],
+    },
+    "local_v3_rerun.reference_deltas": {
+        "problem": "Pin the committed numbers the v3 re-run is read "
+                   "against: the frozen v2 local-sensitivity and "
+                   "confirmatory deltas per window.",
+        "how": "Read the unblinding record and index the relevant "
+               "deltas by window — read, not recomputed, so the "
+               "comparison column of t19 cannot drift from section "
+               "16.",
+        "numbers": "t19's reference columns (the frozen v2 deltas each "
+                   "v3 window is compared to).",
+        "lines": [
+            ("if entry[\"analysis\"] == \"local_sensitivity\"",
+             "the v2 local arm is the direct predecessor the re-run "
+             "must be read against"),
+        ],
+    },
+    "local_v3_rerun.main": {
+        "problem": "Compute t19: re-run the local arm on the "
+                   "gate-passing v3 feature lineage and score it with "
+                   "the production machinery.",
+        "how": "Step 1: assert the licence — every v3 column must "
+               "carry a 'usable' verdict in the committed metadata; a "
+               "failed gate raises instead of silently serving. "
+               "Step 2: rebuild the 45 v2 cells, fit the frozen ridge "
+               "per window on the v3 features, predict the blinded "
+               "2026 rows. "
+               "Step 3: score each window with score_specification "
+               "(with bootstrap) — the SAME scorer as the confirmatory "
+               "grid. "
+               "Step 4: write results beside the frozen reference "
+               "deltas.",
+        "numbers": "All of t19: 4 of 6 windows improve, with a sign "
+                   "inversion at 180-91 days.",
+        "lines": [
+            ("if verdicts[column][\"verdict\"] != \"usable\": raise "
+             "RuntimeError(...)",
+             "the kappa-gate crossing is asserted, not assumed — a "
+             "stale table cannot serve"),
+            ("metrics = score_specification(predictions, observed, "
+             "with_bootstrap=True)",
+             "same marking machine as t04/t05 — comparable numbers by "
+             "construction"),
+        ],
+    },
+    "woking_south_unseal.assert_predictions_committed": {
+        "problem": "Enforce the blind test's order of events in code: "
+                   "predictions must be committed to git BEFORE any "
+                   "result is read.",
+        "how": "Step 1: hash the predictions file on disk (git "
+               "hash-object). "
+               "Step 2: ask git for the blob id of the same path in "
+               "HEAD. "
+               "Step 3: refuse to unseal unless both exist and are "
+               "identical — the commit is the timestamped proof the "
+               "predictions predate the look.",
+        "numbers": "No numbers — it produces the LICENCE for every "
+                   "number in t20/t21.",
+        "lines": [
+            ("if in_head.returncode != 0: raise RuntimeError(\"UNSEAL "
+             "REFUSED: ... Commit the predictions first",
+             "not committed → no unsealing, full stop"),
+            ("if in_head.stdout.strip() != on_disk:",
+             "committed but edited since → also refused; what is "
+             "scored is exactly what was committed"),
+        ],
+    },
+    "woking_south_unseal.read_outcomes_once": {
+        "problem": "The single point where the blind test touches "
+                   "reality: read the five observed results, once.",
+        "how": "Scan the master OOF file for the Woking South "
+               "election's five rows and return share + elected flag "
+               "per candidate; assert exactly five rows came back.",
+        "numbers": "The observed shares every t20/t21 error is "
+                   "measured against.",
+        "lines": [
+            ("if len(outcomes) != 5: raise RuntimeError(...)",
+             "five candidates expected; anything else aborts the "
+             "unsealing"),
+        ],
+    },
+    "woking_south_unseal.main": {
+        "problem": "Compute every number in t20 and t21: score all 18 "
+                   "sealed specifications against the just-read "
+                   "outcomes.",
+        "how": "Step 1: verify the git lock, then read the outcomes "
+               "once. "
+               "Step 2: group the sealed predictions by (arm, window). "
+               "Step 3: per specification — MAE for news / control / "
+               "baseline via one inner mae() helper; the winner call "
+               "(highest news prediction vs the real winner); Reform's "
+               "signed error. "
+               "Step 4: write the results JSON and findings table, "
+               "flagging the pre-registered pick.",
+        "numbers": "All of t20 (the pick — local 91-180d — was the "
+                   "worst of 18) and t21's per-party autopsy "
+                   "(adjustment worsened all five parties; the LD "
+                   "landslide 64.0% was encoded nowhere).",
+        "lines": [
+            ("blob = assert_predictions_committed()",
+             "scoring cannot start before the git lock passes"),
+            ("def mae(column: str) -> float:",
+             "one scorer, three prediction columns — the pattern "
+             "again"),
+            ("\"reform_signed_error\": ...",
+             "t21's key column: signed, so direction of the miss is "
+             "visible"),
+        ],
+    },
+    "production_news_lopo.run_lopo": {
+        "problem": "Compute the LOPO stability check: remove one "
+                   "party's training cells at a time and re-score all "
+                   "18 pre-holdout comparisons — does the conclusion "
+                   "depend on any single party?",
+        "how": "Step 1: audit the inputs (holdout untouched, same "
+               "corpus release, same training parties as the primary "
+               "run) — any mismatch raises. "
+               "Step 2: for each of the five parties, drop its cells "
+               "and refit every (arm, window) specification with the "
+               "production machinery, no bootstrap. "
+               "Step 3: set each omitted delta beside the primary "
+               "run's frozen delta and record the change, coefficient "
+               "sign flips, and whether the omission CREATED an "
+               "improvement.",
+        "numbers": "The LOPO record: removing Conservative cells "
+                   "produced 6 of 18 improvements; removing any other "
+                   "party, none.",
+        "lines": [
+            ("if primary.get(\"stage1_holdout_file_read\") is not "
+             "False: raise LopoAuditError(...)",
+             "the check runs pre-holdout by construction — it audits "
+             "that the primary run never read the holdout"),
+            ("reduced = {party: row ... if party != omitted_party}",
+             "the intervention: one party's cells removed, everything "
+             "else frozen"),
+            ("\"creates_overall_improvement\": omitted_delta > 0",
+             "the question the check answers, one boolean per "
+             "comparison"),
+        ],
+    },
+    "identity_placebos.tone_trajectories": {
+        "problem": "Build the trajectory placebo: does the DIRECTION "
+                   "of tone over the campaign (softening vs hardening) "
+                   "predict anything?",
+        "how": "Step 1: per (election, party), collect (time-to-poll "
+               "midpoint, tone) points — windows with no articles are "
+               "SKIPPED, not read as zero, so thin coverage cannot "
+               "manufacture a fake swing to neutrality. "
+               "Step 2: fit a least-squares slope per cell (needs ≥2 "
+               "covered windows; otherwise the feature says nothing). "
+               "Step 3: scale to tone change per 100 days so the "
+               "coefficient is readable beside [-1,1] features.",
+        "numbers": "The trajectory arm of the identity-placebo record "
+                   "(part of the 'what carries the signal' battery).",
+        "lines": [
+            ("if count in (\"\", \"0\") ... continue",
+             "no articles → no point; zero coverage is missing data, "
+             "not neutral tone"),
+            ("slopes[key] = covariance / spread * 100",
+             "the least-squares slope, rescaled per 100 days"),
+        ],
+    },
+    "identity_placebos.variance_split": {
+        "problem": "Answer 'is the news signal mostly WHO you are "
+                   "(party identity) or HOW you are covered?': split "
+                   "each feature's variance into between-party and "
+                   "within-party shares.",
+        "how": "Step 1: per window and feature, group the fitting "
+               "cells' values by party. "
+               "Step 2: between = variance of party means around the "
+               "grand mean (weighted by group size); within = variance "
+               "around each party's own mean. "
+               "Step 3: report each as a share of the total, plus the "
+               "party means themselves.",
+        "numbers": "The variance-split table in the identity-placebo "
+                   "record — how much of each feature a party dummy "
+                   "could mimic.",
+        "lines": [
+            ("between = sum(len(g) * (sum(g) / len(g) - grand) ** 2 ...",
+             "the between-party component: what a party dummy can "
+             "capture"),
+            ("within = sum(sum((v - sum(g) / len(g)) ** 2 ...",
+             "the within-party component: what only actual coverage "
+             "differences can supply"),
+        ],
+    },
+    "stance_volume_margins._pearson": {
+        "problem": "One small dependency-free correlation: Pearson r "
+                   "between two lists, None when n < 3 or a spread is "
+                   "zero.",
+        "how": "Covariance divided by the product of the two standard "
+               "deviations, computed longhand.",
+        "numbers": "The r values in the volume-proxy check.",
+        "lines": [
+            ("if n < 3 or n != len(ys): return None",
+             "too few points → no correlation claimed, rather than a "
+             "meaningless one"),
+        ],
+    },
+    "stance_volume_margins.volume_weighting_check": {
+        "problem": "Check whether tone is secretly a volume proxy: per "
+                   "window, how correlated are net portrayal and "
+                   "article count over the covered fitting cells?",
+        "how": "Step 1: per window, collect (article count, net tone) "
+               "pairs for fitting cells with coverage. "
+               "Step 2: Pearson r and r² per window. High |r| would "
+               "mean the two features carry one signal, not two.",
+        "numbers": "The per-window r/r² table in the margins record "
+                   "(supervisor-directed replacement for the earlier "
+                   "sign count).",
+        "lines": [
+            ("if count_str in (\"\", \"0\") or tone_str == \"\": "
+             "continue",
+             "only covered cells enter — zeros are absence, not data"),
+            ("\"r_squared\": round(r ** 2, 4)",
+             "shared-variance share: how much of tone volume already "
+             "explains"),
+        ],
+    },
     "make_report_figures.figure_confirmatory": {
         "problem": "Draw the report's headline figure — the forest plot "
                    "of all 24 confirmatory comparisons (paper Figure 4, "
@@ -1466,6 +2334,256 @@ ANNOTATIONS: dict[str, dict] = {
             ("ax.axvline(0, ...)",
              "the zero line: the visual form of 'does the CI exclude "
              "zero'"),
+        ],
+    },
+    "make_report_figures.figure_seats": {
+        "problem": "Compute and draw fig2's seat totals: how many seats "
+                   "the history-only baseline gave each party versus how "
+                   "many the party actually won.",
+        "how": "Step 1: read the scored 2026 holdout rows (same file as "
+               "t01-t03). "
+               "Step 2: for each row add 1 to the party's predicted "
+               "counter if predicted_elected is True, and 1 to its "
+               "actual counter if observed_elected is True — parties "
+               "outside the six main ones are pooled into one "
+               "'Residents' assocs & other local' group. "
+               "Step 3: draw one hatched bar (predicted) and one solid "
+               "bar (actual) per party, labelled with the exact "
+               "counts.",
+        "numbers": "Every number printed on fig2: Conservative 118 vs "
+                   "30, Liberal Democrats 6 vs 96, Reform UK 0 vs 14, "
+                   "Residents' assocs & other local 36 vs 11, Green 0 "
+                   "vs 8, Independent 0 vs 3, Labour 2 vs 0.",
+        "lines": [
+            ("predicted[group] += row[\"predicted_elected\"] == \"True\"",
+             "the predicted seat count: True adds 1, False adds 0 — a "
+             "party's bar is just how many of its rows carry the "
+             "predicted-winner flag"),
+            ("actual[group] += row[\"observed_elected\"] == \"True\"",
+             "the actual seat count, same rule on the observed flag"),
+            ("group = party if party in main else \"Residents' assocs "
+             "& other local\"",
+             "small local parties are pooled into one bar — the only "
+             "difference from t03's exact per-party list"),
+        ],
+    },
+    "per_party_bootstrap.error_split": {
+        "problem": "Split one party's signed errors into the two "
+                   "components the whole per-party story is told in: "
+                   "LEVEL (bias — is the party as a whole over- or "
+                   "under-predicted?) and DISPERSION (spread around "
+                   "that level).",
+        "how": "Step 1: bias = the plain mean of the signed errors "
+               "(predicted − observed, so positive = overpredicted). "
+               "Step 2: dispersion = mean |error − bias|, the spread "
+               "left after removing the level. "
+               "Step 3: total MAE = mean |error| for reference. All "
+               "rounded to 4 dp.",
+        "numbers": "Every level number on fig4/fig6 and in t22 starts "
+                   "here: e.g. Reform 2021 bias +12.21 under the "
+                   "baseline vs +3.07 under news; Reform 2026 bias "
+                   "−1.33 vs −3.16.",
+        "lines": [
+            ("bias = float(errors.mean())",
+             "the LEVEL: the party's average signed miss — the "
+             "quantity the news adjustment moves"),
+            ("\"dispersion_mae\": ... np.abs(errors - bias).mean()",
+             "the SPREAD after removing the level — t10-t12 show news "
+             "moves levels, not spread"),
+            ("\"abs_bias\": round(abs(bias), 4)",
+             "|bias| is what the change columns compare: did news "
+             "bring the party's level closer to zero?"),
+        ],
+    },
+    "per_party_bootstrap.block_analysis": {
+        "problem": "Compute, for ONE (island, arm, window) "
+                   "specification, every per-party number and interval "
+                   "on fig4, fig5 (dots), fig6 (heatmap) and t22: each "
+                   "party's level change under news, the fitted-group "
+                   "mean, the Reform-minus-group contrast, and paired "
+                   "bootstrap intervals for all of them.",
+        "how": "Step 1: build each model's signed-error vector "
+               "(prediction − observed) for baseline, recalibrated "
+               "control and news. "
+               "Step 2: point estimates — per party, error_split each "
+               "model's errors and take abs_bias_change = news |bias| "
+               "− control |bias| (negative = news improved that "
+               "party's level); the group value is the unweighted MEAN "
+               "over the non-Reform parties (party-level mean, so an "
+               "81-row Conservative slate cannot outvote a 36-row "
+               "Green one); the contrast is Reform minus that mean. "
+               "Step 3: intervals — 2,000 paired draws: resample the "
+               "CONTESTS with replacement, and inside each draw "
+               "recompute every party's change, the group mean AND the "
+               "contrast from the same resampled contests, so the "
+               "contrast's interval belongs to the difference itself. "
+               "Step 4: summarise each quantity's draws into a 95% "
+               "percentile interval.",
+        "numbers": "All of t22; every bar and whisker on fig4; every "
+                   "heatmap cell on fig6's top panel (e.g. Liberal "
+                   "Democrat −4.84 and Green +5.06 at 91-180 days); "
+                   "every dot on fig5.",
+        "lines": [
+            ("errors = {model: np.array([r[model] for r in rows]) - "
+             "observed for model in (\"baseline\", \"recalibrated\", "
+             "\"news\")}",
+             "three error vectors over the same candidates — every "
+             "comparison is three readings of one exam"),
+            ("entry[f\"abs_bias_change_vs_{control}\"] = ... "
+             "models[\"news\"][\"abs_bias\"] - models[control][\"abs_bias\"]",
+             "the heatmap/dot quantity: negative = news moved the "
+             "party's level closer to zero"),
+            ("group_point[q] = ... np.mean([point[p][q] for p in "
+             "group_present])",
+             "group = unweighted mean over fitted parties, one vote "
+             "per party"),
+            ("contrast_point[q] = point[study_party][q] - group_point[q]",
+             "fig4's bar: Reform's change minus the group's — did "
+             "news treat Reform worse than the parties it was fitted "
+             "on?"),
+            ("picked = rng.integers(0, len(contests), size=len(contests))",
+             "the paired draw: resample whole contests, recompute "
+             "everything inside — same bootstrap unit as the headline "
+             "CI"),
+            ("draws[q][\"contrast\"][d] = per_party[study_party][q] - "
+             "group_value",
+             "the contrast recomputed inside every draw — that is what "
+             "makes its interval 'paired'"),
+        ],
+    },
+    "per_party_bootstrap._summarise_draws": {
+        "problem": "Turn 2,000 bootstrap draws of one quantity into "
+                   "the interval printed on fig4's whiskers and t22's "
+                   "CI columns.",
+        "how": "Step 1: drop NaN draws (a party absent from a "
+               "resample). "
+               "Step 2: take the 2.5th and 97.5th percentiles — the "
+               "middle 95% of the draws. "
+               "Step 3: also record the share of draws below and above "
+               "zero, because structural-zero windows produce draws "
+               "exactly at zero which one share alone would misread.",
+        "numbers": "Every ci_lower/ci_upper on fig4, t22 and (via "
+                   "comparisons_annex) the fig5 blind-zone bars.",
+        "lines": [
+            ("np.percentile(valid, 2.5) ... np.percentile(valid, 97.5)",
+             "same percentile rule as the headline +0.240 CI — one "
+             "convention across the whole project"),
+            ("\"share_draws_negative\": ... (valid < 0).mean()",
+             "negative draws favour news (an error component "
+             "falling); reported alongside the interval"),
+        ],
+    },
+    "minimal_detectable_effect.mde_from_interval": {
+        "problem": "Compute the ruler-resolution numbers on fig5 and "
+                   "t23: from one bootstrap interval, how small an "
+                   "effect could this cell have certified at all?",
+        "how": "Step 1: half-width = (upper − lower) / 2; a zero "
+               "half-width marks a structural-zero cell (no in-window "
+               "articles, nothing was ever measured). "
+               "Step 2: SE ≈ half-width / 1.96 (normal "
+               "approximation). "
+               "Step 3: MDE50 = the half-width itself (an effect this "
+               "size is detected ~50% of the time); MDE80 = half-width "
+               "× 1.4294 — the (z95 + z80)/z95 factor — the smallest "
+               "effect detected with ~80% power.",
+        "numbers": "Every grey bar on fig5 and every mde_80_power in "
+                   "t23 — e.g. the v2 combined 31-90d overall MDE80 ≈ "
+                   "0.216, which the observed +0.240 clears.",
+        "lines": [
+            ("half = (upper - lower) / 2",
+             "the interval's half-width is the design's noise level — "
+             "everything else is derived from it"),
+            ("\"mde_80_power\": round(half * MDE80_FACTOR, 3)",
+             "MDE80 = half-width × 1.4294: the smallest effect this "
+             "cell would flag in ~80% of resamples"),
+            ("if half <= 0: return {\"status\": \"structural_zero\" ...",
+             "zero-width intervals are labelled structural zeros, not "
+             "treated as infinitely precise"),
+        ],
+    },
+    "minimal_detectable_effect.comparisons_annex": {
+        "problem": "Build fig5's rows: pair each party's OBSERVED "
+                   "level change with that party's OWN detection "
+                   "threshold, one row per (island, arm, window, "
+                   "party).",
+        "how": "Step 1: walk every specification in the per-party "
+               "bootstrap annex. "
+               "Step 2: per party, read the observed "
+               "abs_bias_change_vs_recalibrated point estimate (the "
+               "dot) and its bootstrap interval, and derive the MDE "
+               "numbers from that interval's width (the grey bar) via "
+               "mde_from_interval. "
+               "Step 3: keep the Reform-vs-group contrast as its own "
+               "row — it is a difference with its own paired interval, "
+               "not any single party's. "
+               "Step 4: mark duplicate prediction vectors (combined = "
+               "local + national, so where one component is empty two "
+               "arms coincide) so identical vectors are never counted "
+               "as two independent looks.",
+        "numbers": "Every (dot, bar) pair on fig5 — e.g. Green's wide "
+                   "blind zone on the 2026 panel comes from its "
+                   "interval width, not its sample size.",
+        "lines": [
+            ("observed = spec[\"parties\"][unit][quantity]",
+             "the dot: that party's observed level change, straight "
+             "from the annex's point estimate"),
+            ("**mde_from_interval(interval[\"ci_lower\"], "
+             "interval[\"ci_upper\"])",
+             "the bar: the threshold is derived from THAT party's own "
+             "interval width — thresholds are not shared"),
+            ("units.append((\"reform_vs_group_contrast\", \"contrast\"))",
+             "the contrast keeps its own row with its own paired "
+             "interval"),
+        ],
+    },
+    "minimal_detectable_effect.summarise": {
+        "problem": "Compress the comparison rows into t23: median and "
+                   "range of MDE80 per island × scope × party.",
+        "how": "Step 1: group rows by (island, scope, party) — party "
+               "stays in the key because per-party resolutions differ "
+               "by more than an order of magnitude, so a pooled median "
+               "would be quotable but wrong for every party in it. "
+               "Step 2: per group, count estimable vs structural-zero "
+               "cells and deduplicate shared prediction vectors. "
+               "Step 3: report median, min and max MDE80 over the "
+               "estimable cells.",
+        "numbers": "Every row of t23, including the v2 overall median "
+                   "MDE80 ≈ 0.216 quoted against the observed +0.240.",
+        "lines": [
+            ("grouped[(row[\"island\"], row[\"scope\"], "
+             "row.get(\"party\", \"\"))].append(row)",
+             "party is part of the grouping key — no pooling across "
+             "parties"),
+            ("\"median_mde_80\": round(median(estimable), 3)",
+             "the summary number the report quotes per island/scope"),
+            ("distinct = len({m.get(\"vector_owner\") ...",
+             "identical prediction vectors are counted once — the "
+             "claimed number of independent looks is honest"),
+        ],
+    },
+    "pipeline_overview_figure._candidate_counts": {
+        "problem": "Compute the 2,666 at the top of the corpus funnel: "
+                   "how many candidate articles the screening pipeline "
+                   "actually assessed.",
+        "how": "Step 1: read the three adjudication sheets the frozen "
+               "v1 release hashes — the main E4/E5 decision table plus "
+               "the pilot and validation batches. "
+               "Step 2: the three are confirmed disjoint (zero shared "
+               "article ids), so summing their row counts is exact, "
+               "not an approximation of a union. "
+               "Step 3: count per arm (local / national) for the "
+               "funnel's colour split.",
+        "numbers": "fig0b's top bar: 2,666 candidate articles "
+                   "assessed, split into the local and national arms.",
+        "lines": [
+            ("all_rows = rows(DECISIONS) + rows(PILOT_SHEET) + "
+             "rows(VALIDATION_SHEET)",
+             "the three sheets the release hashes — the same files "
+             "the 2,666 count is frozen from"),
+            ("counts = Counter(r.get(\"arm\", \"unknown\") for r in "
+             "all_rows)",
+             "per-arm counts feed the funnel's local/national colour "
+             "split"),
         ],
     },
     "study_design_figure._counts": {
@@ -1747,6 +2865,94 @@ def provenance_html(key: str, manifest: dict) -> str:
                  "extracted from the repository at build time, never "
                  "copied by hand.</p>")
     return "".join(parts)
+
+
+COMBINED_SPEC = REPO / ("news_features/combined_specification_v1/"
+                        "combined_specification_results.json")
+
+
+def combined_factorial_html() -> str:
+    """The identity factorial and its paired marginals, read at build
+    time from the committed combined-specification record. The headline
+    marginal (centred tone after identity+volume, 31-90d) is asserted
+    against the value quoted in the interpretation bullet."""
+
+    payload = json.loads(COMBINED_SPEC.read_text(encoding="utf-8"))
+    windows = ["180_to_91_days", "90_to_31_days", "30_to_15_days",
+               "14_to_8_days", "7_to_4_days", "final_72_hours"]
+    wlabel = {"180_to_91_days": "91–180d", "90_to_31_days": "31–90d",
+              "30_to_15_days": "15–30d", "14_to_8_days": "8–14d",
+              "7_to_4_days": "4–7d", "final_72_hours": "1–3d"}
+    arm_label = [
+        ("frozen", "frozen news pair (share + tone)"),
+        ("placebo_party_dummies", "party identity alone (6 dummies)"),
+        ("party_dummies_plus_share", "identity + volume"),
+        ("party_dummies_plus_tone_within", "identity + centred tone"),
+        ("tone_within_party", "share + centred tone"),
+        ("party_dummies_plus_volume_and_tone_within",
+         "identity + volume + centred tone (full)"),
+    ]
+    arms = {name: {r["window"]: r["delta_vs_recalibrated"]
+                   for r in payload["arms"][name]}
+            for name, _ in arm_label}
+    tone_marginal = payload["paired_marginals"]["90_to_31_days"][
+        "vs_party_dummies_plus_share"]
+    assert round(tone_marginal["full_minus_comparator_mae_gain"], 4) == -0.1229
+    assert round(tone_marginal["ci_lower"], 4) == -0.1595
+    assert round(tone_marginal["ci_upper"], 4) == -0.0879
+
+    head = "".join(f"<th>{wlabel[w]}</th>" for w in windows)
+    body = []
+    for name, label in arm_label:
+        cells = "".join(f"<td>{arms[name][w]:+.4f}</td>" for w in windows)
+        body.append(f"<tr><td>{label}</td>{cells}</tr>")
+    factorial = (f"<div class='tablewrap'><table><thead><tr>"
+                 f"<th>arm (ΔMAE vs recalibrated control)</th>{head}"
+                 f"</tr></thead><tbody>{''.join(body)}</tbody></table></div>")
+
+    contrast_label = [
+        ("vs_placebo_party_dummies", "full vs identity alone"),
+        ("vs_party_dummies_plus_share",
+         "full vs identity+volume (tone's marginal)"),
+        ("vs_party_dummies_plus_tone_within",
+         "full vs identity+tone (volume's marginal)"),
+        ("vs_tone_within_party",
+         "full vs tone alone (identity's marginal)"),
+    ]
+    rows = []
+    for w in windows:
+        cells = []
+        for key, _ in contrast_label:
+            m = payload["paired_marginals"][w][key]
+            point = m["full_minus_comparator_mae_gain"]
+            starred = m["ci_lower"] > 0 or m["ci_upper"] < 0
+            text = (f"{point:+.4f} [{m['ci_lower']:+.3f}, "
+                    f"{m['ci_upper']:+.3f}]")
+            cells.append(f"<td>{'<strong>' + text + '</strong>' if starred else text}</td>")
+        rows.append(f"<tr><td>{wlabel[w]}</td>{''.join(cells)}</tr>")
+    chead = "".join(f"<th>{label}</th>" for _, label in contrast_label)
+    marginals = (f"<div class='tablewrap'><table><thead><tr><th>window</th>"
+                 f"{chead}</tr></thead><tbody>{''.join(rows)}</tbody>"
+                 f"</table></div>")
+
+    return (
+        "<h3>The identity factorial in one table (exploratory, "
+        "post-unblinding)</h3>"
+        f"{factorial}"
+        "<p class='src'>Every arm: same 45 frozen fitting cells, frozen "
+        "prediction and scoring code; only feature_columns differ. "
+        "Positive = better than the recalibrated control. The dummies "
+        "row repeats +0.8342 across windows because party identity "
+        "reads no article and cannot vary by window.</p>"
+        f"{marginals}"
+        "<p class='src'>Paired contest-bootstrap contrasts (bold = "
+        "interval excludes zero): positive = the full three-ingredient "
+        "specification beats the nested arm. Identity's marginal is "
+        "the only consistently positive column; tone's marginal at "
+        "31–90d is the quoted −0.1229 [−0.1595, −0.0879]. source: "
+        "news_features/combined_specification_v1/"
+        "combined_specification_results.json"
+        f"{prov_btn('combospec', 'code behind these numbers')}</p>")
 
 
 def prov_btn(key: str, label: str = "code behind these numbers") -> str:
@@ -2246,7 +3452,8 @@ the rows yet supply 34 of the 45 v2 fitting cells including all seven
 Reform cells &mdash; the enrichment is about the right rows, not more
 rows.</p>
 {img("fig0_study_design.png", "Role assignment of the 24 election events "
-     "(blue = enters fitting, orange = sealed/blind evaluation only).")}
+     "(blue = enters fitting, orange = sealed/blind evaluation only).",
+     prov="elecdata", label="code behind the counts on this figure")}
 <h3 id='p-corpus'>News corpus</h3>
 <p>Local (SurreyLive, BBC Surrey, Guardian Surrey; search APIs, publisher
 search, web archives) and national (Guardian Open Platform) collected
@@ -2257,7 +3464,8 @@ same-election results excluded regardless of date). v1: 2,666 candidates
 articles &rarr; 2,259. Six non-overlapping windows (1&ndash;3 &hellip;
 91&ndash;180 days) plus six cumulative windows.</p>
 {img("fig0b_corpus_funnel.png", "Corpus construction funnel: 2,666 "
-     "candidate articles to 1,632 usable (v1).")}
+     "candidate articles to 1,632 usable (v1).", prov="fig0b",
+     label="code behind the counts on this figure")}
 {df_html(t["t17"], "Canonical v2 corpus per confirmed window",
          "t17_corpus_by_window.csv", prov="t17")}
 <h3>Stage&nbsp;1 predictor dictionary (35 predictors &rarr; 127 encoded)</h3>
@@ -2459,14 +3667,16 @@ which fails if a cited artefact is not committed).</li>
          "t02_baseline_per_party_mae.csv", max_rows=8, prov="t02")}
 {img("fig2_seat_totals.png", "Predicted vs actual seat totals: the "
      "history-only baseline predicted Conservatives 118 (actual 30), "
-     "Liberal Democrats 6 (actual 96), Reform UK 0 (actual 14).")}
+     "Liberal Democrats 6 (actual 96), Reform UK 0 (actual 14).",
+     prov="fig2", label="code behind the numbers on this figure")}
 <p class="warnbox">Two baselines appear across tables by design: 4.514 is
 the untouched baseline over all 832 rows; 4.441/4.445 is the same
 baseline restricted to the 753 supported-party rows on which every news
 comparison is scored. Mixing them misstates the deltas.</p>
 <h3 id='p-unblind'>4.2 Confirmatory comparisons (frozen, 24 tests)</h3>
 {img("fig1_confirmatory_deltas.png", "Forest plot of the 24 confirmatory "
-     "comparisons (right of zero = news better).")}
+     "comparisons (right of zero = news better).", prov="fig1",
+     label="code behind the numbers on this figure")}
 {df_html(t["t05"], "v2 confirmatory results (5 of 12 improve; 4 CIs above "
          "zero)", "t05_confirmatory_v2.csv", prov="t05")}
 <p>v1 (t04): 0 of 12 improved &mdash; the same news features, with only 11
@@ -2475,20 +3685,35 @@ Section 6 covers every specification.</p>
 <h3>4.3 Sensitivity and further checks (not promotable)</h3>
 {df_html(t["t06"], "Sensitivity families summarised",
          "t06_sensitivity_summary.csv", prov="t06")}
+<p class="src">What each row's <em>comparisons</em> count is made of
+(a cell is sensitivity if ANY switch is off: local arm, cumulative
+window, or 2017-only training variant):
+v1&nbsp;combined&nbsp;18 = 6 cumulative + 12 fit_2017_only (6 confirmed
++ 6 cumulative); v1&nbsp;national&nbsp;18 = same structure;
+v1&nbsp;local&nbsp;24 = 12 main-variant (6 confirmed + 6 cumulative)
++ 12 fit_2017_only; v2&nbsp;combined&nbsp;6 and
+v2&nbsp;national&nbsp;6 = the 6 cumulative windows only (their 6
+confirmed windows are the confirmatory cells in t05);
+v2&nbsp;local&nbsp;12 = 6 confirmed + 6 cumulative (the local arm is
+sensitivity throughout; v2 has no 2017-only variant). Total 60 + 24 =
+84 sensitivity comparisons beside the 24 confirmatory ones.</p>
 <ul>
 <li><strong>Local news</strong> (v2, 31&ndash;90d): MAE 4.4454 &rarr;
-4.2571 (+0.1884); positive at 8&ndash;14d and 91&ndash;180d too.</li>
+4.2571 (+0.1884); positive at 8&ndash;14d and 91&ndash;180d too.
+{prov_btn("t06", "code of the scoring (same marker, no CI)")}</li>
 <li><strong>Cumulative windows</strong>: combined news improves all five
 windows up to 90 days; best previous-14-days, MAE 3.8353 (full 18-row
-table below).</li>
+table below).{prov_btn("a12cum", "code behind the cumulative results")}</li>
 <li><strong>2017-only training</strong>: 0 of 18 improve &mdash;
-reproduces the v1 failure; the signal needs the enriched sample.</li>
+reproduces the v1 failure; the signal needs the enriched sample.
+{prov_btn("fit2017", "code of the 2017-only variant")}</li>
 <li><strong>LOPO (pre-holdout)</strong>: removing Conservatives from
 training produced 6/18 improvements; removing any other party, none
 &mdash; training composition matters.{prov_btn("lopo",
 "code of the LOPO check")}</li>
 <li><strong>Local v3 re-run</strong> (t19): 4 of 6 windows improve with a
-sign inversion at 180&ndash;91d (table below).</li>
+sign inversion at 180&ndash;91d (table below).
+{prov_btn("t19", "code of the re-run")}</li>
 </ul>
 {tex_tabular_html(TABLES / "latex" / "a12_cumulative_results.tex",
                   "Cumulative-window results, all 18 comparisons (report "
@@ -2502,7 +3727,8 @@ sign inversion at 180&ndash;91d (table below).</li>
 {df_html(t["t09"], "Attribution: v2 deltas with vs without the 7 Reform "
          "training cells", "t09_attribution_decomposition.csv", prov="t09")}
 {img("fig4_island_contrast.png", "Reform vs non-Reform: the overall delta "
-     "hides opposite movements.")}
+     "hides opposite movements.", prov="fig4",
+     label="code behind the numbers on this figure")}
 <p>Gains sit mainly with non-Reform candidates (combined-news &Delta;
 &asymp; +0.49) while Reform's own &Delta; is &minus;0.6877; yet removing
 the seven Reform <em>training</em> cells cuts the combined gain from
@@ -2512,7 +3738,8 @@ overprediction (+12.21 &rarr; +3.07) but deepened its 2026
 underprediction (&minus;1.33 &rarr; &minus;3.16).</p>
 {img("fig6_mechanism_vs_outcome.png", "Mechanism vs outcome: pooled "
      "dispersion falls exactly in the improving windows (t10); per-party "
-     "levels move while dispersion does not (t11/t12).")}
+     "levels move while dispersion does not (t11/t12).", prov="fig6",
+     label="code behind the numbers on this figure")}
 <h3>4.5 Seat calls (secondary outcome)</h3>
 {df_html(t["t07"][t["t07"].version == "v2"], "Seat-call accuracy per v2 "
          "specification vs the 0.8053 elect-nobody floor",
@@ -2612,6 +3839,7 @@ statements &mdash; stance-vs-volume margins, and the 5/6-vs-3/6
 direction agreement with the frozen effect &mdash; keep them apart when
 presenting.</p></div>
 </div>
+{combined_factorial_html()}
 {tex_tabular_html(TABLES / "latex" / "a13_content_features.tex",
                   "The seven pre-declared content features, both testable "
                   "windows (report Appendix Table a13)",
@@ -2820,7 +4048,8 @@ current reliability boundary.</li>
 export set:</p>
 {img("fig5_party_resolution.png", "Per-party design resolution (from the "
      "committed figure pack; further figures: fig3_corpus_windows.png, "
-     "fig4_island_contrast.png, fig6_mechanism_vs_outcome.png).")}
+     "fig4_island_contrast.png, fig6_mechanism_vs_outcome.png).",
+     prov="fig5", label="code behind the numbers on this figure")}
 <div class="tablewrap"><table><thead><tr><th>artefact</th><th>contents</th>
 </tr></thead><tbody>{export_rows}</tbody></table></div>
 <p>LaTeX versions of the appendix tables live in
