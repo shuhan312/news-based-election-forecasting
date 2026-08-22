@@ -85,7 +85,8 @@ def _counts() -> dict:
             "blinded_rows": protocol["blinded_candidate_rows"]}
 
 
-def _box(ax, xy, width, height, title, subtitle="", sealed=False):
+def _box(ax, xy, width, height, title, subtitle="", sealed=False,
+         subtitle_size=9.5, title_frac=0.66, subtitle_frac=0.30):
     x, y = xy
     edge, face = ((ORANGE, ORANGE_FACE) if sealed else (BLUE, BLUE_FACE))
     ax.add_patch(FancyBboxPatch(
@@ -93,11 +94,12 @@ def _box(ax, xy, width, height, title, subtitle="", sealed=False):
         boxstyle="round,pad=0.02,rounding_size=0.08",
         linewidth=1.5, edgecolor=edge, facecolor=face, zorder=3))
     if subtitle:
-        ax.text(x + width / 2, y + height * 0.66, title, ha="center",
+        ax.text(x + width / 2, y + height * title_frac, title, ha="center",
                 va="center", fontsize=11.5, color=INK, weight="bold",
                 zorder=4)
-        ax.text(x + width / 2, y + height * 0.30, subtitle, ha="center",
-                va="center", fontsize=9.5, color=MUTED, zorder=4)
+        ax.text(x + width / 2, y + height * subtitle_frac, subtitle,
+                ha="center", va="center", fontsize=subtitle_size,
+                color=MUTED, zorder=4, linespacing=1.35)
     else:
         ax.text(x + width / 2, y + height / 2, title, ha="center",
                 va="center", fontsize=11.5, color=INK, weight="bold",
@@ -154,16 +156,23 @@ def main() -> None:
          "frozen", sealed=True)
 
     # By-election roles.
-    _spine(ax, 6.65, 5.95, [(5.05, 6.95), (0.65, 6.95)])
+    _spine(ax, 6.65, 5.95, [(5.05, 6.95), (0.65, 6.75)])
     _box(ax, (6.95, 4.65), 3.6, 0.8, "17 enter the Stage 1 baseline")
-    _spine(ax, 7.25, 4.65, [(3.75, 7.55), (2.75, 7.55), (1.85, 7.55)])
+    _spine(ax, 7.25, 4.65, [(3.75, 7.55), (2.75, 7.55), (1.83, 7.30)])
     _box(ax, (7.55, 3.35), 3.15, 0.8,
          "8 also enter the\nnews analysis")
     _box(ax, (7.55, 2.45), 3.15, 0.6, "8 Stage 1 only")
-    _box(ax, (7.55, 1.45), 3.15, 0.8, "Woking South (2025)",
-         "pre-registered blind case", sealed=True)
-    _box(ax, (6.95, 0.25), 3.75, 0.8, "2 in the 2026 holdout period",
-         "Warlingham (7 May) \u00b7 Haslemere (7 Jul)", sealed=True)
+    _box(ax, (7.30, 1.42), 3.55, 0.82, "Woking South (2025)",
+         "Tests whether the method transfers\nto a different election",
+         sealed=True, subtitle_size=8.7, title_frac=0.74,
+         subtitle_frac=0.34)
+    _box(ax, (6.75, 0.05), 4.10, 1.20, "2 sealed 2026 by-elections",
+         "Haslemere (7 Jul): Tests whether the results\n"
+         "replicate on another election\n"
+         "Warlingham (7 May): Kept unused —\n"
+         "saved for a future test",
+         sealed=True, subtitle_size=8.7, title_frac=0.84,
+         subtitle_frac=0.38)
 
     ax.text(0.45, 0.45, "blue = enters fitting", fontsize=9.5, color=BLUE)
     ax.text(0.45, 0.12, "orange = sealed / blind evaluation only",

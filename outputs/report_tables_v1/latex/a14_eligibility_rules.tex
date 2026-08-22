@@ -1,0 +1,31 @@
+\begin{tabular}{p{0.10\linewidth}p{0.66\linewidth}p{0.14\linewidth}}
+\toprule
+code & inclusion criterion (all must hold) & applied by \\
+\midrule
+I1 & Confirmed or Probable publication date within the 180-day window ($1 \leq$ day\_index $\leq 180$), or polling day with a confirmed pre-07:00 timestamp & script \\
+I2 & Published before voting began: nothing at or after 07:00 on polling day & script \\
+I3 & Relevant to the arm collected: passes a Local (L1--L4) or National (N1--N3) test & human \\
+I4 & Genuine editorial content: report, analysis, opinion, editorial, letter, interview, profile, or published press release & human \\
+I5 & English language & script \\
+I6 & Minimally retrievable: headline, source, date, and an extract or full text lawfully obtainable & script \\
+\bottomrule
+\end{tabular}
+
+\vspace{1.2em}
+
+\begin{tabular}{p{0.08\linewidth}p{0.68\linewidth}p{0.14\linewidth}}
+\toprule
+code & exclusion rule (checked in order; first failure logged) & applied by \\
+\midrule
+E1 & Date unresolved --- no publication date recoverable at Probable or better confidence & script \\
+E2 & Outside window --- more than 180 days before, or dated after, polling day & script \\
+E3 & Voting under way --- published at/after 07:00 on polling day, or polling-day-dated with no confirmable time & script \\
+E4 & Result leakage --- reports, cites, or reacts to the election's outcome, exit information, or count, regardless of nominal date & human \\
+E5 & Irrelevant --- fails every Local and National relevance rule (e.g. sport or entertainment merely naming a place) & human \\
+E6 & ``Reform'' false positive --- matched only on ``reform'' in its ordinary sense, with no reference to the party & human \\
+E7 & Untrustworthy dating --- only a crawl/capture or republication date is available and the original cannot be recovered & script \\
+E8 & Not editorial content --- adverts, listings, notices, category/index, tag, or search-result pages & human \\
+E9 & Non-English & script \\
+E10 & Irretrievable --- paywall, robots, or login wall blocks even an extract and no archive route succeeds & script \\
+\bottomrule
+\end{tabular}

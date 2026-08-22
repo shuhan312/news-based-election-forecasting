@@ -63,6 +63,8 @@ EXTRACTION_OUTPUTS = [
     for tranche in ("narrow", "far", "far2", "far3", "all")
 ]
 FEATURE_METADATA = Path("news_features/news_feature_table_v1_metadata.json")
+CANONICAL_RELEASE_V2 = Path("news_collection/canonical_corpus_release_v2.json")
+FEATURE_METADATA_V2 = Path("news_features/news_feature_table_v2_metadata.json")
 OUTPUT = Path("news_features/pipeline_overview_v1")
 
 BLUE, INK, MUTED = "#2a78d6", "#333333", "#666666"
@@ -154,6 +156,10 @@ def draw() -> None:
     extraction = _extraction_completion()
     shape = _feature_table_shape()
     n = canon["total"]
+    n_v2 = json.loads(CANONICAL_RELEASE_V2.read_text(encoding="utf-8"))[
+        "usable_feature_corpus"]["articles"]
+    meta_v2 = json.loads(FEATURE_METADATA_V2.read_text(encoding="utf-8"))
+    rows_v2 = meta_v2.get("expected_rows") or meta_v2.get("rows")
 
     fig, ax = plt.subplots(figsize=(8, 11))
     ax.set_xlim(0, 8)
@@ -171,9 +177,12 @@ def draw() -> None:
     _box(ax, (2.3, 9.75), 3.4, 0.85, f"{cand['total']:,} candidate articles")
     _arrow(ax, 4.0, 9.75, 8.5, "Eligibility &\nleakage screening")
 
-    # 3. canonical corpus
-    _box(ax, (2.3, 7.65), 3.4, 0.85, f"{n:,} usable articles")
-    _arrow(ax, 4.0, 7.65, 6.4, "LLM\nextraction")
+    # 3. canonical corpus (v1 and v2: v2 adds by-election articles)
+    _box(ax, (2.3, 7.55), 3.4, 0.95, "Usable articles",
+         f"v1: {n:,}   ·   v2: {n_v2:,}")
+    ax.text(5.9, 8.02, f"v2 adds {n_v2 - n} by-election articles",
+            ha="left", va="center", fontsize=8.5, color=MUTED, style="italic")
+    _arrow(ax, 4.0, 7.55, 6.4, "LLM\nextraction")
 
     # 4. three extraction layers
     for i, (label, count) in enumerate([
@@ -189,7 +198,8 @@ def draw() -> None:
 
     # 5. feature table
     _box(ax, (1.6, 2.3), 4.8, 0.9, "News feature table",
-         f"{shape['rows']} rows: one per election \u00d7 party \u00d7 window")
+         f"v1: {shape['rows']}  \u00b7  v2: {rows_v2} rows "
+         "(election \u00d7 party \u00d7 window)")
     _arrow(ax, 4.0, 2.3, 1.05, "Join to\nbaseline")
 
     # 6. Stage 2 input
