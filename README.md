@@ -63,6 +63,21 @@ PYTHONPATH=src .venv/bin/python -m news_modelling.report_appendix_tables
 .venv/bin/python demo/build_viva_pack.py   # offline viva pack (demo/README.md)
 ```
 
+The report PDF compiles from the committed LaTeX source (maintained in
+Overleaf and snapshotted here; requires a TeX distribution with
+`latexmk`):
+
+```bash
+cd report && make    # writes report/report.pdf
+```
+
+The Streamlit viewer over the frozen artefacts runs from the repository
+root with:
+
+```bash
+.venv/bin/streamlit run app/news_app.py
+```
+
 Upstream stages (collection, extraction, features, modelling) are run
 by the `run_*` modules under `src/`; each frozen artefact directory
 under `news_features/` records the exact command and inputs that
