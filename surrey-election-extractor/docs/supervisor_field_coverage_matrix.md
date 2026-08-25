@@ -2,6 +2,11 @@
 
 **Release snapshot:** 18 July 2026
 
+> **Note:** The counts below are the 18 July 2026 release snapshot. The current
+> release summary (24 election events, 343 areas, 1,992 candidate rows) is in
+> [`README.md`](../README.md); this matrix is retained as the dated field-by-field
+> coverage record for that snapshot and its numbers are not edited after the fact.
+
 **Denominators:** 20 elections, 339 areas and 1,971 candidate rows.
 
 **Lookup coverage:** 40 standard parties and all 81 current 2026 wards. The

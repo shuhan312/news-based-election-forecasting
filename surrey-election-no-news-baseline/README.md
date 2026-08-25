@@ -32,7 +32,10 @@ surrey-election-extractor/outputs/no_news_candidate_contests/
 
 ## Quick start
 
-From the repository root, with the project virtualenv active:
+From the repository root, with the project virtualenv active. If the shared
+`.venv` at the repository root does not exist yet, create it first as shown in
+`surrey-election-extractor/README.md` (`python3 -m venv .venv`, then
+`pip install -r` each subproject's `requirements.txt`):
 
 ```bash
 PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python -m no_news_baseline.cli train
@@ -74,6 +77,31 @@ Dependencies: `numpy`, `lightgbm`, `pyyaml`, `pytest`, and `streamlit`, `pandas`
 Architecture B is a comparator the brief asks for, and a missing comparator
 that failed quietly would let the comparison report two architectures while
 claiming three were tried.
+
+### Reproduce the bundle from scratch
+
+From the repository root, with the `.venv` active, in order:
+
+```bash
+# 1) Regenerate the candidate contract this package reads (from the extractor)
+PYTHONPATH=surrey-election-extractor .venv/bin/python \
+  surrey-election-extractor/scripts/generate_no_news_candidate_contests.py
+
+# 2) Fit and export the model bundle (a few minutes)
+PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python -m no_news_baseline.cli train
+
+# 3) Run the parameter-free benchmarks (the floor the model must clear)
+PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python \
+  surrey-election-no-news-baseline/scripts/run_persistence_benchmark.py
+PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python \
+  surrey-election-no-news-baseline/scripts/run_naive_benchmarks.py
+
+# 4) Confirm nothing is broken
+PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python -m pytest surrey-election-no-news-baseline/tests -q
+```
+
+Reproduction is confirmed when step 2 logs out-of-fold MAE 9.85 and holdout MAE
+4.53, and step 4 reports 444 passing tests.
 
 ---
 
@@ -240,6 +268,10 @@ results that did not work:
   unit is the candidate, not the party
 - [`candidate_split_and_leakage.md`](docs/candidate_split_and_leakage.md) —
   the split design and the leakage audit
+- [`n5_candidate_specifications.md`](docs/n5_candidate_specifications.md) — the
+  specified (not-yet-implemented) hierarchical Dirichlet model and its
+  method-anchor references (Hanretty 2021; Stoetzer et al. 2019; Chen, Garnett &
+  Montgomery 2023), with DOIs
 - [`candidate_model_card.md`](docs/candidate_model_card.md) — the shipped
   model card
 - [`historical_strength_features.md`](docs/historical_strength_features.md) —

@@ -8,7 +8,24 @@ Method anchors: Hanretty (2021) for Dirichlet regression over multiparty
 vote shares and its structural-zero complications; Stoetzer et al. (2019)
 for Bayesian multiparty forecasting with posterior-predictive validation;
 Chen, Garnett & Montgomery (2023) for hierarchical Dirichlet regression
-with cycle-level effects.
+with cycle-level effects. Full citations for all three anchors are listed
+under *Method-anchor references* immediately below; the short author–year
+forms used elsewhere in the code (for example in
+``candidate_hierarchical_model.py`` and ``naive_benchmarks.py``) resolve to
+these entries.
+
+### Method-anchor references
+
+- Hanretty, C. (2021). Forecasting multiparty by-elections using Dirichlet
+  regression. *International Journal of Forecasting*, 37(4), 1666–1676.
+  https://doi.org/10.1016/j.ijforecast.2021.03.007
+- Stoetzer, L. F., Neunhoeffer, M., Gschwend, T., Munzert, S., & Sternberg, S.
+  (2019). Forecasting elections in multiparty systems: a Bayesian approach
+  combining polls and fundamentals. *Political Analysis*, 27(2), 255–262.
+  https://doi.org/10.1017/pan.2018.49
+- Chen, Y., Garnett, R., & Montgomery, J. M. (2023). Polls, Context, and Time:
+  A Dynamic Hierarchical Bayesian Forecasting Model for US Senate Elections.
+  *Political Analysis*, 31(1), 113–133. https://doi.org/10.1017/pan.2021.42
 
 ## Observation unit
 

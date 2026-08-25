@@ -9,15 +9,20 @@ the no-news baseline. News collection and modelling are out of scope.
 
 ## Release snapshot
 
-- 20 election events: 2013, 2017 and 2021 principal elections; separate East
-  and West Surrey 2026 elections; and all 15 County Council by-elections in the
+> Correction (2026-08-24): the snapshot bullets originally read 20 events /
+> 15 by-elections; this understated the release. The audit's own authoritative
+> 24-event master payload and 205-reference total already reflect 19
+> by-elections, and the bullets are corrected to match.
+
+- 24 election events: 2013, 2017 and 2021 principal elections; separate East
+  and West Surrey 2026 elections; and all 19 County Council by-elections in the
   configured official archive catalogue.
 - 1,992 candidate rows and 343 division or ward rows.
 - Complete 81 reviewed-row 2021-to-2026 geographic lookup: 24 approved direct
   relationships, 36 changed-boundary wards and 21 wards without sufficient
   weighted-crosswalk evidence for a direct historical value.
 - 205 approved historical references: 81 for 2013→2017, 81 for 2017→2021,
-  15 for by-elections and 24 for 2021→2026.
+  19 for by-elections and 24 for 2021→2026.
 - Official, supplementary, derived and analysis layers remain separate. No
   official `NULL` is overwritten.
 

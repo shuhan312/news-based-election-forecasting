@@ -3,16 +3,17 @@
 > A map for navigating this package quickly. It is documentation only and takes no part in running the code.
 > In one line: **this package only does prediction and evaluation. It reads the contract JSON produced by the extractor and never modifies the official election data.**
 
-## Overview: two subsystems + a finishing layer + support
+## Overview: benchmarks + the shipped candidate model + groundwork + support
 
 | Group | What it does | Role |
 | --- | --- | --- |
-| **A. benchmarks** | Run parameter-free rules and report prediction accuracy | Current results / thesis results chapter |
-| **B. fundamentals** | Build a one-row-per-election-area-party feature table | Input for later learned / news-aware models |
+| **A. benchmarks** | Run parameter-free rules and report prediction accuracy | The floor a model must clear |
+| **D. candidate model** | Fit and evaluate the candidate-level vote-share model, select an architecture, export the bundle | **The shipped Stage 1 model — primary holdout and viva focus** |
+| **B. fundamentals** | Build a one-row-per-election-area-party feature table | Earlier party-level groundwork |
 | **C. model input** | Add missing-value semantics and audit Independents | Finishing step for B |
 | Support | scripts / config / docs / outputs / tests | Runners, evidence, docs, products, tests |
 
-Data flow: `extractor no-news contract JSON` → A (produces results) and B → C (produces the feature table).
+Data flow: `extractor no-news contract JSON` → **D (fits the shipped model, produces the bundle)** and A (produces the benchmark floor); B → C build the earlier party-level feature table.
 
 ---
 
@@ -77,30 +78,111 @@ Builds an "electoral fundamentals" table: one row per election-area-party, carry
 
 ---
 
+## D. candidate-level model — the shipped Stage 1 model (viva focus)
+
+The candidate model the bundle ships. Its estimand is each candidate's vote
+share (candidate votes ÷ contest total), so it can be scored on the 7 May 2026
+two-member wards where a party share is undefined; the primary holdout lives
+here, and the A benchmarks are its floor. Read in pipeline order.
+
+**Estimand, cohort and data**
+
+| File | Role |
+| --- | --- |
+| `candidate_cohort.py` | The estimand, cohort membership, within-contest normalisation, ranking and seat allocation |
+| `candidate_data_validation.py` | Seat-count and polling-date validation of the release |
+| `candidate_contestation.py` | Non-contestation records — a party that did not stand has no row and is never recorded as a zero |
+| `candidate_evidence_layers.py` | Which evidence layer (official / derived / analysis) each field came from |
+
+**Split**
+
+| File | Role |
+| --- | --- |
+| `candidate_splits.py` | Date-based chronological splits: named development folds, rolling-origin folds, the 7 May 2026 primary holdout and the Haslemere secondary holdout |
+
+**Features**
+
+| File | Role |
+| --- | --- |
+| `candidate_features.py` | Assembles the permitted-predictor design matrix |
+| `candidate_historical_strength.py` | County-level historical party-strength predictors |
+| `candidate_interactions.py` | Interaction terms, including the optional off-by-default UKIP block |
+
+**Leakage audit (the crown jewel)**
+
+| File | Role |
+| --- | --- |
+| `candidate_leakage_audit.py` | Classifies all published columns; only permitted ones may be modelled; the build fails if a prohibited column reaches the feature matrix |
+
+**Models (three architectures compared)**
+
+| File | Role |
+| --- | --- |
+| `candidate_share_model.py` | The vote-share model on the transformed target |
+| `regularised_models.py` | Architecture A: ridge, closed form (incumbent) |
+| `candidate_hierarchical_model.py` | Architecture C: partial pooling on party identity |
+| `candidate_boosted_model.py` | Architecture B: LightGBM shallow trees (**shipped**) |
+| `candidate_probability_model.py` | Separately fitted probability of election |
+| `candidate_seat_projection.py` | Predicted seats per party per contest |
+| `cold_start_model.py` | Fallback for a row with no historical predecessor |
+
+**Selection and scoring**
+
+| File | Role |
+| --- | --- |
+| `candidate_architecture_selection.py` | Runs the two selection gates (Reform MAE > 5% better, lose ≤ 1 development fold) |
+| `architecture_paired_bootstrap.py` | Paired-bootstrap uncertainty for the architecture comparison |
+| `candidate_metrics.py` | Candidate-level scoring, stratified by contest structure |
+| `coverage_evaluation.py`, `coverage_report.py` | Coverage-aware evaluation of how much of the release is scored |
+| `model_comparison.py` | Side-by-side comparison across architectures |
+
+**Explainability**
+
+| File | Role |
+| --- | --- |
+| `candidate_explainability.py` | SHAP, fold-level coefficients, unstable features, worked examples |
+| `candidate_tree_explainability.py` | Tree-specific (Architecture B) explanations |
+
+**Orchestration**
+
+| File | Role |
+| --- | --- |
+| `cli.py` | `train` / `config` / `validate` entry points |
+| `configuration.py` | Resolves configuration (flags → file → defaults) and records it in the bundle |
+
+**Product**: `outputs/model_bundle_v1/` (29 files; the news stage reads
+`out_of_fold_predictions.csv`).
+**Docs**: `candidate_model_card.md`, `candidate_split_and_leakage.md`,
+`candidate_level_estimand.md`, `architecture_selection_evidence.md`.
+
+---
+
 ## Support (four kinds)
 
 | Location | Role | Contents |
 | --- | --- | --- |
-| `scripts/` | Runners | `run_persistence_benchmark.py`, `run_naive_benchmarks.py` (results); `build_electoral_fundamentals_release.py`, `build_model_input_contract.py` (feature table); `generate_independent_previous_share_audit.py` |
-| `config/` | Input evidence | `electoral_feature_metadata.csv` (feature field metadata) |
-| `docs/` | Write-ups | `persistence_benchmark.md`, `naive_benchmarks.md` (results); `data_contract.md`, `electoral_feature_release.md` (leakage contract) |
-| `outputs/` | Products | Four directories matching the products above. **Only the two result folders matter now; the two feature-table folders are for later** |
-| `tests/` | Tests | 18 files, one per module, showing the pipeline is reproducible. No need to read individually |
+| `scripts/` | Runners | `run_persistence_benchmark.py`, `run_naive_benchmarks.py` (benchmarks); the candidate model runs through `python -m no_news_baseline.cli train` (group D); `build_electoral_fundamentals_release.py`, `build_model_input_contract.py` (fundamentals) |
+| `config/` | Input evidence | `baseline_model.yaml` (candidate model settings, group D), `electoral_feature_metadata.csv` (feature field metadata) |
+| `docs/` | Write-ups | `candidate_model_card.md`, `candidate_split_and_leakage.md`, `architecture_selection_evidence.md` (the shipped model); `persistence_benchmark.md`, `naive_benchmarks.md` (benchmark results) |
+| `outputs/` | Products | **`model_bundle_v1/` is the shipped product** (group D, 29 files, excluded from Git, regenerated by `cli train`); plus the benchmark and feature-table folders |
+| `tests/` | Tests | 444 tests, roughly one module each; the ones that matter most assert something *fails* (a prohibited field entering the matrix, a 7 May row reaching training, …). No need to read individually |
 
 ---
 
 ## How to run (from the repository root)
 
 ```bash
-# 1) If needed, regenerate the input contract from the extractor first
+# 1) If needed, regenerate the candidate contract from the extractor first
 PYTHONPATH=surrey-election-extractor .venv/bin/python \
-  surrey-election-extractor/scripts/generate_no_news_party_contests.py
+  surrey-election-extractor/scripts/generate_no_news_candidate_contests.py
 
-# 2) Run the main baseline
+# 2) Fit and export the shipped candidate model (group D) — the main product
+PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python \
+  -m no_news_baseline.cli train
+
+# 3) Run the parameter-free benchmarks (group A) — the floor it must clear
 PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python \
   surrey-election-no-news-baseline/scripts/run_persistence_benchmark.py
-
-# 3) Run the two naive references
 PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python \
   surrey-election-no-news-baseline/scripts/run_naive_benchmarks.py
 ```
