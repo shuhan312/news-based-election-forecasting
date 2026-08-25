@@ -42,6 +42,32 @@ Evaluation against the frozen Stage 1 baseline
 | top-level scripts | Build the `data/elections/` result tables and calendar the pipeline aligns news against |
 | `legacy_pre_supervisor_news/` | Earlier exploratory code, retained for provenance; not part of the final pipeline |
 
+Each subdirectory's own README lists its files and the ordered steps within it.
+
+### Top-level collection scripts
+
+The loose scripts directly under `src/` are the Layer 1 preparation step: each
+builds a shared input the rest of the pipeline aligns against (the
+`data/elections/` result tables, the election calendar, the name-standardisation
+tables). They are standalone scripts, not a multi-step sub-pipeline, which is why
+they sit at the top level rather than in a package. Grouped by role:
+
+- **Official results → the `data/elections/` tables** — `fetch_official_scc_results.py`, `fetch_2026_surrey_results.py`, `convert_2013_extractor_output.py`, `convert_2026_extractor_output.py`, `add_2013_wikipedia_turnout.py` (fills the 2013 turnout gap the official page lacks), `fetch_election_results.py`, `build_election_calendar.py`, `audit_turnout.py`, `validate_election_results.py`
+- **Name standardisation, sampling and workbook** — `build_name_standardisation.py`, `build_division_sample.py`, `build_research_workbook.py` (with `workbook_spec.json`)
+- **News-coverage checks** — `check_newsapi_coverage.py`, `pilot_news_retrieval.py`, `verify_news_coverage_audit.py`
+- **Early prototype (superseded, retained as history)** — `aggregate_results.py` → `build_model_dataset.py` produced the first model-ready dataset (`data/processed/model_dataset.csv`); nothing downstream now reads it and no reported number traces to it — the shipped pipeline uses the official-extractor contracts instead
+
+**Outputs and reproduction.** These scripts write the committed `data/elections/`
+reference tables (`2013_scc_results.csv`, `2026_east/west_surrey_results.csv`,
+`election_calendar.csv`, `candidate_name_standardisation.csv` and their logs), so
+those tables are already in the repository and need not be regenerated. The
+`convert_*` scripts read the frozen extractor output and reproduce
+deterministically; the `fetch_*`, calendar and Wikipedia-turnout scripts read
+external sources, so re-running them yields a fresh snapshot rather than a
+bit-for-bit copy of the committed table. Run a script from the repository root
+(some, such as `build_name_standardisation.py`, import a sibling module and need
+`PYTHONPATH=src`).
+
 ## News collection and eligibility
 
 The corpus is retrieved from SerpAPI, publisher search and web archives,
