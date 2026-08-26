@@ -35,8 +35,9 @@ Do not confuse them:
 | --- | --- |
 | `build_query_inventory.py` | Builds the deterministic query inventory from the division sample and results |
 | `run_collection.py`, `runner.py`, `adapters.py`, `schema.py` | The staged collection engine and its source adapters and corpus schema |
-| `assess_eligibility.py`, `llm_classifier.py` | Pre-election-window and relevance screening; the LLM eligibility classifier |
-| `run_llm_classification_pilot.py`, `run_llm_classification_development_v2.py`, `run_llm_validation_v2.py`, `run_llm_corpus_batch_v2.py` | The pilot, development, blind-validation and frozen full-corpus classification runs (κ ≥ 0.60 gate) |
+| `assess_eligibility.py`, `llm_classifier.py` | Pre-election-window and relevance screening; v1 supports the recorded pilot and disagreement evidence |
+| `llm_classifier_v2.py`, `llm_v2_io.py` | Frozen eligibility classifier and shared deterministic I/O used by blind validation and production batches |
+| `run_llm_classification_pilot.py`, `run_llm_validation_v2.py`, `run_llm_corpus_batch_v2.py` | The recorded pilot, blind validation and frozen full-corpus classification runs |
 | `make_collection_report.py` | Diagnostics and the stage report |
 | `audit_guardian_geographic_relevance.py`, `audit_serpapi_domain_relevance.py`, `audit_llm_pilot_disagreements.py` | Relevance and disagreement audits |
 
@@ -44,11 +45,11 @@ Do not confuse them:
 
 The remaining scripts are secondary helpers of the same pipeline, grouped by role:
 
-- **Article date resolution** (fixes the pre-election window per article) — `build_effective_dates.py`, `resolve_publication_dates.py`, `classify_date_gaps.py`, `investigate_unresolved_dates.py`, `recover_pdf_dates.py`
+- **Article date resolution** (fixes the pre-election window per article) — `build_effective_dates.py`, `resolve_publication_dates.py`, `recover_pdf_dates.py`
 - **Review queues and samples** (the human-review and validation sheets) — `build_full_corpus_review_sheet.py`, `build_manual_review_sample.py`, `finalize_manual_review.py`, `manual_review_schema.py`, `build_llm_validation_sample.py`, `build_e5_local_queue.py`, `build_e5_risk_review_plan.py`, `build_e5_disagreement_review_data.py`, `build_byelection_second_review_queue.py`
 - **Agreement measurement** (the LLM-vs-human κ figures) — `compare_llm_to_human_agreement.py`, `compare_llm_validation_agreement.py`, `compute_review_agreement.py`
 - **Corpus assembly and release** — `assemble_corpus_decisions.py`, `canonical_corpus_release.py`, `canonical_corpus_release_v2.py`
-- **Diagnostics and reporting** — `check_completeness.py`, `measure_window_reach.py`, `estimate_extraction_budget.py`, `make_ward_tier_report.py`, `catalogue_haslemere_nonnews_trail.py`
+- **Diagnostics and reporting** — `check_completeness.py`, `measure_window_reach.py`, `catalogue_haslemere_nonnews_trail.py`
 - **Case-study helpers** — `run_e5_backlog_v3_assembly.py`, `run_llm_local_extension_v2.py`, `walk_byelection_pipeline.py`
 
 ## Case-study probes (frozen rules, new paths)

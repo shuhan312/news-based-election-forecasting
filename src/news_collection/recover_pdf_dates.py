@@ -1,7 +1,8 @@
 """Recover publication-date evidence for the three records whose stored
 "HTML" sidecar was actually a PDF, corrupted at collection time.
 
-What happened (found 2026-07-23, see investigate_unresolved_dates.py)
+What happened (found 2026-07-23 during the date-quality investigation;
+recorded in manual_review_decisions.csv, see Git history)
 ---------------------------------------------------------------------
 Three Stage-M search hits were official election PDFs, not web pages:
 
@@ -54,14 +55,14 @@ from .schema import DIRS
 RECORDS = Path("data/raw/news/records")
 OUT = Path("news_collection/pdf_date_recovery.csv")
 
-# The corrupted records, identified by investigate_unresolved_dates.py
-# (defect_type=stored_content_is_pdf_not_html). Hard-coded on purpose:
+# The corrupted records, identified during the 2026-07-23 date-quality
+# investigation (defect_type=stored_content_is_pdf_not_html). Hard-coded on purpose:
 # this is a one-off remediation of a specific known defect, not a
 # general re-fetch tool, and listing them here makes the scope auditable.
 # First 3 identified and recovered 2026-07-23 (see manual_review_
 # decisions.csv); remaining 9 surfaced when Stage M's later collection
-# (which continued after that first pass) was re-run through
-# investigate_unresolved_dates.py and turned up more PDF hits from the
+# (which continued after that first pass) was re-checked by the same
+# date-quality investigation and turned up more PDF hits from the
 # same underlying pre-fix adapter defect.
 CORRUPTED_PDF_RECORDS = [
     "NEWS-google_dated_search-04a8c7a65b28",  # Statement of Persons Nominated

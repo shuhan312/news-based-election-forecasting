@@ -45,8 +45,8 @@ from pathlib import Path
 OUT = Path("news_collection/serpapi_domain_relevance_flags.csv")
 
 # Each entry evidenced individually during the 2026-07-23 date-resolution
-# investigation (see manual_review_decisions.csv's sibling file,
-# date_resolution_investigation.csv, defect_type=no_html_stored). Not a
+# investigation (recorded in manual_review_decisions.csv,
+# defect_type=no_html_stored). Not a
 # programmatic scan - a short, hand-verified list, because the underlying
 # signal (domain proves non-UK/non-news) has no safe general rule yet.
 FLAGGED = [
