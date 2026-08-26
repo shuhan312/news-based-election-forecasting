@@ -1,0 +1,121 @@
+{
+  "audit_version": "leakage-provenance-audit-v1",
+  "status": "pass",
+  "checks": {
+    "query_provenance": {
+      "status": "pass",
+      "planned_queries": 2470,
+      "search_log_rows": 2788,
+      "unique_logged_queries": 1770,
+      "superseded_logged_queries": 4,
+      "orphaned_logged_queries": 0,
+      "unexecuted_queries": 704,
+      "unexecuted_by_stage": {
+        "E": 244,
+        "G": 324,
+        "H": 136
+      },
+      "unexecuted_query_ids_sha256": "e434eff692a58bb62c06959040fed9a09474a9153c681788bb31ea973d6093b5",
+      "scope_note": "The inventory records the full 19-by-election collection plan. The frozen v2 release uses only articles actually retrieved and adjudicated before its freeze; unexecuted E/G/H queries are planned coverage, not silently treated as zero-result searches."
+    },
+    "article_chronology_and_duplicates": {
+      "status": "pass",
+      "release_id": "canonical-news-v2-81000bf38785",
+      "articles": 2259,
+      "minimum_days_before_poll": 1,
+      "maximum_days_before_poll": 180,
+      "on_or_after_polling_day": 0,
+      "duplicate_canonical_article_ids": 0,
+      "temporal_availability_status": {
+        "confirmed_available_at": 1535,
+        "date_only_fallback": 724
+      }
+    },
+    "feature_outcome_isolation_and_party_identity": {
+      "status": "pass",
+      "tables": {
+        "news_feature_table_v1.csv": {
+          "rows": 288,
+          "sha256": "2804a478cef6cd7ded9d94bef0f209f693e2eed14e2b26dfed367f37e53840ea",
+          "outcome_columns": [],
+          "parties": [
+            "conservative",
+            "green",
+            "labour",
+            "liberal_democrat",
+            "reform_uk",
+            "ukip"
+          ]
+        },
+        "news_feature_table_v2.csv": {
+          "rows": 864,
+          "sha256": "24f1164ad42d8a3d1d86d81f0b067e607c067928ae8132181bcd29b9e801c74e",
+          "outcome_columns": [],
+          "parties": [
+            "conservative",
+            "green",
+            "labour",
+            "liberal_democrat",
+            "reform_uk",
+            "ukip"
+          ]
+        }
+      },
+      "reform_uk_and_ukip_are_distinct": true,
+      "non_contestation_note": "These tables contain news predictors only. Zero article counts mean observed no-news cells, never zero vote share; electoral outcomes enter only after the blinded prediction files are frozen."
+    },
+    "blinded_prediction_freeze_integrity": {
+      "status": "pass",
+      "frozen_releases": {
+        "v1": {
+          "predictions_sha256": "966e03cd1c54f7de6e9c455fc382263b74e58a2ade3c793522b53394753b6b54",
+          "predictions_file": "recomputed_and_unchanged",
+          "protocol_sha256": "86dd73b51dfec23f5913141711f568d234980ca1a27f14c387192e600e91468f",
+          "manifest_matches_unblinding_record": true,
+          "frozen_directory_contains_only_frozen_files": true
+        },
+        "v2": {
+          "predictions_sha256": "6016a8d1240310fe5743944d52e099b8967598bb07a401e93f40de1036137c36",
+          "predictions_file": "recomputed_and_unchanged",
+          "protocol_sha256": "9515de566fd670e2fca8a7970fc47e7fccfd41bb8d6675cac62f37bad659a5e8",
+          "manifest_matches_unblinding_record": true,
+          "frozen_directory_contains_only_frozen_files": true
+        }
+      },
+      "git_chronology": {
+        "status": "pass",
+        "v1_freeze_committed": "2026-08-01T14:11:04+01:00",
+        "v2_freeze_committed": "2026-08-01T16:41:53+01:00",
+        "unblinding_first_committed": "2026-08-01T17:20:03+01:00",
+        "freeze_commits_precede_unblinding": true,
+        "frozen_dirs_commits_after_freeze": 0
+      },
+      "note": "Three-way hash agreement: the committed freeze manifests, the hashes the one-time unblinding record bound at scoring time, and the bytes on disk today are identical, so the unblinding scored exactly the frozen predictions and nothing has changed them since; post-unblinding diagnostics write outside the frozen directories."
+    },
+    "area_selection_chronology": {
+      "status": "pass",
+      "division_sample_sha256": "56ce8ad08029f06432dabca2733b7f8623e6e23525312902259efb4957d0bd93",
+      "selection_reads_no_news_inputs": true,
+      "selection_rule": "deterministic top-5 per pre-registered stratum over committed election-result data only (safe/marginal/changed/Reform-strong categories); re-running src/build_division_sample.py reproduces the same 17 areas",
+      "chronology": {
+        "status": "pass",
+        "division_sample_first_committed": "2026-07-22T23:54:19+01:00",
+        "first_ward_targeted_search": "2026-07-23T00:31:05+00:00",
+        "ward_targeted_searches": 2527,
+        "ward_targeted_searches_before_sample_commit": 0,
+        "county_or_national_searches_before_sample_commit": 90
+      },
+      "note": "The 17 local search areas are a deterministic function of public election results; the selection script has no news input path, and every ward-targeted search in the log was executed after the sample was committed. Searches predating the sample are county- or national-level rows whose queries name no ward."
+    }
+  },
+  "input_sha256": {
+    "news_collection/query_inventory.csv": "02246a367bd6be3926f2992d306e7d348699d0672fc3e9c97934403d8c920dbc",
+    "news_collection/search_log.csv": "7ea69d40b5661c9d6bbc02aaaa2538c5a612920ebfc1659b9a6fdaab5dfd4591",
+    "news_collection/query_lineage_v1.csv": "c122f53824b0155cb08c78f39c586116e9709bf0e77949f8855bf38b29bd675d",
+    "news_features/news_feature_table_v1.csv": "2804a478cef6cd7ded9d94bef0f209f693e2eed14e2b26dfed367f37e53840ea",
+    "news_features/news_feature_table_v2.csv": "24f1164ad42d8a3d1d86d81f0b067e607c067928ae8132181bcd29b9e801c74e",
+    "news_features/blinded_2026_predictions_v1/sha256_manifest.json": "73a2fd388d7a289567af42e246f0dc5f3bad30ea8f1e52395d3b306bddf425d5",
+    "news_features/blinded_2026_predictions_v2/sha256_manifest.json": "a5431309a4dddbf6321444e3b65778a1077d829df0fd2bf572f9e92efe671ae0",
+    "news_features/unblinding_2026_v1/unblinding_results.json": "1fefcb13b6dada160fd35cd4c5a7471812832d555ff787915cabcee068193ef0"
+  }
+}

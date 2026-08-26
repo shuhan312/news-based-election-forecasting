@@ -92,6 +92,14 @@ verdict machine-readable.
 78 rows: **49 permitted** published feature columns, **14 excluded** target
 columns, **15 excluded by construction**.
 
+> **Note (release version):** These counts describe the pre-model release fixed
+> at adoption (49 published feature columns, 25 permitted predictors). The
+> shipped model later adds the county-strength history and Reform/UKIP
+> interaction features, reaching **64 published columns, 39 permitted predictors
+> (35 used by default)** — see [`candidate_model_card.md`](candidate_model_card.md).
+> The numbers here are not edited after the fact; the later figures are the
+> current ones.
+
 ### Why permitted fields are listed too
 
 An exclusion list alone cannot be checked. A reader seeing only what was

@@ -38,6 +38,32 @@ and a worked "trace any number" recipe — is in
 | `demo/` | Viva demonstrator (own README); not part of the evidence chain |
 | `tests/` | 79 test modules guarding the pipeline, blinding, and artefact citations |
 | `logbook/`, `deliverables/`, `title/`, `scripts/` | Course admin and utilities |
+| [`audit_leakage_provenance.py`](audit_leakage_provenance.py) | Repository-root leakage and provenance audit — see the next section |
+
+## Verifying the no-leakage claims
+
+One offline command re-checks the audit trail end to end: every executed
+search joins to the frozen, versioned query plan; every canonical corpus
+article precedes its pre-election window cut-off; no article is
+double-counted across the corpus; the news feature tables contain
+predictors only, with no outcome column; Reform UK is never merged with
+UKIP; the blinded v1/v2 prediction freezes are intact — the committed
+freeze manifests, the hashes the one-time unblinding record bound at
+scoring time, and the bytes on disk today must agree, with Git history
+showing each freeze committed before the unblinding and untouched since;
+and the 17 local search areas are a deterministic function of election
+results alone — the selection script reads no news, and every
+ward-targeted search in the log was executed after the sample was
+committed.
+
+```bash
+python3 -m audit_leakage_provenance
+```
+
+The audit is deterministic, calls no API, mutates no research input, and
+writes its machine-readable verdict to
+`outputs/leakage_provenance_audit_v1.json`;
+`tests/test_leakage_provenance_audit.py` runs it in the test suite.
 
 ## Quick start
 

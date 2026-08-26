@@ -217,6 +217,21 @@ def days_before_polling(
     return (polling_day - published).days
 
 
+def classify_lag(days: int | None, *, scheme: str = DEFAULT_SCHEME) -> str:
+    """Classify a publication lag against the authoritative window scheme."""
+
+    if days is None:
+        return "undated"
+    if days <= 0:
+        return "on_or_after_polling_day"
+
+    chosen = SCHEMES[scheme]
+    for label, first, last in chosen.windows:
+        if first <= days <= last:
+            return label
+    return "before_the_earliest_window"
+
+
 def assign(
     published: date | None,
     polling_day: date,

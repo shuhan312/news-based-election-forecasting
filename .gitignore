@@ -20,7 +20,8 @@ venv/
 
 # runtime state of the news collection runner (derivable from search_log.csv)
 news_collection/checkpoints/
-news_collection/query_inventory.csv
+# The query inventory is the frozen, pre-execution collection plan. It is
+# versioned so every search-log row can join to the exact planned query.
 news_collection/collection_diagnostics.json
 news_collection/ward_tier_diagnostics.json
 news_collection/completeness_check.json
@@ -191,6 +192,7 @@ news_collection/byelection_review.pre-human-backup.csv
 
 # Collection run log; the compact overnight_run_summary.json is the record.
 news_collection/overnight_run.log
+news_collection/ward_first_summary.json
 
 # The frozen blinded prediction files are 20MB each. Their sha256 hashes
 # are committed in the evidence register and in each other's protocols, so

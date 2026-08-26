@@ -1,0 +1,5 @@
+superseded_query_id,replacement_query_id,election_id,reason,status
+Q-ESWS-2026-05-ward_cdx-8315eca0,Q-ESWS-2026-05-ward_cdx-cd785433,ESWS-2026-05,"The old slug retained the literal suffix '-ward'; publisher URLs use 'ashtead'.",superseded_logged_query
+Q-ESWS-2026-05-ward_cdx-84778428,Q-ESWS-2026-05-ward_cdx-974fe572,ESWS-2026-05,"The old slug retained the literal suffix '-ward'; publisher URLs use 'addlestone'.",superseded_logged_query
+Q-ESWS-2026-05-ward_cdx-ae6b379a,Q-ESWS-2026-05-ward_cdx-23d06a7c,ESWS-2026-05,"The old slug retained the literal suffix '-ward'; publisher URLs use 'farnham-central'.",superseded_logged_query
+Q-ESWS-2026-05-ward_cdx-dd24b224,Q-ESWS-2026-05-ward_cdx-e78db093,ESWS-2026-05,"The old slug retained the literal suffix '-ward'; publisher URLs use 'caterham-hill'.",superseded_logged_query

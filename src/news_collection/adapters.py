@@ -367,7 +367,7 @@ class SiteSearchAdapter:
 
 # ---------------------------------------------------------------------------
 # Google Programmable Search - automates the Google discovery route
-# proposal P3 (news_collection/raw_news_collection_report.md section 6).
+# the route decision recorded in news_protocol/news_research_protocol.md.
 #
 # Separate and unrelated to SerpAPI: this calls Google's own official
 # Custom Search JSON API (googleapis.com/customsearch/v1), which is

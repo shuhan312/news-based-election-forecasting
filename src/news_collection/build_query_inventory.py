@@ -228,7 +228,12 @@ def load_crosswalk_both_directions():
     scripts can never silently disagree about which pairs are safe to
     treat as the same ground."""
     if not EXACT_CROSSWALK.exists():
-        return {}, {}
+        raise FileNotFoundError(
+            f"required frozen geographic crosswalk is missing: "
+            f"{EXACT_CROSSWALK}. Without it the generator would silently "
+            "drop cross-era ward queries, so an incomplete inventory is "
+            "never written."
+        )
     forward = {}
     for r in json.loads(EXACT_CROSSWALK.read_text()):
         if r.get("relationship_type") not in ("exact", "near_exact"):
@@ -808,7 +813,8 @@ def build():
                              r["query_text"]))
     OUT.parent.mkdir(parents=True, exist_ok=True)
     with OUT.open("w", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
+        w = csv.DictWriter(
+            fh, fieldnames=list(rows[0].keys()), lineterminator="\n")
         w.writeheader()
         w.writerows(rows)
 

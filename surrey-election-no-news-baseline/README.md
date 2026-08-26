@@ -105,6 +105,41 @@ Reproduction is confirmed when step 2 logs out-of-fold MAE 9.85 and holdout MAE
 
 ---
 
+## Core code map
+
+The CLI is the public entry point; it delegates the complete training run to
+the bundle builder. These are the files needed to understand Stage 1 in the
+final report. The remaining modules are supporting implementation, tests or
+additional diagnostics.
+
+| Role | Main file |
+| --- | --- |
+| Command entry point | `no_news_baseline/cli.py` |
+| Complete Stage 1 orchestration and bundle export | `scripts/build_candidate_model_bundle.py` |
+| Chronological folds and holdouts | `no_news_baseline/candidate_splits.py` |
+| Predictor permission and leakage rules | `no_news_baseline/candidate_leakage_audit.py` |
+| 35 predictors to 127 encoded inputs | `no_news_baseline/candidate_features.py` |
+| Ridge architecture | `no_news_baseline/candidate_share_model.py` |
+| Partial-pooling architecture | `no_news_baseline/candidate_hierarchical_model.py` |
+| LightGBM architecture selected for the final baseline | `no_news_baseline/candidate_boosted_model.py` |
+| Three-architecture comparison and selection gates | `no_news_baseline/candidate_architecture_selection.py` |
+| Candidate, party and Reform UK metrics | `no_news_baseline/candidate_metrics.py` |
+| Contest ranking and seat projection | `no_news_baseline/candidate_seat_projection.py` |
+| Frozen modelling assumptions | `config/baseline_model.yaml` |
+
+The execution path is:
+
+```text
+no_news_baseline/cli.py
+    -> scripts/build_candidate_model_bundle.py
+    -> splits + leakage audit + feature encoder
+    -> Ridge / partial pooling / LightGBM comparison
+    -> selected LightGBM fit
+    -> outputs/model_bundle_v1/
+```
+
+---
+
 ## What the model does
 
 **Target.** `analysis_vote_share` — a candidate's votes as a share of all
@@ -194,7 +229,8 @@ UKIP into Reform UK.
 | `architecture_comparison.csv` | all three on every fold, so the rejected ones stay visible |
 | `leakage_audit.csv` | every field, permitted or excluded, and why |
 | `split_manifest.csv` | which fold every row belongs to |
-| `out_of_fold_predictions.csv` | **the news stage's input** |
+| `out_of_fold_predictions.csv` | **Stage 2 training input**: historical out-of-fold predictions used to construct residual targets |
+| `holdout_predictions.csv` | **Stage 2 prediction input**: the frozen 2026 Stage 1 baseline to which news adjustments are added |
 | `holdout_seat_projection.csv` | predicted winning party per contest, against the actual |
 | `holdout_party_seat_totals.csv` | predicted seats per party, against the actual |
 | `explainability.json` | SHAP, fold-level coefficients, unstable features, worked examples |
@@ -211,6 +247,28 @@ version would otherwise be hashed in as though the current code had produced
 it — a bundle claiming files a rebuild cannot recreate. Anything else found in
 the directory is logged as a warning and listed under
 `files_not_written_by_this_run`.
+
+### Hand-off to the news stage
+
+Stage 1 ends at the model bundle. Stage 2 is implemented outside this
+subproject in `src/news_modelling/`:
+
+```text
+outputs/model_bundle_v1/out_of_fold_predictions.csv
+    -> historical residual targets for Stage 2 fitting
+
+outputs/model_bundle_v1/holdout_predictions.csv
+    -> frozen 2026 no-news baseline
+
+both files
+    -> src/news_modelling/stage1_bundle.py
+    -> run_blinded_2026_predictions.py / run_blinded_2026_predictions_v2.py
+    -> news_features/blinded_2026_predictions_v1/ / _v2/
+```
+
+`stage1_bundle.py` validates the required files, split roles and bundle
+integrity before the news model can use them. The bundle is local/generated
+output, while its code, configuration and documentation are versioned.
 
 ---
 

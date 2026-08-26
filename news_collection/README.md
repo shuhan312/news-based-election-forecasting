@@ -8,20 +8,27 @@ rebuilt.
 
 | File | What it is |
 |---|---|
-| `query_inventory.csv` | The complete deterministic query inventory (775 queries, stages A–M; v1.1). Ward-tier stages (C, M) are restricted to the 17 divisions in `news_protocol/division_sample.md` — v1.0 covered all 93 divisions before the sample existed, which defeated the point of sampling. Regenerate with `python3 -m src.news_collection.build_query_inventory` (needs `news_protocol/division_sample.csv` and both 2026 results CSVs present). |
+| `query_inventory.csv` | The frozen deterministic plan: 2,470 queries across stages A–H, M and M2. It is regenerated from committed election inputs, the 17-division sample and the committed final geographic crosswalk. |
 | `search_log.csv` | Append-only log: one row per executed search, including zero-result and failed searches (protocol §5.3). |
+| `query_lineage_v1.csv` | Four superseded `-ward` slug query IDs and their corrected replacements, so every historical search-log row remains joinable. |
 | `checkpoints/completed_queries.json` | Resumability: query IDs already executed (local-only, gitignored — it is runtime state, fully derivable from `search_log.csv`); delete a query ID to force re-execution (which appends a new log row). |
 | `collection_diagnostics.json` | Corpus statistics + schema re-validation results. Regenerate with `python3 -m src.news_collection.make_collection_report`. |
-| `raw_news_collection_report.md` | The stage report: what ran, what it found, unresolved issues, recommendations. |
+| `../outputs/leakage_provenance_audit_v1.json` | Machine-readable assertions over query lineage, final article chronology, duplicate control, outcome isolation and Reform/UKIP identity. |
 
 Run collection with:
 
 ```
-python3 -m src.news_collection.run_collection --stage A|B|C|D|M
+python3 -m src.news_collection.run_collection --stage A|B|C|D|E|F|G|H|M|M2
 ```
 
 Code: `src/news_collection/` (schema, adapters, runner, CLI, inventory
 builder, diagnostics). Design authority: `news_protocol/`.
+
+The inventory includes the complete 19-by-election plan. At the frozen release
+cut-off, 704 planned E/G/H queries had not been executed (E 244, G 324, H 136).
+They are recorded as unexecuted, not converted into zero-result searches and
+not used to claim complete coverage. Rebuild the assertion with
+`python3 -m src.audit_leakage_provenance`.
 
 ## Cleaning, deduplication and eligibility artefacts
 

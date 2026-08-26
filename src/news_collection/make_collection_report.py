@@ -1,11 +1,9 @@
-"""Collection diagnostics for the Raw News Collection stage.
+"""Regenerate local diagnostics for the frozen news-collection snapshot.
 
 Scans every record in data/raw/news/records/ plus the search log and
-produces news_collection/collection_diagnostics.json - the numbers the
-Raw News Collection Report cites.  Also re-validates every stored
-record against raw_news_schema.json (schema validation report), so the
-committed diagnostics prove the corpus's structural integrity without
-committing the corpus itself.
+produces news_collection/collection_diagnostics.json. It also re-validates
+every stored record against raw_news_schema.json, so the diagnostics expose
+the corpus's structural integrity without committing the raw corpus itself.
 
 Purely descriptive: counts and completeness rates only.  No eligibility,
 no date resolution, no deduplication happens here.
@@ -31,7 +29,7 @@ VALIDATOR = Draft7Validator(
 
 def main():
     diag = {
-        "generated": "2026-07-22",
+        "snapshot_through": None,
         "records_total": 0,
         "schema_invalid": 0,
         "quarantined": len(list(QUARANTINE.glob("*.json"))
@@ -82,15 +80,26 @@ def main():
         1 for r in log_rows if r["results_returned"] == "0")
     diag["search_fetch_failures"] = sum(
         int(r["fetch_failures"] or 0) for r in log_rows)
-    diag["queries_by_stage_executed"] = dict(Counter(
-        r["query_id"].split("-")[1] if False else "n/a" for r in []))
-    inv = list(csv.DictReader(
-        open("news_collection/query_inventory.csv")))
+    diag["snapshot_through"] = max(
+        (r["executed_at"] for r in log_rows if r.get("executed_at")),
+        default=None,
+    )
+    inv = list(csv.DictReader(open("news_collection/query_inventory.csv")))
+    lineage_path = Path("news_collection/query_lineage_v1.csv")
+    lineage = (list(csv.DictReader(lineage_path.open()))
+               if lineage_path.exists() else [])
+    inventory_by_id = {r["query_id"]: r for r in inv}
+    current_ids = set(inventory_by_id)
+    superseded_ids = {r["superseded_query_id"] for r in lineage}
     done = {r["query_id"] for r in log_rows}
+    executed_current = done & current_ids
     diag["inventory_total"] = len(inv)
-    diag["inventory_executed"] = len(done)
+    diag["inventory_executed"] = len(executed_current)
+    diag["logged_superseded_queries"] = len(done & superseded_ids)
+    diag["queries_by_stage_executed"] = dict(Counter(
+        inventory_by_id[q]["stage"] for q in executed_current))
     diag["inventory_pending_by_stage"] = dict(Counter(
-        q["stage"] for q in inv if q["query_id"] not in done))
+        q["stage"] for q in inv if q["query_id"] not in executed_current))
 
     # Counters -> plain dicts for JSON
     for k, v in list(diag.items()):
@@ -107,6 +116,7 @@ def main():
                        "by_date_confidence", "date_conflicts_flagged",
                        "needs_date_review", "searches_executed",
                        "searches_zero_result", "inventory_executed",
+                       "logged_superseded_queries",
                        "inventory_pending_by_stage")}, indent=1))
     print(f"-> {OUT}")
 
