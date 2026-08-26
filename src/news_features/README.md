@@ -1,10 +1,12 @@
-# `src/news_features/` — the feature-construction code
+# `src/news_features/` — feature construction (Layer 4)
 
 Pipeline layer 4 (news side): turn the labelled article corpus into the
 election–party–window **feature tables** the model joins against, with a leakage
 audit. This directory is **code only**. The tables it produces live at the
 repository root in [`news_features/`](../../news_features/README.md); the
-labelled corpus it reads is in `llm_context/` and `news_collection/`.
+labelled corpus it reads is in `llm_context/` and `news_collection/`. The
+diagram below is the complete file guide: one engine (the main line), five
+thin wrappers, one helper, two stand-alone diagnostics — nine files in total.
 
 ## How the files relate (at a glance)
 
@@ -23,7 +25,7 @@ build_feature_table.py  ── the ENGINE ──────────► news
         │   each wrapper = `import build_feature_table as frozen`,
         │   rebind a few globals, call frozen.main() — the chain never changes
         ├─ build_feature_table_v2.py       ─► v2.csv     ★ main confirmatory results
-        ├─ build_feature_table_v3exp.py    ─► v3exp.csv    local sensitivity (App. Table 9) + Woking South
+        ├─ build_feature_table_v3exp.py    ─► v3exp.csv    local lineage: Woking South blind test (§5.6) + local re-run (pack t19)
         ├─ build_feature_table_v3party.py  ─► v3party.csv  party-grain → placebo / decomposition / stance
         ├─ build_haslemere_probe_features.py     ─► Haslemere holdout   (report §5.6)
         └─ build_woking_south_blind_features.py  ─► Woking South holdout (report §5.6)
@@ -56,7 +58,7 @@ roles, the election grid) and calls `frozen.main()`:
 | --- | --- | --- |
 | `build_feature_table.py` | `news_feature_table_v1.csv` | the **engine**; frozen pre-enrichment reference |
 | `build_feature_table_v2.py` | `news_feature_table_v2.csv` | enriched confirmatory release (+8 by-elections) — **the main results** |
-| `build_feature_table_v3exp.py` | `news_feature_table_v3exp.csv` | local-news lineage (+29 reviewer-admitted local articles); the **reported local sensitivity** (`local_v3_rerun.py`, Appendix Table 9) and the Woking South case study read it |
+| `build_feature_table_v3exp.py` | `news_feature_table_v3exp.csv` | local-news lineage (+29 reviewer-admitted local articles); the **Woking South blind test** (§5.6) fits its local arm on it, and the exploratory local re-run (`local_v3_rerun.py`, pack table t19, not cited in the final report text) reads it |
 | `build_feature_table_v3party.py` | `news_feature_table_v3party.csv` | party-grain content table (turns on `PARTY_CONTENT_ATTRIBUTION`); **every party-level exploratory / placebo / decomposition analysis reads it** (`identity_placebos`, `reform_decomposition`, `stance_volume_*`, `stage1_party_sensitivity`, `placebo_specifications`, …) |
 | `build_haslemere_probe_features.py` | Haslemere probe features | case-study holdout features, reusing the engine (kept separate for blindness) |
 | `build_woking_south_blind_features.py` | Woking South features | case-study holdout features, reusing the engine (kept separate for blindness) |
@@ -186,9 +188,27 @@ fingerprint, grain, `empty_cell_policy`, `zero_article_cells`,
 `training_variation`, `usable_columns`, provenance) into the repository-root
 `news_features/` directory.
 
+## Verifying this directory without API credit
+
+The build is covered by offline unit tests — the rebuild test pins the v1 and
+v2 tables byte-for-byte, the attribution helper and the issue-group mapping
+have their own suites, and the release contract is checked end to end:
+
+```bash
+python -m pytest tests/test_feature_table_rebuild.py \
+    tests/test_party_content_attribution.py tests/test_issue_group_mapping.py \
+    tests/test_news_feature_release.py
+```
+
+Tests that need the git-ignored frozen tranches (`llm_context/corpus_extraction_outputs_*.json`)
+skip themselves on a fresh clone; the skip reason names the file to restore
+from OneDrive.
+
 ## Discipline
 
 Predictor and outcome columns are kept separate; missing news is represented
-explicitly rather than filled; every feature table ships with a leakage audit
-and a data dictionary in `news_features/`. See `REPO_MAP.md` for how the tables
-feed Stage 2 modelling.
+explicitly rather than filled. Each table's metadata records its grain, usable
+columns and provenance. The separate cross-layer audit
+(`outputs/leakage_provenance_audit_v1.json`) checks chronology, duplicates,
+outcome isolation and party identity. See `REPO_MAP.md` for how the tables feed
+Stage 2 modelling.

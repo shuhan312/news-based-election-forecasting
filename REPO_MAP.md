@@ -37,12 +37,14 @@ point: every number in the report has a committed, hash-pinned home.
 | §4 Stage 2 + freeze | `news_features/blinded_2026_predictions_v1//v2/` | `blinded_2026_predictions*.py`, `news_estimator.py` | fig0c |
 | §4 LLM validation | evidence register + `llm_context/` | `src/llm_extraction/` | Table 1 / a5 |
 | §5.1 confirmatory | `news_features/unblinding_2026_v1/` | `unblind_2026.py` | t04/t05, a2a/a2b, fig1 |
-| §5.2 sensitivity | same + `local_v3_rerun_v1/` | `unblind_2026.py`, `local_v3_rerun.py` | t06, a3, a12 |
+| §5.2 sensitivity | same | `unblind_2026.py` | t06, a3, a12 |
+| pack-only: local v3 re-run | `local_v3_rerun_v1/` | `local_v3_rerun.py` | t19 (not cited in the final report text) |
 | §5.3 diagnostics | `placebo_specifications_v1/`, `identity_placebos_v1/`, `stance_volume_margins_v1/` | `identity_placebos.py`, `stance_volume_margins.py` | a13 |
 | §5.4 Reform | `exploratory_decompositions_v1/`, `per_party_bootstrap_v1/` | `exploratory_decompositions.py`, `per_party_bootstrap.py` | t09–t12, t22, fig4/fig6 |
 | §5.5 seat calls | `unblinding_2026_v1/` | `unblind_2026.py` | t07/t08, a4 |
 | §5.6 transfer | `woking_south_blind_v1/`, `haslemere_probe/` | `woking_south_*.py`, `haslemere_probe_prediction.py` | t14/t15/t20/t21, a6, a10 |
-| §6.3 resolution | `minimal_detectable_effect_v1/` | `minimal_detectable_effect.py` | t23, a7 |
+| §6.3 training design | `byelection_enrichment_v1/` | `byelection_enrichment.py` | reliability figures in §6.3 |
+| pack-only: design resolution | `minimal_detectable_effect_v1/` | `minimal_detectable_effect.py` | t23, a7 (not cited in the final report text) |
 | appendix tables | (reads layer 7) | `report_appendix_tables.py` — one function per table a1–a13 | `outputs/report_tables_v1/latex/` |
 
 ## How to trace any number (worked example)
