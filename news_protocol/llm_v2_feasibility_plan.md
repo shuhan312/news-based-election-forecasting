@@ -126,8 +126,12 @@ would be outcome-dependent analysis.
 The development implementation is deliberately separated from v1:
 
 - `src/news_collection/llm_classifier_v2.py`
-- `src/news_collection/run_llm_classification_development_v2.py`
+- `src/news_collection/llm_v2_io.py` (shared frozen validation/production I/O)
 - `tests/test_llm_classifier_v2.py`
+
+The development-only sequential runner was removed from final main after the
+classifier was frozen; its implementation and smoke outputs remain in Git
+history. The blind validation and production batches use `llm_v2_io.py`.
 
 ### 4.1 Complete machine-readable criteria
 
@@ -173,7 +177,8 @@ Originating ward, query, query family, and geographic scope are included.
 
 ### 4.4 Input parity
 
-The development runner reads `article_text_path` when available. The stored
+The development runner (since removed from the final `main`; it remains in the
+commit history) reads `article_text_path` when available. The stored
 excerpt is an explicit fallback and `text_source` is recorded. Input,
 complete prompt, schema, model, version, and requested-rule hashes prevent
 silent mixing or reuse.
