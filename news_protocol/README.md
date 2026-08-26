@@ -30,7 +30,7 @@ the code and its outputs so a decision can be read without reading the program.
 | `residual_model_feasibility.md` | Approach A feasibility — the join between Stage 1 and the news corpus |
 | `five_specification_pipeline.md` | The five model specifications, and two joins that were wrong |
 | `feature_selection_findings.md` | What the feature table can and cannot support |
-| `extraction_reach_and_budget.md`, `llm_v2_feasibility_plan.md` | Extraction reach/budget and the LLM classifier v2 development + supervisor decision plan |
+| `llm_v2_feasibility_plan.md` | The LLM classifier v2 development and supervisor decision plan |
 | `retrieval_validation_report.md` | The retrieval-framework validation report |
 | `collection_faults_and_corrections.md` | Faults found in collection and what they cost — kept as an honest record |
 
