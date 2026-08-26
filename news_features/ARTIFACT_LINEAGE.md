@@ -3,44 +3,49 @@
 This file prevents two valid but incompatible news pipelines from being treated
 as one analysis.
 
-## Current production release
+## Final-report releases
 
-The current article universe is
-`news_collection/canonical_corpus_release_v1.json`. Its release id is written
-into:
+The final report preserves two compatible, frozen releases so the effect of
+the by-election enrichment remains visible rather than silently replacing the
+earlier analysis:
 
-- `article_area_attribution_summary.json`;
-- `feature_grain_diagnosis.json`; and
-- `news_feature_table_v1_metadata.json`.
+| Release | Canonical corpus | Feature table | Role |
+| --- | --- | --- | --- |
+| v1 | `news_collection/canonical_corpus_release_v1.json` (`canonical-news-v1-59d113bb9c28`) | `news_feature_table_v1.csv` + metadata | frozen pre-enrichment reference |
+| v2 | `news_collection/canonical_corpus_release_v2.json` (`canonical-news-v2-81000bf38785`) | `news_feature_table_v2.csv` + metadata | enriched confirmatory release including 627 by-election articles |
 
-The production feature table is `news_feature_table_v1.csv`, at
-**election × party × period** grain. It uses the supervisor-confirmed six
-non-overlapping windows plus six cumulative periods.
+Both tables use **election × party × period** grain and the same
+supervisor-confirmed six non-overlapping windows plus six cumulative periods.
+The v2 release extends the corpus and training cells without redefining the
+frozen feature specification. The final report evaluates v1 and v2 side by
+side; v2 supplies its main positive confirmatory results.
+
+The v1 release id is also written into
+`article_area_attribution_summary.json` and `feature_grain_diagnosis.json`,
+which document the pre-enrichment corpus rather than the later v2 extension.
 
 `PRODUCTION_NEWS_EVIDENCE_REGISTER.md` is the current human-readable result
-register. `production_estimability_v1/estimability_report.json` is the
-machine-readable gate for the next model. Where an older narrative conflicts
-with either, the canonical release and estimability report take precedence.
+register. `production_estimability_v1/estimability_report.json` records the
+original estimability gate; the v2 metadata, frozen protocol and evidence
+register record the enrichment that followed it. Where an older narrative
+conflicts with these frozen artefacts, the release metadata and evidence
+register take precedence.
 
-## Historical pilot artifacts — do not use for the final model
+## Historical pilot artifacts — removed from main, kept in commit history
 
-The following files form one older 67-article pilot chain:
+An older 67-article, ward-level pilot chain once lived here:
+`article_level_news_features.*`, `context_aggregated_features.*`,
+`recency_weighted_features.*`, `missing_news_representation.*`,
+`ward_party_election_features_v1/`, `feature_selection_v1/`,
+`specification_coverage/` and `residual_feasibility/`, together with their build
+and `run_*` code.
 
-- `article_level_news_features.csv` / `.parquet`;
-- `context_aggregated_features.*`;
-- `recency_weighted_features.*`;
-- `missing_news_representation.*`;
-- `ward_party_election_features_v1/`; and
-- `feature_selection_v1/`.
-
-They remain in the repository for audit and reproduction. Their ward-level
-shape does not make them a full-corpus product: the article feature dictionary
-itself records “207 rows / 67 articles / 171 columns at pilot scale”.
-
-The two legacy build commands now require `--allow-legacy-pilot`. This is an
-intentional safety gate, not a deletion. The next model-fitting step must read
-the production table and verify its `canonical_corpus_release_id`; it must not
-select features from `feature_selection_v1`.
+None of them were on the final-report reproduction path: the production engine
+(`build_feature_table.py`) imported none of them, and no reported result cited
+their output. They were **removed from `main`** so the final tree carries only
+the reproducible final version; every byte remains recoverable from the git
+commit history. Final-report modelling names either the v1 or v2 table
+explicitly and verifies its `canonical_corpus_release_id`.
 
 ## Interpreting the local counts
 

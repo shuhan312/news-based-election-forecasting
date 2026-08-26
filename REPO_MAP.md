@@ -81,7 +81,6 @@ the item-by-item restore instructions are in the README's
 | artefact | size | regenerate |
 | --- | --- | --- |
 | `data/` (uploaded as three tar.gz batches + the pdf folder + the sidecar archive) | 13 GB | collection pipelines under `src/` |
-| `news_features/ward_party_election_features_v1/` | 77 MB | `run_ward_party_features` |
 | `news_features/blinded_2026_predictions_v2/blinded_predictions.csv` | 10 MB | frozen; sha256 manifest committed beside it |
 | `llm_context/d4_llm_outputs*.json` | ~3 MB | frozen raw LLM responses (copyright-excluded); verified by `d4_llm_output_manifest.json` |
 | `surrey-election-no-news-baseline/outputs/model_bundle_v1/` | 15 MB | Stage 1 subproject workflow |

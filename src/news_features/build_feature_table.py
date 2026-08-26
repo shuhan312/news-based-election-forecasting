@@ -345,8 +345,7 @@ def main() -> None:
     # article, which is the same definition `local_article_count` above
     # already uses, so the new columns reconcile with the existing ones rather
     # than introducing a second notion of local. The alternative definition -
-    # the LLM's own `scope_classification`, mapped through
-    # `news_modelling.news_arms.SCOPE_TO_ARM` - lives at article level and is
+    # the LLM's own `scope_classification` - lives at article level and is
     # a content judgement rather than a provenance fact. Mixing the two inside
     # one table would make `local_article_count` and `local_party_article_count`
     # count different things under the same word.

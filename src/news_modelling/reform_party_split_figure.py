@@ -67,7 +67,8 @@ def main():
     ax.set_xticks(x)
     ax.set_xticklabels(windows)
     ax.set_ylabel(r"$\Delta$MAE  (positive = news lowered error)")
-    ax.set_title("Per-party change in MAE from adding news, by window (2026)",
+    ax.set_title("News lowered error for non-Reform candidates but raised "
+                 "it for Reform UK",
                  fontsize=12, weight="bold")
     # legend outside the plot area (right), never overlaps bars
     ax.legend(loc="upper left", bbox_to_anchor=(1.01, 1.0), frameon=False)

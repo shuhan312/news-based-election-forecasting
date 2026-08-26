@@ -503,8 +503,7 @@ def ward_queries_for(election_id, era_name, division_data, stage_c_source,
 # v1.3, 29 July 2026. Ward-tier collection covered the 17 sampled divisions
 # across the four principal elections and no by-election at all. Joining the
 # corpus to the Stage 1 baseline measured what that costs: twenty candidate
-# rows carry division-level news, and none of them is Reform UK
-# (news_protocol/residual_model_feasibility.md).
+# rows carry division-level news, and none of them is Reform UK.
 #
 # The by-elections are where Reform UK's pre-2026 record actually is. Of the
 # fourteen Reform rows in the training period, eight sit in by-elections where

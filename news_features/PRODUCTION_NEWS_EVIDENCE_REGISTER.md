@@ -167,8 +167,9 @@ blanket imputation.
 
 ## 7. Stage 1 overlap and residual feasibility
 
-Sources: `production_estimability_v1/estimability_report.json` and the legacy
-diagnostic `residual_feasibility/coverage_diagnosis.json`.
+Source: `production_estimability_v1/estimability_report.json`. (The earlier
+`residual_feasibility/` diagnostic was removed from main; it remains in the
+commit history.)
 
 Stage 1 has 792 OOF rows across principal and by-elections. Only 2017 and 2021
 principal elections overlap the production news scope.
@@ -205,7 +206,8 @@ is not relabelled as Reform and cannot create a Reform-specific estimate.
 ## 9. Legacy evidence
 
 The article-level, context, ward-party and `feature_selection_v1` chain began
-from a 67-article pilot. Its selected columns and high correlations are audit
+from a 67-article pilot. This chain has been **removed from main** and remains
+in the commit history. Its selected columns and high correlations are audit
 history, not production evidence. A reported training correlation near 0.74
 followed screening thousands of candidates concentrated in one election and
 must not be cited as predictive value.
@@ -816,10 +818,11 @@ command after any upstream artefact changes.
 
 **E5-local backlog triage built (planning artefact; judges nothing).**
 The local arm's path to reportability is now costed instead of vague.
-`e5_local_triage.py` reproduces the frozen builder's reporting-gate
-arithmetic (distinct training values per period, bar 10, verdict = max
-across all twelve periods) over the committed v2 table and inventories
-all 1,576 unjudged rows (1,060 principal-extension, 426 by-election
+The E5-local triage script (removed from main; in commit history)
+reproduced the frozen builder's reporting-gate arithmetic (distinct
+training values per period, bar 10, verdict = max across all twelve
+periods) over the committed v2 table and inventoried all 1,576 unjudged
+rows (1,060 principal-extension, 426 by-election
 local, 90 second-review). Findings: the cheapest crossing is the
 previous_180_days snapshot, where local_party_article_count/share
 stand at 9 of 10 - one new distinct value crosses - and all eight

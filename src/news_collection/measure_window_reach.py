@@ -40,8 +40,7 @@ from collections import Counter, defaultdict
 from datetime import date
 from pathlib import Path
 
-from news_modelling.ward_party_features import NEWS_ELECTION_DATES
-from news_modelling.window_schemes import ORIGINAL_EMAIL
+from news_modelling.window_schemes import NEWS_ELECTION_DATES, ORIGINAL_EMAIL
 
 REPO = Path(__file__).resolve().parents[2]
 ELIGIBILITY = REPO / "news_collection/eligibility_assessment_v2.csv"

@@ -47,6 +47,17 @@ from zoneinfo import ZoneInfo
 UK = ZoneInfo("Europe/London")
 POLL_CLOSE = time(22, 0)
 
+# News election identifiers carry the polling month; Stage 1 identifiers carry
+# the full election name. Mapping on the polling *date* rather than on either
+# string keeps the two naming schemes independent of each other. This is the
+# canonical home for the map; other modules import it from here.
+NEWS_ELECTION_DATES: dict[str, date] = {
+    "SCC-2013-05": date(2013, 5, 2),
+    "SCC-2017-05": date(2017, 5, 4),
+    "SCC-2021-05": date(2021, 5, 6),
+    "ESWS-2026-05": date(2026, 5, 7),
+}
+
 # Timing-based exclusion reasons. Prompt 2 requires an auditable reason for
 # every excluded article; these are the ones timing alone can establish.
 # Content-based reasons (irrelevant geography, low-confidence match, duplicate,

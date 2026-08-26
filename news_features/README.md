@@ -17,15 +17,26 @@ corpus it reads is in `news_collection/`.
 | [`ARTIFACT_LINEAGE.md`](ARTIFACT_LINEAGE.md) | Which article universe and feature table are the **production** release, so two incompatible pipelines are never treated as one analysis |
 | [`../REPO_MAP.md`](../REPO_MAP.md) | The report-section → artefact → code trace for every reported number |
 
-## Feature tables
+## Final-report feature tables
 
-The production feature table is `news_feature_table_v1.csv`, at
-**election × party × period** grain (six non-overlapping windows plus six
-cumulative periods), with a `_metadata.json` recording the corpus release id it
-was built from. `v2`, `v3exp`, `v3party` and `v4e5local` are labelled variants;
-`ARTIFACT_LINEAGE.md` says which is production. `article_level_news_features` and
-`context_aggregated_features` are the article-level and aggregated inputs, each
-with an audit and a data dictionary.
+The final report uses two frozen feature releases at **election × party ×
+period** grain, each containing six non-overlapping windows and six cumulative
+periods:
+
+| Release | Corpus | Final-report role |
+| --- | --- | --- |
+| `news_feature_table_v1.csv` + metadata | the 1,632-article principal-election corpus | frozen pre-enrichment reference |
+| `news_feature_table_v2.csv` + metadata | v1 plus 627 by-election articles | enriched confirmatory release and source of the report's main positive results |
+
+The metadata files record the exact canonical corpus release used to build each
+table. `v3exp` and `v3party` are later sensitivity variants (local-news lineage
+and party-grain content); they do not replace the v1/v2 confirmatory pair.
+
+The older ward-level pilot tables (`article_level_news_features`,
+`context_aggregated_features`, …) and the post-unblinding `v4e5local`
+exploratory table were removed from `main`; they remain in the git commit
+history. See [`ARTIFACT_LINEAGE.md`](ARTIFACT_LINEAGE.md) for the release
+boundaries.
 
 ## Frozen experiment evidence
 
@@ -41,8 +52,7 @@ and `REPO_MAP.md` for which report section each backs.
 ## Discipline and provenance
 
 Predictor and outcome columns are separated and a leakage audit accompanies the
-feature tables. Large binaries — the frozen blinded prediction files and the
-ward-party feature parquet — are kept local/OneDrive per the IRP large-file
-rule, with their sha256 committed in the register and beside them, so every
-figure stays verifiable without the bulk file. A missing result is recorded as
-missing, never as a negative result.
+feature tables. Large binaries — the frozen blinded prediction files — are kept
+local/OneDrive per the IRP large-file rule, with their sha256 committed in the
+register and beside them, so every figure stays verifiable without the bulk
+file. A missing result is recorded as missing, never as a negative result.

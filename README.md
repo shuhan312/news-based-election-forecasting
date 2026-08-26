@@ -100,7 +100,6 @@ paths, so downloading it into the repository root and running
 | `blinded_predictions.csv` | 10.7 MB | place in `news_features/blinded_2026_predictions_v2/` | frozen; integrity carried by the committed `sha256_manifest.json` beside it |
 | `d4_llm_outputs.json`, `d4_llm_outputs_haiku.json` | 1.3 + 1.6 MB | place in `llm_context/` | frozen raw LLM responses (contain article text, so copyright-excluded from git); verified against the committed `d4_llm_output_manifest.json` |
 | `model_bundle_v1/` | ~15 MB | place in `surrey-election-no-news-baseline/outputs/` | the subproject's tracked Stage 1 workflow |
-| `ward_party_election_features_v1/` | ~77 MB | place in `news_features/` | `PYTHONPATH=src .venv/bin/python -m news_modelling.run_ward_party_features` |
 | `data-batch1-small.tar.gz` | 91 MB | extract at repo root — restores `data/raw/news/{records,api_raw,quarantine}`, `data/raw/{guardian,wikipedia,newsapi,news_pilot,surrey_county_council,surrey_2026}`, `data/processed`, `data/elections` | collection pipelines under `src/` |
 | `data-batch2-text.tar.gz` | 430 MB | extract at repo root — restores `data/raw/news/text/` | collection pipelines under `src/` |
 | `data-batch3-html.tar.gz` | 812 MB | extract at repo root — restores `data/raw/news/html/` | collection pipelines under `src/` |
