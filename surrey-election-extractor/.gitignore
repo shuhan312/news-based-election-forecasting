@@ -33,6 +33,7 @@ outputs/geographic_overlap_audit/
 outputs/geographic_mapping_review/*.json
 outputs/geographic_mapping_decision/*.json
 outputs/geographic_crosswalk_resolution/*.json
+!outputs/geographic_crosswalk_resolution/final_direct_mapping_dataset.json
 outputs/master_surrey_election_database/
 outputs/election_event_timeline/*.json
 outputs/historical_baseline_features/*.json

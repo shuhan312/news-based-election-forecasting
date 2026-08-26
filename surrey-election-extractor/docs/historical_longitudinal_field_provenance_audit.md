@@ -23,7 +23,7 @@ crosswalks remain blocked.
 
 | Supervisor field | Current release | Evidence boundary |
 | --- | --- | --- |
-| Previous winning party | 201/339 area rows | Single prior official candidate row explicitly marked `Elected` under an approved relation; never selected by vote order. |
+| Previous winning party | 205/343 area rows | Single prior official candidate row explicitly marked `Elected` under an approved relation; never selected by vote order. |
 | Previous winning candidate | Same approved relations when exactly one prior elected row exists | A prior-result fact, not automatic proof of current identity. |
 | Previous winner candidate share | Published share of that prior elected row | Candidate share, not reconstructed multi-candidate party total. |
 | Previous electorate and turnout | Available only where the approved prior official result publishes the value; no-news turnout may use separately cited supplementary official evidence | Missing source values remain `NULL`. |
@@ -43,11 +43,12 @@ previous electorate are lagged features. `change_in_vote_share`, current vote
 share, current outcome, rank and winning margin contain the target election
 result and are prohibited from the no-news predictor.
 
-The current division-level no-news export contains 201 eligible predecessor
-rows and 138 rows without an approved predecessor. It does not yet publish the
-candidate/party-level lagged-share table, so no-news publication remains a
-separate downstream task even though the election master contains the required
-1,021 values.
+The current division-level no-news export contains 205 eligible predecessor
+rows and 138 rows without an approved predecessor. The candidate/party-level
+lagged-share values are published through the separately keyed candidate-contest
+and party-contest releases (`outputs/no_news_candidate_contests/`,
+`outputs/no_news_party_contests/`), which the Stage 1 baseline consumes; the
+election master carries the underlying 1,042 values.
 
 ## Conclusion
 
