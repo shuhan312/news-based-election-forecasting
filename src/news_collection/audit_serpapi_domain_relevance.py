@@ -5,7 +5,8 @@ Publication Date Resolution stage's unresolved-evidence queue.
 Why this exists
 -----------------
 Three of the 134 unresolvable_missing_evidence records (see
-resolve_publication_dates.py, investigate_unresolved_dates.py) had no
+resolve_publication_dates.py and the date-quality investigation in Git
+history) had no
 stored HTML because they came back from SerpAPI's general web search
 with content-types this pipeline never fetches as articles. Looking at
 what they actually were:
