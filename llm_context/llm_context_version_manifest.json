@@ -120,7 +120,7 @@
  "dependencies": {
   "python": "3.x",
   "anthropic": "0.119.0",
-  "runtime_reconstruction": "src/llm_extraction/run_freeze.py build (offline, deterministic)"
+    "runtime_reconstruction": "legacy eight-layer runner removed from final main; archived implementation remains in Git history"
  },
  "upstream_provenance": [
   "news_collection/duplicate_mapping_layer_v1_provisional.csv (Phase 5 freeze)",

@@ -20,7 +20,9 @@ The freeze is a contract, not a copy: the eight stored layer output
 files are byte-untouched (their sha256 hashes are recorded in the
 version manifest and re-checked by the test suite), and the frozen
 card file is built from them by a deterministic offline pass
-(`src/llm_extraction/run_freeze.py`) whose rebuild is byte-identical.
+(the legacy `src/llm_extraction/run_freeze.py`, now retained in Git history)
+whose recorded rebuild was byte-identical. This pilot freeze is not read by
+the final v1/v2 feature builders.
 An overwrite guard refuses to replace any frozen file with different
 bytes - any future change is a new version released alongside.
 

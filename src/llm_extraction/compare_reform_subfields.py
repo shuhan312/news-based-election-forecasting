@@ -58,7 +58,7 @@ def norm_list(v) -> frozenset:
 
 def main() -> None:
     wb = load_workbook(LABELS, data_only=True)
-    sheet = next(s for s in wb.sheetnames if "RU" in s or "标注" in s)
+    sheet = next(s for s in wb.sheetnames if "RU" in s)
     ws = wb[sheet]
     hdr = [c.value for c in ws[1]]
     human = {}

@@ -27,38 +27,12 @@ REPO = Path("/Users/sl1425/irp-sl1425")
 OUT_DIR = REPO / "outputs" / "d4_validation_labelling_2026-07-29"
 OUT = OUT_DIR / "D4_ReformUK_Subfields_Labelling.xlsx"
 
-llm = json.loads((REPO / "llm_context/d4_llm_outputs.json").read_text())
-sample = {r["article_id"]: r for r in csv.DictReader(
-    open(REPO / "llm_context/d4_validation_sample_v1.csv"))}
-
 N_CONTROLS = 8
-
-applicable_true, false_mentioning, false_other = [], [], []
-for r in llm["layers"]["consequence"]:
-    rec = r.get("record")
-    if not rec:
-        continue
-    aid = r["article_id"]
-    if (rec.get("reform_uk") or {}).get("applicable"):
-        applicable_true.append(aid)
-    elif sample.get(aid, {}).get("mentions_reform") == "true":
-        false_mentioning.append(aid)
-    else:
-        false_other.append(aid)
 
 
 def hash_order(ids):
     return sorted(ids, key=lambda a: hashlib.sha256(a.encode()).hexdigest())
 
-
-# Near misses first: an article that mentions Reform but which the model
-# judged not materially about it is the case that actually tests the
-# applicable boundary. Top up from the rest only if there aren't enough.
-controls = (hash_order(false_mentioning) + hash_order(false_other))[:N_CONTROLS]
-rows = sorted(applicable_true + controls,
-              key=lambda a: hashlib.sha256(a.encode()).hexdigest())
-print(f"{len(applicable_true)} applicable + {len(controls)} controls "
-      f"= {len(rows)} rows")
 
 ARIAL = "Arial"
 F_HDR = Font(name=ARIAL, size=10, bold=True, color="FFFFFF")
@@ -69,65 +43,110 @@ FILL_YELLOW = PatternFill("solid", fgColor="FFFF00")
 WRAP = Alignment(wrap_text=True, vertical="top")
 TOP = Alignment(vertical="top")
 
-wb = Workbook()
-ws = wb.active
-ws.title = "读我"
-ws.sheet_view.showGridLines = False
-for i, w in enumerate([3, 30, 108], 1):
-    ws.column_dimensions[get_column_letter(i)].width = w
-ws.cell(row=1, column=2, value="Reform UK 子字段验证 — 22 篇 × 6 字段").font = F_TITLE
-lines = [
-    ("这是什么", "consequence 层整体没过门,但它上面搭着的 reform_uk 独立子字段块从没被验证过。这 22 篇里有的涉及 Reform UK、有的只是提到了 reform 一词——你逐篇判断,与模型对分。过门则 Reform 专属特征保留,不过则同样弃用。"),
-    ("ru_applicable", "文章是否实质性地关于 Reform UK 这个政党(不是一笔带过、不是 reform 普通词义)?yes/no。选 no 时后面五列全部留空。"),
-    ("ru_growth_suggested", "文章有没有暗示 Reform 支持度在增长?yes/no"),
-    ("ru_credible_challenger", "文章有没有把 Reform 呈现为可信的挑战者(而非边缘小党)?yes/no"),
-    ("ru_established_support_affected", "文章暗示哪些老党的支持可能被 Reform 侵蚀?从 conservative / labour / liberal_democrat 里选,逗号分隔,没有填 none"),
-    ("ru_switching_directions", "文章有没有提到选民转向?从 con_to_reform / lab_to_reform / ld_to_reform 里选,逗号分隔,没有填 none"),
-    ("ru_signal_nature", "信号的性质:national_momentum(全国势头) / local_campaign_strength(本地竞选实力) / protest_voting(抗议性投票) / anti_incumbent_sentiment(反在任情绪),逗号分隔,没有填 none"),
-    ("红线", "只记录文章说了/暗示了什么;报道量绝不自动等于选票;拿不准 boolean 选 no(诚实保守)。预计 20 分钟。"),
-]
-r = 3
-for label, text in lines:
-    ws.cell(row=r, column=2, value=label).font = Font(name=ARIAL, size=11, bold=True)
-    c = ws.cell(row=r, column=3, value=text)
-    c.font = F_BODY
-    c.alignment = WRAP
-    r += 2
 
-ws = wb.create_sheet("RU标注-22篇")
-head = ["article_id", "election_id", "headline", "正文摘录(截1000字)", "全文路径",
+def main() -> None:
+    llm = json.loads((REPO / "llm_context/d4_llm_outputs.json").read_text())
+    sample = {r["article_id"]: r for r in csv.DictReader(
+        open(REPO / "llm_context/d4_validation_sample_v1.csv"))}
+
+    applicable_true, false_mentioning, false_other = [], [], []
+    for result in llm["layers"]["consequence"]:
+        record = result.get("record")
+        if not record:
+            continue
+        article_id = result["article_id"]
+        if (record.get("reform_uk") or {}).get("applicable"):
+            applicable_true.append(article_id)
+        elif sample.get(article_id, {}).get("mentions_reform") == "true":
+            false_mentioning.append(article_id)
+        else:
+            false_other.append(article_id)
+
+    # Near misses test the applicable boundary. Top up from the remaining
+    # false cases only when the mention pool is too small.
+    controls = (hash_order(false_mentioning)
+                + hash_order(false_other))[:N_CONTROLS]
+    rows = sorted(applicable_true + controls,
+                  key=lambda a: hashlib.sha256(a.encode()).hexdigest())
+    print(f"{len(applicable_true)} applicable + {len(controls)} controls "
+          f"= {len(rows)} rows")
+
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "README"
+    ws.sheet_view.showGridLines = False
+    for index, width in enumerate([3, 30, 108], 1):
+        ws.column_dimensions[get_column_letter(index)].width = width
+    ws.cell(
+        row=1,
+        column=2,
+        value="Reform UK sub-field validation — 22 articles × 6 fields",
+    ).font = F_TITLE
+    instructions = [
+        ("Purpose", "The consequence layer failed its validation gate, but the separate reform_uk sub-field block built on it has not been validated. Some of these 22 articles concern Reform UK; others merely use the word 'reform'. Review each article independently for comparison with the model. If this block passes its gate, the Reform-specific features will be retained; otherwise they will be discarded."),
+        ("ru_applicable", "Is the article substantively about Reform UK as a political party, rather than mentioning it in passing or using 'reform' in its ordinary sense? Select yes or no. If no, leave the remaining five fields blank."),
+        ("ru_growth_suggested", "Does the article suggest that support for Reform UK is growing? Select yes or no."),
+        ("ru_credible_challenger", "Does the article present Reform UK as a credible challenger rather than a fringe party? Select yes or no."),
+        ("ru_established_support_affected", "Which established parties does the article suggest may lose support to Reform UK? Choose from conservative / labour / liberal_democrat, separated by commas; enter none if none apply."),
+        ("ru_switching_directions", "Does the article mention voters switching to Reform UK? Choose from con_to_reform / lab_to_reform / ld_to_reform, separated by commas; enter none if none apply."),
+        ("ru_signal_nature", "What is the nature of the signal? Choose from national_momentum / local_campaign_strength / protest_voting / anti_incumbent_sentiment, separated by commas; enter none if none apply."),
+        ("Important", "Record only what the article states or implies. Volume of coverage must never be treated automatically as votes. If a boolean is uncertain, select no as the conservative judgement. Estimated completion time: 20 minutes."),
+    ]
+    row_number = 3
+    for label, instruction in instructions:
+        ws.cell(row=row_number, column=2, value=label).font = Font(
+            name=ARIAL, size=11, bold=True)
+        cell = ws.cell(row=row_number, column=3, value=instruction)
+        cell.font = F_BODY
+        cell.alignment = WRAP
+        row_number += 2
+
+    ws = wb.create_sheet("RU labels - 22 articles")
+    headings = [
+        "article_id", "election_id", "headline",
+        "article excerpt (first 1,000 characters)", "full-text path",
         "ru_applicable", "ru_growth_suggested", "ru_credible_challenger",
         "ru_established_support_affected", "ru_switching_directions",
-        "ru_signal_nature", "notes"]
-for c, h in enumerate(head, 1):
-    cell = ws.cell(row=1, column=c, value=h)
-    cell.font = F_HDR
-    cell.fill = FILL_HDR
-    cell.alignment = WRAP
-for i, w in enumerate([30, 13, 40, 70, 32, 13, 16, 18, 28, 26, 30, 24], 1):
-    ws.column_dimensions[get_column_letter(i)].width = w
+        "ru_signal_nature", "notes",
+    ]
+    for column, heading in enumerate(headings, 1):
+        cell = ws.cell(row=1, column=column, value=heading)
+        cell.font = F_HDR
+        cell.fill = FILL_HDR
+        cell.alignment = WRAP
+    widths = [30, 13, 40, 70, 32, 13, 16, 18, 28, 26, 30, 24]
+    for index, width in enumerate(widths, 1):
+        ws.column_dimensions[get_column_letter(index)].width = width
 
-fcr = {r["article_id"]: r["headline"] for r in csv.DictReader(
-    open(REPO / "news_collection/full_corpus_review.csv"))}
-for i, aid in enumerate(rows, start=2):
-    txt_path = REPO / "data/raw/news/text" / f"{aid}.txt"
-    excerpt = txt_path.read_text(encoding="utf-8", errors="replace")[:1000]
-    vals = [aid, sample[aid]["election_id"], fcr.get(aid, ""), excerpt,
-            str(txt_path)] + [""] * 7
-    for c, v in enumerate(vals, 1):
-        cell = ws.cell(row=i, column=c, value=v)
-        cell.font = F_BODY
-        cell.alignment = WRAP if c in (3, 4) else TOP
-    for c in range(6, 12):
-        ws.cell(row=i, column=c).fill = FILL_YELLOW
+    headlines = {r["article_id"]: r["headline"] for r in csv.DictReader(
+        open(REPO / "news_collection/full_corpus_review.csv"))}
+    for row_number, article_id in enumerate(rows, start=2):
+        text_path = REPO / "data/raw/news/text" / f"{article_id}.txt"
+        excerpt = text_path.read_text(
+            encoding="utf-8", errors="replace")[:1000]
+        values = [
+            article_id, sample[article_id]["election_id"],
+            headlines.get(article_id, ""), excerpt, str(text_path),
+        ] + [""] * 7
+        for column, value in enumerate(values, 1):
+            cell = ws.cell(row=row_number, column=column, value=value)
+            cell.font = F_BODY
+            cell.alignment = WRAP if column in (3, 4) else TOP
+        for column in range(6, 12):
+            ws.cell(row=row_number, column=column).fill = FILL_YELLOW
 
-n = len(rows) + 1
-dv = DataValidation(type="list", formula1='"yes,no"', allow_blank=True)
-ws.add_data_validation(dv)
-for col in ("F", "G", "H"):
-    dv.add(f"{col}2:{col}{n}")
-ws.freeze_panes = "C2"
+    validation = DataValidation(
+        type="list", formula1='"yes,no"', allow_blank=True)
+    ws.add_data_validation(validation)
+    for column in ("F", "G", "H"):
+        validation.add(f"{column}2:{column}{len(rows) + 1}")
+    ws.freeze_panes = "C2"
 
-wb.active = 0
-wb.save(OUT)
-print(f"saved {OUT}")
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    wb.active = 0
+    wb.save(OUT)
+    print(f"saved {OUT}")
+
+
+if __name__ == "__main__":
+    main()

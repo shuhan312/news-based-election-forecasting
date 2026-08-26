@@ -10,8 +10,10 @@ downstream layers read.
 
 The **raw per-article LLM responses reproduce article quotations**, so under the
 copyright policy they are kept local/OneDrive (git-ignored): `d4_llm_outputs*.json`,
-`corpus_extraction_outputs_*.json`, the per-layer `*_outputs.json`, and
-`llm_context_layer_final.json` (the frozen label layer the feature stage reads).
+`corpus_extraction_outputs_*.json` and the per-layer `*_outputs.json`. The
+feature builders read the frozen tranche outputs directly; the older
+`llm_context_layer_final.json` is an archived eight-layer pilot freeze and is
+not part of the v1/v2 production path.
 What **is committed** is everything needed to audit and verify them without the
 text:
 

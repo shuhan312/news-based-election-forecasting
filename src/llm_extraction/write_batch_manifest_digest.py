@@ -93,12 +93,12 @@ def main() -> None:
         existing[t] = d
         src_lines = len(
             (Path("llm_context") / d["source_file"]).read_text().splitlines())
-        print(f"  {t:7s} {src_lines:5,} 行 -> 摘要  "
-              f"({d['article_ids_count']} 个文章 ID, "
-              f"{d['stance_question_sets_count']} 条 stance 问题集)")
+        print(f"  {t:7s} {src_lines:5,} lines -> digest  "
+              f"({d['article_ids_count']} article IDs, "
+              f"{d['stance_question_sets_count']} stance question sets)")
     out.write_text(json.dumps(existing, indent=2, sort_keys=True))
-    print(f"\n-> {out} ({len(out.read_text().splitlines())} 行, "
-          f"{len(existing)} 个批次)")
+    print(f"\n-> {out} ({len(out.read_text().splitlines())} lines, "
+          f"{len(existing)} tranches)")
 
 
 if __name__ == "__main__":
