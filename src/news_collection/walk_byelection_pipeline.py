@@ -75,7 +75,7 @@ EXTRACTION_LAYERS = {
     "framing": "claude-haiku-4-5",
 }
 
-# Same accounting conventions as estimate_extraction_budget.py: Batch API
+# Frozen accounting conventions used for this recorded walkthrough: Batch API
 # halves both rates, the shared prompt prefix is cached and billed at a
 # tenth on reads, prompt overhead and structured output are rounded up.
 BATCH_MULTIPLIER = 0.5

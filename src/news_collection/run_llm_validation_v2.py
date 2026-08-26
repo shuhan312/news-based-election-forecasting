@@ -16,9 +16,8 @@ Preconditions, all satisfied before this script was first run
    sample, not a quiet rerun on this one.
 
 Everything else (full-text input, response archiving, reuse only on
-identical request hashes, failures stay failures) is inherited from
-run_llm_classification_development_v2.py so the validation run cannot
-behave differently from the development run in any audited respect.
+identical request hashes, failures stay failures) uses the shared frozen-v2
+I/O helpers in llm_v2_io.py, the same helpers as the production corpus runs.
 
 This script only produces classifications. The gated comparison
 against the human gold standard lives in
@@ -37,13 +36,13 @@ from dotenv import load_dotenv
 
 from . import llm_classifier_v2
 from .llm_classifier_v2 import classify_article_v2
-from .run_llm_classification_development_v2 import (
+from .llm_v2_io import (
     FIELDNAMES,
-    _archive_raw_result,
-    _csv_row,
+    archive_raw_result,
     article_from_sample_row,
     backup_previous_output,
     can_reuse,
+    csv_row,
     load_previous_ok_rows,
     load_query_inventory,
 )
@@ -116,9 +115,9 @@ def main() -> None:
             reused += 1
         else:
             result = classify_article_v2(article)
-            _archive_raw_result(
+            archive_raw_result(
                 sample_row["article_id"], result, directory=RAW_RESPONSE_DIR)
-            output_rows.append(_csv_row(sample_row, article, result))
+            output_rows.append(csv_row(sample_row, article, result))
             status = result.get("status", "unknown")
             attempted += 1
         status_counts[status] = status_counts.get(status, 0) + 1

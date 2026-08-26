@@ -30,9 +30,7 @@ from src.news_collection.manual_review_schema import (
     REASON_CODE_DEFINITIONS,
     REASON_CODES,
 )
-from src.news_collection.run_llm_classification_development_v2 import (
-    SMOKE_ARTICLE_IDS,
-    _select_smoke_rows,
+from src.news_collection.llm_v2_io import (
     article_from_sample_row,
     can_reuse,
 )
@@ -244,7 +242,7 @@ class TestAPIRequestAndStops:
         assert "e4_decision" not in result
 
 
-class TestDevelopmentRunnerInputs:
+class TestFrozenV2Inputs:
     def test_runner_prefers_full_text_and_adds_query_context(self, tmp_path):
         article_id = "NEWS-test-full"
         full_text = tmp_path / "article.txt"
@@ -292,25 +290,6 @@ class TestDevelopmentRunnerInputs:
         assert can_reuse(previous, LOCAL_ARTICLE)
         changed = {**LOCAL_ARTICLE, "text": "different full text"}
         assert not can_reuse(previous, changed)
-
-    def test_smoke_selection_is_fixed_and_ordered(self):
-        sample_rows = [
-            {"article_id": article_id, "position": str(index)}
-            for index, article_id in enumerate(reversed(SMOKE_ARTICLE_IDS))
-        ]
-        selected = _select_smoke_rows(sample_rows)
-        assert [row["article_id"] for row in selected] == list(
-            SMOKE_ARTICLE_IDS
-        )
-
-    def test_smoke_selection_fails_if_a_declared_record_is_missing(self):
-        incomplete_rows = [
-            {"article_id": article_id}
-            for article_id in SMOKE_ARTICLE_IDS[:-1]
-        ]
-        with pytest.raises(RuntimeError, match="missing"):
-            _select_smoke_rows(incomplete_rows)
-
 
 class TestV1DisagreementAudit:
     def test_reason_code_in_decision_is_interpreted_but_flagged(self):

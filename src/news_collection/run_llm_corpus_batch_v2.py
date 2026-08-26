@@ -55,9 +55,9 @@ from .llm_classifier_v2 import (
     parse_structured_response,
     request_metadata,
 )
-from .run_llm_classification_development_v2 import (
+from .llm_v2_io import (
     FIELDNAMES,
-    _archive_raw_result,
+    archive_raw_result,
     article_from_sample_row,
     backup_previous_output,
     load_query_inventory,
@@ -223,7 +223,7 @@ def result_to_row(article: dict, result, raw_dir: Path) -> dict:
     })
     # Archive the raw response before any judgement about it, so a
     # parse failure can be diagnosed later without re-paying for it.
-    _archive_raw_result(
+    archive_raw_result(
         article["article_id"], {**metadata, "raw_text": raw_text,
                                 "response_id": message.id,
                                 "stop_reason": stop_reason,

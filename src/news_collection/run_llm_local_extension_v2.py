@@ -51,7 +51,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from .llm_classifier_v2 import MODEL, request_metadata
-from .run_llm_classification_development_v2 import (
+from .llm_v2_io import (
     FIELDNAMES,
     article_from_sample_row,
     backup_previous_output,
