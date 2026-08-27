@@ -215,7 +215,7 @@ must not be cited as predictive value.
 The production model must verify release
 `canonical-news-v1-59d113bb9c28` and use the frozen two-feature sets above.
 
-## 10. Estimates and results that do not exist
+## 10. Status at the pre-unblinding checkpoint
 
 There are 3,122 collected by-election articles that have not passed the six
 production eligibility/extraction stages. Text matching finds 425 Reform
@@ -223,21 +223,26 @@ mentions. Applying principal-election funnel rates gives an **estimate** of
 roughly 213 usable Reform records. This is not an observed count and is not in
 the 1,632-article release.
 
-The following results still do not exist:
+This section records what did not exist at the pre-unblinding
+checkpoint, split by what has happened since.
+
+### Still unavailable or not estimable
 
 - a stable window ranking;
-- a reportable local-news effect;
-- a Reform-specific learned effect;
-- a legitimate 2026 performance comparison; and
-- synthetic-news scenario results.
+- a reportable local-news effect; and
+- a Reform-specific learned effect.
 
-These are **not run or not estimable**, not negative findings. The blinded
-prediction file that the 2026 comparison requires now exists and is frozen
-(section 13); the comparison has since been run once (section 16).
-Synthetic-news scenario results now also exist
-(`synthetic_scenarios_v1/`): they are labelled simulations of the frozen
-v2 model's sensitivity, produced after unblinding, and are not evidence
-about voters.
+These are **not run or not estimable**, not negative findings.
+
+### Subsequently completed
+
+- The legitimate 2026 performance comparison was completed once under the
+  frozen unblinding protocol (the blinded prediction file it required is
+  frozen in section 13); see section 16.
+- The synthetic-news scenarios were completed after unblinding
+  (`synthetic_scenarios_v1/`) and remain labelled as simulations of the
+  frozen v2 model's sensitivity, not evidence about voter behaviour; see
+  section 17.
 
 ## 11. Completed production news experiment
 

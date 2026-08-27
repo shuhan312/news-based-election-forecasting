@@ -362,7 +362,7 @@ behave like volume.
 
 ---
 
-## 5. Reproducibility: the committed tables could not be rebuilt
+## 5. Historical rebuild failure and its resolution
 
 Discovered while running this work, and not caused by it. Four extraction
 tranches were written after the feature tables and hold articles no relevant
@@ -389,13 +389,14 @@ right rather than merely sufficient.
 
 ---
 
-## 6. What can and cannot be claimed today
+## 6. Conclusions at the 5 August review checkpoint
 
 **Can be claimed.**
 
 - The 2021 zero-of-eighteen null stands.
 - The 2026 confirmatory result stands as certified, but the placebo
-  (uncommitted) indicates it is close to a volume effect, and it should not
+  (`placebo_specifications_v1/`, now committed) indicates it is close to a
+  volume effect, and it should not
   be reported without that caveat.
 - The corpus carries 6 to 18 articles per election in the 30-15 day window,
   and six of ten training elections carry none.
