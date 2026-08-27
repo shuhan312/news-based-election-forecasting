@@ -2768,8 +2768,8 @@
   ],
   "party_content_attribution": {
     "articles_with_issue_record": 2138,
-    "articles_no_party_found": 770,
     "articles_attributed": 1368,
+    "articles_no_party_found": 770,
     "party_cell_multiplier": 2.3999
   },
   "provenance": {
