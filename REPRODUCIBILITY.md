@@ -38,6 +38,13 @@ pip install -r surrey-election-extractor/requirements.txt        # Layer 1A subp
 pip install -r surrey-election-no-news-baseline/requirements.txt # Stage 1 subproject
 ```
 
+For an environment pinned to the exact package versions the verified
+end-to-end rebuild ran under, install the committed lockfile instead:
+
+```bash
+pip install -r requirements.lock.txt
+```
+
 ## 3. Data sources and access
 
 | Data | Source | Access |
@@ -84,10 +91,10 @@ byte-identically — a claim pinned by `tests/test_feature_table_rebuild.py`
 rather than asserted:
 
 ```bash
-python3 -m src.news_features.build_feature_table
-python3 -m src.news_features.build_feature_table_v2
-python3 -m src.news_features.build_feature_table_v3exp
-python3 -m src.news_features.build_feature_table_v3party
+.venv/bin/python -m src.news_features.build_feature_table
+.venv/bin/python -m src.news_features.build_feature_table_v2
+.venv/bin/python -m src.news_features.build_feature_table_v3exp
+.venv/bin/python -m src.news_features.build_feature_table_v3party
 ```
 
 **Step 4 — Stage 2: freeze, unblind, diagnose (deterministic).**
@@ -97,6 +104,14 @@ PYTHONPATH=src .venv/bin/python -m news_modelling.run_blinded_2026_predictions
 PYTHONPATH=src .venv/bin/python -m news_modelling.run_blinded_2026_predictions_v2
 PYTHONPATH=src .venv/bin/python -m news_modelling.unblind_2026
 ```
+
+These commands are guarded: when the frozen outputs already exist they
+refuse (`BlindingViolation` / `UnblindingRefused`), because the freeze and
+the unblinding are one-time acts. On a clone that already carries the
+frozen artefacts, verify instead of re-running — the audit in §8 performs
+the three-way hash agreement between the freeze manifests, the unblinding
+record and the bytes on disk. Deleting the frozen directories to force a
+re-run is a deliberate, visible act, exactly as the guard message states.
 
 Every post-unblinding diagnostic regenerates its `news_features/<name>_v1/`
 evidence directory via its module in `src/news_modelling/` (one module per
@@ -175,8 +190,8 @@ built by `build_report_tables.py` from the frozen evidence named below.
 ## 8. Verification without rebuilding anything
 
 ```bash
-python3 -m audit_leakage_provenance      # five offline checks: query lineage, chronology,
-                                         # outcome isolation, the prediction freeze, area selection
+.venv/bin/python -m audit_leakage_provenance   # five offline checks: query lineage, chronology,
+                                               # outcome isolation, the prediction freeze, area selection
 .venv/bin/python -m pytest tests -q                                                # root news side
 ( cd surrey-election-no-news-baseline && PYTHONPATH=. ../.venv/bin/python -m pytest tests -q )  # Stage 1
 ( cd surrey-election-extractor && ../.venv/bin/python -m pytest tests -q )          # extractor

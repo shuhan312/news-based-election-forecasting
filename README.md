@@ -34,12 +34,12 @@ the per-figure/per-table script mapping — follow
 | `surrey-election-no-news-baseline/` | Stage 1 subproject: the history-only baseline (own README) |
 | `surrey-election-extractor/` | Subproject converting official results pages into structured records (own README) |
 | `news_features/`, `news_collection/`, `llm_context/`, `news_protocol/` | Frozen evidence: one directory per experiment (results JSON + findings), protocols and pre-registrations, LLM run records |
-| `outputs/report_tables_v1/` | The report table pack: 23 CSVs + `manifest.json` (sha256 of every input) + LaTeX appendix tables a1–a13 |
+| `outputs/report_tables_v1/` | The report table pack: 23 CSVs + `manifest.json` (sha256 of every input) + LaTeX appendix tables a1–a19 |
 | `outputs/report_figures_v1/` | The report figure pack (9 figures) |
 | `report/` | LaTeX source of the final report (Overleaf snapshots) |
 | `app/` | Streamlit viewing/scenario layer over the frozen artefacts |
 | `demo/` | Viva demonstrator (own README); not part of the evidence chain |
-| `tests/` | 79 test modules guarding the pipeline, blinding, and artefact citations |
+| `tests/` | 56 test modules guarding the pipeline, blinding, and artefact citations |
 | `logbook/`, `deliverables/`, `title/`, `scripts/` | Course admin and utilities |
 | [`audit_leakage_provenance.py`](audit_leakage_provenance.py) | Repository-root leakage and provenance audit — see the next section |
 
