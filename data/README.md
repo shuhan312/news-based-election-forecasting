@@ -19,8 +19,8 @@ git-ignored) per the large-file rule.
 | `elections/results_2017_2024.csv` | `src/fetch_election_results.py` | ward-level results extracted from the calendar's Wikipedia pages |
 | `elections/official_scc_candidate_results_test.csv` | `src/fetch_official_scc_results.py` | the official-page candidate-results extraction check |
 | `elections/election_calendar.csv` | `src/build_election_calendar.py` | the Surrey election calendar the news windows align against |
-| `elections/ward_winners.csv` | derived from the results tables | 2017/2021 winner and margin per ward — an input to the pre-registered division sample |
-| `elections/ward_party_results.csv` | derived from the results tables | party-level ward results used by the early aggregation path |
+| `elections/ward_winners.csv` | `src/aggregate_results.py` | 2017/2021 winner and margin per ward — an input to the pre-registered division sample |
+| `elections/ward_party_results.csv` | `src/aggregate_results.py` | party-level ward results from the Wikipedia results chain |
 | `elections/candidate_name_standardisation.csv`, `elections/party_name_standardisation.csv` | `src/build_name_standardisation.py` | the reviewed name-standardisation tables; Reform UK and UKIP are never merged |
 | `elections/turnout_audit.csv` | `src/audit_turnout.py` | the turnout audit over the cached election tables |
 

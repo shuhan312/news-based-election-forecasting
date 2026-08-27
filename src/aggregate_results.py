@@ -149,8 +149,9 @@ def main():
     party.to_csv(PARTY_OUT, index=False)
 
     # One row per ward.  The explicit fields describe the best-candidate
-    # proxy.  Legacy aliases remain because build_model_dataset.py still
-    # consumes them; they can be removed when that downstream schema changes.
+    # proxy.  Legacy aliases are retained so the committed tables keep their
+    # frozen byte-identical form; their original consumer
+    # (build_model_dataset.py) is retired to Git history.
     def summarise(g):
         top_share = g.iloc[0]["best_candidate_share"]
         second_party = g.iloc[1]["party"] if len(g) > 1 else None

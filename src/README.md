@@ -74,7 +74,6 @@ Layers 6–8  frozen evidence → report pack → report/app/viva consumers
 | `news_features/` | Layer 4: deterministic feature construction and leakage guards |
 | `news_modelling/` | Layer 5: Stage 2 residual modelling, blinding, unblinding and diagnostics |
 | top-level scripts | Layer 1A: build the election tables and calendar to which news is aligned |
-| `legacy_pre_supervisor_news/` | Earlier exploratory code, retained for provenance; not part of the final pipeline |
 
 Each subdirectory's own README lists its files and the ordered steps within it.
 
@@ -106,10 +105,13 @@ Layer 1: each builds a shared input the rest of the pipeline aligns against (the
 tables). They are standalone scripts, not a multi-step sub-pipeline, which is why
 they sit at the top level rather than in a package. Grouped by role:
 
-- **Official results → the `data/elections/` tables** — `fetch_official_scc_results.py`, `fetch_2026_surrey_results.py`, `convert_2013_extractor_output.py`, `convert_2026_extractor_output.py`, `add_2013_wikipedia_turnout.py` (fills the 2013 turnout gap the official page lacks), `fetch_election_results.py`, `build_election_calendar.py`, `audit_turnout.py`, `validate_election_results.py`
+- **Official results → the `data/elections/` tables** — `fetch_official_scc_results.py`, `fetch_2026_surrey_results.py`, `convert_2013_extractor_output.py`, `convert_2026_extractor_output.py`, `add_2013_wikipedia_turnout.py` (fills the 2013 turnout gap the official page lacks), `fetch_election_results.py`, `aggregate_results.py` (writes `ward_party_results.csv` and `ward_winners.csv`, which the pre-registered division sample reads), `build_election_calendar.py`, `audit_turnout.py`, `validate_election_results.py`
 - **Name standardisation, sampling and workbook** — `build_name_standardisation.py`, `build_division_sample.py`, `build_research_workbook.py` (with `workbook_spec.json`)
 - **News-coverage checks** — `check_newsapi_coverage.py`, `pilot_news_retrieval.py`, `verify_news_coverage_audit.py`
-- **Early prototype (superseded, retained as history)** — `aggregate_results.py` → `build_model_dataset.py` produced the first model-ready dataset (`data/processed/model_dataset.csv`); nothing downstream now reads it and no reported number traces to it — the shipped pipeline uses the official-extractor contracts instead
+
+Superseded early code — the `build_model_dataset.py` prototype and the
+pre-supervisor news scripts (`legacy_pre_supervisor_news/`) — has been removed
+from the working tree and remains in Git history.
 
 **Outputs and reproduction.** These scripts write the committed `data/elections/`
 reference tables (`2013_scc_results.csv`, `2026_east/west_surrey_results.csv`,
@@ -122,58 +124,14 @@ bit-for-bit copy of the committed table. Run a script from the repository root
 (some, such as `build_name_standardisation.py`, import a sibling module and need
 `PYTHONPATH=src`).
 
-## News collection and eligibility
-
-The corpus is retrieved from SerpAPI, publisher search and web archives,
-restricted to the pre-election window, with eligibility and leakage screening.
-Every keep/drop decision is recorded, so the corpus is auditable rather than
-taken on trust.
-
-## Cleaning and standardisation
-
-Exact and near-duplicate articles are collapsed, and party names, candidate
-names and character encodings are standardised, before any labelling runs.
-
-## LLM extraction and validation
-
-Claude produces structured issue, stance and framing labels for each eligible
-article. The labels are **validated against human annotation before use**: they
-are accepted only when inter-rater agreement reaches κ ≥ 0.60, and the accepted
-set is then frozen. Downstream features read only the frozen labels, so the
-modelling never depends on an unvalidated or re-runnable labelling pass. This is
-the answer to "why trust the LLM labels?" — they are gated and frozen, not used
-raw.
-
-## Feature construction
-
-Article-level labels are aggregated into the same election–party–window
-structure used in the modelling analysis, so news exposure and stance signals
-are comparable across periods and parties. A leakage audit checks that no
-feature encodes the outcome being predicted.
-
-## Stage 2 modelling
-
-Stage 2 **does not predict vote share directly**. It models the residual error
-of the frozen Stage 1 baseline — a per-window ridge on those residuals — to test
-whether news explains variation beyond historical information. Predictions are
-frozen and blinded before the 2026 results are opened; the one-time unblinding
-and every post-unblinding diagnostic are recorded. This residual design is the
-core of the IRP: it isolates any news signal from what history already explains.
-
 ## Reproducibility and leakage controls
 
 The pipeline is one-way — each layer reads only the layer above. Predictors and
-outcomes stay separated, missing values are flagged rather than filled, and every
-reported number traces to a committed, hash-pinned artefact (see `REPO_MAP.md`).
-Large raw inputs under `data/` are local by design per the IRP large-file rule.
-
-## Outputs and provenance
-
-Each reported result links to a committed artefact: the news corpus
-(`news_collection/`), the frozen LLM labels (`llm_context/`), the feature tables
-and frozen evidence (`news_features/`), and the report tables
-(`outputs/report_tables_v1/`). One early artefact is kept only for provenance:
-`aggregate_results.py` → `build_model_dataset.py` produced the first model-ready
-dataset (`data/processed/model_dataset.csv`), which nothing downstream now reads
-and no reported number traces to; the shipped pipeline uses the official-extractor
-contracts instead.
+outcomes stay separated, missing values are flagged rather than filled, LLM
+labels enter Layer 4 only after the κ ≥ 0.60 human-agreement gate and are then
+frozen, and Stage 2 models the residuals of the frozen Stage 1 baseline to test
+whether news features add predictive information beyond history. Reported
+numbers trace to committed artefacts, and the report table pack pins the
+sha256 of every input it reads (see `REPO_MAP.md` and the root
+`REPRODUCIBILITY.md`). Large raw inputs under `data/` are local by design per
+the IRP large-file rule.
