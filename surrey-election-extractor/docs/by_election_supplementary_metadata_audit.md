@@ -2,8 +2,11 @@
 
 ## Scope and rule
 
-Reviewed on 16 July 2026: all fields still missing from the 15-event
-Surrey County Council by-election register. The search order was: the relevant
+Reviewed on 16 July 2026: all fields still missing from the initial
+15-event tranche of the Surrey County Council by-election register as it
+stood on that date. The current release contains 19 by-elections; the later
+additions are governed by their committed event and source evidence rather
+than by this audit. The search order was: the relevant
 returning authority and Surrey County Council publications, official archive
 pages and declarations, then public indexed results. This document records
 the reviewed evidence scope; it does **not** claim that no unpublished document

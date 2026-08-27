@@ -15,7 +15,7 @@ official source fields or permit vote redistribution across changed geography.
   the master payload.
 
 The release contains 205 approved predecessor relations: 81 for 2013→2017, 81
-for 2017→2021, 15 same-statutory-division by-election relations and 24 reviewed
+for 2017→2021, 19 same-statutory-division by-election relations and 24 reviewed
 2021→2026 direct geographic relations. Partial, unapproved or non-comparable
 crosswalks remain blocked.
 
@@ -33,8 +33,8 @@ crosswalks remain blocked.
 | Candidate previously stood | 360 True; 1,274 False; 358 Unknown | Complete chronological prior official candidate universe with exact complete-name linkage; no fuzzy matching. All Unknown rows are 2013 first-period records. |
 | Incumbent candidate | 116 Yes; 1,518 No; 358 Unknown | Complete official pre-election councillor roster reconstructed from principal results and intervening by-elections. All Unknown rows are 2013. |
 | Incumbent party | 171 Yes; 631 No; 1,190 Unknown | Exact current/prior party label comparison only for an approved comparable area. Two-member or altered geography remains Unknown. |
-| Winning margin | 0 official; 339 labelled analysis values | 258 single-seat runner-up gaps and 81 two-member final-seat cutoff gaps. Twenty-eight 2021 areas use separately cited statutory Seats evidence. |
-| Final position | 0 official; 1,971 derived competition ranks | Complete same-page official votes; eight tied rows retain tie flags. Derived rank never becomes official rank. |
+| Winning margin | 0 official; 343 labelled analysis values | 262 single-seat runner-up gaps and 81 two-member final-seat cutoff gaps. Twenty-eight 2021 areas use separately cited statutory Seats evidence. |
+| Final position | 0 official; 1,992 derived competition ranks | Complete same-page official votes; eight tied rows retain tie flags. Derived rank never becomes official rank. |
 
 ## Modelling boundary
 

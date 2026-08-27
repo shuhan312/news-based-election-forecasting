@@ -1,7 +1,9 @@
 # The candidate-level estimand and cohort
 
-**Status:** adopted 28 July 2026. Supersedes nothing — the party-share
-estimand is retained as a sensitivity check.
+**Status:** adopted 28 July 2026; the candidate-level release is the final
+Stage 1 input contract. The party-share development route it superseded has
+since been retired from the repository (its rationale remains in Git
+history).
 
 ## The problem this solves
 
@@ -29,7 +31,7 @@ The brief already specifies the estimand that does not have this problem:
 > "The primary target is `analysis_vote_share`. The model should predict vote
 > share for every candidate in a contest."
 
-A new candidate-level release is published alongside the party release:
+The candidate-level release was adopted against the party release that preceded it:
 
 | | party release | candidate release |
 | --- | --- | --- |
@@ -40,6 +42,9 @@ A new candidate-level release is published alongside the party release:
 | 7 May 2026 rows | **0** | **838** |
 | 7 July 2026 rows | 0 | 4 |
 | Reform UK rows | — | 175 (11 before 2026) |
+
+Figures as at adoption (28 July 2026); the current candidate release carries
+1,992 rows across 343 contests, with 178 Reform UK rows.
 
 Code: `election_extractor/no_news_candidate_contest.py` (release),
 `no_news_baseline/candidate_cohort.py` (cohort, normalisation, allocation).
@@ -79,14 +84,13 @@ than relying on a model to infer it:
    and multi-member contests separately as well as pooled. A pooled figure
    alone is uninterpretable: a model could look better merely by being scored
    on more multi-member contests.
-3. The party release is retained as a sensitivity check on the single-member
-   subset, where the two estimands provably coincide. If a substantive
-   conclusion holds under one estimand and not the other, that is a finding to
-   report, not a discrepancy to resolve by picking the more convenient one.
+3. On the single-member subset the two estimands provably coincide, so the
+   party release served as a development-time sensitivity check before it was
+   retired; that comparison remains in Git history.
 
 ## The eligibility change
 
-The party release folds two different questions into one field:
+The retired party release folded two different questions into one field:
 
 - is this row a valid prediction target?
 - does an approved lagged predictor exist for it?
@@ -101,11 +105,11 @@ The candidate release separates them:
 | `candidate_baseline_eligibility` | can this row be a prediction target? |
 | `historical_predictor_availability` | why is a lagged predictor present or absent? |
 
-Observed availability on the real release:
+Observed availability on the current release:
 
 | `historical_predictor_availability` | rows |
 | --- | ---: |
-| `approved_previous_party_share` | 1,021 |
+| `approved_previous_party_share` | 1,042 |
 | `no_approved_area_reference` | 932 |
 | `approved_area_no_previous_party_share` | 18 |
 
@@ -146,9 +150,9 @@ that happened.
 `is_reform_uk` and `is_ukip` are two independent indicators. No row may set
 both; the release build fails if one ever does.
 
-Reform UK rows in the cohort: **175 total, 11 before 2026** (2021: 6; 2025
-by-elections: 5) against 163 on 7 May 2026 and 1 at the July Haslemere
-by-election.
+Reform UK rows in the cohort: **178 total, 14 before 2026** (2021: 6;
+2022–2025 by-elections: 8) against 163 on 7 May 2026 and 1 at the July
+Haslemere by-election.
 
 Consequence for the split (measured by the retired cohort-report script,
 now in Git history):

@@ -144,8 +144,8 @@ def build_no_news_candidate_contests(
     # The division-level no-news baseline already resolves which historical
     # area (if any) a contest may legally reference, and carries the approved
     # previous winner, turnout and electorate with their provenance.  Reusing
-    # it means the candidate release cannot drift away from the permission
-    # decisions the party release obeys.
+    # it means the candidate release cannot drift away from the approved
+    # historical-reference permission decisions the whole release obeys.
     division_baseline, _ = build_no_news_electoral_baseline(payload)
     baseline_by_division = {
         (str(row["election_id"]), str(row["division_id"])): row
@@ -393,9 +393,9 @@ def _historical_predictor_availability(
 def _party_group_key(candidate: Mapping[str, object]) -> str:
     """Keep generic Independent labels candidate-specific.
 
-    Mirrors the party release exactly, so the two publications count "how many
-    candidates did this party field" the same way.  Two different independents
-    are two political identities, not one party with two candidates.
+    Applies the release's single identity rule for generic labels: two
+    different independents are two political identities, not one party with
+    two candidates.
     """
 
     if candidate.get("party_category") == "independent":

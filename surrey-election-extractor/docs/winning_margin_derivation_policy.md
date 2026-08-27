@@ -52,11 +52,11 @@ candidate after the official outcome has been checked.
 
 ## Current audited coverage
 
-The current dataset creates 230 same-page derived-margin records: 81 for 2013,
-81 for 2017, 53 for 2021 and 15 County Council by-elections. The analysis layer
+The current dataset creates 234 same-page derived-margin records: 81 for 2013,
+81 for 2017, 53 for 2021 and 19 County Council by-elections. The analysis layer
 adds the remaining 28 single-seat 2021 divisions using audited statutory Seats
 evidence. It also applies the same last-seat formula to all 81 two-member 2026
-wards. All 339 areas therefore have an analysis margin; the 2026 values mean
+wards. All 343 areas therefore have an analysis margin; the 2026 values mean
 the final-seat cutoff gap, not the leading candidate's margin over second place.
 
 This preserves the project's evidence layers: official source data, cited
