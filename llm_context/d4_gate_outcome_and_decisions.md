@@ -270,10 +270,11 @@ exists so that AC1 cannot be reached for whenever kappa is inconvenient, and
 this is the case it was written for. The secondary direction test returns
 kappa 1.000 on 5 pairs, which is not evidence at that n.
 
-The Sonnet arm was submitted at the same time and is outstanding. Both arms
-and the scoring rule were declared before either was scored; the verdict is
-per-arm, as it is for every other layer. Until it reports, the three
-consequence features are `pending_one_arm`, not adopted.
+The Sonnet arm was submitted at the same time and, when this paragraph was
+written, had not yet reported. Both arms and the scoring rule were declared
+before either was scored; the verdict is per-arm, as it is for every other
+layer. The paragraph is kept as written for chronology; the Sonnet outcome
+is recorded below.
 
 **Two arms are two attempts at the bar, and for this layer alone that
 matters. Recorded before the second arm reports, so that the handling is not
@@ -358,17 +359,20 @@ robustness check on a question that may not arise. Deferring costs only a
 later batch cycle, and the decision is revisited once the primary comparison
 has a number.
 
-**Attribution's redesign is identified but not run.** The design is the
-framing redesign's, applied mechanically: two independent binary questions -
-does the article blame a named party, does it credit one - under which
-both-yes is `mixed`, both-no is `none`, the 14% of human labels using
+**Attribution's redesign was run and the layer is excluded.** The design
+was the framing redesign's, applied mechanically: two independent binary
+questions - does the article blame a named party, does it credit one - under
+which both-yes is `mixed`, both-no is `none`, the 14% of human labels using
 `mixed`/`unclear` stop being unmatchable, and the "which attribution is
-principal" rule that only the human side received disappears. It is held
-until the consequence redesign's second arm reports, because that arm tests
-the same design pattern on a third layer and is the best available evidence
-on whether a fourth attempt earns its run. This is a decision to wait on
-evidence, not a decision that the layer is beyond repair - the earlier
-statement that no fix existed was too strong and is corrected here.
+principal" rule that only the human side received disappears. Both arms ran
+(`attribution_rescue_agreement.json`): blame fails the gate on both models
+(kappa 0.272 Sonnet, 0.319 Haiku, against 0.600), and credit is
+undetermined because the validation sample holds only 8 human positives
+against the pre-declared minimum of 10. Neither binary clears, so the whole
+attribution layer is excluded from the feature set. No third attempt was
+made: the scoring rule was declared before submission and the pre-statement
+allows no further scoring variant, which is what keeps this a validation
+verdict rather than a prompt tuned against its own validation sample.
 
 **Why the gate was not switched to inter-model agreement.** Raised directly,
 since four of six fields score higher on that ruler. Not adopted, for three
@@ -440,10 +444,13 @@ disambiguation and blame/credit attribution only.
 
 The news layer can still measure coverage volume, issue composition,
 local/national split, source counts, recency weighting, duplicate-
-adjusted counts, Reform mention counts, and - through blame and credit -
-a coarse tonal direction. It cannot measure five-level per-party
-sentiment, narrative framing, mechanism-level electoral signals, or
-effect duration. The central comparison (does news improve prediction of
+adjusted counts, Reform relevance and mention counts, three-level
+per-party portrayal through the revised stance layer, and two narrative
+frames - whether the article judges the incumbent's record, and whether
+it frames matters through local consequences. It cannot measure blame
+and credit attribution, five-level sentiment intensity, effect duration,
+the challenger-emergence or voter-discontent frames, or the Reform
+sub-signals. The central comparison (does news improve prediction of
 Reform UK vote share over an election-history baseline) remains
 answerable; the tonal half of it is answered at lower resolution than
 the brief envisaged, and that limitation is a finding to report rather

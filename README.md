@@ -65,7 +65,8 @@ python3 -m audit_leakage_provenance
 
 The audit is deterministic, calls no API, mutates no research input, and
 writes its machine-readable verdict to
-`outputs/leakage_provenance_audit_v1.json`;
+[`outputs/leakage_provenance_audit_v1.json`](outputs/leakage_provenance_audit_v1.json)
+(the committed copy is the verdict of the latest audited run);
 `tests/test_leakage_provenance_audit.py` runs it in the test suite.
 
 ## Quick start

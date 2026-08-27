@@ -1207,8 +1207,8 @@ table below uses the gated figures.
 | stance (3) | **available** | revised layer, 0.741 human, 0.848 inter-model |
 | framing (2 of 4) | **available** | revised layer: incumbent_judgement 0.705, local_impact 0.635 inter-model; human recall 0.49-0.58 |
 | reform_flag (2) | available | 0.680 on 22 blind articles |
-| consequence (3) | **pending** | frozen layer fails (0.259 human, n=55). Redesign reaches 0.598 on presence, 0.002 below the gate, Haiku arm; Sonnet arm outstanding |
-| credit_blame (4) | **unavailable** | 0.521 / 0.516 human at n=57; fallback route not triggered (marginal 0.579). Redesign identified but not run |
+| consequence (3) | **unavailable** | frozen layer fails (0.259 human, n=55). Redesign reaches 0.598 on presence on both arms - Sonnet and Haiku alike - 0.002 below the gate; excluded |
+| credit_blame (4) | **unavailable** | 0.521 / 0.516 human at n=57; fallback route not triggered (marginal 0.579). Redesign run on both arms: blame 0.272 / 0.319 against the 0.600 gate, credit undetermined at 8 human positives (minimum 10); excluded |
 | framing (2 of 4) | **undetermined** | challenger_emergence (2-6 positives of 55) and voter_discontent (4-5) - too few positive cases for a verdict |
 | horizon (1) | **unavailable** | 0.186 / 0.146 human, 0.303 inter-model - fails on all three rulers |
 | reform_uk sub-fields (5) | **undetermined** | 5 pairs, below the 20-pair minimum |
@@ -1258,11 +1258,11 @@ incumbent's record, and whether it frames matters through local
 consequences. It cannot measure blame and credit attribution, effect
 duration, five-level sentiment intensity, the challenger-emergence or
 voter-discontent frames, or the Reform sub-signals. Implied electoral
-consequence is pending one outstanding arm.
+consequence is excluded: both redesign arms report kappa 0.598, 0.002 below
+the gate.
 
 Against the version written after Experiment 7, this loses the four
-attribution features outright and puts the three consequence features in
-doubt. The challenger-emergence frame remains the sharpest gap, being the
+attribution features and the three consequence features outright. The challenger-emergence frame remains the sharpest gap, being the
 one closest to the thesis; it needs a Reform-enriched validation sample
 rather than a better prompt.
 
@@ -1285,8 +1285,9 @@ framing reasons and 1 of 34 stance reasons contain a quoted fragment - and
 the files are 32-72KB rather than megabytes.
 
 **Spend across ten experiments,** at batch pricing: about $14 through
-Experiment 7, plus $0.16 for the consequence redesign's Haiku arm and its
-outstanding Sonnet arm. The 89-article narrow tranche, which is a production
+Experiment 7, plus $0.16 for the consequence redesign's two arms, both reported,
+and the attribution redesign's two arms, whose token usage is recorded in
+`attribution_rescue_agreement.json`. The 89-article narrow tranche, which is a production
 run rather than an experiment, cost $1.82 on the three layers being kept and
 $1.66 on the consequence layer that Experiment 8 then excluded - that $1.66
 is a real loss, incurred because the tranche was submitted before Experiment

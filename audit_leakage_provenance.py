@@ -78,6 +78,9 @@ def _first_last_commit(path: Path) -> tuple[str, str] | None:
 def run_audit() -> dict:
     checks: dict[str, dict] = {}
 
+    # Check 1 — query provenance: every logged search traces back to the
+    # committed plan or a recorded supersession; no off-plan query fed the
+    # corpus, and the unexecuted remainder is the expected, visible E/G/H gap.
     inventory_rows = _rows(INVENTORY)
     inventory = {row["query_id"]: row for row in inventory_rows}
     assert len(inventory) == len(inventory_rows), "duplicate query IDs"
@@ -116,6 +119,9 @@ def run_audit() -> dict:
         ),
     }
 
+    # Check 2 — chronology and duplicates: every usable article was published
+    # 1-180 days before its election's polling day (nothing from polling day
+    # or later reaches the features) and no canonical id appears twice.
     release, articles = build_release()
     polling = {**NEWS_ELECTION_DATES, **BYELECTION_POLLING_DAYS}
     lags: list[int] = []
@@ -148,6 +154,9 @@ def run_audit() -> dict:
         "temporal_availability_status": dict(sorted(temporal_status.items())),
     }
 
+    # Check 3 — outcome isolation and party identity: the committed feature
+    # tables carry no election-outcome column, and Reform UK and UKIP exist
+    # as two distinct party keys with no merged label.
     table_results = {}
     all_parties: set[str] = set()
     for path in FEATURE_TABLES:
@@ -177,6 +186,11 @@ def run_audit() -> dict:
         ),
     }
 
+    # Check 4 — freeze integrity: three independently committed records must
+    # agree byte-for-byte (freeze manifest, the hashes the unblinding bound at
+    # scoring time, the files on disk now), the frozen directories hold
+    # nothing extra, and Git shows each freeze in one commit strictly before
+    # the unblinding.
     unblinding_integrity = json.loads(
         UNBLINDING_RESULTS.read_text(encoding="utf-8"))["integrity"]
     freeze_results = {}
@@ -245,6 +259,10 @@ def run_audit() -> dict:
         ),
     }
 
+    # Check 5 — area-selection chronology: the Table 1 areas come from a
+    # script with no news input path, and every ward-targeted search in the
+    # log was executed after the sample was committed — the areas were fixed
+    # before any local news was seen.
     selection_source = DIVISION_SAMPLE_SCRIPT.read_text(encoding="utf-8")
     assert "data/raw/news" not in selection_source
     assert "news_collection/" not in selection_source, (
