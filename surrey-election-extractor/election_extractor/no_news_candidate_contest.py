@@ -2,16 +2,16 @@
 
 Why this module exists
 ----------------------
-``no_news_party_contest.py`` publishes one row per election, area and party,
-and its primary experiment is deliberately restricted to single-member
+The earlier party-contest development route published one row per election,
+area and party, and restricted its primary experiment to single-member
 contests because a party vote share is not a defined quantity in a
 multi-member plurality contest (each elector casts up to ``seats`` votes, so
 summing a party's candidate shares does not estimate that party's support).
 
-That restriction is correct for the party estimand, but it has a consequence
+That restriction was correct for the party estimand, but it had a consequence
 the supervisor's Stage 1 brief cannot accept: the 7 May 2026 East and West
 Surrey elections were fought in two-member wards, so the entire primary
-holdout period falls outside the party-share cohort.
+holdout period fell outside the party-share cohort.
 
 The brief asks for a different estimand that does not have this problem:
 
@@ -23,14 +23,11 @@ well defined regardless of how many seats that contest returns.  This module
 therefore publishes the candidate-level release, one row per candidate, so
 that 2026 can be a scored holdout.
 
-Relationship to the party release
----------------------------------
-Neither release replaces the other and neither is derived from the other.
-
-* Candidate release (this module) - primary experiment.  Target is the
-  published candidate share.  Covers every candidate row.
-* Party release - retained as a party-estimand sensitivity check on the
-  single-member subset, where the two estimands provably coincide.
+Status
+------
+The candidate-contest release is the final Stage 1 input contract.  It
+superseded the earlier party-contest development route, which has been
+retired from the repository (its code and rationale remain in Git history).
 
 Estimand boundary (must be carried into every write-up)
 -------------------------------------------------------
@@ -52,9 +49,9 @@ learns them:
    so evaluation can never silently average a single-member error against a
    multi-member error and report one number.
 
-Eligibility semantics (the substantive change from the party release)
----------------------------------------------------------------------
-The party release folds two different questions into one
+Eligibility semantics (the substantive change from the party route)
+-------------------------------------------------------------------
+The retired party-contest route folded two different questions into one
 ``baseline_eligibility`` field: "is this row a valid prediction target?" and
 "does an approved lagged predictor exist for it?".  Requiring both is what
 removed 2026 from the cohort, because most 2026 wards have changed boundaries

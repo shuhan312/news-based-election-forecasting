@@ -31,43 +31,15 @@ elected status, official or derived rank, winning margin and analysis winning
 margin. In particular, `change_in_vote_share` is never a baseline predictor
 because it contains the current-election result.
 
-## Party-contest modelling publication
+## Candidate-contest modelling publication
 
-`outputs/no_news_party_contests/` now publishes predictors and target-election
-outcomes as separate JSON tables joined only by `party_contest_id`. This is a
-structural leakage control rather than a naming convention.
-
-- 1,624 party-contest rows are published;
-- 1,160 are single-member party contests with a well-defined current target
-  party share;
-- 926 party-contest rows retain a governed lagged party share;
-- 796 satisfy every condition for the primary single-member lagged-share
-  experiment;
-- 358 are 2013 rows with no in-scope predecessor;
-- 6 otherwise single-member rows lack an approved unique exact-label prior
-  party share;
-- 464 are multi-member party contests retained for elected-party/seat analysis
-  but excluded from the primary party-share estimand.
-
-The master contains 1,042 candidate-level lagged shares whereas the
-party-contest table contains 926. The reduction is intentional: candidates
-from the same registered party in a 2026 two-member ward share one historical
-party baseline and must not be counted as independent party observations.
-Generic Independent labels remain candidate-specific.
-
-For multi-member wards the release provides `target_best_candidate_vote_share`
-as an explicitly named diagnostic and party election/seat targets. It does not
-sum candidate shares or call that quantity a party vote share. Current vote
-share, elected outcome, rank, margin and `change_in_vote_share` remain absent
-from the feature table.
-
-The model-input publication is now complete for its declared cohorts. Model
-fitting, temporal validation and frozen prediction/metric release remain the
-next no-news stage; this document does not claim that a baseline model has
-already been trained.
-
-This is a downstream modelling-publication gap, not a missing election-source
-extraction value.
+The modelling release that accompanies this baseline is the candidate-contest
+publication, `outputs/no_news_candidate_contests/` (1,992 rows, one per
+election, area and candidate), which is the final Stage 1 input contract.
+Predictors and target-election outcomes are published as separate JSON tables
+joined only by `candidate_contest_id` — a structural leakage control rather
+than a naming convention. The earlier party-contest publication was a
+development route and has been retired; its rationale remains in Git history.
 
 ## Reproduction
 
@@ -78,7 +50,7 @@ PYTHONPATH=surrey-election-extractor .venv/bin/python \
   surrey-election-extractor/scripts/generate_no_news_electoral_baseline.py
 
 PYTHONPATH=surrey-election-extractor .venv/bin/python \
-  surrey-election-extractor/scripts/generate_no_news_party_contests.py
+  surrey-election-extractor/scripts/generate_no_news_candidate_contests.py
 ```
 
 Both outputs are deterministic over the committed audits and require no

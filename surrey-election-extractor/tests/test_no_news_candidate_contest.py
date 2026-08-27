@@ -1,9 +1,9 @@
 """Tests for the leakage-safe candidate-contest no-news publication.
 
 The behaviour under test is the one that motivated the module: a multi-member
-2026 ward must produce eligible prediction targets, whereas the party release
-correctly excludes the same contest because a party vote share is undefined
-there.
+2026 ward must produce eligible prediction targets.  A party vote share is
+undefined in such a contest, which is why the earlier party-contest
+development route (since retired) could not score the 2026 holdout.
 """
 
 from types import SimpleNamespace

@@ -1,15 +1,15 @@
 """Generate the model-facing no-news candidate-contest release.
 
-This is the candidate-level sibling of
-``generate_no_news_party_contests.py``.  It exists because the supervisor's
-Stage 1 brief makes ``analysis_vote_share`` the primary target and the
-7 May 2026 two-member wards the primary holdout, and the party-share release
-cannot represent either.
+This writes the final Stage 1 input contract.  The supervisor's Stage 1
+brief makes ``analysis_vote_share`` the primary target and the 7 May 2026
+two-member wards the primary holdout; the earlier party-share development
+route could represent neither, and has been superseded by this
+candidate-contest release.
 
-Predictors and current-election outcomes are written to separate files for the
-same reason as the party release: downstream model code must join them
-explicitly by ``candidate_contest_id`` and cannot accidentally discover an
-outcome column while selecting baseline features.
+Predictors and current-election outcomes are written to separate files as a
+structural leakage control: downstream model code must join them explicitly
+by ``candidate_contest_id`` and cannot accidentally discover an outcome
+column while selecting baseline features.
 
 Usage (from the IRP repository root):
 

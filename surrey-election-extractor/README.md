@@ -49,13 +49,10 @@ PYTHONPATH=surrey-election-extractor .venv/bin/python \
   surrey-election-extractor/scripts/generate_no_news_electoral_baseline.py
 PYTHONPATH=surrey-election-extractor .venv/bin/python \
   surrey-election-extractor/scripts/generate_no_news_candidate_contests.py
-PYTHONPATH=surrey-election-extractor .venv/bin/python \
-  surrey-election-extractor/scripts/generate_no_news_party_contests.py
 ```
 
-The last two commands write `outputs/no_news_candidate_contests/` and
-`outputs/no_news_party_contests/` — the input contract the Stage 1 baseline
-(`surrey-election-no-news-baseline/`) reads.
+The last command writes `outputs/no_news_candidate_contests/` — the input
+contract the Stage 1 baseline (`surrey-election-no-news-baseline/`) reads.
 
 End-to-end hand-off:
 
@@ -64,9 +61,9 @@ official pages / archives / indexed search
     -> run_extraction_workflow (validated workbooks)
     -> committed config/ evidence + audits
     -> generate_master_election_database.py (analytical payload)
-    -> generate_no_news_candidate_contests.py / _party_contests.py
-    -> surrey-election-extractor/outputs/no_news_*_contests/
-    -> surrey-election-no-news-baseline/ (Stage 1 reads these releases)
+    -> generate_no_news_candidate_contests.py
+    -> surrey-election-extractor/outputs/no_news_candidate_contests/
+    -> surrey-election-no-news-baseline/ (Stage 1 reads this release)
 ```
 
 ## 2. Complete file guide, grouped by function
@@ -170,7 +167,6 @@ and test unless noted.
 |---|---|
 | `no_news_baseline.py` | provenance-labelled electoral baseline, built before any news features exist |
 | `no_news_candidate_contest.py` | candidate-contest modelling release; `surrey-election-no-news-baseline/` reads `outputs/no_news_candidate_contests/` as its input contract |
-| `no_news_party_contest.py` | party-contest modelling release, consumed by the Stage 1 fundamentals builders |
 
 ### 2.10 Evidence and policy inputs (`config/`)
 
@@ -297,7 +293,6 @@ rather than writing a calculated zero); indexed titles and snippets can be
 incomplete or truncated; evidence is combined only when election, area and
 result URL match; and archived copies reproduce the official page as captured,
 gaps included. Predictors and target-election outcomes are stored separately:
-the no-news input release includes the 343-row division history table and a
-separate 1,624-row party-contest publication, of which 796 single-member party
-contests have an approved lagged party share for the primary baseline
-experiment.
+the no-news input release includes the 343-row division history table and the
+1,992-row candidate-contest release that the Stage 1 baseline consumes as its
+input contract.

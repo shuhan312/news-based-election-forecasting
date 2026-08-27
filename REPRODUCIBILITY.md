@@ -71,7 +71,6 @@ PYTHONPATH=surrey-election-extractor .venv/bin/python surrey-election-extractor/
 PYTHONPATH=surrey-election-extractor .venv/bin/python surrey-election-extractor/scripts/generate_final_election_data_release_audit.py
 PYTHONPATH=surrey-election-extractor .venv/bin/python surrey-election-extractor/scripts/generate_no_news_electoral_baseline.py
 PYTHONPATH=surrey-election-extractor .venv/bin/python surrey-election-extractor/scripts/generate_no_news_candidate_contests.py
-PYTHONPATH=surrey-election-extractor .venv/bin/python surrey-election-extractor/scripts/generate_no_news_party_contests.py
 ```
 
 **Step 2 — Stage 1: the history-only baseline.** Emit the split manifest and

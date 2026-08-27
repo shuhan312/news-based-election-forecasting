@@ -44,10 +44,10 @@ share, current outcome, rank and winning margin contain the target election
 result and are prohibited from the no-news predictor.
 
 The current division-level no-news export contains 205 eligible predecessor
-rows and 138 rows without an approved predecessor. The candidate/party-level
-lagged-share values are published through the separately keyed candidate-contest
-and party-contest releases (`outputs/no_news_candidate_contests/`,
-`outputs/no_news_party_contests/`), which the Stage 1 baseline consumes; the
+rows and 138 rows without an approved predecessor. The candidate-level
+lagged-share values are published through the separately keyed
+candidate-contest release (`outputs/no_news_candidate_contests/`), which the
+Stage 1 baseline consumes; the
 election master carries the underlying 1,042 values.
 
 ## Conclusion
