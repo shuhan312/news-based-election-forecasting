@@ -13,7 +13,8 @@ rebuilt.
 | `query_lineage_v1.csv` | Four superseded `-ward` slug query IDs and their corrected replacements, so every historical search-log row remains joinable. |
 | `checkpoints/completed_queries.json` | Resumability: query IDs already executed (local-only, gitignored — it is runtime state, fully derivable from `search_log.csv`); delete a query ID to force re-execution (which appends a new log row). |
 | `collection_diagnostics.json` | Corpus statistics + schema re-validation results. Regenerate with `python3 -m src.news_collection.make_collection_report`. |
-| `../outputs/leakage_provenance_audit_v1.json` | Machine-readable assertions over query lineage, final article chronology, duplicate control, outcome isolation and Reform/UKIP identity. |
+| `../outputs/leakage_provenance_audit_v1.json` | Detailed cross-layer assertions over query lineage, article chronology, duplicate control, Stage 1 splits and predictor permissions, Stage 2 outcome isolation, party identity and prediction-freeze integrity. |
+| `../outputs/provenance_audit_v1.csv` | Compact event chronology; unavailable outcome-release and prediction-creation timestamps remain blank rather than being invented. |
 
 Run collection with:
 
@@ -28,7 +29,7 @@ The inventory includes the complete 19-by-election plan. At the frozen release
 cut-off, 704 planned E/G/H queries had not been executed (E 244, G 324, H 136).
 They are recorded as unexecuted, not converted into zero-result searches and
 not used to claim complete coverage. Rebuild the assertion with
-`python3 -m src.audit_leakage_provenance`.
+`python3 -m audit_leakage_provenance`.
 
 ## Cleaning, deduplication and eligibility artefacts
 

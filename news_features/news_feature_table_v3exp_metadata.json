@@ -40,7 +40,7 @@
   "unique_articles": 2288,
   "corpus_size": 2288,
   "canonical_corpus_release_id": "canonical-news-v2-df896d8be6bd",
-  "canonical_corpus_manifest": "news_collection/canonical_corpus_release_v1.json",
+  "canonical_corpus_manifest": "news_collection/e5_local_backlog_v3/canonical_corpus_release_v3exp.json",
   "canonical_corpus_by_arm": {
     "local": 217,
     "national": 2071

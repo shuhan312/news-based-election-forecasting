@@ -49,8 +49,10 @@ One offline command re-checks the audit trail end to end: every executed
 search joins to the frozen, versioned query plan; every canonical corpus
 article precedes its pre-election window cut-off; no article is
 double-counted across the corpus; the news feature tables contain
-predictors only, with no outcome column; Reform UK is never merged with
-UKIP; the blinded v1/v2 prediction freezes are intact — the committed
+predictors only, with no outcome column; the Stage 1 bundle hashes, predictor
+permissions and date-bounded train/test splits agree, and non-contestation
+remains a separate audit record rather than a synthetic zero-vote candidate;
+Reform UK is never merged with UKIP; the blinded v1/v2 prediction freezes are intact — the committed
 freeze manifests, the hashes the one-time unblinding record bound at
 scoring time, and the bytes on disk today must agree, with Git history
 showing each freeze committed before the unblinding and untouched since;
@@ -66,7 +68,10 @@ python3 -m audit_leakage_provenance
 The audit is deterministic, calls no API, mutates no research input, and
 writes its machine-readable verdict to
 [`outputs/leakage_provenance_audit_v1.json`](outputs/leakage_provenance_audit_v1.json)
-(the committed copy is the verdict of the latest audited run);
+(the committed copy is the verdict of the latest audited run). It also writes
+[`outputs/provenance_audit_v1.csv`](outputs/provenance_audit_v1.csv), a compact
+event ledger whose unknown outcome-release and prediction-creation timestamps
+are deliberately blank rather than inferred;
 `tests/test_leakage_provenance_audit.py` runs it in the test suite.
 
 ## Quick start

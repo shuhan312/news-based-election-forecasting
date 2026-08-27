@@ -28,7 +28,7 @@
   "unique_articles": 20,
   "corpus_size": 20,
   "canonical_corpus_release_id": "canonical-haslemere-fa62d90607ce",
-  "canonical_corpus_manifest": "news_collection/canonical_corpus_release_v1.json",
+  "canonical_corpus_manifest": "news_collection/haslemere_probe/canonical_corpus_haslemere.json",
   "canonical_corpus_by_arm": {
     "local": 20
   },

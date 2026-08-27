@@ -1,5 +1,5 @@
 {
-  "audit_version": "leakage-provenance-audit-v1",
+  "audit_version": "leakage-provenance-audit-v1.1",
   "status": "pass",
   "checks": {
     "query_provenance": {
@@ -26,6 +26,7 @@
       "maximum_days_before_poll": 180,
       "on_or_after_polling_day": 0,
       "duplicate_canonical_article_ids": 0,
+      "duplicate_article_urls": 0,
       "temporal_availability_status": {
         "confirmed_available_at": 1535,
         "date_only_fallback": 724
@@ -45,7 +46,9 @@
             "liberal_democrat",
             "reform_uk",
             "ukip"
-          ]
+          ],
+          "canonical_corpus_manifest": "news_collection/canonical_corpus_release_v1.json",
+          "canonical_corpus_release_id": "canonical-news-v1-59d113bb9c28"
         },
         "news_feature_table_v2.csv": {
           "rows": 864,
@@ -58,11 +61,51 @@
             "liberal_democrat",
             "reform_uk",
             "ukip"
-          ]
+          ],
+          "canonical_corpus_manifest": "news_collection/canonical_corpus_release_v2.json",
+          "canonical_corpus_release_id": "canonical-news-v2-81000bf38785"
         }
       },
       "reform_uk_and_ukip_are_distinct": true,
       "non_contestation_note": "These tables contain news predictors only. Zero article counts mean observed no-news cells, never zero vote share; electoral outcomes enter only after the blinded prediction files are frozen."
+    },
+    "stage1_split_leakage_and_contestation": {
+      "status": "pass",
+      "bundle_version": "candidate_model_bundle_v1",
+      "bundle_files_hash_verified": 29,
+      "selected_predictors": 35,
+      "selected_target_fields": 0,
+      "holdout_read_for_architecture_selection": false,
+      "split_manifest_rows": 45816,
+      "primary_holdout_elections": [
+        "surrey-county-council-2026-east-surrey",
+        "surrey-county-council-2026-west-surrey",
+        "surrey-county-council-by-election-warlingham-2026-05-07"
+      ],
+      "stage2_target_elections": [
+        "surrey-county-council-2026-east-surrey",
+        "surrey-county-council-2026-west-surrey"
+      ],
+      "split_counts": {
+        "development_fold/test": 762,
+        "development_fold/train": 3392,
+        "development_fold/unused": 3814,
+        "primary_holdout/test": 838,
+        "primary_holdout/train": 1150,
+        "primary_holdout/unused": 4,
+        "rolling_origin_fold/test": 792,
+        "rolling_origin_fold/train": 12684,
+        "rolling_origin_fold/unused": 18396,
+        "secondary_holdout/test": 8,
+        "secondary_holdout/train": 3138,
+        "secondary_holdout/unused": 838
+      },
+      "contests_present_in_both_train_and_test": 0,
+      "contestation_records": 6263,
+      "did_not_contest_records": 4710,
+      "did_not_contest_encoded_as_candidate_rows": false,
+      "reform_uk_and_ukip_are_distinct": true,
+      "note": "Non-contestation is held in a separate audit grid with zero candidates_fielded and no vote-share field. The model training table contains uniquely identified actual candidate rows; contestation_status is not a selected predictor and is never converted into a synthetic zero-vote candidate."
     },
     "blinded_prediction_freeze_integrity": {
       "status": "pass",
@@ -72,14 +115,28 @@
           "predictions_file": "recomputed_and_unchanged",
           "protocol_sha256": "86dd73b51dfec23f5913141711f568d234980ca1a27f14c387192e600e91468f",
           "manifest_matches_unblinding_record": true,
-          "frozen_directory_contains_only_frozen_files": true
+          "frozen_directory_contains_only_frozen_files": true,
+          "stage1_input_hashes_match_protocol": true,
+          "news_feature_input_hash_matches_protocol": true,
+          "outcome_columns_in_blinded_output": [],
+          "blinded_output_elections": [
+            "surrey-county-council-2026-east-surrey",
+            "surrey-county-council-2026-west-surrey"
+          ]
         },
         "v2": {
           "predictions_sha256": "6016a8d1240310fe5743944d52e099b8967598bb07a401e93f40de1036137c36",
           "predictions_file": "recomputed_and_unchanged",
           "protocol_sha256": "9515de566fd670e2fca8a7970fc47e7fccfd41bb8d6675cac62f37bad659a5e8",
           "manifest_matches_unblinding_record": true,
-          "frozen_directory_contains_only_frozen_files": true
+          "frozen_directory_contains_only_frozen_files": true,
+          "stage1_input_hashes_match_protocol": true,
+          "news_feature_input_hash_matches_protocol": true,
+          "outcome_columns_in_blinded_output": [],
+          "blinded_output_elections": [
+            "surrey-county-council-2026-east-surrey",
+            "surrey-county-council-2026-west-surrey"
+          ]
         }
       },
       "git_chronology": {
@@ -108,12 +165,81 @@
       "note": "The 17 local search areas are a deterministic function of public election results; the selection script has no news input path, and every ward-targeted search in the log was executed after the sample was committed. Searches predating the sample are county- or national-level rows whose queries name no ward."
     }
   },
+  "event_chronology": [
+    {
+      "event_id": "surrey-county-council-2026-east-surrey::v1",
+      "election_date": "2026-05-07",
+      "outcome_available_date": "",
+      "news_cutoff": "2026-05-06",
+      "model_version": "v1",
+      "split": "primary_holdout_7_may_2026",
+      "specification_frozen_at": "2026-08-01T14:11:04+01:00",
+      "prediction_created_at": "",
+      "outcome_access_status": "withheld_from_stage2_until_one_time_unblinding",
+      "commit_hash": "2fa0d6d5c7fb8f7d4e700767175caa64883168de",
+      "timestamp_evidence": "specification_frozen_at is the Git commit time; exact outcome availability and prediction creation times are not evidenced in the repository and remain blank"
+    },
+    {
+      "event_id": "surrey-county-council-2026-west-surrey::v1",
+      "election_date": "2026-05-07",
+      "outcome_available_date": "",
+      "news_cutoff": "2026-05-06",
+      "model_version": "v1",
+      "split": "primary_holdout_7_may_2026",
+      "specification_frozen_at": "2026-08-01T14:11:04+01:00",
+      "prediction_created_at": "",
+      "outcome_access_status": "withheld_from_stage2_until_one_time_unblinding",
+      "commit_hash": "2fa0d6d5c7fb8f7d4e700767175caa64883168de",
+      "timestamp_evidence": "specification_frozen_at is the Git commit time; exact outcome availability and prediction creation times are not evidenced in the repository and remain blank"
+    },
+    {
+      "event_id": "surrey-county-council-2026-east-surrey::v2",
+      "election_date": "2026-05-07",
+      "outcome_available_date": "",
+      "news_cutoff": "2026-05-06",
+      "model_version": "v2",
+      "split": "primary_holdout_7_may_2026",
+      "specification_frozen_at": "2026-08-01T16:41:53+01:00",
+      "prediction_created_at": "",
+      "outcome_access_status": "withheld_from_stage2_until_one_time_unblinding",
+      "commit_hash": "262f728356ae3ae8f15060c7fdc61e0512c0ba8f",
+      "timestamp_evidence": "specification_frozen_at is the Git commit time; exact outcome availability and prediction creation times are not evidenced in the repository and remain blank"
+    },
+    {
+      "event_id": "surrey-county-council-2026-west-surrey::v2",
+      "election_date": "2026-05-07",
+      "outcome_available_date": "",
+      "news_cutoff": "2026-05-06",
+      "model_version": "v2",
+      "split": "primary_holdout_7_may_2026",
+      "specification_frozen_at": "2026-08-01T16:41:53+01:00",
+      "prediction_created_at": "",
+      "outcome_access_status": "withheld_from_stage2_until_one_time_unblinding",
+      "commit_hash": "262f728356ae3ae8f15060c7fdc61e0512c0ba8f",
+      "timestamp_evidence": "specification_frozen_at is the Git commit time; exact outcome availability and prediction creation times are not evidenced in the repository and remain blank"
+    }
+  ],
+  "chronology_policy": "Blank means not evidenced in the repository, not zero and not the election date. Git commit time records when the frozen specification entered history; it is not relabelled as the exact prediction-creation or public outcome-release time.",
   "input_sha256": {
     "news_collection/query_inventory.csv": "02246a367bd6be3926f2992d306e7d348699d0672fc3e9c97934403d8c920dbc",
     "news_collection/search_log.csv": "7ea69d40b5661c9d6bbc02aaaa2538c5a612920ebfc1659b9a6fdaab5dfd4591",
     "news_collection/query_lineage_v1.csv": "c122f53824b0155cb08c78f39c586116e9709bf0e77949f8855bf38b29bd675d",
     "news_features/news_feature_table_v1.csv": "2804a478cef6cd7ded9d94bef0f209f693e2eed14e2b26dfed367f37e53840ea",
     "news_features/news_feature_table_v2.csv": "24f1164ad42d8a3d1d86d81f0b067e607c067928ae8132181bcd29b9e801c74e",
+    "news_features/news_feature_table_v1_metadata.json": "8e43695c55c964e7359e64f7820bb122766c5955399be653adbda360a791dc8f",
+    "news_collection/canonical_corpus_release_v1.json": "dee63b099ac305d4303b64a68b71e0214b7177cbcc70eba858735c4500815377",
+    "news_features/news_feature_table_v2_metadata.json": "adbcb03962f4446868c69badee3d8ea51b636973881f19e89e3faa7f245f1b64",
+    "news_collection/canonical_corpus_release_v2.json": "9e371794bb6e16e50d4ddcfa199378df7bdd43ef0dd777b56050032eda9b9cab",
+    "surrey-election-no-news-baseline/outputs/model_bundle_v1/architecture.json": "6897d471fd7c82ee9ed58d22f2d1f4f0aa58a9ec7cde22dbf922841b296bacd3",
+    "surrey-election-no-news-baseline/outputs/model_bundle_v1/bundle_manifest.json": "853094a567e15bdfdd14a9c47ae72b0da1bdd0d425afaa0574c685dc323348b7",
+    "surrey-election-no-news-baseline/outputs/model_bundle_v1/contestation_records.csv": "e33bf050a996b852d1a9ed7de6d7558d44f400c1a2393f3c913012d7e3592996",
+    "surrey-election-no-news-baseline/outputs/model_bundle_v1/feature_dictionary.csv": "7a4db2ecd5eb18af685b51a7085032eda0c54558bc7cf703f7378e265a0b61a4",
+    "surrey-election-no-news-baseline/outputs/model_bundle_v1/feature_schema.json": "31a1f34ea42e4a74e6d13e675dec6653e6ed7a490d99377c6767be4c58622316",
+    "surrey-election-no-news-baseline/outputs/model_bundle_v1/holdout_predictions.csv": "df8c6421301a1a3545bbd22fc776e4df254e8a4906bc115912cc866c7b9ed3d1",
+    "surrey-election-no-news-baseline/outputs/model_bundle_v1/leakage_audit.csv": "335aa99491c88b5c30b72c225155c21a0acf4717d1f018971b222ca8022b53e9",
+    "surrey-election-no-news-baseline/outputs/model_bundle_v1/out_of_fold_predictions.csv": "950e527eb1ad82522e7cc4f4cc7567660b320942ad2b6a03c16e7ad06489e6e5",
+    "surrey-election-no-news-baseline/outputs/model_bundle_v1/split_manifest.csv": "560883be35056bfbd2bcf9714a9b86ae84174fb14132c8e6a8b79c2247cb3dbb",
+    "surrey-election-no-news-baseline/outputs/model_bundle_v1/training_rows.csv": "d2219cda3e0199fd04f46b38f6930e7f8a58159a287f034216b400bf3446a816",
     "news_features/blinded_2026_predictions_v1/sha256_manifest.json": "73a2fd388d7a289567af42e246f0dc5f3bad30ea8f1e52395d3b306bddf425d5",
     "news_features/blinded_2026_predictions_v2/sha256_manifest.json": "a5431309a4dddbf6321444e3b65778a1077d829df0fd2bf572f9e92efe671ae0",
     "news_features/unblinding_2026_v1/unblinding_results.json": "1fefcb13b6dada160fd35cd4c5a7471812832d555ff787915cabcee068193ef0"

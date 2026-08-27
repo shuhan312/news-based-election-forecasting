@@ -81,6 +81,14 @@ from src.news_features.actor_party_attribution import (parties_for_actors,
 
 OUT_CSV = Path("news_features/news_feature_table_v1.csv")
 OUT_META = Path("news_features/news_feature_table_v1_metadata.json")
+REPO_ROOT = Path(__file__).resolve().parents[2]
+
+
+def _repo_relative(path: Path) -> str:
+    """Serialise a lineage path portably, whether a wrapper bound it absolute or relative."""
+
+    resolved = path if path.is_absolute() else (REPO_ROOT / path)
+    return str(resolved.resolve().relative_to(REPO_ROOT))
 
 # The six windows the supervisor confirmed on 2026-07-30 ("Keep the news windows
 # you already implemented... That is fine. No need to change them"), ordered from
@@ -647,8 +655,11 @@ def main() -> None:
         "unique_articles": len(articles),
         "corpus_size": corpus_size,
         "canonical_corpus_release_id": release["release_id"],
-        "canonical_corpus_manifest":
-            "news_collection/canonical_corpus_release_v1.json",
+        # Wrappers rebind CANONICAL_MANIFEST together with build_release.
+        # Serialise that bound path rather than labelling every derived table
+        # as v1, which would make v2 and the case-study tables claim the wrong
+        # corpus lineage in their metadata.
+        "canonical_corpus_manifest": _repo_relative(CANONICAL_MANIFEST),
         "canonical_corpus_by_arm":
             release["usable_feature_corpus"]["by_arm"],
         "terminal_include_articles":

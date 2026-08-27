@@ -29,7 +29,7 @@
   "unique_articles": 272,
   "corpus_size": 272,
   "canonical_corpus_release_id": "canonical-wokingsouth-86c8b053bbca",
-  "canonical_corpus_manifest": "news_collection/canonical_corpus_release_v1.json",
+  "canonical_corpus_manifest": "news_collection/woking_south_blind/canonical_corpus_woking_south.json",
   "canonical_corpus_by_arm": {
     "local": 13,
     "national": 259

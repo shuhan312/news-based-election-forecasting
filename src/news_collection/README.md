@@ -119,7 +119,7 @@ Evidence that the highest-volume exclusion rule was applied correctly.
 | `make_collection_report.py` | regenerates local corpus diagnostics and re-validates the stored-record schema |
 | `audit_guardian_geographic_relevance.py` | flags Guardian records collected before the production-office fix (committed flags CSV) |
 | `audit_serpapi_domain_relevance.py` | flags SerpAPI records whose domain cannot be UK-relevant (committed flags CSV) |
-| [`audit_leakage_provenance.py`](../../audit_leakage_provenance.py) (repository root) | cross-layer assertions for query lineage, chronology, duplicates, outcome isolation, party identity and the blinded-prediction freeze |
+| [`audit_leakage_provenance.py`](../../audit_leakage_provenance.py) (repository root) | cross-layer assertions for query lineage, chronology, duplicates, Stage 1 split/predictor governance, Stage 2 outcome isolation, party identity and the blinded-prediction freeze; writes detailed JSON plus a compact chronology CSV |
 
 ### 2.9 Case-study replications (frozen rules, new paths)
 

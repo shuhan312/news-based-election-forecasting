@@ -72,7 +72,9 @@ in `src/news_modelling/` unless noted.
 Predictor and outcome columns are separated. Table metadata records the grain,
 usable columns and provenance, while the separate cross-layer audit at
 `outputs/leakage_provenance_audit_v1.json` checks chronology, duplicates,
-outcome isolation and party identity. Large binaries — the frozen blinded prediction files — are kept
+Stage 1 split and predictor governance, Stage 2 outcome isolation and party
+identity; `outputs/provenance_audit_v1.csv` is its compact event ledger, with
+unknown timestamps left blank. Large binaries — the frozen blinded prediction files — are kept
 local/OneDrive per the IRP large-file rule, with their sha256 committed in the
 register and beside them, so every figure stays verifiable without the bulk
 file. A missing result is recorded as missing, never as a negative result.
