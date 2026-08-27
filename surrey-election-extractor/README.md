@@ -211,7 +211,7 @@ generator script; nothing in the pipeline reads them back.
 |---|---|
 | `election_data_readiness_audit.md` | the canonical current-state release summary (field coverage, counts, boundaries) |
 | `historical_longitudinal_field_provenance_audit.md` | per-field provenance and evidence boundaries for every lagged/derived field |
-| `supervisor_field_coverage_matrix.md` | supervisor-requested field coverage snapshot, tied to the release by `test_release_documentation.py` |
+| `supervisor_field_coverage_matrix.md` | supervisor-requested current field coverage matrix, tied to the release by `test_release_documentation.py` |
 | `2013_byfleets/epsom_ewell_issued_ballots_audit.md`, `2013_elmbridge_issued_ballots_recovery_audit.md`, `2013_runnymede_archived_declarations_audit.md`, `2017_reigate_rejected_ballots_audit.md` | manual source-recovery audits for specific missing ballot values — unique human evidence behind committed config entries |
 | `by_election_supplementary_metadata_audit.md`, `supplementary_metadata_governance.md` | the supplementary-metadata evidence audit and the governance hub linking the ballot audits |
 | `candidate_and_incumbency_evidence_audit.md` | the official-evidence audit behind candidate history and incumbency fields |

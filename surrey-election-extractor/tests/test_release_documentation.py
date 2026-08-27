@@ -67,6 +67,51 @@ def test_release_documents_match_current_master_counts() -> None:
     ) in texts
 
 
+def test_current_counts_present_in_each_core_document() -> None:
+    """Require each core document to carry the current headline counts itself.
+
+    The union check above cannot tell which document a matching string came
+    from, so a document left on an earlier release's figures could still pass
+    as long as some other file carried the current value.  This check pins the
+    headline counts to each document individually.
+    """
+
+    payload = _release_payload()
+    summary = payload.audit_summary
+    events = summary["elections_loaded"]
+    areas = summary["division_rows"]
+    rows = f"{summary['candidate_rows']:,}"
+    approved = summary["approved_historical_reference_rows"]
+    previous_share = f"{summary['candidate_rows_with_previous_party_vote_share']:,}"
+
+    required_by_document = {
+        "docs/election_data_readiness_audit.md": (
+            f"{events} election events",
+            f"{rows} candidate rows and {areas} division or ward rows",
+            f"{approved} approved historical references",
+            f"{previous_share}/{rows} candidate rows",
+        ),
+        "docs/supervisor_field_coverage_matrix.md": (
+            f"{events} elections, {areas} areas and {rows} candidate rows",
+            f"{events}/{events} events",
+            f"{approved}/{areas} areas",
+            f"{previous_share}/{rows} candidate rows",
+            f"{summary['candidate_previously_stood_true']:,} True; "
+            f"{summary['candidate_previously_stood_false']:,} False; "
+            f"{summary['candidate_previously_stood_unknown']:,} Unknown",
+        ),
+        "docs/historical_longitudinal_field_provenance_audit.md": (
+            f"{approved} approved predecessor relations",
+            f"{previous_share}/{rows} candidate rows",
+        ),
+    }
+
+    for path, required in required_by_document.items():
+        text = (PROJECT_ROOT / path).read_text(encoding="utf-8")
+        for needle in required:
+            assert needle in text, f"{path} is missing the current count {needle!r}"
+
+
 def test_no_news_documentation_matches_export_coverage() -> None:
     """Keep the model-readiness boundary tied to the generated baseline."""
 
