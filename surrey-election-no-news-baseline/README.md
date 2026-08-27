@@ -104,11 +104,6 @@ the bundle builder copies `split_manifest.csv` and `leakage_audit.csv` into
 the bundle when they exist and warns otherwise, so emitting them first keeps
 the bundle complete.
 
-Every other product under `outputs/` regenerates the same way through its
-runner in the file guide below — the uniform pattern is
-`PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python
-surrey-election-no-news-baseline/scripts/<runner>.py`.
-
 ---
 
 ## 2. Complete file guide, grouped by function
@@ -252,7 +247,7 @@ UKIP into Reform UK.
 
 ## The bundle
 
-`outputs/model_bundle_v1/` — 29 files. The ones to read first:
+`outputs/model_bundle_v1/` — 29 manifest-tracked artefacts, plus the manifest itself and the append-only training log. The ones to read first:
 
 | file | what it answers |
 | --- | --- |
@@ -324,8 +319,8 @@ pages are rendered headlessly on every run.
 
 ## Documentation
 
-`docs/` carries the record of what was tried and what it showed, including the
-results that did not work:
+`docs/` carries the final-method documentation and the retained validation
+and negative-result evidence:
 
 - [`candidate_level_estimand.md`](docs/candidate_level_estimand.md) — why the
   unit is the candidate, not the party
@@ -344,8 +339,6 @@ results that did not work:
 - [`architecture_selection_evidence.md`](docs/architecture_selection_evidence.md)
   — all three architectures on every split role, what selecting B bought and
   what it cost
-- [`run_configuration_and_reproducibility.md`](docs/run_configuration_and_reproducibility.md)
-  — the configuration design, and the manifest defect a clean rebuild exposed
 - [`data_validation_and_evidence_layers.md`](docs/data_validation_and_evidence_layers.md)
   — seat and date validation, and why two thirds of the model's inputs are
   derived rather than official

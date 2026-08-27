@@ -177,10 +177,3 @@ PYTHONPATH=surrey-election-extractor .venv/bin/python \
 PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python \
   surrey-election-no-news-baseline/scripts/build_candidate_split_and_leakage.py
 ```
-
-## Reversal path
-
-The candidate release is additive. Nothing in the party release, the
-persistence benchmark, the naive benchmarks or the fundamentals table was
-edited. Deleting `no_news_candidate_contest.py`, `candidate_cohort.py` and
-their tests returns the package to its previous state exactly.
