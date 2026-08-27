@@ -141,6 +141,6 @@ is precisely the decision most in need of being visible. `party_category`,
 
 - [`candidate_split_and_leakage.md`](candidate_split_and_leakage.md) — the
   audit that answers the other question about every column
-- [`technical_report.md`](technical_report.md) — §2, where this result is
-  summarised for the review
+- [`candidate_model_card.md`](candidate_model_card.md) — the shipped model
+  card this result now lives in
 - `data_quality_report.json` in the bundle — the machine-readable form

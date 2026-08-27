@@ -148,5 +148,3 @@ against nothing more than its own obsolete formula.
   motivated these features
 - [`candidate_split_and_leakage.md`](candidate_split_and_leakage.md) — the
   date rules these features obey
-- [`stage2_feasibility_findings.md`](stage2_feasibility_findings.md) — the
-  coverage limits that no feature work can fix

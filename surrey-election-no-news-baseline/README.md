@@ -168,7 +168,7 @@ no_news_baseline/cli.py
 | `architecture_paired_bootstrap.py` | paired-bootstrap uncertainty for the architecture comparison |
 | `configuration.py` | resolves flags → file → defaults and records the result in the bundle |
 | `logging_setup.py` | training-run logging, and the one rule about what may be logged |
-| `scripts/build_candidate_cohort_report.py`, `scripts/build_candidate_split_and_leakage.py` | cohort/fold report; standalone split-manifest and leakage-audit emitters |
+| `scripts/build_candidate_split_and_leakage.py` | standalone split-manifest and leakage-audit emitter (step 2 of the reproduction sequence) |
 
 ### 2.3 Parameter-free benchmarks (the floor a model must clear)
 
@@ -205,7 +205,6 @@ project's evidence trail.
 | `cold_start_model.py` | N4: coverage-expanding cold-start baseline for rows with no historical predecessor |
 | `coverage_evaluation.py`, `coverage_report.py` | coverage-aware evaluation of how much of the release each model scores |
 | `model_comparison.py` | every no-news model compared on one identical, shared contest set |
-| `supervisor_alignment.py` + `scripts/build_supervisor_alignment.py` | the three Stage 1 artefacts the supervisor's prompt asks for |
 | `scripts/run_cold_start_report.py`, `scripts/run_coverage_report.py`, `scripts/run_model_comparison.py` | diagnostic runners |
 
 ### 2.6 Interface and support
@@ -421,16 +420,9 @@ results that did not work:
   what it cost
 - [`run_configuration_and_reproducibility.md`](docs/run_configuration_and_reproducibility.md)
   — the configuration design, and the manifest defect a clean rebuild exposed
-- [`technical_report.md`](docs/technical_report.md) — **the concise report for
-  the supervisor review**, and the three decisions it asks for
-- [`prompt1_compliance_audit.md`](docs/prompt1_compliance_audit.md) — every
-  requirement and where it lives, and the seat projection showing Reform
-  predicted 0 seats against 12 won
 - [`data_validation_and_evidence_layers.md`](docs/data_validation_and_evidence_layers.md)
   — seat and date validation, and why two thirds of the model's inputs are
   derived rather than official
-- [`stage2_feasibility_findings.md`](docs/stage2_feasibility_findings.md) —
-  what Stage 1 implies for the news layer
 - [`cold_start_baseline.md`](docs/cold_start_baseline.md) — the N4 cold-start
   benchmark for rows with no historical predecessor
 - [`coverage_aware_evaluation_methodology.md`](docs/coverage_aware_evaluation_methodology.md)

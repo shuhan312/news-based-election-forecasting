@@ -150,8 +150,8 @@ Reform UK rows in the cohort: **175 total, 11 before 2026** (2021: 6; 2025
 by-elections: 5) against 163 on 7 May 2026 and 1 at the July Haslemere
 by-election.
 
-Consequence for the split, from
-`scripts/build_candidate_cohort_report.py`:
+Consequence for the split (measured by the retired cohort-report script,
+now in Git history):
 
 | split | train | validation | test |
 | --- | ---: | ---: | ---: |
@@ -162,8 +162,9 @@ The split as written in the supervisor's email trains on **zero** Reform UK
 observations. That is not an implementation detail: under it, no
 Reform-specific coefficient or interaction can be estimated at all, and any
 Reform result on the holdout would come entirely from the pooled all-party
-model. Both splits are emitted so the comparison is explicit; the choice is
-the supervisor's.
+model. The Reform-aware chronological design was adopted; the authoritative
+implementation is `no_news_baseline/candidate_splits.py`, emitted for the
+bundle by `scripts/build_candidate_split_and_leakage.py`.
 
 ## Reproduction
 
@@ -174,7 +175,7 @@ PYTHONPATH=surrey-election-extractor .venv/bin/python \
 
 ```bash
 PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python \
-  surrey-election-no-news-baseline/scripts/build_candidate_cohort_report.py
+  surrey-election-no-news-baseline/scripts/build_candidate_split_and_leakage.py
 ```
 
 ## Reversal path
