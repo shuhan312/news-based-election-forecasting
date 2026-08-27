@@ -276,12 +276,15 @@ ORIGINAL_LAYERS = {
 # marginals broadly match (human blame 33/57, model 29/57), and inter-model
 # agreement is itself only 0.602 - no single definitional gap to close.
 #
-# So consequence is excluded pending one prompt-level rescue attempt scored
-# against the human presence labels already recorded, and attribution is
-# excluded outright. Removing them from the full run also drops two of the
-# three Sonnet layers, which is the larger part of the corpus spend.
-# Both rescues have now reported, so these reasons are final rather than
-# provisional. Each layer had two attempts, the same as stance and framing.
+# Consequence was provisionally excluded while one prompt-level rescue was
+# pending. Both rescue arms have since reported at kappa 0.598, below the
+# 0.600 gate, so consequence is finally excluded. Attribution was also
+# redesigned and rerun; the redesign failed to clear the gate, so it is
+# finally excluded, and no third attempt was made - a further prompt would
+# have been tuned against the validation set. Both layers therefore had two
+# attempts, matching stance and framing. Removing them from the full run
+# also drops two of the three Sonnet layers, which is the larger part of
+# the corpus spend.
 EXCLUDED_LAYERS = {
     "credit_blame": ("fails D4 gate at kappa 0.521 (n=57); a binary redesign "
                      "scored 0.272 on blame, worse than the layer it replaced"),
