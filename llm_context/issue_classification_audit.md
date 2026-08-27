@@ -1,5 +1,15 @@
 # Issue / topic classification - audit (Phase 6 Step 3)
 
+> **Historical checkpoint.** This document preserves the project status at
+> the time of this pilot-stage review. Statements such as "pending", "not
+> yet run" and "provisional" describe that historical checkpoint, not the
+> current repository state. Full-corpus extraction and the final D4 gate
+> decisions were completed later. See `d4_findings_log.md`,
+> `d4_gate_outcome_and_decisions.md` and
+> `corpus_extraction_batch_digests.json` for the final status.
+> The v1.3 taxonomy was subsequently adopted for production.
+
+
 Contract `issue-cls-v1.0-2026-07-27` | prompt
 `issue-cls-prompt-v1.0-2026-07-27` | rules
 `issue-cls-rules-v1.0-2026-07-27` | taxonomy `issues-v1.2` (the

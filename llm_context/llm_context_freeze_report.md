@@ -1,5 +1,14 @@
 # Context Extraction Layer Freeze Report
 
+> **Historical checkpoint.** This document preserves the project status at
+> the time of this pilot-stage review. Statements such as "pending", "not
+> yet run" and "provisional" describe that historical checkpoint, not the
+> current repository state. Full-corpus extraction and the final D4 gate
+> decisions were completed later. See `d4_findings_log.md`,
+> `d4_gate_outcome_and_decisions.md` and
+> `corpus_extraction_batch_digests.json` for the final status.
+
+
 Phase 6, Step 12. Freeze date: 2026-07-27.
 Dataset version: `context-cards-v1.0-pilot67-2026-07-27`
 Schema version: `llm-context-schema-v1-final-2026-07-27`

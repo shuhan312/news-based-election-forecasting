@@ -1,5 +1,17 @@
 # Schema and pipeline revision notes after the Step 2 pilot
 
+> **Historical checkpoint.** This document preserves the project status at
+> the time of this pilot-stage review. Statements such as "pending", "not
+> yet run" and "provisional" describe that historical checkpoint, not the
+> current repository state. Full-corpus extraction and the final D4 gate
+> decisions were completed later. See `d4_findings_log.md`,
+> `d4_gate_outcome_and_decisions.md` and
+> `corpus_extraction_batch_digests.json` for the final status.
+> The proposals below were later implemented through versioned
+> schema, taxonomy and prompt updates; this file is retained as
+> the pre-implementation decision record.
+
+
 Status: PROPOSALS - none applied yet. Schema changes ship as
 taxonomy/schema version bumps (never edits under the same version);
 prompt changes take effect in the full-scale run's system prompt.

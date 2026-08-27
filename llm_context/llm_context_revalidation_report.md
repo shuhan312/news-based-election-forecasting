@@ -1,5 +1,14 @@
 # Step 2.5 re-validation report
 
+> **Historical checkpoint.** This document preserves the project status at
+> the time of this pilot-stage review. Statements such as "pending", "not
+> yet run" and "provisional" describe that historical checkpoint, not the
+> current repository state. Full-corpus extraction and the final D4 gate
+> decisions were completed later. See `d4_findings_log.md`,
+> `d4_gate_outcome_and_decisions.md` and
+> `corpus_extraction_batch_digests.json` for the final status.
+
+
 Prompt `prompt-v1.1-2026-07-26` | rules `rules-v1.1-2026-07-26` |
 taxonomy `issues-v1.2` | model `claude-sonnet-5` | MAX_TOKENS 40000 |
 batch `msgbatch_01Wz6WcxTEabstXwRpgiXjw8` (19 requests, ~$1.5).
