@@ -78,14 +78,7 @@ stays reproducible.
 | `attribution_rescue_batch.json` / `_batch_haiku.json`, `attribution_rescue_agreement.json` | the credit-blame redesign run and its below-gate verdict |
 | `consequence_rescue_batch.json` / `_batch_haiku.json`, `consequence_rescue_outputs_haiku.json`, `consequence_rescue_agreement.json` | the expected-impact redesign run and its below-gate verdict |
 
-## 5. Reform UK sub-field validation addendum
-
-| File | What it is |
-|---|---|
-| `reform_subfield_human_labels_v1.csv` | the human annotations for the sub-field block |
-| `reform_subfield_agreement.json` / `_haiku.json` | the scored verdicts (the block did not enter production; the feature layer uses a deterministic Reform indicator) |
-
-## 6. Schema, rules and taxonomy version chain (interpretation keys)
+## 5. Schema, rules and taxonomy version chain (interpretation keys)
 
 These files interpret version stamps inside the frozen outputs; older
 versions are retained because stamped records refer to them.
@@ -99,7 +92,7 @@ versions are retained because stamped records refer to them.
 | `llm_context_changelog.md` | the layer-by-layer change log |
 | `issue_layer_decisions_v1.md`, `phase6_research_decisions_v1.md` | the recorded issue-layer and phase-6 research decisions |
 
-## 7. Pilot-era records (historical — the eight-layer pilot, 26–27 July)
+## 6. Pilot-era records (historical — the eight-layer pilot, 26–27 July)
 
 The pilot that tested eight candidate layers before the D4 gate reduced them.
 These are frozen decision records: they explain why each layer was kept,
@@ -115,7 +108,7 @@ redesigned or dropped. None of them is on the production path.
 | `credit_blame_*`, `electoral_consequence_*` (audit, error analysis, schema) | pilot records of the two layers whose failure the report cites |
 | `local_national_relevance_*`, `confidence_evidence_*`, `temporal_horizon_*` (audit, error analysis, schema where present) | pilot records of the three candidate layers dropped without redesign |
 
-## 8. Legacy freeze family (historical — pre-tranche eight-layer freeze)
+## 7. Legacy freeze family (historical — pre-tranche eight-layer freeze)
 
 | File | What it is |
 |---|---|

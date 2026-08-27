@@ -107,7 +107,6 @@ llm_context/d4_batch_ids_haiku.json
 llm_context/d4_agreement_report*.md
 llm_context/d4_coarsened_agreement*.md
 llm_context/d4_inter_model_agreement.md
-llm_context/reform_subfield_agreement*.md
 llm_context/temporal_horizon_outputs.json
 llm_context/temporal_windows_deterministic.json
 llm_context/temporal_batch_id.txt

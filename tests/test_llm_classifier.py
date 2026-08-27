@@ -118,14 +118,22 @@ class TestParseResponse:
 
 
 class TestClassifyArticleFailsClosed:
-    def test_no_api_key_produces_not_configured_not_a_guess(self):
+    def test_no_api_key_produces_not_configured_not_a_guess(
+            self, monkeypatch):
+        # classify_article falls back to the environment when the explicit
+        # argument is empty, so the environment must be cleared first or
+        # this test attempts a real API call on a machine with a key set.
+        monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+
         result = classify_article(ARTICLE, api_key=None)
+
         assert result["status"] == "not_configured"
         # must not contain any decision fields at all - a missing key
         # produces an honest gap, never a fabricated classification
         assert "e4_decision" not in result
 
-    def test_no_api_key_ignores_any_ambient_env_var(self, monkeypatch):
+    def test_missing_environment_api_key_returns_not_configured(
+            self, monkeypatch):
         monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
         result = classify_article(ARTICLE)
         assert result["status"] == "not_configured"

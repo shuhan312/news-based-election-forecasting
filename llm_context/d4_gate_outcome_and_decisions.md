@@ -412,15 +412,19 @@ carries information. Recording them as failures would overstate the
 evidence exactly as much as recording them as passes. The threshold used
 (20 pairs, the smallest subset this project has previously accepted a
 verdict on, rounded down) was written after seeing that the subset was
-five; that ordering is disclosed in `compare_reform_subfields.py` rather
-than hidden.
+five; that ordering was disclosed in the comparison script (retired from main
+with the sub-field addendum; in Git history) rather than hidden.
 
 Consequence: the `applicable` flag is adopted. The five sub-fields stay
 unused, labelled `undetermined_insufficient_sample` rather than
 `excluded_not_validated`, because the distinction matters - they can be
 validated later by drawing a sample enriched for Reform-applicable
 articles instead of a general one, which is a cheap fix if the modelling
-stage turns out to need them.
+stage turns out to need them. (Final status: the full-corpus run excluded
+the consequence layer that hosts this block, so the flag was never
+extracted at scale; production Reform features use the deterministic
+mention indicator, and the addendum's scripts and scorecards are retired
+from main into Git history.)
 
 ## 5b. How the original section 5 plan was executed
 

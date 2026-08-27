@@ -263,8 +263,9 @@ exactly as much as recording them as passes. They are labelled
 `undetermined_insufficient_sample`, distinct from
 `excluded_not_validated`, because the remedy differs: a sample enriched
 for Reform-applicable articles would settle them cheaply. The 20-pair
-minimum was written after seeing that the subset was five; that ordering is
-disclosed in `compare_reform_subfields.py`.
+minimum was written after seeing that the subset was five; that ordering was
+disclosed in the comparison script (retired from main with the sub-field
+addendum; in Git history).
 
 **Adopted:** the `applicable` flag on Haiku - a validated Reform-relevance
 judgement, independent of the E6 keyword disambiguation at the eligibility

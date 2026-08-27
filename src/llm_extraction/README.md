@@ -126,17 +126,7 @@ final-report samples; they define no new extraction methods.
 | `run_haslemere_probe_extraction.py` | extraction for the Haslemere replication test |
 | `run_woking_south_blind_extraction.py` | extraction for the Woking South blind transfer test |
 
-### 2.7 Reform UK sub-field validation addendum
-
-| File | Role |
-|---|---|
-| `build_reform_subfield_sample.py` | builds the human-annotation workbook for the reform_uk sub-field block |
-| `compare_reform_subfields.py` | scores the sub-field block against those human labels |
-
-This block did not enter the final production extraction; the feature layer
-uses a deterministic Reform-mention indicator instead.
-
-### 2.8 Archived validation support and the post-unblinding extension
+### 2.7 Archived validation support and the post-unblinding extension
 
 | File | Role |
 |---|---|
