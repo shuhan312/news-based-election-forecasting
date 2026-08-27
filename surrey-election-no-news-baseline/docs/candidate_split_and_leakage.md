@@ -186,11 +186,12 @@ Outputs `split_manifest.csv` (37,449 rows: every cohort row in every split,
 including `unused`, so the file accounts for every row rather than leaving
 absence to be inferred), `leakage_audit.csv` and `split_summary.json`.
 
-## What this does not yet do
+## What this stage does not do
 
-No model is fitted. The next step is the brief's step 4 — the no-news
-baseline model itself — which needs a feature matrix built from
-`permitted_predictors()`, out-of-fold predictions for every eligible
-historical row, and the architecture comparison (A regularised, B
-gradient-boosted, C hierarchical). Architecture B requires a dependency the
-environment does not currently carry; C can use the already-declared numpyro.
+No model is fitted at this stage. Model fitting happens downstream in the
+brief's step 4: the feature matrix built from `permitted_predictors()`, the
+out-of-fold predictions for every eligible historical row, and the
+three-architecture comparison (A regularised, B gradient-boosted,
+C hierarchical) are recorded in
+[`architecture_selection_evidence.md`](architecture_selection_evidence.md),
+which shipped Architecture B.

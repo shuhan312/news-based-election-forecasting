@@ -1,7 +1,10 @@
 # N5 data requirements and risks (identifiability audit record)
 
-Live audit outputs: `outputs/n5_specification/` (regenerate with
-`scripts/run_n5_specification_audit.py`; deterministic, no network).
+Audit outputs as recorded 29 July 2026, pre-dating the integration of the
+last four by-elections: `outputs/n5_specification/` (regenerate with
+`scripts/run_n5_specification_audit.py`; deterministic, no network — a rerun
+reproduces the audit on the current release, whose counts supersede the
+table below where they differ).
 
 ## What the real release supports
 

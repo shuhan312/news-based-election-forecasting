@@ -1,8 +1,10 @@
 # Model card — Surrey no-news candidate baseline
 
 **Bundle:** `candidate_model_bundle_v1`
-**Status:** complete for the supervisor's step 4; awaiting the step 5 review
-before any news layer is built.
+**Status:** step 4 complete. The step 5 review is recorded in
+[`architecture_selection_evidence.md`](architecture_selection_evidence.md)
+(29 July 2026); the bundle was subsequently frozen as the Stage 1 input the
+news layer consumes (`src/news_modelling/stage1_bundle.py`).
 
 ---
 

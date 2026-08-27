@@ -147,6 +147,10 @@ Neither A nor B has been costed. Both add collection queries and, more
 significantly, LLM extraction volume on top of the 3,584 articles already
 awaiting extraction. A budget figure is required before either runs.
 
+*Postscript (August 2026): the extraction subsequently ran to completion
+under the batch-discount gates recorded in `llm_context/`; the Stage 2
+pipeline and its frozen evaluation are documented in `src/news_modelling/`.*
+
 ---
 
 ## Related records

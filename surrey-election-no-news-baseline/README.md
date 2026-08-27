@@ -30,7 +30,7 @@ surrey-election-extractor/outputs/no_news_candidate_contests/
 
 ---
 
-## Quick start
+## 1. The main line
 
 From the repository root, with the project virtualenv active. If the shared
 `.venv` at the repository root does not exist yet, create it first as shown in
@@ -103,14 +103,22 @@ PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python -m pytest surrey-el
 Reproduction is confirmed when step 2 logs out-of-fold MAE 9.85 and holdout MAE
 4.53, and step 4 reports 444 passing tests.
 
+Every other product under `outputs/` regenerates the same way through its
+runner in the file guide below — the uniform pattern is
+`PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python
+surrey-election-no-news-baseline/scripts/<runner>.py` (for example
+`run_model_comparison.py`, `run_n5_specification_audit.py`,
+`build_electoral_fundamentals_release.py`).
+
 ---
 
-## Core code map
+## 2. Complete file guide, grouped by function
+
+### 2.1 The shipped candidate model — core path
 
 The CLI is the public entry point; it delegates the complete training run to
 the bundle builder. These are the files needed to understand Stage 1 in the
-final report. The remaining modules are supporting implementation, tests or
-additional diagnostics.
+final report.
 
 | Role | Main file |
 | --- | --- |
@@ -137,6 +145,72 @@ no_news_baseline/cli.py
     -> selected LightGBM fit
     -> outputs/model_bundle_v1/
 ```
+
+### 2.2 The shipped candidate model — supporting modules
+
+| File | Role |
+| --- | --- |
+| `candidate_cohort.py` | estimand, cohort membership, within-contest normalisation, ranking and seat allocation |
+| `candidate_data_validation.py` | seat-count and polling-date validation of the modelling contract |
+| `candidate_contestation.py` | non-contestation records — a party that did not stand has no row and is never recorded as a zero |
+| `candidate_evidence_layers.py` | which evidence layer (official / derived / analysis) each field came from |
+| `candidate_historical_strength.py` | county-level historical party-strength predictors |
+| `candidate_interactions.py` | Reform UK interaction terms and the labelled, off-by-default UKIP block |
+| `candidate_probability_model.py` | separately fitted probability of election with a seat-count constraint |
+| `candidate_explainability.py`, `candidate_tree_explainability.py` | SHAP, fold-level coefficients and unstable features; tree-specific explanations for the shipped Architecture B |
+| `architecture_paired_bootstrap.py` | paired-bootstrap uncertainty for the architecture comparison |
+| `configuration.py` | resolves flags → file → defaults and records the result in the bundle |
+| `logging_setup.py` | training-run logging, and the one rule about what may be logged |
+| `scripts/build_candidate_cohort_report.py`, `scripts/build_candidate_split_and_leakage.py` | cohort/fold report; standalone split-manifest and leakage-audit emitters |
+
+### 2.3 Parameter-free benchmarks (the floor a model must clear)
+
+| File | Role |
+| --- | --- |
+| `persistence_benchmark.py` | main baseline: previous exact-label party share and previous unique winner |
+| `naive_benchmarks.py` | equal-split and party-historical-mean references (measure what area identity is worth) |
+| `benchmark_metrics.py` | shared MAE / RMSE / accuracy scoring for every benchmark |
+| `temporal_validation.py` + `temporal_validation_report.py` | leakage-safe temporal folds and the fold-by-fold benchmark report |
+| `election_dates.py` | shared election-date parsing and ordering |
+| `scripts/run_persistence_benchmark.py`, `scripts/run_naive_benchmarks.py`, `scripts/run_temporal_validation_report.py` | benchmark runners |
+
+### 2.4 Earlier party-level groundwork (electoral fundamentals; completed, retained as development evidence)
+
+The one-row-per-election-area-party feature table behind the earlier
+party-level models. The shipped Stage 1 is the candidate-level model above;
+this layer is kept because the development sequence it records is part of the
+project's evidence trail.
+
+| File | Role |
+| --- | --- |
+| `electoral_fundamentals_schema.py`, `electoral_fundamentals_rows.py`, `electoral_fundamentals_builder.py` | table shape and leakage boundary; row index; assembly with the leakage contract checked |
+| `electoral_fundamentals_structure.py`, `electoral_fundamentals_history.py`, `electoral_fundamentals_participation.py`, `electoral_fundamentals_ukip.py`, `electoral_fundamentals_previous_party_zero.py` | one feature class each: contest structure, approved history, participation/incumbency, the separate UKIP context field, and proven previous-party zeros |
+| `electoral_fundamentals_release.py`, `electoral_fundamentals_report.py` | the release package (predictors and outcomes in separate allow-lists) and its quality report |
+| `regularised_models.py` | the first fitted no-news model: fold-wise ridge on the fundamentals table, kept as a member of the four-way model comparison |
+| `model_input_preprocessing.py` | missing-value semantics added without changing source values |
+| `independent_previous_share_audit.py` | Independents audited as ballot descriptions, not one continuing party |
+| `scripts/build_electoral_fundamentals_release.py`, `scripts/build_model_input_contract.py`, `scripts/generate_independent_previous_share_audit.py` | release and contract runners |
+
+### 2.5 Diagnostics, comparisons and scoping audits
+
+| File | Role |
+| --- | --- |
+| `cold_start_model.py` | N4: coverage-expanding cold-start baseline for rows with no historical predecessor |
+| `coverage_evaluation.py`, `coverage_report.py` | coverage-aware evaluation of how much of the release each model scores |
+| `model_comparison.py` | every no-news model compared on one identical, shared contest set |
+| `n5_specification_audit.py`, `n5a_data.py` | pre-implementation identifiability audit for the specified-but-not-implemented N5 hierarchical model |
+| `supervisor_alignment.py` + `scripts/build_supervisor_alignment.py` | the three Stage 1 artefacts the supervisor's prompt asks for |
+| `scripts/run_cold_start_report.py`, `scripts/run_coverage_report.py`, `scripts/run_model_comparison.py`, `scripts/run_n5_specification_audit.py` | diagnostic runners |
+
+### 2.6 Interface and support
+
+| Location | Role |
+| --- | --- |
+| `app/streamlit_app.py`, `app/loaders.py`, `app/views.py` | the six-page interface: entry point, bundle/contract loading, and the pages; it reads bundles and invokes the CLI, never fitting in-process |
+| `config/baseline_model.yaml` | every tunable assumption with its reasoning (see Configuration below) |
+| `config/electoral_feature_metadata.csv` | feature field metadata for the fundamentals release |
+| `outputs/` | products only — regenerated from versioned code and extractor contracts, excluded from Git |
+| `tests/` | 444 tests, roughly one per module; the ones that matter most assert that something *fails* |
 
 ---
 
@@ -355,6 +429,19 @@ results that did not work:
   derived rather than official
 - [`stage2_feasibility_findings.md`](docs/stage2_feasibility_findings.md) —
   what Stage 1 implies for the news layer
+- [`n5_data_requirements_and_risks.md`](docs/n5_data_requirements_and_risks.md)
+  — the N5 identifiability audit (as recorded 29 July 2026) and its risks
+- [`cold_start_baseline.md`](docs/cold_start_baseline.md) — the N4 cold-start
+  benchmark for rows with no historical predecessor
+- [`coverage_aware_evaluation_methodology.md`](docs/coverage_aware_evaluation_methodology.md)
+  — how much of the release each model actually scores, and why that matters
+- [`data_contract.md`](docs/data_contract.md) — the ownership boundary between
+  the extractor's published contract and this package
+- [`electoral_feature_release.md`](docs/electoral_feature_release.md) — the
+  frozen fundamentals feature-engineering release
+- [`naive_benchmarks.md`](docs/naive_benchmarks.md) and
+  [`persistence_benchmark.md`](docs/persistence_benchmark.md) — the
+  parameter-free benchmark results
 
 Everything under `outputs/` is regenerated from versioned code and extractor
 contracts and is excluded from Git. Code, tests, configuration, documentation

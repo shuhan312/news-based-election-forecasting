@@ -56,9 +56,10 @@ internally consistent regardless of seat count.
 The build enforces this rather than assuming it. Every contest is reconciled
 to 100 within a derived tolerance of `2 + 0.5n` percentage points for `n`
 candidates — at worst 0.5pp of rounding error per published whole-number
-share, plus two points for the source's own rounding of the total. All 339
-real contests pass. A contest outside the band stops the release instead of
-being silently renormalised.
+share, plus two points for the source's own rounding of the total. All 343
+real contests in the current release pass (339 when this record was adopted;
+the four by-elections integrated later also pass). A contest outside the band
+stops the release instead of being silently renormalised.
 
 ## What is NOT claimed
 
