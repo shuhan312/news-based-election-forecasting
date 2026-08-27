@@ -6,7 +6,9 @@ Three of the original eight layers are extracted. Every figure below is
 validator-gated - `d4_findings_log.md` experiment 8 found that the earlier
 kappas had been computed from records that merely parsed, and recomputing
 them flipped two verdicts. The pre-gate numbers this docstring used to quote
-are superseded, and the layers they justified are gone.
+are superseded, and the layers they justified are excluded from production
+extraction (their code and negative-result evidence remain in the
+validation record).
 
 | Layer | Status | Basis |
 |---|---|---|

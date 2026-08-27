@@ -136,7 +136,7 @@ final-report samples; they define no new extraction methods.
 This block did not enter the final production extraction; the feature layer
 uses a deterministic Reform-mention indicator instead.
 
-### 2.8 Legacy and exploratory (not on the report path)
+### 2.8 Archived validation support and the post-unblinding extension
 
 | File | Role |
 |---|---|

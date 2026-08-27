@@ -1,12 +1,16 @@
-"""Development-only v2 classifier for E4/E5/E6/E8.
+"""The v2 classifier for E4/E5/E6/E8: developed, then frozen for production.
 
 Research status
 ---------------
-This module is a feasibility prototype, not a validated production
-classifier. It deliberately does not replace ``llm_classifier.py`` or its
-2026-07-24 v1 pilot output. The existing 168-article pilot is preserved as
-the audit baseline and may be used to develop this version, but it cannot
-also serve as the final independent validation set after prompt changes.
+This module began as a development version (hence the CLASSIFIER_VERSION
+string below, which is frozen into the recorded outputs and must not
+change). It was subsequently validated blind on the fresh 128-article
+sample (`run_llm_validation_v2.py` / `compare_llm_validation_agreement.py`)
+and frozen as the production classifier the corpus, by-election and
+case-study batches run. It does not replace ``llm_classifier.py`` or its
+2026-07-24 v1 pilot output: the 168-article pilot is preserved as the audit
+baseline that motivated this version, and the separate 128-article sample
+provided the independent post-change validation.
 
 The supervisor requirement says that false-positive uses of the word
 "reform" should be removed manually. Consequently, even a high-agreement E6

@@ -18,12 +18,20 @@ that applies it to every article (logic is testable without IO).
 7  final_audit           audit steps 1–6 and run the deterministic language check
 ```
 
-## Layout
+## Complete file guide
 
-| Module | Role |
-| --- | --- |
-| `normalisation_input.py`, `html_clean.py`, `char_normalise.py`, `structure_normalise.py`, `boundary_resolve.py`, `text_quality.py`, `final_audit.py` | The pure-logic step implementations |
-| `build_normalisation_input.py` … `build_final_layer.py` | The per-step runners that apply each step to every article |
+One pure-logic module and one `build_` runner per step; `tests/test_<step>.py`
+covers each logic module.
+
+| Step | Logic module | Runner | What the runner writes |
+| --- | --- | --- | --- |
+| 1 | `normalisation_input.py` | `build_normalisation_input.py` | the locked eligible population and each article's selected text source (manifest + records + review queue) |
+| 2 | `html_clean.py` | `build_html_cleaned_articles.py` | HTML/web-template-cleaned article text and its log |
+| 3 | `char_normalise.py` | `build_char_normalised_articles.py` | Unicode/encoding-normalised text and its log |
+| 4 | `structure_normalise.py` | `build_structure_normalised_articles.py` | whitespace/paragraph-structure-normalised text and its log |
+| 5 | `boundary_resolve.py` | `build_structured_articles.py` | title/body/supporting-text boundaries → structured articles |
+| 6 | `text_quality.py` | `build_text_quality.py` | per-article text-quality verdicts, resolutions queue and summary |
+| 7 | `final_audit.py` | `build_final_layer.py` | the audited final text layer (`normalised_text_layer_v1_provisional.jsonl`, git-ignored) plus its committed manifest, audit and quality report |
 
 ## Running and outputs
 
@@ -44,6 +52,22 @@ produces the same cleaned articles on every run. Outputs (the cleaned-article
 `*_articles_v1.jsonl` layers and the cleaning logs/review queues) land in the
 repository-root `news_collection/` directory; see its README. They are consumed
 by `src/dedup/` (Phase 5) and then labelling.
+
+## Hand-off and verification
+
+The step-7 audited text layer is what downstream article loaders read:
+`src/llm_extraction/run_pilot.py` (the shared article loader behind the
+production extraction) loads
+`news_collection/normalised_text_layer_v1_provisional.jsonl` directly, with
+the committed manifest carrying its hashes. The offline test suite for this
+package:
+
+```bash
+.venv/bin/python -m pytest tests/test_normalisation_input.py \
+    tests/test_html_cleaning.py tests/test_char_normalisation.py \
+    tests/test_structure_normalisation.py tests/test_boundary_resolution.py \
+    tests/test_text_quality.py tests/test_final_audit.py -q
+```
 
 ## Discipline
 
