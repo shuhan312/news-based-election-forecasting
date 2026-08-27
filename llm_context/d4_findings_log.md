@@ -230,46 +230,13 @@ disagree with each other as well as with the reviewer.
 
 ---
 
-## Experiment 5: reform_uk sub-field block
+## Experiment 5: retired Reform UK sub-field addendum
 
-**What ran.** The `reform_uk` block sits inside the consequence layer's
-schema but is a sibling property of `consequence_direction`, not derived
-from it, so that field's failure does not disqualify it. It had never been
-validated: the D4 gold labels cover the six comparison fields only, and
-`stance_reform_uk` belongs to the failed stance layer. 22 articles - the 14
-the model marked `applicable` plus 8 controls it marked not - hash-shuffled,
-carrying no model output, so the sheet was blind. Controls were included
-deliberately: scoring only the positives would give the reviewer an all-yes
-column, a constant marginal, and a kappa that collapses regardless of true
-agreement.
-
-**Result.**
-
-| Field | pairs | Sonnet | Haiku |
-|---|---|---|---|
-| applicable | 22 | 0.288 fail | **0.680 pass** (86.4% agreement) |
-| growth_suggested | 5 | undetermined | undetermined |
-| credible_challenger | 5 | undetermined | undetermined |
-| established_support_affected | 5 | undetermined | undetermined |
-| switching_directions | 5 | undetermined | undetermined |
-| signal_nature | 5 | undetermined | undetermined |
-
-The five sub-fields are scored only where both sides say `applicable`,
-because the schema forces them empty otherwise (rule E4), and the reviewer
-marked just 5 of 22 articles applicable. **At five pairs a single
-disagreement moves kappa by roughly 0.2, so neither verdict carries
-information** - recording them as failures would overstate the evidence
-exactly as much as recording them as passes. They are labelled
-`undetermined_insufficient_sample`, distinct from
-`excluded_not_validated`, because the remedy differs: a sample enriched
-for Reform-applicable articles would settle them cheaply. The 20-pair
-minimum was written after seeing that the subset was five; that ordering was
-disclosed in the comparison script (retired from main with the sub-field
-addendum; in Git history).
-
-**Adopted:** the `applicable` flag on Haiku - a validated Reform-relevance
-judgement, independent of the E6 keyword disambiguation at the eligibility
-stage.
+This optional validation addendum did not enter the final report or the
+production feature tables. Its code, labels and scorecards were therefore
+removed from final main; the complete experiment, its blind-sample design
+and its figures remain available in Git history. Production Reform
+features use the deterministic Reform-mention indicator.
 
 ---
 
@@ -1207,21 +1174,18 @@ table below uses the gated figures.
 | issues (6) | **available** | 0.616 human (Sonnet, n=53), 0.742 inter-model - the only original layer to clear both rulers |
 | stance (3) | **available** | revised layer, 0.741 human, 0.848 inter-model |
 | framing (2 of 4) | **available** | revised layer: incumbent_judgement 0.705, local_impact 0.635 inter-model; human recall 0.49-0.58 |
-| reform_flag (2) | available | 0.680 on 22 blind articles |
 | consequence (3) | **unavailable** | frozen layer fails (0.259 human, n=55). Redesign reaches 0.598 on presence on both arms - Sonnet and Haiku alike - 0.002 below the gate; excluded |
 | credit_blame (4) | **unavailable** | 0.521 / 0.516 human at n=57; fallback route not triggered (marginal 0.579). Redesign run on both arms: blame 0.272 / 0.319 against the 0.600 gate, credit undetermined at 8 human positives (minimum 10); excluded |
 | framing (2 of 4) | **undetermined** | challenger_emergence (2-6 positives of 55) and voter_discontent (4-5) - too few positive cases for a verdict |
 | horizon (1) | **unavailable** | 0.186 / 0.146 human, 0.303 inter-model - fails on all three rulers |
-| reform_uk sub-fields (5) | **undetermined** | 5 pairs, below the 20-pair minimum |
 
 **Production models, per layer, on measured compliance rather than one
 global choice:** issues on `claude-sonnet-5` (99.4% span fidelity against
 57.2%), stance and framing revised on `claude-haiku-4-5` (no span
 requirement, 0-2% format failure, and Sonnet fails the framing layer's
 format check at 8.3% against Haiku's 0-1%). The earlier recommendation of
-Haiku for all layers rested on the pre-gate figures and on the two fields
-where Haiku appeared decisive - attribution at 0.600 and reform-applicable
-at 0.680. Attribution's 0.600 did not survive Experiment 8.
+Haiku for all layers rested on the pre-gate figures, principally
+attribution at 0.600, which did not survive Experiment 8.
 
 **On why the gate stays human-referenced.** The question was raised directly:
 if the human labels may be wrong, why not gate on inter-model agreement

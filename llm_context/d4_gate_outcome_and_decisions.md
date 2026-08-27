@@ -185,8 +185,7 @@ sentiment features are three-level portrayal counts from a redesigned
 layer, not the five-level scale the brief envisaged.
 
 **D4c - Haiku 4.5 becomes the extraction model.** It clears both
-human-scored adopted fields where Sonnet clears one, and the reform_uk
-`applicable` flag besides, at half the price. Four of the eight layers
+human-scored adopted fields where Sonnet clears one, at half the price. Four of the eight layers
 are extracted (issues, credit-blame, consequence, and the revised stance
 layer), so the full-corpus cost is roughly $90-110 rather than $229 - the
 excluded layers are not run at all rather than run and discarded.
@@ -195,11 +194,12 @@ excluded layers are not run at all rather than run and discarded.
 is used.** That block sits inside the consequence layer's schema but is
 structurally independent of `consequence_direction` (a sibling property,
 not derived from it), so failing that field does not automatically
-disqualify it. It has never been validated: the D4 gold labels cover the
+disqualify it. It had never been validated: the D4 gold labels cover the
 six comparison fields only, and `stance_reform_uk` belongs to the failed
-stance layer, not to this block. Until the separate validation in
-section 5 runs, the block's status is *untested* - neither passed nor
-failed - and it is not used.
+stance layer, not to this block. The separate validation later ran as an
+optional addendum; the block never entered the production extraction or
+the feature tables, and the addendum was retired from final main
+(section 5).
 
 ## 4b. Decisions revised after the validator-gating fault
 
@@ -229,9 +229,8 @@ since fallen to 0.587, below the bar, and on a reading of the two rulers that
 section 4c revisits.
 
 **D4c is revised: the extraction model is chosen per layer, not once.** D4c
-adopted Haiku throughout, on the strength of attribution at 0.600 and
-reform-applicable at 0.680. Attribution's 0.600 did not survive the
-recomputation. Measured directly on the same 60 articles, Haiku satisfies the
+adopted Haiku throughout, principally on the strength of attribution at
+0.600, which did not survive the recomputation. Measured directly on the same 60 articles, Haiku satisfies the
 verbatim-span contract on 333 of 582 spans (57.2%) against Sonnet's 618 of
 622 (99.4%), which the validator turns into a third of every original layer's
 records being discarded. So:
@@ -246,8 +245,8 @@ The cost consequence is smaller than the correctness one: the two revised
 layers on Haiku rather than Sonnet is a difference of about $9 over 1,632
 articles. The split is not a price decision.
 
-**D4d stands unchanged.** The reform_uk block's validation in section 5 did
-not depend on the gated fields.
+**D4d stands unchanged.** The block's separate validation did not depend
+on the gated fields; its outcome and retirement are recorded in section 5.
 
 ## 4c. The redesign of the consequence layer, and its outcome
 
@@ -394,55 +393,16 @@ is recorded as a limitation of the study rather than as a resolved question.
 The eligibility layer was blind re-coded at kappa 0.922-1.000 on 34 articles;
 the D4 content fields never were.
 
-## 5. reform_uk sub-field validation - result
+## 5. reform_uk sub-field validation - retired addendum
 
-Ran 2026-07-30 on the 22-article blind sample. **Haiku's `applicable`
-judgement passes on the primary route: kappa 0.680, 86.4% agreement over
-all 22 pairs.** Sonnet's does not (kappa 0.288). So "is this article
-materially about Reform UK" is a reliable machine judgement on the
-cheaper model - a validated Reform-relevance flag, independent of the
-E6 keyword disambiguation that already exists at the eligibility stage.
-
-The five sub-fields beneath it are **undetermined, not failed**. They are
-scored only where both sides say `applicable`, because the schema forces
-them empty otherwise (rule E4) - and the reviewer marked just 5 of the 22
-articles applicable, so that intersection is five pairs. At five pairs a
-single disagreement moves kappa by roughly 0.2, so neither verdict
-carries information. Recording them as failures would overstate the
-evidence exactly as much as recording them as passes. The threshold used
-(20 pairs, the smallest subset this project has previously accepted a
-verdict on, rounded down) was written after seeing that the subset was
-five; that ordering was disclosed in the comparison script (retired from main
-with the sub-field addendum; in Git history) rather than hidden.
-
-Consequence: the `applicable` flag is adopted. The five sub-fields stay
-unused, labelled `undetermined_insufficient_sample` rather than
-`excluded_not_validated`, because the distinction matters - they can be
-validated later by drawing a sample enriched for Reform-applicable
-articles instead of a general one, which is a cheap fix if the modelling
-stage turns out to need them. (Final status: the full-corpus run excluded
-the consequence layer that hosts this block, so the flag was never
-extracted at scale; production Reform features use the deterministic
-mention indicator, and the addendum's scripts and scorecards are retired
-from main into Git history.)
-
-## 5b. How the original section 5 plan was executed
-
-`D4_ReformUK_Subfields_Labelling.xlsx` presents 22 articles - the 14 the
-model marked `applicable` plus 8 controls it marked not applicable,
-hash-shuffled and carrying no model output, so the sheet is blind.
-Controls are included deliberately: scoring only the positives would
-give the human an all-yes column, a constant marginal, and a kappa that
-collapses regardless of true agreement - the prevalence problem recorded
-in `eligibility_manual_review_methodology.md` section 8.1.
-
-Six fields are coded: `applicable`, `growth_suggested`,
-`credible_challenger`, `established_support_affected`,
-`switching_directions`, `signal_nature`. The same gate applies. If it
-passes, Reform-specific coverage features are retained and the block is
-extracted alongside the two adopted layers; if it fails, it joins the
-excluded set and the Reform signal is carried by article counts, E6
-disambiguation and blame/credit attribution only.
+The optional sub-field validation addendum ran on a 22-article blind
+sample and did not enter the final report or the production feature
+tables: the sub-fields could not be determined on the sample available,
+the block was never extracted at scale (it sits inside the excluded
+consequence layer's schema), and production Reform features use the
+deterministic Reform-mention indicator. Its code, labels and scorecards
+were therefore removed from final main; the complete experiment, its
+blind-sample design and its figures remain available in Git history.
 
 ## 6. What this costs the research question
 

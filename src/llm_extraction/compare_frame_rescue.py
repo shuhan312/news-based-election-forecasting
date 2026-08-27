@@ -113,11 +113,11 @@ def main() -> None:
     # produces 53 trivial "both say absent" agreements, which carry the
     # percent-agreement figure to 0.95 and leave the actual judgement
     # resting on single digits - and the AC1 fallback, designed for
-    # prevalence-skewed but genuinely tested fields, will pass it. That is
-    # the same overstatement the reform_uk sub-fields were protected from
-    # with a 20-pair minimum, so the same discipline applies here in the
-    # form appropriate to a binary field: a minimum number of POSITIVE
-    # cases, on both arms.
+    # prevalence-skewed but genuinely tested fields, will pass it. A very
+    # small positive subset can make high raw agreement look more
+    # informative than it is, so a minimum-positive discipline applies
+    # here in the form appropriate to a binary field: a minimum number of
+    # POSITIVE cases, on both arms.
     #
     # Ten is the threshold. Below it a single disagreement moves kappa by
     # more than a tenth, so no verdict either way is informative. The rule
