@@ -94,18 +94,12 @@ PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python \
 # 3) Fit and export the model bundle (a few minutes)
 PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python -m no_news_baseline.cli train
 
-# 4) Run the parameter-free benchmarks (the floor the model must clear)
-PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python \
-  surrey-election-no-news-baseline/scripts/run_persistence_benchmark.py
-PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python \
-  surrey-election-no-news-baseline/scripts/run_naive_benchmarks.py
-
-# 5) Confirm nothing is broken
+# 4) Confirm nothing is broken
 PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python -m pytest surrey-election-no-news-baseline/tests -q
 ```
 
 Reproduction is confirmed when step 3 logs out-of-fold MAE 9.85 and holdout MAE
-4.53, and step 5 reports 444 passing tests. Step 2 matters on a fresh clone:
+4.53, and step 4 reports the full suite passing. Step 2 matters on a fresh clone:
 the bundle builder copies `split_manifest.csv` and `leakage_audit.csv` into
 the bundle when they exist and warns otherwise, so emitting them first keeps
 the bundle complete.
@@ -113,9 +107,7 @@ the bundle complete.
 Every other product under `outputs/` regenerates the same way through its
 runner in the file guide below — the uniform pattern is
 `PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python
-surrey-election-no-news-baseline/scripts/<runner>.py` (for example
-`run_model_comparison.py`,
-`build_electoral_fundamentals_release.py`).
+surrey-election-no-news-baseline/scripts/<runner>.py`.
 
 ---
 
@@ -166,56 +158,19 @@ no_news_baseline/cli.py
 | `candidate_probability_model.py` | separately fitted probability of election with a seat-count constraint |
 | `candidate_explainability.py`, `candidate_tree_explainability.py` | SHAP, fold-level coefficients and unstable features; tree-specific explanations for the shipped Architecture B |
 | `architecture_paired_bootstrap.py` | paired-bootstrap uncertainty for the architecture comparison |
+| `election_dates.py` | the shared election-date parser behind the chronological split and leakage rules |
 | `configuration.py` | resolves flags → file → defaults and records the result in the bundle |
 | `logging_setup.py` | training-run logging, and the one rule about what may be logged |
 | `scripts/build_candidate_split_and_leakage.py` | standalone split-manifest and leakage-audit emitter (step 2 of the reproduction sequence) |
 
-### 2.3 Parameter-free benchmarks (the floor a model must clear)
-
-| File | Role |
-| --- | --- |
-| `persistence_benchmark.py` | main baseline: previous exact-label party share and previous unique winner |
-| `naive_benchmarks.py` | equal-split and party-historical-mean references (measure what area identity is worth) |
-| `benchmark_metrics.py` | shared MAE / RMSE / accuracy scoring for every benchmark |
-| `temporal_validation.py` + `temporal_validation_report.py` | leakage-safe temporal folds and the fold-by-fold benchmark report |
-| `election_dates.py` | shared election-date parsing and ordering |
-| `scripts/run_persistence_benchmark.py`, `scripts/run_naive_benchmarks.py`, `scripts/run_temporal_validation_report.py` | benchmark runners |
-
-### 2.4 Earlier party-level groundwork (electoral fundamentals; completed, retained as development evidence)
-
-The one-row-per-election-area-party feature table behind the earlier
-party-level models. The shipped Stage 1 is the candidate-level model above;
-this layer is kept because the development sequence it records is part of the
-project's evidence trail.
-
-| File | Role |
-| --- | --- |
-| `electoral_fundamentals_schema.py`, `electoral_fundamentals_rows.py`, `electoral_fundamentals_builder.py` | table shape and leakage boundary; row index; assembly with the leakage contract checked |
-| `electoral_fundamentals_structure.py`, `electoral_fundamentals_history.py`, `electoral_fundamentals_participation.py`, `electoral_fundamentals_ukip.py`, `electoral_fundamentals_previous_party_zero.py` | one feature class each: contest structure, approved history, participation/incumbency, the separate UKIP context field, and proven previous-party zeros |
-| `electoral_fundamentals_release.py`, `electoral_fundamentals_report.py` | the release package (predictors and outcomes in separate allow-lists) and its quality report |
-| `regularised_models.py` | the first fitted no-news model: fold-wise ridge on the fundamentals table, kept as a member of the four-way model comparison |
-| `model_input_preprocessing.py` | missing-value semantics added without changing source values |
-| `independent_previous_share_audit.py` | Independents audited as ballot descriptions, not one continuing party |
-| `scripts/build_electoral_fundamentals_release.py`, `scripts/build_model_input_contract.py`, `scripts/generate_independent_previous_share_audit.py` | release and contract runners |
-
-### 2.5 Diagnostics, comparisons and scoping audits
-
-| File | Role |
-| --- | --- |
-| `cold_start_model.py` | N4: coverage-expanding cold-start baseline for rows with no historical predecessor |
-| `coverage_evaluation.py`, `coverage_report.py` | coverage-aware evaluation of how much of the release each model scores |
-| `model_comparison.py` | every no-news model compared on one identical, shared contest set |
-| `scripts/run_cold_start_report.py`, `scripts/run_coverage_report.py`, `scripts/run_model_comparison.py` | diagnostic runners |
-
-### 2.6 Interface and support
+### 2.3 Interface and support
 
 | Location | Role |
 | --- | --- |
 | `app/streamlit_app.py`, `app/loaders.py`, `app/views.py` | the six-page interface: entry point, bundle/contract loading, and the pages; it reads bundles and invokes the CLI, never fitting in-process |
 | `config/baseline_model.yaml` | every tunable assumption with its reasoning (see Configuration below) |
-| `config/electoral_feature_metadata.csv` | feature field metadata for the fundamentals release |
 | `outputs/` | products only — regenerated from versioned code and extractor contracts, excluded from Git |
-| `tests/` | 444 tests, roughly one per module; the ones that matter most assert that something *fails* |
+| `tests/` | the offline suite, roughly one test module per source module; the ones that matter most assert that something *fails* |
 
 ---
 
@@ -351,42 +306,13 @@ output, while its code, configuration and documentation are versioned.
 
 ---
 
-## Naive comparators
-
-Three parameter-free benchmarks exist so that any learned model's advantage
-can be attributed to something. They remain runnable and their results remain
-the floor a model has to clear:
-
-```bash
-PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python surrey-election-no-news-baseline/scripts/run_persistence_benchmark.py
-```
-
-```bash
-PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python surrey-election-no-news-baseline/scripts/run_naive_benchmarks.py
-```
-
-`previous_result_persistence_v1` predicts the previous approved party share
-and the previous winner where political identity transfers safely: 9.50 MAE
-percentage points and 80.5 per cent area accuracy over 775 rows in 177
-approved single-member areas. Party identity alone reaches 10.43, and an
-uninformed equal split only 15.60 — area identity adds much less to the share
-estimate than it does to the winner call. See
-[`docs/persistence_benchmark.md`](docs/persistence_benchmark.md) and
-[`docs/naive_benchmarks.md`](docs/naive_benchmarks.md).
-
-These are party-level and single-member-only, so they are not directly
-comparable with the candidate-level model's headline figures; the candidate
-model carries its own equal-split reference in every metric block.
-
----
-
 ## Tests
 
 ```bash
 PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python -m pytest surrey-election-no-news-baseline/tests -q
 ```
 
-444 tests. The ones that matter most assert that something *fails*: a
+The suite's most important tests assert that something *fails*: a
 prohibited field entering the design matrix, a contest split across folds, a
 7 May 2026 row reaching training, an unknown value silently becoming zero or
 "No", a UKIP block without its Reform base, a configuration key that does not
@@ -423,17 +349,6 @@ results that did not work:
 - [`data_validation_and_evidence_layers.md`](docs/data_validation_and_evidence_layers.md)
   — seat and date validation, and why two thirds of the model's inputs are
   derived rather than official
-- [`cold_start_baseline.md`](docs/cold_start_baseline.md) — the N4 cold-start
-  benchmark for rows with no historical predecessor
-- [`coverage_aware_evaluation_methodology.md`](docs/coverage_aware_evaluation_methodology.md)
-  — how much of the release each model actually scores, and why that matters
-- [`data_contract.md`](docs/data_contract.md) — the ownership boundary between
-  the extractor's published contract and this package
-- [`electoral_feature_release.md`](docs/electoral_feature_release.md) — the
-  frozen fundamentals feature-engineering release
-- [`naive_benchmarks.md`](docs/naive_benchmarks.md) and
-  [`persistence_benchmark.md`](docs/persistence_benchmark.md) — the
-  parameter-free benchmark results
 
 Everything under `outputs/` is regenerated from versioned code and extractor
 contracts and is excluded from Git. Code, tests, configuration, documentation

@@ -2,17 +2,17 @@
 
 Why this module exists
 ----------------------
-Every benchmark in this package so far scores the *party* estimand on the
-single-member subset (``persistence_benchmark.is_within_share_cohort``).  That
-cohort is methodologically sound but it contains no rows at all from 7 May
+The earlier party-level benchmarks scored the *party* estimand on the
+single-member subset (that route is retired to Git history).  That
+cohort was methodologically sound but it contained no rows at all from 7 May
 2026, because those elections were fought in two-member wards where a party
 vote share is not a defined quantity.  The supervisor's Stage 1 brief makes
 7 May 2026 the primary holdout, so the package needs a second, candidate-level
 estimand that the holdout can actually be scored on.
 
 This module owns that estimand's shared machinery, so that every candidate-
-level model - the persistence rule, ridge, later gradient-boosted and
-hierarchical architectures, and eventually the Stage 2 news layer - uses one
+level model - the three compared architectures and eventually the Stage 2
+news layer - uses one
 implementation of "the cohort", "normalise within a contest", "rank" and
 "allocate seats", rather than four subtly different ones.
 
@@ -68,12 +68,10 @@ def assert_one_to_one_candidate_release(
 ) -> dict[str, Mapping[str, object]]:
     """Fail fast on a malformed release; return targets indexed by row id.
 
-    The candidate-level analogue of
-    ``benchmark_metrics.assert_one_to_one_party_contest_release``.  It exists
-    separately rather than being generalised because the two releases have
-    different key names, and a shared function taking a key-name argument
-    would make it possible to validate a candidate release against a party key
-    by passing the wrong string.
+    The candidate-level release check (the retired party-level route carried
+    its own analogue).  A shared, key-name-parameterised validator was
+    deliberately avoided: it would make it possible to validate a candidate
+    release against a party key by passing the wrong string.
     """
 
     feature_ids = [str(row["candidate_contest_id"]) for row in features]

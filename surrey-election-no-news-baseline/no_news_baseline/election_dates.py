@@ -1,11 +1,8 @@
 """Parse the ``election_date`` string used throughout the data contract.
 
-Extracted because a third piece of code (``temporal_validation.py``) needs
-the same chronological-ordering logic that ``naive_benchmarks.py`` already
-duplicated from the extractor's own parser. A date-parsing bug is exactly
-the kind of thing that would silently break the "source_date_precedes_
-target" leakage rule, so there should be exactly one implementation to get
-right and test, not three.
+The single date parser for the candidate pipeline: chronological ordering
+feeds the split design and the "source_date_precedes_target" leakage rule,
+so there is exactly one implementation to get right and test.
 
 This module does not import the extractor's internal Python package
 (README, "The modelling layer... does not import the extractor's internal

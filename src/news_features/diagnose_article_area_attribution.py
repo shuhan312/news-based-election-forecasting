@@ -66,8 +66,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 RECORDS = Path("data/raw/news/records")
 SEARCH_LOG = Path("news_collection/search_log.csv")
-FUNDAMENTALS = Path("surrey-election-no-news-baseline/outputs/"
-                    "electoral_fundamentals/electoral_fundamentals_features.csv")
+CANDIDATE_CONTRACT = Path("surrey-election-extractor/outputs/"
+                          "no_news_candidate_contests/"
+                          "no_news_candidate_contest_features.json")
 # The summary is committed; the per-article detail is not. Every figure that
 # matters is in the summary, so the split follows the same rule the batch
 # manifests do: keep what a reader needs to check a claim, leave row-level
@@ -94,16 +95,17 @@ def area_names() -> dict[str, set[str]]:
     and which one applies is decided by the election the article belongs to.
     """
     by_name: dict[str, set[str]] = defaultdict(set)
-    with FUNDAMENTALS.open(newline="") as handle:
-        for r in csv.DictReader(handle):
-            raw = (r.get("area_name") or "").strip()
-            if not raw:
-                continue
-            name = raw
-            for suffix in NAME_SUFFIXES:
-                if name.endswith(suffix):
-                    name = name[: -len(suffix)]
-            by_name[name.strip()].add(r["area_id"])
+    payload = json.loads(CANDIDATE_CONTRACT.read_text(encoding="utf-8"))
+    rows = payload["rows"] if isinstance(payload, dict) else payload
+    for r in rows:
+        raw = (r.get("division_name") or "").strip()
+        if not raw:
+            continue
+        name = raw
+        for suffix in NAME_SUFFIXES:
+            if name.endswith(suffix):
+                name = name[: -len(suffix)]
+        by_name[name.strip()].add(r["division_id"])
     return dict(by_name)
 
 
