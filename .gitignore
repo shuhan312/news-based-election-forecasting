@@ -4,6 +4,7 @@
 # Data is not stored in the repository (course policy: large files go to
 # OneDrive) — except data/elections/, which is small reference data.
 data/*
+!data/README.md
 !data/elections/
 
 # Python

@@ -27,12 +27,22 @@ the code and its outputs so a decision can be read without reading the program.
 
 | Document | What it fixes |
 | --- | --- |
-| `residual_model_feasibility.md` | Approach A feasibility — the join between Stage 1 and the news corpus |
 | `five_specification_pipeline.md` | The five model specifications, and two joins that were wrong |
 | `feature_selection_findings.md` | What the feature table can and cannot support |
 | `llm_v2_feasibility_plan.md` | The LLM classifier v2 development and supervisor decision plan |
 | `retrieval_validation_report.md` | The retrieval-framework validation report |
 | `collection_faults_and_corrections.md` | Faults found in collection and what they cost — kept as an honest record |
 
-`evidence/` holds supporting evidence for these decisions. See `REPO_MAP.md` for
-how the protocol governs the collection, cleaning, LLM and feature layers.
+## Supporting evidence
+
+| File | What it holds |
+| --- | --- |
+| `evidence/coverage_verification_2026-07-22.json` | the dated source-coverage verification behind the historical coverage audit |
+| `evidence/pilot_records.json` | the records supporting the retrieval-validation pilot |
+
+The chronology role of this directory: `division_sample.md`/`.csv` are the
+pre-registered local search areas whose commit time anchors the
+area-selection check in `audit_leakage_provenance.py`, and
+`article_eligibility_rules.md` is the pre-registered rule set the report's
+eligibility appendix reproduces. See `REPO_MAP.md` for how the protocol
+governs the collection, cleaning, LLM and feature layers.

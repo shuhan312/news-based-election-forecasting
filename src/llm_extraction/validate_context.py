@@ -9,7 +9,9 @@ Two validation layers, both deterministic:
                     types, enums, required fields,
                     additionalProperties: false.
     2. cross-field  research-integrity rules JSON Schema cannot
-                    express, from llm_context_validation_rules_v1.md:
+                    express, from llm_context_validation_rules_v1.md
+                    as amended by llm_context_validation_rules_v1.1.md
+                    (RULES_VERSION below tracks the enforced revision):
 
         R1  evidence grounding: every evidence span must appear
             VERBATIM in the article body (or title when flagged

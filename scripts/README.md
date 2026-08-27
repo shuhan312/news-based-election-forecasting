@@ -12,7 +12,6 @@ are git-ignored (see `outputs/`).
 | `export_window_scheme_comparison.py` | Exports the three news-window schemes side by side as a workbook |
 | `collect_ward_first.py` | Runs collection in value order (ward-first) rather than stage order |
 | `overnight_followup.py` | Waits for a collection run, retries anything that never reached the engine, and re-measures |
-| `apply_e5_ai_assisted_draft.mjs` | Prepares the E5 geographic-linkage review draft (local-article narrowing) |
 | `update_e5_geographic_review_workbook.mjs` | Rebuilds the E5 geographic review workbook after manual cells are captured |
 
 ## Rule
