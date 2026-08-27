@@ -87,27 +87,34 @@ From the repository root, with the `.venv` active, in order:
 PYTHONPATH=surrey-election-extractor .venv/bin/python \
   surrey-election-extractor/scripts/generate_no_news_candidate_contests.py
 
-# 2) Fit and export the model bundle (a few minutes)
+# 2) Emit the split manifest and leakage audit the bundle copies in
+PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python \
+  surrey-election-no-news-baseline/scripts/build_candidate_split_and_leakage.py
+
+# 3) Fit and export the model bundle (a few minutes)
 PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python -m no_news_baseline.cli train
 
-# 3) Run the parameter-free benchmarks (the floor the model must clear)
+# 4) Run the parameter-free benchmarks (the floor the model must clear)
 PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python \
   surrey-election-no-news-baseline/scripts/run_persistence_benchmark.py
 PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python \
   surrey-election-no-news-baseline/scripts/run_naive_benchmarks.py
 
-# 4) Confirm nothing is broken
+# 5) Confirm nothing is broken
 PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python -m pytest surrey-election-no-news-baseline/tests -q
 ```
 
-Reproduction is confirmed when step 2 logs out-of-fold MAE 9.85 and holdout MAE
-4.53, and step 4 reports 444 passing tests.
+Reproduction is confirmed when step 3 logs out-of-fold MAE 9.85 and holdout MAE
+4.53, and step 5 reports 444 passing tests. Step 2 matters on a fresh clone:
+the bundle builder copies `split_manifest.csv` and `leakage_audit.csv` into
+the bundle when they exist and warns otherwise, so emitting them first keeps
+the bundle complete.
 
 Every other product under `outputs/` regenerates the same way through its
 runner in the file guide below — the uniform pattern is
 `PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python
 surrey-election-no-news-baseline/scripts/<runner>.py` (for example
-`run_model_comparison.py`, `run_n5_specification_audit.py`,
+`run_model_comparison.py`,
 `build_electoral_fundamentals_release.py`).
 
 ---
@@ -198,9 +205,8 @@ project's evidence trail.
 | `cold_start_model.py` | N4: coverage-expanding cold-start baseline for rows with no historical predecessor |
 | `coverage_evaluation.py`, `coverage_report.py` | coverage-aware evaluation of how much of the release each model scores |
 | `model_comparison.py` | every no-news model compared on one identical, shared contest set |
-| `n5_specification_audit.py`, `n5a_data.py` | pre-implementation identifiability audit for the specified-but-not-implemented N5 hierarchical model |
 | `supervisor_alignment.py` + `scripts/build_supervisor_alignment.py` | the three Stage 1 artefacts the supervisor's prompt asks for |
-| `scripts/run_cold_start_report.py`, `scripts/run_coverage_report.py`, `scripts/run_model_comparison.py`, `scripts/run_n5_specification_audit.py` | diagnostic runners |
+| `scripts/run_cold_start_report.py`, `scripts/run_coverage_report.py`, `scripts/run_model_comparison.py` | diagnostic runners |
 
 ### 2.6 Interface and support
 
@@ -400,10 +406,6 @@ results that did not work:
   unit is the candidate, not the party
 - [`candidate_split_and_leakage.md`](docs/candidate_split_and_leakage.md) —
   the split design and the leakage audit
-- [`n5_candidate_specifications.md`](docs/n5_candidate_specifications.md) — the
-  specified (not-yet-implemented) hierarchical Dirichlet model and its
-  method-anchor references (Hanretty 2021; Stoetzer et al. 2019; Chen, Garnett &
-  Montgomery 2023), with DOIs
 - [`candidate_model_card.md`](docs/candidate_model_card.md) — the shipped
   model card
 - [`historical_strength_features.md`](docs/historical_strength_features.md) —
@@ -429,8 +431,6 @@ results that did not work:
   derived rather than official
 - [`stage2_feasibility_findings.md`](docs/stage2_feasibility_findings.md) —
   what Stage 1 implies for the news layer
-- [`n5_data_requirements_and_risks.md`](docs/n5_data_requirements_and_risks.md)
-  — the N5 identifiability audit (as recorded 29 July 2026) and its risks
 - [`cold_start_baseline.md`](docs/cold_start_baseline.md) — the N4 cold-start
   benchmark for rows with no historical predecessor
 - [`coverage_aware_evaluation_methodology.md`](docs/coverage_aware_evaluation_methodology.md)

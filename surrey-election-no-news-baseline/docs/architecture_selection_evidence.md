@@ -80,8 +80,10 @@ that actually cleared the gate is not.
 Two structural facts compound it:
 
 - **The out-of-fold and holdout Reform rows are not comparable populations.**
-  Out of fold, all fourteen Reform rows are by-elections, single-member, where
-  Reform's county-wide strength of 20.67 per cent applies directly. On the
+  Out of fold, the fourteen Reform rows are all single-member contests — six
+  from the 2021 principal election and eight from by-elections, the latter
+  being where Reform's county-wide strength of 20.67 per cent applies
+  directly. On the
   holdout, 163 Reform rows are mostly two-member wards where support splits
   across two ballot lines and the observed mean is 10.80 per cent. An
   architecture that handles the first well is not thereby shown to handle the
@@ -170,11 +172,12 @@ reasoning conflated them.
    buys accuracy on the study party by giving up accuracy on everyone else. That
    is a defensible trade for this research question and it is not a free one.
 3. **The limitation that no measurement here can settle.** All 14 out-of-fold
-   Reform rows are single-member by-elections, where Reform's county-wide
-   strength of 20.67% applies directly. The 2026 target is two-member wards
+   Reform rows are single-member contests (six from 2021, eight from
+   by-elections, the latter where Reform's county-wide strength of 20.67%
+   applies directly). The 2026 target is two-member wards
    where support divides across two ballot lines and the observed mean is
    10.80%. B is therefore shown to predict Reform well **in single-member
-   by-elections**; whether that transfers to two-member wards is untested, and
+   contests**; whether that transfers to two-member wards is untested, and
    testing it would require the holdout. This must be stated wherever B's Reform
    advantage is cited.
 4. **The news comparison will report all three baselines, not one.** A primary
@@ -206,7 +209,7 @@ PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python -m no_news_baseline
   --architecture B_gradient_boosted_trees --output surrey-election-no-news-baseline/outputs/model_bundle_paired_B
 PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python -m no_news_baseline.architecture_paired_bootstrap \
   surrey-election-no-news-baseline/outputs/model_bundle_paired_A \
-  surrey-election-no-news-baseline/outputs/model_bundle_paired_C
+  surrey-election-no-news-baseline/outputs/model_bundle_paired_B
 ```
 
 ---

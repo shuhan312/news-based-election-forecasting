@@ -363,15 +363,13 @@ divided out of the quantity being predicted.
 
 2. **The failure is directional.** Reform UK is under-predicted (9.35 per
    cent against 10.80 observed, from 8.40 before the interaction terms) and
-   the Conservatives over-predicted; feature
-   importance shows why. Measured on Architecture C across sixteen rolling
-   folds of the 1,987-row release, the strongest single feature is being the
-   Conservative party (+0.216), while Reform's effect is 98.9 per cent
-   borrowed from the pooled all-party mean because it has 14 observations. The
-   model faithfully learned a Surrey in which the Conservatives dominated and
-   Reform did not exist. This diagnostic predates the fourth by-election and
-   has not been recomputed on the 1,992-row release; the four rows it adds
-   cannot change its direction.
+   the Conservatives over-predicted: with fourteen pre-2026 Reform
+   observations against hundreds for each established party, the model
+   learned a Surrey in which the Conservatives dominated and Reform barely
+   existed. (An earlier per-feature decomposition of this effect, measured
+   on Architecture C over the superseded 1,987-row release, is retired to
+   Git history rather than restated on numbers the current release cannot
+   reproduce.)
 
 3. **The central historical predictor is unstable.** 41 of 127 encoded
    features change sign between folds on the linear parameterisation, and they

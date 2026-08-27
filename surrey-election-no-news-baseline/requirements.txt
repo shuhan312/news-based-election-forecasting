@@ -29,9 +29,3 @@ openpyxl>=3.1,<4
 # --- tests -----------------------------------------------------------------
 pytest>=8,<9
 
-# --- superseded ------------------------------------------------------------
-# numpyro (with its jax backend) backed the N5a hierarchical Dirichlet
-# exploration, which the three shipped architectures replaced. Kept because
-# run_n5_specification_audit.py and its tests still import it; nothing in the
-# model bundle depends on it.
-numpyro>=0.21,<1

@@ -7,8 +7,9 @@ an explicit way out of a disproportionate implementation:
     "If a fully Bayesian implementation is disproportionate, implement a
     practical partial-pooling approximation and document it."
 
-This module takes that route. ``docs/n5_candidate_specifications.md`` specifies
-a full hierarchical Dirichlet model sampled with NUTS; running that inside 19
+This module takes that route. A full hierarchical Dirichlet model sampled
+with NUTS was specified but never implemented (its specification and
+identifiability audit are retired to Git history); running that inside 19
 chronological folds, each with its own hyperparameter search, is
 disproportionate for a first comparison and would make the architecture
 comparison rest on sampler diagnostics rather than on predictive accuracy.
@@ -17,8 +18,9 @@ binding constraint, in closed form.
 
 Why partial pooling is the point, not a nicety
 ----------------------------------------------
-Architecture A has 11 Reform UK training rows before 2026, all from 2021 at
-one to four per cent, and it is the only party where the fitted model does
+Architecture A has 11 Reform UK training rows before 2026 — six from 2021 at
+one to four per cent and five from 2025 by-elections — and it is the only
+party where the fitted model does
 worse than an equal split - by 27 per cent out of fold and 25 per cent on the
 holdout. The brief names the remedy directly: "Because genuine Reform UK
 history before 2026 is limited ... use regularisation or partial pooling."
@@ -54,8 +56,8 @@ other architectures use, so no fold's test rows influence either.
 
 What is deliberately not modelled
 ---------------------------------
-**Election-cycle effects.** The N5 specification includes a cycle effect
-gamma_e per election. It is omitted here because it cannot help a forecast:
+**Election-cycle effects.** The retired hierarchical specification included
+a cycle effect gamma_e per election. It is omitted here because it cannot help a forecast:
 the target election never appears in training, so its cycle effect would be
 estimated as the pooled mean, which is zero, for every future contest. A cycle
 effect improves in-sample fit and contributes nothing out of sample. Saying so

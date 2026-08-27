@@ -74,9 +74,13 @@ PYTHONPATH=surrey-election-extractor .venv/bin/python surrey-election-extractor/
 PYTHONPATH=surrey-election-extractor .venv/bin/python surrey-election-extractor/scripts/generate_no_news_party_contests.py
 ```
 
-**Step 2 — Stage 1: the history-only baseline.**
+**Step 2 — Stage 1: the history-only baseline.** Emit the split manifest and
+leakage audit first (the bundle builder copies them in when present and
+warns otherwise), then train:
 
 ```bash
+PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python \
+  surrey-election-no-news-baseline/scripts/build_candidate_split_and_leakage.py
 PYTHONPATH=surrey-election-no-news-baseline .venv/bin/python -m no_news_baseline.cli train
 ```
 

@@ -80,7 +80,7 @@ class LogisticElectionModel:
     """L2-regularised logistic regression fitted by Newton-Raphson.
 
     Written out rather than imported because the package's declared
-    dependencies are numpy, numpyro and pytest, and adding a general machine
+    dependencies are numpy and pytest, and adding a general machine
     -learning dependency for one closed-form-ish fit would be a large change
     for a small gain. The intercept is carried as an appended column and is
     not penalised, for the same reason the ridge intercept is not: shrinking
