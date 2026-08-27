@@ -1,5 +1,12 @@
 # Scope of the news layer: which elections it covers, and why
 
+> **Dated snapshot (30 July 2026).** The execution counts below reflect
+> that date. The current frozen plan and log are
+> `news_collection/query_inventory.csv` (2,470 planned queries) and
+> `news_collection/search_log.csv`; planned-but-unexecuted queries are
+> recorded as scope limitations by the repository-root leakage audit,
+> never as zero-result searches.
+
 Decided 2026-07-30, before the corpus was frozen and before any
 full-corpus extraction was submitted. This document is what the report
 cites for why the news analysis covers the elections it does.

@@ -1,5 +1,9 @@
 # Source Adapter Framework — Design
 
+> **Historical design document.** The adapters specified here were
+> subsequently implemented in `src/news_collection/adapters.py`; this
+> records the design they were built to.
+
 **Stage:** News Retrieval Framework Validation (Task 2). Design only; source-specific retrieval logic is *not* implemented at this stage.
 **Depends on:** `news_research_protocol.md` v1.0 (retrieval ladder §5.2, search logging §5.3), `article_eligibility_rules.md`, `raw_news_schema.md`.
 **Version:** 1.0 (2026-07-22)

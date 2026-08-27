@@ -192,8 +192,6 @@ quoting the 21 July workbook should be rechecked.
 
 ## Related records
 
-- [`residual_model_feasibility.md`](residual_model_feasibility.md) — what the
-  join to the Stage 1 baseline supports, and the 20-row measurement
 - [`news_research_protocol.md`](news_research_protocol.md) — the collection
   plan and its deviations log
 - `news_collection/search_log.csv` — the permanent record; every failure above

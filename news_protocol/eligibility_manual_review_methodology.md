@@ -1,5 +1,11 @@
 # Article Eligibility Manual Review - Methodology
 
+> **Final status.** The v2 classifier proposed later in this document was
+> subsequently validated and approved; E4/E5/E6/E8 screening of the final
+> corpus ran under the frozen v2 classifier with human review of
+> escalations. Early sections describing v2 as proposed-only record the
+> state at the time of writing.
+
 Status as of 2026-07-24: **the 168-article human pilot and 34-article
 blind recheck are complete; the v1 LLM comparison is complete.** Human
 repeatability cleared the specified kappa threshold for all four rules.

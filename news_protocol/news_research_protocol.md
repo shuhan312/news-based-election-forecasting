@@ -1,5 +1,13 @@
 # News Research Protocol
 
+> **Historical preregistration snapshot.** The final corpus was collected
+> under this protocol together with its documented amendments and
+> corrective reruns (see `collection_faults_and_corrections.md`). The
+> execution state described below (pending coverage, unexecuted-query
+> counts, ratification deadlines) is as of this document's date; the
+> current frozen plan and execution log are
+> `news_collection/query_inventory.csv` and `news_collection/search_log.csv`.
+
 **Project:** Does pre-election news context improve predictions of Surrey local election outcomes beyond what previous election results already predict?
 **Stage:** Planning and documentation only. This protocol defines how news data *will be* collected and evaluated. No articles are retrieved, classified, or modelled at this stage.
 **Protocol version:** 1.0 (2026-07-22)

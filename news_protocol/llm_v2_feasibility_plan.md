@@ -1,5 +1,10 @@
 # LLM Eligibility Classifier v2 — Development and Supervisor Decision Plan
 
+> **Historical pre-freeze plan.** The v2 classifier this plan proposes was
+> subsequently validated blind on the fresh 128-article sample, approved,
+> and frozen as the production classifier used in final corpus assembly
+> (`src/news_collection/llm_classifier_v2.py`).
+
 **Status:** development-only feasibility plan
 
 **Date:** 2026-07-24

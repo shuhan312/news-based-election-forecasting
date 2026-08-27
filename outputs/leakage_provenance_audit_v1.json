@@ -94,7 +94,7 @@
     },
     "area_selection_chronology": {
       "status": "pass",
-      "division_sample_sha256": "56ce8ad08029f06432dabca2733b7f8623e6e23525312902259efb4957d0bd93",
+      "division_sample_sha256": "e03cc71b58eb7b9210f2624b74d7f0d015d61488c1a1857272b6146dbae95ad0",
       "selection_reads_no_news_inputs": true,
       "selection_rule": "deterministic top-5 per pre-registered stratum over committed election-result data only (safe/marginal/changed/Reform-strong categories); re-running src/build_division_sample.py reproduces the same 17 areas",
       "chronology": {

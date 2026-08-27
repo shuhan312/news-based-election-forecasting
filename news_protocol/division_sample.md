@@ -1,7 +1,7 @@
 # Division Sampling Design
 
 **Stage:** Supervisor to-do 7 (division sampling), preceding ward-level news collection (Stage C).
-**Status:** Provisionally adopted pending supervisor confirmation - thresholds and algorithm below were fixed before this script was run, using only committed election-result data. Nothing about news coverage or content informed this selection.
+**Status:** Adopted 2026-07-23 and subsequently used as the frozen operational local-division sample (no separate supervisor-ratification record is stored in the repository) - thresholds and algorithm below were fixed before this script was run, using only committed election-result data. Nothing about news coverage or content informed this selection.
 
 ## Pre-registered rule
 

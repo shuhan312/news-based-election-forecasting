@@ -1,5 +1,12 @@
 # Feature selection: what the table can and cannot support
 
+> **Historical record.** These findings profile the removed ward-level
+> pilot feature chain, whose code and outputs are retired to Git history;
+> the by-election splitting item tracked here was subsequently addressed
+> by the Stage 1 chronological split design
+> (`surrey-election-no-news-baseline/docs/candidate_split_and_leakage.md`).
+> Not part of the final feature pipeline.
+
 Recorded 29 July 2026. Every figure below was produced by
 `news_modelling.run_feature_selection` against
 `news_features/ward_party_election_features_v1/ward_party_election_features.parquet`
