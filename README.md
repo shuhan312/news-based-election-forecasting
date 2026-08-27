@@ -23,7 +23,10 @@ The repository is a one-way pipeline; each layer reads only the layer
 above it, and `tests/test_artefact_citations.py` enforces the boundary.
 Full orientation — directory purposes, report-section-to-code mapping,
 and a worked "trace any number" recipe — is in
-[REPO_MAP.md](REPO_MAP.md).
+[REPO_MAP.md](REPO_MAP.md). To reproduce any figure, table or headline
+number in the final report — environment, data access, rebuild order and
+the per-figure/per-table script mapping — follow
+[REPRODUCIBILITY.md](REPRODUCIBILITY.md).
 
 | where | what |
 | --- | --- |

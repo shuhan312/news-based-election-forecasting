@@ -20,11 +20,10 @@ and SHA-256 manifests. Extraction calls the Claude API in batches and is a
 recomputes from the committed files, and the digests pin exactly which frozen
 outputs the feature tables used.
 
-The file count is deliberate: the evidence granularity is one record per
-extraction layer, per model arm and per gate (audit, error analysis, schema,
-batch manifest, agreement verdict), so every validation conclusion in the
-final report's agreement table has an independently checkable source rather
-than a merged summary.
+The evidence granularity is one record per extraction layer, per model arm
+and per gate (audit, error analysis, schema, batch manifest, agreement
+verdict); each validation conclusion in the final report's agreement table
+therefore has its own checkable source file.
 
 ## 1. Production extraction (the main line)
 
