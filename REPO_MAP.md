@@ -11,7 +11,7 @@ one-way pipeline — each layer reads only the layer above it, and
 | layer | where | tracked files | what it does |
 | --- | --- | ---: | --- |
 | 1 Collection | `src/` (top level), `src/news_collection/`, `surrey-election-extractor/` | 68 + 200 | Official election results (validated against source pages) and the news corpus (SerpAPI, publisher search, web archives), with eligibility and leakage screening; every keep/drop decision recorded |
-| 2 Cleaning | `src/dedup/`, `src/normalisation/`, `src/news_store/` | in src count | Exact/near-duplicate handling, name and character standardisation, the article store |
+| 2 Cleaning | `src/dedup/`, `src/normalisation/` | in src count | Exact/near-duplicate handling, name and character standardisation |
 | 3 LLM extraction | `src/llm_extraction/`, `llm_context/` | 85 in llm_context | Claude-based issue/stance/framing layers, the kappa >= 0.60 validation gate, freeze of accepted labels; `llm_context/` holds run outputs and decision records |
 | 4 Features | `src/news_features/` | in src count | Article-level labels to election-party-window feature tables (v1/v2), leakage audits |
 | 5 Modelling | `src/news_modelling/`, `surrey-election-no-news-baseline/` | 42 + 141 | Stage 1 (history-only LightGBM, its own subproject) and Stage 2 (per-window ridge on residuals), frozen blinded predictions, the one-time unblinding, all post-unblinding diagnostics |

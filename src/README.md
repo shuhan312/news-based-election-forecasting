@@ -38,7 +38,7 @@ kept only so the code can still be traced to the original protocol.
 | --- | --- | --- |
 | **1A — official-election inputs** | top-level `src/*.py`; `surrey-election-extractor/` | build and validate the election results, calendar and name tables against which news is aligned |
 | **1B — news collection and eligibility** | `news_collection/` | retrieve the pre-election corpus and record every include/exclude decision |
-| **2 — cleaning and canonicalisation** | `normalisation/`, `news_store/`, `dedup/` | clean text, maintain article records, collapse duplicates and select one canonical article |
+| **2 — cleaning and canonicalisation** | `normalisation/`, `dedup/` | clean text, collapse duplicates and select one canonical article |
 | **3 — LLM extraction and validation** | `llm_extraction/` | extract issue/stance/framing labels, apply the human-agreement gate and freeze accepted labels |
 | **4 — feature construction** | `news_features/` | aggregate accepted labels to election–party–window feature tables and apply leakage guards |
 | **5 — modelling** | `news_modelling/`; Stage 1 sibling project | load the frozen Stage 1 bundle, fit Stage 2 residual models, freeze predictions and unblind once |
@@ -69,7 +69,7 @@ Layers 6–8  frozen evidence → report pack → report/app/viva consumers
 | Location | What it does |
 | --- | --- |
 | `news_collection/` | Layer 1B: news retrieval and eligibility/leakage screening |
-| `normalisation/`, `news_store/`, `dedup/` | Layer 2: cleaning, article storage and canonicalisation |
+| `normalisation/`, `dedup/` | Layer 2: cleaning and canonicalisation |
 | `llm_extraction/` | Layer 3: LLM labels, validation and freeze evidence |
 | `news_features/` | Layer 4: deterministic feature construction and leakage guards |
 | `news_modelling/` | Layer 5: Stage 2 residual modelling, blinding, unblinding and diagnostics |
@@ -88,7 +88,7 @@ helper directly is neither required nor a separate reproduction step.
 | --- | --- | --- |
 | 1A | the top-level-script guide below | run only the required standalone builder or validator from the repository root |
 | 1B | [`news_collection/README.md`](news_collection/README.md) | use the collection CLI for query stages and the documented builders for eligibility/release work |
-| 2 | [`normalisation/README.md`](normalisation/README.md), [`dedup/README.md`](dedup/README.md), [`news_store/README.md`](news_store/README.md) | run the ordered `build_*` chains; `news_store` is a library and has no standalone CLI |
+| 2 | [`normalisation/README.md`](normalisation/README.md), [`dedup/README.md`](dedup/README.md) | run the ordered `build_*` chains |
 | 3 | [`llm_extraction/README.md`](llm_extraction/README.md) | use the production batch runner and health check; validation modules support the recorded evidence, and API runs are not repeated casually |
 | 4 | [`news_features/README.md`](news_features/README.md) | run the required v1/v2 or explicitly named extension builder |
 | 5 | [`news_modelling/README.md`](news_modelling/README.md) | use the named freeze/unblind runners; the remaining modules are report diagnostics, figure builders or imported modelling logic |
@@ -106,12 +106,14 @@ tables). They are standalone scripts, not a multi-step sub-pipeline, which is wh
 they sit at the top level rather than in a package. Grouped by role:
 
 - **Official results → the `data/elections/` tables** — `fetch_official_scc_results.py`, `fetch_2026_surrey_results.py`, `convert_2013_extractor_output.py`, `convert_2026_extractor_output.py`, `add_2013_wikipedia_turnout.py` (fills the 2013 turnout gap the official page lacks), `fetch_election_results.py`, `aggregate_results.py` (writes `ward_party_results.csv` and `ward_winners.csv`, which the pre-registered division sample reads), `build_election_calendar.py`, `audit_turnout.py`, `validate_election_results.py`
-- **Name standardisation, sampling and workbook** — `build_name_standardisation.py`, `build_division_sample.py`, `build_research_workbook.py` (with `workbook_spec.json`)
+- **Name standardisation and sampling** — `build_name_standardisation.py`, `build_division_sample.py`
 - **News-coverage checks** — `check_newsapi_coverage.py`, `pilot_news_retrieval.py`, `verify_news_coverage_audit.py`
 
-Superseded early code — the `build_model_dataset.py` prototype and the
-pre-supervisor news scripts (`legacy_pre_supervisor_news/`) — has been removed
-from the working tree and remains in Git history.
+Superseded early code — the `build_model_dataset.py` prototype, the
+pre-supervisor news scripts (`legacy_pre_supervisor_news/`) and the research
+workbook builder (`build_research_workbook.py`, whose spec predates the
+current results schema) — has been removed from the working tree and remains
+in Git history.
 
 **Outputs and reproduction.** These scripts write the committed `data/elections/`
 reference tables (`2013_scc_results.csv`, `2026_east/west_surrey_results.csv`,

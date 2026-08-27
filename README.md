@@ -30,12 +30,12 @@ the per-figure/per-table script mapping — follow
 
 | where | what |
 | --- | --- |
-| `src/` | The pipeline: election-results collection and validation (top level), `news_collection/`, `dedup/`, `normalisation/`, `news_store/`, `llm_extraction/`, `news_features/`, `news_modelling/` |
+| `src/` | The pipeline: election-results collection and validation (top level), `news_collection/`, `dedup/`, `normalisation/`, `llm_extraction/`, `news_features/`, `news_modelling/` |
 | `surrey-election-no-news-baseline/` | Stage 1 subproject: the history-only baseline (own README) |
 | `surrey-election-extractor/` | Subproject converting official results pages into structured records (own README) |
 | `news_features/`, `news_collection/`, `llm_context/`, `news_protocol/` | Frozen evidence: one directory per experiment (results JSON + findings), protocols and pre-registrations, LLM run records |
 | `outputs/report_tables_v1/` | The report table pack: 23 CSVs + `manifest.json` (sha256 of every input) + LaTeX appendix tables a1–a19 |
-| `outputs/report_figures_v1/` | The report figure pack (9 figures) |
+| `outputs/report_figures_v1/` | The report figure pack (10 figures) |
 | `report/` | LaTeX source of the final report (Overleaf snapshots) |
 | `app/` | Streamlit viewing/scenario layer over the frozen artefacts |
 | `demo/` | Viva demonstrator (own README); not part of the evidence chain |

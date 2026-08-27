@@ -3014,8 +3014,8 @@ def viva_box(say: list[str], qa: list[tuple[str, str]]) -> str:
 REPO_MAP = [
     ("src/news_collection", "News collection: SerpAPI / publisher / Wayback "
      "adapters, eligibility and leakage screening, decision audit trails"),
-    ("src/news_store + src/dedup + src/normalisation", "Article store, exact/"
-     "near-duplicate handling, character and name normalisation"),
+    ("src/dedup + src/normalisation", "Exact/near-duplicate handling, "
+     "character and name normalisation"),
     ("src/llm_extraction", "Claude-based extraction layers (issue, stance, "
      "framing, and the excluded layers), validation runs, freeze layer"),
     ("src/news_features", "Article-level outputs to election-party-window "
@@ -3047,8 +3047,8 @@ def repo_map_html(files: list[str]) -> str:
 
     counts = {
         "src/news_collection": ("src/news_collection/",),
-        "src/news_store + src/dedup + src/normalisation":
-            ("src/news_store/", "src/dedup/", "src/normalisation/"),
+        "src/dedup + src/normalisation":
+            ("src/dedup/", "src/normalisation/"),
         "src/llm_extraction": ("src/llm_extraction/",),
         "src/news_features": ("src/news_features/",),
         "src/news_modelling": ("src/news_modelling/",),
