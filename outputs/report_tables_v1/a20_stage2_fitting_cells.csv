@@ -1,0 +1,47 @@
+election,election_id,polling_date,news_cutoff,party,party_key,stage1_candidate_rows,role
+By-election Weybridge,surrey-county-council-by-election-weybridge-2015-05-07,2015-05-07,2015-05-06,Conservative,conservative,1,training
+By-election Weybridge,surrey-county-council-by-election-weybridge-2015-05-07,2015-05-07,2015-05-06,Labour,labour,1,training
+By-election Weybridge,surrey-county-council-by-election-weybridge-2015-05-07,2015-05-07,2015-05-06,UKIP,ukip,1,training
+SCC 2017,surrey-county-council-2017,2017-05-04,2017-05-03,Conservative,conservative,81,training
+SCC 2017,surrey-county-council-2017,2017-05-04,2017-05-03,Green,green,55,training
+SCC 2017,surrey-county-council-2017,2017-05-04,2017-05-03,Labour,labour,75,training
+SCC 2017,surrey-county-council-2017,2017-05-04,2017-05-03,Liberal Democrats,liberal_democrat,78,training
+SCC 2017,surrey-county-council-2017,2017-05-04,2017-05-03,UKIP,ukip,58,training
+By-election Warlingham,surrey-county-council-by-election-warlingham-2019-01-31,2019-01-31,2019-01-30,Conservative,conservative,1,training
+By-election Warlingham,surrey-county-council-by-election-warlingham-2019-01-31,2019-01-31,2019-01-30,Labour,labour,1,training
+By-election Warlingham,surrey-county-council-by-election-warlingham-2019-01-31,2019-01-31,2019-01-30,Liberal Democrats,liberal_democrat,1,training
+By-election Warlingham,surrey-county-council-by-election-warlingham-2019-01-31,2019-01-31,2019-01-30,UKIP,ukip,1,training
+SCC 2021,surrey-county-council-2021,2021-05-06,2021-05-05,Conservative,conservative,81,training
+SCC 2021,surrey-county-council-2021,2021-05-06,2021-05-05,Green,green,36,training
+SCC 2021,surrey-county-council-2021,2021-05-06,2021-05-05,Labour,labour,79,training
+SCC 2021,surrey-county-council-2021,2021-05-06,2021-05-05,Liberal Democrats,liberal_democrat,72,training
+SCC 2021,surrey-county-council-2021,2021-05-06,2021-05-05,Reform UK,reform_uk,6,training
+SCC 2021,surrey-county-council-2021,2021-05-06,2021-05-05,UKIP,ukip,5,training
+By-election Nork Tattenhams,surrey-county-council-by-election-nork-tattenhams-2025-05-01,2025-05-01,2025-04-30,Conservative,conservative,1,training
+By-election Nork Tattenhams,surrey-county-council-by-election-nork-tattenhams-2025-05-01,2025-05-01,2025-04-30,Green,green,1,training
+By-election Nork Tattenhams,surrey-county-council-by-election-nork-tattenhams-2025-05-01,2025-05-01,2025-04-30,Labour,labour,1,training
+By-election Nork Tattenhams,surrey-county-council-by-election-nork-tattenhams-2025-05-01,2025-05-01,2025-04-30,Liberal Democrats,liberal_democrat,1,training
+By-election Nork Tattenhams,surrey-county-council-by-election-nork-tattenhams-2025-05-01,2025-05-01,2025-04-30,Reform UK,reform_uk,1,training
+By-election Addlestone,surrey-county-council-by-election-addlestone-2025-08-21,2025-08-21,2025-08-20,Conservative,conservative,1,training
+By-election Addlestone,surrey-county-council-by-election-addlestone-2025-08-21,2025-08-21,2025-08-20,Green,green,1,training
+By-election Addlestone,surrey-county-council-by-election-addlestone-2025-08-21,2025-08-21,2025-08-20,Labour,labour,1,training
+By-election Addlestone,surrey-county-council-by-election-addlestone-2025-08-21,2025-08-21,2025-08-20,Liberal Democrats,liberal_democrat,1,training
+By-election Addlestone,surrey-county-council-by-election-addlestone-2025-08-21,2025-08-21,2025-08-20,Reform UK,reform_uk,1,training
+By-election Hinchley Wood Claygate Oxshott,surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21,2025-08-21,2025-08-20,Green,green,1,training
+By-election Hinchley Wood Claygate Oxshott,surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21,2025-08-21,2025-08-20,Labour,labour,1,training
+By-election Hinchley Wood Claygate Oxshott,surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21,2025-08-21,2025-08-20,Liberal Democrats,liberal_democrat,1,training
+By-election Hinchley Wood Claygate Oxshott,surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21,2025-08-21,2025-08-20,Reform UK,reform_uk,1,training
+By-election Camberley West,surrey-county-council-by-election-camberley-west-2025-10-16,2025-10-16,2025-10-15,Labour,labour,1,training
+By-election Camberley West,surrey-county-council-by-election-camberley-west-2025-10-16,2025-10-16,2025-10-15,Liberal Democrats,liberal_democrat,1,training
+By-election Camberley West,surrey-county-council-by-election-camberley-west-2025-10-16,2025-10-16,2025-10-15,Reform UK,reform_uk,1,training
+By-election Caterham Valley,surrey-county-council-by-election-caterham-valley-2025-10-16,2025-10-16,2025-10-15,Conservative,conservative,1,training
+By-election Caterham Valley,surrey-county-council-by-election-caterham-valley-2025-10-16,2025-10-16,2025-10-15,Green,green,1,training
+By-election Caterham Valley,surrey-county-council-by-election-caterham-valley-2025-10-16,2025-10-16,2025-10-15,Labour,labour,1,training
+By-election Caterham Valley,surrey-county-council-by-election-caterham-valley-2025-10-16,2025-10-16,2025-10-15,Liberal Democrats,liberal_democrat,1,training
+By-election Caterham Valley,surrey-county-council-by-election-caterham-valley-2025-10-16,2025-10-16,2025-10-15,Reform UK,reform_uk,1,training
+By-election Guildford South East,surrey-county-council-by-election-guildford-south-east-2025-10-16,2025-10-16,2025-10-15,Conservative,conservative,1,training
+By-election Guildford South East,surrey-county-council-by-election-guildford-south-east-2025-10-16,2025-10-16,2025-10-15,Green,green,1,training
+By-election Guildford South East,surrey-county-council-by-election-guildford-south-east-2025-10-16,2025-10-16,2025-10-15,Labour,labour,1,training
+By-election Guildford South East,surrey-county-council-by-election-guildford-south-east-2025-10-16,2025-10-16,2025-10-15,Liberal Democrats,liberal_democrat,1,training
+By-election Guildford South East,surrey-county-council-by-election-guildford-south-east-2025-10-16,2025-10-16,2025-10-15,Reform UK,reform_uk,1,training
+2026 East and West Surrey (pooled),ESWS-2026-05,2026-05-07,2026-05-06,all six parties,,832,frozen test (blinded until the one-time unblinding)

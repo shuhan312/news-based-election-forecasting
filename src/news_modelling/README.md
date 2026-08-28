@@ -103,6 +103,7 @@ assertions that fail if a number drifts from its frozen source.
 |---|---|
 | `build_report_tables.py` | builds the report table pack from committed result artefacts (sha256-pinned manifest) |
 | `report_appendix_tables.py` | emits the appendix tables as LaTeX from the table pack |
+| `stage2_fitting_cells_table.py` | derives the 45 Stage 2 fitting cells (election, polling date, news cut-off, party, Stage 1 rows, role) from the frozen v2 protocol and the Stage 1 bundle, plus the frozen 2026 test row, as appendix table a20 |
 | `make_report_figures.py` | generates the core report figures from archived results |
 | `study_design_figure.py` | Figure 1: how the 24 election events are used |
 | `pipeline_overview_figure.py` | Figure 2: the news pipeline end to end |
