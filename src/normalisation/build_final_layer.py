@@ -1,12 +1,10 @@
 """Phase 4 / Step 7 runner: audit Steps 1-6, run the language check,
 and freeze normalised_text_layer_v1_provisional.
 
-PROVISIONAL means exactly what it says: Stage M's windowed re-sweep
-may still add eligible articles. Those must flow through the same
-Steps 1-6 and be released as normalised_text_layer_v2_* - this
-snapshot is never overwritten (the freeze guard below refuses to
-replace an existing layer file whose content differs; delete is a
-deliberate human act, not something this runner ever does).
+PROVISIONAL records the state at this snapshot date: Stage M's windowed
+re-sweep could still add eligible articles when v1 was frozen. The snapshot is
+never overwritten; the freeze guard below refuses to replace an existing layer
+file whose content differs.
 
 Audit joins, per article_id:
     Step 1 manifest       selected source path + hash

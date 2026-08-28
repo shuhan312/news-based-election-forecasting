@@ -124,7 +124,7 @@ def main() -> None:
     ax.plot([0.3, 11.2], [2.35, 2.35], color=ORANGE, linewidth=1.6,
             linestyle=(0, (6, 4)), zorder=2)
     ax.text(11.15, 2.08, "predictions frozen above this line\n"
-            "before the 2026 results were read",
+            "before the sealed news-layer evaluation",
             fontsize=9, color=ORANGE, style="italic", ha="right", va="top")
     _box(ax, (2.9, 0.45), 5.7, 1.1, "Sealed 2026 evaluation",
          "East + West Surrey · 832 candidates\n"

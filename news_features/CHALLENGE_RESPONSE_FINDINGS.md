@@ -1,9 +1,8 @@
 # Findings from the supervisor challenge, 2026-08-05
 
 Every figure below was re-derived from a committed artefact during this
-review. Where a figure comes from work that is not yet committed it is
-labelled so in the same sentence. Where an earlier claim of mine turned out
-to be wrong it is recorded as wrong rather than quietly replaced.
+review. Where an earlier claim of mine turned out to be wrong it is recorded
+as wrong rather than quietly replaced.
 
 Sources used, all committed:
 

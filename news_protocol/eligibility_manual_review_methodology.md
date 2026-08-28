@@ -306,14 +306,16 @@ LLM-screen-plus-human-check hybrid) is a change to the validation
 design and is not adopted here; it would be taken to the supervisor
 first, and this section updated with the decision.
 
-## 8. Proposed amendment - pre-registered 2026-07-24, PENDING SUPERVISOR APPROVAL
+## 8. Historical proposal - pre-registered 2026-07-24 and subsequently approved
 
-Nothing in this section is adopted. It is written down *before* any
-v2 result on unseen data exists, so that the choice of statistic and
-sample cannot later be accused of having been fitted to a desired
-outcome. If the supervisor rejects or modifies any part, this section
-is updated with the decision and the deviations log in
-`news_research_protocol.md` records the change.
+**Status at drafting:** nothing in this section had been adopted. It was
+written down *before* any v2 result on unseen data existed, so that the choice
+of statistic and sample could not later be fitted to a desired outcome. The
+protocol required any rejection or modification to be recorded here and in the
+deviations log in `news_research_protocol.md`.
+
+**Outcome:** the amendment was approved by email on 2026-07-24 and evaluated
+under the frozen design in Section 8.5.
 
 ### 8.1 Why an amendment is needed at all
 
@@ -358,8 +360,8 @@ records from the 2,498 articles no human has seen: 43 Reform-flagged
 pilot's stratification so validation difficulty matches development
 difficulty. Human coding of this sample uses the unchanged codebook
 and may proceed immediately - human labels do not depend on this
-amendment. What may NOT happen before supervisor approval and v2
-freeze: generating or comparing any v2 output on these 128 articles.
+amendment. Before approval and the v2 freeze, generating or comparing any v2
+output on these 128 articles was prohibited.
 
 ### 8.4 Order of operations after approval
 
@@ -404,11 +406,12 @@ records and E6 for the remaining Reform-flagged subset; E5 is
 reviewed manually for all 2,370 per §6. The §6 step-4 5% independent
 re-check applies to the combined output.
 
-## 9. Amendment 2 - arm-split E5 gating (post-hoc, PROVISIONALLY ADOPTED 2026-07-24)
+## 9. Amendment 2 - arm-split E5 gating used in final corpus assembly
 
-**Status:** provisionally adopted the same day under the supervisor's
-standing explore-first-report-after working arrangement; to be
-ratified (or reversed) at the 2026-07-31 supervision meeting. Every
+**Status:** originally adopted provisionally on 2026-07-24 under the
+supervisor's standing explore-first-report-after working arrangement. No
+separate later ratification record was retained. Final corpus assembly used
+the arm split described below, and every
 E5-national decision carries a provenance flag, so reversal is a
 single flag flip back to fully-manual E5 with nothing lost. Unlike §8, this proposal is
 **post-hoc**: it was formulated on 2026-07-24 *after* seeing the §8.5
@@ -439,7 +442,7 @@ which division) that the human reviewer resolves from the candidate
 table and maps. The N-rule test requires no such local knowledge,
 which is consistent with its passing score.
 
-### 9.2 Proposed consequence
+### 9.2 Implemented consequence
 
 - **E5, arm=national (2,036 remaining records): taken from the
   frozen v2 corpus scan** (whose E5 output is currently recorded as
@@ -454,9 +457,8 @@ which is consistent with its passing score.
 
 (1) Post-hoc subgroup selection - the gate in §8.2 was registered
 per rule, not per arm; this amendment is therefore a validation-
-design change requiring explicit supervisor approval before any
-E5-national decision is used. (2) n=69 gives kappa 0.674 a wide
+design change and is not presented as pre-registered. No separate final
+ratification record was retained. (2) n=69 gives kappa 0.674 a wide
 confidence interval; the 5% re-check provides a further live check.
-(3) If rejected, the fallback is unchanged: E5 fully manual for all
-2,370 records, or a v3 development cycle with a fresh validation
-sample.
+(3) The retained per-decision provenance makes the fully manual fallback
+auditable without rewriting the original model decisions.

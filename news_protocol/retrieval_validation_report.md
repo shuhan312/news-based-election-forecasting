@@ -1,5 +1,11 @@
 # News Retrieval Framework — Validation Report
 
+> **Historical pre-collection validation.** This report records the gate that
+> allowed raw collection to begin on 22 July 2026. Collection was subsequently
+> completed to the frozen scope recorded in `news_collection/query_inventory.csv`
+> and `news_collection/search_log.csv`; the recommendations below describe the
+> decision state at this gate, not unfinished current work.
+
 **Stage:** News Retrieval Framework Validation (Task 5).
 **Date:** 2026-07-22.
 **Verdict:** The framework is **ready for the Raw News Collection stage**, subject to the recommendations in §6 and the protocol revision proposals in §7. No large-scale collection was performed; 15 articles were retrieved in total, purely as validation specimens.

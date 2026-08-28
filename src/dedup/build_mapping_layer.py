@@ -10,11 +10,10 @@ four outputs behind the freeze guard:
     news_collection/duplicate_mapping_audit_v1_provisional.md
     news_collection/duplicate_mapping_review_queue_v1_provisional.csv
 
-Stage M compatibility: retrieval is still running, so this snapshot
-deliberately does NOT claim full corpus coverage. The audit file
-documents what is covered, what is missing and the incremental
-procedure: new articles append through Phase 4 -> Phase 5 Steps 1-7
--> a v2 release alongside (never over) this v1 snapshot.
+Snapshot context: Stage M retrieval was still running when this version was
+frozen, so it deliberately did not claim full corpus coverage. The audit file
+records that historical boundary and the incremental procedure. Later canonical
+corpus releases pin the required mapping version rather than rewriting it.
 
 Determinism: no wall-clock timestamps anywhere - the manifest is
 dated by the corpus SNAPSHOT_DATE and carries the git commit hash,

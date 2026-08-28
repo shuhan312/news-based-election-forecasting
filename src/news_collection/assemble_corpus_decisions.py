@@ -1,7 +1,9 @@
 """Assemble the remaining corpus's final eligibility decisions from
 their two provenance streams, under §8.5 + §9 of
-eligibility_manual_review_methodology.md (as provisionally adopted
-2026-07-24, supervisor ratification due 2026-07-31).
+eligibility_manual_review_methodology.md. Section 9 was adopted provisionally
+on 2026-07-24 and used in the final assembly; no separate later ratification
+record is retained, so the per-decision source fields preserve the reversible
+audit boundary.
 
 The population may arrive in two disjoint review sheets: the original
 2,370-row corpus sheet and the later local-extension sheet. Their LLM outputs
@@ -14,7 +16,7 @@ Per-rule sources:
 |---|---|---|
 | E4, E8 | frozen v2 (validated §8.5)   | frozen v2 (validated §8.5) |
 | E6     | frozen v2 (Reform-flagged only; else not_applicable) | same |
-| E5     | frozen v2 (§9, provisional) | HUMAN, from full_corpus_review.csv |
+| E5     | frozen v2 (§9 arm split) | HUMAN, from full_corpus_review.csv |
 
 A third stream sits above both: second_review_queue.csv carries the
 human adjudications of every needs_second_review flag and of the 20

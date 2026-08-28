@@ -13,7 +13,7 @@ corpus it reads is in `news_collection/`.
 
 | Document | What it gives you |
 | --- | --- |
-| [`PRODUCTION_NEWS_EVIDENCE_REGISTER.md`](PRODUCTION_NEWS_EVIDENCE_REGISTER.md) | The human-readable results register (evidence cut-off 1 Aug 2026): production evidence, superseded pilots, estimates, and what has not been run, kept separate |
+| [`PRODUCTION_NEWS_EVIDENCE_REGISTER.md`](PRODUCTION_NEWS_EVIDENCE_REGISTER.md) | The human-readable results register: a 1 August base record with later addenda dated in place, separating frozen releases, negative evidence, superseded pilots and unresolved work |
 | [`ARTIFACT_LINEAGE.md`](ARTIFACT_LINEAGE.md) | Which article universe and feature table are the **production** release, so two incompatible pipelines are never treated as one analysis |
 | [`../REPO_MAP.md`](../REPO_MAP.md) | The report-section → artefact → code trace for every reported number |
 
@@ -64,8 +64,8 @@ in `src/news_modelling/` unless noted.
 | --- | --- |
 | `PRODUCTION_NEWS_EVIDENCE_REGISTER.md`, `ARTIFACT_LINEAGE.md` | the results register and the release-boundary record (see Start here) |
 | [`CHALLENGE_RESPONSE_FINDINGS.md`](CHALLENGE_RESPONSE_FINDINGS.md) | the 5 August supervisor-challenge response: every figure re-derived from a committed artefact, with earlier errors recorded rather than replaced |
-| `PARTY_IDENTITY_AND_DESIGN_POWER.md` | the party-identity and design-power analysis behind the §6.2 interpretation |
-| `news_layer_capability_findings.md`, `article_area_attribution_summary.json`, `feature_grain_diagnosis.json` | the grain-decision evidence (§6.4's 68-of-1,632 area finding and the training-cell counts) |
+| `PARTY_IDENTITY_AND_DESIGN_POWER.md` | the party-identity and design-power analysis behind §6.2; its separately labelled ward-grain section is a retired development diagnostic retained only as history |
+| `news_layer_capability_findings.md`, `article_area_attribution_summary.json`, `feature_grain_diagnosis.json` | the dated v1 grain assessment and its still-current §6.4 evidence: 68 of 1,632 articles were area-linkable, with the training-cell counts recorded alongside it |
 
 ## Discipline and provenance
 

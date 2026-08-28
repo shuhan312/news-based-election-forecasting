@@ -1,11 +1,12 @@
 # Production news evidence register
 
-**Evidence cut-off: 1 August 2026.** This document records results that can be
-reproduced from repository files. It separates production evidence,
-superseded pilot evidence, estimates and work not yet run. A missing result is
-not recorded as a negative result.
+**Base register cut-off: 1 August 2026, with later addenda dated in place.**
+This document records results that can be reproduced from repository files. It
+separates frozen releases, reported negative evidence, superseded pilots,
+estimates and explicitly unresolved work. A missing result is not recorded as a
+negative result.
 
-## 1. Current conclusion
+## 1. Initial production conclusion — superseded by the v2 and unblinding addenda
 
 The production corpus contains 1,632 usable articles: 188 local and 1,444
 national. It supports a complete 288-row feature table at election × party ×
@@ -30,7 +31,7 @@ exploratory records in sections 17-18.
 
 | status | meaning |
 | --- | --- |
-| **Production** | derived from the frozen 1,632-article release and current Stage 1 bundle |
+| **Production / frozen release** | derived from the explicitly named v1 or v2 corpus release and the frozen Stage 1 bundle |
 | **Validation result** | an observed reliability/gate result; it may pass or fail |
 | **Legacy** | audit history, not valid input to the final model |
 | **Estimate** | a projection based on stated assumptions, not an observed output |
@@ -679,8 +680,9 @@ only seven Reform-era training cells it could not move Reform's own
 level in a stable direction (the sign flips across windows); and it
 touched no party's geography.
 
-**The Haslemere probe: stages 1-4 executed, E5 pass pending
-(exploratory case study).** The one post-holdout by-election with
+**Interim Haslemere checkpoint: stages 1-4 executed; superseded by the
+completed result immediately below (exploratory case study).** The one
+post-holdout by-election with
 contest-targeted news - Haslemere, single-member, polling day 7 July
 2026; Conservative, Liberal Democrat, Reform UK and Green candidates -
 is the one setting where party grain IS ward grain, and the baseline's
@@ -695,15 +697,16 @@ its 379 collected records with the byte-identical frozen rules: 92
 fell to E1, 238 to the 180-day window (E2), 2 to E3, leaving a 47-row
 pool - all local-arm, zero Reform-flagged, disjoint from the
 enrichment population by assertion. The national arm contributed no
-eligible in-window article, so combined-arm specifications will carry
-any signal and national-arm specifications will sit near baseline.
+eligible in-window article, so combined-arm specifications were expected to
+carry any signal and national-arm specifications to sit near baseline.
 Stage 4 (`run_haslemere_probe_llm_batch.py`) ran the frozen v2
 eligibility classifier by batch over the pool (47 requests; 3 schema
 errors resubmitted; final 47 of 47 ok): E4 excluded nothing, E8
 excluded 2, E6 not applicable throughout. The 45 survivors form the
 human E5 queue (`e5_local_review_queue.csv`) - E5 stays a human
 judgement per the failed validations recorded in section 3 (kappa
-0.1911 then 0.4762 against the 0.6000 bar) - and that pass is pending.
+0.1911 then 0.4762 against the 0.6000 bar) - and that pass was pending at
+this checkpoint.
 No principal or enrichment artefact was touched; all probe outputs
 live under `news_collection/haslemere_probe/`.
 

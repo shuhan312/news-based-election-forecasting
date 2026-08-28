@@ -4,13 +4,13 @@
 
 Every table body is derived from an already-committed artefact - the
 ``outputs/report_tables_v1`` pack (whose ``manifest.json`` hashes its own
-inputs), the evidence register's LLM-validation table, and the shipped
-Stage 1 bundle's feature schema. The module formats; it computes nothing
-new, so any number in the appendix can be traced back through the pack's
-README to its register section. Output is one ``.tex`` file per table
-under ``outputs/report_tables_v1/latex/``, each containing a bare
-``tabular`` environment (booktabs rules) for the report to ``\\input``
-inside its own ``table`` float with its own caption.
+inputs), named frozen result JSONs, the evidence register's LLM-validation
+table, and the shipped Stage 1 bundle's feature schema. The module formats;
+it computes no new model result, so any number in the appendix can be traced
+to a frozen source. Output is one ``.tex`` file per table under
+``outputs/report_tables_v1/latex/``, each containing a bare ``tabular``
+environment (booktabs rules) for the report to ``\\input`` inside its own
+``table`` float with its own caption.
 """
 
 from __future__ import annotations
@@ -77,6 +77,18 @@ def confirmatory(version: str, source: str, name: str) -> None:
 
 
 UNBLINDING = Path("news_features/unblinding_2026_v1/unblinding_results.json")
+LOPO = Path("news_features/production_news_lopo_v1/lopo_results.json")
+DECOMPOSITIONS = Path(
+    "news_features/exploratory_decompositions_v1/decomposition_results.json")
+
+CONFIRMED_PERIODS = [
+    ("180_to_91_days", "91--180 days"),
+    ("90_to_31_days", "31--90 days"),
+    ("30_to_15_days", "15--30 days"),
+    ("14_to_8_days", "8--14 days"),
+    ("7_to_4_days", "4--7 days"),
+    ("final_72_hours", "final 72h"),
+]
 
 
 def sensitivity_summary() -> None:
@@ -127,6 +139,123 @@ def sensitivity_summary() -> None:
     _write("a3_sensitivity_summary.tex", "llllrrrr",
            ["version", "fitted on", "news arm", "windows", "n",
             "improved", r"best $\Delta$ (window)", r"worst $\Delta$"], rows)
+
+
+def local_sensitivity() -> None:
+    """Six v2 local-news results used by Appendix a15.
+
+    This is a direct projection of the local, confirmed-window entries in the
+    frozen unblinding record. Four-decimal formatting and the historical row
+    alignment are retained so rebuilding is byte-identical to the committed
+    report input.
+    """
+    data = json.loads(UNBLINDING.read_text(encoding="utf-8"))
+    entries = {
+        entry["period"]: entry
+        for entry in data["files"]["v2"]
+        if entry["analysis"] == "local_sensitivity"
+        and entry["period_role"] == "confirmed_window"
+        and entry["fit_variant"] == "pooled_2017_2021_byelections"
+    }
+    assert set(entries) == {period for period, _ in CONFIRMED_PERIODS}, entries
+
+    lines = [r"\begin{tabular}{lrrrrr}", r"\toprule",
+             r"window & recal.\ MAE & news MAE & $\Delta$MAE & "
+             r"recal.\ RMSE & news RMSE \\", r"\midrule"]
+    for period, label in CONFIRMED_PERIODS:
+        metrics = entries[period]["metrics"]["all_supported_parties"]
+        control = metrics["recalibrated_without_news"]
+        news = metrics["news_enhanced"]
+        delta = metrics["news_vs_recalibrated_mae"]
+        lines.append(
+            f"{label:<12} & {control['mae']:.4f} & {news['mae']:.4f} & "
+            + "$" + f"{delta:+.4f}" + "$"
+            + f" & {control['rmse']:.4f} & {news['rmse']:.4f} " + r"\\")
+    lines += [r"\bottomrule", r"\end{tabular}", ""]
+    (OUT / "a15_local_sensitivity.tex").write_text(
+        "\n".join(lines), encoding="utf-8")
+    print("wrote", OUT / "a15_local_sensitivity.tex")
+
+
+def lopo_results() -> None:
+    """The five leave-one-party-out summaries used by Appendix a17."""
+    data = json.loads(LOPO.read_text(encoding="utf-8"))
+    order = ["conservative", "green", "labour", "liberal_democrat", "ukip"]
+    labels = {
+        "conservative": "Conservative",
+        "green": "Green",
+        "labour": "Labour",
+        "liberal_democrat": "Liberal Democrat",
+        "ukip": "UKIP",
+    }
+    assert data["omitted_parties"] == order
+    assert set(data["by_omission"]) == set(order)
+
+    lines = [r"\begin{tabular}{lrrr}", r"\toprule",
+             r"party omitted & comparisons & improvements & "
+             r"coefficient sign flips \\", r"\midrule"]
+    total_comparisons = 0
+    total_improvements = 0
+    for party in order:
+        record = data["by_omission"][party]
+        total_comparisons += record["comparisons"]
+        total_improvements += record["overall_improvements"]
+        lines.append(
+            f"{labels[party]:<16} & {record['comparisons']} & "
+            f"{record['overall_improvements']} & "
+            f"{record['coefficient_sign_flips']} " + r"\\")
+    assert total_comparisons == data["total_comparisons"]
+    assert total_improvements == data["overall_improvements_after_omission"]
+    lines += [r"\midrule",
+              f"{'Total':<16} & {total_comparisons} & "
+              f"{total_improvements} & --- " + r"\\",
+              r"\bottomrule", r"\end{tabular}", ""]
+    (OUT / "a17_lopo_results.tex").write_text(
+        "\n".join(lines), encoding="utf-8")
+    print("wrote", OUT / "a17_lopo_results.tex")
+
+
+def reform_attribution() -> None:
+    """The no-Reform-cell attribution analysis used by Appendix a18."""
+    data = json.loads(DECOMPOSITIONS.read_text(encoding="utf-8"))
+    records = data["attribution"]["specifications"]
+    arm_order = ["combined_exploratory", "national_exploratory"]
+    record_index = {(r["analysis"], r["window"]): r for r in records}
+    expected = {
+        (arm, period) for arm in arm_order
+        for period, _ in CONFIRMED_PERIODS
+    }
+    assert set(record_index) == expected
+
+    verdicts = {
+        "no full-fit improvement to attribute": "no full-fit improvement",
+        "improvement survives without Reform cells":
+            "improvement retained without Reform cells",
+        "improvement collapses without Reform cells":
+            "improvement lost without Reform cells",
+    }
+
+    def delta(value: float) -> str:
+        if value == 0:
+            return r"$\phantom{+}0.0000$"
+        return "$" + f"{value:+.4f}" + "$"
+
+    lines = [r"\begin{tabular}{llrrl}", r"\toprule",
+             r"arm & window & full-fit $\Delta$ & no-Reform $\Delta$ & "
+             r"attribution \\", r"\midrule"]
+    for arm in arm_order:
+        arm_label = arm.removesuffix("_exploratory")
+        for period, label in CONFIRMED_PERIODS:
+            record = record_index[(arm, period)]
+            lines.append(
+                f"{arm_label} & {label:<12} & "
+                f"{delta(record['full_fit_delta'])} & "
+                f"{delta(record['no_reform_delta'])} & "
+                f"{verdicts[record['verdict']]} " + r"\\")
+    lines += [r"\bottomrule", r"\end{tabular}", ""]
+    (OUT / "a18_reform_attribution.tex").write_text(
+        "\n".join(lines), encoding="utf-8")
+    print("wrote", OUT / "a18_reform_attribution.tex")
 
 
 def seat_accuracy() -> None:
@@ -425,12 +554,14 @@ def cumulative_results() -> None:
             arm_names[entry["analysis"]], window_names[entry["period"]],
             f"{overall['news_enhanced']['mae']:.4f}",
             f"{overall['news_vs_recalibrated_mae']:+.4f}",
+            f"{overall['news_enhanced']['rmse']:.4f}",
             f"{reform['news_vs_recalibrated_mae']:+.4f}",
         ])
     assert rows[2][3] == "+0.6101"
-    _write("a12_cumulative_results.tex", "llrrr",
+    assert rows[2][4] == "4.8741"
+    _write("a12_cumulative_results.tex", "llrrrr",
            ["news arm", "window", "news MAE", r"$\Delta$MAE",
-            r"Reform $\Delta$"], rows)
+            "news RMSE", r"Reform $\Delta$"], rows)
 
 
 DIVISION_SAMPLE = Path("news_protocol/division_sample.csv")
@@ -557,6 +688,9 @@ def main() -> None:
     confirmatory("v1", "t04_confirmatory_v1.csv", "a2a_confirmatory_v1.tex")
     confirmatory("v2", "t05_confirmatory_v2.csv", "a2b_confirmatory_v2.tex")
     sensitivity_summary()
+    local_sensitivity()
+    lopo_results()
+    reform_attribution()
     seat_accuracy()
     llm_validation()
     approach_comparison()

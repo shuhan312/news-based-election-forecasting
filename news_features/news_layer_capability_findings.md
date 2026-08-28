@@ -1,9 +1,16 @@
-# What the news layer can and cannot measure
+# Pre-enrichment capability assessment of the news layer (v1)
 
-**Recorded 30 July 2026 and updated 1 August 2026 after the production
-estimability audit and 2017-to-2021 experiment.** Every figure
-below is measured from the extracted corpus, not estimated. The modules that
-produced them are named so each can be re-run.
+> **Dated decision record.** This assessment was recorded on 30 July 2026 and
+> updated on 1 August 2026 after the production-estimability audit and the
+> 2017-to-2021 experiment. It describes the frozen v1, pre-enrichment evidence
+> available at that point. The by-election route identified in Section 3 was
+> subsequently completed, producing the v2 confirmatory release. Current final
+> results are recorded in `PRODUCTION_NEWS_EVIDENCE_REGISTER.md`; release
+> boundaries are defined in `ARTIFACT_LINEAGE.md`.
+
+Every numerical statement below is measured from the named frozen artefact or
+is explicitly identified as the projection made at that checkpoint. The
+producing modules are named so the evidence can be re-run.
 
 **Corpus-scope correction (canonical release
 `canonical-news-v1-59d113bb9c28`).** The main eligibility decision table has
@@ -68,10 +75,10 @@ articles. Coverage is still too uneven to broadcast a defensible ward-level
 signal across the 2026 holdout, and a missing value there is indistinguishable
 from “no coverage existed”.
 
-All 68 unambiguously attributable articles come from the four principal
-elections and none
-from by-elections, so the 2026-07-30 decision to scope by-elections out of the
-news layer costs no area-level information.
+All 68 unambiguously attributable articles in v1 come from the four principal
+elections because that release contains no by-election articles. This finding
+describes the principal-election corpus only; it does not imply that the later
+by-election enrichment contains no geographically useful information.
 
 ---
 
@@ -102,8 +109,6 @@ or 2017. Measured per party per split role:
 | **ukip** | **325** | 41 | 13 |
 | **reform_uk** | **0** | 15 | 175 |
 | green | 80 | 16 | 65 |
-| green | 76 | 14 | 51 |
-| **reform_uk** | **0** | 9 | **115** |
 
 So no Reform-specific news coefficient can be estimated. Any relationship must
 be learned **party-generically** — from the five parties present in 2013 and
@@ -112,18 +117,19 @@ established parties transfers to an insurgent with no incumbency and no history
 is the central extrapolation of this project. It cannot be validated on the
 training data, only tested once on 2026.
 
-UKIP is the closest structural analogue available: 308 training articles, a
-right-populist challenger in the same position, and reduced to 7 test-period
+UKIP is the closest structural analogue available: 325 training articles, a
+right-populist challenger in the same position, and reduced to 13 test-period
 articles as Reform took its place. The brief explicitly permits a UKIP-Reform
 history field while keeping the parties separate, so this is a sanctioned route
 rather than a workaround.
 
 ---
 
-## 3. The by-election corpus exists, is unprocessed, and would change the table
+## 3. By-election route identified at the v1 checkpoint
 
-**3,122 articles were collected for 10 by-elections and never entered the
-eligibility pipeline.** Not excluded — never assessed.
+At this checkpoint, **3,122 articles had been collected for 10 by-elections but
+had not yet entered the eligibility pipeline**. They were unassessed rather
+than excluded.
 
 | pipeline stage | by-election coverage |
 | --- | --- |
@@ -131,11 +137,11 @@ eligibility pipeline.** Not excluded — never assessed.
 | mechanical eligibility (`eligibility_assessment_v2.csv`, 11,787 rows) | **0 rows** |
 | review sheet, LLM judgement, decisions, extraction | dependent on the above |
 
-All six stages are unrun for by-elections. The first pass at costing this route
-counted only the last two and was withdrawn.
+At this checkpoint, all six stages were unrun for by-elections. The first pass
+at costing this route counted only the last two and was withdrawn.
 
-**What it would buy, measured on the text already on disk** using the same
-deterministic party patterns the stance layer uses:
+**The projected value at that checkpoint, measured on text already on disk,**
+used the same deterministic party patterns as the stance layer:
 
 | by-election | articles with text | mention Reform UK | mention UKIP |
 | --- | ---: | ---: | ---: |
@@ -164,10 +170,15 @@ numerator and denominator together. Every count in the feature table therefore
 has a companion share, so this data would be usable through the share columns
 whatever its completeness.
 
-No cost is quoted here. The six unrun stages have to be walked through without
-sending requests before a figure means anything, and the E5-local rule — the one
-rule whose automated classifier failed validation — applies to 2,129 local-arm
-articles.
+No cost was quoted at this stage because the six unrun stages first had to be
+walked without sending requests, and the E5-local rule — the rule whose
+automated classifier failed validation — applied to 2,129 local-arm articles.
+
+**Subsequent outcome.** The by-election pipeline was completed after this
+assessment. It admitted 627 articles into canonical corpus v2, and
+`news_feature_table_v2.csv` became the enriched final confirmatory release.
+That completed evidence supersedes the projections in this section but does
+not alter their role in documenting why enrichment was undertaken.
 
 ---
 
@@ -207,7 +218,7 @@ training values within a period: enough to fit, but not enough to report under
 the pre-declared ten-cell rule. The remaining 29 columns are insufficient.
 
 **A fault in the first version of that verdict, recorded because it would have
-matters.** Variation was first counted across all rows, which pools the 12
+mattered.** Variation was first counted across all rows, which pools the 12
 periods together. That gave `article_count` 14 distinct training values and
 marked it usable — but a specification uses one window, and within any single
 period it has **2**. Counting per period instead moved 29 columns from "usable"
@@ -216,7 +227,7 @@ that appear to vary and do not.
 
 ---
 
-## 5. What the brief asks, and what can be answered
+## 5. Answers available at the v1 checkpoint
 
 | the brief's question | answerable |
 | --- | --- |
@@ -228,12 +239,12 @@ that appear to vary and do not.
 | Do narrative frames predict Reform support? | **No** — same grain |
 | Can news identify an emerging party before it has a voting record? | **Not directly** — no Reform fitting rows, so only a party-generic exploratory relationship can be applied to Reform |
 
-Four of the seven are blocked by one cause: the per-election grain has two
-training cells. The by-election corpus in §3 is the only route that changes
-that, and whether it is worth walking should be decided after the first
-news-versus-baseline comparison shows whether the six usable columns carry any
-signal at all. Spending on enrichment before knowing that is the wrong order.
+At this checkpoint, four of the seven questions were blocked by one cause: the
+per-election grain had only two training cells. Section 3 therefore identified
+by-election enrichment as the next evidence-building step. The final report
+keeps this v1 negative result separate from the later v2 finding rather than
+silently substituting one release for the other.
 
-The complete evidence register, including failed validation gates, legacy
-artifacts, residual-feasibility results and results that do not yet exist, is
+The complete evidence register separates final results, reported negative
+evidence, superseded pilots and unresolved limitations in
 `PRODUCTION_NEWS_EVIDENCE_REGISTER.md`.

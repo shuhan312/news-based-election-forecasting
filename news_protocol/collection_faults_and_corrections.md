@@ -10,6 +10,12 @@ the same row in a log and completely different facts about the world.
 Two of the entries are corrections to conclusions recorded earlier in the same
 day. They are kept rather than overwritten.
 
+> **Final status.** This document preserves the state when the faults were
+> found. The corrected query plan and final execution state are
+> `news_collection/query_inventory.csv` and `news_collection/search_log.csv`;
+> the by-election route discussed below was subsequently completed for the v2
+> release.
+
 ---
 
 ## 1. The declared search route had never worked
@@ -119,8 +125,9 @@ to 364.
 Running the expanded 2021 ward search first: **91 queries produced 21 new
 records.** That is a real answer and not an encouraging one — the local
 archive for 2021 is genuinely thin, and the previous single-publisher search
-was not the binding constraint there. It may still be for the by-elections,
-where archives are complete; that is still running.
+was not the binding constraint there. At this checkpoint the corresponding
+by-election search was still running; it was subsequently completed for the v2
+release.
 
 ## 5. Reform UK has no article-level record before 2026
 
@@ -177,7 +184,7 @@ quoting the 21 July workbook should be rechecked.
 
 ---
 
-## What is now true of the collection
+## State after these corrections
 
 | | |
 | --- | --- |

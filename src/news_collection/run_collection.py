@@ -4,8 +4,7 @@ Stages (assigned in the query inventory, executed in order):
   A  Guardian API - national + county tier, all four elections
   B  local publishers first pass - site search (robots-permitting)
      + bounded SurreyLive CDX batch for the 2026 window
-  C  ward-tier CDX discovery (blocked until the division sample for
-     supervisor to-do 7 is committed - see collection report)
+  C  ward-tier CDX discovery (gated on the committed division sample)
   D  bulk county-tier CDX for remaining sources/windows
   M  manual routes (Google worksheets, archive transcriptions)
 
@@ -89,7 +88,7 @@ def main():
         # ward-tier collection must not start before the division
         # sampling decision is committed to the repository.
         print("Stage C is gated on the committed division sample "
-              "(supervisor to-do 7). Refusing to run until "
+              "and will not run unless "
               "news_protocol/division_sample.md exists.")
         if not Path("news_protocol/division_sample.md").exists():
             return

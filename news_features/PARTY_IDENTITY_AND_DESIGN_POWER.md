@@ -9,7 +9,9 @@ to be left out.
 Modules and artefacts produced here:
 
 - `news_modelling.identity_placebos` -> `news_features/identity_placebos_v1/`
-- `news_features.ward_resolution_diagnostic` -> `news_features/ward_resolution_v1/`
+- the ward-resolution diagnostic discussed in Section 7 was a development
+  route later removed from final `main`; its code and output remain in Git
+  history and are not a source for the final report
 
 Both run the frozen reproduction gate first: the committed specification
 must reproduce its published deltas at the three decimal places the
@@ -286,13 +288,19 @@ carries a large part of the contrast.
 
 ---
 
-## 7. The ward axis is closed
+## 7. Historical ward-grain diagnostic
 
-`ward_resolution_v1/`. A party indicator is constant for a party across
-every contest it stands in, so the only variation it can never reproduce is
-variation between wards inside one election. The ward-grain feature table
-(`ward_party_election_features.parquet`, 6,323 party-contest rows over 343
-contests) can show that distinction where the 45-cell design cannot.
+This section records a retired development diagnostic. Its
+`ward_resolution_v1/` output and ward-level pilot table were removed from final
+`main` after the production feature design replaced that route; they remain in
+Git history. The final report's area-grain limitation is instead reproduced by
+`src/news_features/diagnose_article_area_attribution.py` and
+`news_features/article_area_attribution_summary.json`.
+
+A party indicator is constant for a party across every contest it stands in,
+so the only variation it can never reproduce is variation between wards inside
+one election. The retired ward-grain table was used here to test that
+distinction before the production design was fixed.
 
 Ward resolution rate - the share of covered (election, party) groups whose
 feature takes more than one value across that election's wards:

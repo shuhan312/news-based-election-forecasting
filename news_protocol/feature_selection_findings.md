@@ -225,10 +225,13 @@ measured before the extraction budget is committed rather than after.
 
 ---
 
-## 6. Collection is still running
+## 6. Collection checkpoint on 29 July 2026
 
-As of 29 July 2026, 17:09, `scripts/collect_ward_first.py` is active and has
-been since 11:42 the same morning.
+At 17:09 on 29 July 2026, the development-only
+`scripts/collect_ward_first.py` scheduler had been active since 11:42 that
+morning. The scheduler was later removed from the final working tree and
+remains available in Git history; the final execution state is recorded in
+`news_collection/query_inventory.csv` and `news_collection/search_log.csv`.
 
 | | |
 |---|---:|
@@ -240,21 +243,19 @@ been since 11:42 the same morning.
 | Quarantined today | 224 |
 | Fetch failures today | 500 |
 
-The remaining 864 split 658 local and 206 national, routed as 304 site
-searches, 244 API calls, 188 Serper and 128 Wayback CDX. The local remainder
-being three times the national one matters for section 3: the arm that
-currently contributes nothing is the arm with most of the outstanding
-collection.
+At that checkpoint, the remaining 864 split 658 local and 206 national, routed
+as 304 site searches, 244 API calls, 188 Serper and 128 Wayback CDX. The local
+remainder being three times the national one mattered for Section 3: the arm
+then contributing nothing was the arm with most of the outstanding collection.
 
-Cumulative articles written across the whole collection now stand at 16,939.
+Cumulative articles written across the whole collection then stood at 16,939.
 Per election: 2,861 for 2013, 3,414 for 2017, 5,173 for 2021 and 4,328 for
 2026 — so collection has never been the constraint on 2021.
 
-**The 500 fetch failures against 533 successful searches is a high rate and is
-not yet explained.** A search returning HTTP 200 while its articles fail to
-fetch means the result list arrived and the pages behind it did not. It should
-be broken down by publisher and route before the run is treated as complete;
-recorded here as an open item rather than a finding.
+**The 500 fetch failures against 533 successful searches were a high rate and
+were unexplained at this checkpoint.** A search returning HTTP 200 while its
+articles failed to fetch meant the result list arrived and the pages behind it
+did not. This was recorded as an open collection item, not as a final finding.
 
 ---
 

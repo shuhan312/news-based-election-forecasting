@@ -33,6 +33,10 @@ covers each logic module.
 | 6 | `text_quality.py` | `build_text_quality.py` | per-article text-quality verdicts, resolutions queue and summary |
 | 7 | `final_audit.py` | `build_final_layer.py` | the audited final text layer (`normalised_text_layer_v1_provisional.jsonl`, git-ignored) plus its committed manifest, audit and quality report |
 
+`_v1_provisional` is the frozen intermediate layer's historical version name,
+not an indication that the final repository is waiting for more text-cleaning
+work. Downstream loaders pin this exact layer and its manifest.
+
 ## Running and outputs
 
 Run the `build_` steps in order (from the repository root), e.g.:

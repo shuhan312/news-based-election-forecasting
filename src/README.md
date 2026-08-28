@@ -128,12 +128,12 @@ bit-for-bit copy of the committed table. Run a script from the repository root
 
 ## Reproducibility and leakage controls
 
-The pipeline is one-way — each layer reads only the layer above. Predictors and
-outcomes stay separated, missing values are flagged rather than filled, LLM
-labels enter Layer 4 only after the κ ≥ 0.60 human-agreement gate and are then
-frozen, and Stage 2 models the residuals of the frozen Stage 1 baseline to test
-whether news features add predictive information beyond history. Reported
-numbers trace to committed artefacts, and the report table pack pins the
-sha256 of every input it reads (see `REPO_MAP.md` and the root
-`REPRODUCIBILITY.md`). Large raw inputs under `data/` are local by design per
-the IRP large-file rule.
+The production path is staged; validation, audit and presentation modules may
+also read explicitly named upstream artefacts. Predictors and outcomes stay
+separated, missing values are flagged rather than filled, LLM labels enter
+Layer 4 only after the κ ≥ 0.60 human-agreement gate and are then frozen, and
+Stage 2 models the residuals of the frozen Stage 1 baseline to test whether
+news features add predictive information beyond history. Reported numbers
+trace to committed artefacts, and the report table pack pins the sha256 of
+every input it reads (see `REPO_MAP.md` and the root `REPRODUCIBILITY.md`).
+Large raw inputs under `data/` are local by design per the IRP large-file rule.

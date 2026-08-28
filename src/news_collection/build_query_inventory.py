@@ -8,7 +8,7 @@ Generates news_collection/query_inventory.csv from committed inputs only:
     the verified coverage audit (robots-restricted sites -> wayback_cdx;
     source x election combinations audited 'none' are not queried)
   * ward-tier queries       - restricted to the 17 divisions in
-    news_protocol/division_sample.md (supervisor to-do 7), instantiated
+    the frozen news_protocol/division_sample.md, instantiated
     per election from data/elections/2013_scc_results.csv (2013),
     data/elections/results_2017_2024.csv (2017/2021) and
     data/elections/2026_east_surrey_results.csv /
@@ -22,7 +22,7 @@ v1.1: ward-tier stages (C, M) are now restricted to the 17 divisions in
 news_protocol/division_sample.csv, and extended to cover 2026. v1.0
 generated ward-tier queries for all 93 divisions before the sample
 existed, which defeated the point of sampling 15-25 divisions
-(supervisor to-do 7). Cross-era naming is resolved through the
+under the pre-registered design. Cross-era naming is resolved through the
 project's GIS-based boundary crosswalk, not by matching ward-name
 strings; where no verified correspondence exists for a division's
 other era, that era is skipped and logged rather than guessed at.
@@ -209,7 +209,7 @@ def ward_slug(ward):
 
 
 def load_sampled_divisions():
-    """The 17 pre-registered divisions from supervisor to-do 7, as their
+    """The 17 pre-registered divisions in the frozen local-area sample, as their
     'as selected' name (a mix of 2021-era and 2026-era spellings - see
     build_division_sample.py's reconcile_aliases). Ward-tier collection
     covers ONLY these divisions, never the full 93."""

@@ -3,11 +3,10 @@
 
 Contract: consolidate Steps 1-7 into ONE per-article mapping table
 that downstream LLM extraction reads directly, freeze it as a
-versioned provisional snapshot, and delete nothing. This is NOT the
-final corpus freeze - Stage M retrieval is still running, so the
-layer is stamped v1_provisional and future articles are appended
-through the same pipeline into a v2 release that never overwrites
-this snapshot.
+versioned provisional snapshot, and delete nothing. This is not itself a
+canonical corpus release. At the snapshot date, Stage M retrieval was still
+running, so the layer was stamped v1_provisional. The later canonical corpus
+releases pin this snapshot without overwriting it.
 
 Design decisions:
 

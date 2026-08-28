@@ -34,6 +34,11 @@ covers each logic module.
 | 7 | `canonical_selection.py` | `build_canonical_selection.py` | one canonical article per cluster, with the selection report |
 | 8 | `mapping_layer.py` | `build_mapping_layer.py` | the consolidated, provisionally frozen duplicate mapping (audit + manifest) |
 
+The `_v1_provisional` name records the state of this frozen intermediate layer
+when it was produced; it does not mean the final repository is awaiting another
+deduplication decision. The canonical v1/v2 corpus releases consume this pinned
+mapping and record their own release identities.
+
 ## Running and outputs
 
 Run the `build_` steps in order (from the repository root), e.g.:

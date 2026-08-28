@@ -1,11 +1,9 @@
 """Tests for the LLM classifier infrastructure (llm_classifier.py).
 
-None of these tests make a real network call - the point of this
-module, per its own docstring, is that it must not produce any real
-classification before supervisor approval, so the test suite enforces
-that boundary too: classify_article() is only ever exercised here with
-no key (proving it fails closed) or with the anthropic client mocked
-out (proving the plumbing works without ever touching the real API).
+None of these tests make a real network call. This is the development v1
+classifier, whose original pre-approval boundary required it to fail closed;
+the tests preserve that boundary. ``classify_article()`` is exercised only
+without a key or with the Anthropic client mocked.
 """
 
 import json

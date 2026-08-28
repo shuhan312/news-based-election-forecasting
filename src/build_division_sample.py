@@ -1,4 +1,4 @@
-"""Build the pre-registered Division Sampling Design (supervisor to-do 7).
+"""Build the pre-registered and operationally adopted division sample.
 
 Selects 15-25 Surrey County Council divisions for ward-level news
 collection, stratified by:
@@ -360,18 +360,26 @@ def reconcile_aliases(selected, exact_crosswalk):
 
 def write_report(selected, has_2026):
     total = len(selected)
+    if has_2026:
+        status = (
+            "**Status:** Operationally adopted 2026-07-23 and used as the "
+            "frozen local-area sample. The thresholds and deterministic "
+            "selection algorithm were fixed before the sample was generated, "
+            "using only committed election-result data. No news coverage, "
+            "article content or model outcome informed the selection. No "
+            "separate supervisor-ratification record was retained."
+        )
+    else:
+        status = (
+            "**Status:** Incomplete build. The 2026 result inputs are absent, "
+            "so the Changed and Reform strata cannot be generated."
+        )
     lines = [
         "# Division Sampling Design",
         "",
-        "**Stage:** Supervisor to-do 7 (division sampling), preceding "
-        "ward-level news collection (Stage C).",
-        "**Status:** Adopted 2026-07-23 and subsequently used as the "
-        "frozen operational local-division sample (no separate "
-        "supervisor-ratification record is stored in the repository) "
-        "- thresholds and algorithm below were fixed before this "
-        "script was run, using only committed election-result data. "
-        "Nothing about news coverage or content informed this "
-        "selection.",
+        "**Stage:** Division sampling completed before ward-level news "
+        "collection (Stage C).",
+        status,
         "",
         "## Pre-registered rule",
         "",
@@ -418,20 +426,18 @@ def write_report(selected, has_2026):
             "and Reform strata and finalise the sample.",
         ]
 
-    lines += [
-        "",
-        "## Confirmation needed from supervisor",
-        "",
-        "The Safe/Marginal thresholds and the per-stratum target were "
-        "chosen by the student to operationalise the supervisor's "
-        "qualitative categories and are proposed here, not yet "
-        "confirmed. To be raised at the next supervision meeting "
-        "alongside protocol proposals P1-P3. Ward-level collection "
-        "(Stage C) is unblocked by this file's presence but the "
-        "selection may still be revised - any revision must be logged "
-        "as a new version here and in the protocol deviations log, "
-        "never a silent edit.",
-    ]
+    if has_2026:
+        lines += [
+            "",
+            "## Adoption record",
+            "",
+            "The Safe/Marginal thresholds and the five-per-stratum target "
+            "operationalise the supervisor's qualitative sampling categories. "
+            "They were adopted for the collection on 2026-07-23, and the "
+            "resulting 17-area sample was used unchanged for Stage C. The "
+            "committed CSV, this record and the Git history preserve the rule "
+            "and its timing.",
+        ]
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text("\n".join(lines) + "\n")
 

@@ -173,15 +173,17 @@ Every post-unblinding diagnostic regenerates its `news_features/<name>_v1/`
 evidence directory via its module in `src/news_modelling/` (one module per
 analysis; see that README's file guide).
 
-**Step 5 — Layer 7: the report tables and figures.** Generate the table pack,
-the six core analysis figures and the four separately drawn report figures,
-then copy the generated report-facing images into `report/figures/`:
+**Step 5 — Layer 7: the report tables and figures.** Generate the 23-table
+machine-readable pack, all report-used LaTeX projections, the complete
+ten-figure analysis pack and the separately stored pipeline overview. Then copy
+the report-facing images into `report/figures/`:
 
 ```bash
 PYTHONPATH=src .venv/bin/python -m news_modelling.build_report_tables
 PYTHONPATH=src .venv/bin/python -m news_modelling.report_appendix_tables
 PYTHONPATH=src .venv/bin/python -m news_modelling.make_report_figures
 PYTHONPATH=src .venv/bin/python -m news_modelling.study_design_figure
+PYTHONPATH=src .venv/bin/python -m news_modelling.corpus_funnel_figure
 PYTHONPATH=src .venv/bin/python -m news_modelling.pipeline_overview_figure
 PYTHONPATH=src .venv/bin/python -m news_modelling.framework_figure
 PYTHONPATH=src .venv/bin/python -m news_modelling.reform_party_split_figure
@@ -194,8 +196,10 @@ cp outputs/report_figures_v1/fig2_seat_totals.png report/figures/
 
 Build-time assertions fail if any number drifts from its frozen source;
 `outputs/report_tables_v1/manifest.json` pins the SHA-256 of every table-pack
-input. `reform_party_split_figure.py` writes Figure 5 to both the analysis pack
-and `report/figures/` itself, so it needs no copy command.
+input. `tests/test_report_appendix_extension_tables.py` rebuilds all 14 LaTeX
+tables included by the report and compares their bytes with the committed
+outputs. `reform_party_split_figure.py` writes Figure 5 to both the analysis
+pack and `report/figures/` itself, so it needs no copy command.
 
 **Step 6 — the report PDF.**
 
@@ -206,7 +210,10 @@ make -C report
 `report/report.tex` reads generated LaTeX tables from
 `outputs/report_tables_v1/latex/`, images from `report/figures/`, and the
 committed `report/references.bib` and template files. The report-facing image
-copies are committed, so `make` also works without regenerating figures.
+copies are committed, so `make` also works without regenerating figures. The
+Makefile tracks the generated LaTeX directory and figure copies as dependencies;
+`make -C report force` performs an unconditional rebuild. No duplicate `a*.tex`
+tables are kept under `report/`.
 
 ## 5. Figures — where each comes from
 
@@ -227,8 +234,9 @@ directory is `news_features/pipeline_overview_v1/`.
 ## 6. Tables — where each comes from
 
 Appendix tables are emitted as LaTeX (`outputs/report_tables_v1/latex/`) by
-`report_appendix_tables.py` from the table pack; the pack entries (tNN) are
-built by `build_report_tables.py` from the frozen evidence named below.
+`report_appendix_tables.py` from the table pack and explicitly named frozen
+evidence. The pack entries (tNN) are built by `build_report_tables.py`; tables
+without a tNN projection read the frozen source named below directly.
 
 | Report table | Pack/LaTeX id | Frozen source and computing module |
 | --- | --- | --- |
