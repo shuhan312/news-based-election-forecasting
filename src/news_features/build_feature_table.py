@@ -638,8 +638,13 @@ def main() -> None:
     # `party_cell_multiplier` is above 1 by design - an article naming two
     # parties bears on both and is counted for both, so the party-level counts
     # do not sum to the election-level one and should not be expected to.
+    # Explicit key order: spreading the Counter would serialise in insertion
+    # order, which varies with the article iteration and made the committed
+    # metadata flip between rebuilds.
     attribution_block = {
-        **attribution,
+        "articles_with_issue_record": attribution["articles_with_issue_record"],
+        "articles_attributed": attribution["articles_attributed"],
+        "articles_no_party_found": attribution["articles_no_party_found"],
         "party_cell_multiplier": round(
             sum(r["party_issues_coded"] for r in rows
                 if r["period_kind"] == "window")

@@ -99,7 +99,10 @@ def _validate_structural_missingness(rows: list[dict[str, str]]) -> dict:
     """
 
     result = {}
-    for feature in {item for values in FEATURE_SETS.values() for item in values}:
+    # Preserve the declared feature-set order.  Iterating a set here made the
+    # JSON key order depend on Python's per-process hash seed, even though the
+    # audited values were identical.
+    for feature in (item for values in FEATURE_SETS.values() for item in values):
         denominator = SHARE_DENOMINATORS[feature]
         structural = 0
         invalid = []
