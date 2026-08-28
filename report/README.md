@@ -1,19 +1,27 @@
 # Final report source
 
-The final report has been drafted in Overleaf (project "Final Report")
-since early August 2026; Overleaf retains the complete server-side
-editing history of every change, and the milestone versions are labelled
-there by date. The two screenshots in this directory show the history
-panel as of 16 August 2026.
+`report.tex` is the authoritative source of the final report. It reads all 14
+included LaTeX tables directly from
+`../outputs/report_tables_v1/latex/` and the six report-facing figures from
+`figures/`. Generated table copies are not kept in this directory.
 
-This directory version-controls the report source. The Overleaf history
-records every individual edit - far too many to import one by one - so a
-small number of important milestones were labelled by date in Overleaf,
-and those labelled versions are imported here as the first commits, in
-chronological order (each commit message states the snapshot's Overleaf
-label and date; the git commit dates are the import dates). From
-16 August 2026 onwards, the working source is committed here directly
-after each revision session.
+Build the PDF from the repository root with:
 
-The compiled PDF is not tracked here; the final PDF will be submitted to
-`deliverables/`.
+```bash
+make -C report
+```
+
+This writes `report/report.pdf`, which is a local build product and is not
+tracked. The submitted copy belongs at
+`deliverables/sl1425-final-report.pdf`, following the repository's deliverable
+naming rule. The full table, figure and input rebuild order is documented in
+`../REPRODUCIBILITY.md`.
+
+## Source history
+
+The report was drafted in the Overleaf project `Final Report` from early August
+2026. The two screenshots in this directory preserve the Overleaf history panel
+as of 16 August 2026. Labelled Overleaf milestones were imported into Git in
+chronological order; their commit messages record the corresponding label and
+date. Since 16 August 2026, `report.tex` has been maintained directly in this
+repository, and Git is the version history for the final source.
