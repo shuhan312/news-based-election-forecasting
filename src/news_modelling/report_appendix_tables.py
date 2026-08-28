@@ -335,7 +335,9 @@ def approach_comparison() -> None:
     rows = []
     for row in _read("t13_approach_comparison.csv"):
         rows.append([
-            arm_names[row["specification_group"]], _window(row["window"]),
+            # The submitted report's copy of this table uses the raw
+            # window labels, so the generator matches it exactly.
+            arm_names[row["specification_group"]], _escape(row["window"]),
             f"{float(row['residual_A_mae']):.3f}",
             f"{float(row['joint_B_mae']):.3f}",
             f"{float(row['baseline_only_mae']):.3f}",
@@ -508,10 +510,9 @@ def predictors() -> None:
     names = sorted(schema["source_predictors"])
     assert set(names) == set(PREDICTOR_GLOSSES), (
         set(names) ^ set(PREDICTOR_GLOSSES))
-    # Underscores are the only legal break points in a predictor name;
-    # without \allowbreak the longest names overrun their p-column.
-    rows = [["\\texttt{"
-             + _escape(name).replace(r"\_", r"\_\allowbreak{}") + "}",
+    # Plain escaped names, matching the submitted report's copy of this
+    # table byte-for-byte.
+    rows = [["\\texttt{" + _escape(name) + "}",
              _escape(PREDICTOR_GLOSSES[name])] for name in names]
     _write("a1_stage1_predictors.tex",
            r"p{0.42\linewidth}p{0.50\linewidth}",

@@ -131,7 +131,7 @@ The pipeline automatically validates the election dataset on every generated. It
 \subsection{News Data and Corpus Construction}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.60\linewidth]{pipeline_overview.png}
+  \includegraphics[width=0.7\linewidth]{pipeline_overview.png}
   \caption{News data construction process. The diagram shows the v1 pipeline and the additional by-election articles included in v2, with further details in Section~\ref{sec:news-sources}.}
   \label{fig:news-pipeline}
 \end{figure}
@@ -249,7 +249,7 @@ The confirmatory evaluation on the 2026 holdout covered 753 candidate prediction
 The strongest confirmatory evidence came from v2. Five of its 12 specifications reduced MAE, and four had 95\% bootstrap confidence intervals entirely above zero (Figure~\ref{fig:confirmatory}; Appendix Tables~\ref{tab:a2a}--\ref{tab:a2b}).In contrast, v1 produced no MAE improvements, and most 95\% confidence intervals lay entirely below zero, this means worse performance than the no-news control. The difference between v1 and v2 reflects changes introduced in v2, and their individual effects are examined later.
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{fig1_confirmatory_deltas.png}
+  \makebox[\linewidth]{\includegraphics[width=1.15\linewidth]{fig1_confirmatory_deltas.png}}
   \caption{Forest plot of the 24 confirmatory comparisons. Positive values indicate lower MAE with news. No v1 window showed positive confidence intervals for both news types, while 31–90 days was the only v2 window where both did.}
   \label{fig:confirmatory}
 \end{figure}
