@@ -285,7 +285,7 @@ The difference between v1 and v2 was partly associated with the inclusion of Ref
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\linewidth]{image-1787354207515.png}
+  \includegraphics[width=\linewidth]{fig8_reform_party_split.png}
   \caption{Post-evaluation exploratory decomposition of $\Delta$MAE after news adjustment by party group and prediction window in the 2026 holdout under the combined-news specification. Bars show non-Reform, overall, and Reform UK candidates. Positive values indicate reduced error after the news adjustment, with overall values calculated as candidate-count-weighted averages.}
   \label{fig:reform-decomposition}
 \end{figure}
@@ -519,58 +519,7 @@ Overall, pre-election news added predictive value under some settings. Its value
 \begin{table}[H]
   \centering
   \resizebox{\textwidth}{!}{%
-  \begin{tabular}{llllrl}
-  \toprule
-  election & polling date & news cut-off & party & Stage 1 rows & role \\
-  \midrule
-  By-election Weybridge & 2015-05-07 & 2015-05-06 & Conservative & 1 & training \\
-  By-election Weybridge & 2015-05-07 & 2015-05-06 & Labour & 1 & training \\
-  By-election Weybridge & 2015-05-07 & 2015-05-06 & UKIP & 1 & training \\
-  SCC 2017 & 2017-05-04 & 2017-05-03 & Conservative & 81 & training \\
-  SCC 2017 & 2017-05-04 & 2017-05-03 & Green & 55 & training \\
-  SCC 2017 & 2017-05-04 & 2017-05-03 & Labour & 75 & training \\
-  SCC 2017 & 2017-05-04 & 2017-05-03 & Liberal Democrats & 78 & training \\
-  SCC 2017 & 2017-05-04 & 2017-05-03 & UKIP & 58 & training \\
-  By-election Warlingham & 2019-01-31 & 2019-01-30 & Conservative & 1 & training \\
-  By-election Warlingham & 2019-01-31 & 2019-01-30 & Labour & 1 & training \\
-  By-election Warlingham & 2019-01-31 & 2019-01-30 & Liberal Democrats & 1 & training \\
-  By-election Warlingham & 2019-01-31 & 2019-01-30 & UKIP & 1 & training \\
-  SCC 2021 & 2021-05-06 & 2021-05-05 & Conservative & 81 & training \\
-  SCC 2021 & 2021-05-06 & 2021-05-05 & Green & 36 & training \\
-  SCC 2021 & 2021-05-06 & 2021-05-05 & Labour & 79 & training \\
-  SCC 2021 & 2021-05-06 & 2021-05-05 & Liberal Democrats & 72 & training \\
-  SCC 2021 & 2021-05-06 & 2021-05-05 & Reform UK & 6 & training \\
-  SCC 2021 & 2021-05-06 & 2021-05-05 & UKIP & 5 & training \\
-  By-election Nork Tattenhams & 2025-05-01 & 2025-04-30 & Conservative & 1 & training \\
-  By-election Nork Tattenhams & 2025-05-01 & 2025-04-30 & Green & 1 & training \\
-  By-election Nork Tattenhams & 2025-05-01 & 2025-04-30 & Labour & 1 & training \\
-  By-election Nork Tattenhams & 2025-05-01 & 2025-04-30 & Liberal Democrats & 1 & training \\
-  By-election Nork Tattenhams & 2025-05-01 & 2025-04-30 & Reform UK & 1 & training \\
-  By-election Addlestone & 2025-08-21 & 2025-08-20 & Conservative & 1 & training \\
-  By-election Addlestone & 2025-08-21 & 2025-08-20 & Green & 1 & training \\
-  By-election Addlestone & 2025-08-21 & 2025-08-20 & Labour & 1 & training \\
-  By-election Addlestone & 2025-08-21 & 2025-08-20 & Liberal Democrats & 1 & training \\
-  By-election Addlestone & 2025-08-21 & 2025-08-20 & Reform UK & 1 & training \\
-  By-election Hinchley Wood C.\ Oxshott & 2025-08-21 & 2025-08-20 & Green & 1 & training \\
-  By-election Hinchley Wood C.\ Oxshott & 2025-08-21 & 2025-08-20 & Labour & 1 & training \\
-  By-election Hinchley Wood C.\ Oxshott & 2025-08-21 & 2025-08-20 & Liberal Democrats & 1 & training \\
-  By-election Hinchley Wood C.\ Oxshott & 2025-08-21 & 2025-08-20 & Reform UK & 1 & training \\
-  By-election Camberley West & 2025-10-16 & 2025-10-15 & Labour & 1 & training \\
-  By-election Camberley West & 2025-10-16 & 2025-10-15 & Liberal Democrats & 1 & training \\
-  By-election Camberley West & 2025-10-16 & 2025-10-15 & Reform UK & 1 & training \\
-  By-election Caterham Valley & 2025-10-16 & 2025-10-15 & Conservative & 1 & training \\
-  By-election Caterham Valley & 2025-10-16 & 2025-10-15 & Green & 1 & training \\
-  By-election Caterham Valley & 2025-10-16 & 2025-10-15 & Labour & 1 & training \\
-  By-election Caterham Valley & 2025-10-16 & 2025-10-15 & Liberal Democrats & 1 & training \\
-  By-election Caterham Valley & 2025-10-16 & 2025-10-15 & Reform UK & 1 & training \\
-  By-election Guildford South East & 2025-10-16 & 2025-10-15 & Conservative & 1 & training \\
-  By-election Guildford South East & 2025-10-16 & 2025-10-15 & Green & 1 & training \\
-  By-election Guildford South East & 2025-10-16 & 2025-10-15 & Labour & 1 & training \\
-  By-election Guildford South East & 2025-10-16 & 2025-10-15 & Liberal Democrats & 1 & training \\
-  By-election Guildford South East & 2025-10-16 & 2025-10-15 & Reform UK & 1 & training \\
-  2026 East and West Surrey (pooled) & 2026-05-07 & 2026-05-06 & all six parties & 832 & frozen test \\
-  \bottomrule
-  \end{tabular}%
+  \input{a20_stage2_fitting_cells.tex}%
   }
   \caption{Stage 2 fitting cells and the frozen 2026 test set. All training elections pre-date the June 2026 project start. The v1 and v2 freeze commits precede the final news-layer unblinding commit, as verified by the committed repository audit.}
 \label{tab:a20-fitting-cells}

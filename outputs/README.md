@@ -14,12 +14,14 @@ and bulky working files remain local.
 - 23 machine-readable tables (`t01`–`t23`) written by
   `news_modelling.build_report_tables`;
 - `manifest.json`, which pins every input read by that table-pack builder;
-- the generated LaTeX directory used directly by `report/report.tex`.
+- the authoritative generated LaTeX directory mirrored into the
+  self-contained `report/` source.
 
 `news_modelling.report_appendix_tables` formats the pack plus explicitly named
-frozen evidence into the LaTeX tables. The report includes 14 of those files;
-the other LaTeX tables are component or pack-only views. There are no duplicate
-`a*.tex` copies under `report/`. See
+frozen evidence into the LaTeX tables; `stage2_fitting_cells_table` derives the
+Stage 2 chronology table separately. The report includes 16 generated/static
+views, mirrored under `report/` and pinned byte-for-byte by tests. The other
+LaTeX tables are component or pack-only views. See
 [`report_tables_v1/README.md`](report_tables_v1/README.md).
 
 ### Figures

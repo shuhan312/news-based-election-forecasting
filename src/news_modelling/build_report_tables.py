@@ -672,8 +672,6 @@ def t21_woking_south_autopsy() -> tuple:
     committed blind predictions and the unsealed outcomes - reproduces
     the register's autopsy paragraph."""
 
-    with SOURCES["v2_predictions"].open(newline="") as _:
-        pass  # placeholder guard; real inputs below
     predictions = []
     with Path("news_features/woking_south_blind_v1/"
               "blind_predictions.csv").open(newline="") as fh:

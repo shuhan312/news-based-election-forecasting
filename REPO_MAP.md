@@ -19,7 +19,7 @@ does not claim to parse every prose citation in the repository.
 | 5 Modelling | `src/news_modelling/`, `surrey-election-no-news-baseline/` | Stage 1 history-only candidate modelling; Stage 2 residual modelling; frozen blinded predictions, unblinding, sensitivity analyses and explicitly labelled post-unblinding diagnostics |
 | 6 Frozen evidence and protocols | experiment directories under `news_features/`, plus `news_protocol/` | Stores machine-readable results, findings, frozen protocols and pre-registration/deviation evidence used by the final report or its reported negative and sensitivity results |
 | 7 Report pack | `outputs/report_tables_v1/`, `outputs/report_figures_v1/`, `news_features/pipeline_overview_v1/` | `build_report_tables.py` writes t01–t23 and a hash manifest; appendix and figure modules produce the report-facing LaTeX and image artefacts from named frozen inputs |
-| 8 Consumers | `report/`, `app/`, `demo/` | The report reads the single Layer 7 LaTeX table set directly (no duplicate `report/a*.tex` copies) plus report-facing image copies. The app and viva material may also read explicitly named, citation-guarded upstream artefacts |
+| 8 Consumers | `report/`, `app/`, `demo/` | The self-contained report source carries 16 table copies synchronised byte-for-byte from the Layer 7 LaTeX pack, plus report-facing image copies. The app and viva material may also read explicitly named, citation-guarded upstream artefacts |
 
 Supporting directories include `tests/`, `logbook/`, `deliverables/`,
 `scripts/`, `title/` and `data/`. File counts are deliberately omitted because
@@ -33,7 +33,7 @@ evidence, decision records and the two self-contained election subprojects.
 | --- | --- | --- | --- |
 | §3 data and features | canonical corpus v1/v2, feature-table metadata, division sample | collection and feature pipelines | t17; Appendix a11; `fig0_study_design.png`; `pipeline_overview.png` (`fig0b_corpus_funnel.png` is pack-only) |
 | §4 Stage 1 | `surrey-election-no-news-baseline/outputs/model_bundle_v1/` (local) | Stage 1 subproject | t01–t03; Appendix a1 |
-| §4 Stage 2 + freeze | `news_features/blinded_2026_predictions_v1/` and `blinded_2026_predictions_v2/` | `run_blinded_2026_predictions.py`, `run_blinded_2026_predictions_v2.py`, `news_estimator.py` | `fig0c_framework.png` |
+| §4 Stage 2 + freeze | `news_features/blinded_2026_predictions_v1/` and `blinded_2026_predictions_v2/` | `run_blinded_2026_predictions.py`, `run_blinded_2026_predictions_v2.py`, `news_estimator.py`, `stage2_fitting_cells_table.py` | `fig0c_framework.png`; Appendix a20 |
 | §3.2 / Appendix LLM validation | evidence register + `llm_context/` | `src/llm_extraction/` validation runners | Appendix a5 |
 | §5.1 confirmatory | `news_features/unblinding_2026_v1/` | `unblind_2026.py` | t04/t05; Appendix a2a/a2b; `fig1_confirmatory_deltas.png` |
 | §5.2 sensitivity | unblinding record and `production_news_lopo_v1/` | `unblind_2026.py`, `run_production_news_lopo.py` | t06; Appendix a3/a12/a15/a17 |
@@ -44,7 +44,7 @@ evidence, decision records and the two self-contained election subprojects.
 | §5.6 transfer | `woking_south_blind_v1/`, `haslemere_probe/` | `woking_south_*.py`, `haslemere_probe_prediction.py` | t14/t15/t20/t21; Appendix a10 (a6/a9 are component tables, not separately included by `report.tex`) |
 | §6.3 training design | `byelection_enrichment_v1/` | `byelection_enrichment.py` | reliability figures in §6.3 |
 | pack-only: design resolution | `minimal_detectable_effect_v1/` | `minimal_detectable_effect.py` | t23, a7 (not cited in the final report text) |
-| appendix tables | t01–t23 plus named frozen evidence | `report_appendix_tables.py` | `outputs/report_tables_v1/latex/`; `report.tex` currently includes 14 of these files, including a15/a17/a18 regenerated directly from their frozen JSON evidence |
+| appendix tables | t01–t23 plus named frozen evidence | `report_appendix_tables.py`, `stage2_fitting_cells_table.py` | `outputs/report_tables_v1/latex/`; `report.tex` includes 16 synchronised files, including a20 derived from the frozen v2 protocol and Stage 1 OOF bundle |
 
 ## How to trace any number (worked example)
 

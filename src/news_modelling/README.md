@@ -95,9 +95,10 @@ All read frozen inputs; none is imported by the prediction path.
 
 ### 2.5 Report pack and figures
 
-The written report reads only the committed `outputs/report_tables_v1/` and
-`outputs/report_figures_v1/`; these modules build them, with build-time
-assertions that fail if a number drifts from its frozen source.
+The report-facing tables and figures are built from the committed
+`outputs/report_tables_v1/` and `outputs/report_figures_v1/` packs; the 16
+table files consumed by the self-contained report source are synchronised
+copies. Build-time assertions fail if a number drifts from its frozen source.
 
 | File | Role |
 |---|---|

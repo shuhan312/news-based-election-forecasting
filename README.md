@@ -17,6 +17,13 @@ enriched training set (v2), combined news reduced MAE from 4.445 to
 95% CI [+0.078, +0.387]); the pre-enrichment v1 produced no
 improvement in any window.
 
+## Repository and reproduction
+
+- **Canonical repository:** [github.com/ese-ada-lovelace-2025/irp-sl1425](https://github.com/ese-ada-lovelace-2025/irp-sl1425)
+- **Reproduction guide:** [REPRODUCIBILITY.md](REPRODUCIBILITY.md)
+- **Repository map:** [REPO_MAP.md](REPO_MAP.md)
+- **Final report:** [deliverables/sl1425-final-report.pdf](deliverables/sl1425-final-report.pdf)
+
 ## Repository layout
 
 The repository is a staged pipeline. Production steps follow the declared
@@ -39,7 +46,7 @@ the per-figure/per-table script mapping — follow
 | `news_features/`, `news_collection/`, `llm_context/`, `news_protocol/` | Frozen evidence: one directory per experiment (results JSON + findings), protocols and pre-registrations, LLM run records |
 | `outputs/report_tables_v1/` | The report table pack: 23 CSVs + `manifest.json` (sha256 of table-pack inputs) + generated report-facing LaTeX tables |
 | `outputs/report_figures_v1/` | The report figure pack (10 figures) |
-| `report/` | LaTeX source of the final report; it reads the single generated table set in `outputs/report_tables_v1/latex/` |
+| `report/` | Self-contained LaTeX source of the final report; its 16 table copies are synchronised from `outputs/report_tables_v1/latex/` |
 | `app/` | Streamlit viewing/scenario layer over the frozen artefacts |
 | `demo/` | Viva demonstrator (own README); not part of the evidence chain |
 | `tests/` | Tests guarding the pipeline, blinding, table regeneration and artefact citations |
@@ -99,6 +106,8 @@ sequence is:
 ```bash
 PYTHONPATH=src .venv/bin/python -m news_modelling.build_report_tables
 PYTHONPATH=src .venv/bin/python -m news_modelling.report_appendix_tables
+PYTHONPATH=src .venv/bin/python -m news_modelling.stage2_fitting_cells_table
+make -C report sync-tables
 PYTHONPATH=src .venv/bin/python -m news_modelling.make_report_figures
 PYTHONPATH=src .venv/bin/python -m news_modelling.study_design_figure
 PYTHONPATH=src .venv/bin/python -m news_modelling.corpus_funnel_figure
@@ -115,9 +124,10 @@ distribution with `latexmk`:
 make -C report       # writes report/report.pdf
 ```
 
-`report/report.tex` reads all 14 included LaTeX tables directly from
-`outputs/report_tables_v1/latex/`; no duplicate table copies live under
-`report/`. The report Makefile tracks that directory as an input dependency.
+`report/report.tex` reads 16 synchronised LaTeX table copies under `report/`,
+keeping the submitted Overleaf source self-contained. Their authoritative
+generated versions live in `outputs/report_tables_v1/latex/`; `make -C report
+sync-tables` refreshes the copies, and tests require byte-for-byte agreement.
 
 The Streamlit viewer over the frozen artefacts runs from the repository
 root with:
@@ -158,9 +168,30 @@ paths, so downloading it into the repository root and running
 | `excluded_sidecars_20260726.tar.gz` | 3.3 GB | place in `data/archives/` | exclusion-decision archive, kept as evidence |
 
 `tests/test_artefact_citations.py` guards the table-pack and app citation
-surfaces and the named local-by-design exceptions. The report-table test also
-rebuilds all 14 included LaTeX tables and rejects duplicate copies under
-`report/`.
+surfaces and the named local-by-design exceptions. The report-table tests
+check all 16 included LaTeX tables, including the separately derived Stage 2
+chronology table, against the self-contained copies under `report/`.
+
+## AI acknowledgement
+
+I used Anthropic's Claude Sonnet 5 and Claude Haiku 4.5 through the
+[Anthropic API and Claude tools](https://www.anthropic.com/) and OpenAI's
+[ChatGPT](https://chatgpt.com/) and [Codex](https://openai.com/codex/)
+(including GPT-5.6 Sol) for targeted assistance during code development and
+repository preparation. Claude Sonnet 5 and Claude Haiku 4.5 also formed part
+of the declared research pipeline for issue, stance and framing
+classification. Development assistance included discussing pipeline
+organisation; drafting or refining selected Python and unit-test scaffolds;
+reviewing Markdown documentation, JSON metadata and manifests; and supporting
+debugging, reproducibility checks and leakage/provenance audits.
+
+I determined the research questions, methodology, feature definitions,
+inclusion and exclusion decisions, interpretation and conclusions. I reviewed,
+adapted and tested AI-assisted suggestions before incorporating them, rejected
+suggestions that were not supported by the repository evidence, and take full
+responsibility for the submitted work. The final repository reflects my own
+implementation decisions and understanding, and I can explain the purpose and
+operation of its submitted components.
 
 ## Module housekeeping (pre-existing IRP notes)
 
@@ -171,7 +202,7 @@ Deleting or modifying the pre-existing GitHub Actions workflows or the
 directory structure in this repository is strictly prohibited. IRP files
 "live" alongside pre-existing files.
 
-Scheduled workflows periodically check whether `logbook.md` has been
+Scheduled workflows periodically check whether `logbook/logbook.md` has been
 updated recently on `main` and whether regular commits were made to the
 repository (to any branch). If inactivity is detected, a warning is
 raised automatically as an issue. Those issues must not be closed.

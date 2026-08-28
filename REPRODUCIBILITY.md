@@ -181,6 +181,8 @@ the report-facing images into `report/figures/`:
 ```bash
 PYTHONPATH=src .venv/bin/python -m news_modelling.build_report_tables
 PYTHONPATH=src .venv/bin/python -m news_modelling.report_appendix_tables
+PYTHONPATH=src .venv/bin/python -m news_modelling.stage2_fitting_cells_table
+make -C report sync-tables
 PYTHONPATH=src .venv/bin/python -m news_modelling.make_report_figures
 PYTHONPATH=src .venv/bin/python -m news_modelling.study_design_figure
 PYTHONPATH=src .venv/bin/python -m news_modelling.corpus_funnel_figure
@@ -196,10 +198,12 @@ cp outputs/report_figures_v1/fig2_seat_totals.png report/figures/
 
 Build-time assertions fail if any number drifts from its frozen source;
 `outputs/report_tables_v1/manifest.json` pins the SHA-256 of every table-pack
-input. `tests/test_report_appendix_extension_tables.py` rebuilds all 14 LaTeX
-tables included by the report and compares their bytes with the committed
-outputs. `reform_party_split_figure.py` writes Figure 5 to both the analysis
-pack and `report/figures/` itself, so it needs no copy command.
+input. `tests/test_report_appendix_extension_tables.py` checks all 16 LaTeX
+tables included by the report against the generated pack, including the
+separately derived Stage 2 chronology table. `a14_eligibility_rules.tex` is a
+curated projection of the committed protocol rather than a computed result.
+`reform_party_split_figure.py` writes Figure 5 to both the analysis pack and
+`report/figures/` itself, so it needs no copy command.
 
 **Step 6 — the report PDF.**
 
@@ -207,13 +211,12 @@ pack and `report/figures/` itself, so it needs no copy command.
 make -C report
 ```
 
-`report/report.tex` reads generated LaTeX tables from
-`outputs/report_tables_v1/latex/`, images from `report/figures/`, and the
-committed `report/references.bib` and template files. The report-facing image
-copies are committed, so `make` also works without regenerating figures. The
-Makefile tracks the generated LaTeX directory and figure copies as dependencies;
-`make -C report force` performs an unconditional rebuild. No duplicate `a*.tex`
-tables are kept under `report/`.
+`report/report.tex` reads the 16 synchronised LaTeX table copies and images
+under `report/`, plus the committed bibliography and template files. This
+keeps the submitted Overleaf source self-contained. The Makefile tracks those
+table and figure copies as dependencies; `make -C report sync-tables`
+refreshes the tables from `outputs/report_tables_v1/latex/`, and `make -C
+report force` performs an unconditional PDF rebuild.
 
 ## 5. Figures — where each comes from
 
@@ -253,6 +256,7 @@ without a tNN projection read the frozen source named below directly.
 | Table 12 (seat-call accuracy) | `t07`/`a4` | the unblinding record |
 | Table 13 (Woking South + Haslemere) | `t20`/`t14`, `a10` | `news_features/woking_south_blind_v1/` and `haslemere_probe/`; `a6` and `a9` are the separately generated component tables |
 | Table 14 (issue/framing features) | `a13` | `news_features/placebo_specifications_v1/` — `placebo_specifications.py` |
+| Stage 2 fitting chronology | `a20` | frozen v2 protocol + Stage 1 OOF bundle — `stage2_fitting_cells_table.py` |
 
 ## 7. Headline in-text numbers
 

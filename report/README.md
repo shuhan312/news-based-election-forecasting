@@ -1,13 +1,15 @@
 # Final report source
 
-`report.tex` is the authoritative source of the final report. It reads all 14
-included LaTeX tables directly from
-`../outputs/report_tables_v1/latex/` and the six report-facing figures from
-`figures/`. Generated table copies are not kept in this directory.
+`report.tex` is the authoritative source of the final report. Its 16 included
+LaTeX tables are kept in this directory so the submitted Overleaf source is
+self-contained; `make -C report sync-tables` refreshes them from the
+authoritative generated copies in `../outputs/report_tables_v1/latex/`.
+The six report-facing figures live in `figures/`.
 
 Build the PDF from the repository root with:
 
 ```bash
+make -C report sync-tables
 make -C report
 ```
 

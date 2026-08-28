@@ -117,8 +117,11 @@ def main() -> None:
              "election & polling date & news cut-off & party & "
              "Stage 1 rows & role \\\\", "\\midrule"]
     for row in rows:
+        election = row["election"]
+        if election == "By-election Hinchley Wood Claygate Oxshott":
+            election = "By-election Hinchley Wood C.\\ Oxshott"
         lines.append(
-            f"{row['election']} & {row['polling_date']} & "
+            f"{election} & {row['polling_date']} & "
             f"{row['news_cutoff']} & {row['party']} & "
             f"{row['stage1_candidate_rows']} & {row['role'].split(' (')[0]}"
             " \\\\")
