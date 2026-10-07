@@ -75,4 +75,20 @@ forecast. This probe does not change that.
 
 ## Amendments
 
-(none)
+**A1 (2026-10-07, after the probe ran). No threshold is moved. Two news
+measures are declared invalid, and the reasons are recorded.**
+
+- *N1 measured mostly non-news.* The exclusion-based "local news" class
+  admitted job boards, map sites, academic repositories, local party
+  websites and US government pages (e.g. Kent County, Michigan). Only 5–14
+  of each election's 26–93 "local" URLs were news publishers. The
+  pre-registered N1 ratios are reported in `probe_findings.md` but are not
+  used for the decision. A supplementary N1′ counts news-publisher URLs only.
+  Publisher status was judged once, on the pooled domain list for all four
+  elections, by the rule "a UK news organisation publishing reported
+  articles". Its denominator (Surrey 2021) is 5 URLs, so N1′ is too small to
+  grade either.
+- *N2 measured crawler behaviour, not publication volume.* 31,038 of
+  Surrey's 38,710 captures come from `getsurrey.co.uk`, a domain retired
+  before 2021. Capture counts track crawl frequency and redirects. N2 is
+  reported but not used for the decision.

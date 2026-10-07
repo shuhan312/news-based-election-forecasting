@@ -1,0 +1,1410 @@
+{
+  "criteria": "v2_design/feasibility_probe_v1/criteria.md",
+  "calibration": "surrey_2021",
+  "ratios_vs_calibration": {
+    "kent_2017": {
+      "N1_local_url_ratio": 1.388,
+      "N2_wayback_ratio": 0.138
+    },
+    "kent_2021": {
+      "N1_local_url_ratio": 1.015,
+      "N2_wayback_ratio": 0.337
+    },
+    "kent_2025": {
+      "N1_local_url_ratio": 0.388,
+      "N2_wayback_ratio": 1.304
+    }
+  },
+  "C1_v1_local_serper_searches_per_election": 447.25,
+  "elections": {
+    "surrey_2021": {
+      "council": "Surrey",
+      "polling_day": "2021-05-06",
+      "window": [
+        "2021-02-05",
+        "2021-04-05"
+      ],
+      "queries": 21,
+      "hits": 205,
+      "unique_urls": 131,
+      "by_class": {
+        "non_news": 63,
+        "local_news": 67,
+        "national": 1
+      },
+      "local_unique_urls": 67,
+      "local_by_template": {
+        "T1_council_election": 3,
+        "T3_party_candidates": 11,
+        "T2_council_party": 11,
+        "T4_division_place": 42
+      },
+      "top_local_domains": [
+        [
+          "grahamalleway.co.uk",
+          2
+        ],
+        [
+          "getsurrey.co.uk",
+          2
+        ],
+        [
+          "uk.indeed.com",
+          2
+        ],
+        [
+          "mapcarta.com",
+          2
+        ],
+        [
+          "police.uk",
+          2
+        ],
+        [
+          "southwesternrailway.com",
+          2
+        ],
+        [
+          "electionscentre.co.uk",
+          1
+        ],
+        [
+          "cratus.co.uk",
+          1
+        ],
+        [
+          "collegeward.org",
+          1
+        ],
+        [
+          "lisatownsend.org.uk",
+          1
+        ],
+        [
+          "eastsurreyconservatives.org.uk",
+          1
+        ],
+        [
+          "spelthorneconservatives.org.uk",
+          1
+        ],
+        [
+          "lgcplus.com",
+          1
+        ],
+        [
+          "tribalimpact.com",
+          1
+        ],
+        [
+          "hounslowcycling.org",
+          1
+        ]
+      ],
+      "wayback_article_captures": {
+        "surreylive.news": 0,
+        "getsurrey.co.uk": 31038,
+        "bbc.co.uk/news/uk-england-surrey": 154,
+        "surreycomet.co.uk": 7518
+      },
+      "wayback_total": 38710,
+      "local_urls": [
+        [
+          "http://www.electionscentre.co.uk/wp-content/uploads/2021/02/LEH2019-complete.pdf",
+          "local elections handbook 2019"
+        ],
+        [
+          "http://www.merton.tv/greater-london-assembly-merton-and-wandsworth-constituency-election-2021/",
+          "Greater London Assembly Merton & Wandsworth ..."
+        ],
+        [
+          "https://a320.commonplace.is/en-GB/proposals/questions-answers/start",
+          "Have Your Say Today - - A320 North Of Woking Improvements"
+        ],
+        [
+          "https://butterfly-conservation.org/sites/default/files/2021-03/Surrey%20Skipper%2071.pdf",
+          "Field trips for 2021"
+        ],
+        [
+          "https://collegeward.org/annual-general-meeting/",
+          "Annual General Meeting"
+        ],
+        [
+          "https://cratus.co.uk/the-life-of-a-councillor-the-inside-scoop-on-local-authorities/",
+          "The Life of a Councillor: The Inside Scoop on Local ..."
+        ],
+        [
+          "https://damncheek.co.uk/productions/",
+          "Productions and projects"
+        ],
+        [
+          "https://grahamalleway.co.uk/elections",
+          "ELECTIONS - Councillor Graham Alleway"
+        ],
+        [
+          "https://grahamalleway.co.uk/faq",
+          "Frequently Asked Questions - Councillor Graham Alleway"
+        ],
+        [
+          "https://guildford-dragon.com/most-of-us-dont-have-a-clue-about-parish-councils/",
+          "Most Of Us Don't Have A Clue About Parish Councils"
+        ],
+        [
+          "https://hounslowcycling.org/questions-to-candidates-for-south-west-london-constituency/",
+          "The candidates are - Hounslow Cycling"
+        ],
+        [
+          "https://jigsawpshe.online/",
+          "Jigsaw"
+        ],
+        [
+          "https://mapcarta.com/N5231650676",
+          "Reigate Registrar Office Map"
+        ],
+        [
+          "https://mapcarta.com/N6988512624",
+          "29 Bell Street Map - Antique shop"
+        ],
+        [
+          "https://newleatherheadliving.wordpress.com/2021/02/21/norbury-park-sawmill-closure-with-pride-as-decision-papers-published-by-county-council/",
+          "Norbury Park sawmill \u201cclosure with pride\u201d as decision papers ..."
+        ],
+        [
+          "https://newtonhuxley.co.uk/areas/esher/",
+          "Properties for Sale & Rent in Esher, Surrey | KT10"
+        ],
+        [
+          "https://publications.gc.ca/collections/collection_2021/fin/F1-23-3-2021-eng.pdf",
+          "A RECOVERY PLAN FOR JOBS, GROWTH, AND ..."
+        ],
+        [
+          "https://publications.parliament.uk/pa/cm/cmregmem/210315/210315.pdf",
+          "210315.pdf"
+        ],
+        [
+          "https://roundandabout.co.uk/surrey-hills-2/",
+          "Visit Surrey Hills as lockdown eases"
+        ],
+        [
+          "https://scholarship.law.vanderbilt.edu/cgi/viewcontent.cgi?article=4201&context=vlr",
+          "The Beginning, Flourishing and Decline of the Inns of Court"
+        ],
+        [
+          "https://schoolplaygrounddesigners.co.uk/Playgrounds/Surrey-Design.html",
+          "School Playground Design & Construction in Surrey"
+        ],
+        [
+          "https://surreycountyuk.overdrive.com/",
+          "Surrey Libraries - OverDrive"
+        ],
+        [
+          "https://surreyscp.org.uk/documents/health-needs-assessment/",
+          "Neglect Health Needs Assessment"
+        ],
+        [
+          "https://sussexparishchurches.org/architectsandartistsc/",
+          "Architects & Artists C"
+        ],
+        [
+          "https://uk.indeed.com/q-borough-council-l-ash-vale-jobs.html",
+          "Borough council jobs in Ash Vale"
+        ],
+        [
+          "https://uk.indeed.com/q-highway-maintenance-l-woking-jobs.html",
+          "Highway Maintenance Job in Woking (with Salaries)"
+        ],
+        [
+          "https://www.activesurrey.com/Club4-holiday-activity-camps",
+          "Club4 (HAF) holiday camps in Surrey"
+        ],
+        [
+          "https://www.alltrails.com/england/surrey/leatherhead/river",
+          "10 Best river trails in Leatherhead"
+        ],
+        [
+          "https://www.ashteadresidents.org.uk/useful-links/",
+          "Useful Links"
+        ],
+        [
+          "https://www.crwflags.com/fotw/flags/gb-e-sur.html",
+          "Surrey (England)"
+        ],
+        [
+          "https://www.cyclinguk.org/event/greater-manchester-mayoral-elections-sustainable-transport-hustings",
+          "Greater Manchester Mayoral Elections"
+        ],
+        [
+          "https://www.eastsurreyconservatives.org.uk/people/lesley-steeds",
+          "Lesley Steeds | East Surrey"
+        ],
+        [
+          "https://www.electoralcommission.org.uk/sites/default/files/2021-06/FOI%20042-21%20Response%20%28redacted%29.pdf",
+          "FOI 042-21 Response (redacted).pdf"
+        ],
+        [
+          "https://www.exploringsurreyspast.org.uk/themes/subjects/schools/st-annes-school-redhill/",
+          "St Anne's School, Redhill"
+        ],
+        [
+          "https://www.fbu.org.uk/news/2021/03/25/reverse-fire-service-cuts-and-prevent-another-avoidable-tragedy-banstead-say-surrey",
+          "Reverse fire service cuts and prevent another avoidable ..."
+        ],
+        [
+          "https://www.getsurrey.co.uk/news/surrey-news/thousands-eu-nationals-surrey-dark-20290053",
+          "Thousands of EU nationals in Surrey in the dark about their ..."
+        ],
+        [
+          "https://www.getsurrey.co.uk/news/surrey-news/unsustainable-norbury-park-sawmill-closing-19876066",
+          "'Unsustainable' Norbury Park sawmill closing down after 40 ..."
+        ],
+        [
+          "https://www.guildfordsociety.org.uk/New_Rail_Strategy_for_Surrey_2021.pdf",
+          "A New Rail Strategy for Surrey"
+        ],
+        [
+          "https://www.iccm-uk.com/iccm/wp-content/uploads/2021/03/Directory-of-Crematoria-24-March-2021.pdf",
+          "Crematoria in England, Wales, Scotland, ..."
+        ],
+        [
+          "https://www.leatherheadlocalhistory.org.uk/miscellany/Leatherhead-High-Street.htm",
+          "Streets and Roads - Leatherhead High Street"
+        ],
+        [
+          "https://www.lgcplus.com/politics/workforce/croydons-former-leader-and-finance-lead-suspended-by-labour-11-02-2021/",
+          "Croydon's former leader and finance lead suspended by ..."
+        ],
+        [
+          "https://www.lisatownsend.org.uk/",
+          "Lisa Townsend | for Surrey"
+        ],
+        [
+          "https://www.maryfrancestrust.org.uk/woking-safe-haven-to-pilot-a-new-24-hour-service-for-mental-health-crisis/",
+          "Woking Safe Haven to pilot a new 24-hour service for ..."
+        ],
+        [
+          "https://www.nmc.org.uk/registration/joining-the-register/geographical-locator-list/",
+          "Geographical locator list - The Nursing and Midwifery Council"
+        ],
+        [
+          "https://www.onlondon.co.uk/jonn-elledge-why-kingston-gives-surrey-the-london-finger/",
+          "Jonn Elledge: Why Kingston gives Surrey the London finger"
+        ],
+        [
+          "https://www.oxtedlimpsfieldresidents.co.uk/The-Local-Plan",
+          "The Local Plan - Oxted & Limpsfield Residents Group"
+        ],
+        [
+          "https://www.police.uk/pu/your-area/surrey-police/redhill-town/?tab=CrimeMap",
+          "Crime map - Redhill Town"
+        ],
+        [
+          "https://www.police.uk/pu/your-area/sussex-police/east-brighton/?tab=CrimeMap",
+          "Crime map - East Brighton"
+        ],
+        [
+          "https://www.quora.com/Is-Surrey-UK-safe-to-live",
+          "Is Surrey, UK safe to live?"
+        ],
+        [
+          "https://www.rcgp.org.uk/getmedia/df252ef7-7648-404b-830a-ee3fa36008aa/annual-report-accounts-2021.pdf",
+          "Annual report and accounts 31 March 2021"
+        ],
+        [
+          "https://www.rgs.org/about-us/what-is-geography/impact-of-geography/developing-models-of-governance-and-praxis-for-local-climate-action",
+          "Developing models of governance and praxis for local ..."
+        ],
+        [
+          "https://www.rorealestate.co.uk/dakotaweybridge",
+          "Dakota Weybridge case study"
+        ],
+        [
+          "https://www.royalobservatorygreenwich.org/articles.php?article=1301",
+          "People: John Pond, the sixth Astronomer Royal"
+        ],
+        [
+          "https://www.searchflow.co.uk/news-and-events/personal-searches-turnaround-times/",
+          "Personal Search: Turnaround Times"
+        ],
+        [
+          "https://www.southernregion.net/SouthernRegionRouteMileages.html",
+          "Southern Region Route Mileages (1961)"
+        ],
+        [
+          "https://www.southwesternrailway.com/travelling-with-us/at-the-station/gerrards-cross",
+          "Gerrards Cross Train Station"
+        ],
+        [
+          "https://www.southwesternrailway.com/travelling-with-us/routes",
+          "Routes"
+        ],
+        [
+          "https://www.spelthorneconservatives.org.uk/staines-south-ashford-west-residents-survey",
+          "Staines South & Ashford West Residents Survey"
+        ],
+        [
+          "https://www.surrey.ac.uk/people/alia-middleton",
+          "Dr Alia Middleton"
+        ],
+        [
+          "https://www.surrey.ca/sites/default/files/corporate-reports/CR_2021-R030.pdf",
+          "CORPORATE REPORT"
+        ],
+        [
+          "https://www.surreystudentpad.co.uk/local",
+          "Local Information"
+        ],
+        [
+          "https://www.thegazette.co.uk/all-notices/content/103892",
+          "A guide to the Court of Protection"
+        ],
+        [
+          "https://www.theundergroundmap.com/article.html?id=27535&zoom=14&annum=1860",
+          "Risley Avenue, N17"
+        ],
+        [
+          "https://www.tribalimpact.com/blog/7-employees-that-got-it-wrong-on-social-media.-or-did-their-employer",
+          "7 Employees That Got it Wrong On Social Media. Or Did ..."
+        ],
+        [
+          "https://www.unithistories.com/officers/RNVR_officersM3.html",
+          "Royal Naval Volunteer Reserve (RNVR) Officers 1939-1945"
+        ],
+        [
+          "https://www.visorando.com/en/walk-horley.html",
+          "19 best Horley walks"
+        ],
+        [
+          "https://www.yopa.co.uk/homeowners-hub/whats-it-like-to-live-in-dorking/",
+          "What's it like to live in Dorking? - Yopa Homeowners Hub"
+        ]
+      ]
+    },
+    "kent_2017": {
+      "council": "Kent",
+      "polling_day": "2017-05-04",
+      "window": [
+        "2017-02-03",
+        "2017-04-03"
+      ],
+      "queries": 21,
+      "hits": 210,
+      "unique_urls": 135,
+      "by_class": {
+        "local_news": 93,
+        "non_news": 37,
+        "national": 5
+      },
+      "local_unique_urls": 93,
+      "local_by_template": {
+        "T1_council_election": 4,
+        "T3_party_candidates": 28,
+        "T2_council_party": 17,
+        "T4_division_place": 44
+      },
+      "top_local_domains": [
+        [
+          "southborough-news.com",
+          3
+        ],
+        [
+          "kentonline.co.uk",
+          3
+        ],
+        [
+          "mytenterden.co.uk",
+          3
+        ],
+        [
+          "shepwayvox.org",
+          2
+        ],
+        [
+          "bbc.com",
+          2
+        ],
+        [
+          "ballotpedia.org",
+          2
+        ],
+        [
+          "planningresource.co.uk",
+          2
+        ],
+        [
+          "carehome.co.uk",
+          2
+        ],
+        [
+          "wyomingmi.gov",
+          1
+        ],
+        [
+          "vote411.org",
+          1
+        ],
+        [
+          "co.muskegon.mi.us",
+          1
+        ],
+        [
+          "elections.maryland.gov",
+          1
+        ],
+        [
+          "theisleofthanetnews.com",
+          1
+        ],
+        [
+          "racingpost.com",
+          1
+        ],
+        [
+          "fbu.org.uk",
+          1
+        ]
+      ],
+      "wayback_article_captures": {
+        "kentlive.news": 1277,
+        "bbc.co.uk/news/uk-england-kent": 230,
+        "kentonline.co.uk": 3827
+      },
+      "wayback_total": 5334,
+      "local_urls": [
+        [
+          "https://archive.thetab.com/uk/rhul/2017/02/24/meet-rhul-students-running-local-council-elections-11265",
+          "Meet the RHUL students running in the local council ..."
+        ],
+        [
+          "https://artuk.org/visit/venues/kent-police-museum-3355",
+          "Kent Police Museum"
+        ],
+        [
+          "https://assets.noviams.com/novi-file-uploads/aaal/PDFs/AAAL_2017_Conference_Program-65eaac7d.pdf",
+          "ON-SITE PROGRAM"
+        ],
+        [
+          "https://ballotpedia.org/Brad_Johnson_(South_Carolina)",
+          "Brad Johnson (South Carolina)"
+        ],
+        [
+          "https://ballotpedia.org/Hannah_Risheq",
+          "Hannah Risheq"
+        ],
+        [
+          "https://careleaverpp.org/partners/",
+          "Partners"
+        ],
+        [
+          "https://cddoc.uc.cl/wp-content/uploads/2020/03/Digital_Natives_Digital_Inmigrants.pdf",
+          "Digital Natives, Digital Immigrants Part 1"
+        ],
+        [
+          "https://co.muskegon.mi.us/Archive.aspx?ADID=143",
+          "Recap for Accounts Payable"
+        ],
+        [
+          "https://conservativehome.com/author/andrew-kennedy/",
+          "Author: Andrew Kennedy"
+        ],
+        [
+          "https://doverhistorian.com/2017/03/18/theatres-part-iii-dovers-amateur-groups/",
+          "Theatres Part III \u2013 Dover's Amateur Groups"
+        ],
+        [
+          "https://elections.maryland.gov/campaign_finance/documents/Summary_Guide_2017_final.pdf",
+          "Maryland Candidacy & Campaign Finance Laws"
+        ],
+        [
+          "https://findthatpostcode.uk/postcodes/DA11%209FF.html",
+          "Postcode DA11 9FF"
+        ],
+        [
+          "https://firststateupdate.com/2017/02/mayor-will-follow-the-law-in-the-search-for-new-police-chief/",
+          "Mayor Will Follow The Law In The Search For New Police ..."
+        ],
+        [
+          "https://footballfoundation.org/hof_scholars.aspx?hof=724",
+          "Michael Perrin (1968) - NFF College Football Hall of Fame"
+        ],
+        [
+          "https://highweald.org/document-library/research/field-systems-in-the-high-weald/field-systems-in-the-high-weald-research-history-march-2017/?layout=file",
+          "Historic Research Synthesis"
+        ],
+        [
+          "https://hopenothate.org.uk/2017/02/22/ukip-flout-election-law-campaign-overspend/",
+          "UKIP flout election law in campaign overspend"
+        ],
+        [
+          "https://ictnews.org/archive/pocahontas-death-day-celebrations-england/",
+          "Pocahontas Death Day Celebrations in England - ICT News"
+        ],
+        [
+          "https://international.uiowa.edu/ISSS/resources/guide-living-iowa-city",
+          "Guide to Living in Iowa City | International Programs"
+        ],
+        [
+          "https://investorrelations.bankofireland.com/app/uploads/BOI-Annual-Report-2016.pdf",
+          "Annual Report"
+        ],
+        [
+          "https://junoawards.ca/wp-content/uploads/2017/02/2017JUNONominees.pdf",
+          "2017 JUNO Award Nominees"
+        ],
+        [
+          "https://kar.kent.ac.uk/61912/3/183Volume%203.pdf",
+          "Oppida: A Settlement Phenomenon of the later Iron Ages of ..."
+        ],
+        [
+          "https://kentandmedwaygrowthhub.org.uk/kent-and-medway-business-support/local-business-support-in-thanet/",
+          "Business Support in Thanet : Kent & Medway ..."
+        ],
+        [
+          "https://law.yale.edu/sites/default/files/documents/pdf/Faculty/Langbein_Privilege_Against_Self_Incrimination.pdf",
+          "THE HISTORICAL ORIGINS OF THE PRIVILEGE AGAINST ..."
+        ],
+        [
+          "https://lfpress.com/news/conservatives-10-of-the-14-candidates-to-replace-stephen-ha/",
+          "Conservatives: 10 of the 14 candidates to replace Stephen ..."
+        ],
+        [
+          "https://our.utah.edu/urop-awardees/",
+          "UROP Awardees - Office of Undergraduate Research"
+        ],
+        [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC5554789/",
+          "Pesticides, pollution and the UK's silent spring, 1963\u20131964"
+        ],
+        [
+          "https://publications.parliament.uk/pa/cm201617/cmselect/cmworpen/56/56.pdf",
+          "Disability employment gap"
+        ],
+        [
+          "https://radicalreentry.com/feminist-scholar-statement/",
+          "Feminist Scholar Statement - Radicalreentry"
+        ],
+        [
+          "https://scholarship.law.cornell.edu/cgi/viewcontent.cgi?article=4722&context=clr",
+          "The President's Power to Tax"
+        ],
+        [
+          "https://shepwayvox.org/2017/02/",
+          "February 2017 \u2013 ShepwayVox Dissent is not a Crime"
+        ],
+        [
+          "https://shepwayvox.org/2017/03/",
+          "March 2017 \u2013 ShepwayVox Dissent is not a Crime"
+        ],
+        [
+          "https://southborough-news.com/2017/02/",
+          "February 2017 - Southborough News"
+        ],
+        [
+          "https://southborough-news.com/2017/02/10/conservatives-hold-seat-in-by-election/",
+          "Conservatives Hold Seat in By-election - Southborough News"
+        ],
+        [
+          "https://southborough-news.com/2017/02/26/southborough-council-holds-final-meeting-at-its-home-of-140-years/",
+          "Southborough Council Holds Final Meeting at its Home of 140 ..."
+        ],
+        [
+          "https://stage.txcourts.gov/media/1437132/scac-enotebook-232017-meeting.pdf",
+          "SCAC MEETING AGENDA Friday, February 3, 2017 9: ..."
+        ],
+        [
+          "https://theisleofthanetnews.com/2017/03/15/opinion-thanet-ukip-leader-chris-wells-super-council-options/",
+          "Thanet UKIP leader Chris Wells \u2013 Super-council options"
+        ],
+        [
+          "https://theprogress.com/2017/03/07/update-w-video-bc-green-party-announces-candidate-for-chilliwack-riding/",
+          "UPDATE w/ VIDEO: BC Green Party announces candidate ..."
+        ],
+        [
+          "https://touchstamps.com/Stamp/Find",
+          "Find"
+        ],
+        [
+          "https://weadapt.org/organisation/uncdf/",
+          "UNCDF"
+        ],
+        [
+          "https://www.agri-pulse.com/articles/8894-lesson-1-every-farm-bill-is-unique-the-last-one-was-a-doozy",
+          "Lesson #1: Every farm bill is unique \u2013 the last one was a ..."
+        ],
+        [
+          "https://www.ala.org/sites/default/files/acrl/content/conferences/confsandpreconfs/2017/acrl2017_program.pdf",
+          "AT THE HELM"
+        ],
+        [
+          "https://www.alfredstate.edu/sites/default/files/2025-09/Transitions_Spring2016.pdf",
+          "running\u00ae..."
+        ],
+        [
+          "https://www.bbc.com/news/uk-england-kent-39257452",
+          "Kent English Democrats official jailed for election fraud"
+        ],
+        [
+          "https://www.bbc.com/news/uk-england-stoke-staffordshire-38887841",
+          "Nigel Farage dodges egg on UKIP campaign trail in Stoke- ..."
+        ],
+        [
+          "https://www.californialawreview.org/print/courts-and-the-executive-in-wartime-a-comparative-study-of-the-american-and-british-approaches-to-the-internment-of-citizens-during-world-war-ii-and-their-lessons-for-today",
+          "Courts and the Executive in Wartime: A Comparative Study ..."
+        ],
+        [
+          "https://www.carehome.co.uk/care_search_results.cfm/searchcounty/Kent/searchchtype/local-authority",
+          "Local Authority Owned Care Homes / Nursing Homes Kent"
+        ],
+        [
+          "https://www.carehome.co.uk/housing.cfm/id/65432201516",
+          "SeeAbility Kent Support Services"
+        ],
+        [
+          "https://www.cbc.ca/news/politics/grenier-party-line-voting-1.3984516",
+          "Liberal backbenchers, Tory leadership hopefuls among ..."
+        ],
+        [
+          "https://www.cbd.int/doc/publications/cbd-ts-89-en.pdf",
+          "The Lima Declaration on Biodiversity and Climate Change: ..."
+        ],
+        [
+          "https://www.cityofdover.com/elections",
+          "City of Dover Elections"
+        ],
+        [
+          "https://www.communityad.co.uk/books/tupton-parish-council-magazine/",
+          "Tupton Parish Council Magazine | Chesterfield"
+        ],
+        [
+          "https://www.congress.gov/congressional-record/volume-163/issue-20/senate-section/article/S873-2",
+          "Continued; Congressional Record Vol. 163, No. 20 (Senate"
+        ],
+        [
+          "https://www.creativefolkestone.org.uk/news/2017/03/folkestone-triennial-2017-artists-announced/",
+          "Folkestone Triennial 2017 - Artists Announced"
+        ],
+        [
+          "https://www.cs.umd.edu/~gasarch/COURSES/752/S22/mathcoloringbook.pdf",
+          "The Mathematical Coloring Book"
+        ],
+        [
+          "https://www.discoveringbritain.org/activities/south-east-england/walks/darent-valley-walk.html",
+          "Darent Valley walk, Kent"
+        ],
+        [
+          "https://www.doi.gov/sites/default/files/uploads/17-00541ce.pdf",
+          "LAND AND MINERALS MANAGEMENT DATE"
+        ],
+        [
+          "https://www.fbu.org.uk/blog/risks-single-employer-police-and-firefighters",
+          "Risks of a single employer for police and firefighters"
+        ],
+        [
+          "https://www.hugofox.com/community/?loc_location=seed%2C+newnham%2C+kent&loc_exactlocation=64398",
+          "Communities near Seed, Newnham, Kent"
+        ],
+        [
+          "https://www.ifieldschool.com/",
+          "Ifield School - Home"
+        ],
+        [
+          "https://www.jstor.org/stable/pdf/2936584.pdf",
+          "Volume Information"
+        ],
+        [
+          "https://www.kent.ac.uk/courses/undergraduate/1941/economics-and-management",
+          "Economics and Management - BSc (Hons)"
+        ],
+        [
+          "https://www.kentfa.com/cups/cups/2017-2018/kent-womens-cup",
+          "Kent Reliance Women's Cup"
+        ],
+        [
+          "https://www.kentonline.co.uk/ashford/news/road-safety-enthusiast-meets-gritters-120167/",
+          "Road safety enthusiast meets gritters - Ashford"
+        ],
+        [
+          "https://www.kentonline.co.uk/kent/news/kent-makes-super-council-decision-122740/",
+          "Dover, Canterbury, Thanet and Shepway super council ..."
+        ],
+        [
+          "https://www.kentonline.co.uk/kent/news/massive-delay-in-funerals-criticised-120859/",
+          "Kent's coroners service attacked over slow pace of work"
+        ],
+        [
+          "https://www.kentrepublicans.com/bylaws",
+          "Bylaws"
+        ],
+        [
+          "https://www.landmarkchambers.co.uk/barristers/james-neill",
+          "James Neill"
+        ],
+        [
+          "https://www.lgcplus.com/idea-exchange/idea-exchange-how-sevenoaks-dc-became-council-of-the-year-20-03-2017/",
+          "Idea Exchange: How Sevenoaks DC became Council of ..."
+        ],
+        [
+          "https://www.mercuretunbridgewells.co.uk/",
+          "Mercure Tunbridge Wells Hotel"
+        ],
+        [
+          "https://www.mykentfamily.co.uk/real-life/council-to-receive-millions-to-121680/",
+          "KCC and Medway Council to receive millions of pounds ..."
+        ],
+        [
+          "https://www.mytenterden.co.uk/directory/ashford-borough-council-customer-services-at-tenterden-town-hall-listing-705.aspx",
+          "Ashford Borough Council Customer Services at Tenterden ..."
+        ],
+        [
+          "https://www.mytenterden.co.uk/directory/kent-county-council-listing-1105.aspx",
+          "Kent County Council - Maidstone, Kent - My Tenterden"
+        ],
+        [
+          "https://www.mytenterden.co.uk/directory/tenterden-gateway-listing-844.aspx",
+          "Tenterden Gateway - Tenterden, Kent"
+        ],
+        [
+          "https://www.networkrail.co.uk/wp-content/uploads/2016/12/Kent-Route-Study-Draft-for-Consultation.pdf",
+          "Kent Route Study - Draft for Consultation"
+        ],
+        [
+          "https://www.oecd.org/content/dam/oecd/en/publications/reports/2017/02/the-governance-of-land-use-in-france_g1g74dc5/9789264268791-en.pdf",
+          "The Governance of Land Use in France"
+        ],
+        [
+          "https://www.otford.kent.sch.uk/british-values",
+          "Otford Primary School - British Values"
+        ],
+        [
+          "https://www.parliament.uk/globalassets/documents/publications-records/house-of-lords-publications/records-activities-and-membership/register-of-lords-interests/register160518.pdf",
+          "REGISTER OF LORDS' INTERESTS - London"
+        ],
+        [
+          "https://www.planningresource.co.uk/article/1423944/tfl-sets-plan-bakerloo-line-extension-lewisham",
+          "TfL sets out plan for Bakerloo line extension to Lewisham"
+        ],
+        [
+          "https://www.planningresource.co.uk/article/1428248/industrial-strategy-require-sub-regional-spatial-planning-says-government-backed-report",
+          "Industrial strategy should require sub-regional spatial ..."
+        ],
+        [
+          "https://www.portage.org.uk/kent-portage-service",
+          "Kent Portage Service"
+        ],
+        [
+          "https://www.racingpost.com/news/new-garden-town-plan-for-folkestone-facing-increasing-local-hostility-aCNdM5l7iYhy/",
+          "New garden town plan for Folkestone facing increasing ..."
+        ],
+        [
+          "https://www.relocatemagazine.com/enterprise-promoting-investment-in-kent-locate-in-kent-strengthens-its-team",
+          "Promoting investment in Kent: Locate in Kent strengthens ..."
+        ],
+        [
+          "https://www.saltwoodpc.org.uk/shared/attachments.asp?f=79b69f30%2Dc7d9%2D44c1%2Dbc1a%2Da3ac96923567%2Epdf&o=Minutes%5F06February2017%2Epdf",
+          "MINUTES OF A MEETING OF SALTWOOD ..."
+        ],
+        [
+          "https://www.senate.ca.gov/sites/senate.ca.gov/files/the_constitutions_of_california_and_the_united_states2.pdf",
+          "The Constitutions of California and the United States ..."
+        ],
+        [
+          "https://www.stairliftstoday.co.uk/index.php/contact/",
+          "Contact Us - Stairlifts Maidstone Kent"
+        ],
+        [
+          "https://www.theobserver.ca/news/consensus-ontario-wants-to-field-candidates-locally-in-2018-o/",
+          "Consensus Ontario wants to field candidates locally in ..."
+        ],
+        [
+          "https://www.timesofisrael.com/why-these-5-european-jews-are-promoting-far-right-parties/",
+          "Why these 5 European Jews are promoting far-right parties"
+        ],
+        [
+          "https://www.u2.com/blogs/news/the-joshua-tree-at-thirty",
+          "'I cannot imagine my life without it.' \u2013 U2.com"
+        ],
+        [
+          "https://www.uscap.org/public/documents/2017-Annual-Meeting/2017_ProgramBook_sm.pdf",
+          "PROGRAM BOOK"
+        ],
+        [
+          "https://www.vote411.org/michigan",
+          "Michigan Voting Information"
+        ],
+        [
+          "https://www.walkingenglishman.com/ldp/greensandway.html",
+          "Greensand Way (including map, GPS files and statistics)"
+        ],
+        [
+          "https://www.wyomingmi.gov/About-Wyoming/City-Departments/City-Clerk/Voting-Elections",
+          "Elections & Voting - City Clerk"
+        ],
+        [
+          "https://yalelawjournal.org/article/tort-law-inside-out",
+          "Tort Law Inside Out"
+        ]
+      ]
+    },
+    "kent_2021": {
+      "council": "Kent",
+      "polling_day": "2021-05-06",
+      "window": [
+        "2021-02-05",
+        "2021-04-05"
+      ],
+      "queries": 21,
+      "hits": 210,
+      "unique_urls": 136,
+      "by_class": {
+        "non_news": 65,
+        "local_news": 68,
+        "national": 3
+      },
+      "local_unique_urls": 68,
+      "local_by_template": {
+        "T1_council_election": 4,
+        "T2_council_party": 19,
+        "T3_party_candidates": 18,
+        "T4_division_place": 27
+      },
+      "top_local_domains": [
+        [
+          "kentonline.co.uk",
+          4
+        ],
+        [
+          "bbc.co.uk",
+          2
+        ],
+        [
+          "pmc.ncbi.nlm.nih.gov",
+          2
+        ],
+        [
+          "communitylandtrusts.org.uk",
+          2
+        ],
+        [
+          "shepwayvox.org",
+          2
+        ],
+        [
+          "kcas.org.uk",
+          2
+        ],
+        [
+          "swale.moderngov.co.uk",
+          1
+        ],
+        [
+          "elections.delaware.gov",
+          1
+        ],
+        [
+          "tonbridgeconservatives.org.uk",
+          1
+        ],
+        [
+          "my.lwv.org",
+          1
+        ],
+        [
+          "dartfordconservatives.org.uk",
+          1
+        ],
+        [
+          "riverheadlocal.com",
+          1
+        ],
+        [
+          "electionscentre.co.uk",
+          1
+        ],
+        [
+          "tandfonline.com",
+          1
+        ],
+        [
+          "kentlive.news",
+          1
+        ]
+      ],
+      "wayback_article_captures": {
+        "kentlive.news": 3918,
+        "bbc.co.uk/news/uk-england-kent": 385,
+        "kentonline.co.uk": 8742
+      },
+      "wayback_total": 13045,
+      "local_urls": [
+        [
+          "http://www.electionscentre.co.uk/wp-content/uploads/2021/02/LEH2019-complete.pdf",
+          "local elections handbook 2019"
+        ],
+        [
+          "https://archive.dni.gov/files/ODNI/documents/assessments/GlobalTrends_2040.pdf",
+          "2040 - DNI.gov - Office of the Director of National Intelligence"
+        ],
+        [
+          "https://capitol.texas.gov/tlodocs/87R/handouts/C4202021032510301/a3bf73f7-056b-40d8-9436-47b52828fec8.PDF",
+          "ActiveReports Document - Texas.gov"
+        ],
+        [
+          "https://commerce.maryland.gov/Documents/BusinessResource/maryland-COVID-19-grant-fund-recipients.pdf",
+          "maryland-COVID-19-grant-fund-recipients.pdf"
+        ],
+        [
+          "https://delcode.delaware.gov/title9/c048/index.html",
+          "Kent County"
+        ],
+        [
+          "https://elections.delaware.gov/municipality/dover/2021_DoverSpecialElectionNominationPacket.pdf",
+          "City of Dover"
+        ],
+        [
+          "https://fedarene.org/best-practice/locase-low-carbon-across-the-south-east/",
+          "LoCASE - Low Carbon Across the South East"
+        ],
+        [
+          "https://investor.unionpacific.com/static-files/0328ee02-689d-414d-8c9e-d1303a3a2c6d",
+          "State Candidate Names"
+        ],
+        [
+          "https://journals.sagepub.com/doi/full/10.1177/0032329221992198",
+          "Voting for Your Pocketbook, but against ..."
+        ],
+        [
+          "https://kcas.org.uk/",
+          "Kent County Agricultural Society - Showcasing Farming and ..."
+        ],
+        [
+          "https://kcas.org.uk/heritage-transport-show/",
+          "Heritage Transport Show"
+        ],
+        [
+          "https://my.lwv.org/ohio/kent/lwvk-observer-corps",
+          "LWVK Observer Corps | MyLO"
+        ],
+        [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC8251431/",
+          "The social cohesion investment - PMC"
+        ],
+        [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC8813697/",
+          "Brief Report: Autism-Specific College Support Programs - PMC"
+        ],
+        [
+          "https://publications.parliament.uk/pa/cm/cmsecret/210218/register.pdf",
+          "Introduction to Staff Register"
+        ],
+        [
+          "https://repository.law.miami.edu/cgi/viewcontent.cgi?article=4628&context=umlr",
+          "Anti-Science Ideology"
+        ],
+        [
+          "https://riverheadlocal.com/2021/02/24/kent-tapped-to-challenge-aguiar-for-supervisor/",
+          "Kent tapped to challenge Aguiar for supervisor"
+        ],
+        [
+          "https://scholar.law.colorado.edu/cgi/viewcontent.cgi?article=1002&context=amicus",
+          "Amicus (Spring 2021) - Colorado Law Scholarly Commons"
+        ],
+        [
+          "https://shepwayvox.org/2021/02/17/fhdc-look-set-to-have-highest-council-tax-in-kent-for-eighteenth-year-in-a-row/",
+          "FHDC look set to have highest Council Tax in Kent for ..."
+        ],
+        [
+          "https://shepwayvox.org/2021/04/03/council-had-no-contaminated-land-register-for-28-years-meaning-buyers-of-property-couldnt-know-if-their-land-was-contaminated/",
+          "Council had no Contaminated Land Register for 28 years ..."
+        ],
+        [
+          "https://southborough-news.com/2021/03/",
+          "March 2021 - Southborough News"
+        ],
+        [
+          "https://statesassembly.je/publications/hansard/2021/official-report-9th-february-2021",
+          "States Assembly - Official Report - 9th February 2021"
+        ],
+        [
+          "https://swale.moderngov.co.uk/mgUserInfo.aspx?UID=1394",
+          "Councillor details - Sarah Stephen"
+        ],
+        [
+          "https://thecounty.me/2021/03/25/arts/wintergreen-to-feature-perham-artists-work/",
+          "Wintergreen to feature Perham artist's work - The County"
+        ],
+        [
+          "https://theisleofthanetnews.com/2021/03/03/county-council-working-towards-reopening-of-library-services/",
+          "County council working towards reopening of library services"
+        ],
+        [
+          "https://web.sciencesocieties.org/Learning-Center/courses",
+          "Courses"
+        ],
+        [
+          "https://www.aquinas.edu/_files/2021-2022%20Academic%20Catalog%20FINAL%20-%20ERIN%20PERAINO.pdf",
+          "Academic Catalog 2021-2022 - Aquinas College"
+        ],
+        [
+          "https://www.bbc.co.uk/news/uk-england-56168977",
+          "Local elections postponed in three English counties"
+        ],
+        [
+          "https://www.bbc.co.uk/news/uk-england-london-56589260",
+          "London elections 2021: Record-breaking list of mayoral ..."
+        ],
+        [
+          "https://www.berkeleygroup.co.uk/helping-you-move/berkeley-inspiration/is-kent-a-good-place-to-live",
+          "Is Kent a Good Place to Live? | Berkeley Inspiration"
+        ],
+        [
+          "https://www.bestwestern.co.uk/hotels/burlington-hotel-bw-premier-collection-by-best-western-84226",
+          "Burlington Hotel, BW Premier Collection by Best Western"
+        ],
+        [
+          "https://www.breit.com/wp-content/uploads/sites/4/2021/03/2020-BREIT-Annual-Report.pdf",
+          "2020-BREIT-Annual-Report.pdf"
+        ],
+        [
+          "https://www.britishfuture.org/wp-content/uploads/2021/02/Our-Chance-to-Reconnect.Final7MB.pdf",
+          "Our chance to reconnect"
+        ],
+        [
+          "https://www.cambridge.org/core/journals/american-political-science-review/article/clocks-must-always-be-turned-back-brown-v-board-of-education-and-the-racial-origins-of-constitutional-originalism/AEA2474F0FC8EA1C0C77F7481DC670D6",
+          "\u201cClocks Must Always Be Turned Back\u201d: Brown v. Board of ..."
+        ],
+        [
+          "https://www.communitylandtrusts.org.uk/campaigns/",
+          "Our campaigns to mainstream CLTs"
+        ],
+        [
+          "https://www.communitylandtrusts.org.uk/news-and-events/communities-leading-to-net-zero/",
+          "Communities leading to Net Zero"
+        ],
+        [
+          "https://www.dartfordconservatives.org.uk/join-us",
+          "JOIN US"
+        ],
+        [
+          "https://www.detlingcommunitystore.co.uk/post/village-pride-at-runners-up-award",
+          "Village Pride at Runners Up Award"
+        ],
+        [
+          "https://www.doverohio.com/publicrecordspolicy",
+          "Public Records Policy for the City of Dover"
+        ],
+        [
+          "https://www.dwt.com/-/media/files/blogs/artificial-intelligence-law-advisor/2021/03/nscai-final-report--2021.pdf",
+          "NSCAI Final Report 2021"
+        ],
+        [
+          "https://www.ebsco.com/research-starters/earth-and-atmospheric-sciences/white-cliffs-dover/",
+          "White Cliffs of Dover | Earth and Atmospheric Sciences"
+        ],
+        [
+          "https://www.ecfr.gov/current/title-40/chapter-I/subchapter-D/part-131",
+          "40 CFR Part 131 -- Water Quality Standards"
+        ],
+        [
+          "https://www.iccm-uk.com/iccm/wp-content/uploads/2021/03/Directory-of-Crematoria-24-March-2021.pdf",
+          "Crematoria in England, Wales, Scotland, ..."
+        ],
+        [
+          "https://www.instituteofhealthequity.org/resources-reports/covid-19-the-social-determinants-of-health-and-health-equity---who-evidence-brief",
+          "COVID-19 and the social determinants ..."
+        ],
+        [
+          "https://www.inyourarea.co.uk/news/plans-revealed-for-reopening-of-kent-libraries",
+          "Plans revealed for reopening of Kent libraries"
+        ],
+        [
+          "https://www.iri-delaware.org/info/kent-county/",
+          "Kent County | Delaware Independent Resources Inc"
+        ],
+        [
+          "https://www.itv.com/news/meridian/2021-03-07/nigel-farage-quits-politics-after-stepping-down-as-reform-party-leader",
+          "Nigel Farage 'quits politics' after stepping down as Reform ..."
+        ],
+        [
+          "https://www.kentbikers.co.uk/ride-outs/routes/",
+          "Routes"
+        ],
+        [
+          "https://www.kentlive.news/news/?pageNumber=700",
+          "Latest news from Kent and the UK"
+        ],
+        [
+          "https://www.kentonline.co.uk/dover/news/blooming-awful-243433/",
+          "Dover District Council leader slams \u00a390000 public seating ..."
+        ],
+        [
+          "https://www.kentonline.co.uk/kent/news/half-of-kents-libraries-set-to-reopen-in-coming-months-243379/",
+          "Half of Kent's libraries set to reopen their doors over next ..."
+        ],
+        [
+          "https://www.kentonline.co.uk/kent/news/plan-for-1m-footpath-repair-fund-rejected-242681/",
+          "Proposal to plough extra \u00a31million into repairing footpaths ..."
+        ],
+        [
+          "https://www.kentonline.co.uk/sheerness/news/labour-councillor-calls-herself-gruppenfuhrer-in-council-meeting-243425/",
+          "Sheerness Labour councillor Angela Harrison in ' ..."
+        ],
+        [
+          "https://www.maisondieudover.org.uk/",
+          "Maison Dieu, Dover's Town Hall"
+        ],
+        [
+          "https://www.networkrailmediacentre.co.uk/news/maidstone-east-station-gets-a-new-look",
+          "Maidstone East station gets a new look"
+        ],
+        [
+          "https://www.nmc.org.uk/registration/joining-the-register/geographical-locator-list/",
+          "Geographical locator list - The Nursing and Midwifery Council"
+        ],
+        [
+          "https://www.oas.org/fpdb/press/ReportPermanentObservers2020-2021.pdf",
+          "Report to Permanent Observers 2020-2021"
+        ],
+        [
+          "https://www.parliament.wa.gov.au/WebCMS/webcms.nsf/resources/file-antony-green-2021-election-analysis/$file/Analysis2021StateElection.pdf",
+          "Western Australian State Election 2021 Analysis of Results"
+        ],
+        [
+          "https://www.quora.com/What-is-the-meaning-of-kentish-in-English-language",
+          "What is the meaning of 'kentish' in English language?"
+        ],
+        [
+          "https://www.repository.law.indiana.edu/cgi/viewcontent.cgi?article=3957&context=facpub",
+          "Fintech's Role in Exacerbating or Reducing the Wealth Gap"
+        ],
+        [
+          "https://www.riversidemedicalpractice.com/_common/getdocument/131275",
+          "Kent and Medway Care Record \u2013 Privacy Notice"
+        ],
+        [
+          "https://www.searchflow.co.uk/news-and-events/personal-searches-turnaround-times/",
+          "Personal Search: Turnaround Times"
+        ],
+        [
+          "https://www.sec.gov/Archives/edgar/data/1821825/000119312521084081/d56612dex991.htm",
+          "EX-99.1"
+        ],
+        [
+          "https://www.shu.ac.uk/research/in-action/projects/sport-event-impact",
+          "Helping global sports events think local"
+        ],
+        [
+          "https://www.tandfonline.com/doi/full/10.1080/03003930.2021.1895768",
+          "Full article: Risky business? Analysing the challenges and ..."
+        ],
+        [
+          "https://www.the-independent.com/travel/uk/england/maidstone-kent-home-town-uk-travel-b1811736.html",
+          "my home town: Why Maidstone remains a perpetual mystery"
+        ],
+        [
+          "https://www.tonbridgeconservatives.org.uk/",
+          "Tonbridge, Edenbridge and Malling | Conservatives"
+        ],
+        [
+          "https://www.visitkent.co.uk/businesses/role-play-rascals",
+          "Role Play Rascals"
+        ]
+      ]
+    },
+    "kent_2025": {
+      "council": "Kent",
+      "polling_day": "2025-05-01",
+      "window": [
+        "2025-01-31",
+        "2025-03-31"
+      ],
+      "queries": 21,
+      "hits": 210,
+      "unique_urls": 109,
+      "by_class": {
+        "non_news": 76,
+        "national": 7,
+        "local_news": 26
+      },
+      "local_unique_urls": 26,
+      "local_by_template": {
+        "T1_council_election": 1,
+        "T2_council_party": 5,
+        "T3_party_candidates": 8,
+        "T4_division_place": 12
+      },
+      "top_local_domains": [
+        [
+          "kentlive.news",
+          2
+        ],
+        [
+          "kentcountymi.gov",
+          1
+        ],
+        [
+          "lgiu.org",
+          1
+        ],
+        [
+          "kentonline.co.uk",
+          1
+        ],
+        [
+          "whocanivotefor.co.uk",
+          1
+        ],
+        [
+          "theisleofthanetnews.com",
+          1
+        ],
+        [
+          "cbc.ca",
+          1
+        ],
+        [
+          "southborough-news.com",
+          1
+        ],
+        [
+          "sevenoakslabour.org",
+          1
+        ],
+        [
+          "canterburylibdems.org.uk",
+          1
+        ],
+        [
+          "andrewspreviews.substack.com",
+          1
+        ],
+        [
+          "shepwaygreenparty.com",
+          1
+        ],
+        [
+          "crowdfunder.co.uk",
+          1
+        ],
+        [
+          "bsky.app",
+          1
+        ],
+        [
+          "reformfolkestonehythe.co.uk",
+          1
+        ]
+      ],
+      "wayback_article_captures": {
+        "kentlive.news": 8369,
+        "bbc.co.uk/news/uk-england-kent": 220,
+        "kentonline.co.uk": 41879
+      },
+      "wayback_total": 50468,
+      "local_urls": [
+        [
+          "https://andrewspreviews.substack.com/p/previewing-the-nine-council-by-elections-7df",
+          "Previewing the nine council by-elections of 6th March 2025"
+        ],
+        [
+          "https://bsky.app/profile/greensdoveranddeal.bsky.social",
+          "Dover and Deal Green Party (@greensdoveranddeal.bsky. ..."
+        ],
+        [
+          "https://croydonconstitutionalists.uk/maxine-fothergill-reform/",
+          "Maxine Fothergill, Reform UK candidate for Sevenoaks ..."
+        ],
+        [
+          "https://dover.opus3.co.uk/ldf/maps/Policies%20Map",
+          "Policies Map"
+        ],
+        [
+          "https://irrv.net/homenew/associations.php?iid=27719",
+          "Associations"
+        ],
+        [
+          "https://kent.connecttosupport.org/the-hub-recruitment-and-retention/",
+          "The Hub : Recruitment and retention - Kent Connect to Support"
+        ],
+        [
+          "https://lgiu.org/local-elections-2025-live-updates-2/",
+          "Local elections 2025: Live updates"
+        ],
+        [
+          "https://pubmed.ncbi.nlm.nih.gov/40124583/",
+          "a multilevel analysis of the 2022 Demographic Health Survey"
+        ],
+        [
+          "https://reformfolkestonehythe.co.uk/mary-lawes/",
+          "Mary Lawes - Reform UK Folkestone / Hythe / Romney Marsh"
+        ],
+        [
+          "https://sevenoakslabour.org/",
+          "Sevenoaks Labour | Vote Labour May 1st"
+        ],
+        [
+          "https://shepwaygreenparty.com/our-candidates-for-kent-county-council-elections-on-1-may/",
+          "Our candidates for Kent County Council elections on 1 May"
+        ],
+        [
+          "https://southborough-news.com/2025/02/10/county-council-elections-due-in-may/",
+          "County Council Elections Due in May - Southborough News"
+        ],
+        [
+          "https://theisleofthanetnews.com/2025/03/05/kent-county-council-elections-meet-the-thanet-candidates/",
+          "Kent County Council elections: Meet the Thanet candidates"
+        ],
+        [
+          "https://whocanivotefor.co.uk/elections/local.medway.gillingham-south.by.2025-02-06/gillingham-south/",
+          "Medway local election: The 7 candidates in Gillingham South"
+        ],
+        [
+          "https://www.canterburylibdems.org.uk/alex-ricketts",
+          "Alex Ricketts"
+        ],
+        [
+          "https://www.cbc.ca/news/canada/newfoundland-labrador/avalon-kent-nomination-1.7491456",
+          "Nomination contenders 'appalled' as Steve Kent is tapped ..."
+        ],
+        [
+          "https://www.crowdfunder.co.uk/p/rebecca-hopkins-for-gravesend-east",
+          "Rebecca Hopkins for Gravesend East"
+        ],
+        [
+          "https://www.folkestoneandhythe.co.uk/",
+          "Folkestone"
+        ],
+        [
+          "https://www.imago.community/young-carers-services/kent-travel-saver",
+          "Kent travel saver"
+        ],
+        [
+          "https://www.itv.com/news/meridian/2025-03-31/reform-uk-pledge-to-emulate-trump-government-if-party-wins-control-of-council",
+          "Reform UK pledge to emulate Trump government ..."
+        ],
+        [
+          "https://www.kentcountymi.gov/1229/Running-for-Office",
+          "Running for Office | Kent County, MI"
+        ],
+        [
+          "https://www.kentlive.news/news/kent-news/respected-poll-says-reform-uk-10052436",
+          "Respected poll says Reform UK set to take control of Kent ..."
+        ],
+        [
+          "https://www.kentlive.news/news/kent-news/tory-leader-kemi-badenoch-admits-10008474",
+          "Tory leader Kemi Badenoch admits Kent County Council ..."
+        ],
+        [
+          "https://www.kentonline.co.uk/hythe/news/we-ll-put-people-with-business-brains-in-farage-predicts-322205/",
+          "Nigel Farage predicts Reform UK will do 'very well' at Kent ..."
+        ],
+        [
+          "https://www.mytenterden.co.uk/events/green-fun-day-listing-1575-158747.aspx",
+          "Green Fun Day - Tenterden, Kent"
+        ],
+        [
+          "https://www.natureemergency.com/",
+          "Nature Emergency"
+        ]
+      ]
+    }
+  }
+}

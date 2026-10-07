@@ -108,14 +108,22 @@ def queries(council: str, places: list[str]) -> list[dict]:
 
 def serper(q: str, start: date, end: date, key: str) -> list[dict]:
     us = lambda d: f"{d.month}/{d.day}/{d.year}"  # noqa: E731 - Google M/D/YYYY
-    r = requests.post(SERPER, timeout=60,
-                      headers={"X-API-KEY": key, "Content-Type": "application/json"},
-                      json={"q": q, "num": 20,
-                            "tbs": f"cdr:1,cd_min:{us(start)},cd_max:{us(end)}"})
-    r.raise_for_status()
-    time.sleep(1.0)
-    return [{"url": i.get("link"), "title": i.get("title")}
-            for i in r.json().get("organic", [])]
+    for attempt in range(4):
+        try:
+            r = requests.post(
+                SERPER, timeout=60,
+                headers={"X-API-KEY": key, "Content-Type": "application/json"},
+                json={"q": q, "num": 20,
+                      "tbs": f"cdr:1,cd_min:{us(start)},cd_max:{us(end)}"})
+            if r.status_code < 500:
+                r.raise_for_status()
+                time.sleep(1.0)
+                return [{"url": i.get("link"), "title": i.get("title")}
+                        for i in r.json().get("organic", [])]
+        except (requests.Timeout, requests.ConnectionError):
+            pass
+        time.sleep(10 * (attempt + 1))
+    raise RuntimeError(f"Serper failed four times for {q!r}")
 
 
 def cdx_count(target: str, match: str, start: date, end: date) -> int | None:
