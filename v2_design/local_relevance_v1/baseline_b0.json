@@ -1,0 +1,42 @@
+{
+  "arm": "B0 - V1 frozen v2 classifier (claude-sonnet-5), archived output",
+  "criteria": "v2_design/local_relevance_v1/criteria.md",
+  "dev": {
+    "n": 214,
+    "human_include": 99,
+    "predicted_include": 82,
+    "agreement": 0.743,
+    "kappa": 0.4768,
+    "kappa_ci95": [
+      0.3552,
+      0.588
+    ],
+    "include_recall": 0.6364,
+    "include_recall_ci95": [
+      0.5408,
+      0.7238
+    ],
+    "include_precision": 0.7683,
+    "passes_gate": false,
+    "missing_predictions_counted_exclude": 0
+  },
+  "test": {
+    "n": 166,
+    "human_include": 60,
+    "predicted_include": 63,
+    "agreement": 0.8614,
+    "kappa": 0.7031,
+    "kappa_ci95": [
+      0.5793,
+      0.8099
+    ],
+    "include_recall": 0.8333,
+    "include_recall_ci95": [
+      0.7321,
+      0.9207
+    ],
+    "include_precision": 0.7937,
+    "passes_gate": true,
+    "missing_predictions_counted_exclude": 0
+  }
+}

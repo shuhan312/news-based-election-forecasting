@@ -100,4 +100,17 @@ the gate is read on the point estimates, as in V1.
 
 ## Amendments
 
-(none)
+**A1 (2026-10-07, after scoring B0). No threshold is moved.**
+
+B0 (the frozen v2 classifier) passed the gate on test: kappa 0.703, include
+recall 0.833 (`baseline_b0.json`). The decision rule above covered only G1,
+so it is extended here:
+
+- G1 is not run on test. The hypothesis that motivated it (missing geography)
+  is not supported as the main failure cause; see `baseline_findings.md`.
+  No test-set budget has been spent on G1, so both finalist slots remain
+  unused.
+- The open question moves to a population the current test set barely
+  covers: unfiltered local-outlet output, which is what V2's outlet-first
+  collection will produce. That needs a fresh, human-labelled sample, under
+  its own committed criteria.
