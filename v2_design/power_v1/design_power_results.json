@@ -1,0 +1,2425 @@
+{
+  "status": "EXPLORATORY V2 design input. Pre-2026 fitting data only; no 2026 outcome and no new-county data is read.",
+  "estimand": "delta_content = MAE(M2_party_volume) - MAE(M3_party_volume_tone); positive favours content",
+  "fitting_cells": 45,
+  "headline_window": "90_to_31_days",
+  "power": {
+    "alpha_two_sided": 0.05,
+    "power": 0.8,
+    "z_sum": 2.801585
+  },
+  "windows": [
+    {
+      "window": "180_to_91_days",
+      "held_out_elections": 10,
+      "candidates_scored": 660,
+      "arm_mae_loeo": {
+        "M0_intercept": 9.492298895133093,
+        "M1_party": 9.825951445177393,
+        "M2_party_volume": 9.909925489785936,
+        "M3_party_volume_tone": 10.258722664284704,
+        "M3b_party_volume_incumbent": 9.803851971590271
+      },
+      "ladder": {
+        "M1_party_vs_M0_intercept": {
+          "delta": -0.3336525500443006,
+          "cluster_ci95": [
+            -1.6147802347193927,
+            1.2018760424777668
+          ],
+          "cluster_se": 0.8772177469275347
+        },
+        "M2_party_volume_vs_M1_party": {
+          "delta": -0.08397404460854219,
+          "cluster_ci95": [
+            -0.1665273899926046,
+            -0.01774736692549055
+          ],
+          "cluster_se": 0.051810714034061144
+        },
+        "M3_party_volume_tone_vs_M2_party_volume": {
+          "delta": -0.34879717449876857,
+          "cluster_ci95": [
+            -0.8195146408122487,
+            0.23196547790460814
+          ],
+          "cluster_se": 0.37716690086755006
+        },
+        "M3b_party_volume_incumbent_vs_M2_party_volume": {
+          "delta": 0.10607351819566446,
+          "cluster_ci95": [
+            -0.18850345997007892,
+            0.16951668488316682
+          ],
+          "cluster_se": 0.08712884212078038
+        }
+      },
+      "primary_cells": [
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "conservative",
+          "n": 81,
+          "delta": -2.6686963366444703
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "green",
+          "n": 55,
+          "delta": -1.0417860579990528
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "labour",
+          "n": 75,
+          "delta": 0.15963726529155303
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "liberal_democrat",
+          "n": 78,
+          "delta": -1.7055653575781793
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "ukip",
+          "n": 58,
+          "delta": 1.7465161624950791
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "conservative",
+          "n": 81,
+          "delta": 0.018269698905536532
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "green",
+          "n": 36,
+          "delta": -0.13956490931751675
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "labour",
+          "n": 79,
+          "delta": 0.5379721748360018
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "liberal_democrat",
+          "n": 72,
+          "delta": 0.26652376486441737
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "reform_uk",
+          "n": 6,
+          "delta": 1.0509001437657997
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "ukip",
+          "n": 5,
+          "delta": -0.40489844332122615
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": 1.3748740719386277
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "green",
+          "n": 1,
+          "delta": 3.555619696958191
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "labour",
+          "n": 1,
+          "delta": -0.5213338502639786
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": -2.131999998385499
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": -1.6227482478695912
+        },
+        {
+          "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 0.4682745867247746
+        },
+        {
+          "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": 2.93596492204928
+        },
+        {
+          "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": 1.0766095800494533
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": -1.5888973175363645
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "green",
+          "n": 1,
+          "delta": -0.9263530343001674
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 0.4857390600738478
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": -1.576844449874116
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": 1.2357841609936386
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": 1.7041465198429435
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "green",
+          "n": 1,
+          "delta": -0.9935451977452616
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 0.5209716950495662
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": -1.6912194085349626
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": -1.325420625984627
+        },
+        {
+          "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+          "party_key": "green",
+          "n": 1,
+          "delta": 0.861736101515187
+        },
+        {
+          "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 0.48790759490511704
+        },
+        {
+          "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": -1.4694536210915956
+        },
+        {
+          "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": -1.1141069330922022
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": -1.117530196942095
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "green",
+          "n": 1,
+          "delta": 0.6515383199617517
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 0.3416382301585523
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": 1.1090529697332379
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": 0.8691726655782066
+        },
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": -1.3635345679287951
+        },
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "party_key": "labour",
+          "n": 1,
+          "delta": -0.3904026055562788
+        },
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": -0.09712910419220577
+        },
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "party_key": "ukip",
+          "n": 1,
+          "delta": 2.422403256696729
+        },
+        {
+          "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": 1.5227598808729041
+        },
+        {
+          "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+          "party_key": "labour",
+          "n": 1,
+          "delta": -0.4125492012005303
+        },
+        {
+          "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+          "party_key": "ukip",
+          "n": 1,
+          "delta": -2.6871884983121213
+        }
+      ],
+      "sigma_cell_all": 1.4296682277387915,
+      "sigma_cell_whole_council": 1.3078835848375094,
+      "whole_council_cells": 9,
+      "icc_within_election": 0.0,
+      "cells_per_whole_council_election": 5.5,
+      "effective_election_clusters": 2.1955645161290325,
+      "projection": [
+        {
+          "basis": "whole-council cells",
+          "target_mde80": 0.05,
+          "cells_needed": 5371,
+          "elections_needed": 977,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "whole-council cells",
+          "target_mde80": 0.1,
+          "cells_needed": 1343,
+          "elections_needed": 245,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "whole-council cells",
+          "target_mde80": 0.2,
+          "cells_needed": 336,
+          "elections_needed": 62,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "whole-council cells",
+          "target_mde80": 0.3,
+          "cells_needed": 150,
+          "elections_needed": 28,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "all cells incl. by-elections",
+          "target_mde80": 0.05,
+          "cells_needed": 6418,
+          "elections_needed": 1167,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "all cells incl. by-elections",
+          "target_mde80": 0.1,
+          "cells_needed": 1605,
+          "elections_needed": 292,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "all cells incl. by-elections",
+          "target_mde80": 0.2,
+          "cells_needed": 402,
+          "elections_needed": 73,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "all cells incl. by-elections",
+          "target_mde80": 0.3,
+          "cells_needed": 179,
+          "elections_needed": 33,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "election-cluster SE",
+          "target_mde80": 0.05,
+          "elections_needed": 981
+        },
+        {
+          "basis": "election-cluster SE",
+          "target_mde80": 0.1,
+          "elections_needed": 246
+        },
+        {
+          "basis": "election-cluster SE",
+          "target_mde80": 0.2,
+          "elections_needed": 62
+        },
+        {
+          "basis": "election-cluster SE",
+          "target_mde80": 0.3,
+          "elections_needed": 28
+        }
+      ]
+    },
+    {
+      "window": "90_to_31_days",
+      "held_out_elections": 10,
+      "candidates_scored": 660,
+      "arm_mae_loeo": {
+        "M0_intercept": 9.492298895133093,
+        "M1_party": 9.825951445177393,
+        "M2_party_volume": 9.951392441693816,
+        "M3_party_volume_tone": 10.492669967638477,
+        "M3b_party_volume_incumbent": 9.646176410917523
+      },
+      "ladder": {
+        "M1_party_vs_M0_intercept": {
+          "delta": -0.3336525500443006,
+          "cluster_ci95": [
+            -1.6115538235580695,
+            1.230143691653761
+          ],
+          "cluster_se": 0.8867215351315477
+        },
+        "M2_party_volume_vs_M1_party": {
+          "delta": -0.1254409965164225,
+          "cluster_ci95": [
+            -0.17626792665910698,
+            -0.0750397192720728
+          ],
+          "cluster_se": 0.0329551824258019
+        },
+        "M3_party_volume_tone_vs_M2_party_volume": {
+          "delta": -0.5412775259446612,
+          "cluster_ci95": [
+            -0.7889508322970011,
+            -0.09129805144608064
+          ],
+          "cluster_se": 0.18368362551371312
+        },
+        "M3b_party_volume_incumbent_vs_M2_party_volume": {
+          "delta": 0.3052160307762932,
+          "cluster_ci95": [
+            -0.055965598015146154,
+            0.553407786157527
+          ],
+          "cluster_se": 0.1730359113288532
+        }
+      },
+      "primary_cells": [
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "conservative",
+          "n": 81,
+          "delta": -1.7361598989851952
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "green",
+          "n": 55,
+          "delta": -1.1872725819649934
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "labour",
+          "n": 75,
+          "delta": -0.2834973445453815
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "liberal_democrat",
+          "n": 78,
+          "delta": -0.12304355719410541
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "ukip",
+          "n": 58,
+          "delta": 1.9308159277974402
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "conservative",
+          "n": 81,
+          "delta": -0.0007322854148451314
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "green",
+          "n": 36,
+          "delta": -4.038723908678851
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "labour",
+          "n": 79,
+          "delta": -0.9284043355339361
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "liberal_democrat",
+          "n": 72,
+          "delta": 0.028601895036098026
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "reform_uk",
+          "n": 6,
+          "delta": -1.6129543358434404
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "ukip",
+          "n": 5,
+          "delta": 0.6383609693261402
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": 0.8784697050324084
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "green",
+          "n": 1,
+          "delta": -3.6897975543784973
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "labour",
+          "n": 1,
+          "delta": -2.666038605597663
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": -0.5992430051703153
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": -2.61372546247787
+        },
+        {
+          "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 0.6094192294223912
+        },
+        {
+          "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": 0.8459898853340775
+        },
+        {
+          "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": -0.4888115405653721
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": -0.3711725275687279
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "green",
+          "n": 1,
+          "delta": -0.6726171264285967
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 0.47084861976176917
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": -0.40395231422505873
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": 0.8891001665148046
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": 0.4702430132233637
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "green",
+          "n": 1,
+          "delta": -0.8521468610546834
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 0.5965238730871292
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": -0.5117721257119996
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": -1.126411871314751
+        },
+        {
+          "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+          "party_key": "green",
+          "n": 1,
+          "delta": 0.684729949536564
+        },
+        {
+          "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 0.4889529893634874
+        },
+        {
+          "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": -0.4148344096587664
+        },
+        {
+          "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": -0.8964807313234822
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": -0.23364107280510993
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "green",
+          "n": 1,
+          "delta": 0.4233906750460381
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 0.29638394137231927
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": 0.25427488579465063
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": 0.5596597304666027
+        },
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": -0.2878804576576002
+        },
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "party_key": "labour",
+          "n": 1,
+          "delta": -0.36230349270366524
+        },
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": 0.3113976429849714
+        },
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "party_key": "ukip",
+          "n": 1,
+          "delta": 1.1941800144752577
+        },
+        {
+          "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": 0.4620802414862837
+        },
+        {
+          "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+          "party_key": "labour",
+          "n": 1,
+          "delta": -0.5678599349224411
+        },
+        {
+          "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+          "party_key": "ukip",
+          "n": 1,
+          "delta": -1.8949012130928793
+        }
+      ],
+      "sigma_cell_all": 1.2174404791655327,
+      "sigma_cell_whole_council": 1.6185458562359556,
+      "whole_council_cells": 9,
+      "icc_within_election": 0.09374994338844447,
+      "cells_per_whole_council_election": 5.5,
+      "effective_election_clusters": 2.1955645161290325,
+      "projection": [
+        {
+          "basis": "whole-council cells",
+          "target_mde80": 0.05,
+          "cells_needed": 11695,
+          "elections_needed": 2127,
+          "design_effect": 1.422
+        },
+        {
+          "basis": "whole-council cells",
+          "target_mde80": 0.1,
+          "cells_needed": 2924,
+          "elections_needed": 532,
+          "design_effect": 1.422
+        },
+        {
+          "basis": "whole-council cells",
+          "target_mde80": 0.2,
+          "cells_needed": 731,
+          "elections_needed": 133,
+          "design_effect": 1.422
+        },
+        {
+          "basis": "whole-council cells",
+          "target_mde80": 0.3,
+          "cells_needed": 325,
+          "elections_needed": 60,
+          "design_effect": 1.422
+        },
+        {
+          "basis": "all cells incl. by-elections",
+          "target_mde80": 0.05,
+          "cells_needed": 6617,
+          "elections_needed": 1203,
+          "design_effect": 1.422
+        },
+        {
+          "basis": "all cells incl. by-elections",
+          "target_mde80": 0.1,
+          "cells_needed": 1655,
+          "elections_needed": 301,
+          "design_effect": 1.422
+        },
+        {
+          "basis": "all cells incl. by-elections",
+          "target_mde80": 0.2,
+          "cells_needed": 414,
+          "elections_needed": 76,
+          "design_effect": 1.422
+        },
+        {
+          "basis": "all cells incl. by-elections",
+          "target_mde80": 0.3,
+          "cells_needed": 184,
+          "elections_needed": 34,
+          "design_effect": 1.422
+        },
+        {
+          "basis": "election-cluster SE",
+          "target_mde80": 0.05,
+          "elections_needed": 233
+        },
+        {
+          "basis": "election-cluster SE",
+          "target_mde80": 0.1,
+          "elections_needed": 59
+        },
+        {
+          "basis": "election-cluster SE",
+          "target_mde80": 0.2,
+          "elections_needed": 15
+        },
+        {
+          "basis": "election-cluster SE",
+          "target_mde80": 0.3,
+          "elections_needed": 7
+        }
+      ]
+    },
+    {
+      "window": "30_to_15_days",
+      "held_out_elections": 10,
+      "candidates_scored": 660,
+      "arm_mae_loeo": {
+        "M0_intercept": 9.492298895133093,
+        "M1_party": 9.825951445177393,
+        "M2_party_volume": 9.820152843820972,
+        "M3_party_volume_tone": 9.814032825716183,
+        "M3b_party_volume_incumbent": 10.278943973459608
+      },
+      "ladder": {
+        "M1_party_vs_M0_intercept": {
+          "delta": -0.3336525500443006,
+          "cluster_ci95": [
+            -1.6115582632553334,
+            1.2032979398112813
+          ],
+          "cluster_se": 0.8765013541347249
+        },
+        "M2_party_volume_vs_M1_party": {
+          "delta": 0.005798601356421074,
+          "cluster_ci95": [
+            -0.13148545219714378,
+            0.028055770932988416
+          ],
+          "cluster_se": 0.03742543702725346
+        },
+        "M3_party_volume_tone_vs_M2_party_volume": {
+          "delta": 0.006120018104789793,
+          "cluster_ci95": [
+            -0.0480931629186752,
+            0.041841157423406855
+          ],
+          "cluster_se": 0.025838474005200073
+        },
+        "M3b_party_volume_incumbent_vs_M2_party_volume": {
+          "delta": -0.45879112963863555,
+          "cluster_ci95": [
+            -0.8511714206631495,
+            0.012903954667510606
+          ],
+          "cluster_se": 0.30947575897987434
+        }
+      },
+      "primary_cells": [
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "conservative",
+          "n": 81,
+          "delta": -0.014651528999949842
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "green",
+          "n": 55,
+          "delta": -0.08456131590149686
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "labour",
+          "n": 75,
+          "delta": -0.12106819200875109
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "liberal_democrat",
+          "n": 78,
+          "delta": -0.03341310941587253
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "ukip",
+          "n": 58,
+          "delta": 0.17764025400806618
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "conservative",
+          "n": 81,
+          "delta": -0.04266466234605858
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "green",
+          "n": 36,
+          "delta": 0.06576413104979266
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "labour",
+          "n": 79,
+          "delta": 0.14530917655168024
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "liberal_democrat",
+          "n": 72,
+          "delta": 0.04427035893232281
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "reform_uk",
+          "n": 6,
+          "delta": -0.4455574638694415
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "ukip",
+          "n": 5,
+          "delta": 0.32458520059739443
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": -0.10262678035098816
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "green",
+          "n": 1,
+          "delta": -0.022736912849225632
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 0.09188254190752687
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": -0.011516874612421901
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": 0.12539066686513323
+        },
+        {
+          "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+          "party_key": "labour",
+          "n": 1,
+          "delta": -0.44560902037751937
+        },
+        {
+          "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": 0.02970690225807715
+        },
+        {
+          "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": -0.017965870392423255
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": 0.11478782187614556
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "green",
+          "n": 1,
+          "delta": 0.04654179292049898
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "labour",
+          "n": 1,
+          "delta": -0.036554859354303026
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": 0.039736865598996474
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": -0.17425517251070133
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": 0.05070086081395253
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "green",
+          "n": 1,
+          "delta": -0.020557136866313108
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 0.016145988362736396
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": -0.017551455014896078
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": -0.07696711291471559
+        },
+        {
+          "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+          "party_key": "green",
+          "n": 1,
+          "delta": -0.007242336436408259
+        },
+        {
+          "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+          "party_key": "labour",
+          "n": 1,
+          "delta": -0.0058962975106870985
+        },
+        {
+          "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": 0.006184190554435531
+        },
+        {
+          "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": 0.02628145031135176
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": 0.24588288169891115
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "green",
+          "n": 1,
+          "delta": -0.09969550755195744
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "labour",
+          "n": 1,
+          "delta": -0.078302854878042
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": -0.08511891647971837
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": -0.37326576345443385
+        },
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": 0.2913802483361394
+        },
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 0.09058911201870234
+        },
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": -0.09976365990669933
+        },
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "party_key": "ukip",
+          "n": 1,
+          "delta": -0.767492362378297
+        },
+        {
+          "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": 9.036332553336024e-05
+        },
+        {
+          "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+          "party_key": "labour",
+          "n": 1,
+          "delta": -2.7800383268328233e-05
+        },
+        {
+          "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+          "party_key": "ukip",
+          "n": 1,
+          "delta": -0.00023769550173469156
+        }
+      ],
+      "sigma_cell_all": 0.18842570108126455,
+      "sigma_cell_whole_council": 0.10114411457598341,
+      "whole_council_cells": 9,
+      "icc_within_election": 0.0,
+      "cells_per_whole_council_election": 5.5,
+      "effective_election_clusters": 2.1955645161290325,
+      "projection": [
+        {
+          "basis": "whole-council cells",
+          "target_mde80": 0.05,
+          "cells_needed": 33,
+          "elections_needed": 6,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "whole-council cells",
+          "target_mde80": 0.1,
+          "cells_needed": 9,
+          "elections_needed": 2,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "whole-council cells",
+          "target_mde80": 0.2,
+          "cells_needed": 3,
+          "elections_needed": 1,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "whole-council cells",
+          "target_mde80": 0.3,
+          "cells_needed": 1,
+          "elections_needed": 1,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "all cells incl. by-elections",
+          "target_mde80": 0.05,
+          "cells_needed": 112,
+          "elections_needed": 21,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "all cells incl. by-elections",
+          "target_mde80": 0.1,
+          "cells_needed": 28,
+          "elections_needed": 6,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "all cells incl. by-elections",
+          "target_mde80": 0.2,
+          "cells_needed": 7,
+          "elections_needed": 2,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "all cells incl. by-elections",
+          "target_mde80": 0.3,
+          "cells_needed": 4,
+          "elections_needed": 1,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "election-cluster SE",
+          "target_mde80": 0.05,
+          "elections_needed": 5
+        },
+        {
+          "basis": "election-cluster SE",
+          "target_mde80": 0.1,
+          "elections_needed": 2
+        },
+        {
+          "basis": "election-cluster SE",
+          "target_mde80": 0.2,
+          "elections_needed": 1
+        },
+        {
+          "basis": "election-cluster SE",
+          "target_mde80": 0.3,
+          "elections_needed": 1
+        }
+      ]
+    },
+    {
+      "window": "14_to_8_days",
+      "held_out_elections": 10,
+      "candidates_scored": 660,
+      "arm_mae_loeo": {
+        "M0_intercept": 9.492298895133093,
+        "M1_party": 9.825951445177393,
+        "M2_party_volume": 9.830902582063553,
+        "M3_party_volume_tone": 10.056106701252462,
+        "M3b_party_volume_incumbent": 9.85872981058935
+      },
+      "ladder": {
+        "M1_party_vs_M0_intercept": {
+          "delta": -0.3336525500443006,
+          "cluster_ci95": [
+            -1.6129573389540577,
+            1.249328051436083
+          ],
+          "cluster_se": 0.8821702654334864
+        },
+        "M2_party_volume_vs_M1_party": {
+          "delta": -0.004951136886159446,
+          "cluster_ci95": [
+            -0.11104436344022964,
+            0.043316011899257156
+          ],
+          "cluster_se": 0.040604168221497504
+        },
+        "M3_party_volume_tone_vs_M2_party_volume": {
+          "delta": -0.22520411918890915,
+          "cluster_ci95": [
+            -0.44280245772635063,
+            0.04059097428516714
+          ],
+          "cluster_se": 0.16930480384778088
+        },
+        "M3b_party_volume_incumbent_vs_M2_party_volume": {
+          "delta": -0.027827228525797665,
+          "cluster_ci95": [
+            -0.14454714001690339,
+            0.11465239209097322
+          ],
+          "cluster_se": 0.09018030472895897
+        }
+      },
+      "primary_cells": [
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "conservative",
+          "n": 81,
+          "delta": 0.5201781293346613
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "green",
+          "n": 55,
+          "delta": -0.3979588883426516
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "labour",
+          "n": 75,
+          "delta": -0.5446287026055782
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "liberal_democrat",
+          "n": 78,
+          "delta": -2.344083166913339
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "ukip",
+          "n": 58,
+          "delta": 0.7940025623245559
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "conservative",
+          "n": 81,
+          "delta": 0.06328767300475503
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "green",
+          "n": 36,
+          "delta": 0.21310821192557938
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "labour",
+          "n": 79,
+          "delta": -0.009566210633426215
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "liberal_democrat",
+          "n": 72,
+          "delta": 0.05428793098981055
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "reform_uk",
+          "n": 6,
+          "delta": -0.20005818044872412
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "ukip",
+          "n": 5,
+          "delta": -0.4781251050542011
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": -0.0464328632952018
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "green",
+          "n": 1,
+          "delta": -0.015798508306305692
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 0.3304493957425869
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": 0.1793217286007085
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": 0.06596268293597518
+        },
+        {
+          "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+          "party_key": "labour",
+          "n": 1,
+          "delta": -0.02500665096648902
+        },
+        {
+          "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": 0.3056119144691962
+        },
+        {
+          "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": -0.16939268394110485
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": -0.16683163587084238
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "green",
+          "n": 1,
+          "delta": -0.08602147412927597
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "labour",
+          "n": 1,
+          "delta": -0.4233790738735035
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": -0.8144341240840234
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": 0.24069575857727799
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": 0.21420966598818403
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "green",
+          "n": 1,
+          "delta": -0.11045046189746133
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "labour",
+          "n": 1,
+          "delta": -0.5436132633204109
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": -1.0457228976912027
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": -0.30905024565921124
+        },
+        {
+          "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+          "party_key": "green",
+          "n": 1,
+          "delta": 0.07433312102082645
+        },
+        {
+          "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+          "party_key": "labour",
+          "n": 1,
+          "delta": -0.36183210250142395
+        },
+        {
+          "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": -0.7003459863597783
+        },
+        {
+          "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": -0.20568683823788803
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": -0.015694866781654326
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "green",
+          "n": 1,
+          "delta": 0.008092563318543355
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "labour",
+          "n": 1,
+          "delta": -0.039829844788732416
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": 0.07661877205250178
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": 0.02264371410171151
+        },
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": -0.06429981665109352
+        },
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 0.16282816438570435
+        },
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": -0.3059778853441415
+        },
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "party_key": "ukip",
+          "n": 1,
+          "delta": 0.30561738655433324
+        },
+        {
+          "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": 0.1282083797989344
+        },
+        {
+          "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 0.3234467776098455
+        },
+        {
+          "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+          "party_key": "ukip",
+          "n": 1,
+          "delta": -0.5963789095318823
+        }
+      ],
+      "sigma_cell_all": 0.48872443428289175,
+      "sigma_cell_whole_council": 0.9083087742855818,
+      "whole_council_cells": 9,
+      "icc_within_election": 0.0,
+      "cells_per_whole_council_election": 5.5,
+      "effective_election_clusters": 2.1955645161290325,
+      "projection": [
+        {
+          "basis": "whole-council cells",
+          "target_mde80": 0.05,
+          "cells_needed": 2591,
+          "elections_needed": 471,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "whole-council cells",
+          "target_mde80": 0.1,
+          "cells_needed": 648,
+          "elections_needed": 118,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "whole-council cells",
+          "target_mde80": 0.2,
+          "cells_needed": 162,
+          "elections_needed": 30,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "whole-council cells",
+          "target_mde80": 0.3,
+          "cells_needed": 72,
+          "elections_needed": 14,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "all cells incl. by-elections",
+          "target_mde80": 0.05,
+          "cells_needed": 750,
+          "elections_needed": 137,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "all cells incl. by-elections",
+          "target_mde80": 0.1,
+          "cells_needed": 188,
+          "elections_needed": 35,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "all cells incl. by-elections",
+          "target_mde80": 0.2,
+          "cells_needed": 47,
+          "elections_needed": 9,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "all cells incl. by-elections",
+          "target_mde80": 0.3,
+          "cells_needed": 21,
+          "elections_needed": 4,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "election-cluster SE",
+          "target_mde80": 0.05,
+          "elections_needed": 198
+        },
+        {
+          "basis": "election-cluster SE",
+          "target_mde80": 0.1,
+          "elections_needed": 50
+        },
+        {
+          "basis": "election-cluster SE",
+          "target_mde80": 0.2,
+          "elections_needed": 13
+        },
+        {
+          "basis": "election-cluster SE",
+          "target_mde80": 0.3,
+          "elections_needed": 6
+        }
+      ]
+    },
+    {
+      "window": "7_to_4_days",
+      "held_out_elections": 10,
+      "candidates_scored": 660,
+      "arm_mae_loeo": {
+        "M0_intercept": 9.492298895133093,
+        "M1_party": 9.825951445177393,
+        "M2_party_volume": 10.072942402905337,
+        "M3_party_volume_tone": 13.286855308782885,
+        "M3b_party_volume_incumbent": 10.127953747525915
+      },
+      "ladder": {
+        "M1_party_vs_M0_intercept": {
+          "delta": -0.3336525500443006,
+          "cluster_ci95": [
+            -1.6119576764278192,
+            1.1282234903334813
+          ],
+          "cluster_se": 0.8672273214510947
+        },
+        "M2_party_volume_vs_M1_party": {
+          "delta": -0.24699095772794344,
+          "cluster_ci95": [
+            -0.4452675667569153,
+            -0.010603016726252808
+          ],
+          "cluster_se": 0.16070917627717402
+        },
+        "M3_party_volume_tone_vs_M2_party_volume": {
+          "delta": -3.2139129058775477,
+          "cluster_ci95": [
+            -7.2450956622008205,
+            0.011035345457502899
+          ],
+          "cluster_se": 2.6585761757464237
+        },
+        "M3b_party_volume_incumbent_vs_M2_party_volume": {
+          "delta": -0.05501134462057777,
+          "cluster_ci95": [
+            -0.125591325355517,
+            0.008566297456516096
+          ],
+          "cluster_se": 0.04652885992150028
+        }
+      },
+      "primary_cells": [
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "conservative",
+          "n": 81,
+          "delta": 0.014565194605568243
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "green",
+          "n": 55,
+          "delta": -0.3078346111602174
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "labour",
+          "n": 75,
+          "delta": 0.09307480719990563
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "liberal_democrat",
+          "n": 78,
+          "delta": -0.1251137541659207
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "ukip",
+          "n": 58,
+          "delta": -0.10253868956424383
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "conservative",
+          "n": 81,
+          "delta": -18.9086813716419
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "green",
+          "n": 36,
+          "delta": -5.408230366913078
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "labour",
+          "n": 79,
+          "delta": -6.797695190775245
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "liberal_democrat",
+          "n": 72,
+          "delta": 2.3086732504648584
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "reform_uk",
+          "n": 6,
+          "delta": -0.0012529250485015335
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "ukip",
+          "n": 5,
+          "delta": 0.11298607353849874
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": -0.02464058035409522
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "green",
+          "n": 1,
+          "delta": -0.013975639692946018
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 0.00019424328994332996
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": 0.010495128577563406
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": -2.8919523415993353e-06
+        },
+        {
+          "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+          "party_key": "labour",
+          "n": 1,
+          "delta": -0.002717500210614787
+        },
+        {
+          "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": 0.1049291341880334
+        },
+        {
+          "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": 5.230415163737234e-05
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": 0.18159871222362867
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "green",
+          "n": 1,
+          "delta": 0.10299912316465676
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "labour",
+          "n": 1,
+          "delta": -0.0014315544035357064
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": 0.07734809030136347
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": 2.131341117461716e-05
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": -0.3316451703489953
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "green",
+          "n": 1,
+          "delta": 0.18810244483272953
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "labour",
+          "n": 1,
+          "delta": -0.0026143803456051273
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": 0.14125717231174661
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": -3.8923678442159826e-05
+        },
+        {
+          "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+          "party_key": "green",
+          "n": 1,
+          "delta": -0.2077275782437571
+        },
+        {
+          "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+          "party_key": "labour",
+          "n": 1,
+          "delta": -0.00582800420609253
+        },
+        {
+          "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": 0.15600306248290252
+        },
+        {
+          "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": -0.00013251803151703712
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": 0.4129566251963581
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "green",
+          "n": 1,
+          "delta": -0.2342206603749588
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "labour",
+          "n": 1,
+          "delta": -0.003255363807543432
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": -0.1758900486964805
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": 4.846683240700145e-05
+        },
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": 0.20021731896453332
+        },
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 0.0007792341137538017
+        },
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": -0.0841398503413231
+        },
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "party_key": "ukip",
+          "n": 1,
+          "delta": 0.019808779572723978
+        },
+        {
+          "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": -0.6212843281041884
+        },
+        {
+          "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 0.0006292818357804819
+        },
+        {
+          "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+          "party_key": "ukip",
+          "n": 1,
+          "delta": -0.058266659167056645
+        }
+      ],
+      "sigma_cell_all": 3.090999953552112,
+      "sigma_cell_whole_council": 6.552657093306619,
+      "whole_council_cells": 9,
+      "icc_within_election": 0.10481219553526855,
+      "cells_per_whole_council_election": 5.5,
+      "effective_election_clusters": 2.1955645161290325,
+      "projection": [
+        {
+          "basis": "whole-council cells",
+          "target_mde80": 0.05,
+          "cells_needed": 198385,
+          "elections_needed": 36070,
+          "design_effect": 1.472
+        },
+        {
+          "basis": "whole-council cells",
+          "target_mde80": 0.1,
+          "cells_needed": 49597,
+          "elections_needed": 9018,
+          "design_effect": 1.472
+        },
+        {
+          "basis": "whole-council cells",
+          "target_mde80": 0.2,
+          "cells_needed": 12400,
+          "elections_needed": 2255,
+          "design_effect": 1.472
+        },
+        {
+          "basis": "whole-council cells",
+          "target_mde80": 0.3,
+          "cells_needed": 5511,
+          "elections_needed": 1002,
+          "design_effect": 1.472
+        },
+        {
+          "basis": "all cells incl. by-elections",
+          "target_mde80": 0.05,
+          "cells_needed": 44144,
+          "elections_needed": 8027,
+          "design_effect": 1.472
+        },
+        {
+          "basis": "all cells incl. by-elections",
+          "target_mde80": 0.1,
+          "cells_needed": 11036,
+          "elections_needed": 2007,
+          "design_effect": 1.472
+        },
+        {
+          "basis": "all cells incl. by-elections",
+          "target_mde80": 0.2,
+          "cells_needed": 2759,
+          "elections_needed": 502,
+          "design_effect": 1.472
+        },
+        {
+          "basis": "all cells incl. by-elections",
+          "target_mde80": 0.3,
+          "cells_needed": 1227,
+          "elections_needed": 223,
+          "design_effect": 1.472
+        },
+        {
+          "basis": "election-cluster SE",
+          "target_mde80": 0.05,
+          "elections_needed": 48721
+        },
+        {
+          "basis": "election-cluster SE",
+          "target_mde80": 0.1,
+          "elections_needed": 12181
+        },
+        {
+          "basis": "election-cluster SE",
+          "target_mde80": 0.2,
+          "elections_needed": 3046
+        },
+        {
+          "basis": "election-cluster SE",
+          "target_mde80": 0.3,
+          "elections_needed": 1354
+        }
+      ]
+    },
+    {
+      "window": "final_72_hours",
+      "held_out_elections": 10,
+      "candidates_scored": 660,
+      "arm_mae_loeo": {
+        "M0_intercept": 9.492298895133093,
+        "M1_party": 9.825951445177393,
+        "M2_party_volume": 10.386713152312595,
+        "M3_party_volume_tone": 10.7325025633479,
+        "M3b_party_volume_incumbent": 10.453200876319748
+      },
+      "ladder": {
+        "M1_party_vs_M0_intercept": {
+          "delta": -0.3336525500443006,
+          "cluster_ci95": [
+            -1.609479447494837,
+            1.1819809848328493
+          ],
+          "cluster_se": 0.8761169616346104
+        },
+        "M2_party_volume_vs_M1_party": {
+          "delta": -0.5607617071352013,
+          "cluster_ci95": [
+            -1.2325451146827167,
+            -0.03028804530351792
+          ],
+          "cluster_se": 0.4407465224968235
+        },
+        "M3_party_volume_tone_vs_M2_party_volume": {
+          "delta": -0.34578941103530525,
+          "cluster_ci95": [
+            -1.0549235441417935,
+            0.22760569171711353
+          ],
+          "cluster_se": 0.4477770314151161
+        },
+        "M3b_party_volume_incumbent_vs_M2_party_volume": {
+          "delta": -0.0664877240071533,
+          "cluster_ci95": [
+            -0.6240476815419752,
+            0.009720888286582997
+          ],
+          "cluster_se": 0.16224691903822344
+        }
+      },
+      "primary_cells": [
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "conservative",
+          "n": 81,
+          "delta": 0.20310369536402098
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "green",
+          "n": 55,
+          "delta": 0.7913489263580573
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "labour",
+          "n": 75,
+          "delta": -0.001230423838940548
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "liberal_democrat",
+          "n": 78,
+          "delta": 0.17443086142551797
+        },
+        {
+          "election_id": "surrey-county-council-2017",
+          "party_key": "ukip",
+          "n": 58,
+          "delta": 0.11279549386713446
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "conservative",
+          "n": 81,
+          "delta": -0.46219330584652807
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "green",
+          "n": 36,
+          "delta": -2.6148234389378158
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "labour",
+          "n": 79,
+          "delta": -2.53731909567629
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "liberal_democrat",
+          "n": 72,
+          "delta": 0.6753415156753847
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "reform_uk",
+          "n": 6,
+          "delta": -2.3183342484234655
+        },
+        {
+          "election_id": "surrey-county-council-2021",
+          "party_key": "ukip",
+          "n": 5,
+          "delta": -1.169761917215977
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": -0.2939064929803763
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "green",
+          "n": 1,
+          "delta": -0.7936706905335562
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 0.010952901767611323
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": 0.48397612838038384
+        },
+        {
+          "election_id": "surrey-county-council-by-election-addlestone-2025-08-21",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": 2.737895420352828
+        },
+        {
+          "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 6.556988300953211
+        },
+        {
+          "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": -0.5235349566998693
+        },
+        {
+          "election_id": "surrey-county-council-by-election-camberley-west-2025-10-16",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": -10.879559421268262
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": -0.32898792190194825
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "green",
+          "n": 1,
+          "delta": -0.8884052492523677
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 0.012260268069558045
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": -0.5417447539569835
+        },
+        {
+          "election_id": "surrey-county-council-by-election-caterham-valley-2025-10-16",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": 3.0646976036248468
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": 0.39216716320094136
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "green",
+          "n": 1,
+          "delta": -1.0590156755844897
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 0.01461474488523784
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": -0.6457820764666948
+        },
+        {
+          "election_id": "surrey-county-council-by-election-guildford-south-east-2025-10-16",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": -3.6532458648755366
+        },
+        {
+          "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+          "party_key": "green",
+          "n": 1,
+          "delta": 0.9913806353985359
+        },
+        {
+          "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 0.017446842071521473
+        },
+        {
+          "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": -0.6051151477015253
+        },
+        {
+          "election_id": "surrey-county-council-by-election-hinchley-wood-claygate-oxshott-2025-08-21",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": -3.410289455624838
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": -0.29531897777740923
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "green",
+          "n": 1,
+          "delta": 0.7974849913775586
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "labour",
+          "n": 1,
+          "delta": 0.011005540302656769
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": 0.48630206856813984
+        },
+        {
+          "election_id": "surrey-county-council-by-election-nork-tattenhams-2025-05-01",
+          "party_key": "reform_uk",
+          "n": 1,
+          "delta": 2.7510534680635423
+        },
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": -0.32627865986714255
+        },
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "party_key": "labour",
+          "n": 1,
+          "delta": -0.029626778182101354
+        },
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "party_key": "liberal_democrat",
+          "n": 1,
+          "delta": 0.5648445758689462
+        },
+        {
+          "election_id": "surrey-county-council-by-election-warlingham-2019-01-31",
+          "party_key": "ukip",
+          "n": 1,
+          "delta": -0.14976413542802902
+        },
+        {
+          "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+          "party_key": "conservative",
+          "n": 1,
+          "delta": 0.3166029597859321
+        },
+        {
+          "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+          "party_key": "labour",
+          "n": 1,
+          "delta": -0.02701785058426509
+        },
+        {
+          "election_id": "surrey-county-council-by-election-weybridge-2015-05-07",
+          "party_key": "ukip",
+          "n": 1,
+          "delta": 0.14326097272067528
+        }
+      ],
+      "sigma_cell_all": 2.315198965950271,
+      "sigma_cell_whole_council": 1.2829855737415123,
+      "whole_council_cells": 9,
+      "icc_within_election": 0.0,
+      "cells_per_whole_council_election": 5.5,
+      "effective_election_clusters": 2.1955645161290325,
+      "projection": [
+        {
+          "basis": "whole-council cells",
+          "target_mde80": 0.05,
+          "cells_needed": 5168,
+          "elections_needed": 940,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "whole-council cells",
+          "target_mde80": 0.1,
+          "cells_needed": 1292,
+          "elections_needed": 235,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "whole-council cells",
+          "target_mde80": 0.2,
+          "cells_needed": 323,
+          "elections_needed": 59,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "whole-council cells",
+          "target_mde80": 0.3,
+          "cells_needed": 144,
+          "elections_needed": 27,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "all cells incl. by-elections",
+          "target_mde80": 0.05,
+          "cells_needed": 16829,
+          "elections_needed": 3060,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "all cells incl. by-elections",
+          "target_mde80": 0.1,
+          "cells_needed": 4208,
+          "elections_needed": 765,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "all cells incl. by-elections",
+          "target_mde80": 0.2,
+          "cells_needed": 1052,
+          "elections_needed": 192,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "all cells incl. by-elections",
+          "target_mde80": 0.3,
+          "cells_needed": 468,
+          "elections_needed": 85,
+          "design_effect": 1.0
+        },
+        {
+          "basis": "election-cluster SE",
+          "target_mde80": 0.05,
+          "elections_needed": 1383
+        },
+        {
+          "basis": "election-cluster SE",
+          "target_mde80": 0.1,
+          "elections_needed": 346
+        },
+        {
+          "basis": "election-cluster SE",
+          "target_mde80": 0.2,
+          "elections_needed": 87
+        },
+        {
+          "basis": "election-cluster SE",
+          "target_mde80": 0.3,
+          "elections_needed": 39
+        }
+      ]
+    }
+  ]
+}
