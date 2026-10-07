@@ -1,0 +1,244 @@
+{
+  "keyword_version": "v1",
+  "split": "dev",
+  "criteria": "v2_design/keyword_prefilter_v1/criteria.md",
+  "M1_feature_recall": {
+    "all": {
+      "n": 958,
+      "rate": 1.0,
+      "ci95": [
+        1.0,
+        1.0
+      ]
+    },
+    "local_arm": {
+      "n": 52,
+      "rate": 1.0,
+      "ci95": [
+        1.0,
+        1.0
+      ]
+    },
+    "national_arm": {
+      "n": 906,
+      "rate": 1.0,
+      "ci95": [
+        1.0,
+        1.0
+      ]
+    }
+  },
+  "M2_relevance_recall_local": {
+    "n": 99,
+    "rate": 0.798,
+    "ci95": [
+      0.7172,
+      0.8689
+    ]
+  },
+  "M3_removal_rate_local_irrelevant": {
+    "n": 115,
+    "rate": 0.0435,
+    "ci95": [
+      0.0087,
+      0.0783
+    ]
+  },
+  "term_counts_in_passing_feature_articles": [
+    [
+      "labour",
+      786
+    ],
+    [
+      "conservative",
+      494
+    ],
+    [
+      "election",
+      476
+    ],
+    [
+      "MPs",
+      403
+    ],
+    [
+      "conservatives",
+      382
+    ],
+    [
+      "voters",
+      380
+    ],
+    [
+      "tory",
+      378
+    ],
+    [
+      "vote",
+      366
+    ],
+    [
+      "council",
+      355
+    ],
+    [
+      "Reform",
+      351
+    ],
+    [
+      "MP",
+      347
+    ],
+    [
+      "tories",
+      306
+    ],
+    [
+      "reform uk",
+      302
+    ],
+    [
+      "elections",
+      260
+    ],
+    [
+      "councils",
+      225
+    ],
+    [
+      "ukip",
+      199
+    ],
+    [
+      "elected",
+      176
+    ],
+    [
+      "polling",
+      173
+    ],
+    [
+      "liberal democrats",
+      169
+    ],
+    [
+      "voting",
+      160
+    ],
+    [
+      "candidate",
+      151
+    ],
+    [
+      "votes",
+      149
+    ],
+    [
+      "lib dem",
+      149
+    ],
+    [
+      "lib dems",
+      144
+    ],
+    [
+      "manifesto",
+      120
+    ],
+    [
+      "greens",
+      115
+    ],
+    [
+      "liberal democrat",
+      114
+    ],
+    [
+      "green party",
+      104
+    ],
+    [
+      "candidates",
+      101
+    ],
+    [
+      "councillors",
+      80
+    ],
+    [
+      "councillor",
+      64
+    ],
+    [
+      "ballot",
+      52
+    ],
+    [
+      "reform party",
+      19
+    ],
+    [
+      "by-election",
+      16
+    ],
+    [
+      "ballots",
+      12
+    ],
+    [
+      "cllr",
+      11
+    ],
+    [
+      "by-elections",
+      6
+    ],
+    [
+      "residents association",
+      5
+    ],
+    [
+      "residents associations",
+      2
+    ],
+    [
+      "independent councillors",
+      2
+    ],
+    [
+      "residents' association",
+      2
+    ],
+    [
+      "libdems",
+      2
+    ],
+    [
+      "independent councillor",
+      2
+    ]
+  ],
+  "M1_missed_article_ids": [],
+  "M2_missed_article_ids": [
+    "NEWS-bbc_surrey-7cfe84512895",
+    "NEWS-bbc_surrey-8cf8f699dc50",
+    "NEWS-bbc_surrey-9322d4431ec0",
+    "NEWS-bbc_surrey-956003a841b5",
+    "NEWS-bbc_surrey-977a0d0a4f74",
+    "NEWS-bbc_surrey-efe6c71df344",
+    "NEWS-surreylive-0a0e8c2a1016",
+    "NEWS-surreylive-1351f85c19fc",
+    "NEWS-surreylive-1d71be81f2ae",
+    "NEWS-surreylive-2a7a9746000c",
+    "NEWS-surreylive-39affecd8be2",
+    "NEWS-surreylive-3ba3c873216d",
+    "NEWS-surreylive-40aed1a13f2f",
+    "NEWS-surreylive-938b4b38443f",
+    "NEWS-surreylive-9acba38b7713",
+    "NEWS-surreylive-a6c6c8234913",
+    "NEWS-surreylive-b6967f5376d3",
+    "NEWS-surreylive-bac443acaaa5",
+    "NEWS-surreylive-c2e8248a07db",
+    "NEWS-surreylive-e724583d3c91"
+  ]
+}

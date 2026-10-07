@@ -60,4 +60,22 @@ practice.
 
 ## Amendments
 
-(none)
+**A1 (2026-10-07, dev only; test not yet run). v1 is declared the final
+version.**
+
+- *v0 on dev:* M1 0.999 (1 of 958 missed), M2 0.798, M3 0.044
+  (`prefilter_v0_dev.json`).
+- *The one M1 miss was an input defect, not a vocabulary gap.* A Guardian
+  article named Labour only in its headline, and V1's stored text files
+  hold the body alone. v1 reads headline + body
+  (`keyword_prefilter.article_text`). The term lists are unchanged. v1 on dev:
+  M1 1.000, M2 0.798, M3 0.044 (`prefilter_v1_dev.json`).
+- *The M2 misses are not chased.* All 20 are human includes under L1/L3 that
+  name a place and nothing political: 19 crime, accident, court or weather
+  stories (e.g. "Motorcyclist dies following serious crash in Gomshall") and
+  1 Network Rail level-crossing meeting. None names a party, so none can feed
+  party features. Catching them would require place names, which would pass
+  almost every local article and void the filter. Per the decision rule, the
+  expected outcome is therefore "M1 passes, M2 fails": adopt the filter for
+  party features and report the lost place-only coverage as a limitation.
+- No further revision. v1 runs on test once, next.

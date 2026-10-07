@@ -43,8 +43,11 @@ RESAMPLES, SEED = 2000, 20261007
 
 
 def text_of(article_id: str) -> str:
-    return (TEXT_DIR / f"{article_id}.txt").read_text(encoding="utf-8",
+    """Headline + body, exactly as the filter sees it in collection (v1)."""
+    body = (TEXT_DIR / f"{article_id}.txt").read_text(encoding="utf-8",
                                                       errors="replace")
+    record = json.loads((RECORD_DIR / f"{article_id}.json").read_text())
+    return kp.article_text(record["identity"].get("headline"), body)
 
 
 def stance_split(article_id: str) -> str:

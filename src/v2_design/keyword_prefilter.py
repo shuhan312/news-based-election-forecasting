@@ -13,17 +13,21 @@ point of filtering. The price is that a place-only article with no civic
 vocabulary is dropped. It also cannot feed V2's party-level features, which
 need a party to be mentioned.
 
-The term lists below are version v0, fixed in
+The term lists below were fixed as v0 in
 v2_design/keyword_prefilter_v1/criteria.md before any recall was measured.
 Changes made on dev get a new version name, so results always state which
-list produced them.
+version produced them.
+
+v1 (amendment A1) changes the input only: the filter reads headline + body.
+V1's stored text files hold the body alone, and a party named only in the
+headline was being missed. The term lists are unchanged from v0.
 """
 
 from __future__ import annotations
 
 import re
 
-VERSION = "v0"
+VERSION = "v1"
 
 # --- Party vocabulary -------------------------------------------------------
 # Matched case-insensitively, on word boundaries. Generic words that collide
@@ -75,6 +79,16 @@ def _compile(terms: list[str], flags: int) -> re.Pattern:
 
 _INSENSITIVE = _compile(PARTY_TERMS + CIVIC_TERMS, re.IGNORECASE)
 _SENSITIVE = _compile(CASE_SENSITIVE_TERMS, 0)
+
+
+def article_text(headline: str | None, body: str) -> str:
+    """The text the filter reads: headline first, then body (v1).
+
+    Headlines often carry the party name that the body replaces with "the
+    government" or "ministers". Collection code must call the filter on this
+    combined text, never on the body alone.
+    """
+    return f"{headline or ''}\n{body}"
 
 
 def matched_terms(text: str) -> list[str]:
