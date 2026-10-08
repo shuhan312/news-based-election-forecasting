@@ -78,4 +78,19 @@ missing coverage V1 found, and that will be reported.
 
 ## Amendments
 
-(none)
+**A1 (2026-10-08). An expansion rule, fixed after the classification batch
+ended but before any result was collected or read.**
+
+- *Why:* with about 20 classified articles per county, K1 carries wide
+  sampling error. A value near the 0.5 bar cannot separate pass from fail.
+  Deciding whether to collect more data only after seeing K1 would let the
+  result steer the stopping point, so the rule is fixed now.
+- *Rule:* if K1 falls in **[0.3, 0.7]**, the result is **inconclusive**.
+  The sample is then expanded **once**, to 300 URLs per outlet (the original
+  100 plus 200 new draws with the same procedure and a new seed, 20261008),
+  and the decision thresholds above are applied to the pooled sample. Outside
+  [0.3, 0.7], the original thresholds apply directly, with no expansion.
+- *Classification route:* the cheapest valid route is used, unchanged from
+  V1: the frozen classifier via the Message Batches API (half price), on
+  prefilter survivors only. Batch `msgbatch_0187ehjb3KH8prb1RTJqDXYR`, 41
+  requests, all succeeded.

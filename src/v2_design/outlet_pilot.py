@@ -305,7 +305,14 @@ def in_window(cached: dict) -> bool:
 def stage_classify() -> None:
     for path in sorted(CACHE.glob("*.json")):
         cached = json.loads(path.read_text(encoding="utf-8"))
-        if "classified" in cached or not in_window(cached):
+        if not in_window(cached):
+            continue
+        # Skip only finished work: dropped by the prefilter (None) or
+        # classified successfully. A failed API call is retried on rerun
+        # instead of being cached as if it were an answer.
+        done = cached.get("classified", "missing")
+        if done is None or (isinstance(done, dict)
+                            and done.get("status") == "ok"):
             continue
         text = kp.article_text(cached["headline"], cached["text"])
         cached["prefilter_pass"] = kp.passes(text)
@@ -315,6 +322,145 @@ def stage_classify() -> None:
         else:
             cached["classified"] = None   # dropped by the prefilter, no call
         path.write_text(json.dumps(cached), encoding="utf-8")
+
+
+# --- stages: count / submit / collect (the cheap route) -------------------------
+#
+# The same frozen classifier calls as classify_one, sent through the Message
+# Batches API instead of one at a time. A batch costs half the price of the
+# same requests sent synchronously, and only prefilter survivors are sent.
+# `count` uses the free token-counting endpoint, so the exact input size is
+# known before any money is spent.
+
+BATCH_STATE = CACHE / "batch_state.json"
+
+
+def _survivors() -> list[tuple[Path, dict]]:
+    """In-window articles that pass prefilter v1: the only ones sent."""
+    out = []
+    for path in sorted(CACHE.glob("*.json")):
+        if path.name.startswith(("cdx_", "batch_")):
+            continue
+        cached = json.loads(path.read_text(encoding="utf-8"))
+        if in_window(cached) and kp.passes(
+                kp.article_text(cached["headline"], cached["text"])):
+            out.append((path, cached))
+    return out
+
+
+def _article(path: Path, cached: dict) -> dict:
+    council = COUNCILS[cached["council"]]
+    return {
+        "article_id": "PILOT-" + path.stem,
+        "headline": cached["headline"] or "",
+        "text": cached["text"],
+        "text_source": "outlet_pilot_fetch",
+        "source_id": cached["outlet"],
+        "election_id": council["election_id"],
+        "arm": "local",
+        "day_index_from_polling_day":
+            (POLLING_DAY - date.fromisoformat(cached["published_date"])).days,
+        "needs_reform_disambiguation": "no",
+        "search_query_id": "", "ward": "",
+        "query_text": "outlet-first enumeration (no search query)",
+        "query_family": "outlet_pilot",
+        "geographic_scope": f"{council['name']}-wide outlet",
+    }
+
+
+def _request(path: Path, cached: dict) -> dict:
+    """One request shaped exactly like V1's batch runner's build_request,
+    with the county name substituted in the L3/L4 texts for Kent."""
+    article = _article(path, cached)
+    council = COUNCILS[cached["council"]]
+    original = clf.REASON_CODE_DEFINITIONS
+    clf.REASON_CODE_DEFINITIONS = _county_reason_codes(council["name"])
+    try:
+        rules = clf.applicable_rules_for(article)
+        prompt = clf.build_prompt(article, applicable_rules=rules)
+        schema = clf.build_output_schema(applicable_rules=rules, arm="local")
+    finally:
+        clf.REASON_CODE_DEFINITIONS = original
+    return {"custom_id": article["article_id"],
+            "params": {"model": clf.MODEL, "max_tokens": clf.MAX_TOKENS,
+                       "messages": [{"role": "user", "content": prompt}],
+                       "output_config": {"format": {"type": "json_schema",
+                                                    "schema": schema}}}}
+
+
+def stage_count() -> None:
+    """Exact input tokens for every request, via the free counting endpoint."""
+    import anthropic
+    client = anthropic.Anthropic()
+    total = 0
+    for path, cached in _survivors():
+        p = _request(path, cached)["params"]
+        total += client.messages.count_tokens(
+            model=p["model"], messages=p["messages"],
+            output_config=p["output_config"]).input_tokens
+    print(f"{len(_survivors())} requests, {total} input tokens in total")
+
+
+def stage_submit() -> None:
+    import anthropic
+    if BATCH_STATE.exists():
+        raise SystemExit(f"batch already submitted: {BATCH_STATE}")
+    requests_ = [_request(path, cached) for path, cached in _survivors()]
+    batch = anthropic.Anthropic().messages.batches.create(requests=requests_)
+    BATCH_STATE.write_text(json.dumps({"batch_id": batch.id,
+                                       "requests": len(requests_)}))
+    print(f"submitted {batch.id} with {len(requests_)} requests")
+
+
+def stage_collect() -> None:
+    """Write each batch result into its article's cache file."""
+    import anthropic
+    client = anthropic.Anthropic()
+    state = json.loads(BATCH_STATE.read_text())
+    batch = client.messages.batches.retrieve(state["batch_id"])
+    if batch.processing_status != "ended":
+        raise SystemExit(f"batch still {batch.processing_status}: "
+                         f"{batch.request_counts}")
+    by_id = {"PILOT-" + p.stem: (p, c) for p, c in _survivors()}
+    usage = Counter()
+    for result in client.messages.batches.results(state["batch_id"]):
+        path, cached = by_id[result.custom_id]
+        cached["prefilter_pass"] = True
+        if result.result.type != "succeeded":
+            cached["classified"] = {"status": f"batch_{result.result.type}"}
+        else:
+            msg = result.result.message
+            usage.update(input=msg.usage.input_tokens,
+                         output=msg.usage.output_tokens)
+            raw = "".join(b.text for b in msg.content
+                          if getattr(b, "type", None) == "text")
+            # V1's own parser: schema check plus the verbatim-evidence
+            # audit (the quoted passage must occur in the text sent).
+            article = _article(path, cached)
+            try:
+                if msg.stop_reason != "end_turn":
+                    raise clf.V2ClassificationError(msg.stop_reason)
+                fields = clf.parse_structured_response(
+                    raw, applicable_rules=clf.applicable_rules_for(article),
+                    arm="local", article_text=article["text"])
+                cached["classified"] = {
+                    "status": "ok",
+                    "e5_decision": fields.get("e5_decision"),
+                    "e5_reason_code": fields.get("e5_reason_code"),
+                    "raw_text": raw}
+            except clf.V2ClassificationError as exc:
+                cached["classified"] = {"status": "parse_error",
+                                        "note": str(exc), "raw_text": raw}
+        path.write_text(json.dumps(cached), encoding="utf-8")
+    # Articles that failed the prefilter are marked too, so report sees them.
+    for path in sorted(CACHE.glob("*.json")):
+        if path.name.startswith(("cdx_", "batch_")):
+            continue
+        cached = json.loads(path.read_text(encoding="utf-8"))
+        if in_window(cached) and "prefilter_pass" not in cached:
+            cached["prefilter_pass"], cached["classified"] = False, None
+            path.write_text(json.dumps(cached), encoding="utf-8")
+    print("collected; tokens used:", dict(usage))
 
 
 # --- stage: report ------------------------------------------------------------
@@ -375,4 +521,6 @@ def stage_report() -> None:
 
 if __name__ == "__main__":
     {"sample": stage_sample, "fetch": stage_fetch,
-     "classify": stage_classify, "report": stage_report}[sys.argv[1]]()
+     "classify": stage_classify, "count": stage_count,
+     "submit": stage_submit, "collect": stage_collect,
+     "report": stage_report}[sys.argv[1]]()
