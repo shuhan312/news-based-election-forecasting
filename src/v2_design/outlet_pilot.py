@@ -472,7 +472,10 @@ def _mentions(text: str, forms: list[str]) -> bool:
 
 def stage_report() -> None:
     population = json.loads((OUT_DIR / "population.json").read_text())
-    cached = [json.loads(p.read_text()) for p in CACHE.glob("*.json")]
+    # Article caches only: skip the CDX listing and batch-state files that
+    # share the folder.
+    cached = [json.loads(p.read_text()) for p in CACHE.glob("*.json")
+              if not p.name.startswith(("cdx_", "batch_"))]
     report = {}
     for key, cfg in COUNCILS.items():
         outlets, totals = {}, Counter()

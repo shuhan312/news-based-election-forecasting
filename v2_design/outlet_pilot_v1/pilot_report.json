@@ -1,0 +1,139 @@
+{
+  "surrey": {
+    "outlets": {
+      "getsurrey.co.uk/news/": {
+        "population_urls": 38552,
+        "sampled": 100,
+        "fetched_with_text": 97,
+        "in_window": 3,
+        "prefilter_pass": 2,
+        "classified_ok": 1,
+        "classifier_include": 1,
+        "projected": {
+          "in_window": 1156.6,
+          "relevant": 385.5,
+          "party_conservative": 0.0,
+          "party_labour": 0.0,
+          "party_liberal_democrat": 0.0,
+          "party_green": 0.0,
+          "party_reform_uk": 0.0
+        }
+      },
+      "bbc.co.uk/news/uk-england-surrey": {
+        "population_urls": 231,
+        "sampled": 100,
+        "fetched_with_text": 98,
+        "in_window": 5,
+        "prefilter_pass": 0,
+        "classified_ok": 0,
+        "classifier_include": 0,
+        "projected": {
+          "in_window": 11.6,
+          "relevant": 0.0,
+          "party_conservative": 0.0,
+          "party_labour": 0.0,
+          "party_liberal_democrat": 0.0,
+          "party_green": 0.0,
+          "party_reform_uk": 0.0
+        }
+      },
+      "surreycomet.co.uk/news/": {
+        "population_urls": 6811,
+        "sampled": 100,
+        "fetched_with_text": 100,
+        "in_window": 68,
+        "prefilter_pass": 18,
+        "classified_ok": 14,
+        "classifier_include": 0,
+        "projected": {
+          "in_window": 4631.5,
+          "relevant": 0.0,
+          "party_conservative": 0.0,
+          "party_labour": 0.0,
+          "party_liberal_democrat": 0.0,
+          "party_green": 0.0,
+          "party_reform_uk": 0.0
+        }
+      }
+    },
+    "projected_total": {
+      "in_window": 5799.6,
+      "relevant": 385.5,
+      "party_conservative": 0.0,
+      "party_labour": 0.0,
+      "party_liberal_democrat": 0.0,
+      "party_green": 0.0,
+      "party_reform_uk": 0.0
+    },
+    "median_main_party": 0.0
+  },
+  "kent": {
+    "outlets": {
+      "kentlive.news/news/": {
+        "population_urls": 3964,
+        "sampled": 100,
+        "fetched_with_text": 100,
+        "in_window": 45,
+        "prefilter_pass": 8,
+        "classified_ok": 8,
+        "classifier_include": 2,
+        "projected": {
+          "in_window": 1783.8,
+          "relevant": 79.3,
+          "party_conservative": 0.0,
+          "party_labour": 0.0,
+          "party_liberal_democrat": 0.0,
+          "party_green": 0.0,
+          "party_reform_uk": 0.0
+        }
+      },
+      "bbc.co.uk/news/uk-england-kent": {
+        "population_urls": 619,
+        "sampled": 100,
+        "fetched_with_text": 100,
+        "in_window": 11,
+        "prefilter_pass": 3,
+        "classified_ok": 3,
+        "classifier_include": 2,
+        "projected": {
+          "in_window": 68.1,
+          "relevant": 12.4,
+          "party_conservative": 0.0,
+          "party_labour": 0.0,
+          "party_liberal_democrat": 0.0,
+          "party_green": 0.0,
+          "party_reform_uk": 0.0
+        }
+      },
+      "kentonline.co.uk": {
+        "population_urls": 7745,
+        "sampled": 100,
+        "fetched_with_text": 100,
+        "in_window": 27,
+        "prefilter_pass": 10,
+        "classified_ok": 9,
+        "classifier_include": 8,
+        "projected": {
+          "in_window": 2091.2,
+          "relevant": 619.6,
+          "party_conservative": 0.0,
+          "party_labour": 77.5,
+          "party_liberal_democrat": 0.0,
+          "party_green": 0.0,
+          "party_reform_uk": 0.0
+        }
+      }
+    },
+    "projected_total": {
+      "in_window": 3943.0,
+      "relevant": 711.3,
+      "party_conservative": 0.0,
+      "party_labour": 77.5,
+      "party_liberal_democrat": 0.0,
+      "party_green": 0.0,
+      "party_reform_uk": 0.0
+    },
+    "median_main_party": 0.0
+  },
+  "ratio_kent_to_surrey_median_main_party": null
+}

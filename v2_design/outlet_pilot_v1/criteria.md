@@ -94,3 +94,9 @@ ended but before any result was collected or read.**
   V1: the frozen classifier via the Message Batches API (half price), on
   prefilter survivors only. Batch `msgbatch_0187ehjb3KH8prb1RTJqDXYR`, 41
   requests, all succeeded.
+
+**A2 (2026-10-08, after reading results). No threshold is moved.** K1 is
+undefined: the projected median per main party is 0 in both counties, so the
+ratio is 0/0. The A1 band [0.3, 0.7] does not contain an undefined value, so
+no expansion is triggered. The reasons, and why more of the same sample would
+not change the substantive finding, are in `pilot_findings.md`.
