@@ -1,0 +1,31 @@
+{
+  "criteria": "v2_design/incumbent_power_v1/criteria.md",
+  "units": 130,
+  "units_per_round": {
+    "2017-2021": 15,
+    "2018-2022": 32,
+    "2019-2023": 83
+  },
+  "excluded": {
+    "not_whole_council": 277,
+    "missing_results": 8,
+    "no_overall_control": 48
+  },
+  "controlling_parties": {
+    "PP53": 31,
+    "PP52": 79,
+    "ynmp-party:2": 2,
+    "joint-party:53-119": 1,
+    "PP90": 14,
+    "PP3902": 1,
+    "PP74": 1,
+    "PP2468": 1
+  },
+  "outcome_sd_pp": 8.182,
+  "baseline_cv_r2": -0.02,
+  "residual_sigma_pp": 8.263,
+  "mde80_pooled_pp_per_sd": 2.03,
+  "mde80_one_round_pp_per_sd": 4.092,
+  "one_round_n": 32,
+  "verdict_on_one_round": "stop direction A"
+}

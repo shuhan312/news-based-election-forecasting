@@ -136,14 +136,37 @@ def stage_fetch() -> None:
 
 # --- building units ---------------------------------------------------------------
 
+def normalise_party(party: str) -> str:
+    """Map joint candidacies to their lead party (amendment A1).
+
+    Democracy Club files "Labour and Co-operative" candidates under a joint
+    id, `joint-party:53-119`, distinct from Labour's `PP53`. About one Labour
+    candidate in ten stands under the joint label, and the label can change
+    between elections in the same ward, which fakes large Labour swings. A
+    joint id `joint-party:A-B` is therefore counted as party `PP<A>`.
+    """
+    if party.startswith("joint-party:"):
+        return "PP" + party.split(":", 1)[1].split("-", 1)[0]
+    return party
+
+
+def _normalised(ballots: list[dict]) -> list[dict]:
+    return [{**b, "candidates": [{**c, "party": normalise_party(c["party"])}
+                                 for c in b["candidates"]]} for b in ballots]
+
+
 def is_whole_council(ballots: list[dict], subtype: str | None) -> bool:
     """Criteria rule: counties and London boroughs always elect the whole
     council. Otherwise require that at least 30% of ballots elect more than
     one member, which councils elected by thirds almost never do."""
+    # A1: Democracy Club also files same-day by-elections as council-level
+    # elections (e.g. a single Surrey division in May 2019). Every English
+    # whole-council election has far more than 10 contests, so fewer than
+    # 10 ballots means a by-election, never a whole-council election.
+    if len(ballots) < 10:
+        return False
     if subtype in ("CTY", "LBO"):
         return True
-    if not ballots:
-        return False
     multi = sum(1 for b in ballots if b["winner_count"] > 1)
     return multi / len(ballots) >= 0.30
 
@@ -187,9 +210,14 @@ def build_units() -> tuple[list[dict], dict]:
         e0 = {e["slug"]: e for e in list_elections(d0)}
         e1 = {e["slug"]: e for e in list_elections(d1)}
         for slug in sorted(set(e0) & set(e1)):
-            b0 = fetch_ballots(e0[slug]["election_id"])
-            b1 = fetch_ballots(e1[slug]["election_id"])
-            if not (is_whole_council(b0, e0[slug]["subtype"])
+            b0 = _normalised(fetch_ballots(e0[slug]["election_id"]))
+            b1 = _normalised(fetch_ballots(e1[slug]["election_id"]))
+            # A1: both elections must be whole-council and of comparable size;
+            # a ballot count that halves or doubles means the pair is not two
+            # elections of the same council.
+            comparable = min(len(b0), len(b1)) >= 0.5 * max(len(b0), len(b1))
+            if not (comparable
+                    and is_whole_council(b0, e0[slug]["subtype"])
                     and is_whole_council(b1, e1[slug]["subtype"])):
                 excluded["not_whole_council"] += 1
                 continue

@@ -81,4 +81,22 @@ whole-council, missing results), σ, and the baseline's cross-validated R².
 
 ## Amendments
 
-(none)
+**A1 (2026-10-09, after the first analysis run). Two data-cleaning bugs
+fixed. No threshold, unit definition or decision rule was moved.** The first
+run's baseline had cross-validated R² ≈ 0, which no national swing should
+produce. Diagnosis found two defects:
+
+1. *Joint party labels.* "Labour and Co-operative" candidates carry
+   `joint-party:53-119`, separate from Labour's `PP53`: 2,283 candidacies,
+   about one Labour candidate in ten. A ward switching label between
+   elections faked large Labour swings. Fix: a joint id `joint-party:A-B` is
+   counted as `PP<A>`.
+2. *Same-day by-elections filed as council-level elections.* For example,
+   `local.surrey.2019-05-02` is a single-division by-election, but the CTY
+   rule treated it as whole-council and derived "control" from one seat. Fix:
+   a whole-council election needs at least 10 ballots, and the two elections
+   in a pair must have comparable ballot counts (the smaller at least half the
+   larger).
+
+Every run is reported in `incumbent_power_findings.md`. **The verdict is
+"stop" before and after both fixes.**
