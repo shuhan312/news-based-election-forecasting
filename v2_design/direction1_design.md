@@ -1,0 +1,191 @@
+# Direction 1: England-wide local election forecasting, with a fair test of news
+
+**2026-10-11. Design document, written before any direction 1 code or
+any 2025 result is fetched.** Decisions here are fixed when committed.
+Later changes are recorded at the end, with their reasons.
+
+## 1. Goal, stated honestly
+
+V1 forecast one county (Surrey) and found a news "gain" that turned out to be
+party identity. V2's design work (`design_decision_v1.md` and the folders it
+cites) showed that council-level news effects cannot be confirmed at
+England's scale through party-named local coverage or incumbent performance.
+
+Direction 1 has two goals:
+
+1. **Build the forecasting system V1 should have been:** England-wide,
+   compared against classical election baselines, and tested out of sample
+   on an election it has never seen (May 2025).
+2. **Give a credible answer on news,** using a pre-registered test in the
+   setting where news has the best chance of adding information: a new
+   party's **cold start**, where history is empty and national polls say how
+   much, but not where.
+
+The aim of goal 2 is a fair answer, not a positive one. Searching designs
+until news "works" is exactly the multiplicity problem V1 was criticised for.
+The test is fixed here, and its result is reported whatever it is.
+
+## 2. V1's problems and what direction 1 does about each
+
+| V1 problem | direction 1 |
+|---|---|
+| 45 election-party cells, one county | hundreds of councils, thousands of ward contests (926 elections already fetched) |
+| news "gain" was party identity | party and national polling are in every model; news must add value on top of them |
+| static party effects did not transfer between elections | time-varying national polling replaces static party indicators |
+| validated on one election | temporal holdout: train on 2017–2023, test once on May 2025 |
+| no classical baselines | persistence, uniform swing and proportional swing are compared first |
+| 24 comparisons, no correction | two pre-registered primary hypotheses, Holm-corrected; everything else exploratory |
+| local classifier "failure" | resolved as a label defect; `llm_eval` evaluates the news classifier |
+| reproducibility | one command per stage, offline tests, data provenance recorded |
+
+## 3. Data
+
+**Elections (Democracy Club, free).**
+
+- *Training and validation:* the three rounds already fetched (2017→2021,
+  2018→2022, 2019→2023).
+- *Test:* English whole-council elections on 1 May 2025, each paired with the
+  same council's previous election. The same filters as `incumbent_power_v1`
+  apply: at least 10 ballots, comparable ballot counts, and joint party
+  labels normalised. Same-day by-elections are excluded. Several councils
+  listed for 2025, Surrey among them, are by-elections only because their
+  scheduled elections were postponed.
+- **2025 results are fetched exactly once,** after the model freeze is
+  committed (section 7).
+
+**National polling.** Voting-intention polls from the Wikipedia tables of
+national opinion polls, recorded with publication dates. A feature uses only
+polls published before polling day: the mean of the last 14 days before
+polling day, for each party. The source and the scraped table are committed
+with a hash.
+
+**Unit and outcome.** One unit is a **ward contest × party**. The outcome is
+the party's vote share in that ward, using the top-candidate method in
+multi-member wards (each party's best-placed candidate). This is the same
+convention as `incumbent_power_v1`.
+
+**Previous result.** A ward's previous result is matched by GSS code. Where
+boundaries changed (no GSS match), the previous result falls back to the
+party's council-wide share at t−1, and a flag records the fallback. Kent
+2025: 12 of 72 divisions changed.
+
+## 4. Features (all known before polling day)
+
+| feature | note |
+|---|---|
+| party's previous share in the ward (or the council fallback) | history |
+| change in the party's national poll average since the previous election | time-varying party signal |
+| party, region, council type | categorical |
+| standing in this ward for the first time (**cold-start flag**) | central to H2 |
+| incumbent councillor standing for the party | from the candidate lists |
+| number of candidates; parties absent this time | contest structure |
+| party controls the council at t−1 | from the t−1 seat majority |
+
+## 5. Models
+
+**Classical baselines (they must be beaten first):**
+
+1. *Persistence:* last share carries over.
+2. *Uniform swing:* last share plus the party's national poll change.
+3. *Proportional swing:* last share scaled by the party's national poll
+   ratio.
+
+Shares are renormalised to 100 within each contest. Cold-start rows, which
+have no last share, take the party's national poll share, divided by the
+number of contests it stands in, scaled to its national level. This is the
+naive cold-start rule.
+
+**Machine-learning models:** ridge regression (interpretable), LightGBM (as
+in V1), and ridge with council-level random intercepts (councils share
+information but keep their own level). They are fitted on the residual from
+uniform swing, so each model learns corrections to a classical forecast,
+not the forecast from scratch.
+
+**Selection, on 2017–2023 only:** fit on 2017→2021 and 2018→2022, validate on
+2019→2023. The model and its hyperparameters are chosen by validation MAE.
+The chosen configuration is then refitted on all three rounds. 2025 plays no
+part in any choice.
+
+## 6. Pre-registered hypotheses (tested once, on 2025)
+
+**H1, the system.** The selected model's ward × party MAE is lower than the
+best classical baseline's.
+*Estimand:* MAE(best baseline) − MAE(model), in pp. The 95% CI comes from a
+bootstrap over councils, since contests within a council share shocks.
+
+**H2, news, cold start.** It runs only if the power gate in section 8 passes.
+On 2025 rows where **Reform UK stands in a ward for the first time**, content
+features improve on volume:
+*Estimand:* Δcontent = MAE(M1) − MAE(M2), where
+
+- M0 = the selected model,
+- M1 = M0 + Reform coverage volume in that council's local outlets,
+- M2 = M1 + content features (tone toward Reform, issue and frame shares,
+  incumbent-judgement frame), from the frozen V1 classifier and extraction
+  layers.
+
+The news window is fixed at 90–31 days before polling day.
+
+**Multiplicity.** H1 and H2 are Holm-corrected at α = 0.05. Everything else
+(other parties, other windows, embeddings, M1 vs M0) is labelled exploratory.
+
+**Secondary, reported but not tested:** seat-winner accuracy, council-control
+accuracy, calibration of predicted shares, and performance by council type.
+
+## 7. Leakage and blindness
+
+- Every feature uses only information published before polling day.
+- **Freeze:** before 2025 results are fetched, the selected model, its
+  hyperparameters, the feature code and (if H2 runs) the news features are
+  committed together with a manifest of file hashes. The 2025 fetch then runs
+  once. Scoring code reads the frozen files only.
+- **Known limitation:** the broad 2025 outcome (Reform's surge) is public
+  knowledge, so this is not a blind test in V1's sense. The mitigation is
+  procedural: every modelling choice is made on 2017–2023 validation and
+  committed before 2025 data enters the repository.
+
+## 8. Stage gates
+
+1. **H2 power gate (free, before any news spend).** Using election data only,
+   estimate how large an effect on Reform cold-start MAE H2 could detect,
+   given the 2025 cold-start rows and the council-level clustering. If the
+   MDE80 exceeds 1.0 pp, H2 is not run. It is reported as underpowered and
+   no money is spent on news. This is the same logic as `incumbent_power_v1`.
+2. **News budget.** H2 collection uses outlet sitemaps (Wayback proved slow
+   and noisy), prefilter v1, and the frozen classifier via Batches. The cap is
+   **US$20**, enforced by `llm_eval`'s budget guard. The classifier is
+   re-evaluated with `llm_eval` on a sample of the new outlets before its
+   output is used.
+3. **Training signal for news.** M1/M2 coefficients are fitted on 2021–2023
+   Reform candidacies (759 in the fetched data) with news for the same
+   councils and windows. If that training news cannot be collected within
+   budget, H2 falls back to a zero-fit rule: the national Reform share is
+   allocated across councils in proportion to coverage. This is decided at
+   gate 1 and recorded.
+
+## 9. Deliverables
+
+1. A cleaned England-wide dataset with documented provenance and cleaning
+   rules.
+2. A forecasting system, with one command per stage: data, features, fit,
+   freeze, test.
+3. The 2025 out-of-sample result: H1, and H2 or the documented reason it
+   was not run.
+4. The news module, evaluated with `llm_eval`.
+5. A V2 report and a README with conclusions first.
+
+## 10. Plan
+
+| stage | content | time | gate |
+|---|---|---|---|
+| 1 | this design | done | committed before code |
+| 2 | data: units, previous results, boundary fallback, polls | 3–5 days | data tests pass |
+| 3 | baselines + ML models, 2017–2023 validation, model selection | 4–6 days | H1 configuration committed |
+| 4 | H2 power gate (free) | 1 day | MDE80 ≤ 1.0 pp, or H2 dropped |
+| 5 | news collection and features (if gate passes) | 3–5 days | ≤ US$20 |
+| 6 | freeze, fetch 2025 once, score H1 (and H2) | 1 day | — |
+| 7 | report and README | 3–5 days | — |
+
+## Amendments
+
+(none)
