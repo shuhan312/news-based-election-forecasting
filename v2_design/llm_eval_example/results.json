@@ -1,0 +1,241 @@
+{
+  "task": "local_relevance (V1 frozen classifier, B0)",
+  "split": "test",
+  "run": {
+    "source": "archived"
+  },
+  "audit": {
+    "examples": 380,
+    "flags": [
+      {
+        "check": "rule_consistency",
+        "origin": "v1_validation_seen",
+        "stratum": "local",
+        "label": 1,
+        "violations": 31,
+        "checked": 39,
+        "share": 0.7949,
+        "codes": {
+          "E5-N1-PARTY-POLITICS": 12,
+          "E5-N2-POLICY-ISSUE": 18,
+          "E5-N3-REFORM-GROWTH": 1
+        }
+      },
+      {
+        "check": "base_rate_drift",
+        "source_id": "guardian_api",
+        "origins": [
+          "corpus_manual",
+          "v1_validation_seen"
+        ],
+        "rates": [
+          0.1903,
+          0.8095
+        ],
+        "n": [
+          247,
+          42
+        ],
+        "p_value": 8.59903945724956e-15
+      },
+      {
+        "check": "provenance",
+        "ai_assisted_labels": 380,
+        "total": 380,
+        "message": "Reference labels were made with AI assistance; agreement with an LLM classifier is consistency with that standard, not independent validation."
+      }
+    ],
+    "clean": false
+  },
+  "overall": {
+    "n": 166,
+    "positives": 60,
+    "predicted_positives": 63,
+    "kappa": 0.7031,
+    "kappa_ci95": [
+      0.5793,
+      0.8099
+    ],
+    "recall": 0.8333,
+    "recall_ci95": [
+      0.7321,
+      0.9207
+    ],
+    "precision": 0.7937,
+    "precision_ci95": [
+      0.6849,
+      0.8834
+    ],
+    "f1": 0.813,
+    "f1_ci95": [
+      0.7273,
+      0.8814
+    ],
+    "agreement": 0.8614,
+    "agreement_ci95": [
+      0.8012,
+      0.9096
+    ]
+  },
+  "missing_predictions_counted_negative": 0,
+  "subgroups": {
+    "source_id": {
+      "bbc_surrey": {
+        "n": 10,
+        "positives": 8,
+        "predicted_positives": 4,
+        "kappa": 0.2857,
+        "kappa_ci95": [
+          0.0,
+          0.7826
+        ],
+        "recall": 0.5,
+        "recall_ci95": [
+          0.1335,
+          0.875
+        ],
+        "precision": 1.0,
+        "precision_ci95": [
+          1.0,
+          1.0
+        ],
+        "f1": 0.6667,
+        "f1_ci95": [
+          0.2857,
+          0.9333
+        ],
+        "agreement": 0.6,
+        "agreement_ci95": [
+          0.3,
+          0.9
+        ]
+      },
+      "guardian_api": {
+        "n": 123,
+        "positives": 23,
+        "predicted_positives": 30,
+        "kappa": 0.5931,
+        "kappa_ci95": [
+          0.3805,
+          0.7587
+        ],
+        "recall": 0.7826,
+        "recall_ci95": [
+          0.6079,
+          0.9412
+        ],
+        "precision": 0.6,
+        "precision_ci95": [
+          0.4026,
+          0.7857
+        ],
+        "f1": 0.6792,
+        "f1_ci95": [
+          0.4883,
+          0.8168
+        ],
+        "agreement": 0.8618,
+        "agreement_ci95": [
+          0.7967,
+          0.923
+        ]
+      },
+      "guildford_dragon": {
+        "n": 5,
+        "positives": 5,
+        "predicted_positives": 5,
+        "kappa": 0.0,
+        "kappa_ci95": [
+          0.0,
+          0.0
+        ],
+        "recall": 1.0,
+        "recall_ci95": [
+          1.0,
+          1.0
+        ],
+        "precision": 1.0,
+        "precision_ci95": [
+          1.0,
+          1.0
+        ],
+        "f1": 1.0,
+        "f1_ci95": [
+          1.0,
+          1.0
+        ],
+        "agreement": 1.0,
+        "agreement_ci95": [
+          1.0,
+          1.0
+        ]
+      },
+      "surrey_comet": {
+        "n": 2,
+        "positives": 0,
+        "predicted_positives": 0,
+        "kappa": 0.0,
+        "kappa_ci95": [
+          0.0,
+          0.0
+        ],
+        "recall": null,
+        "recall_ci95": null,
+        "precision": null,
+        "precision_ci95": null,
+        "f1": null,
+        "f1_ci95": null,
+        "agreement": 1.0,
+        "agreement_ci95": [
+          1.0,
+          1.0
+        ]
+      },
+      "surreylive": {
+        "n": 26,
+        "positives": 24,
+        "predicted_positives": 24,
+        "kappa": 0.4583,
+        "kappa_ci95": [
+          -0.0671,
+          1.0
+        ],
+        "recall": 0.9583,
+        "recall_ci95": [
+          0.8545,
+          1.0
+        ],
+        "precision": 0.9583,
+        "precision_ci95": [
+          0.8696,
+          1.0
+        ],
+        "f1": 0.9583,
+        "f1_ci95": [
+          0.8889,
+          1.0
+        ],
+        "agreement": 0.9231,
+        "agreement_ci95": [
+          0.8077,
+          1.0
+        ]
+      }
+    }
+  },
+  "gate": {
+    "checks": {
+      "kappa": {
+        "value": 0.7031,
+        "bar": 0.6,
+        "pass": true
+      },
+      "recall": {
+        "value": 0.8333,
+        "bar": 0.75,
+        "pass": true
+      }
+    },
+    "pass": true
+  }
+}

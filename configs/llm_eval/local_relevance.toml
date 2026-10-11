@@ -1,0 +1,92 @@
+# llm_eval config: V1's frozen local-relevance classifier, scored on V2's
+# held-out test split from its archived outputs (no API call, no cost).
+#
+#   PYTHONPATH=.:src python -m llm_eval run --config configs/llm_eval/local_relevance.toml
+#
+# Expected (v2_design/local_relevance_v1/baseline_b0.json): test kappa 0.7031,
+# include recall 0.8333. The audit should flag V1's labelling defect.
+
+[task]
+name = "local_relevance (V1 frozen classifier, B0)"
+classifier = "v1_local_relevance"
+options = { county = "Surrey" }
+classifier_is_llm = true
+
+# --- reference labels: two labelling batches -----------------------------------
+# Both were made by one reviewer with AI assistance (confirmed 2026-10-07).
+
+[[labels]]
+path = "news_collection/full_corpus_review.csv"
+origin = "corpus_manual"
+provenance = "ai_assisted"
+id_col = "article_id"
+label_col = "e5_decision"
+positive = "include"
+negative = "exclude"
+reason_col = "e5_reason_code"
+group_cols = ["arm", "source_id"]
+where = { arm = "local" }
+
+[[labels]]
+path = "news_collection/llm_validation_sample.csv"
+origin = "v1_validation_seen"
+provenance = "ai_assisted"
+id_col = "article_id"
+label_col = "e5_decision"
+positive = "include"
+negative = "exclude"
+reason_col = "e5_reason_code"
+group_cols = ["arm", "source_id"]
+where = { arm = "local" }
+
+# --- which examples are scored ----------------------------------------------------
+
+[split]
+file = "v2_design/local_relevance_v1/split.csv"   # committed before any run
+evaluate = "test"
+
+# --- reference-label audit ----------------------------------------------------------
+
+[audit]
+stratum_field = "arm"
+drift_within = "source_id"
+
+[audit.allowed_prefixes]
+# The codebook judges local-arm articles by L-rules only.
+local = ["E5-L", "E5-NO-", "E5-BORDERLINE-"]
+
+# --- predictions --------------------------------------------------------------------
+
+[predictions]
+source = "archived"            # "api" re-runs the classifier instead
+budget_usd = 1.00              # used only when source = "api"
+cache_dir = "data/llm_eval_cache/local_relevance"
+
+[[predictions.archived]]
+path = "news_collection/manual_review_llm_v2_corpus.csv"
+id_col = "article_id"
+label_col = "e5_decision"
+positive = "include"
+
+[[predictions.archived]]
+path = "news_collection/manual_review_llm_v2_validation.csv"
+id_col = "article_id"
+label_col = "e5_decision"
+positive = "include"
+
+[predictions.payloads]         # how API runs build each article's input
+loader = "v1_review_sheet"
+options = { paths = ["news_collection/full_corpus_review.csv",
+                     "news_collection/llm_validation_sample.csv"] }
+
+# --- scoring and reporting ------------------------------------------------------------
+
+[score]
+by = ["source_id"]
+
+[gate]                         # V1's pre-registered bars
+kappa = 0.60
+recall = 0.75
+
+[output]
+dir = "v2_design/llm_eval_example"
