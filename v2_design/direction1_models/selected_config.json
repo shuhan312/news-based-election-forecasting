@@ -2,28 +2,30 @@
   "status": "H1 freeze: chosen on 2019-2023 validation only; refit on all three training rounds before the single 2025 test.",
   "best_baseline": "proportional_swing",
   "best_ml": {
-    "name": "lightgbm_num_leaves15_n_estimators1000",
+    "name": "lightgbm_num_leaves7_n_estimators2000_insurgent_ruleTrue",
     "spec": {
       "model": "lightgbm",
-      "num_leaves": 15,
-      "n_estimators": 1000
+      "num_leaves": 7,
+      "n_estimators": 2000,
+      "insurgent_rule": true
     }
   },
   "validation_mae": {
     "proportional_swing": 9.3902,
-    "lightgbm_num_leaves15_n_estimators1000": 8.0642
+    "lightgbm_num_leaves7_n_estimators2000_insurgent_ruleTrue": 8.0677
   },
-  "validation_gain_pp": 1.326,
+  "validation_gain_pp": 1.3225,
   "validation_gain_ci95_council_bootstrap": [
-    1.0496,
-    1.6157
+    1.0285,
+    1.6354
   ],
   "h2_m0": {
-    "name": "uniform_swing",
+    "name": "uniform_swing_leave",
     "spec": null,
-    "validation_mae_REF_cold": 2.7535,
-    "selected_ml_mae_REF_cold": 4.465
+    "validation_mae_REF_cold": 2.6853,
+    "selected_ml_mae_REF_cold": 2.8361
   },
+  "leave_gamma": 2.25,
   "features": [
     "uns_pred",
     "share_prev",
@@ -39,6 +41,9 @@
     "controls_council_prev",
     "council_whole_prev",
     "boundary_fallback",
+    "leave_pct",
+    "leave_missing",
+    "insurgent_council_prev",
     "party_CON",
     "party_LAB",
     "party_LD",
@@ -46,6 +51,14 @@
     "party_REF",
     "party_UKIP",
     "party_OTH",
+    "cold_CON",
+    "cold_LAB",
+    "cold_LD",
+    "cold_GRN",
+    "cold_REF",
+    "cold_UKIP",
+    "cold_OTH",
+    "leave_x_insurgent",
     "subtype_CTY",
     "subtype_UA",
     "subtype_MD",

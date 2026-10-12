@@ -200,3 +200,16 @@ with the lowest validation MAE on Reform cold-start rows, from any family.**
 Currently that is uniform swing. M1/M2 add news on top of that M0. The rule
 is recorded in `direction1_models/selected_config.json` (`h2_m0`). H1 is
 unchanged.
+
+**A2 (2026-10-12, stage 3b, validation data only; 2025 untouched). The
+no-news system gets a Reform cold-start model before the freeze.** A1 only
+protected H2. The H1 model still over-predicted Reform, the problem V1 set
+out to study. Two pre-election, non-news features are added: the council's
+2016 EU-referendum Leave share (`forecast.geography`; Electoral Commission
+data) and the populist-right family's (UKIP + Reform) council-wide share at
+t−1. Party-specific cold-start interactions stop Reform borrowing other
+parties' first-candidacy pattern. A Leave-scaled rule, national poll ×
+(council Leave / England Leave)^γ with γ fitted on training rows only, is
+added as a baseline (`uniform_swing_leave`) and as a hybrid option for the
+ML models. Selection rules for H1 and H2 are unchanged; they simply see more
+candidates. Results are in `direction1_models/stage3b_findings.md`.

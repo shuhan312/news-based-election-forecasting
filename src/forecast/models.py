@@ -32,6 +32,8 @@ SEED = 20261012
 PARTIES = ("CON", "LAB", "LD", "GRN", "REF", "UKIP", "OTH")
 SUBTYPES = ("CTY", "UA", "MD", "NMD", "LBO")
 MATCH_TYPES = ("id", "label", "fallback")
+INSURGENT = ("REF", "UKIP")      # the populist-right family
+ENGLAND_LEAVE = 53.4             # England's Leave share, 2016 (EC)
 
 
 # --- data ------------------------------------------------------------------------------
@@ -47,10 +49,18 @@ def load_units(path: Path = UNITS_CSV) -> list[dict]:
         for k in ("share", "share_prev", "poll_prev", "poll_curr",
                   "poll_change"):
             r[k] = _num(r[k])
+        r["insurgent_council_prev"] = float(r["insurgent_council_prev"])
         for k in ("boundary_fallback", "cold_start", "incumbent_standing",
                   "n_candidates", "n_party_candidates", "winner_count",
                   "controls_council_prev", "council_whole_prev"):
             r[k] = int(r[k])
+    # Council Leave share in the 2016 referendum (forecast.geography).
+    # Unresolved councils get the England figure with a missing flag.
+    from forecast.geography import load_leave
+    leave = load_leave()
+    for r in rows:
+        r["leave_missing"] = int(r["council"] not in leave)
+        r["leave_pct"] = leave.get(r["council"], ENGLAND_LEAVE)
     return rows
 
 
@@ -84,6 +94,25 @@ def cold_start_prior(train: list[dict]) -> dict[str, float]:
         if r["cold_start"]:
             acc[r["party"]].append(r["share"])
     return {p: float(np.mean(v)) for p, v in acc.items()}
+
+
+def fit_leave_gamma(train: list[dict]) -> float:
+    """Leave elasticity for insurgent cold starts, fitted on training rows.
+
+    Rule: share = national poll x (council Leave / England Leave) ** gamma.
+    gamma = 0 means "the same everywhere"; gamma > 0 means stronger where
+    Leave was stronger. Fitted by grid search on training-round MAE only.
+    """
+    rows = [r for r in train if r["party"] in INSURGENT and r["cold_start"]
+            and r["poll_curr"] is not None]
+    if not rows:
+        return 0.0
+    y = np.array([r["share"] for r in rows])
+    base = np.array([r["poll_curr"] for r in rows])
+    ratio = np.array([r["leave_pct"] / ENGLAND_LEAVE for r in rows])
+    grid = np.arange(0, 6.01, 0.25)
+    errs = [np.abs(base * ratio ** g - y).mean() for g in grid]
+    return float(grid[int(np.argmin(errs))])
 
 
 def _cold_start_value(r: dict, prior: dict) -> float:
@@ -121,8 +150,30 @@ def proportional_swing(rows, prior) -> np.ndarray:
     return renormalise(rows, np.array([one(r) for r in rows]))
 
 
+def _insurgent_raw(r: dict, prior: dict) -> float:
+    """Leave-scaled cold start for Reform/UKIP; prior["_gamma"] is fitted on
+    training rows (fit_leave_gamma)."""
+    gamma = prior.get("_gamma", 0.0)
+    return _cold_start_value(r, prior) * (r["leave_pct"] / ENGLAND_LEAVE) ** gamma
+
+
+def _is_insurgent_cold(r: dict) -> bool:
+    return r["party"] in INSURGENT and bool(r["cold_start"])
+
+
+def uniform_swing_leave(rows, prior) -> np.ndarray:
+    """Uniform swing, except that Reform/UKIP cold starts take the
+    Leave-scaled national poll instead of the flat national poll."""
+    raw = np.array([
+        _insurgent_raw(r, prior) if _is_insurgent_cold(r)
+        else _cold_start_value(r, prior) if r["cold_start"]
+        else r["share_prev"] + (r["poll_change"] or 0.0) for r in rows])
+    return renormalise(rows, raw)
+
+
 BASELINES = {"persistence": persistence, "uniform_swing": uniform_swing,
-             "proportional_swing": proportional_swing}
+             "proportional_swing": proportional_swing,
+             "uniform_swing_leave": uniform_swing_leave}
 
 
 # --- features for the ML models --------------------------------------------------------
@@ -131,8 +182,14 @@ FEATURES = (
     ["uns_pred", "share_prev", "poll_prev", "poll_curr", "poll_change",
      "poll_missing", "cold_start", "incumbent_standing", "n_candidates",
      "n_party_candidates", "winner_count", "controls_council_prev",
-     "council_whole_prev", "boundary_fallback"]
+     "council_whole_prev", "boundary_fallback",
+     "leave_pct", "leave_missing", "insurgent_council_prev"]
     + [f"party_{p}" for p in PARTIES]
+    # Cold start x party: each party's first candidacies get their own
+    # correction instead of sharing one learned mostly from Greens, Lib
+    # Dems and independents (the stage 3 Reform over-prediction).
+    + [f"cold_{p}" for p in PARTIES]
+    + ["leave_x_insurgent"]
     + [f"subtype_{s}" for s in SUBTYPES]
     + [f"match_{m}" for m in MATCH_TYPES]
 )
@@ -156,6 +213,13 @@ def design_matrix(rows: list[dict], uns: np.ndarray) -> np.ndarray:
                   "boundary_fallback"):
             X[i, col[k]] = r[k]
         X[i, col[f"party_{r['party']}"]] = 1
+        X[i, col["leave_pct"]] = r["leave_pct"]
+        X[i, col["leave_missing"]] = r["leave_missing"]
+        X[i, col["insurgent_council_prev"]] = r["insurgent_council_prev"]
+        if r["cold_start"]:
+            X[i, col[f"cold_{r['party']}"]] = 1
+        if r["party"] in INSURGENT:
+            X[i, col["leave_x_insurgent"]] = r["leave_pct"]
         if f"subtype_{r['subtype']}" in col:
             X[i, col[f"subtype_{r['subtype']}"]] = 1
         X[i, col[f"match_{r['match_type']}"]] = 1
@@ -234,7 +298,15 @@ def fit_predict(spec: dict, train, valid, prior) -> np.ndarray:
         corr = booster.predict(X_va)
     else:
         raise ValueError(kind)
-    return renormalise(valid, uns_va + corr)
+    raw = uns_va + corr
+    if spec.get("insurgent_rule"):
+        # Hybrid: the ML correction for every party except Reform/UKIP cold
+        # starts, which take the Leave-scaled rule. Their raw value replaces
+        # the ML one before renormalisation, so each contest still sums to 100.
+        for i, r in enumerate(valid):
+            if _is_insurgent_cold(r):
+                raw[i] = _insurgent_raw(r, prior)
+    return renormalise(valid, raw)
 
 
 ML_GRID = (
@@ -245,6 +317,11 @@ ML_GRID = (
     # of the original grid. Still validation-only model selection.
     + [{"model": "lightgbm", "num_leaves": nl, "n_estimators": ne}
        for nl in (7, 15, 31) for ne in (200, 500, 1000, 2000)]
+    # Stage 3b hybrids: Reform/UKIP cold starts follow the Leave rule.
+    + [{"model": "lightgbm", "num_leaves": nl, "n_estimators": ne,
+        "insurgent_rule": True} for nl in (7, 15) for ne in (1000, 2000)]
+    + [{"model": "ridge_council", "alpha": 10, "k": 10,
+        "insurgent_rule": True}]
 )
 
 
@@ -304,6 +381,7 @@ def stage_validate() -> None:
     train = [r for r in rows if r["round"] in TRAIN_ROUNDS]
     valid = [r for r in rows if r["round"] == VALID_ROUND]
     prior = cold_start_prior(train)
+    prior["_gamma"] = fit_leave_gamma(train)
 
     results, preds = {}, {}
     for name, fn in BASELINES.items():
@@ -345,6 +423,7 @@ def stage_validate() -> None:
                   "spec": results[h2_m0].get("spec"),
                   "validation_mae_REF_cold": results[h2_m0]["mae_REF_cold"],
                   "selected_ml_mae_REF_cold": results[best_ml]["mae_REF_cold"]},
+        "leave_gamma": prior["_gamma"],
         "features": FEATURES, "seed": SEED}, indent=2) + "\n")
     print(f"best baseline {best_base} {results[best_base]['mae']}; "
           f"best ML {best_ml} {results[best_ml]['mae']}; gain CI {diff_ci}")

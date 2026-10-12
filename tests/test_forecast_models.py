@@ -25,7 +25,9 @@ def unit(ballot, party, share_prev, share=0.0, cold=0, poll_prev=None,
             "n_candidates": 3, "n_party_candidates": 1, "winner_count": 1,
             "controls_council_prev": 0, "council_whole_prev": 1,
             "poll_prev": poll_prev, "poll_curr": poll_curr,
-            "poll_change": change, "share": share}
+            "poll_change": change, "share": share,
+            "leave_pct": M.ENGLAND_LEAVE, "leave_missing": 0,
+            "insurgent_council_prev": 0.0}
 
 
 CONTEST = [unit("b1", "CON", 60, poll_prev=40, poll_curr=30),
@@ -83,6 +85,35 @@ def test_bootstrap_ci_brackets_a_known_difference():
     b = np.full(200, 11.0)                       # error 1
     lo, hi = M.council_bootstrap_diff(rows, a, b, n=200)
     assert lo == pytest.approx(1.0) and hi == pytest.approx(1.0)
+
+
+# --- stage 3b: Reform cold start ---------------------------------------------------------
+
+def test_leave_gamma_is_recovered_from_synthetic_training_rows():
+    rows = []
+    for i, leave in enumerate(np.linspace(40, 70, 40)):
+        r = unit(f"b{i}", "REF", 0, cold=1, poll_curr=10)
+        r["leave_pct"] = leave
+        r["share"] = 10 * (leave / M.ENGLAND_LEAVE) ** 2   # true gamma = 2
+        rows.append(r)
+    assert M.fit_leave_gamma(rows) == pytest.approx(2.0)
+
+
+def test_leave_rule_reduces_to_uniform_swing_when_gamma_is_zero():
+    rows = [dict(r, leave_pct=70.0) for r in CONTEST]
+    assert M.uniform_swing_leave(rows, {"_gamma": 0.0}) == \
+        pytest.approx(M.uniform_swing(rows, {}))
+
+
+def test_leave_rule_raises_reform_where_leave_was_higher():
+    high = [dict(r, leave_pct=65.0) for r in CONTEST]
+    low = [dict(r, leave_pct=45.0) for r in CONTEST]
+    prior = {"_gamma": 2.0}
+    assert M.uniform_swing_leave(high, prior)[2] > \
+        M.uniform_swing_leave(low, prior)[2]
+    # Only the insurgent cold start moves; warm parties keep their ratio.
+    h, l = M.uniform_swing_leave(high, prior), M.uniform_swing_leave(low, prior)
+    assert h[0] / h[1] == pytest.approx(l[0] / l[1])
 
 
 # --- integration on the built units ------------------------------------------------------

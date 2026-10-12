@@ -1,0 +1,309 @@
+council,subtype,method,areas,missing_areas,leave_pct
+adur,NMD,name,Adur,,54.568
+amber-valley,NMD,name,Amber Valley,,60.283
+arun,NMD,name,Arun,,62.478
+ashfield,NMD,name,Ashfield,,69.837
+ashford,NMD,name,Ashford,,59.427
+babergh,NMD,name,Babergh,,54.185
+barking-and-dagenham,LBO,name,Barking and Dagenham,,62.439
+barnet,LBO,name,Barnet,,37.771
+barnsley,MD,name,Barnsley,,68.309
+basildon,NMD,name,Basildon,,68.624
+basingstoke-and-deane,NMD,name,Basingstoke and Deane,,51.901
+bassetlaw,NMD,name,Bassetlaw,,67.835
+bath-and-north-east-somerset,UA,name,Bath and North East Somerset,,42.148
+bedford,UA,name,Bedford,,51.785
+bexley,LBO,name,Bexley,,62.952
+birmingham,MD,name,Birmingham,,50.422
+blaby,NMD,name,Blaby,,59.469
+blackburn-with-darwen,UA,name,Blackburn with Darwen,,56.336
+blackpool,UA,name,Blackpool,,67.456
+bolsover,NMD,name,Bolsover,,70.833
+bolton,MD,name,Bolton,,58.293
+boston,NMD,name,Boston,,75.562
+bournemouth-christchurch-and-poole,UA,manual,Bournemouth;Christchurch;Poole,,56.821
+bracknell-forest,UA,name,Bracknell Forest,,53.941
+bradford,MD,name,Bradford,,54.232
+braintree,NMD,name,Braintree,,61.126
+breckland,NMD,name,Breckland,,64.223
+brent,LBO,name,Brent,,40.263
+brentwood,NMD,name,Brentwood,,59.153
+brighton-and-hove,UA,name,Brighton and Hove,,31.38
+broadland,NMD,name,Broadland,,54.373
+bromley,LBO,name,Bromley,,49.352
+bromsgrove,NMD,name,Bromsgrove,,55.365
+broxbourne,NMD,name,Broxbourne,,66.256
+broxtowe,NMD,name,Broxtowe,,54.648
+buckinghamshire,UA,manual,Aylesbury Vale;Chiltern;South Bucks;Wycombe,,48.677
+burnley,NMD,name,Burnley,,66.613
+bury,MD,name,Bury,,54.118
+calderdale,MD,name,Calderdale,,55.676
+cambridge,NMD,name,Cambridge,,26.154
+cambridgeshire,CTY,county,Cambridge;East Cambridgeshire;Fenland;Huntingdonshire;South Cambridgeshire,,47.901
+camden,LBO,name,Camden,,25.058
+cannock-chase,NMD,name,Cannock Chase,,68.86
+canterbury,NMD,name,Canterbury,,51.042
+castle-point,NMD,name,Castle Point,,72.699
+central-bedfordshire,UA,name,Central Bedfordshire,,56.128
+charnwood,NMD,name,Charnwood,,53.808
+chelmsford,NMD,name,Chelmsford,,52.83
+cheltenham,NMD,name,Cheltenham,,43.828
+cherwell,NMD,name,Cherwell,,50.305
+cheshire-east,UA,name,Cheshire East,,51.176
+cheshire-west-and-chester,UA,name,Cheshire West and Chester,,50.679
+chesterfield,NMD,name,Chesterfield,,60.041
+chichester,NMD,name,Chichester,,50.922
+chorley,NMD,name,Chorley,,56.834
+city-of-lincoln,NMD,alias,Lincoln,,56.937
+colchester,NMD,name,Colchester,,53.6
+cornwall,UA,name,Cornwall,,56.517
+cotswold,NMD,name,Cotswold,,48.897
+county-durham,UA,name,County Durham,,57.546
+coventry,MD,name,Coventry,,55.596
+crawley,NMD,name,Crawley,,58.414
+croydon,LBO,name,Croydon,,45.707
+dacorum,NMD,name,Dacorum,,50.673
+darlington,UA,name,Darlington,,56.183
+dartford,NMD,name,Dartford,,64.22
+derby,UA,name,Derby,,57.223
+derbyshire,CTY,county,Amber Valley;Bolsover;Chesterfield;Derbyshire Dales;Erewash;High Peak;North East Derbyshire;South Derbyshire,,59.633
+derbyshire-dales,NMD,name,Derbyshire Dales,,51.564
+devon,CTY,county,East Devon;Exeter;Mid Devon;North Devon;South Hams;Teignbridge;Torridge;West Devon,,52.792
+doncaster,MD,name,Doncaster,,68.963
+dover,NMD,name,Dover,,62.154
+dudley,MD,name,Dudley,,67.596
+ealing,LBO,name,Ealing,,39.598
+east-cambridgeshire,NMD,name,East Cambridgeshire,,50.923
+east-devon,NMD,name,East Devon,,54.109
+east-hampshire,NMD,name,East Hampshire,,49.479
+east-hertfordshire,NMD,name,East Hertfordshire,,50.364
+east-lindsey,NMD,name,East Lindsey,,70.653
+east-riding-of-yorkshire,UA,name,East Riding of Yorkshire,,60.396
+east-staffordshire,NMD,name,East Staffordshire,,63.214
+east-suffolk,NMD,alias,Suffolk Coastal;Waveney,,57.485
+east-sussex,CTY,county,Eastbourne;Hastings;Lewes;Rother;Wealden,,54.533
+eastbourne,NMD,name,Eastbourne,,57.335
+eastleigh,NMD,name,Eastleigh,,52.452
+elmbridge,NMD,name,Elmbridge,,40.469
+enfield,LBO,name,Enfield,,44.177
+epping-forest,NMD,name,Epping Forest,,62.687
+epsom-and-ewell,NMD,name,Epsom and Ewell,,47.915
+erewash,NMD,name,Erewash,,61.234
+essex,CTY,county,Basildon;Braintree;Brentwood;Castle Point;Chelmsford;Colchester;Epping Forest;Harlow;Maldon;Rochford;Tendring;Uttlesford,,61.857
+exeter,NMD,name,Exeter,,44.72
+fareham,NMD,name,Fareham,,55.099
+fenland,NMD,name,Fenland,,71.392
+folkestone-hythe,NMD,alias,Shepway,,62.246
+forest-of-dean,NMD,name,Forest of Dean,,58.577
+fylde,NMD,name,Fylde,,56.956
+gateshead,MD,name,Gateshead,,56.847
+gedling,NMD,name,Gedling,,55.554
+gloucestershire,CTY,county,Cheltenham;Cotswold;Forest of Dean;Gloucester;Stroud;Tewkesbury,,50.978
+gosport,NMD,name,Gosport,,63.858
+gravesham,NMD,name,Gravesham,,65.377
+great-yarmouth,NMD,name,Great Yarmouth,,71.505
+greenwich,LBO,name,Greenwich,,44.406
+guildford,NMD,name,Guildford,,43.832
+hackney,LBO,name,Hackney,,21.52
+halton,UA,name,Halton,,57.422
+hammersmith-and-fulham,LBO,name,Hammersmith and Fulham,,29.977
+hampshire,CTY,county,Basingstoke and Deane;East Hampshire;Eastleigh;Fareham;Gosport;Hart;Havant;New Forest;Rushmoor;Test Valley;Winchester,,53.531
+harborough,NMD,name,Harborough,,50.749
+haringey,LBO,name,Haringey,,24.427
+harlow,NMD,name,Harlow,,68.099
+harrow,LBO,name,Harrow,,45.368
+hart,NMD,name,Hart,,47.604
+hartlepool,UA,name,Hartlepool,,69.568
+hastings,NMD,name,Hastings,,54.879
+havant,NMD,name,Havant,,62.364
+havering,LBO,name,Havering,,69.658
+herefordshire,UA,alias,"Herefordshire, County of",,59.224
+hertfordshire,CTY,county,Broxbourne;Dacorum;East Hertfordshire;Hertsmere;North Hertfordshire;St Albans;Stevenage;Three Rivers;Watford;Welwyn Hatfield,,50.315
+hertsmere,NMD,name,Hertsmere,,50.837
+high-peak,NMD,name,High Peak,,50.548
+hillingdon,LBO,name,Hillingdon,,56.368
+hinckley-and-bosworth,NMD,name,Hinckley and Bosworth,,60.335
+horsham,NMD,name,Horsham,,48.542
+hounslow,LBO,name,Hounslow,,48.942
+huntingdonshire,NMD,name,Huntingdonshire,,54.238
+hyndburn,NMD,name,Hyndburn,,66.193
+ipswich,NMD,name,Ipswich,,58.257
+isle-of-wight,UA,name,Isle of Wight,,61.946
+isles-of-scilly,UA,name,Isles of Scilly,,43.61
+islington,LBO,name,Islington,,24.783
+kensington-and-chelsea,LBO,name,Kensington and Chelsea,,31.309
+kent,CTY,county,Ashford;Canterbury;Dartford;Dover;Shepway;Gravesham;Maidstone;Sevenoaks;Swale;Thanet;Tonbridge and Malling;Tunbridge Wells,,58.444
+kings-lynn-and-west-norfolk,NMD,name,King's Lynn and West Norfolk,,66.4
+kingston-upon-hull,UA,name,"Kingston upon Hull, City of",,67.616
+kingston-upon-thames,LBO,name,Kingston upon Thames,,38.392
+kirklees,MD,name,Kirklees,,54.665
+knowsley,MD,name,Knowsley,,51.561
+lambeth,LBO,name,Lambeth,,21.378
+lancashire,CTY,county,Burnley;Chorley;Fylde;Hyndburn;Lancaster;Pendle;Preston;Ribble Valley;Rossendale;South Ribble;West Lancashire;Wyre,,58.429
+lancaster,NMD,name,Lancaster,,51.08
+leeds,MD,name,Leeds,,49.692
+leicester,UA,name,Leicester,,48.925
+leicestershire,CTY,county,Blaby;Charnwood;Harborough;Hinckley and Bosworth;Melton;North West Leicestershire;Oadby and Wigston,,56.704
+lewes,NMD,name,Lewes,,47.927
+lewisham,LBO,name,Lewisham,,30.141
+lichfield,NMD,name,Lichfield,,58.81
+lincolnshire,CTY,county,Boston;East Lindsey;Lincoln;North Kesteven;South Holland;South Kesteven;West Lindsey,,65.164
+liverpool,MD,name,Liverpool,,41.808
+luton,UA,name,Luton,,56.549
+maidstone,NMD,name,Maidstone,,58.753
+maldon,NMD,name,Maldon,,62.584
+malvern-hills,NMD,name,Malvern Hills,,52.156
+manchester,MD,name,Manchester,,39.636
+mansfield,NMD,name,Mansfield,,70.863
+medway,UA,name,Medway,,64.079
+melton,NMD,name,Melton,,58.109
+merton,LBO,name,Merton,,37.06
+mid-devon,NMD,name,Mid Devon,,53.339
+mid-suffolk,NMD,name,Mid Suffolk,,55.232
+mid-sussex,NMD,name,Mid Sussex,,46.907
+middlesbrough,UA,name,Middlesbrough,,65.48
+milton-keynes,UA,name,Milton Keynes,,51.407
+mole-valley,NMD,name,Mole Valley,,46.916
+new-forest,NMD,name,New Forest,,57.76
+newark-and-sherwood,NMD,name,Newark and Sherwood,,60.393
+newcastle-under-lyme,NMD,name,Newcastle-under-Lyme,,63.041
+newcastle-upon-tyne,MD,name,Newcastle upon Tyne,,49.3
+newham,LBO,name,Newham,,47.155
+norfolk,CTY,county,Breckland;Broadland;Great Yarmouth;King's Lynn and West Norfolk;North Norfolk;Norwich;South Norfolk,,58.349
+north-devon,NMD,name,North Devon,,57.038
+north-east-derbyshire,NMD,name,North East Derbyshire,,62.78
+north-east-lincolnshire,UA,name,North East Lincolnshire,,69.87
+north-hertfordshire,NMD,name,North Hertfordshire,,45.625
+north-kesteven,NMD,name,North Kesteven,,62.26
+north-lincolnshire,UA,name,North Lincolnshire,,66.299
+north-norfolk,NMD,name,North Norfolk,,58.906
+north-northamptonshire,UA,manual,Corby;East Northamptonshire;Kettering;Wellingborough,,61.246
+north-somerset,UA,name,North Somerset,,52.169
+north-tyneside,MD,name,North Tyneside,,53.4
+north-warwickshire,NMD,name,North Warwickshire,,66.884
+north-west-leicestershire,NMD,name,North West Leicestershire,,60.698
+northumberland,UA,name,Northumberland,,54.106
+norwich,NMD,name,Norwich,,43.757
+nottingham,UA,name,Nottingham,,50.839
+nottinghamshire,CTY,county,Ashfield;Bassetlaw;Broxtowe;Gedling;Mansfield;Newark and Sherwood;Rushcliffe,,59.806
+nuneaton-and-bedworth,NMD,name,Nuneaton and Bedworth,,66.009
+oadby-and-wigston,NMD,name,Oadby and Wigston,,54.578
+oldham,MD,name,Oldham,,60.863
+oxford,NMD,name,Oxford,,29.733
+oxfordshire,CTY,county,Cherwell;Oxford;South Oxfordshire;Vale of White Horse;West Oxfordshire,,43.204
+pendle,NMD,name,Pendle,,63.154
+peterborough,UA,name,Peterborough,,60.893
+plymouth,UA,name,Plymouth,,59.943
+portsmouth,UA,name,Portsmouth,,58.079
+preston,NMD,name,Preston,,53.314
+reading,UA,name,Reading,,41.973
+redbridge,LBO,name,Redbridge,,46.026
+redcar-and-cleveland,UA,name,Redcar and Cleveland,,66.188
+redditch,NMD,name,Redditch,,62.288
+reigate-and-banstead,NMD,name,Reigate and Banstead,,50.492
+ribble-valley,NMD,name,Ribble Valley,,56.391
+richmond-upon-thames,LBO,name,Richmond upon Thames,,30.706
+rochdale,MD,name,Rochdale,,60.073
+rochford,NMD,name,Rochford,,66.614
+rossendale,NMD,name,Rossendale,,60.682
+rother,NMD,name,Rother,,58.529
+rugby,NMD,name,Rugby,,56.703
+runnymede,NMD,name,Runnymede,,54.262
+rushcliffe,NMD,name,Rushcliffe,,42.449
+rushmoor,NMD,name,Rushmoor,,58.212
+rutland,UA,name,Rutland,,50.566
+salford,MD,name,Salford,,56.809
+sandwell,MD,name,Sandwell,,66.721
+sefton,MD,name,Sefton,,48.132
+sevenoaks,NMD,name,Sevenoaks,,54.383
+sheffield,MD,name,Sheffield,,50.99
+shropshire,UA,name,Shropshire,,56.874
+slough,UA,name,Slough,,54.327
+solihull,MD,name,Solihull,,56.157
+south-cambridgeshire,NMD,name,South Cambridgeshire,,39.77
+south-derbyshire,NMD,name,South Derbyshire,,60.351
+south-gloucestershire,UA,name,South Gloucestershire,,52.677
+south-hams,NMD,name,South Hams,,47.145
+south-holland,NMD,name,South Holland,,73.586
+south-kesteven,NMD,name,South Kesteven,,59.929
+south-norfolk,NMD,name,South Norfolk,,51.695
+south-oxfordshire,NMD,name,South Oxfordshire,,45.018
+south-ribble,NMD,name,South Ribble,,58.562
+south-staffordshire,NMD,name,South Staffordshire,,64.847
+south-tyneside,MD,name,South Tyneside,,62.046
+southampton,UA,name,Southampton,,53.803
+southend-on-sea,UA,name,Southend-on-Sea,,58.082
+southwark,LBO,name,Southwark,,27.188
+spelthorne,NMD,name,Spelthorne,,60.3
+st-albans,NMD,name,St Albans,,37.292
+st-helens,MD,name,St. Helens,,58.025
+stafford,NMD,name,Stafford,,55.993
+staffordshire,CTY,county,Cannock Chase;East Staffordshire;Lichfield;Newcastle-under-Lyme;South Staffordshire;Stafford;Staffordshire Moorlands;Tamworth,,62.873
+staffordshire-moorlands,NMD,name,Staffordshire Moorlands,,64.732
+stevenage,NMD,name,Stevenage,,59.246
+stockport,MD,name,Stockport,,47.667
+stockton-on-tees,UA,name,Stockton-on-Tees,,61.726
+stoke-on-trent,UA,name,Stoke-on-Trent,,69.362
+stratford-on-avon,NMD,name,Stratford-on-Avon,,51.564
+stroud,NMD,name,Stroud,,45.39
+suffolk,CTY,county,Babergh;Suffolk Coastal;Waveney;Ipswich;Mid Suffolk;Forest Heath;St Edmundsbury,,57.214
+sunderland,MD,name,Sunderland,,61.34
+surrey,CTY,county,Elmbridge;Epsom and Ewell;Guildford;Mole Valley;Reigate and Banstead;Runnymede;Spelthorne;Surrey Heath;Tandridge;Waverley;Woking,,47.845
+surrey-heath,NMD,name,Surrey Heath,,50.984
+sutton,LBO,name,Sutton,,53.717
+swale,NMD,name,Swale,,62.46
+swindon,UA,name,Swindon,,54.659
+tameside,MD,name,Tameside,,61.136
+tamworth,NMD,name,Tamworth,,67.469
+tandridge,NMD,name,Tandridge,,52.837
+teignbridge,NMD,name,Teignbridge,,53.896
+telford-and-wrekin,UA,name,Telford and Wrekin,,63.222
+tendring,NMD,name,Tendring,,69.5
+test-valley,NMD,name,Test Valley,,51.941
+tewkesbury,NMD,name,Tewkesbury,,53.247
+thanet,NMD,name,Thanet,,63.85
+three-rivers,NMD,name,Three Rivers,,51.273
+thurrock,UA,name,Thurrock,,72.282
+tonbridge-and-malling,NMD,name,Tonbridge and Malling,,55.699
+torbay,UA,name,Torbay,,63.158
+torridge,NMD,name,Torridge,,60.827
+tower-hamlets,LBO,name,Tower Hamlets,,32.544
+trafford,MD,name,Trafford,,42.309
+tunbridge-wells,NMD,name,Tunbridge Wells,,45.11
+uttlesford,NMD,name,Uttlesford,,50.679
+vale-of-white-horse,NMD,name,Vale of White Horse,,43.301
+wakefield,MD,name,Wakefield,,66.364
+walsall,MD,name,Walsall,,67.862
+waltham-forest,LBO,name,Waltham Forest,,40.898
+wandsworth,LBO,name,Wandsworth,,24.968
+warrington,UA,name,Warrington,,54.269
+warwick,NMD,name,Warwick,,41.219
+warwickshire,CTY,county,North Warwickshire;Nuneaton and Bedworth;Rugby;Stratford-on-Avon;Warwick,,54.764
+watford,NMD,name,Watford,,50.27
+waverley,NMD,name,Waverley,,41.612
+wealden,NMD,name,Wealden,,54.502
+welwyn-hatfield,NMD,name,Welwyn Hatfield,,52.994
+west-berkshire,UA,name,West Berkshire,,48.219
+west-devon,NMD,name,West Devon,,53.201
+west-lancashire,NMD,name,West Lancashire,,55.305
+west-lindsey,NMD,name,West Lindsey,,61.818
+west-northamptonshire,UA,manual,Daventry;Northampton;South Northamptonshire,,57.351
+west-oxfordshire,NMD,name,West Oxfordshire,,46.345
+west-suffolk,NMD,alias,Forest Heath;St Edmundsbury,,59.21
+west-sussex,CTY,county,Adur;Arun;Chichester;Crawley;Horsham;Mid Sussex;Worthing,,53.311
+westminster,LBO,name,Westminster,,31.035
+wigan,MD,name,Wigan,,63.9
+wiltshire,UA,name,Wiltshire,,52.489
+winchester,NMD,name,Winchester,,41.073
+windsor-and-maidenhead,UA,name,Windsor and Maidenhead,,46.1
+wirral,MD,name,Wirral,,48.296
+woking,NMD,name,Woking,,43.849
+wokingham,UA,name,Wokingham,,43.311
+wolverhampton,MD,name,Wolverhampton,,62.575
+worcester,NMD,name,Worcester,,53.677
+worcestershire,CTY,county,Bromsgrove;Malvern Hills;Redditch;Worcester;Wychavon;Wyre Forest,,57.443
+worthing,NMD,name,Worthing,,52.985
+wychavon,NMD,name,Wychavon,,57.863
+wyre,NMD,name,Wyre,,63.772
+wyre-forest,NMD,name,Wyre Forest,,63.145
+york,UA,name,York,,41.955

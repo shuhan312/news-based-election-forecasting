@@ -252,6 +252,11 @@ def build_round(round_name: str, slug: str, subtype: str,
                 "winner_count": b["winner_count"],
                 "controls_council_prev": int(control == code),
                 "council_whole_prev": whole_prev,
+                # Council-wide t-1 share of the populist-right family
+                # (UKIP and Reform/Brexit Party): the nearest thing a new
+                # Reform candidacy has to a history of its own.
+                "insurgent_council_prev": round(
+                    fallback.get("UKIP", 0.0) + fallback.get("REF", 0.0), 4),
                 "poll_prev": _fmt(polls_prev.get(code)),
                 "poll_curr": _fmt(polls_curr.get(code)),
                 "poll_change": _fmt(
