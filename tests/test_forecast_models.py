@@ -137,3 +137,28 @@ def test_ml_fit_is_deterministic():
     a = M.fit_predict(spec, train, valid, prior)
     b = M.fit_predict(spec, train, valid, prior)
     assert np.array_equal(a, b)
+
+
+# --- stage 4: H2 power simulation ---------------------------------------------------------
+
+def test_power_simulation_gain_grows_with_signal_strength():
+    from forecast import power_h2 as P
+    rng = np.random.default_rng(0)
+    councils = [f"c{i}" for i in range(30) for _ in range(20)]
+    shift = {f"c{i}": rng.normal(scale=3) for i in range(30)}
+    m0 = np.full(len(councils), 10.0)
+    y = np.array([10 + shift[c] + rng.normal(scale=1) for c in councils])
+    weak = np.mean([P.simulate_once(y, m0, councils, 0.1, 30, rng)[0]
+                    for _ in range(30)])
+    strong = np.mean([P.simulate_once(y, m0, councils, 0.9, 30, rng)[0]
+                      for _ in range(30)])
+    assert strong > weak and strong > 0.5
+
+
+def test_mde80_picks_the_first_point_reaching_80_percent_power():
+    from forecast import power_h2 as P
+    curve = [{"rho": 0.1, "power": 0.2, "mean_gain_pp": 0.1},
+             {"rho": 0.5, "power": 0.85, "mean_gain_pp": 0.7},
+             {"rho": 0.9, "power": 1.0, "mean_gain_pp": 1.5}]
+    assert P.mde80(curve)["rho"] == 0.5
+    assert P.mde80(curve[:1]) is None
