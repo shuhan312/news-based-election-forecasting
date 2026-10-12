@@ -188,4 +188,15 @@ accuracy, calibration of predicted shares, and performance by council type.
 
 ## Amendments
 
-(none)
+**A1 (2026-10-12, stage 3, on validation data only; 2025 untouched). H2's M0
+changes.** The design named "the selected model" as H2's M0. On 2019→2023
+validation, the selected LightGBM over-predicts Reform: mean 10.3% against an
+actual 6.8%, so its Reform cold-start MAE is 4.47 pp against 2.75 for uniform
+swing. Its cold-start correction is learned mostly from other parties' first
+candidacies (Greens, Liberal Democrats, independents), which tend to be
+targeted and to beat the national poll. With a biased M0, news could look
+useful merely by correcting that bias. **M0 is therefore the no-news model
+with the lowest validation MAE on Reform cold-start rows, from any family.**
+Currently that is uniform swing. M1/M2 add news on top of that M0. The rule
+is recorded in `direction1_models/selected_config.json` (`h2_m0`). H1 is
+unchanged.

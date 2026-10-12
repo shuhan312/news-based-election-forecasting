@@ -1,0 +1,59 @@
+{
+  "status": "H1 freeze: chosen on 2019-2023 validation only; refit on all three training rounds before the single 2025 test.",
+  "best_baseline": "proportional_swing",
+  "best_ml": {
+    "name": "lightgbm_num_leaves15_n_estimators1000",
+    "spec": {
+      "model": "lightgbm",
+      "num_leaves": 15,
+      "n_estimators": 1000
+    }
+  },
+  "validation_mae": {
+    "proportional_swing": 9.3902,
+    "lightgbm_num_leaves15_n_estimators1000": 8.0642
+  },
+  "validation_gain_pp": 1.326,
+  "validation_gain_ci95_council_bootstrap": [
+    1.0496,
+    1.6157
+  ],
+  "h2_m0": {
+    "name": "uniform_swing",
+    "spec": null,
+    "validation_mae_REF_cold": 2.7535,
+    "selected_ml_mae_REF_cold": 4.465
+  },
+  "features": [
+    "uns_pred",
+    "share_prev",
+    "poll_prev",
+    "poll_curr",
+    "poll_change",
+    "poll_missing",
+    "cold_start",
+    "incumbent_standing",
+    "n_candidates",
+    "n_party_candidates",
+    "winner_count",
+    "controls_council_prev",
+    "council_whole_prev",
+    "boundary_fallback",
+    "party_CON",
+    "party_LAB",
+    "party_LD",
+    "party_GRN",
+    "party_REF",
+    "party_UKIP",
+    "party_OTH",
+    "subtype_CTY",
+    "subtype_UA",
+    "subtype_MD",
+    "subtype_NMD",
+    "subtype_LBO",
+    "match_id",
+    "match_label",
+    "match_fallback"
+  ],
+  "seed": 20261012
+}
