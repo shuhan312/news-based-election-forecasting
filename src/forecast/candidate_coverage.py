@@ -1,6 +1,7 @@
 """Who does local news name? Coverage by candidate type (Kent, Surrey 2021).
 
     PYTHONPATH=.:src python -m forecast.candidate_coverage run
+    PYTHONPATH=.:src python -m forecast.candidate_coverage run late   # A2
 
 The ward coverage run found that the candidates local news names are
 mostly sitting councillors. Reform's 2025 slate was largely new and outside
@@ -111,17 +112,17 @@ def share_named(group: list[dict], counts: dict) -> dict:
                 if n else None}
 
 
-def stage_run() -> None:
+def stage_run(window: str = "main") -> None:
     import csv
     from v2_design import outlet_pilot as pilot
-    with wc.TARGETS.open(encoding="utf-8") as handle:
+    with wc.targets_path(window).open(encoding="utf-8") as handle:
         targets = list(csv.DictReader(handle))
     articles = defaultdict(list)                 # county -> window articles
     for row in targets:
         path = pilot._cache_path(row)
         if path.exists():
             a = json.loads(path.read_text())
-            if a.get("text") and pilot.in_window(a):
+            if a.get("text") and wc.in_window(a, window):
                 articles[a["council"]].append(a)
 
     tagged, counts = [], {}
@@ -144,12 +145,16 @@ def stage_run() -> None:
     decision = ("design a ward-level hypothesis" if n1 >= 0.50
                 else "design only if a power check can pass" if n1 >= 0.25
                 else "stop: the news strand closes")
-    payload = {"criteria": "v2_design/ward_coverage_v1/criteria.md (A1)",
+    payload = {"criteria": "v2_design/ward_coverage_v1/criteria.md (A1, A2)",
+               "window": window,
                "window_articles": {k: len(v) for k, v in articles.items()},
                "groups": result, "N1": n1, "decision": decision}
-    OUT.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    out = OUT.with_name(OUT.stem + ("_late" if window == "late" else "")
+                        + OUT.suffix)
+    out.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(payload, indent=2))
 
 
 if __name__ == "__main__":
-    {"run": stage_run}[sys.argv[1]]()
+    {"run": stage_run}[sys.argv[1]](sys.argv[2] if len(sys.argv) > 2
+                                    else "main")

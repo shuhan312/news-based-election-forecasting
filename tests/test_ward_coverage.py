@@ -71,3 +71,16 @@ def test_named_share_counts_full_names_only():
     counts = cc.named_counts(cands, arts)
     assert counts[1] == 1 and 2 not in counts
     assert cc.share_named(cands, counts)["named_share"] == 0.5
+
+
+# --- amendment A2: the late window --------------------------------------------------------
+
+def test_late_window_starts_after_nominations_and_ends_before_polling_day():
+    # Nominations were published on 9 April 2021; polling day was 6 May.
+    assert wc.in_window({"published_date": "2021-04-06"}, "late")
+    assert wc.in_window({"published_date": "2021-05-05"}, "late")
+    assert not wc.in_window({"published_date": "2021-04-05"}, "late")
+    assert not wc.in_window({"published_date": "2021-05-06"}, "late")
+    # The original window is untouched.
+    assert wc.in_window({"published_date": "2021-03-01"}, "main")
+    assert not wc.in_window({"published_date": "2021-04-20"}, "main")

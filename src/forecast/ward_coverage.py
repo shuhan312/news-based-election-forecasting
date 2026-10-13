@@ -5,6 +5,10 @@
     PYTHONPATH=.:src python -m forecast.ward_coverage fetch
     PYTHONPATH=.:src python -m forecast.ward_coverage match
 
+    Add "late" after a stage (targets / fetch / match) for amendment A2's
+    window, 30-1 days before polling day (6 Apr - 5 May 2021), after the
+    official candidate lists were published on 9 April.
+
 Question: in the 90-31 days before polling day, how many divisions does
 local news actually cover, by naming a candidate or the place? The answer
 decides, before any 2025 result is opened, whether a ward-level news
@@ -44,6 +48,27 @@ DATA = Path("data/ward_probe")                       # gitignored
 OUT_DIR = Path("v2_design/ward_coverage_v1")
 CONTESTS = DATA / "contests.json"
 TARGETS = DATA / "targets.csv"
+
+# Amendment A2: the campaign after nominations. Statements of persons
+# nominated were dated 9 April 2021, so the original 90-31 day window
+# (ending 5 April) closed before new candidates were public.
+LATE_PUB_START, LATE_PUB_END = date(2021, 4, 6), date(2021, 5, 5)
+# Captures are listed to 31 May so that late-April articles archived after
+# polling day are still found; only articles PUBLISHED in the window count.
+LATE_CAP_START, LATE_CAP_END = date(2021, 4, 6), date(2021, 5, 31)
+TARGETS_LATE = DATA / "targets_late.csv"
+
+
+def targets_path(window: str) -> Path:
+    return TARGETS_LATE if window == "late" else TARGETS
+
+
+def in_window(article: dict, window: str = "main") -> bool:
+    """Publication date inside the chosen window."""
+    if window != "late":
+        return pilot.in_window(article)
+    d = article.get("published_date")
+    return bool(d) and LATE_PUB_START <= date.fromisoformat(d) <= LATE_PUB_END
 
 # Words that name a compass point or settlement type rather than a place.
 GENERIC = {"north", "south", "east", "west", "central", "rural", "town",
@@ -148,6 +173,81 @@ def stage_targets() -> None:
     print(f"-> {TARGETS}: {len(rows)} candidate articles", dict(by))
 
 
+def _late_cdx_list(target: str, match: str) -> list[tuple[str, str]]:
+    """Archived URLs for the late capture window, cached separately from
+    the original window's lists (weekly chunks; KentOnline by section)."""
+    slug = re.sub(r"[^a-z0-9]+", "_", target)
+    pilot.CACHE.mkdir(parents=True, exist_ok=True)
+    if match == "sections":
+        out = []
+        for section in pilot.KENTONLINE_SECTIONS:
+            path = pilot.CACHE / f"cdx_{slug}_{section}_late.json"
+            if not path.exists():
+                path.write_text(json.dumps(pilot._cdx_chunk(
+                    f"{target}/{section}/news/", "prefix",
+                    LATE_CAP_START, LATE_CAP_END)))
+            out += [tuple(x) for x in json.loads(path.read_text())]
+        return out
+    out, start = [], LATE_CAP_START
+    while start <= LATE_CAP_END:
+        end = min(date.fromordinal(start.toordinal() + 6), LATE_CAP_END)
+        path = pilot.CACHE / f"cdx_{slug}_late_{start:%Y%m%d}.json"
+        if not path.exists():
+            path.write_text(json.dumps(pilot._cdx_chunk(target, match,
+                                                        start, end)))
+        out += [tuple(x) for x in json.loads(path.read_text())]
+        start = date.fromordinal(end.toordinal() + 1)
+    return out
+
+
+def late_id_bounds() -> dict[str, tuple[int, int]]:
+    """Per outlet: (last sampled id published before 6 April, highest
+    sampled id). The pilot sample's captures end on 5 May, so its highest
+    id is about polling eve; later (post-election) ids are not fetched."""
+    sample = [json.loads(p.read_text()) for p in pilot.CACHE.glob("*.json")
+              if not p.name.startswith(("cdx_", "batch_"))
+              and not p.name.endswith("_late.json")]
+    bounds = {}
+    for outlet in {s.get("outlet") for s in sample if s.get("outlet")}:
+        before, all_ids = [], []
+        for s in sample:
+            if s.get("outlet") != outlet or not s.get("published_date"):
+                continue
+            aid = article_id(s["url"])
+            if aid is None:
+                continue
+            all_ids.append(aid)
+            if date.fromisoformat(s["published_date"]) < LATE_PUB_START:
+                before.append(aid)
+        if all_ids:
+            bounds[outlet] = (max(before) if before else min(all_ids),
+                              max(all_ids))
+    return bounds
+
+
+def stage_targets_late() -> None:
+    bounds = late_id_bounds()
+    rows, seen = [], set()
+    for key, cfg in pilot.COUNCILS.items():
+        for target, match in cfg["outlets"]:
+            lo, hi = bounds[target]
+            for ts, url in _late_cdx_list(target, match):
+                aid, norm = article_id(url), _norm_url(url)
+                if aid is None or not lo <= aid <= hi or norm in seen:
+                    continue
+                seen.add(norm)
+                rows.append({"council": key, "outlet": target,
+                             "timestamp": ts, "url": url})
+    with TARGETS_LATE.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+    by = defaultdict(int)
+    for r in rows:
+        by[r["outlet"]] += 1
+    print(f"-> {TARGETS_LATE}: {len(rows)} candidate articles", dict(by))
+
+
 # --- 3. fetch (shared, resumable cache) ------------------------------------------------
 
 WORKERS = 4      # concurrent downloads; each still pauses between requests
@@ -159,7 +259,7 @@ def _fetch_and_cache(row: dict) -> None:
         path.write_text(json.dumps(pilot.fetch_one(row)), encoding="utf-8")
 
 
-def stage_fetch() -> None:
+def stage_fetch(window: str = "main") -> None:
     """Download every target article, four at a time.
 
     At about 3-4 s per article (page load plus the polite pause in
@@ -168,7 +268,7 @@ def stage_fetch() -> None:
     stage resumable: an interrupted run restarts where it stopped.
     """
     from concurrent.futures import ThreadPoolExecutor
-    with TARGETS.open(encoding="utf-8") as handle:
+    with targets_path(window).open(encoding="utf-8") as handle:
         rows = list(csv.DictReader(handle))
     pilot.CACHE.mkdir(parents=True, exist_ok=True)
     todo = [r for r in rows if not pilot._cache_path(r).exists()]
@@ -243,9 +343,9 @@ def coverage(contests: list[dict], articles: list[dict]) -> dict:
                              for c in contests}}
 
 
-def stage_match() -> None:
+def stage_match(window: str = "main") -> None:
     contests = json.loads(CONTESTS.read_text())
-    with TARGETS.open(encoding="utf-8") as handle:
+    with targets_path(window).open(encoding="utf-8") as handle:
         targets = list(csv.DictReader(handle))
     articles = []
     for row in targets:
@@ -253,7 +353,7 @@ def stage_match() -> None:
         if not path.exists():
             continue
         a = json.loads(path.read_text())
-        if a.get("text") and pilot.in_window(a):
+        if a.get("text") and in_window(a, window):
             articles.append(a)
     result = coverage(contests, articles)
     W1 = result["pooled"]["W1_any"]
@@ -267,13 +367,23 @@ def stage_match() -> None:
                **{k: v for k, v in result.items() if k != "per_division"},
                "verdict": verdict}
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    (OUT_DIR / "coverage_results.json").write_text(
+    suffix = "_late" if window == "late" else ""
+    payload["window"] = window
+    (OUT_DIR / f"coverage_results{suffix}.json").write_text(
         json.dumps(payload, indent=2) + "\n", encoding="utf-8")
-    (OUT_DIR / "coverage_per_division.json").write_text(
+    (OUT_DIR / f"coverage_per_division{suffix}.json").write_text(
         json.dumps(result["per_division"], indent=1) + "\n", encoding="utf-8")
     print(json.dumps(payload, indent=2))
 
 
 if __name__ == "__main__":
-    {"contests": stage_contests, "targets": stage_targets,
-     "fetch": stage_fetch, "match": stage_match}[sys.argv[1]]()
+    stage, window = sys.argv[1], (sys.argv[2] if len(sys.argv) > 2
+                                  else "main")
+    if stage == "targets":
+        stage_targets_late() if window == "late" else stage_targets()
+    elif stage == "fetch":
+        stage_fetch(window)
+    elif stage == "match":
+        stage_match(window)
+    else:
+        {"contests": stage_contests}[stage]()

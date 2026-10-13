@@ -103,3 +103,37 @@ parties, as Reform's 2025 slate largely was. So the decision now rests on:
 | < 25% | **stop**: ward-level news would leave most 2025 Reform wards empty; the news strand closes |
 
 This is the last news check under the two-day cap.
+
+**A2 (2026-10-14). A measurement flaw, found after the A1 result; the
+corrected measurement is fixed before it is run.**
+
+- *When:* after N1 = 4.2% ("stop") was committed (9638a96). Recorded as
+  found after the result.
+- *What:* N1 was measured on articles published 90–31 days before polling
+  day (5 Feb – 5 Apr 2021). The official statements of persons nominated
+  were published on **9 April 2021**. For example, Kent's for Ashford
+  Central is dated "Friday 9 April 2021" (checked from the PDF Democracy
+  Club holds). New candidates were not yet public candidates anywhere in
+  that window, so naming them there was structurally unlikely; incumbents
+  were named because they are councillors anyway. The window cannot
+  measure what N1 asks.
+- *Why it is a correction:* it rests on an institutional fact, the
+  nomination timetable, and would be made whichever way it moved N1. The
+  measure, the matching rule and the thresholds are unchanged.
+- *Corrected measurement:* articles published **30–1 days before polling
+  day (6 Apr – 5 May 2021)**, from the campaign after nominations. Same six
+  outlets and article-id method. Wayback captures are listed up to 31 May
+  2021 so that late-April articles archived after polling day are found;
+  only articles **published** in the window are used. 2021 is training
+  data, so a post-polling-day capture of a pre-election article raises no
+  leakage concern. Code: `--window late` in `forecast.ward_coverage` and
+  `forecast.candidate_coverage`.
+- *Decision:* the A1 rule applies to the corrected N1. If N1 < 25%, the
+  news strand closes **with no further angle**. If a ward-level hypothesis
+  is designed, its 2025 news features also use the 30–1 day window, which
+  is still entirely before polling day.
+- *Reporting:* both N1 values are reported. If the decision changes, the
+  report says the change came from a post-result measurement correction.
+- *Known limitation, not correctable:* 2021 was a COVID campaign
+  (door-to-door canvassing resumed only on 8 March), so coverage may be
+  lower than in a normal year.
