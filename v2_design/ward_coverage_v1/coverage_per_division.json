@@ -1,0 +1,762 @@
+{
+ "local.surrey.addlestone.2021-05-06": {
+  "label": "Addlestone",
+  "C": 0,
+  "P": 5
+ },
+ "local.surrey.ash.2021-05-06": {
+  "label": "Ash",
+  "C": 0,
+  "P": 0
+ },
+ "local.surrey.ashford.2021-05-06": {
+  "label": "Ashford",
+  "C": 2,
+  "P": 19
+ },
+ "local.surrey.ashtead.2021-05-06": {
+  "label": "Ashtead",
+  "C": 0,
+  "P": 2
+ },
+ "local.surrey.bagshot-windlesham-and-chobham.2021-05-06": {
+  "label": "Bagshot, Windlesham and Chobham",
+  "C": 0,
+  "P": 2
+ },
+ "local.surrey.banstead-woodmansterne-and-chipstead.2021-05-06": {
+  "label": "Banstead, Woodmansterne and Chipstead",
+  "C": 0,
+  "P": 19
+ },
+ "local.surrey.bookham-and-fetcham-west.2021-05-06": {
+  "label": "Bookham and Fetcham West",
+  "C": 2,
+  "P": 3
+ },
+ "local.surrey.camberley-east.2021-05-06": {
+  "label": "Camberley East",
+  "C": 1,
+  "P": 6
+ },
+ "local.surrey.camberley-west.2021-05-06": {
+  "label": "Camberley West",
+  "C": 0,
+  "P": 6
+ },
+ "local.surrey.caterham-hill.2021-05-06": {
+  "label": "Caterham Hill",
+  "C": 1,
+  "P": 3
+ },
+ "local.surrey.caterham-valley.2021-05-06": {
+  "label": "Caterham Valley",
+  "C": 0,
+  "P": 3
+ },
+ "local.surrey.chertsey.2021-05-06": {
+  "label": "Chertsey",
+  "C": 0,
+  "P": 7
+ },
+ "local.surrey.cobham.2021-05-06": {
+  "label": "Cobham",
+  "C": 1,
+  "P": 4
+ },
+ "local.surrey.cranleigh-and-ewhurst.2021-05-06": {
+  "label": "Cranleigh and Ewhurst",
+  "C": 1,
+  "P": 5
+ },
+ "local.surrey.dorking-hills.2021-05-06": {
+  "label": "Dorking Hills",
+  "C": 0,
+  "P": 6
+ },
+ "local.surrey.dorking-rural.2021-05-06": {
+  "label": "Dorking Rural",
+  "C": 0,
+  "P": 6
+ },
+ "local.surrey.dorking-south-and-the-holmwoods.2021-05-06": {
+  "label": "Dorking South and the Holmwoods",
+  "C": 0,
+  "P": 6
+ },
+ "local.surrey.earlswood-and-reigate-south.2021-05-06": {
+  "label": "Earlswood and Reigate South",
+  "C": 0,
+  "P": 18
+ },
+ "local.surrey.east-molesey-and-esher.2021-05-06": {
+  "label": "East Molesey and Esher",
+  "C": 0,
+  "P": 5
+ },
+ "local.surrey.egham.2021-05-06": {
+  "label": "Egham",
+  "C": 1,
+  "P": 20
+ },
+ "local.surrey.englefield-green.2021-05-06": {
+  "label": "Englefield Green",
+  "C": 0,
+  "P": 3
+ },
+ "local.surrey.epsom-town-and-downs.2021-05-06": {
+  "label": "Epsom Town and Downs",
+  "C": 0,
+  "P": 28
+ },
+ "local.surrey.epsom-west.2021-05-06": {
+  "label": "Epsom West",
+  "C": 2,
+  "P": 23
+ },
+ "local.surrey.ewell.2021-05-06": {
+  "label": "Ewell",
+  "C": 1,
+  "P": 15
+ },
+ "local.surrey.ewell-court-auriol-and-cuddington.2021-05-06": {
+  "label": "Ewell Court, Auriol and Cuddington",
+  "C": 1,
+  "P": 0
+ },
+ "local.surrey.farnham-central.2021-05-06": {
+  "label": "Farnham Central",
+  "C": 0,
+  "P": 4
+ },
+ "local.surrey.farnham-north.2021-05-06": {
+  "label": "Farnham North",
+  "C": 1,
+  "P": 4
+ },
+ "local.surrey.farnham-south.2021-05-06": {
+  "label": "Farnham South",
+  "C": 0,
+  "P": 4
+ },
+ "local.surrey.foxhills-thorpe-and-virginia-water.2021-05-06": {
+  "label": "Foxhills, Thorpe and Virginia Water",
+  "C": 1,
+  "P": 16
+ },
+ "local.surrey.frimley-green-and-mytchett.2021-05-06": {
+  "label": "Frimley Green and Mytchett",
+  "C": 0,
+  "P": 8
+ },
+ "local.surrey.godalming-north.2021-05-06": {
+  "label": "Godalming North",
+  "C": 0,
+  "P": 9
+ },
+ "local.surrey.godalming-south-milford-and-witley.2021-05-06": {
+  "label": "Godalming South, Milford and Witley",
+  "C": 0,
+  "P": 11
+ },
+ "local.surrey.godstone.2021-05-06": {
+  "label": "Godstone",
+  "C": 1,
+  "P": 1
+ },
+ "local.surrey.goldsworth-east-and-horsell-village.2021-05-06": {
+  "label": "Goldsworth East and Horsell Village",
+  "C": 1,
+  "P": 12
+ },
+ "local.surrey.guildford-east.2021-05-06": {
+  "label": "Guildford East",
+  "C": 0,
+  "P": 34
+ },
+ "local.surrey.guildford-north.2021-05-06": {
+  "label": "Guildford North",
+  "C": 0,
+  "P": 34
+ },
+ "local.surrey.guildford-south-east.2021-05-06": {
+  "label": "Guildford South East",
+  "C": 1,
+  "P": 34
+ },
+ "local.surrey.guildford-south-west.2021-05-06": {
+  "label": "Guildford South West",
+  "C": 0,
+  "P": 34
+ },
+ "local.surrey.guildford-west.2021-05-06": {
+  "label": "Guildford West",
+  "C": 0,
+  "P": 34
+ },
+ "local.surrey.haslemere.2021-05-06": {
+  "label": "Haslemere",
+  "C": 0,
+  "P": 2
+ },
+ "local.surrey.heatherside-and-parkside.2021-05-06": {
+  "label": "Heatherside and Parkside",
+  "C": 0,
+  "P": 1
+ },
+ "local.surrey.hersham.2021-05-06": {
+  "label": "Hersham",
+  "C": 1,
+  "P": 1
+ },
+ "local.surrey.hinchley-wood-claygate-and-oxshott.2021-05-06": {
+  "label": "Hinchley Wood, Claygate and Oxshott",
+  "C": 0,
+  "P": 1
+ },
+ "local.surrey.horley-east.2021-05-06": {
+  "label": "Horley East",
+  "C": 0,
+  "P": 3
+ },
+ "local.surrey.horley-west-salfords-and-sidlow.2021-05-06": {
+  "label": "Horley West, Salfords and Sidlow",
+  "C": 0,
+  "P": 3
+ },
+ "local.surrey.horsleys.2021-05-06": {
+  "label": "Horsleys",
+  "C": 2,
+  "P": 0
+ },
+ "local.surrey.knaphill-and-goldsworth-west.2021-05-06": {
+  "label": "Knaphill and Goldsworth West",
+  "C": 4,
+  "P": 13
+ },
+ "local.surrey.laleham-and-shepperton.2021-05-06": {
+  "label": "Laleham and Shepperton",
+  "C": 2,
+  "P": 9
+ },
+ "local.surrey.leatherhead-and-fetcham-east.2021-05-06": {
+  "label": "Leatherhead and Fetcham East",
+  "C": 0,
+  "P": 5
+ },
+ "local.surrey.lightwater-west-end-and-bisley.2021-05-06": {
+  "label": "Lightwater, West End and Bisley",
+  "C": 0,
+  "P": 0
+ },
+ "local.surrey.lingfield.2021-05-06": {
+  "label": "Lingfield",
+  "C": 0,
+  "P": 1
+ },
+ "local.surrey.lower-sunbury-and-halliford.2021-05-06": {
+  "label": "Lower Sunbury and Halliford",
+  "C": 0,
+  "P": 2
+ },
+ "local.surrey.merstham-and-banstead-south.2021-05-06": {
+  "label": "Merstham and Banstead South",
+  "C": 0,
+  "P": 20
+ },
+ "local.surrey.nork-and-tattenhams.2021-05-06": {
+  "label": "Nork and Tattenhams",
+  "C": 1,
+  "P": 1
+ },
+ "local.surrey.oxted.2021-05-06": {
+  "label": "Oxted",
+  "C": 0,
+  "P": 2
+ },
+ "local.surrey.redhill-east.2021-05-06": {
+  "label": "Redhill East",
+  "C": 0,
+  "P": 14
+ },
+ "local.surrey.redhill-west-and-meadvale.2021-05-06": {
+  "label": "Redhill West and Meadvale",
+  "C": 2,
+  "P": 14
+ },
+ "local.surrey.reigate.2021-05-06": {
+  "label": "Reigate",
+  "C": 2,
+  "P": 17
+ },
+ "local.surrey.shalford.2021-05-06": {
+  "label": "Shalford",
+  "C": 1,
+  "P": 0
+ },
+ "local.surrey.shere.2021-05-06": {
+  "label": "Shere",
+  "C": 0,
+  "P": 0
+ },
+ "local.surrey.staines.2021-05-06": {
+  "label": "Staines",
+  "C": 8,
+  "P": 16
+ },
+ "local.surrey.staines-south-and-ashford-west.2021-05-06": {
+  "label": "Staines South and Ashford West",
+  "C": 5,
+  "P": 34
+ },
+ "local.surrey.stanwell-and-stanwell-moor.2021-05-06": {
+  "label": "Stanwell and Stanwell Moor",
+  "C": 4,
+  "P": 7
+ },
+ "local.surrey.sunbury-common-and-ashford-common.2021-05-06": {
+  "label": "Sunbury Common and Ashford Common",
+  "C": 4,
+  "P": 20
+ },
+ "local.surrey.tadworth-walton-and-kingswood.2021-05-06": {
+  "label": "Tadworth, Walton and Kingswood",
+  "C": 0,
+  "P": 7
+ },
+ "local.surrey.the-byfleets.2021-05-06": {
+  "label": "The Byfleets",
+  "C": 0,
+  "P": 0
+ },
+ "local.surrey.the-dittons.2021-05-06": {
+  "label": "The Dittons",
+  "C": 3,
+  "P": 1
+ },
+ "local.surrey.walton.2021-05-06": {
+  "label": "Walton",
+  "C": 0,
+  "P": 6
+ },
+ "local.surrey.walton-south-and-oatlands.2021-05-06": {
+  "label": "Walton South and Oatlands",
+  "C": 0,
+  "P": 6
+ },
+ "local.surrey.warlingham.2021-05-06": {
+  "label": "Warlingham",
+  "C": 2,
+  "P": 0
+ },
+ "local.surrey.waverley-eastern-villages.2021-05-06": {
+  "label": "Waverley Eastern Villages",
+  "C": 0,
+  "P": 0
+ },
+ "local.surrey.waverley-western-villages.2021-05-06": {
+  "label": "Waverley Western Villages",
+  "C": 0,
+  "P": 0
+ },
+ "local.surrey.west-ewell.2021-05-06": {
+  "label": "West Ewell",
+  "C": 0,
+  "P": 15
+ },
+ "local.surrey.west-molesey.2021-05-06": {
+  "label": "West Molesey",
+  "C": 0,
+  "P": 2
+ },
+ "local.surrey.weybridge.2021-05-06": {
+  "label": "Weybridge",
+  "C": 8,
+  "P": 4
+ },
+ "local.surrey.woking-north.2021-05-06": {
+  "label": "Woking North",
+  "C": 3,
+  "P": 51
+ },
+ "local.surrey.woking-south.2021-05-06": {
+  "label": "Woking South",
+  "C": 1,
+  "P": 51
+ },
+ "local.surrey.woking-south-east.2021-05-06": {
+  "label": "Woking South East",
+  "C": 0,
+  "P": 51
+ },
+ "local.surrey.woking-south-west.2021-05-06": {
+  "label": "Woking South West",
+  "C": 2,
+  "P": 51
+ },
+ "local.surrey.woodham-and-new-haw.2021-05-06": {
+  "label": "Woodham and New Haw",
+  "C": 0,
+  "P": 0
+ },
+ "local.surrey.worplesdon.2021-05-06": {
+  "label": "Worplesdon",
+  "C": 0,
+  "P": 0
+ },
+ "local.kent.ashford-central.2021-05-06": {
+  "label": "Ashford Central",
+  "C": 0,
+  "P": 124
+ },
+ "local.kent.ashford-east.2021-05-06": {
+  "label": "Ashford East",
+  "C": 1,
+  "P": 124
+ },
+ "local.kent.ashford-rural-east.2021-05-06": {
+  "label": "Ashford Rural East",
+  "C": 3,
+  "P": 124
+ },
+ "local.kent.ashford-rural-south.2021-05-06": {
+  "label": "Ashford Rural South",
+  "C": 0,
+  "P": 124
+ },
+ "local.kent.ashford-rural-west.2021-05-06": {
+  "label": "Ashford Rural West",
+  "C": 8,
+  "P": 124
+ },
+ "local.kent.ashford-south.2021-05-06": {
+  "label": "Ashford South",
+  "C": 6,
+  "P": 124
+ },
+ "local.kent.birchington-rural.2021-05-06": {
+  "label": "Birchington & Rural",
+  "C": 2,
+  "P": 8
+ },
+ "local.kent.broadstairs.2021-05-06": {
+  "label": "Broadstairs",
+  "C": 0,
+  "P": 21
+ },
+ "local.kent.canterbury-city-north.2021-05-06": {
+  "label": "Canterbury City North",
+  "C": 1,
+  "P": 156
+ },
+ "local.kent.canterbury-city-south.2021-05-06": {
+  "label": "Canterbury City South",
+  "C": 2,
+  "P": 156
+ },
+ "local.kent.canterbury-north.2021-05-06": {
+  "label": "Canterbury North",
+  "C": 0,
+  "P": 156
+ },
+ "local.kent.canterbury-south.2021-05-06": {
+  "label": "Canterbury South",
+  "C": 0,
+  "P": 156
+ },
+ "local.kent.cheriton-sandgate-hythe-east.2021-05-06": {
+  "label": "Cheriton, Sandgate & Hythe East",
+  "C": 5,
+  "P": 79
+ },
+ "local.kent.cliftonville.2021-05-06": {
+  "label": "Cliftonville",
+  "C": 0,
+  "P": 9
+ },
+ "local.kent.cranbrook.2021-05-06": {
+  "label": "Cranbrook",
+  "C": 2,
+  "P": 9
+ },
+ "local.kent.dartford-east.2021-05-06": {
+  "label": "Dartford East",
+  "C": 1,
+  "P": 86
+ },
+ "local.kent.dartford-north-east.2021-05-06": {
+  "label": "Dartford North East",
+  "C": 3,
+  "P": 86
+ },
+ "local.kent.dartford-rural.2021-05-06": {
+  "label": "Dartford Rural",
+  "C": 0,
+  "P": 86
+ },
+ "local.kent.dartford-west.2021-05-06": {
+  "label": "Dartford West",
+  "C": 0,
+  "P": 86
+ },
+ "local.kent.deal-walmer.2021-05-06": {
+  "label": "Deal & Walmer",
+  "C": 4,
+  "P": 132
+ },
+ "local.kent.dover-north.2021-05-06": {
+  "label": "Dover North",
+  "C": 0,
+  "P": 153
+ },
+ "local.kent.dover-town.2021-05-06": {
+  "label": "Dover Town",
+  "C": 2,
+  "P": 153
+ },
+ "local.kent.dover-west.2021-05-06": {
+  "label": "Dover West",
+  "C": 1,
+  "P": 153
+ },
+ "local.kent.faversham.2021-05-06": {
+  "label": "Faversham",
+  "C": 0,
+  "P": 53
+ },
+ "local.kent.folkestone-east.2021-05-06": {
+  "label": "Folkestone East",
+  "C": 0,
+  "P": 137
+ },
+ "local.kent.folkestone-west.2021-05-06": {
+  "label": "Folkestone West",
+  "C": 1,
+  "P": 137
+ },
+ "local.kent.gravesend-east.2021-05-06": {
+  "label": "Gravesend East",
+  "C": 1,
+  "P": 69
+ },
+ "local.kent.gravesham-rural.2021-05-06": {
+  "label": "Gravesham Rural",
+  "C": 2,
+  "P": 58
+ },
+ "local.kent.herne-bay-east.2021-05-06": {
+  "label": "Herne Bay East",
+  "C": 3,
+  "P": 40
+ },
+ "local.kent.herne-village-sturry.2021-05-06": {
+  "label": "Herne Village & Sturry",
+  "C": 3,
+  "P": 51
+ },
+ "local.kent.hythe-west.2021-05-06": {
+  "label": "Hythe West",
+  "C": 5,
+  "P": 71
+ },
+ "local.kent.maidstone-central.2021-05-06": {
+  "label": "Maidstone Central",
+  "C": 8,
+  "P": 178
+ },
+ "local.kent.maidstone-north-east.2021-05-06": {
+  "label": "Maidstone North East",
+  "C": 0,
+  "P": 178
+ },
+ "local.kent.maidstone-rural-east.2021-05-06": {
+  "label": "Maidstone Rural East",
+  "C": 0,
+  "P": 178
+ },
+ "local.kent.maidstone-rural-north.2021-05-06": {
+  "label": "Maidstone Rural North",
+  "C": 0,
+  "P": 178
+ },
+ "local.kent.maidstone-rural-south.2021-05-06": {
+  "label": "Maidstone Rural South",
+  "C": 5,
+  "P": 178
+ },
+ "local.kent.maidstone-rural-west.2021-05-06": {
+  "label": "Maidstone Rural West",
+  "C": 0,
+  "P": 178
+ },
+ "local.kent.maidstone-south.2021-05-06": {
+  "label": "Maidstone South",
+  "C": 0,
+  "P": 178
+ },
+ "local.kent.maidstone-south-east.2021-05-06": {
+  "label": "Maidstone South East",
+  "C": 5,
+  "P": 178
+ },
+ "local.kent.malling-central.2021-05-06": {
+  "label": "Malling Central",
+  "C": 3,
+  "P": 61
+ },
+ "local.kent.malling-north.2021-05-06": {
+  "label": "Malling North",
+  "C": 0,
+  "P": 61
+ },
+ "local.kent.malling-north-east.2021-05-06": {
+  "label": "Malling North East",
+  "C": 0,
+  "P": 61
+ },
+ "local.kent.malling-rural-east.2021-05-06": {
+  "label": "Malling Rural East",
+  "C": 0,
+  "P": 61
+ },
+ "local.kent.malling-west.2021-05-06": {
+  "label": "Malling West",
+  "C": 2,
+  "P": 61
+ },
+ "local.kent.margate.2021-05-06": {
+  "label": "Margate",
+  "C": 0,
+  "P": 47
+ },
+ "local.kent.northfleet-gravesend-west.2021-05-06": {
+  "label": "Northfleet & Gravesend West",
+  "C": 1,
+  "P": 72
+ },
+ "local.kent.ramsgate.2021-05-06": {
+  "label": "Ramsgate",
+  "C": 2,
+  "P": 36
+ },
+ "local.kent.romney-marsh.2021-05-06": {
+  "label": "Romney Marsh",
+  "C": 2,
+  "P": 8
+ },
+ "local.kent.sandwich.2021-05-06": {
+  "label": "Sandwich",
+  "C": 1,
+  "P": 39
+ },
+ "local.kent.sevenoaks-north-darent-valley.2021-05-06": {
+  "label": "Sevenoaks North & Darent Valley",
+  "C": 0,
+  "P": 55
+ },
+ "local.kent.sevenoaks-rural-north-east.2021-05-06": {
+  "label": "Sevenoaks Rural North East",
+  "C": 1,
+  "P": 52
+ },
+ "local.kent.sevenoaks-rural-south.2021-05-06": {
+  "label": "Sevenoaks Rural South",
+  "C": 0,
+  "P": 52
+ },
+ "local.kent.sevenoaks-town.2021-05-06": {
+  "label": "Sevenoaks Town",
+  "C": 0,
+  "P": 52
+ },
+ "local.kent.sevenoaks-west.2021-05-06": {
+  "label": "Sevenoaks West",
+  "C": 0,
+  "P": 52
+ },
+ "local.kent.sheppey.2021-05-06": {
+  "label": "Sheppey",
+  "C": 8,
+  "P": 55
+ },
+ "local.kent.sittingbourne-north.2021-05-06": {
+  "label": "Sittingbourne North",
+  "C": 1,
+  "P": 60
+ },
+ "local.kent.sittingbourne-south.2021-05-06": {
+  "label": "Sittingbourne South",
+  "C": 2,
+  "P": 60
+ },
+ "local.kent.swale-east.2021-05-06": {
+  "label": "Swale East",
+  "C": 0,
+  "P": 77
+ },
+ "local.kent.swale-west.2021-05-06": {
+  "label": "Swale West",
+  "C": 5,
+  "P": 77
+ },
+ "local.kent.swanley.2021-05-06": {
+  "label": "Swanley",
+  "C": 0,
+  "P": 14
+ },
+ "local.kent.swanscombe-greenhithe.2021-05-06": {
+  "label": "Swanscombe & Greenhithe",
+  "C": 0,
+  "P": 24
+ },
+ "local.kent.tenterden.2021-05-06": {
+  "label": "Tenterden",
+  "C": 6,
+  "P": 8
+ },
+ "local.kent.tonbridge.2021-05-06": {
+  "label": "Tonbridge",
+  "C": 14,
+  "P": 87
+ },
+ "local.kent.tunbridge-wells-east.2021-05-06": {
+  "label": "Tunbridge Wells East",
+  "C": 0,
+  "P": 79
+ },
+ "local.kent.tunbridge-wells-north.2021-05-06": {
+  "label": "Tunbridge Wells North",
+  "C": 0,
+  "P": 79
+ },
+ "local.kent.tunbridge-wells-rural.2021-05-06": {
+  "label": "Tunbridge Wells Rural",
+  "C": 1,
+  "P": 79
+ },
+ "local.kent.tunbridge-wells-south.2021-05-06": {
+  "label": "Tunbridge Wells South",
+  "C": 0,
+  "P": 79
+ },
+ "local.kent.tunbridge-wells-west.2021-05-06": {
+  "label": "Tunbridge Wells West",
+  "C": 0,
+  "P": 79
+ },
+ "local.kent.whitstable-east-herne-bay-west.2021-05-06": {
+  "label": "Whitstable East & Herne Bay West",
+  "C": 2,
+  "P": 61
+ },
+ "local.kent.whitstable-west.2021-05-06": {
+  "label": "Whitstable West",
+  "C": 0,
+  "P": 37
+ },
+ "local.kent.wilmington.2021-05-06": {
+  "label": "Wilmington",
+  "C": 0,
+  "P": 4
+ }
+}

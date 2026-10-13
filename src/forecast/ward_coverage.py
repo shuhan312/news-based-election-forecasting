@@ -150,16 +150,33 @@ def stage_targets() -> None:
 
 # --- 3. fetch (shared, resumable cache) ------------------------------------------------
 
+WORKERS = 4      # concurrent downloads; each still pauses between requests
+
+
+def _fetch_and_cache(row: dict) -> None:
+    path = pilot._cache_path(row)
+    if not path.exists():
+        path.write_text(json.dumps(pilot.fetch_one(row)), encoding="utf-8")
+
+
 def stage_fetch() -> None:
+    """Download every target article, four at a time.
+
+    At about 3-4 s per article (page load plus the polite pause in
+    http_get), 10,000 articles one by one would take ten hours. Four workers
+    keep each outlet's load to a few requests at a time. The cache makes the
+    stage resumable: an interrupted run restarts where it stopped.
+    """
+    from concurrent.futures import ThreadPoolExecutor
     with TARGETS.open(encoding="utf-8") as handle:
         rows = list(csv.DictReader(handle))
     pilot.CACHE.mkdir(parents=True, exist_ok=True)
-    for i, row in enumerate(rows):
-        path = pilot._cache_path(row)
-        if not path.exists():
-            path.write_text(json.dumps(pilot.fetch_one(row)), encoding="utf-8")
-        if i % 200 == 0:
-            print(f"fetched {i}/{len(rows)}", flush=True)
+    todo = [r for r in rows if not pilot._cache_path(r).exists()]
+    print(f"{len(rows) - len(todo)} cached, {len(todo)} to fetch", flush=True)
+    with ThreadPoolExecutor(max_workers=WORKERS) as pool:
+        for i, _ in enumerate(pool.map(_fetch_and_cache, todo)):
+            if i % 250 == 0:
+                print(f"fetched {i}/{len(todo)}", flush=True)
 
 
 # --- 4. match ----------------------------------------------------------------------

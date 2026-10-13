@@ -1,0 +1,33 @@
+{
+  "criteria": "v2_design/ward_coverage_v1/criteria.md",
+  "targets": 10672,
+  "window_articles": 10064,
+  "articles_by_council": {
+    "surrey": 6498,
+    "kent": 3566
+  },
+  "pooled": {
+    "divisions": 152,
+    "W1_any": 0.947,
+    "W2_candidate": 0.467,
+    "W3_three_plus": 0.842,
+    "W4_median_articles_if_covered": 34
+  },
+  "per_county": {
+    "surrey": {
+      "divisions": 81,
+      "W1_any": 0.901,
+      "W2_candidate": 0.407,
+      "W3_three_plus": 0.704,
+      "W4_median_articles_if_covered": 6
+    },
+    "kent": {
+      "divisions": 71,
+      "W1_any": 1.0,
+      "W2_candidate": 0.535,
+      "W3_three_plus": 1.0,
+      "W4_median_articles_if_covered": 79
+    }
+  },
+  "verdict": "viable"
+}
