@@ -40,21 +40,50 @@ MDE_GATE = 1.0                         # pp, from the design
 
 # --- 1. K: the size of the 2025 test, from metadata only -------------------------------
 
+EE_CACHE = Path("data/forecast/ee_2025")      # election metadata, gitignored
+
+
+def _ee_get(url: str, params: dict | None = None, cache: Path | None = None):
+    """Democracy Club GET with retries (connections drop mid-run) and an
+    optional cache, so a rerun resumes instead of starting over."""
+    import time
+    if cache is not None and cache.exists():
+        return json.loads(cache.read_text())
+    for attempt in range(6):
+        try:
+            body = requests.get(url, params=params, timeout=120).json()
+            break
+        except (requests.RequestException, ValueError):
+            time.sleep(10 * 2 ** attempt)
+    else:
+        raise RuntimeError(f"Democracy Club unreachable: {url}")
+    if cache is not None:
+        cache.parent.mkdir(parents=True, exist_ok=True)
+        cache.write_text(json.dumps(body))
+    return body
+
+
 def count_test_councils() -> tuple[int, list[str]]:
     """Councils with >= 10 scheduled (non-by-election) ballots on 1 May 2025.
 
     Only election ids and their child ballot ids are read. Ballot ids carry
     no votes, so no 2025 result enters this check.
     """
-    listing = requests.get(EE_API, params={
+    listing = _ee_get(EE_API, params={
         "poll_open_date": "2025-05-01", "election_type": "local",
-        "identifier_type": "organisation", "limit": 200}, timeout=120).json()
+        "identifier_type": "organisation", "limit": 200},
+        cache=EE_CACHE / "listing.json")
     councils = []
     for e in listing["results"]:
         if (e.get("organisation") or {}).get("territory_code") != "ENG":
             continue
-        detail = requests.get(EE_API + e["election_id"] + "/",
-                              timeout=120).json()
+        detail = _ee_get(EE_API + e["election_id"] + "/",
+                         cache=EE_CACHE / f"{e['election_id']}.json")
+        # Amendment A1: several 2025 county elections were postponed for
+        # local government reorganisation. Democracy Club keeps their ballot
+        # lists but marks the election cancelled; they held no election.
+        if detail.get("cancelled"):
+            continue
         scheduled = [c for c in detail.get("children", [])
                      if ".by." not in c]
         if len(scheduled) >= 10:

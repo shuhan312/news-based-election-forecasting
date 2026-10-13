@@ -65,4 +65,12 @@ The required ρ is reported alongside. Even where MDE80 ≤ 1.0 pp, a required
 
 ## Amendments
 
-(none)
+**A1 (2026-10-13). An implementation bug fixed; the criteria are
+unchanged.** The first run counted K = 32, including nine county elections
+that were postponed for local government reorganisation (Surrey, Essex,
+Hampshire and others). Democracy Club keeps their ballot lists but marks
+the elections cancelled. The criteria count councils that held a scheduled
+election, so cancelled elections are now skipped, giving K = 23. Network
+retries and caching were added after two reruns failed on dropped
+connections. The verdict is "do not run H2" in both runs; the first run's
+output is kept as `power_h2_results_before_A1.json`.

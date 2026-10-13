@@ -1,0 +1,131 @@
+{
+  "criteria": "v2_design/direction1_power/criteria.md",
+  "K_test_councils": 23,
+  "test_councils": [
+    "buckinghamshire",
+    "cambridgeshire",
+    "cornwall",
+    "county-durham",
+    "derbyshire",
+    "devon",
+    "doncaster",
+    "gloucestershire",
+    "hertfordshire",
+    "kent",
+    "lancashire",
+    "leicestershire",
+    "lincolnshire",
+    "north-northamptonshire",
+    "northumberland",
+    "nottinghamshire",
+    "oxfordshire",
+    "shropshire",
+    "staffordshire",
+    "warwickshire",
+    "west-northamptonshire",
+    "wiltshire",
+    "worcestershire"
+  ],
+  "validation_reform_cold_rows": 401,
+  "validation_councils": 149,
+  "m0_validation_mae": 2.6853,
+  "primary_curve": [
+    {
+      "rho": 0.1,
+      "mean_gain_pp": -0.0106,
+      "power": 0.028
+    },
+    {
+      "rho": 0.2,
+      "mean_gain_pp": -0.0084,
+      "power": 0.04
+    },
+    {
+      "rho": 0.3,
+      "mean_gain_pp": 0.0192,
+      "power": 0.08
+    },
+    {
+      "rho": 0.4,
+      "mean_gain_pp": 0.032,
+      "power": 0.087
+    },
+    {
+      "rho": 0.5,
+      "mean_gain_pp": 0.0571,
+      "power": 0.08
+    },
+    {
+      "rho": 0.6,
+      "mean_gain_pp": 0.0787,
+      "power": 0.113
+    },
+    {
+      "rho": 0.7,
+      "mean_gain_pp": 0.1611,
+      "power": 0.207
+    },
+    {
+      "rho": 0.8,
+      "mean_gain_pp": 0.248,
+      "power": 0.29
+    },
+    {
+      "rho": 0.9,
+      "mean_gain_pp": 0.392,
+      "power": 0.53
+    }
+  ],
+  "primary_mde80": null,
+  "scaled_by": 4.494,
+  "scaled_curve": [
+    {
+      "rho": 0.1,
+      "mean_gain_pp": -0.0618,
+      "power": 0.022
+    },
+    {
+      "rho": 0.2,
+      "mean_gain_pp": -0.0468,
+      "power": 0.045
+    },
+    {
+      "rho": 0.3,
+      "mean_gain_pp": 0.0217,
+      "power": 0.08
+    },
+    {
+      "rho": 0.4,
+      "mean_gain_pp": 0.1653,
+      "power": 0.08
+    },
+    {
+      "rho": 0.5,
+      "mean_gain_pp": 0.1742,
+      "power": 0.11
+    },
+    {
+      "rho": 0.6,
+      "mean_gain_pp": 0.4646,
+      "power": 0.15
+    },
+    {
+      "rho": 0.7,
+      "mean_gain_pp": 0.6261,
+      "power": 0.188
+    },
+    {
+      "rho": 0.8,
+      "mean_gain_pp": 1.1105,
+      "power": 0.287
+    },
+    {
+      "rho": 0.9,
+      "mean_gain_pp": 1.7958,
+      "power": 0.505
+    }
+  ],
+  "scaled_mde80": null,
+  "gate_pp": 1.0,
+  "verdict": "do not run H2 (underpowered)"
+}
