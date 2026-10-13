@@ -58,3 +58,43 @@ Next (within the two-day cap set in the criteria): measure name coverage
 for first-time and minor-party candidates specifically, as the nearest
 available analogue of 2025's Reform slate, then decide whether a pre-
 registered ward-level hypothesis is worth its power check.
+
+---
+
+## Follow-up (amendment A1): who local news names — the news strand closes
+
+Rule committed before the run (b57dc4f). Output: `candidate_coverage.json`.
+Same 10,064 window articles and the same full-name rule; candidates
+classified by Democracy Club person id against 2017.
+
+| 2021 candidate type | candidates | named ≥ 1 | named ≥ 3 |
+|---|---:|---:|---:|
+| incumbent (won in 2017) | 104 | **36.5%** | 11.5% |
+| past candidate (lost in 2017) | 142 | 12.7% | 4.9% |
+| new, major party | 285 | 10.5% | 1.4% |
+| **new, minor party (N1)** | **143** | **4.2%** | 1.4% |
+| Reform or UKIP | 27 | **0%** | 0% |
+
+**N1 = 4.2% < 25%: stop. By the pre-registered rule, the news strand
+closes.**
+
+Local news names candidates roughly in proportion to their prominence:
+one sitting councillor in three, but 6 of 143 new minor-party candidates
+and none of Kent and Surrey's 27 Reform/UKIP candidates. Reform's 2025
+slate was mostly of the last kind, so ward-specific Reform coverage would
+be absent for most 2025 Reform wards. Reform's 2025 profile was far
+larger than in 2021, which could raise this, but reaching the 25% bar
+would need a sixfold increase, and only 2025 data could show it.
+
+## The complete news answer
+
+| level | finding | evidence |
+|---|---|---|
+| council | **wrong resolution:** Reform cold-start error is between wards, not councils (ICC 0%) | `direction1_power` (A2) |
+| ward | **too sparse:** about two thirds of divisions get some ward-specific coverage, but it names incumbents; new minor-party candidates 4%, Reform/UKIP 0% | this file |
+| measurement | **sound:** the LLM reads stance (κ 0.736) and issue (κ 0.616) to V1's bar | `llm_eval_stance`, `llm_eval_issue` |
+
+The LLM can read local news accurately. In the setting where news had the
+best case to add value (a new party's cold start), local news says too
+little, at too coarse a level, for anything to be read from it. The
+limit is the news, not the model.

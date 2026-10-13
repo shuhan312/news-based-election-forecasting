@@ -1,0 +1,36 @@
+{
+  "criteria": "v2_design/ward_coverage_v1/criteria.md (A1)",
+  "window_articles": {
+    "surrey": 6498,
+    "kent": 3566
+  },
+  "groups": {
+    "incumbent": {
+      "candidates": 104,
+      "named_share": 0.365,
+      "named_3plus_share": 0.115
+    },
+    "past": {
+      "candidates": 142,
+      "named_share": 0.127,
+      "named_3plus_share": 0.049
+    },
+    "new_major": {
+      "candidates": 285,
+      "named_share": 0.105,
+      "named_3plus_share": 0.014
+    },
+    "new_minor (N1)": {
+      "candidates": 143,
+      "named_share": 0.042,
+      "named_3plus_share": 0.014
+    },
+    "reform_or_ukip": {
+      "candidates": 27,
+      "named_share": 0.0,
+      "named_3plus_share": 0.0
+    }
+  },
+  "N1": 0.042,
+  "decision": "stop: the news strand closes"
+}
