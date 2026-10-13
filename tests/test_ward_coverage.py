@@ -47,3 +47,27 @@ def test_single_word_names_are_never_matched():
     contests = [dict(CONTESTS[0], candidates=["Cher"])]
     out = wc.coverage(contests, [art("Cher sang at the council.")])
     assert out["per_division"]["b1"]["C"] == 0
+
+
+# --- follow-up: coverage by candidate type ----------------------------------------------
+
+def test_candidates_are_classified_by_2017_history_and_party():
+    from forecast import candidate_coverage as cc
+    c2017 = [{"person_id": 1, "elected": True}, {"person_id": 2, "elected": False}]
+    c2021 = [{"person_id": 1, "party": "PP52", "name": "A B"},
+             {"person_id": 2, "party": "PP63", "name": "C D"},
+             {"person_id": 3, "party": "PP7931", "name": "E F"}]
+    tagged = {c["person_id"]: c for c in cc.classify(c2021, c2017)}
+    assert tagged[1]["history"] == "incumbent" and not tagged[1]["minor"]
+    assert tagged[2]["history"] == "past" and tagged[2]["minor"]
+    assert tagged[3]["history"] == "new" and tagged[3]["insurgent"]
+
+
+def test_named_share_counts_full_names_only():
+    from forecast import candidate_coverage as cc
+    cands = [{"person_id": 1, "name": "Jane Doe"},
+             {"person_id": 2, "name": "Prince"}]
+    arts = [{"headline": "", "text": "Jane Doe and Prince spoke."}]
+    counts = cc.named_counts(cands, arts)
+    assert counts[1] == 1 and 2 not in counts
+    assert cc.share_named(cands, counts)["named_share"] == 0.5

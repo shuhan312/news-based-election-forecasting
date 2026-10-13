@@ -79,4 +79,27 @@ days. If the verdict is not "viable", no further news angle is opened.
 
 ## Amendments
 
-(none)
+**A1 (2026-10-14, after the coverage run; committed before this follow-up
+is run). A follow-up measure decides whether a ward-level hypothesis is
+designed.** The coverage run (`coverage_findings.md`) found that candidate
+names matched are mostly sitting councillors'. A Reform cold-start test
+needs coverage of candidates who are new and from outside the main
+parties, as Reform's 2025 slate largely was. So the decision now rests on:
+
+- **N1 (decisive):** among 2021 candidates who are **new** (did not stand
+  for the same council in 2017) **and minor-party** (not Conservative,
+  Labour or Liberal Democrat; independents included), the share named in
+  at least one window article in their county.
+- Reported alongside: the same share for incumbents (won in 2017), past
+  candidates (stood in 2017 and lost), new major-party candidates, and
+  Reform/UKIP candidates specifically.
+- Code: `src/forecast/candidate_coverage.py`, which uses the same window
+  articles and the same full-name rule as the coverage run.
+
+| N1 | decision |
+|---|---|
+| ≥ 50% | design a pre-registered ward-level news hypothesis, with its own power check, before any 2025 result is opened |
+| 25–50% | design only if the power check, run with this sparsity, can pass |
+| < 25% | **stop**: ward-level news would leave most 2025 Reform wards empty; the news strand closes |
+
+This is the last news check under the two-day cap.
