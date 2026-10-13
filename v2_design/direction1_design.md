@@ -213,3 +213,14 @@ parties' first-candidacy pattern. A Leave-scaled rule, national poll ×
 added as a baseline (`uniform_swing_leave`) and as a hybrid option for the
 ML models. Selection rules for H1 and H2 are unchanged; they simply see more
 candidates. Results are in `direction1_models/stage3b_findings.md`.
+
+**A3 (2026-10-14). 2025 pre-election inputs may be read before the freeze;
+2025 results still may not.** The ward-coverage check
+(`ward_coverage_v1/criteria.md`, A3) reads Kent's 2025 candidate list and
+local articles published 1–30 April 2025. Both are information available
+before polling day, the same kind a real forecast would use. Democracy
+Club's ballot response also carries results, so the code
+(`forecast.reform_2025_coverage.strip_results`, test-enforced) keeps only
+ballot, person id, name and party at read time; no vote count or elected
+flag is stored or printed. The single post-freeze read of 2025 results is
+unchanged.

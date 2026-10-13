@@ -137,3 +137,43 @@ corrected measurement is fixed before it is run.**
 - *Known limitation, not correctable:* 2021 was a COVID campaign
   (door-to-door canvassing resumed only on 8 March), so coverage may be
   lower than in a normal year.
+
+**A3 (2026-10-14). The decisive measurement moves from a 2021 proxy to
+2025's actual Reform candidates. Fixed before any A2 or A3 figure is
+computed.**
+
+- *Why:* N1 asks whether local news names the kind of candidate Reform
+  fielded in 2025. 2021 is a weak proxy: Reform/UKIP had 27 candidates in
+  Kent and Surrey combined, Reform polled about 2%, and it was a COVID
+  campaign. The real quantity is measurable directly, because **2025
+  pre-election news and the 2025 candidate list are pre-election
+  information, not results**. Reading them leaves the 2025 test blind.
+- *Decisive measure R1:* the share of Kent's 2025 Reform UK candidates
+  named in at least one local article **published 30–1 days before polling
+  day (1–30 April 2025)**. Statements of persons nominated were published
+  in early April, inside the window. Outlets: KentLive (`/news/`), BBC Kent
+  and KentOnline (town sections), as in `outlet_pilot_v1`.
+- *Naming rule:* the candidate's full name, **or** their surname (at least
+  4 letters) within 100 characters of the word "Reform". The second form
+  catches "Reform candidate Smith said …"; the proximity requirement
+  limits false hits on common surnames.
+- *Blinding:* the 2025 candidate list is read from Democracy Club, whose
+  response also carries results. The code keeps only ballot, person id,
+  name and party, discards every result field at read time, and never
+  stores or prints a vote count or an elected flag. A test enforces this.
+  Articles are used only for name matching; no article text is printed.
+  Wayback captures are listed to 31 May 2025 to catch archive lag; only
+  articles **published** by 30 April count.
+- *Decision:* as A1, applied to R1: ≥ 50% design a ward-level hypothesis;
+  25–50% only if its power check can pass; < 25% the news strand closes,
+  with no further angle.
+- *Supporting, not decisive:* 2021 N1 on the corrected window (A2), and the
+  share of new (not standing for Kent in 2021) Reform candidates named.
+- *Implementation fixes made before any result (A2 code):* the late-window
+  id bounds first dropped SurreyLive entirely (a cap from a sample ending
+  in March), then Surrey Comet and KentOnline (a misread sample date made
+  the lower bound exceed the upper). The bounds now start from the
+  validated original lower bound with no upper bound, and the run stops if
+  any outlet has no targets.
+- *Reporting:* 2021 N1 (main window), 2021 N1 (late window) and R1 are all
+  reported.

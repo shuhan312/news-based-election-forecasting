@@ -84,3 +84,33 @@ def test_late_window_starts_after_nominations_and_ends_before_polling_day():
     # The original window is untouched.
     assert wc.in_window({"published_date": "2021-03-01"}, "main")
     assert not wc.in_window({"published_date": "2021-04-20"}, "main")
+
+
+# --- amendment A3: Kent's 2025 Reform candidates -------------------------------------------
+
+def test_2025_candidate_records_carry_no_result_fields():
+    from forecast import reform_2025_coverage as r
+    ballot = {"ballot_paper_id": "local.kent.x.2025-05-01", "candidacies": [{
+        "person": {"id": 7, "name": "Ann Lee"},
+        "party": {"ec_id": "PP7931"}, "elected": True,
+        "result": {"num_ballots": 1234, "elected": True}}]}
+    rec = r.strip_results(ballot)[0]
+    assert set(rec) == set(r.KEEP)
+    assert "1234" not in str(rec) and "elected" not in str(rec)
+
+
+def test_surname_counts_only_near_the_word_reform():
+    from forecast import reform_2025_coverage as r
+    assert r.named("Reform candidate Lee spoke.", "Ann Lee") is None  # 3 letters
+    assert r.named("Reform UK's candidate Turner said", "Bob Turner") == "surname"
+    assert r.named("Bob Turner opened a shop.", "Bob Turner") == "full"
+    far = "Turner" + " x" * 80 + " Reform"
+    assert r.named(far, "Bob Turner") is None
+
+
+def test_2025_window_is_april_before_polling_day():
+    from forecast import reform_2025_coverage as r
+    assert r.in_window({"published_date": "2025-04-01"})
+    assert r.in_window({"published_date": "2025-04-30"})
+    assert not r.in_window({"published_date": "2025-05-01"})   # polling day
+    assert not r.in_window({"published_date": "2025-03-31"})

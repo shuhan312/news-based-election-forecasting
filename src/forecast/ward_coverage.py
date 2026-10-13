@@ -200,29 +200,22 @@ def _late_cdx_list(target: str, match: str) -> list[tuple[str, str]]:
     return out
 
 
-def late_id_bounds() -> dict[str, tuple[int, int]]:
-    """Per outlet: (last sampled id published before 6 April, highest
-    sampled id). The pilot sample's captures end on 5 May, so its highest
-    id is about polling eve; later (post-election) ids are not fetched."""
-    sample = [json.loads(p.read_text()) for p in pilot.CACHE.glob("*.json")
-              if not p.name.startswith(("cdx_", "batch_"))
-              and not p.name.endswith("_late.json")]
-    bounds = {}
-    for outlet in {s.get("outlet") for s in sample if s.get("outlet")}:
-        before, all_ids = [], []
-        for s in sample:
-            if s.get("outlet") != outlet or not s.get("published_date"):
-                continue
-            aid = article_id(s["url"])
-            if aid is None:
-                continue
-            all_ids.append(aid)
-            if date.fromisoformat(s["published_date"]) < LATE_PUB_START:
-                before.append(aid)
-        if all_ids:
-            bounds[outlet] = (max(before) if before else min(all_ids),
-                              max(all_ids))
-    return bounds
+def late_id_bounds() -> dict[str, tuple[int, float]]:
+    """Per outlet: (the original window's lower bound, no upper bound).
+
+    Two earlier versions set bounds from single sampled articles. Both
+    failed before any result was computed: SurreyLive's sample ends in
+    March, so a "highest sampled id" cap cut every April article; and a few
+    sampled articles carry a misread date (an "updated" date taken as the
+    publication date), which made Surrey Comet's and KentOnline's lower
+    bound exceed the upper one. The safe rule: start from the original
+    window's lower bound (the last sampled article before 5 February),
+    which has already been validated, set no upper bound, and let the
+    fetched publication date decide the window. Articles already fetched
+    for the original window are cached and are not downloaded again.
+    """
+    return {outlet: (lo, float("inf")) for outlet, (lo, _) in
+            id_bounds().items()}
 
 
 def stage_targets_late() -> None:
@@ -238,6 +231,13 @@ def stage_targets_late() -> None:
                 seen.add(norm)
                 rows.append({"council": key, "outlet": target,
                              "timestamp": ts, "url": url})
+    # Guard: an outlet with no targets is a bug (bad bounds, failed
+    # listing), never a finding. Stop rather than silently measure coverage
+    # with an outlet missing, which is how SurreyLive was once dropped.
+    missing = [t for cfg in pilot.COUNCILS.values() for t, _ in cfg["outlets"]
+               if not any(r["outlet"] == t for r in rows)]
+    if missing:
+        raise RuntimeError(f"no late-window targets for {missing}")
     with TARGETS_LATE.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
         writer.writeheader()
