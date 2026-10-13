@@ -162,3 +162,35 @@ def test_mde80_picks_the_first_point_reaching_80_percent_power():
              {"rho": 0.9, "power": 1.0, "mean_gain_pp": 1.5}]
     assert P.mde80(curve)["rho"] == 0.5
     assert P.mde80(curve[:1]) is None
+
+
+# --- stage 4, amendment A2: structure-matched simulation ------------------------------
+
+def test_variance_components_recover_known_values():
+    from forecast import power_h2_structural as S
+    rng = np.random.default_rng(1)
+    councils = [f"c{i}" for i in range(300) for _ in range(25)]
+    u = {f"c{i}": rng.normal(0, 2) for i in range(300)}       # tau^2 = 4
+    err = np.array([u[c] + rng.normal(0, 3) for c in councils])  # sigma^2 = 9
+    vc = S.variance_components(err, councils)
+    assert vc["tau2"] == pytest.approx(4, rel=0.2)
+    assert vc["sigma2"] == pytest.approx(9, rel=0.05)
+
+
+def test_no_council_variance_means_nothing_for_news_to_fix():
+    from forecast import power_h2_structural as S
+    rng = np.random.default_rng(2)
+    detected = [S.simulate_once(0.0, 3.0, [60] * 23, 0.9, rng)[1]
+                for _ in range(40)]
+    assert np.mean(detected) <= 0.1        # ~ false-positive rate only
+
+
+def test_bigger_councils_make_a_council_signal_easier_to_detect():
+    """The A2 flaw itself: same error structure, 3 vs 70 wards a council."""
+    from forecast import power_h2_structural as S
+    rng = np.random.default_rng(3)
+    thin = np.mean([S.simulate_once(1.0, 3.0, [3] * 23, 0.8, rng)[1]
+                    for _ in range(60)])
+    full = np.mean([S.simulate_once(1.0, 3.0, [70] * 23, 0.8, rng)[1]
+                    for _ in range(60)])
+    assert full > thin

@@ -74,3 +74,38 @@ election, so cancelled elections are now skipped, giving K = 23. Network
 retries and caching were added after two reruns failed on dropped
 connections. The verdict is "do not run H2" in both runs; the first run's
 output is kept as `power_h2_results_before_A1.json`.
+
+**A2 (2026-10-13). A method flaw, found after the verdict; corrected
+simulation fixed before it is run.**
+
+- *When:* after the A1 run returned "do not run H2" (committed in d18dad1).
+  It is recorded as found after the result, not before.
+- *What:* step 4 of the method resampled validation councils directly. In
+  2019→2023, Reform's cold-start rows average **2.7 per council** (401 rows
+  in 149 councils), so each council's mean error is mostly ward-level
+  noise. In 2025, Reform stood in almost every ward of 23 councils, so a
+  council holds about **60–80** rows and that noise averages out.
+  Resampling 2023's thin cells therefore understates how visible a
+  council-level news signal would be in 2025. The simulated test did not
+  have the structure of the real test.
+- *Why it is a correction, not a re-specification:* the flaw is a mismatch
+  between the simulated and the real data structure, and it would be fixed
+  whichever way it biased the answer. The gate, the decision rule, the
+  primary scale and ρ grid are unchanged.
+- *New method (`src/forecast/power_h2_structural.py`):* estimate M0's error
+  components on validation Reform cold-start rows with a one-way
+  random-effects decomposition: τ² between councils (the part a council
+  news signal can correct) and σ² within councils (the part it cannot).
+  Simulate the 2025 structure: K = 23 councils, each with n_c wards equal to
+  its scheduled 2025 ballots (Democracy Club metadata; Reform assumed to
+  stand in every ward), errors u_c + e_ic, a news signal with correlation ρ
+  to u_c, a leave-one-council-out correction, and a council bootstrap.
+  400 simulations per ρ.
+- *Decision:* as before, on the primary (validation-scale) curve: run H2
+  only if MDE80 ≤ 1.0 pp.
+- *Reported, not used for the decision:* the 2025-scale curve (errors ×
+  the REF poll ratio) and a 70%-coverage curve (Reform standing in 70% of
+  wards).
+- *Reporting:* both the original and the corrected result are reported. If
+  the verdicts differ, the report states that the change of verdict came
+  from a post-result method correction.
