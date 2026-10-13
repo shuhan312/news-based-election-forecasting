@@ -1,0 +1,262 @@
+"""Ward-level news coverage probe (Kent and Surrey, May 2021).
+
+    PYTHONPATH=.:src python -m forecast.ward_coverage contests
+    PYTHONPATH=.:src python -m forecast.ward_coverage targets
+    PYTHONPATH=.:src python -m forecast.ward_coverage fetch
+    PYTHONPATH=.:src python -m forecast.ward_coverage match
+
+Question: in the 90-31 days before polling day, how many divisions does
+local news actually cover, by naming a candidate or the place? The answer
+decides, before any 2025 result is opened, whether a ward-level news
+hypothesis is worth designing. Training data (2021) only.
+
+  contests  every contested 2021 division with its candidates' names
+            (Democracy Club; names and ward labels only are kept)
+  targets   the outlets' archived article URLs that fall in the window,
+            found via article ids, which rise with publication date
+  fetch     download those articles (reuses the outlet pilot's cache, so
+            nothing already fetched is fetched again)
+  match     deterministic name / place matching, and coverage measures
+
+Criteria: v2_design/ward_coverage_v1/criteria.md.
+"""
+
+from __future__ import annotations
+
+import csv
+import json
+import re
+import sys
+from collections import defaultdict
+from datetime import date
+from pathlib import Path
+from urllib.parse import urlparse
+
+import requests
+
+from v2_design import keyword_prefilter as kp
+from v2_design import outlet_pilot as pilot
+
+DC_API = "https://candidates.democracyclub.org.uk/api/next/ballots/"
+ELECTIONS = {"surrey": "local.surrey.2021-05-06",
+             "kent": "local.kent.2021-05-06"}
+DATA = Path("data/ward_probe")                       # gitignored
+OUT_DIR = Path("v2_design/ward_coverage_v1")
+CONTESTS = DATA / "contests.json"
+TARGETS = DATA / "targets.csv"
+
+# Words that name a compass point or settlement type rather than a place.
+GENERIC = {"north", "south", "east", "west", "central", "rural", "town",
+           "villages", "village", "valley", "hills", "hill", "park",
+           "common", "green", "the", "upper", "lower", "and", "with",
+           "inner", "outer", "city", "borough", "ward", "division"}
+
+
+# --- 1. contests -------------------------------------------------------------------
+
+def stage_contests() -> None:
+    """Contested divisions with candidates' names. Results are not kept."""
+    out = []
+    for county, eid in ELECTIONS.items():
+        url, params = DC_API, {"election_id": eid, "page_size": 200}
+        while url:
+            body = requests.get(url, params=params, timeout=120).json()
+            for b in body["results"]:
+                if b.get("cancelled") or ".by." in b["ballot_paper_id"]:
+                    continue
+                names = [(c.get("person") or {}).get("name", "")
+                         for c in b["candidacies"]]
+                if len(names) <= b["winner_count"]:
+                    continue                 # uncontested: no campaign to cover
+                out.append({"county": county, "ballot": b["ballot_paper_id"],
+                            "label": b["post"]["label"], "candidates": names})
+            url, params = body.get("next"), None
+    DATA.mkdir(parents=True, exist_ok=True)
+    CONTESTS.write_text(json.dumps(out, indent=1))
+    print(f"-> {CONTESTS}: {len(out)} contested divisions")
+
+
+# --- 2. targets: window articles via monotonic ids ---------------------------------
+
+def article_id(url: str) -> int | None:
+    """The numeric article id at the end of an outlet URL.
+
+    Reach sites: ...-20290053 ; BBC: ...-56962571 ; KentOnline: ...-243433/ ;
+    Newsquest (Surrey Comet): /news/19279019.slug/ . Ids rise with
+    publication date on every outlet here (checked on the pilot sample).
+    """
+    path = urlparse(url).path
+    m = (re.search(r"/(\d{6,9})\.[^/]*/?$", path)
+         or re.search(r"(\d{6,9})(?:\.amp)?/?$", path))
+    return int(m.group(1)) if m else None
+
+
+def _norm_url(url: str) -> str:
+    """One key per article: no scheme, www, query, .amp or trailing slash."""
+    u = urlparse(url)
+    path = re.sub(r"\.amp$", "", u.path.rstrip("/"))
+    return u.netloc.removeprefix("www.") + path
+
+
+def id_bounds() -> dict[str, tuple[int, int]]:
+    """Per outlet: (last sampled id before the window, first after it).
+
+    Taken from the pilot's fetched sample, whose publication dates are
+    known, so every id between the bounds is a window candidate.
+    """
+    sample = [json.loads(p.read_text()) for p in pilot.CACHE.glob("*.json")
+              if not p.name.startswith(("cdx_", "batch_"))]
+    bounds = {}
+    for outlet in {s["outlet"] for s in sample}:
+        before, after, inside = [], [], []
+        for s in sample:
+            if s["outlet"] != outlet or not s.get("published_date"):
+                continue
+            aid = article_id(s["url"])
+            if aid is None:
+                continue
+            d = date.fromisoformat(s["published_date"])
+            (before if d < pilot.PUB_START
+             else after if d > pilot.PUB_END else inside).append(aid)
+        lo = max(before) if before else min(inside)
+        hi = min(after) if after else max(inside)
+        bounds[outlet] = (lo, hi)
+    return bounds
+
+
+def stage_targets() -> None:
+    bounds = id_bounds()
+    rows, seen = [], set()
+    for key, cfg in pilot.COUNCILS.items():
+        for target, match in cfg["outlets"]:
+            lo, hi = bounds[target]
+            for ts, url in pilot.cdx_list(target, match):   # cached lists
+                aid, norm = article_id(url), _norm_url(url)
+                if aid is None or not lo <= aid <= hi or norm in seen:
+                    continue
+                seen.add(norm)
+                rows.append({"council": key, "outlet": target,
+                             "timestamp": ts, "url": url})
+    DATA.mkdir(parents=True, exist_ok=True)
+    with TARGETS.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+    by = defaultdict(int)
+    for r in rows:
+        by[r["outlet"]] += 1
+    print(f"-> {TARGETS}: {len(rows)} candidate articles", dict(by))
+
+
+# --- 3. fetch (shared, resumable cache) ------------------------------------------------
+
+def stage_fetch() -> None:
+    with TARGETS.open(encoding="utf-8") as handle:
+        rows = list(csv.DictReader(handle))
+    pilot.CACHE.mkdir(parents=True, exist_ok=True)
+    for i, row in enumerate(rows):
+        path = pilot._cache_path(row)
+        if not path.exists():
+            path.write_text(json.dumps(pilot.fetch_one(row)), encoding="utf-8")
+        if i % 200 == 0:
+            print(f"fetched {i}/{len(rows)}", flush=True)
+
+
+# --- 4. match ----------------------------------------------------------------------
+
+def place_tokens(label: str) -> list[str]:
+    """Distinctive place names in a division label.
+
+    'Bagshot, Windlesham & Chobham' -> ['bagshot', 'windlesham', 'chobham'];
+    'Tunbridge Wells East' -> ['tunbridge wells']. Generic words are
+    dropped and anything shorter than 4 letters is ignored.
+    """
+    out = []
+    for part in re.split(r",|&|\band\b", label, flags=re.IGNORECASE):
+        words = [w for w in re.findall(r"[A-Za-z'’-]+", part)
+                 if w.lower() not in GENERIC]
+        phrase = " ".join(words).strip().lower()
+        if len(phrase.replace(" ", "")) >= 4:
+            out.append(phrase)
+    return out
+
+
+def _has(text: str, phrase: str) -> bool:
+    return re.search(r"\b" + re.escape(phrase) + r"\b", text,
+                     re.IGNORECASE) is not None
+
+
+def coverage(contests: list[dict], articles: list[dict]) -> dict:
+    """Per-division covering articles and the W1-W4 measures."""
+    hits = {c["ballot"]: {"C": set(), "P": set()} for c in contests}
+    for a in articles:
+        text = kp.article_text(a["headline"], a["text"])
+        political = kp.passes(text)
+        for c in contests:
+            if c["county"] != a["council"]:
+                continue
+            if any(len(n.split()) >= 2 and _has(text, n)
+                   for n in c["candidates"]):
+                hits[c["ballot"]]["C"].add(a["url"])
+            if political and any(_has(text, t)
+                                 for t in place_tokens(c["label"])):
+                hits[c["ballot"]]["P"].add(a["url"])
+
+    def measures(subset):
+        n = len(subset)
+        if n == 0:                       # e.g. a county with no contests
+            return {"divisions": 0}
+        both = [len(hits[c["ballot"]]["C"] | hits[c["ballot"]]["P"])
+                for c in subset]
+        cand = [len(hits[c["ballot"]]["C"]) for c in subset]
+        covered = sorted(x for x in both if x)
+        return {"divisions": n,
+                "W1_any": round(sum(x >= 1 for x in both) / n, 3),
+                "W2_candidate": round(sum(x >= 1 for x in cand) / n, 3),
+                "W3_three_plus": round(sum(x >= 3 for x in both) / n, 3),
+                "W4_median_articles_if_covered":
+                    covered[len(covered) // 2] if covered else 0}
+
+    per_county = {k: measures([c for c in contests if c["county"] == k])
+                  for k in ELECTIONS}
+    return {"pooled": measures(contests), "per_county": per_county,
+            "per_division": {c["ballot"]: {"label": c["label"],
+                                           "C": len(hits[c["ballot"]]["C"]),
+                                           "P": len(hits[c["ballot"]]["P"])}
+                             for c in contests}}
+
+
+def stage_match() -> None:
+    contests = json.loads(CONTESTS.read_text())
+    with TARGETS.open(encoding="utf-8") as handle:
+        targets = list(csv.DictReader(handle))
+    articles = []
+    for row in targets:
+        path = pilot._cache_path(row)
+        if not path.exists():
+            continue
+        a = json.loads(path.read_text())
+        if a.get("text") and pilot.in_window(a):
+            articles.append(a)
+    result = coverage(contests, articles)
+    W1 = result["pooled"]["W1_any"]
+    verdict = ("viable" if W1 >= 0.50 else "marginal" if W1 >= 0.25
+               else "not viable")
+    payload = {"criteria": "v2_design/ward_coverage_v1/criteria.md",
+               "targets": len(targets), "window_articles": len(articles),
+               "articles_by_council": {k: sum(a["council"] == k
+                                              for a in articles)
+                                       for k in ELECTIONS},
+               **{k: v for k, v in result.items() if k != "per_division"},
+               "verdict": verdict}
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    (OUT_DIR / "coverage_results.json").write_text(
+        json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    (OUT_DIR / "coverage_per_division.json").write_text(
+        json.dumps(result["per_division"], indent=1) + "\n", encoding="utf-8")
+    print(json.dumps(payload, indent=2))
+
+
+if __name__ == "__main__":
+    {"contests": stage_contests, "targets": stage_targets,
+     "fetch": stage_fetch, "match": stage_match}[sys.argv[1]]()
