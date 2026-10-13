@@ -203,3 +203,17 @@ computed.**
   decision.
 - *2021 supporting figures* are reported both ways: main window 4.2%; late
   window 41.3% with lists, 12.6% without.
+
+**A5 (2026-10-14). How the match check is used, fixed before R1 is
+computed.** (Added after A4 was committed in 694db78, so recorded as a
+separate amendment.)
+
+- *Match check, fixed in advance:* after R1 is computed, 20 (candidate,
+  article) matches are drawn at random (seed 20261014) from the matches
+  that count towards R1 and checked by reading: is the article about this
+  candidate? If more than 4 of 20 (20%) are false, R1 is recomputed using
+  full-name matches only, and that figure decides. Otherwise R1 stands.
+  The check and its outcome are reported either way.
+- *Scope:* R1 is measured on Kent only. Kent has one of the larger local
+  news markets (KentOnline), so R1 is, if anything, optimistic for the
+  other 2025 councils. A design decision based on it is stated as such.

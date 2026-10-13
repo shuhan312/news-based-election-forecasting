@@ -196,6 +196,17 @@ def list_articles(texts: list[str], everyone: list[dict]) -> set[int]:
             if sum(wc._has(t, n) for n in names) >= LIST_MIN}
 
 
+def _excerpt(text: str, full_name: str, width: int = 200) -> str:
+    """The passage around the candidate's name (or surname), for reading
+    in the match check."""
+    surname = full_name.split()[-1]
+    m = (re.search(re.escape(full_name), text, re.IGNORECASE)
+         or re.search(r"\b" + re.escape(surname) + r"\b", text, re.IGNORECASE))
+    if not m:
+        return ""
+    return text[max(0, m.start() - width): m.end() + width]
+
+
 def stage_match() -> None:
     everyone = json.loads((DATA / "candidates_2025.json").read_text())
     cands = [c for c in everyone if c["party"] == REFORM]
@@ -230,8 +241,25 @@ def stage_match() -> None:
     decision = ("design a ward-level hypothesis" if r1 >= 0.50
                 else "design only if a power check can pass" if r1 >= 0.25
                 else "stop: the news strand closes")
+    # A5 match check: a fixed random sample of the (candidate, article)
+    # matches that count towards R1, saved for reading. Article text is
+    # written to the gitignored data folder only, never printed.
+    import random
+    pairs = [(c["person_id"], c["name"], i) for c in cands
+             for i, t in enumerate(texts)
+             if i not in lists and named(t, c["name"]) is not None]
+    sample = random.Random(20261014).sample(pairs, min(20, len(pairs)))
+    (DATA / "match_check_sample.json").write_text(json.dumps(
+        [{"candidate": name, "how": named(texts[i], name),
+          "excerpt": _excerpt(texts[i], name)} for _, name, i in sample],
+        indent=1))
+    full_only = {c["person_id"]: sum(
+        i not in lists and named(t, c["name"]) == "full"
+        for i, t in enumerate(texts)) for c in cands}
     payload = {
-        "criteria": "v2_design/ward_coverage_v1/criteria.md (A3)",
+        "criteria": "v2_design/ward_coverage_v1/criteria.md (A3-A5)",
+        "R1_full_name_only (A5 fallback)": share(cands, 1, full_only),
+        "match_check_sample": "data/reform_2025/match_check_sample.json",
         "window_articles": len(texts), "list_articles": len(lists),
         "reform_candidates": len(cands),
         "R1_named_share": r1, "named_3plus_share": share(cands, 3),
