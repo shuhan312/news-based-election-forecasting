@@ -48,7 +48,8 @@ def main(argv: list[str] | None = None) -> int:
                                                 client=_client()), indent=2))
         return 0
 
-    needs_api = cfg["predictions"]["source"] == "api"
+    # Multiclass tasks score archived pairs and have no predictions block.
+    needs_api = cfg.get("predictions", {}).get("source") == "api"
     result = pipeline.run_pipeline(cfg, client=_client() if needs_api else None)
     md, js = report.write(result, cfg["output"]["dir"])
     print(f"-> {md}\n-> {js}")

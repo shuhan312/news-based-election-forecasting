@@ -41,7 +41,41 @@ def _audit_lines(audit: dict) -> list[str]:
     return lines or ["- No flags."]
 
 
+def _multiclass_markdown(result: dict) -> str:
+    """Report for a multiclass task: kappa, accuracy, macro-F1, recall per
+    category, and the same scores per subgroup."""
+    o, gate = result["overall"], result.get("gate")
+    verdict = ("no gate configured" if gate is None
+               else "PASS" if gate["pass"] else "FAIL")
+    if result["audit"]["flags"]:
+        verdict += ", with a provenance flag (read section 1)"
+    lines = [f"# llm_eval report: {result['task']}", "",
+             f"**Verdict: {verdict}.** {o['n']} labelled pairs, categories: "
+             f"{', '.join(o['categories'])}.", "",
+             "## 1. Reference labels", "", *_audit_lines(result["audit"]), "",
+             "## 2. Scores (95% bootstrap CI)", "", "| metric | value |",
+             "|---|---|",
+             *[f"| {m} | {_fmt(o, m)} |"
+               for m in ("kappa", "accuracy", "macro_f1")], "",
+             "| category | recall |", "|---|---:|",
+             *[f"| {c} | {v:.3f} |" for c, v in o["recall_by_category"].items()]]
+    if gate:
+        lines += ["", "## 3. Gate", "", "| metric | value | bar | result |",
+                  "|---|---:|---:|---|"]
+        lines += [f"| {m} | {c['value']} | {c['bar']} | "
+                  f"{'pass' if c['pass'] else 'FAIL'} |"
+                  for m, c in gate["checks"].items()]
+    for field, groups in result.get("subgroups", {}).items():
+        lines += ["", f"## Subgroups by `{field}`", "",
+                  "| group | n | kappa | accuracy |", "|---|---:|---|---|"]
+        lines += [f"| {g} | {s['n']} | {_fmt(s, 'kappa')} | "
+                  f"{_fmt(s, 'accuracy')} |" for g, s in groups.items()]
+    return "\n".join(lines) + "\n"
+
+
 def to_markdown(result: dict) -> str:
+    if result.get("type") == "multiclass":
+        return _multiclass_markdown(result)
     o = result["overall"]
     gate = result.get("gate")
     verdict = ("no gate configured" if gate is None

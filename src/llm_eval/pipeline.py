@@ -10,6 +10,7 @@ for API runs, a payload loader. The stages themselves never change.
 from __future__ import annotations
 
 import csv
+import json
 import tomllib
 from pathlib import Path
 from typing import Any, Callable
@@ -43,6 +44,84 @@ def _v1_review_sheet_payloads(ids: list[str], *, paths: list[str]) -> dict:
 PAYLOADS: dict[str, Callable[..., dict]] = {
     "v1_review_sheet": _v1_review_sheet_payloads,
 }
+
+
+# --- multiclass tasks: (reference, model) pairs from archived outputs -------------
+
+def _v1_stance_pairs(*, arm: str = "sonnet") -> list[dict]:
+    """V1's revised stance layer vs the human D4 labels, paired exactly as
+    V1's own scorer pairs them (src/llm_extraction/compare_stance_rescue.py):
+    human labels mapped to the revised scale, "mixed" / "not_mentioned"
+    dropped, rows with validation errors excluded. One pair per
+    (article, party); the party is kept as the subgroup."""
+    from src.llm_extraction import compare_stance_rescue as v1
+    model = v1.load_arm(v1.SONNET if arm == "sonnet" else v1.HAIKU)
+    with v1.HUMAN.open(encoding="utf-8") as handle:
+        human = {r["article_id"]: r for r in csv.DictReader(handle)}
+    pairs = []
+    for aid, judged in sorted(model.items()):
+        h = human.get(aid)
+        if h is None:
+            continue
+        for party, value in sorted(judged.items()):
+            mapped = v1.HUMAN_TO_REVISED.get(h.get(f"stance_{party}"))
+            if mapped is not None:
+                pairs.append({"id": f"{aid}:{party}", "reference": mapped,
+                              "model": value, "group": party})
+    return pairs
+
+
+def _v1_issue_pairs(*, arm: str = "sonnet") -> list[dict]:
+    """V1's primary-issue layer vs the human D4 labels, via V1's own field
+    extraction (validator-rejected records excluded, as V1 scored them)."""
+    from src.llm_extraction import compare_d4_agreement as v1
+    suffix = "" if arm == "sonnet" else f"_{arm}"
+    llm = json.loads(Path(f"llm_context/d4_llm_outputs{suffix}.json")
+                     .read_text())
+    model, _ = v1.extract_model_fields(llm)
+    with v1.HUMAN.open(encoding="utf-8") as handle:
+        human = {r["article_id"]: r for r in csv.DictReader(handle)}
+    return [{"id": aid, "reference": h["primary_issue"],
+             "model": model[aid]["primary_issue"], "group": h["arm"]}
+            for aid, h in sorted(human.items())
+            if "primary_issue" in model.get(aid, {})]
+
+
+# name in config -> loader(**options) -> [{id, reference, model, group}]
+PAIRS: dict[str, Callable[..., list[dict]]] = {
+    "v1_stance_revised": _v1_stance_pairs,
+    "v1_primary_issue": _v1_issue_pairs,
+}
+
+
+def run_multiclass(cfg: dict) -> dict:
+    """Score a multiclass task from archived (reference, model) pairs."""
+    spec = cfg["pairs"]
+    pairs = PAIRS[spec["loader"]](**spec.get("options", {}))
+    y = [x["reference"] for x in pairs]
+    p = [x["model"] for x in pairs]
+    overall = metrics.score_multiclass(y, p)
+    groups: dict[str, list] = {}
+    for x in pairs:
+        groups.setdefault(x["group"], []).append(x)
+    subgroups = {g: metrics.score_multiclass(
+                     [x["reference"] for x in v], [x["model"] for x in v],
+                     resamples=500)
+                 for g, v in sorted(groups.items())}
+    provenance = cfg["task"].get("reference_provenance", "human")
+    flags = ([{"check": "provenance", "ai_assisted_labels": len(pairs),
+               "total": len(pairs),
+               "message": "Reference labels were made with AI assistance; "
+                          "agreement with an LLM is consistency with that "
+                          "standard, not independent validation."}]
+             if provenance == "ai_assisted" else [])
+    return {"task": cfg["task"]["name"], "type": "multiclass",
+            "split": "all labelled pairs", "run": {"source": "archived"},
+            "audit": {"examples": len(pairs), "flags": flags,
+                      "clean": True},
+            "overall": overall, "subgroups": {"group": subgroups},
+            "missing_predictions_counted_negative": 0,
+            "gate": _gate(cfg, overall)}
 
 
 def load_config(path: str | Path) -> dict:
@@ -116,7 +195,10 @@ def api_predictions(cfg: dict, examples: list[Example], *, client) -> dict:
 # --- the whole pipeline ---------------------------------------------------------------
 
 def run_pipeline(cfg: dict, *, client: Any = None) -> dict:
-    """All stages. `client` is needed only when predictions.source = "api"."""
+    """All stages. `client` is needed only when predictions.source = "api".
+    Multiclass tasks (task.type = "multiclass") score archived pairs."""
+    if cfg["task"].get("type") == "multiclass":
+        return run_multiclass(cfg)
     examples = load_examples(cfg)
     a = cfg.get("audit", {})
     audit_result = audit.run_audit(

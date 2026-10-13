@@ -88,3 +88,65 @@ def score_by(examples, predictions: dict[str, int], field: str) -> dict:
         p = [predictions.get(e.id, 0) for e in members]
         out[key] = score(y, p, resamples=500)
     return out
+
+
+# --- multiclass tasks (e.g. stance: favourable / unfavourable / neither) ----------
+
+def multiclass_kappa(y: list, p: list) -> float:
+    """Cohen's kappa for any number of categories (labels may be strings).
+
+    po = observed agreement; pe = sum over categories of the product of the
+    two raters' marginal shares, i.e. the agreement expected by chance.
+    """
+    n = len(y)
+    if n == 0:
+        return float("nan")
+    cats = sorted(set(y) | set(p))
+    po = sum(a == b for a, b in zip(y, p)) / n
+    pe = sum((y.count(c) / n) * (p.count(c) / n) for c in cats)
+    return (po - pe) / (1 - pe) if pe < 1 else 0.0
+
+
+def macro_f1(y: list, p: list) -> float:
+    """Unweighted mean F1 over the reference categories, so a rare category
+    counts as much as a common one."""
+    scores = []
+    for c in sorted(set(y)):
+        tp = sum(a == c and b == c for a, b in zip(y, p))
+        fp = sum(a != c and b == c for a, b in zip(y, p))
+        fn = sum(a == c and b != c for a, b in zip(y, p))
+        prec = tp / (tp + fp) if tp + fp else 0.0
+        rec = tp / (tp + fn) if tp + fn else 0.0
+        scores.append(2 * prec * rec / (prec + rec) if prec + rec else 0.0)
+    return float(np.mean(scores)) if scores else float("nan")
+
+
+MULTICLASS_METRICS = {
+    "kappa": multiclass_kappa,
+    "accuracy": lambda y, p: sum(a == b for a, b in zip(y, p)) / len(y),
+    "macro_f1": macro_f1,
+}
+
+
+def score_multiclass(y: list, p: list, *, resamples: int = RESAMPLES,
+                     seed: int = SEED) -> dict:
+    """Point estimates, 95% bootstrap CIs and per-category recall."""
+    if len(y) != len(p) or not y:
+        raise ValueError("y and p must be non-empty and the same length")
+    rng = np.random.default_rng(seed)
+    draws = {name: [] for name in MULTICLASS_METRICS}
+    for _ in range(resamples):
+        i = rng.integers(0, len(y), len(y))
+        yy, pp = [y[k] for k in i], [p[k] for k in i]
+        for name, fn in MULTICLASS_METRICS.items():
+            draws[name].append(fn(yy, pp))
+    out = {"n": len(y), "categories": sorted(set(y) | set(p))}
+    for name, fn in MULTICLASS_METRICS.items():
+        out[name] = round(float(fn(y, p)), 4)
+        out[f"{name}_ci95"] = [round(float(np.nanpercentile(draws[name], q)), 4)
+                               for q in (2.5, 97.5)]
+    out["recall_by_category"] = {
+        c: round(sum(a == c and b == c for a, b in zip(y, p))
+                 / sum(a == c for a in y), 4)
+        for c in sorted(set(y))}
+    return out

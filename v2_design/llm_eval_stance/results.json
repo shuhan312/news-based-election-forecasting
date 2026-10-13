@@ -1,0 +1,228 @@
+{
+  "task": "stance per party (V1 revised layer, claude-sonnet-5)",
+  "type": "multiclass",
+  "split": "all labelled pairs",
+  "run": {
+    "source": "archived"
+  },
+  "audit": {
+    "examples": 71,
+    "flags": [
+      {
+        "check": "provenance",
+        "ai_assisted_labels": 71,
+        "total": 71,
+        "message": "Reference labels were made with AI assistance; agreement with an LLM is consistency with that standard, not independent validation."
+      }
+    ],
+    "clean": true
+  },
+  "overall": {
+    "n": 71,
+    "categories": [
+      "favourable",
+      "neither",
+      "unfavourable"
+    ],
+    "kappa": 0.7361,
+    "kappa_ci95": [
+      0.5842,
+      0.8641
+    ],
+    "accuracy": 0.8451,
+    "accuracy_ci95": [
+      0.7606,
+      0.9155
+    ],
+    "macro_f1": 0.8582,
+    "macro_f1_ci95": [
+      0.7634,
+      0.9302
+    ],
+    "recall_by_category": {
+      "favourable": 1.0,
+      "neither": 0.6296,
+      "unfavourable": 0.9714
+    }
+  },
+  "subgroups": {
+    "group": {
+      "conservative": {
+        "n": 20,
+        "categories": [
+          "favourable",
+          "neither",
+          "unfavourable"
+        ],
+        "kappa": 0.6629,
+        "kappa_ci95": [
+          0.2144,
+          1.0
+        ],
+        "accuracy": 0.85,
+        "accuracy_ci95": [
+          0.65,
+          1.0
+        ],
+        "macro_f1": 0.8227,
+        "macro_f1_ci95": [
+          0.5671,
+          1.0
+        ],
+        "recall_by_category": {
+          "favourable": 1.0,
+          "neither": 0.4,
+          "unfavourable": 1.0
+        }
+      },
+      "green": {
+        "n": 6,
+        "categories": [
+          "favourable",
+          "neither",
+          "unfavourable"
+        ],
+        "kappa": 0.7,
+        "kappa_ci95": [
+          0.0,
+          1.0
+        ],
+        "accuracy": 0.8333,
+        "accuracy_ci95": [
+          0.5,
+          1.0
+        ],
+        "macro_f1": 0.9286,
+        "macro_f1_ci95": [
+          0.6667,
+          1.0
+        ],
+        "recall_by_category": {
+          "favourable": 1.0,
+          "neither": 0.75
+        }
+      },
+      "labour": {
+        "n": 21,
+        "categories": [
+          "favourable",
+          "neither",
+          "unfavourable"
+        ],
+        "kappa": 0.6667,
+        "kappa_ci95": [
+          0.3636,
+          0.923
+        ],
+        "accuracy": 0.8095,
+        "accuracy_ci95": [
+          0.619,
+          0.9524
+        ],
+        "macro_f1": 0.8492,
+        "macro_f1_ci95": [
+          0.6619,
+          0.9663
+        ],
+        "recall_by_category": {
+          "favourable": 1.0,
+          "neither": 0.5556,
+          "unfavourable": 1.0
+        }
+      },
+      "liberal_democrat": {
+        "n": 10,
+        "categories": [
+          "favourable",
+          "neither",
+          "unfavourable"
+        ],
+        "kappa": 0.6491,
+        "kappa_ci95": [
+          0.0,
+          1.0
+        ],
+        "accuracy": 0.8,
+        "accuracy_ci95": [
+          0.5,
+          1.0
+        ],
+        "macro_f1": 0.7667,
+        "macro_f1_ci95": [
+          0.5571,
+          1.0
+        ],
+        "recall_by_category": {
+          "favourable": 1.0,
+          "neither": 0.7143,
+          "unfavourable": 1.0
+        }
+      },
+      "reform_uk": {
+        "n": 9,
+        "categories": [
+          "neither",
+          "unfavourable"
+        ],
+        "kappa": 0.6087,
+        "kappa_ci95": [
+          0.0,
+          1.0
+        ],
+        "accuracy": 0.8889,
+        "accuracy_ci95": [
+          0.6667,
+          1.0
+        ],
+        "macro_f1": 0.8,
+        "macro_f1_ci95": [
+          0.5846,
+          1.0
+        ],
+        "recall_by_category": {
+          "neither": 1.0,
+          "unfavourable": 0.875
+        }
+      },
+      "ukip": {
+        "n": 5,
+        "categories": [
+          "favourable",
+          "neither",
+          "unfavourable"
+        ],
+        "kappa": 1.0,
+        "kappa_ci95": [
+          0.0,
+          1.0
+        ],
+        "accuracy": 1.0,
+        "accuracy_ci95": [
+          1.0,
+          1.0
+        ],
+        "macro_f1": 1.0,
+        "macro_f1_ci95": [
+          1.0,
+          1.0
+        ],
+        "recall_by_category": {
+          "favourable": 1.0,
+          "neither": 1.0,
+          "unfavourable": 1.0
+        }
+      }
+    }
+  },
+  "missing_predictions_counted_negative": 0,
+  "gate": {
+    "checks": {
+      "kappa": {
+        "value": 0.7361,
+        "bar": 0.6,
+        "pass": true
+      }
+    },
+    "pass": true
+  }
+}

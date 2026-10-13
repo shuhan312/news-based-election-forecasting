@@ -1,0 +1,24 @@
+# llm_eval config: V1's revised stance layer (claude-sonnet-5) against the
+# human D4 labels, from archived outputs (no API call, no cost).
+#
+#   PYTHONPATH=.:src python -m llm_eval run --config configs/llm_eval/stance_v1.toml
+#
+# Expected (llm_context/stance_rescue_agreement.md, "against the mapped human
+# labels", sonnet arm): 71 pairs, kappa 0.736, agreement 0.845.
+
+[task]
+name = "stance per party (V1 revised layer, claude-sonnet-5)"
+type = "multiclass"
+# Labels made by the project's single reviewer; recorded conservatively as
+# AI-assisted, as for the relevance labels (confirmed 2026-10-07).
+reference_provenance = "ai_assisted"
+
+[pairs]
+loader = "v1_stance_revised"
+options = { arm = "sonnet" }
+
+[gate]                         # V1's pre-registered bar
+kappa = 0.60
+
+[output]
+dir = "v2_design/llm_eval_stance"

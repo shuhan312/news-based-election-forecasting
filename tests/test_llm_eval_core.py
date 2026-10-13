@@ -166,3 +166,31 @@ def test_audit_rediscovers_the_v1_labelling_defect():
     drift = [f for f in result["flags"] if f["check"] == "base_rate_drift"]
     assert any(f["source_id"] == "guardian_api" for f in drift)
     assert not result["clean"]
+
+
+# --- multiclass tasks -------------------------------------------------------------------
+
+def test_multiclass_kappa_on_a_hand_computed_case():
+    from llm_eval.metrics import multiclass_kappa
+    y = ["a", "a", "b", "b", "c", "c"]
+    p = ["a", "b", "b", "b", "c", "a"]
+    # po = 4/6; pe = (2/6*2/6) + (2/6*3/6) + (2/6*1/6) = 12/36
+    assert multiclass_kappa(y, p) == pytest.approx((4 / 6 - 1 / 3) / (1 - 1 / 3))
+
+
+def test_multiclass_scores_report_recall_per_category():
+    from llm_eval.metrics import score_multiclass
+    out = score_multiclass(["x", "x", "y"], ["x", "y", "y"], resamples=50)
+    assert out["recall_by_category"] == {"x": 0.5, "y": 1.0}
+    assert out["accuracy"] == pytest.approx(2 / 3, abs=1e-4)
+
+
+def test_stance_and_issue_configs_reproduce_v1_agreement_exactly():
+    from llm_eval import pipeline
+    stance = pipeline.run_pipeline(
+        pipeline.load_config("configs/llm_eval/stance_v1.toml"))
+    issue = pipeline.run_pipeline(
+        pipeline.load_config("configs/llm_eval/issue_v1.toml"))
+    # V1 reported kappa to 3 decimals; the toolkit keeps 4.
+    assert (stance["overall"]["n"], round(stance["overall"]["kappa"], 3)) == (71, 0.736)
+    assert (issue["overall"]["n"], round(issue["overall"]["kappa"], 3)) == (53, 0.616)

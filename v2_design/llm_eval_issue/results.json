@@ -1,0 +1,201 @@
+{
+  "task": "primary issue (V1 issues layer, claude-sonnet-5)",
+  "type": "multiclass",
+  "split": "all labelled pairs",
+  "run": {
+    "source": "archived"
+  },
+  "audit": {
+    "examples": 53,
+    "flags": [
+      {
+        "check": "provenance",
+        "ai_assisted_labels": 53,
+        "total": 53,
+        "message": "Reference labels were made with AI assistance; agreement with an LLM is consistency with that standard, not independent validation."
+      }
+    ],
+    "clean": true
+  },
+  "overall": {
+    "n": 53,
+    "categories": [
+      "candidate_party_conduct",
+      "council_finance",
+      "council_performance",
+      "council_tax",
+      "crime_policing",
+      "election_administration",
+      "environment_flooding",
+      "healthcare",
+      "immigration",
+      "investment_funding",
+      "local_business",
+      "local_government_reorganisation",
+      "national_economy",
+      "national_politics",
+      "none",
+      "other",
+      "planning_housing",
+      "resignation_defection",
+      "roads_transport",
+      "scandal",
+      "schools_send",
+      "service_closure",
+      "social_care",
+      "voter_switching"
+    ],
+    "kappa": 0.6164,
+    "kappa_ci95": [
+      0.4831,
+      0.7475
+    ],
+    "accuracy": 0.6415,
+    "accuracy_ci95": [
+      0.5094,
+      0.7736
+    ],
+    "macro_f1": 0.6056,
+    "macro_f1_ci95": [
+      0.491,
+      0.7312
+    ],
+    "recall_by_category": {
+      "candidate_party_conduct": 0.0,
+      "council_finance": 1.0,
+      "council_performance": 0.0,
+      "council_tax": 1.0,
+      "crime_policing": 0.5,
+      "election_administration": 0.0,
+      "environment_flooding": 1.0,
+      "healthcare": 0.8333,
+      "immigration": 1.0,
+      "investment_funding": 0.0,
+      "local_business": 1.0,
+      "national_economy": 1.0,
+      "national_politics": 0.8333,
+      "other": 0.0,
+      "planning_housing": 1.0,
+      "resignation_defection": 0.0,
+      "roads_transport": 0.3333,
+      "scandal": 1.0,
+      "schools_send": 1.0,
+      "service_closure": 1.0,
+      "social_care": 1.0,
+      "voter_switching": 0.0
+    }
+  },
+  "subgroups": {
+    "group": {
+      "local": {
+        "n": 27,
+        "categories": [
+          "council_finance",
+          "council_performance",
+          "crime_policing",
+          "election_administration",
+          "healthcare",
+          "local_business",
+          "local_government_reorganisation",
+          "national_politics",
+          "none",
+          "other",
+          "planning_housing",
+          "roads_transport",
+          "scandal",
+          "social_care"
+        ],
+        "kappa": 0.4698,
+        "kappa_ci95": [
+          0.2729,
+          0.6503
+        ],
+        "accuracy": 0.5185,
+        "accuracy_ci95": [
+          0.3333,
+          0.7037
+        ],
+        "macro_f1": 0.6111,
+        "macro_f1_ci95": [
+          0.3967,
+          0.7602
+        ],
+        "recall_by_category": {
+          "council_finance": 1.0,
+          "council_performance": 0.0,
+          "crime_policing": 0.5,
+          "election_administration": 0.0,
+          "healthcare": 0.5,
+          "local_business": 1.0,
+          "national_politics": 0.5,
+          "other": 0.0,
+          "planning_housing": 1.0,
+          "roads_transport": 0.3333,
+          "scandal": 1.0,
+          "social_care": 1.0
+        }
+      },
+      "national": {
+        "n": 26,
+        "categories": [
+          "candidate_party_conduct",
+          "council_tax",
+          "environment_flooding",
+          "healthcare",
+          "immigration",
+          "investment_funding",
+          "local_business",
+          "national_economy",
+          "national_politics",
+          "resignation_defection",
+          "scandal",
+          "schools_send",
+          "service_closure",
+          "voter_switching"
+        ],
+        "kappa": 0.7409,
+        "kappa_ci95": [
+          0.5538,
+          0.9108
+        ],
+        "accuracy": 0.7692,
+        "accuracy_ci95": [
+          0.6154,
+          0.9231
+        ],
+        "macro_f1": 0.6619,
+        "macro_f1_ci95": [
+          0.5104,
+          0.8571
+        ],
+        "recall_by_category": {
+          "candidate_party_conduct": 0.0,
+          "council_tax": 1.0,
+          "environment_flooding": 1.0,
+          "healthcare": 1.0,
+          "immigration": 1.0,
+          "investment_funding": 0.0,
+          "local_business": 1.0,
+          "national_economy": 1.0,
+          "national_politics": 1.0,
+          "resignation_defection": 0.0,
+          "scandal": 1.0,
+          "schools_send": 1.0,
+          "service_closure": 1.0,
+          "voter_switching": 0.0
+        }
+      }
+    }
+  },
+  "missing_predictions_counted_negative": 0,
+  "gate": {
+    "checks": {
+      "kappa": {
+        "value": 0.6164,
+        "bar": 0.6,
+        "pass": true
+      }
+    },
+    "pass": true
+  }
+}

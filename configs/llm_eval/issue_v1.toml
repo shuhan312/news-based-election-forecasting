@@ -1,0 +1,22 @@
+# llm_eval config: V1's primary-issue layer (claude-sonnet-5) against the
+# human D4 labels, from archived outputs (no API call, no cost).
+#
+#   PYTHONPATH=.:src python -m llm_eval run --config configs/llm_eval/issue_v1.toml
+#
+# Expected (llm_context/d4_agreement_report.md): 53 pairs, kappa 0.616,
+# agreement 0.642.
+
+[task]
+name = "primary issue (V1 issues layer, claude-sonnet-5)"
+type = "multiclass"
+reference_provenance = "ai_assisted"
+
+[pairs]
+loader = "v1_primary_issue"
+options = { arm = "sonnet" }
+
+[gate]
+kappa = 0.60
+
+[output]
+dir = "v2_design/llm_eval_issue"
