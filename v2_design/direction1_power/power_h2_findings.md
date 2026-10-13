@@ -57,3 +57,44 @@ with no news, so its real power is lower still.
 Stage 5 (news collection) is skipped. Stage 6 freezes the H1 model and runs
 the single 2025 test, for H1 only. H2 is reported as underpowered, with this
 file as the evidence.
+
+---
+
+## Amendment A2: structure-matched simulation (2026-10-13)
+
+The first simulation resampled 2023's thin cells (2.7 Reform cold-start
+rows per council). A2, found after the first verdict and committed before
+being run (3657494), simulates 2025's real structure instead: 23 councils
+with 21–98 wards each. Results: `power_h2_results_A2.json`.
+
+**Verdict unchanged: H2 is not run.** The reason is now sharper:
+
+| error decomposition of M0 on validation Reform cold starts | value |
+|---|---|
+| between-council variance τ² (what council-level news could fix) | **0.00** |
+| within-council variance σ² (what it cannot fix) | 23.33 |
+| share of error at council level (ICC) | **0%** |
+
+With τ² = 0 there is nothing for a council-level signal to correct. Power
+stays at the false-positive rate (≤ 2%) for every ρ, at validation scale,
+at 2025 scale and at 70% coverage.
+
+**How sure is the zero?** Validation cells are thin, so τ² is imprecise.
+A council bootstrap puts its 95th percentile at 1.31 (τ ≈ 1.1 pp). At that
+optimistic upper bound, a near-perfect signal (ρ = 0.9) reaches 70% power
+for a mean gain of **0.08 pp**. That is still below 80% power, and an
+effect far too small to matter. The verdict holds even at the edge of
+what the data allow.
+
+**Why the council component is so small:** even plain uniform swing
+(without the Leave rule) shows τ² = 0 on 2019→2023 Reform cold starts.
+Once the national level is set, Reform's local results varied ward by ward
+(candidate, campaign, local issues), not council by council. A council-wide
+news measure is the wrong resolution for that variation. Any news effect
+would have to work at **ward** level, for example candidate-specific events
+such as councillors defecting to Reform.
+
+**Caveat:** this decomposition comes from a year when Reform polled about
+6%. At its 2025 level, council-level differences may be larger than 2023
+can show. That is the one way this conclusion could be wrong, and it cannot
+be checked without 2025 data.

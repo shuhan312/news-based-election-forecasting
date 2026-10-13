@@ -1,0 +1,184 @@
+{
+  "amendment": "A2 (structure-matched simulation)",
+  "variance_components": {
+    "tau2": 0.0,
+    "sigma2": 23.33,
+    "councils": 149,
+    "rows": 401,
+    "mean_error": 0.0444,
+    "icc": 0.0
+  },
+  "K": 23,
+  "wards_per_council": {
+    "cambridgeshire": 59,
+    "wiltshire": 98,
+    "cornwall": 87,
+    "doncaster": 21,
+    "northumberland": 69,
+    "shropshire": 72,
+    "west-northamptonshire": 35,
+    "derbyshire": 64,
+    "devon": 58,
+    "lancashire": 82,
+    "oxfordshire": 69,
+    "warwickshire": 57,
+    "county-durham": 51,
+    "buckinghamshire": 49,
+    "north-northamptonshire": 31,
+    "gloucestershire": 55,
+    "hertfordshire": 78,
+    "kent": 72,
+    "leicestershire": 53,
+    "lincolnshire": 70,
+    "nottinghamshire": 56,
+    "staffordshire": 62,
+    "worcestershire": 53
+  },
+  "primary_curve": [
+    {
+      "rho": 0.1,
+      "mean_gain_pp": -0.0018,
+      "power": 0.005
+    },
+    {
+      "rho": 0.2,
+      "mean_gain_pp": -0.0015,
+      "power": 0.007
+    },
+    {
+      "rho": 0.3,
+      "mean_gain_pp": -0.0016,
+      "power": 0.01
+    },
+    {
+      "rho": 0.4,
+      "mean_gain_pp": -0.0018,
+      "power": 0.005
+    },
+    {
+      "rho": 0.5,
+      "mean_gain_pp": -0.0015,
+      "power": 0.007
+    },
+    {
+      "rho": 0.6,
+      "mean_gain_pp": -0.0015,
+      "power": 0.015
+    },
+    {
+      "rho": 0.7,
+      "mean_gain_pp": -0.0013,
+      "power": 0.013
+    },
+    {
+      "rho": 0.8,
+      "mean_gain_pp": -0.0017,
+      "power": 0.013
+    },
+    {
+      "rho": 0.9,
+      "mean_gain_pp": -0.0013,
+      "power": 0.013
+    }
+  ],
+  "primary_mde80": null,
+  "scaled_by": 4.494,
+  "scaled_curve": [
+    {
+      "rho": 0.1,
+      "mean_gain_pp": -0.0078,
+      "power": 0.007
+    },
+    {
+      "rho": 0.2,
+      "mean_gain_pp": -0.0066,
+      "power": 0.007
+    },
+    {
+      "rho": 0.3,
+      "mean_gain_pp": -0.0073,
+      "power": 0.02
+    },
+    {
+      "rho": 0.4,
+      "mean_gain_pp": -0.0064,
+      "power": 0.01
+    },
+    {
+      "rho": 0.5,
+      "mean_gain_pp": -0.0076,
+      "power": 0.007
+    },
+    {
+      "rho": 0.6,
+      "mean_gain_pp": -0.006,
+      "power": 0.018
+    },
+    {
+      "rho": 0.7,
+      "mean_gain_pp": -0.0069,
+      "power": 0.003
+    },
+    {
+      "rho": 0.8,
+      "mean_gain_pp": -0.0075,
+      "power": 0.005
+    },
+    {
+      "rho": 0.9,
+      "mean_gain_pp": -0.0092,
+      "power": 0.01
+    }
+  ],
+  "scaled_mde80": null,
+  "coverage70_curve": [
+    {
+      "rho": 0.1,
+      "mean_gain_pp": -0.0026,
+      "power": 0.01
+    },
+    {
+      "rho": 0.2,
+      "mean_gain_pp": -0.0022,
+      "power": 0.015
+    },
+    {
+      "rho": 0.3,
+      "mean_gain_pp": -0.002,
+      "power": 0.018
+    },
+    {
+      "rho": 0.4,
+      "mean_gain_pp": -0.0025,
+      "power": 0.007
+    },
+    {
+      "rho": 0.5,
+      "mean_gain_pp": -0.0027,
+      "power": 0.007
+    },
+    {
+      "rho": 0.6,
+      "mean_gain_pp": -0.0022,
+      "power": 0.01
+    },
+    {
+      "rho": 0.7,
+      "mean_gain_pp": -0.0022,
+      "power": 0.01
+    },
+    {
+      "rho": 0.8,
+      "mean_gain_pp": -0.0022,
+      "power": 0.005
+    },
+    {
+      "rho": 0.9,
+      "mean_gain_pp": -0.0022,
+      "power": 0.005
+    }
+  ],
+  "coverage70_mde80": null,
+  "gate_pp": 1.0,
+  "verdict": "do not run H2 (underpowered)"
+}
