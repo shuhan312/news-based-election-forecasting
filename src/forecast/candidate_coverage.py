@@ -102,6 +102,25 @@ def named_counts(cands: list[dict], articles: list[dict]) -> dict:
     return counts
 
 
+LIST_MIN = 10       # A4: an article naming this many candidates is a list
+
+
+def named_counts_excluding_lists(cands: list[dict], articles: list[dict]
+                                 ) -> dict:
+    """As named_counts, but candidate-list articles (naming LIST_MIN or
+    more of the candidates) do not count. Supporting figure for A4."""
+    texts = [kp.article_text(a["headline"], a["text"]) for a in articles]
+    names = [c for c in cands if len(c["name"].split()) >= 2]
+    hits = [[c["person_id"] for c in names if wc._has(t, c["name"])]
+            for t in texts]
+    counts = defaultdict(int)
+    for pids in hits:
+        if len(pids) < LIST_MIN:
+            for pid in pids:
+                counts[pid] += 1
+    return counts
+
+
 def share_named(group: list[dict], counts: dict) -> dict:
     n = len(group)
     named = sum(counts.get(c["person_id"], 0) >= 1 for c in group)
@@ -125,10 +144,11 @@ def stage_run(window: str = "main") -> None:
             if a.get("text") and wc.in_window(a, window):
                 articles[a["council"]].append(a)
 
-    tagged, counts = [], {}
+    tagged, counts, counts_nl = [], {}, {}
     for county, (e2017, e2021) in ELECTIONS.items():
         cands = classify(candidates(e2021), candidates(e2017))
         counts.update(named_counts(cands, articles[county]))
+        counts_nl.update(named_counts_excluding_lists(cands, articles[county]))
         tagged += cands
 
     groups = {
@@ -141,6 +161,8 @@ def stage_run(window: str = "main") -> None:
         "reform_or_ukip": [c for c in tagged if c["insurgent"]],
     }
     result = {name: share_named(g, counts) for name, g in groups.items()}
+    result_nl = {name: share_named(g, counts_nl)
+                 for name, g in groups.items()}
     n1 = result["new_minor (N1)"]["named_share"]
     decision = ("design a ward-level hypothesis" if n1 >= 0.50
                 else "design only if a power check can pass" if n1 >= 0.25
@@ -148,7 +170,10 @@ def stage_run(window: str = "main") -> None:
     payload = {"criteria": "v2_design/ward_coverage_v1/criteria.md (A1, A2)",
                "window": window,
                "window_articles": {k: len(v) for k, v in articles.items()},
-               "groups": result, "N1": n1, "decision": decision}
+               "groups": result, "N1": n1, "decision": decision,
+               "groups_excluding_list_articles (A4)": result_nl,
+               "N1_excluding_list_articles":
+                   result_nl["new_minor (N1)"]["named_share"]}
     out = OUT.with_name(OUT.stem + ("_late" if window == "late" else "")
                         + OUT.suffix)
     out.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")

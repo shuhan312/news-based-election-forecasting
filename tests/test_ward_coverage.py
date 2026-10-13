@@ -114,3 +114,22 @@ def test_2025_window_is_april_before_polling_day():
     assert r.in_window({"published_date": "2025-04-30"})
     assert not r.in_window({"published_date": "2025-05-01"})   # polling day
     assert not r.in_window({"published_date": "2025-03-31"})
+
+
+# --- amendment A4: candidate-list articles ---------------------------------------------
+
+def test_list_articles_are_detected_by_how_many_candidates_they_name():
+    from forecast import reform_2025_coverage as r
+    everyone = [{"name": f"Person Number{i}"} for i in range(12)]
+    listing = " ".join(c["name"] for c in everyone)          # names all 12
+    story = "Person Number1 spoke about potholes."
+    assert r.list_articles([listing, story], everyone) == {0}
+
+
+def test_excluding_lists_drops_names_seen_only_in_a_list():
+    from forecast import candidate_coverage as cc
+    cands = [{"person_id": i, "name": f"Person Number{i}"} for i in range(12)]
+    listing = {"headline": "", "text": " ".join(c["name"] for c in cands)}
+    story = {"headline": "", "text": "Person Number3 opened a library."}
+    counts = cc.named_counts_excluding_lists(cands, [listing, story])
+    assert counts[3] == 1 and counts.get(4, 0) == 0

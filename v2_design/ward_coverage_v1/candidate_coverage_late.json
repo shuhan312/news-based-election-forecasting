@@ -1,0 +1,37 @@
+{
+  "criteria": "v2_design/ward_coverage_v1/criteria.md (A1, A2)",
+  "window": "late",
+  "window_articles": {
+    "surrey": 1935,
+    "kent": 1779
+  },
+  "groups": {
+    "incumbent": {
+      "candidates": 104,
+      "named_share": 0.548,
+      "named_3plus_share": 0.077
+    },
+    "past": {
+      "candidates": 142,
+      "named_share": 0.387,
+      "named_3plus_share": 0.035
+    },
+    "new_major": {
+      "candidates": 285,
+      "named_share": 0.509,
+      "named_3plus_share": 0.028
+    },
+    "new_minor (N1)": {
+      "candidates": 143,
+      "named_share": 0.413,
+      "named_3plus_share": 0.014
+    },
+    "reform_or_ukip": {
+      "candidates": 27,
+      "named_share": 0.333,
+      "named_3plus_share": 0.0
+    }
+  },
+  "N1": 0.413,
+  "decision": "design only if a power check can pass"
+}

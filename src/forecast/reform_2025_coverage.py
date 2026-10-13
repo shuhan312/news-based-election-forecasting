@@ -46,6 +46,10 @@ KENT_OUTLETS = [("kentlive.news/news/", "prefix"),
                 ("bbc.co.uk/news/uk-england-kent", "prefix"),
                 ("kentonline.co.uk", "sections")]
 PROXIMITY = 100          # max characters between surname and "Reform"
+# Amendment A4: an article naming this many candidates or more is a
+# candidate list. It says only who is standing, which the official list
+# already says, so it carries no news content and does not count.
+LIST_MIN = 10
 
 
 # --- 1. candidates, with results stripped at read time ----------------------------------
@@ -184,9 +188,17 @@ def named(text: str, full_name: str) -> str | None:
     return None
 
 
+def list_articles(texts: list[str], everyone: list[dict]) -> set[int]:
+    """Indices of candidate-list articles: those naming LIST_MIN or more of
+    the 2025 candidates (any party) by full name."""
+    names = [c["name"] for c in everyone if len(c["name"].split()) >= 2]
+    return {i for i, t in enumerate(texts)
+            if sum(wc._has(t, n) for n in names) >= LIST_MIN}
+
+
 def stage_match() -> None:
-    cands = [c for c in json.loads((DATA / "candidates_2025.json").read_text())
-             if c["party"] == REFORM]
+    everyone = json.loads((DATA / "candidates_2025.json").read_text())
+    cands = [c for c in everyone if c["party"] == REFORM]
     with (DATA / "targets.csv").open(encoding="utf-8") as h:
         targets = list(csv.DictReader(h))
     texts = []
@@ -196,15 +208,21 @@ def stage_match() -> None:
             a = json.loads(path.read_text())
             if a.get("text") and in_window(a):
                 texts.append(wc.kp.article_text(a["headline"], a["text"]))
-    counts, how = {}, {}
+    lists = list_articles(texts, everyone)
+    counts, counts_all, how = {}, {}, {}
     for c in cands:
         hits = [named(t, c["name"]) for t in texts]
-        counts[c["person_id"]] = sum(h is not None for h in hits)
-        how[c["person_id"]] = ("full" if "full" in hits
-                               else "surname" if "surname" in hits else None)
+        counts_all[c["person_id"]] = sum(h is not None for h in hits)
+        # A4: only non-list articles count towards R1.
+        content = [h for i, h in enumerate(hits) if i not in lists]
+        counts[c["person_id"]] = sum(h is not None for h in content)
+        how[c["person_id"]] = ("full" if "full" in content
+                               else "surname" if "surname" in content
+                               else None)
 
-    def share(group, k=1):
-        return round(sum(counts[c["person_id"]] >= k for c in group)
+    def share(group, k=1, table=None):
+        table = counts if table is None else table
+        return round(sum(table[c["person_id"]] >= k for c in group)
                      / len(group), 3) if group else None
 
     new = [c for c in cands if c["new"]]
@@ -214,8 +232,10 @@ def stage_match() -> None:
                 else "stop: the news strand closes")
     payload = {
         "criteria": "v2_design/ward_coverage_v1/criteria.md (A3)",
-        "window_articles": len(texts), "reform_candidates": len(cands),
+        "window_articles": len(texts), "list_articles": len(lists),
+        "reform_candidates": len(cands),
         "R1_named_share": r1, "named_3plus_share": share(cands, 3),
+        "R1_including_lists_not_for_decision": share(cands, 1, counts_all),
         "named_by_full_name": sum(v == "full" for v in how.values()),
         "named_by_surname_near_reform_only": sum(v == "surname"
                                                  for v in how.values()),

@@ -177,3 +177,29 @@ computed.**
   any outlet has no targets.
 - *Reporting:* 2021 N1 (main window), 2021 N1 (late window) and R1 are all
   reported.
+
+**A4 (2026-10-14). Candidate-list articles are excluded from R1. Found
+after the 2021 late-window N1 was computed, and fixed before R1 is
+computed.**
+
+- *What happened:* 2021 late-window N1 came out at 41.3% (Reform/UKIP
+  33.3%), but only 1.4% of new minor-party candidates were named three or
+  more times. Most naming came from candidate-list articles. One SurreyLive
+  article ("Surrey County Council Elections 2021: Who represents me and who
+  can I vote for?") names 251 candidates; three district lists name 10–16
+  each. Excluding articles that name 10 or more candidates, N1 is 12.6%
+  (Reform/UKIP 11.1%; incumbents 54.8% → 24.0%).
+- *Why lists must not count:* a list says only that a person is standing,
+  which the official candidate list already says. It carries no stance,
+  issue or event about the candidate, so it cannot feed any news feature.
+  Counting it would overstate what news offers, which is exactly the error
+  V2 exists to avoid.
+- *Rule for R1:* a Reform candidate counts as named only through an
+  article that names **fewer than 10** of Kent's 2025 candidates (any
+  party), by the A3 naming rule. Lists are identified by this count alone,
+  which is mechanical and is fixed before R1 is seen.
+- *Decision:* the A1/A3 thresholds apply to R1 with lists excluded. R1
+  including lists is reported alongside but is **not** used for the
+  decision.
+- *2021 supporting figures* are reported both ways: main window 4.2%; late
+  window 41.3% with lists, 12.6% without.
