@@ -295,3 +295,17 @@ outcomes (they say nothing about how news relates to M0's errors), so
 adding data on this rule does not use any result. Fewer than 10 articles is
 the point where one misjudged article moves a council's net portrayal by
 more than 0.1.
+
+*A4 exploratory measure (2026-10-14, fixed before any article is sent to an
+LLM).* Alongside S_c, a separate LLM question asks of each Reform article:
+does it report **specific local Reform campaign activity** (a named local
+candidate, a local event or rally, a councillor defecting to Reform, a
+campaign incident)? A_c = share of the council's Reform articles answering
+yes. It is asked in its own request, so V1's validated stance prompt is
+sent unchanged. A_c is **exploratory**: it has no human validation, it is
+not in M2 and not Holm-tested, and its result cannot replace H2's. Why it
+is added: in Kent, the Reform candidates local news named were mostly
+defecting councillors and candidates in local incidents (`ward_coverage_v1`),
+local information that polls and Leave share do not carry. It also tests a
+finer text representation than V1's three-way portrayal without spending
+H2's power on it.
