@@ -224,3 +224,74 @@ Club's ballot response also carries results, so the code
 ballot, person id, name and party at read time; no vote count or elected
 flag is stored or printed. The single post-freeze read of 2025 results is
 unchanged.
+
+**A4 (2026-10-14). H2 is reopened at council level and specified in full
+before any 2025 result is read.** The power gate's A3
+(`direction1_power/criteria.md`) found that A2's "no council-level error"
+came from Reform's small 2023 share; at a large-party error level, MDE80 =
+0.72 pp, under the 1.0 pp gate. The ward-level strand stays closed
+(`ward_coverage_v1`, R1 = 9.9%). What changes from section 6:
+
+- *Units:* 2025 Reform UK cold-start rows in the 23 councils of the power
+  gate. News is measured per council.
+- *News source:* one local outlet per council, chosen mechanically
+  (`forecast.h2_news_2025`, recorded in `direction1_h2/outlets.json`).
+  Articles are read **only from Wayback captures taken 1–30 April 2025**,
+  each URL from its earliest capture; live pages are never read, because an
+  article online today may have been edited after polling day. Only
+  articles **published 1–30 April 2025** count.
+- *Window:* 30–1 days before polling day, not 90–31. Statements of persons
+  nominated were published in early April, so the 90–31 window ends before
+  the candidate campaign starts. This is the reason recorded in
+  `ward_coverage_v1/criteria.md` A2, and A2 already fixed 30–1 for any
+  hypothesis designed after it.
+- *Attribution:* an article belongs to council c if it is from c's outlet
+  and its text names the council (its area name; "Durham" for County
+  Durham). It is **about Reform** if it contains "Reform UK" or "Farage".
+- *M1 (volume):* V_c = Reform articles / all articles attributed to c
+  (among the downloaded politics-slug articles).
+- *M2 (content):* M1 + S_c, the net portrayal of Reform: (favourable −
+  unfavourable) / Reform articles, from V1's revised stance layer (same
+  prompt and model, κ 0.736), run by Batches on Reform articles only.
+  Issue shares are exploratory, not in M2: with 23 councils each extra
+  feature costs power.
+- *Fitting:* M1 and M2 add β·z(feature) to M0 on Reform rows. β is fitted
+  on the other 22 councils' rows and applied to the held-out council
+  (leave-one-council-out cross-fitting), exactly as in the power
+  simulation. Section 8's gate 3 (fitting on 2021–2023 news) is dropped:
+  Reform was too small in 2021–2023 to train on.
+- *Estimand and test:* Δcontent = MAE(M1) − MAE(M2) on Reform cold-start
+  rows, with a 95% council-bootstrap CI and a one-sided bootstrap p.
+  H1 and H2 are Holm-corrected at α = 0.05. Exploratory: M1 vs M0 (news vs
+  no news), issue shares.
+- *Classifier check:* before its output is used, the stance layer's labels
+  on 40 random Reform articles are compared with a second, stronger model.
+  κ < 0.60 stops H2 (reported as a measurement failure). This is an
+  agreement audit, not human validation; it is stated as such.
+- *Budget:* US$20 cap, as in section 8.
+- *Freeze:* outlets, news features, H2 code and the H1 model are committed
+  with a hash manifest before 2025 results are fetched once.
+
+*A4 implementation note (2026-10-14, before any H2 feature was computed).*
+The URL keyword filter in `forecast.h2_news_2025` was widened after the
+first download. Reach titles truncate URLs to the headline's first few
+words, so the first list kept 1–3% of their article URLs against 3–5% of
+Newsquest's, making article counts depend on the publisher. The widened
+list (council and party-politics words) keeps 6,171 of 61,000 URLs. Outlets,
+window and features are unchanged; per-council counts from the first list
+were looked at (counts only, no stance and no 2025 result).
+
+*A4 data-sufficiency rule (2026-10-14, fixed before the widened download
+finishes; no stance computed, no 2025 result read).* After the download,
+count each council's Reform articles (`h2_news_2025 count`). If **12 or
+more of the 23 councils have fewer than 10**, each of those councils gets
+a second outlet: the next candidate in its list that has at least 100
+article captures in 1–7 April 2025 (the same rule as the first). Councils
+with no second candidate in the list get one added from the other main
+local publisher in the area, written into the code before it is probed. A
+council with no qualifying second outlet is recorded as such. If 11 or
+fewer councils fall under 10, no outlet is added. Article counts are not
+outcomes (they say nothing about how news relates to M0's errors), so
+adding data on this rule does not use any result. Fewer than 10 articles is
+the point where one misjudged article moves a council's net portrayal by
+more than 0.1.

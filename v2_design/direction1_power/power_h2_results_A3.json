@@ -1,0 +1,249 @@
+{
+  "amendment": "A3 (council-level error at a large share)",
+  "decompositions": [
+    {
+      "round": "2017-2021",
+      "party": "CON",
+      "rows": 2384,
+      "councils": 60,
+      "mean_share": 42.1,
+      "tau": 9.36,
+      "sigma": 10.81,
+      "icc": 0.428
+    },
+    {
+      "round": "2017-2021",
+      "party": "LAB",
+      "rows": 2230,
+      "councils": 60,
+      "mean_share": 25.7,
+      "tau": 7.98,
+      "sigma": 9.18,
+      "icc": 0.43
+    },
+    {
+      "round": "2017-2021",
+      "party": "LD",
+      "rows": 1919,
+      "councils": 59,
+      "mean_share": 19.7,
+      "tau": 6.32,
+      "sigma": 10.73,
+      "icc": 0.258
+    },
+    {
+      "round": "2017-2021",
+      "party": "GRN",
+      "rows": 1619,
+      "councils": 56,
+      "mean_share": 13.1,
+      "tau": 3.01,
+      "sigma": 8.17,
+      "icc": 0.119
+    },
+    {
+      "round": "2018-2022",
+      "party": "CON",
+      "rows": 2580,
+      "councils": 142,
+      "mean_share": 29.9,
+      "tau": 5.3,
+      "sigma": 9.41,
+      "icc": 0.241
+    },
+    {
+      "round": "2018-2022",
+      "party": "LAB",
+      "rows": 2528,
+      "councils": 142,
+      "mean_share": 40.9,
+      "tau": 4.34,
+      "sigma": 10.33,
+      "icc": 0.15
+    },
+    {
+      "round": "2018-2022",
+      "party": "LD",
+      "rows": 1964,
+      "councils": 134,
+      "mean_share": 20.5,
+      "tau": 4.51,
+      "sigma": 9.42,
+      "icc": 0.186
+    },
+    {
+      "round": "2018-2022",
+      "party": "GRN",
+      "rows": 1664,
+      "councils": 130,
+      "mean_share": 13.6,
+      "tau": 2.59,
+      "sigma": 8.16,
+      "icc": 0.091
+    },
+    {
+      "round": "2019-2023",
+      "party": "CON",
+      "rows": 4680,
+      "councils": 230,
+      "mean_share": 30.9,
+      "tau": 5.51,
+      "sigma": 10.92,
+      "icc": 0.203
+    },
+    {
+      "round": "2019-2023",
+      "party": "LAB",
+      "rows": 4078,
+      "councils": 230,
+      "mean_share": 33.8,
+      "tau": 5.02,
+      "sigma": 10.46,
+      "icc": 0.187
+    },
+    {
+      "round": "2019-2023",
+      "party": "LD",
+      "rows": 3300,
+      "councils": 221,
+      "mean_share": 25.2,
+      "tau": 5.47,
+      "sigma": 11.76,
+      "icc": 0.178
+    },
+    {
+      "round": "2019-2023",
+      "party": "GRN",
+      "rows": 2676,
+      "councils": 223,
+      "mean_share": 16.8,
+      "tau": 4.56,
+      "sigma": 10.61,
+      "icc": 0.156
+    },
+    {
+      "round": "2019-2023",
+      "party": "REF",
+      "rows": 401,
+      "councils": 149,
+      "mean_share": 6.8,
+      "tau": 0.0,
+      "sigma": 4.83,
+      "icc": 0.0
+    }
+  ],
+  "large_share_min_pp": 13.0,
+  "tau_used": 5.16,
+  "sigma_used": 10.395,
+  "K": 23,
+  "curve": [
+    {
+      "rho": 0.1,
+      "mean_gain_pp": -0.0379,
+      "power": 0.005
+    },
+    {
+      "rho": 0.2,
+      "mean_gain_pp": -0.0236,
+      "power": 0.003
+    },
+    {
+      "rho": 0.3,
+      "mean_gain_pp": 0.0236,
+      "power": 0.015
+    },
+    {
+      "rho": 0.4,
+      "mean_gain_pp": 0.0965,
+      "power": 0.04
+    },
+    {
+      "rho": 0.5,
+      "mean_gain_pp": 0.1768,
+      "power": 0.085
+    },
+    {
+      "rho": 0.6,
+      "mean_gain_pp": 0.2666,
+      "power": 0.212
+    },
+    {
+      "rho": 0.7,
+      "mean_gain_pp": 0.4158,
+      "power": 0.468
+    },
+    {
+      "rho": 0.8,
+      "mean_gain_pp": 0.5775,
+      "power": 0.795
+    },
+    {
+      "rho": 0.9,
+      "mean_gain_pp": 0.7249,
+      "power": 0.965
+    }
+  ],
+  "mde80": {
+    "rho": 0.9,
+    "mean_gain_pp": 0.7249,
+    "power": 0.965
+  },
+  "sensitivity_lowest_tau": {
+    "tau": 2.59,
+    "sigma": 8.16,
+    "curve": [
+      {
+        "rho": 0.1,
+        "mean_gain_pp": -0.0146,
+        "power": 0.007
+      },
+      {
+        "rho": 0.2,
+        "mean_gain_pp": -0.0102,
+        "power": 0.005
+      },
+      {
+        "rho": 0.3,
+        "mean_gain_pp": 0.0072,
+        "power": 0.01
+      },
+      {
+        "rho": 0.4,
+        "mean_gain_pp": 0.0313,
+        "power": 0.04
+      },
+      {
+        "rho": 0.5,
+        "mean_gain_pp": 0.0587,
+        "power": 0.083
+      },
+      {
+        "rho": 0.6,
+        "mean_gain_pp": 0.0882,
+        "power": 0.185
+      },
+      {
+        "rho": 0.7,
+        "mean_gain_pp": 0.1394,
+        "power": 0.365
+      },
+      {
+        "rho": 0.8,
+        "mean_gain_pp": 0.1934,
+        "power": 0.635
+      },
+      {
+        "rho": 0.9,
+        "mean_gain_pp": 0.2402,
+        "power": 0.845
+      }
+    ],
+    "mde80": {
+      "rho": 0.9,
+      "mean_gain_pp": 0.2402,
+      "power": 0.845
+    }
+  },
+  "gate_pp": 1.0,
+  "verdict": "run H2"
+}

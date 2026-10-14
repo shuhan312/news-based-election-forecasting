@@ -109,3 +109,36 @@ simulation fixed before it is run.**
 - *Reporting:* both the original and the corrected result are reported. If
   the verdicts differ, the report states that the change of verdict came
   from a post-result method correction.
+
+**A3 (2026-10-14). The council-level error is re-estimated at a large
+share; the verdict changes to "run H2". Found after the ward-coverage
+strand stopped, on training data only; no 2025 result has been read.**
+
+- *What was wrong:* A2 estimated tau² from Reform's 2019→2023 cold-start
+  errors and found 0. Reform then averaged 6.8% where it stood. A party on
+  a few per cent everywhere cannot differ much between councils, so this
+  says little about 2025, when Reform polled about 30%. A2's "2025 scale"
+  sensitivity multiplied errors by the poll ratio (×4.49), which leaves a
+  zero at zero, so it could not catch the problem. A2's findings called
+  this "the one way this conclusion could be wrong" and said it could not
+  be checked without 2025 data. That was mistaken: it can be checked on
+  training data with the parties that already have large shares.
+- *Check (`forecast.power_h2_scale`, `power_h2_results_A3.json`):* the same
+  M0 and the same decomposition, for every party and round, each round
+  predicted with the prior and γ fitted on the other two. Every party with
+  a mean share of 13% or more has clear council-level error: tau 2.6–9.4
+  pp, ICC 9–43%. Reform at 6.8% is the only zero.
+- *Corrected input:* tau and sigma are the medians over those large-share
+  party-rounds (tau 5.16, sigma 10.40 pp). The simulation, K = 23, the gate
+  and the decision rule are unchanged.
+- *Result:* MDE80 = 0.72 pp, reached at ρ = 0.9 (ρ = 0.8: 0.58 pp, power
+  0.795; ρ = 0.7: power 0.47). **MDE80 ≤ 1.0 pp, so by the rule H2 is run.**
+  At the smallest large-share tau (2.59), MDE80 = 0.24 pp, also at ρ = 0.9.
+- *Caution, as the criteria require:* power reaches 80% only if the news
+  signal correlates with M0's council errors at about 0.8–0.9. That is
+  high for news. A non-significant H2 is the likely outcome unless local
+  coverage tracks Reform's council-level over-performance closely. H2 is
+  run because it is now a fair test, not because it is expected to pass.
+- *Reporting:* A1, A2 and A3 verdicts are all reported; the change of
+  verdict is stated as coming from a post-result correction of a method
+  flaw. The H2 specification is in `direction1_design.md`, A4.

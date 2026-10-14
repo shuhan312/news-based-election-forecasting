@@ -88,6 +88,12 @@ would need a sixfold increase, and only 2025 data could show it.
 
 ## The complete news answer
 
+> **Superseded in part (2026-10-14).** The council row below rests on the
+> power gate's tau² = 0, which came from Reform's small 2023 share. Power
+> gate amendment A3 (`direction1_power/criteria.md`) re-estimated it at a
+> large-party level and reopened H2 at council level (design A4). The ward
+> row stands.
+
 | level | finding | evidence |
 |---|---|---|
 | council | **wrong resolution:** Reform cold-start error is between wards, not councils (ICC 0%) | `direction1_power` (A2) |
