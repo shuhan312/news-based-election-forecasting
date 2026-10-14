@@ -91,10 +91,95 @@ would need a sixfold increase, and only 2025 data could show it.
 | level | finding | evidence |
 |---|---|---|
 | council | **wrong resolution:** Reform cold-start error is between wards, not councils (ICC 0%) | `direction1_power` (A2) |
-| ward | **too sparse:** about two thirds of divisions get some ward-specific coverage, but it names incumbents; new minor-party candidates 4%, Reform/UKIP 0% | this file |
+| ward | **too sparse:** about two thirds of divisions get some ward-specific coverage, but it names incumbents. Kent's actual 2025 Reform candidates: 9.9% named by full name in the April 2025 campaign (18.5% on the looser rule), 1.2% named three or more times | this file, A1–A5 |
 | measurement | **sound:** the LLM reads stance (κ 0.736) and issue (κ 0.616) to V1's bar | `llm_eval_stance`, `llm_eval_issue` |
 
 The LLM can read local news accurately. In the setting where news had the
 best case to add value (a new party's cold start), local news says too
 little, at too coarse a level, for anything to be read from it. The
 limit is the news, not the model.
+
+---
+
+## Follow-up (amendments A2–A5): the decisive measurement on 2025's actual Reform slate
+
+Rules committed before each figure was computed (28c45ce, 694db78,
+8029648). Outputs: `candidate_coverage_late.json` (2021, A2/A4) and
+`reform_2025_coverage.json` (2025, A3–A5). 2025 results were never read:
+the candidate list is stripped to ballot, person id, name and party at
+read time (test-enforced).
+
+### Three numbers
+
+| measurement | with list articles | lists excluded (A4) |
+|---|---:|---:|
+| 2021 N1, main window (5 Feb – 5 Apr; before nominations) | 4.2% | — |
+| 2021 N1, late window (6 Apr – 5 May; after nominations, A2) | 41.3% | **12.6%** |
+| **2025 Kent Reform R1** (1–30 Apr 2025, A3) | 19.8% | 18.5% (any rule) / **9.9%** (full name only) |
+
+2025 details: 1,270 KentLive and KentOnline articles published in the
+window (earliest 1 April, latest 30 April; BBC Kent's 2025 URLs are not
+in the Wayback lists), 2 list articles, 81 Reform candidates, 75 of them
+new since 2021. 8 named by full name, 7 more only by surname near
+"Reform". New Reform candidates: 16% named. **Named three or more times:
+1.2% (1 of 81).**
+
+### A5 match check: 7 of 20 false, so the full-name figure decides
+
+20 matches drawn at random (seed 20261014) from those counting towards
+R1, each read for whether the article names this candidate. Article text
+stays in the gitignored data folder; only verdicts are recorded here.
+
+| # | candidate | rule | verdict | reason |
+|---:|---|---|---|---|
+| 1 | Richard Palmer | full | true | Reform councillor quoted in a Swale story |
+| 2 | Daniel Colin Taylor | surname | true | "Daniel Taylor is the Reform UK candidate" |
+| 3 | Dirk Ross | full | true | listed at a hustings (5 candidates) |
+| 4 | Chris Palmer | surname | **false** | the article's Palmer is Richard Palmer |
+| 5 | Chris Palmer | surname | **false** | the same: Richard Palmer |
+| 6 | Matthew Fraser Moat | surname | true | in a "SURNAME, First" list, which the list filter misses |
+| 7 | Babychan Thomas | surname | **false** | "Thomas" is Thomas Mallon's first name |
+| 8 | Thomas Mallon | full | true | Reform councillor, Dartford |
+| 9 | David Wimble | full | true | Reform leaflet story |
+| 10 | Paul Thomas | full | **false (doubtful)** | "Cllr Paul Thomas (Ind)" at a licensing meeting; likely a namesake |
+| 11 | David Wimble | full | true | Reform leaflet story |
+| 12 | Dirk Ross | full | true | Ashford's Reform councillor |
+| 13 | Trevor Shonk | full | true | Thanet's Reform councillor |
+| 14 | John Baker | full | true | candidate whose shop was vandalised |
+| 15 | Paul Thomas | surname | **false** | "Thomas" is Thomas Mallon again |
+| 16 | Stephen Charles Dean | surname | **false** | "Dean" is Dean Burns's first name |
+| 17 | Dirk Ross | full | true | spoke at an event for Reform |
+| 18 | Richard Palmer | full | true | Reform councillor, Sheppey car parks |
+| 19 | John Graham Finch | surname | **false** | a different Finch (David), Medway by-election |
+| 20 | Dean Edward Burns | surname | true | candidate whose campaign material was vandalised |
+
+6 of 10 surname matches are false: the surname rule mostly hits another
+person's first name or a namesake. 7 > 4 (6 > 4 even if #10 is counted
+true), so by A5 **R1 = 9.9% (full name only)**.
+
+### Pre-registered decision: stop, and the news strand closes
+
+R1 = 9.9% < 25%. It would be "stop" on every reading: 18.5% on the looser
+rule, 19.8% even with lists counted. By A2/A3 no further news angle is
+opened.
+
+The three numbers agree. Once lists are removed, local news names about
+one new minor-party candidate in eight (2021) and about one Reform
+candidate in ten (2025), even in the campaign month of Reform's breakthrough
+year. Those it does name are mostly sitting councillors who had defected
+(Ross, Shonk, Mallon, Palmer) or candidates in an incident story (leaflet,
+vandalism). Only 1 of 81 is named three or more times, so a ward-level
+feature would be zero for nearly every Reform ward.
+
+### Limitations
+
+- **Kent only.** Kent has one of the larger local news markets, so R1 is
+  if anything optimistic for other 2025 councils.
+- **Lower bound in two directions:** Wayback misses unarchived articles,
+  and BBC Kent's 2025 articles are absent. Missing articles would need to
+  raise R1 from 9.9% to 25%, an increase of about two and a half times,
+  to change the decision.
+- **Exact-name matching** misses nicknames and initials. The check shows
+  that loosening the rule adds mainly false matches, not hidden coverage.
+- A "SURNAME, First" candidate list escapes the list filter (#6). That
+  only inflates R1.

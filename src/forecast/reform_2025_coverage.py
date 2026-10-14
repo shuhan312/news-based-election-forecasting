@@ -2,8 +2,11 @@
 
     PYTHONPATH=.:src python -m forecast.reform_2025_coverage candidates
     PYTHONPATH=.:src python -m forecast.reform_2025_coverage targets
+    PYTHONPATH=.:src python -m forecast.reform_2025_coverage bound
     PYTHONPATH=.:src python -m forecast.reform_2025_coverage fetch
+    PYTHONPATH=.:src python -m forecast.reform_2025_coverage check    # window dates
     PYTHONPATH=.:src python -m forecast.reform_2025_coverage match
+    PYTHONPATH=.:src python -m forecast.reform_2025_coverage decide   # A5
 
 The decisive check for a ward-level news hypothesis. It measures the real
 population, Reform's 2025 candidates, instead of a 2021 proxy, using only
@@ -153,6 +156,109 @@ def stage_targets() -> None:
     print(f"{len(rows)} candidate URLs")
 
 
+SAMPLE_PER_OUTLET = 100
+
+
+def article_id_2025(url: str) -> int | None:
+    """Numeric article id, also reading KentOnline's old formats.
+
+    ward_coverage.article_id reads 6-9 digit ids. KentOnline's older
+    articles end in 4-5 digits ('-20201') or an 'a' plus digits
+    ('-a96968'); left unread, those ~7,400 old URLs were kept as
+    "unbounded". Their ids are far below 2025's (~322,000), so reading
+    them lets the bound drop them. The 2021 code is left unchanged so its
+    committed results stay reproducible.
+    """
+    aid = wc.article_id(url)
+    if aid is not None:
+        return aid
+    from urllib.parse import urlparse
+    m = re.search(r"-a?(\d{4,9})/?$", urlparse(url).path)
+    return int(m.group(1)) if m else None
+
+
+def stage_bound() -> None:
+    """Cut the download list with a sampled article-id lower bound.
+
+    About 24,500 URLs were captured in the window, mostly older articles
+    re-crawled; fetching them all takes over seven hours. As in 2021,
+    article ids rise with publication date. Fetch a fixed random sample of
+    100 URLs per outlet, then set the lower bound to the HIGHEST id among
+    sampled articles dated BEFORE 1 April 2025 (capped at the lowest
+    in-window id, if that is lower). No upper bound.
+
+    A first version used the lowest in-window sampled id instead. That is
+    wrong: with only a few in-window articles in the sample (KentOnline: 4
+    of 100), their lowest id is likely mid-April, which would drop early-
+    April articles. An article dated before the window is earlier than
+    every in-window article, so its id is a safe floor. stage_fetch's
+    caller checks afterwards that the earliest fetched in-window article is
+    dated at the very start of April.
+    """
+    import random
+    from concurrent.futures import ThreadPoolExecutor
+    full = DATA / "targets_full.csv"           # the unbounded list, kept
+    with full.open(encoding="utf-8") as h:
+        rows = list(csv.DictReader(h))
+    rng = random.Random(20261014)
+    sample = []
+    for target, _ in KENT_OUTLETS:
+        mine = [r for r in rows if r["outlet"] == target]
+        sample += rng.sample(mine, min(SAMPLE_PER_OUTLET, len(mine)))
+    with ThreadPoolExecutor(max_workers=wc.WORKERS) as pool:
+        list(pool.map(wc._fetch_and_cache, sample))
+    kept, report = [], {}
+    for target, _ in KENT_OUTLETS:
+        before, inside = [], []
+        for r in sample:
+            if r["outlet"] != target:
+                continue
+            a = json.loads(pilot._cache_path(r).read_text())
+            aid, d = article_id_2025(r["url"]), a.get("published_date")
+            if aid is None or not d:
+                continue
+            if date.fromisoformat(d) < PUB_START:
+                before.append(aid)
+            elif in_window(a):
+                inside.append(aid)
+        lo = max(before) if before else 0
+        if inside:
+            lo = min(lo, min(inside))
+        # URLs without a numeric id (e.g. BBC's newer /news/articles/c...
+        # format) cannot be bounded, so they are always kept and left to
+        # the publication-date filter.
+        mine = [r for r in rows if r["outlet"] == target
+                and (article_id_2025(r["url"]) is None
+                     or article_id_2025(r["url"]) >= lo)]
+        kept += mine
+        report[target] = {"sampled_before_window": len(before),
+                          "sampled_in_window": len(inside),
+                          "lower_bound": lo, "kept": len(mine)}
+    with (DATA / "targets.csv").open("w", newline="", encoding="utf-8") as h:
+        writer = csv.DictWriter(h, fieldnames=list(kept[0]))
+        writer.writeheader()
+        writer.writerows(kept)
+    print(json.dumps(report, indent=1), f"\nkept {len(kept)} of {len(rows)}")
+
+
+def check_window_start() -> None:
+    """Sanity check on dates only (no candidate matching): the earliest
+    fetched article dated in the window should be from 1-2 April. A later
+    earliest date would mean the lower bound cut early-April articles."""
+    with (DATA / "targets.csv").open(encoding="utf-8") as h:
+        rows = list(csv.DictReader(h))
+    by = {}
+    for r in rows:
+        path = pilot._cache_path(r)
+        if path.exists():
+            a = json.loads(path.read_text())
+            if in_window(a):
+                by.setdefault(r["outlet"], []).append(a["published_date"])
+    for outlet, dates in by.items():
+        print(outlet, "in-window articles", len(dates),
+              "earliest", min(dates), "latest", max(dates))
+
+
 def stage_fetch() -> None:
     from concurrent.futures import ThreadPoolExecutor
     with (DATA / "targets.csv").open(encoding="utf-8") as h:
@@ -274,6 +380,38 @@ def stage_match() -> None:
     print(json.dumps(payload, indent=2))
 
 
+# A5 outcome, entered after reading data/reform_2025/match_check_sample.json.
+# One entry per sampled match, in sample order: True = the article really
+# names this candidate; False = a different person (verdicts with reasons
+# are in coverage_findings.md). Kept in code so the decision is reproducible.
+MATCH_CHECK = [True, True, True, False, False, True, False, True, True,
+               False, True, True, True, True, False, False, True, True,
+               False, True]
+
+
+def stage_decide() -> None:
+    """Apply the A5 rule and the A1/A3 thresholds to the saved R1 figures."""
+    payload = json.loads(OUT.read_text())
+    false = MATCH_CHECK.count(False)
+    # A5: more than 4 false of 20 -> the full-name-only R1 decides.
+    use_fallback = false > 4
+    r1 = (payload["R1_full_name_only (A5 fallback)"] if use_fallback
+          else payload["R1_named_share"])
+    payload.update({
+        "match_check_false": f"{false}/{len(MATCH_CHECK)}",
+        "R1_deciding": r1,
+        "R1_deciding_rule": ("full name only (A5 fallback)" if use_fallback
+                             else "full name or surname near Reform"),
+        "decision": ("design a ward-level hypothesis" if r1 >= 0.50
+                     else "design only if a power check can pass"
+                     if r1 >= 0.25 else "stop: the news strand closes"),
+    })
+    OUT.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps(payload, indent=2))
+
+
 if __name__ == "__main__":
     {"candidates": stage_candidates, "targets": stage_targets,
-     "fetch": stage_fetch, "match": stage_match}[sys.argv[1]]()
+     "bound": stage_bound, "check": check_window_start,
+     "fetch": stage_fetch,
+     "match": stage_match, "decide": stage_decide}[sys.argv[1]]()

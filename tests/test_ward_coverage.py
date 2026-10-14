@@ -133,3 +133,11 @@ def test_excluding_lists_drops_names_seen_only_in_a_list():
     story = {"headline": "", "text": "Person Number3 opened a library."}
     counts = cc.named_counts_excluding_lists(cands, [listing, story])
     assert counts[3] == 1 and counts.get(4, 0) == 0
+
+
+def test_2025_ids_read_kentonline_old_formats():
+    from forecast.reform_2025_coverage import article_id_2025
+    assert article_id_2025("https://www.kentonline.co.uk/a/news/x-322448/") == 322448
+    assert article_id_2025("https://www.kentonline.co.uk/a/news/x-a85371/") == 85371
+    assert article_id_2025("https://www.kentonline.co.uk/a/news/x-20201/") == 20201
+    assert article_id_2025("https://www.kentonline.co.uk/whats-on/") is None

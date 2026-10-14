@@ -1,0 +1,19 @@
+{
+  "criteria": "v2_design/ward_coverage_v1/criteria.md (A3-A5)",
+  "R1_full_name_only (A5 fallback)": 0.099,
+  "match_check_sample": "data/reform_2025/match_check_sample.json",
+  "window_articles": 1270,
+  "list_articles": 2,
+  "reform_candidates": 81,
+  "R1_named_share": 0.185,
+  "named_3plus_share": 0.012,
+  "R1_including_lists_not_for_decision": 0.198,
+  "named_by_full_name": 8,
+  "named_by_surname_near_reform_only": 7,
+  "new_reform_candidates": 75,
+  "new_named_share": 0.16,
+  "decision": "stop: the news strand closes",
+  "match_check_false": "7/20",
+  "R1_deciding": 0.099,
+  "R1_deciding_rule": "full name only (A5 fallback)"
+}

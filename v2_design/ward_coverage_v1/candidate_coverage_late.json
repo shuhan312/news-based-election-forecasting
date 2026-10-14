@@ -33,5 +33,33 @@
     }
   },
   "N1": 0.413,
-  "decision": "design only if a power check can pass"
+  "decision": "design only if a power check can pass",
+  "groups_excluding_list_articles (A4)": {
+    "incumbent": {
+      "candidates": 104,
+      "named_share": 0.24,
+      "named_3plus_share": 0.048
+    },
+    "past": {
+      "candidates": 142,
+      "named_share": 0.148,
+      "named_3plus_share": 0.014
+    },
+    "new_major": {
+      "candidates": 285,
+      "named_share": 0.144,
+      "named_3plus_share": 0.021
+    },
+    "new_minor (N1)": {
+      "candidates": 143,
+      "named_share": 0.126,
+      "named_3plus_share": 0.007
+    },
+    "reform_or_ukip": {
+      "candidates": 27,
+      "named_share": 0.111,
+      "named_3plus_share": 0.0
+    }
+  },
+  "N1_excluding_list_articles": 0.126
 }
