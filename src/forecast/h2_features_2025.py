@@ -10,8 +10,10 @@ Input: the Reform articles attributed to each council by
 forecast.h2_news_2025 (published 1-30 April 2025, read from pre-polling-day
 Wayback captures). Each article is sent twice, as two separate requests:
 
-  stance    V1's revised stance layer, prompt and model unchanged
-            (llm_extraction.stance_rescue; claude-sonnet-5, kappa 0.736).
+  stance    V1's revised stance layer, prompt unchanged, run on V1's
+            Haiku arm (claude-haiku-4-5, thinking budget 4,000), which
+            passed the same human-label gate as the Sonnet arm (kappa
+            0.741 vs 0.736) at about 30% lower cost (cost policy).
             Its prompt names Surrey as the study area; it is sent verbatim
             all the same, because the validation was of this exact prompt.
   activity  the exploratory question (design A4): does the article report
@@ -44,8 +46,11 @@ DATA = news.DATA
 OUT_DIR = news.OUT_DIR
 STATE = DATA / "batch_state.json"
 OUTPUTS = DATA / "llm_outputs.json"
-MODEL = "claude-sonnet-5"            # V1's frozen classifier
-AUDIT_MODEL = "claude-opus-5-5"      # the stronger second reader (A4)
+MODEL = "claude-haiku-4-5"           # V1's validated Haiku arm (cheapest)
+AUDIT_MODEL = "claude-sonnet-5"      # V1's Sonnet arm, a stronger reader
+# Thinking settings exactly as in V1's two arms (run_d4_validation.ARMS).
+THINKING = {"claude-haiku-4-5": {"type": "enabled", "budget_tokens": 4000},
+            "claude-sonnet-5": {"type": "adaptive"}}
 AUDIT_N, AUDIT_SEED = 40, 20261014
 BUDGET_USD = 20.0
 ACTIVITY_MAX_TOKENS = 400
@@ -102,7 +107,7 @@ def _requests(arts: dict[str, dict], model: str = MODEL,
         if "stance" in which and "reform_uk" in parties:
             out.append({"custom_id": f"s_{aid}", "params": {
                 "model": model, "max_tokens": v1.MAX_TOKENS,
-                "thinking": {"type": "adaptive"},
+                "thinking": THINKING[model],
                 "system": v1.build_prompt(parties),
                 "messages": [{"role": "user", "content": user}]}})
         if "activity" in which:

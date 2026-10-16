@@ -1,0 +1,1892 @@
+{
+ "s_dfaff322878f061e9570": {
+  "value": "neither"
+ },
+ "a_f57e1ae3c7dcdb5b59b1": {
+  "value": "yes"
+ },
+ "a_a59b5eaebb935a60e63e": {
+  "value": "no"
+ },
+ "a_5c4b069a0cd100f667cc": {
+  "value": "yes"
+ },
+ "s_fa5277b30298ef677c0a": {
+  "value": "favourable"
+ },
+ "a_1df6ee298b09f02d407c": {
+  "value": "yes"
+ },
+ "a_629e01ac3ed5b80e31e7": {
+  "value": "yes"
+ },
+ "a_6bdeed97f3bdeaf5d301": {
+  "value": "yes"
+ },
+ "a_72cbdf89e7353111f607": {
+  "value": "yes"
+ },
+ "a_829ac2d832490dbc302f": {
+  "value": "no"
+ },
+ "a_b28e93407a9a9fac7f74": {
+  "value": "yes"
+ },
+ "s_4bd3e401bb63ad216bc2": {
+  "value": "neither"
+ },
+ "s_c292478eb85232e7f010": {
+  "value": "unfavourable"
+ },
+ "s_cc1153faffb3d2975378": {
+  "value": "favourable"
+ },
+ "a_fca1f05b383ad47f5dc8": {
+  "value": "no"
+ },
+ "a_665bf4001f944f7e7822": {
+  "value": "no"
+ },
+ "a_f93e17a8e46cd5527a6f": {
+  "value": "yes"
+ },
+ "s_6bd6ea6decadbee6e416": {
+  "value": "neither"
+ },
+ "s_dd21238ad8fa7620dd7a": {
+  "value": "unfavourable"
+ },
+ "s_cddfda42ae128820010a": {
+  "value": "neither"
+ },
+ "s_88315459b8d0d00f326c": {
+  "value": "favourable"
+ },
+ "a_fb83327bc8f5d17ed4f5": {
+  "value": "no"
+ },
+ "a_948ba2386bc4c11c8d82": {
+  "value": "yes"
+ },
+ "a_559c20132269ea7e24e0": {
+  "value": "yes"
+ },
+ "s_045bb2c7d748ece47268": {
+  "value": "favourable"
+ },
+ "a_ed9ba2f89a1a28fdcd99": {
+  "value": "yes"
+ },
+ "a_be7608b9bc85b137fa0f": {
+  "value": "yes"
+ },
+ "a_14f81f7e681c403cdfbb": {
+  "value": "no"
+ },
+ "a_5ea84a9cb6140bc72776": {
+  "value": "no"
+ },
+ "s_a94253f02a395695cfde": {
+  "value": "unfavourable"
+ },
+ "s_6bdeed97f3bdeaf5d301": {
+  "value": "neither"
+ },
+ "a_0564f0e195b948af82b1": {
+  "value": "no"
+ },
+ "a_a83178758e1d1c392d65": {
+  "value": "no"
+ },
+ "s_9bb8bc3d8e6f90be822c": {
+  "value": "unfavourable"
+ },
+ "s_c497b09186d7c27d4b04": {
+  "value": "neither"
+ },
+ "s_d22c96b9bafd8c922098": {
+  "value": "neither"
+ },
+ "s_65059ecdfd2d5d7bfba2": {
+  "value": "unfavourable"
+ },
+ "s_9473b70ca5094667503b": {
+  "value": "unfavourable"
+ },
+ "s_a3412cb309b8dc2cfc02": {
+  "value": "neither"
+ },
+ "a_852e7d3292e60d1a116e": {
+  "value": "no"
+ },
+ "s_4d57bebe4c3d11350f61": {
+  "value": "neither"
+ },
+ "s_35e1145ec83802c4bf7e": {
+  "value": "neither"
+ },
+ "s_e5816237d5adc4b5b03b": {
+  "value": "neither"
+ },
+ "a_b93e7311cb61058c93bf": {
+  "value": "yes"
+ },
+ "a_d200b9ec6f9a37c2f6d8": {
+  "value": "no"
+ },
+ "s_75d274a28a2cf2a7b901": {
+  "value": "favourable"
+ },
+ "s_4fac4575d62844beaf8b": {
+  "value": "neither"
+ },
+ "a_19527c7d83f2e7b2f309": {
+  "value": "yes"
+ },
+ "a_46dc68fc44767de836af": {
+  "value": "no"
+ },
+ "s_2a304d7e5819c57d1eeb": {
+  "value": "neither"
+ },
+ "a_91b94fa45c59a9361be5": {
+  "value": "no"
+ },
+ "a_1acc421621d893553b37": {
+  "value": "no"
+ },
+ "s_caf5caa985094fcb0993": {
+  "value": "neither"
+ },
+ "s_46dc68fc44767de836af": {
+  "value": "favourable"
+ },
+ "s_2e1ac46589960410306b": {
+  "value": "neither"
+ },
+ "s_7ee36c015bcd6f144374": {
+  "value": "unfavourable"
+ },
+ "s_bfb64d4018da067ac74c": {
+  "value": "neither"
+ },
+ "a_9f8fb14ba719d6d1d6cd": {
+  "value": "yes"
+ },
+ "s_580789eaa616269317d7": {
+  "value": "unfavourable"
+ },
+ "a_2992b310e1a51525bfcd": {
+  "value": "no"
+ },
+ "a_35a84b2550c761f9bd7f": {
+  "value": "yes"
+ },
+ "s_5824cc9ef71d96cbca84": {
+  "value": "unfavourable"
+ },
+ "s_d4a405cb421b7e8d383c": {
+  "value": "neither"
+ },
+ "s_0564f0e195b948af82b1": {
+  "value": "neither"
+ },
+ "a_d07761ddf014e09c05f0": {
+  "value": "yes"
+ },
+ "s_efa25fea32443919fb70": {
+  "value": "favourable"
+ },
+ "a_532b095bcd867cc87001": {
+  "value": "yes"
+ },
+ "s_354972ca36cd502b855f": {
+  "value": "unfavourable"
+ },
+ "a_a479cc1ff5b9e47ef275": {
+  "value": "no"
+ },
+ "s_644de3d10818f52e94fb": {
+  "value": "unfavourable"
+ },
+ "s_58828bb3b5941d2b9d17": {
+  "value": "neither"
+ },
+ "a_333279b5ab94bb0903c0": {
+  "value": "no"
+ },
+ "a_e7ad267cdeb33946beb6": {
+  "value": "yes"
+ },
+ "a_a8e40ceb0f3ddb24cb17": {
+  "value": "yes"
+ },
+ "s_07999ea600ed2af36582": {
+  "value": "unfavourable"
+ },
+ "a_dff4d4c4d8cb09b603d8": {
+  "value": "yes"
+ },
+ "a_58cfad9b469ce8241033": {
+  "value": "yes"
+ },
+ "a_6564c2a218826fec9898": {
+  "value": "yes"
+ },
+ "s_00de191f64919185c797": {
+  "value": "neither"
+ },
+ "s_5c4b069a0cd100f667cc": {
+  "value": "favourable"
+ },
+ "s_769502e65be068edb83b": {
+  "value": "neither"
+ },
+ "s_698ae5353b2215f0ce95": {
+  "value": "neither"
+ },
+ "s_91b94fa45c59a9361be5": {
+  "value": "neither"
+ },
+ "s_19e005b1692ccd005823": {
+  "value": "unfavourable"
+ },
+ "s_c3d8040ab3834a5e6435": {
+  "value": "unfavourable"
+ },
+ "a_053d8852c5217a950eb5": {
+  "value": "no"
+ },
+ "a_44ff7fb82eacc202efc4": {
+  "value": "yes"
+ },
+ "a_83684166d4d64cdc2421": {
+  "value": "yes"
+ },
+ "a_503d52740b14c95165d8": {
+  "value": "yes"
+ },
+ "s_f899343ada2f985f2f90": {
+  "value": "favourable"
+ },
+ "a_fa5277b30298ef677c0a": {
+  "value": "yes"
+ },
+ "s_eb05a5541d28da25c657": {
+  "value": "neither"
+ },
+ "s_b576685f53adaa7bdfc7": {
+  "value": "unfavourable"
+ },
+ "s_7a28adc32276f671f8ae": {
+  "value": "neither"
+ },
+ "a_ac452e66105d109c5fab": {
+  "value": "yes"
+ },
+ "a_0f18699dcd71eac9651f": {
+  "value": "yes"
+ },
+ "a_bd4d05382ddb7cdf8970": {
+  "value": "yes"
+ },
+ "a_f7371571b72b0b95d58b": {
+  "value": "yes"
+ },
+ "a_6c6a1051652349bc0cbd": {
+  "value": "no"
+ },
+ "a_c49298133cc980becf7b": {
+  "value": "yes"
+ },
+ "s_9997b7da63d0b45c3985": {
+  "value": "neither"
+ },
+ "s_ca9c22a47fb41b36bfc0": {
+  "value": "unfavourable"
+ },
+ "s_7b30a1ec5dab50693f6d": {
+  "value": "neither"
+ },
+ "s_0e9d427af9bd9f9deef9": {
+  "value": "favourable"
+ },
+ "a_2a82eaac64d2d1c17f0d": {
+  "value": "no"
+ },
+ "s_35a84b2550c761f9bd7f": {
+  "value": "neither"
+ },
+ "a_01d6e5b5f5ca6ab92fce": {
+  "value": "no"
+ },
+ "a_d2f2e06bd9d5a2280ca9": {
+  "value": "no"
+ },
+ "a_53440a7ff39f9816d852": {
+  "value": "no"
+ },
+ "a_96841d3fcc26defa6404": {
+  "value": "no"
+ },
+ "s_427b8672c95019bdd19c": {
+  "value": "favourable"
+ },
+ "s_973e979895da702b7213": {
+  "value": "neither"
+ },
+ "a_4d57bebe4c3d11350f61": {
+  "value": "yes"
+ },
+ "s_852e7d3292e60d1a116e": {
+  "value": "neither"
+ },
+ "a_a27cfe79fb81ca142995": {
+  "value": "yes"
+ },
+ "s_5cb7c8341b5f44fd2b99": {
+  "value": "favourable"
+ },
+ "s_503d52740b14c95165d8": {
+  "value": "neither"
+ },
+ "a_a73f776e96c732ffeb13": {
+  "value": "yes"
+ },
+ "s_8dd51c3c39db9953c2af": {
+  "value": "unfavourable"
+ },
+ "a_011079db74c777dc2e5e": {
+  "value": "no"
+ },
+ "s_2fe28774196b60004bff": {
+  "value": "neither"
+ },
+ "s_25e51247773728818d4c": {
+  "value": "favourable"
+ },
+ "a_78e39ccb8d43aa70cd2f": {
+  "value": "yes"
+ },
+ "s_15b71318d8424d8b8449": {
+  "value": "favourable"
+ },
+ "s_53440a7ff39f9816d852": {
+  "value": "neither"
+ },
+ "a_698ae5353b2215f0ce95": {
+  "value": "no"
+ },
+ "a_84ff339d7042bb91264f": {
+  "value": "no"
+ },
+ "s_7ee2d61644ac0eda7589": {
+  "value": "favourable"
+ },
+ "a_bcca04823e351d630200": {
+  "value": "yes"
+ },
+ "s_17e95e0ff9137903cdc2": {
+  "value": "favourable"
+ },
+ "s_1027a747b4b4d6c49084": {
+  "value": "favourable"
+ },
+ "s_83684166d4d64cdc2421": {
+  "value": "favourable"
+ },
+ "a_bfdfcf289e8fc549389a": {
+  "value": "yes"
+ },
+ "s_08fee1d5a7d5da555810": {
+  "value": "neither"
+ },
+ "s_d8be6afba56b4907aace": {
+  "value": "neither"
+ },
+ "s_b1e0efe1bcdfcadbf939": {
+  "value": "neither"
+ },
+ "a_f2c588206432bb0bdae5": {
+  "value": "no"
+ },
+ "s_f57e1ae3c7dcdb5b59b1": {
+  "value": "favourable"
+ },
+ "s_e7ad267cdeb33946beb6": {
+  "value": "neither"
+ },
+ "s_529acffca8f9059244c5": {
+  "value": "unfavourable"
+ },
+ "a_caf5caa985094fcb0993": {
+  "value": "no"
+ },
+ "s_ec2500aa276e2cc342d5": {
+  "value": "neither"
+ },
+ "a_803b85b1b27101a47135": {
+  "value": "yes"
+ },
+ "s_065facc90ffb2d487f8f": {
+  "value": "neither"
+ },
+ "s_11382e66a2ac7dce7b16": {
+  "value": "neither"
+ },
+ "s_14f81f7e681c403cdfbb": {
+  "value": "unfavourable"
+ },
+ "s_09dd53ee899fbf65f3b3": {
+  "value": "favourable"
+ },
+ "a_8d1e79d304e39bec0fab": {
+  "value": "yes"
+ },
+ "s_49fc493d78877e4e296a": {
+  "value": "neither"
+ },
+ "s_b28e93407a9a9fac7f74": {
+  "value": "favourable"
+ },
+ "a_781c275fb1c590d1639f": {
+  "value": "no"
+ },
+ "a_5824cc9ef71d96cbca84": {
+  "value": "yes"
+ },
+ "s_c393d72c2f092b4fbc30": {
+  "value": "neither"
+ },
+ "a_281fdcc1ec18ab529d79": {
+  "value": "no"
+ },
+ "s_f7371571b72b0b95d58b": {
+  "value": "unfavourable"
+ },
+ "s_188cce2c5e6b561823fd": {
+  "value": "favourable"
+ },
+ "a_3dbd9c43ade04b305a9a": {
+  "value": "yes"
+ },
+ "a_f899343ada2f985f2f90": {
+  "value": "yes"
+ },
+ "a_16c68749f35c792e33fc": {
+  "value": "yes"
+ },
+ "a_e6c0e73cd9f160957ae1": {
+  "value": "yes"
+ },
+ "s_9cf7a5775ffb3deb3b79": {
+  "value": "neither"
+ },
+ "a_5796035b5d8fd545aa59": {
+  "value": "no"
+ },
+ "s_4de569b018110c425451": {
+  "value": "unfavourable"
+ },
+ "s_127707754cf1fbec763d": {
+  "value": "neither"
+ },
+ "a_ae597475b3d1939bbf14": {
+  "value": "yes"
+ },
+ "a_adf190585e0761f16147": {
+  "value": "yes"
+ },
+ "a_f96fea98460aa35a7b27": {
+  "value": "yes"
+ },
+ "s_a56b334879a8773faca8": {
+  "value": "neither"
+ },
+ "s_d200b9ec6f9a37c2f6d8": {
+  "value": "neither"
+ },
+ "s_5796035b5d8fd545aa59": {
+  "value": "unfavourable"
+ },
+ "s_8844e75ce84b405f831d": {
+  "value": "unfavourable"
+ },
+ "a_d86ce63258afc66efb6e": {
+  "value": "yes"
+ },
+ "s_e60bbb241d3dc7e2d316": {
+  "value": "favourable"
+ },
+ "a_7ae81da069c98ff74b3e": {
+  "value": "no"
+ },
+ "a_07999ea600ed2af36582": {
+  "value": "yes"
+ },
+ "s_9f3d5c2fd076d705ebf3": {
+  "value": "neither"
+ },
+ "a_58828bb3b5941d2b9d17": {
+  "value": "yes"
+ },
+ "a_e63ea594ce04ed8f715c": {
+  "value": "no"
+ },
+ "a_b576685f53adaa7bdfc7": {
+  "value": "no"
+ },
+ "s_5f3c67ae9347f17f57eb": {
+  "value": "neither"
+ },
+ "s_5ea84a9cb6140bc72776": {
+  "value": "neither"
+ },
+ "a_e9ed107777ef313a1900": {
+  "value": "yes"
+ },
+ "s_56f66fe91b51faa63019": {
+  "value": "neither"
+ },
+ "s_c81d70538025a1748ec8": {
+  "value": "neither"
+ },
+ "a_d06b505f6afa5d34856e": {
+  "value": "yes"
+ },
+ "a_4de569b018110c425451": {
+  "value": "yes"
+ },
+ "s_7ae81da069c98ff74b3e": {
+  "value": "neither"
+ },
+ "a_5e592ce72d6fd41a3c9c": {
+  "value": "no"
+ },
+ "a_62240a05b55abba6eae4": {
+  "value": "yes"
+ },
+ "s_72cbdf89e7353111f607": {
+  "value": "unfavourable"
+ },
+ "a_9f3d5c2fd076d705ebf3": {
+  "value": "yes"
+ },
+ "a_1247f1791a96ef18a71f": {
+  "value": "yes"
+ },
+ "s_3a461c7ab84c57852f3a": {
+  "value": "neither"
+ },
+ "a_57dba4d8d753bc270b42": {
+  "value": "no"
+ },
+ "a_4ec0fbafa01ac15ce46a": {
+  "value": "yes"
+ },
+ "a_f72ca8df35f02ca319b8": {
+  "value": "yes"
+ },
+ "s_44ff7fb82eacc202efc4": {
+  "value": "neither"
+ },
+ "s_3703719651bf8af0a00b": {
+  "value": "neither"
+ },
+ "s_829ac2d832490dbc302f": {
+  "value": "unfavourable"
+ },
+ "s_fb83327bc8f5d17ed4f5": {
+  "value": "favourable"
+ },
+ "s_c0e5930a6837a8cc0821": {
+  "value": "neither"
+ },
+ "a_15b71318d8424d8b8449": {
+  "value": "no"
+ },
+ "a_de78c8ae86743f5993e4": {
+  "value": "yes"
+ },
+ "a_cda2217d892fb4601e12": {
+  "value": "yes"
+ },
+ "a_efa25fea32443919fb70": {
+  "value": "yes"
+ },
+ "s_d07761ddf014e09c05f0": {
+  "value": "unfavourable"
+ },
+ "a_25e51247773728818d4c": {
+  "value": "yes"
+ },
+ "s_1100fc2a78f4093bf91b": {
+  "value": "neither"
+ },
+ "a_fdcaa2752ed6bd199ddd": {
+  "value": "yes"
+ },
+ "a_d519206e805847865bfc": {
+  "value": "yes"
+ },
+ "a_9997b7da63d0b45c3985": {
+  "value": "yes"
+ },
+ "a_7923be8d65dd690d1b0e": {
+  "value": "no"
+ },
+ "a_1027a747b4b4d6c49084": {
+  "value": "no"
+ },
+ "s_9745624085fb9b5d405c": {
+  "value": "neither"
+ },
+ "a_328b64d3bade8e2e7896": {
+  "value": "yes"
+ },
+ "s_35cbb91af50b97fed7f9": {
+  "value": "neither"
+ },
+ "a_d4a405cb421b7e8d383c": {
+  "value": "no"
+ },
+ "s_e6e34c5558ed59319941": {
+  "value": "unfavourable"
+ },
+ "s_aa4b3ef895569b1d80e8": {
+  "value": "unfavourable"
+ },
+ "a_4e398a1e693ba6c810ad": {
+  "value": "no"
+ },
+ "a_3630e91e4a15cfd53cb1": {
+  "value": "no"
+ },
+ "s_c3fda5325d9518b3183d": {
+  "value": "neither"
+ },
+ "s_e6c0e73cd9f160957ae1": {
+  "value": "favourable"
+ },
+ "a_1bacbf8f69206ac61f8b": {
+  "value": "no"
+ },
+ "s_19e1443ec0318da283a1": {
+  "value": "neither"
+ },
+ "a_1100fc2a78f4093bf91b": {
+  "value": "yes"
+ },
+ "a_e541b76ad7fd0cbe10e1": {
+  "value": "yes"
+ },
+ "a_09dd79b3229c7ec68bf3": {
+  "value": "yes"
+ },
+ "a_d9c3e3bdc31ef5f9a234": {
+  "value": "no"
+ },
+ "s_67a260efd7ca2c684c6e": {
+  "value": "neither"
+ },
+ "s_b93e7311cb61058c93bf": {
+  "value": "neither"
+ },
+ "a_57ab38b7bf19fa0973c4": {
+  "value": "no"
+ },
+ "a_62f93a1d8678b169d565": {
+  "value": "yes"
+ },
+ "a_20174e0f1f91ac26c308": {
+  "value": "no"
+ },
+ "a_4fac4575d62844beaf8b": {
+  "value": "no"
+ },
+ "s_e92e9c0f132a7eb4a6e1": {
+  "value": "favourable"
+ },
+ "s_e8a1eae9f266d4c1e67d": {
+  "value": "neither"
+ },
+ "a_6d2d1e8fda9eb55e459f": {
+  "value": "yes"
+ },
+ "s_ac452e66105d109c5fab": {
+  "value": "unfavourable"
+ },
+ "a_65ba49a6928b207a969c": {
+  "value": "yes"
+ },
+ "s_9a8c3f1b682a3cf566fb": {
+  "value": "favourable"
+ },
+ "a_bd2dae5eca54c994dd8c": {
+  "value": "no"
+ },
+ "a_cd16c47ee9866aec97f5": {
+  "value": "no"
+ },
+ "s_915421a575ad6672e316": {
+  "value": "favourable"
+ },
+ "s_d2f2e06bd9d5a2280ca9": {
+  "value": "neither"
+ },
+ "s_01d6e5b5f5ca6ab92fce": {
+  "value": "favourable"
+ },
+ "a_16ce60a90294b2821ffd": {
+  "value": "yes"
+ },
+ "s_96841d3fcc26defa6404": {
+  "value": "neither"
+ },
+ "s_0d8be64a55fa6504d700": {
+  "value": "unfavourable"
+ },
+ "a_2d214046d4ce92961f07": {
+  "value": "yes"
+ },
+ "a_88dfd495e85ac3e49844": {
+  "value": "yes"
+ },
+ "a_13a0804df41af9791300": {
+  "value": "yes"
+ },
+ "a_2e1ac46589960410306b": {
+  "value": "yes"
+ },
+ "s_5ab44370e936878624a0": {
+  "value": "unfavourable"
+ },
+ "s_ccddd2d0b1fc6a369a7c": {
+  "value": "neither"
+ },
+ "s_16c68749f35c792e33fc": {
+  "value": "unfavourable"
+ },
+ "a_cf08a9b4b196c3156f1a": {
+  "value": "no"
+ },
+ "a_a7756667a44435125788": {
+  "value": "yes"
+ },
+ "s_57dba4d8d753bc270b42": {
+  "value": "favourable"
+ },
+ "a_80c6e73a9e95094fe709": {
+  "value": "yes"
+ },
+ "s_8593b49ade5fa84fc1a9": {
+  "value": "unfavourable"
+ },
+ "a_c3d8040ab3834a5e6435": {
+  "value": "yes"
+ },
+ "a_09dd53ee899fbf65f3b3": {
+  "value": "yes"
+ },
+ "s_d9c3e3bdc31ef5f9a234": {
+  "value": "unfavourable"
+ },
+ "s_2dedc49bc3d6c560f6fe": {
+  "value": "unfavourable"
+ },
+ "s_24fbedbc97854129a2d4": {
+  "value": "neither"
+ },
+ "s_900467699d17e5f9e292": {
+  "value": "unfavourable"
+ },
+ "s_f7232cf79c7db57ff0bc": {
+  "value": "neither"
+ },
+ "a_529acffca8f9059244c5": {
+  "value": "yes"
+ },
+ "a_6be6eca465cd4785433f": {
+  "value": "yes"
+ },
+ "a_66c5e6d386291a38b3d0": {
+  "value": "no"
+ },
+ "a_4bd3e401bb63ad216bc2": {
+  "value": "no"
+ },
+ "s_0502895d6a84d76ebe4f": {
+  "value": "favourable"
+ },
+ "a_769502e65be068edb83b": {
+  "value": "no"
+ },
+ "a_eb05a5541d28da25c657": {
+  "value": "no"
+ },
+ "s_bfdfcf289e8fc549389a": {
+  "value": "neither"
+ },
+ "s_fca1f05b383ad47f5dc8": {
+  "value": "neither"
+ },
+ "a_19e1443ec0318da283a1": {
+  "value": "no"
+ },
+ "s_bdff4c1ce8fb514dcea9": {
+  "value": "neither"
+ },
+ "s_7527260c64bfde39b41c": {
+  "value": "favourable"
+ },
+ "s_620d656f6ad389e4bfff": {
+  "value": "favourable"
+ },
+ "s_115bb9c6d3693363fa40": {
+  "value": "favourable"
+ },
+ "a_17e95e0ff9137903cdc2": {
+  "value": "yes"
+ },
+ "s_7923be8d65dd690d1b0e": {
+  "value": "unfavourable"
+ },
+ "s_be7608b9bc85b137fa0f": {
+  "value": "favourable"
+ },
+ "s_b0b35b009485ead39762": {
+  "value": "unfavourable"
+ },
+ "a_0b07e97326616fd87fdf": {
+  "value": "no"
+ },
+ "a_a3412cb309b8dc2cfc02": {
+  "value": "no"
+ },
+ "a_ee06c4b0033d0cfe48d7": {
+  "value": "no"
+ },
+ "a_5643a5c3819aca0508bf": {
+  "value": "yes"
+ },
+ "a_13addc23ac32ea604fba": {
+  "value": "yes"
+ },
+ "s_d67293b43cc3797d5107": {
+  "value": "neither"
+ },
+ "a_115bb9c6d3693363fa40": {
+  "value": "no"
+ },
+ "s_1df6ee298b09f02d407c": {
+  "value": "favourable"
+ },
+ "s_f96fea98460aa35a7b27": {
+  "value": "unfavourable"
+ },
+ "s_127c4ab1dae082e2de76": {
+  "value": "favourable"
+ },
+ "a_8844e75ce84b405f831d": {
+  "value": "yes"
+ },
+ "s_66c5e6d386291a38b3d0": {
+  "value": "unfavourable"
+ },
+ "a_6ae77a0b29c8cc92d6f6": {
+  "value": "yes"
+ },
+ "a_7674490b95acfd1e1fac": {
+  "value": "no"
+ },
+ "s_155925afa3fe67334e49": {
+  "value": "unfavourable"
+ },
+ "s_7f80d48f2bed58bb6ffd": {
+  "value": "unfavourable"
+ },
+ "a_9c4e219297178d1ec460": {
+  "value": "yes"
+ },
+ "a_411d4d7d198ecb332b40": {
+  "value": "no"
+ },
+ "a_67a260efd7ca2c684c6e": {
+  "value": "no"
+ },
+ "s_281fdcc1ec18ab529d79": {
+  "value": "neither"
+ },
+ "s_7674490b95acfd1e1fac": {
+  "value": "favourable"
+ },
+ "a_faafe886bf33eba08933": {
+  "value": "yes"
+ },
+ "s_25d556bfa4281f6b5edc": {
+  "value": "unfavourable"
+ },
+ "s_e9ed107777ef313a1900": {
+  "value": "neither"
+ },
+ "a_95c8d28bfccc45a45f8f": {
+  "value": "yes"
+ },
+ "a_24fbedbc97854129a2d4": {
+  "value": "no"
+ },
+ "s_ae597475b3d1939bbf14": {
+  "value": "favourable"
+ },
+ "a_620d656f6ad389e4bfff": {
+  "value": "yes"
+ },
+ "s_5643a5c3819aca0508bf": {
+  "value": "unfavourable"
+ },
+ "a_ba1d41dc40e559246b47": {
+  "value": "no"
+ },
+ "s_1b5c24560d7d94cfb00b": {
+  "value": "favourable"
+ },
+ "a_7ed44c2ecfc4713d962d": {
+  "value": "yes"
+ },
+ "s_ed9ba2f89a1a28fdcd99": {
+  "value": "favourable"
+ },
+ "a_351a3b37bf4b44b9564b": {
+  "value": "yes"
+ },
+ "a_c497b09186d7c27d4b04": {
+  "value": "no"
+ },
+ "a_ec70e438f04d999b8441": {
+  "value": "yes"
+ },
+ "s_fdcaa2752ed6bd199ddd": {
+  "value": "favourable"
+ },
+ "s_559c20132269ea7e24e0": {
+  "value": "neither"
+ },
+ "s_7ffe6500687ea3631176": {
+  "value": "unfavourable"
+ },
+ "a_6e296f8db01c670492b2": {
+  "value": "no"
+ },
+ "a_e6eb86319a02df442015": {
+  "value": "yes"
+ },
+ "a_354972ca36cd502b855f": {
+  "value": "no"
+ },
+ "s_4e52d08cecd71eddbcc1": {
+  "value": "favourable"
+ },
+ "a_427b8672c95019bdd19c": {
+  "value": "yes"
+ },
+ "a_ca9c22a47fb41b36bfc0": {
+  "value": "yes"
+ },
+ "s_a293399bed2aee41d58d": {
+  "value": "unfavourable"
+ },
+ "a_7527260c64bfde39b41c": {
+  "value": "yes"
+ },
+ "s_ba1d41dc40e559246b47": {
+  "value": "neither"
+ },
+ "s_c49298133cc980becf7b": {
+  "value": "unfavourable"
+ },
+ "a_aa810b085097b6a79058": {
+  "value": "yes"
+ },
+ "a_f0416ee6a91a8817ae94": {
+  "value": "yes"
+ },
+ "a_6bd6ea6decadbee6e416": {
+  "value": "no"
+ },
+ "s_328b64d3bade8e2e7896": {
+  "value": "favourable"
+ },
+ "a_1387e2733d3f302567c8": {
+  "value": "no"
+ },
+ "a_35cbb91af50b97fed7f9": {
+  "value": "no"
+ },
+ "s_adf190585e0761f16147": {
+  "value": "unfavourable"
+ },
+ "s_dff4d4c4d8cb09b603d8": {
+  "value": "unfavourable"
+ },
+ "s_3630e91e4a15cfd53cb1": {
+  "value": "neither"
+ },
+ "a_a306f3e4b6d2df230c84": {
+  "value": "yes"
+ },
+ "s_df6b6dfeed7cdf7aff43": {
+  "value": "neither"
+ },
+ "a_dd21238ad8fa7620dd7a": {
+  "value": "no"
+ },
+ "a_a14bfc1c487950aec10a": {
+  "value": "no"
+ },
+ "s_bcca04823e351d630200": {
+  "value": "neither"
+ },
+ "a_d4ae98efc977e9f18048": {
+  "value": "no"
+ },
+ "s_aa810b085097b6a79058": {
+  "value": "unfavourable"
+ },
+ "s_ec70e438f04d999b8441": {
+  "value": "favourable"
+ },
+ "s_9c4e219297178d1ec460": {
+  "value": "neither"
+ },
+ "s_3fdc58b1adee4507b112": {
+  "value": "favourable"
+ },
+ "a_ad7ef90fa5e4ba9739e2": {
+  "value": "no"
+ },
+ "s_a27cfe79fb81ca142995": {
+  "value": "unfavourable"
+ },
+ "a_e92e9c0f132a7eb4a6e1": {
+  "value": "yes"
+ },
+ "a_49fc493d78877e4e296a": {
+  "value": "no"
+ },
+ "s_79549a2699d5d1e58f42": {
+  "value": "neither"
+ },
+ "s_2e75391292e60a1cc1b3": {
+  "value": "favourable"
+ },
+ "a_bbf15e0d8c326e9a64df": {
+  "value": "yes"
+ },
+ "a_9c21fc53c4a23dada9f5": {
+  "value": "no"
+ },
+ "s_e69edb744bd9299ec007": {
+  "value": "neither"
+ },
+ "a_ac7eb20d54d8cf9cd008": {
+  "value": "yes"
+ },
+ "s_80c6e73a9e95094fe709": {
+  "value": "unfavourable"
+ },
+ "s_e63ea594ce04ed8f715c": {
+  "value": "neither"
+ },
+ "a_b30bfbcc34a0b9f21b81": {
+  "value": "no"
+ },
+ "s_3576a902dafbc4634bdc": {
+  "value": "unfavourable"
+ },
+ "s_6e5b4a46fb55908991a8": {
+  "value": "unfavourable"
+ },
+ "s_a1b10f491bdf8522c0cb": {
+  "value": "neither"
+ },
+ "a_1d52afa8d1c2e4609aed": {
+  "value": "yes"
+ },
+ "s_6ef9219d46f90434c58c": {
+  "value": "favourable"
+ },
+ "a_65059ecdfd2d5d7bfba2": {
+  "value": "yes"
+ },
+ "s_dc374a24f514aa792210": {
+  "value": "unfavourable"
+ },
+ "a_57d7351a58e9e63bb8c9": {
+  "value": "yes"
+ },
+ "s_629e01ac3ed5b80e31e7": {
+  "value": "unfavourable"
+ },
+ "a_9745624085fb9b5d405c": {
+  "value": "yes"
+ },
+ "a_900467699d17e5f9e292": {
+  "value": "no"
+ },
+ "s_1bacbf8f69206ac61f8b": {
+  "value": "unfavourable"
+ },
+ "a_2e4239b27709f990d29a": {
+  "value": "yes"
+ },
+ "s_ac7eb20d54d8cf9cd008": {
+  "value": "unfavourable"
+ },
+ "s_99d93708edd7cd3ccf69": {
+  "value": "unfavourable"
+ },
+ "s_8d1e79d304e39bec0fab": {
+  "value": "neither"
+ },
+ "a_812fb0878b0d62582225": {
+  "value": "yes"
+ },
+ "a_580789eaa616269317d7": {
+  "value": "yes"
+ },
+ "a_d22c96b9bafd8c922098": {
+  "value": "yes"
+ },
+ "s_1d52afa8d1c2e4609aed": {
+  "value": "unfavourable"
+ },
+ "s_ad7ef90fa5e4ba9739e2": {
+  "value": "unfavourable"
+ },
+ "a_188cce2c5e6b561823fd": {
+  "value": "no"
+ },
+ "s_948ba2386bc4c11c8d82": {
+  "value": "unfavourable"
+ },
+ "s_a59b5eaebb935a60e63e": {
+  "value": "neither"
+ },
+ "s_8dc73e4ec818bd28a132": {
+  "value": "unfavourable"
+ },
+ "s_84ff339d7042bb91264f": {
+  "value": "neither"
+ },
+ "s_1387e2733d3f302567c8": {
+  "value": "unfavourable"
+ },
+ "a_e60bbb241d3dc7e2d316": {
+  "value": "yes"
+ },
+ "a_0aa4c588a0887f11a52c": {
+  "value": "yes"
+ },
+ "a_7ee36c015bcd6f144374": {
+  "value": "yes"
+ },
+ "a_f7232cf79c7db57ff0bc": {
+  "value": "no"
+ },
+ "s_2443919ea3adde9a4ef1": {
+  "value": "unfavourable"
+ },
+ "a_29f90d378a0892b0d328": {
+  "value": "no"
+ },
+ "s_0aa4c588a0887f11a52c": {
+  "value": "unfavourable"
+ },
+ "a_a293399bed2aee41d58d": {
+  "value": "no"
+ },
+ "a_7c1baf3f5e01db4f283b": {
+  "value": "yes"
+ },
+ "s_1a144150bbefc6734f21": {
+  "value": "favourable"
+ },
+ "a_97fa67d317d1470a600e": {
+  "value": "no"
+ },
+ "s_58cfad9b469ce8241033": {
+  "value": "favourable"
+ },
+ "a_8dc73e4ec818bd28a132": {
+  "value": "yes"
+ },
+ "s_29f90d378a0892b0d328": {
+  "value": "neither"
+ },
+ "s_cd16c47ee9866aec97f5": {
+  "value": "neither"
+ },
+ "a_ce3bba3902817c41d977": {
+  "value": "no"
+ },
+ "s_a73f776e96c732ffeb13": {
+  "value": "unfavourable"
+ },
+ "s_e6eb86319a02df442015": {
+  "value": "favourable"
+ },
+ "a_123be31784bf96fdc5d3": {
+  "value": "yes"
+ },
+ "a_8593b49ade5fa84fc1a9": {
+  "value": "yes"
+ },
+ "a_bfb64d4018da067ac74c": {
+  "value": "yes"
+ },
+ "s_65ba49a6928b207a969c": {
+  "value": "unfavourable"
+ },
+ "s_de78c8ae86743f5993e4": {
+  "value": "unfavourable"
+ },
+ "s_d519206e805847865bfc": {
+  "value": "unfavourable"
+ },
+ "s_d4ae98efc977e9f18048": {
+  "value": "favourable"
+ },
+ "a_915421a575ad6672e316": {
+  "value": "no"
+ },
+ "a_a56b334879a8773faca8": {
+  "value": "no"
+ },
+ "s_b9192ea6298383256f7d": {
+  "value": "unfavourable"
+ },
+ "s_011079db74c777dc2e5e": {
+  "value": "neither"
+ },
+ "s_88dfd495e85ac3e49844": {
+  "value": "neither"
+ },
+ "s_6564c2a218826fec9898": {
+  "value": "unfavourable"
+ },
+ "s_de5d8ce36b88d81238b3": {
+  "value": "neither"
+ },
+ "s_ea3d57fdec510c1c5728": {
+  "value": "unfavourable"
+ },
+ "s_6c6a1051652349bc0cbd": {
+  "value": "neither"
+ },
+ "a_dfaff322878f061e9570": {
+  "value": "yes"
+ },
+ "a_c292478eb85232e7f010": {
+  "value": "yes"
+ },
+ "s_813f30870cc04e4a37d1": {
+  "value": "neither"
+ },
+ "s_9c21fc53c4a23dada9f5": {
+  "value": "neither"
+ },
+ "s_16ce60a90294b2821ffd": {
+  "value": "neither"
+ },
+ "s_9245a5fdbaae81136cc0": {
+  "value": "neither"
+ },
+ "s_a537078c8591f6785a45": {
+  "value": "favourable"
+ },
+ "a_127c4ab1dae082e2de76": {
+  "value": "yes"
+ },
+ "a_3576a902dafbc4634bdc": {
+  "value": "yes"
+ },
+ "a_11382e66a2ac7dce7b16": {
+  "value": "no"
+ },
+ "s_8a4aa592e173d6a6bea6": {
+  "value": "unfavourable"
+ },
+ "a_7ee2d61644ac0eda7589": {
+  "value": "yes"
+ },
+ "a_aa4b3ef895569b1d80e8": {
+  "value": "yes"
+ },
+ "a_d0c1f11bf67b7c488991": {
+  "value": "yes"
+ },
+ "a_d95af58878345dbe4504": {
+  "value": "no"
+ },
+ "s_f93e17a8e46cd5527a6f": {
+  "value": "unfavourable"
+ },
+ "s_bd4d05382ddb7cdf8970": {
+  "value": "neither"
+ },
+ "a_fd58a07e8af8453cbfe5": {
+  "value": "no"
+ },
+ "s_faafe886bf33eba08933": {
+  "value": "favourable"
+ },
+ "a_9973d0a5c068f2a2a02d": {
+  "value": "no"
+ },
+ "s_20174e0f1f91ac26c308": {
+  "value": "neither"
+ },
+ "a_c0e5930a6837a8cc0821": {
+  "value": "no"
+ },
+ "s_9f748b5bc786d7d0ac2a": {
+  "value": "neither"
+ },
+ "s_01e8e5984e4a695c0867": {
+  "value": "neither"
+ },
+ "a_b0b35b009485ead39762": {
+  "value": "no"
+ },
+ "a_9cf7a5775ffb3deb3b79": {
+  "value": "yes"
+ },
+ "a_18052843b867f5d5b91e": {
+  "value": "yes"
+ },
+ "a_3518c5b7eae8fe14a71d": {
+  "value": "yes"
+ },
+ "a_cc1153faffb3d2975378": {
+  "value": "yes"
+ },
+ "s_b7842c39bb029ab94069": {
+  "value": "unfavourable"
+ },
+ "a_644de3d10818f52e94fb": {
+  "value": "yes"
+ },
+ "s_1acc421621d893553b37": {
+  "value": "neither"
+ },
+ "s_a306f3e4b6d2df230c84": {
+  "value": "neither"
+ },
+ "a_d8be6afba56b4907aace": {
+  "value": "yes"
+ },
+ "s_f2c588206432bb0bdae5": {
+  "value": "favourable"
+ },
+ "s_803b85b1b27101a47135": {
+  "value": "neither"
+ },
+ "a_1b5c24560d7d94cfb00b": {
+  "value": "yes"
+ },
+ "s_bbf15e0d8c326e9a64df": {
+  "value": "favourable"
+ },
+ "s_1247f1791a96ef18a71f": {
+  "value": "neither"
+ },
+ "a_dc374a24f514aa792210": {
+  "value": "yes"
+ },
+ "s_a7756667a44435125788": {
+  "value": "neither"
+ },
+ "s_ce3bba3902817c41d977": {
+  "value": "neither"
+ },
+ "s_09dd79b3229c7ec68bf3": {
+  "value": "neither"
+ },
+ "s_13addc23ac32ea604fba": {
+  "value": "neither"
+ },
+ "a_01e8e5984e4a695c0867": {
+  "value": "no"
+ },
+ "s_812fb0878b0d62582225": {
+  "value": "unfavourable"
+ },
+ "a_0ee2381e96be80c61ada": {
+  "value": "no"
+ },
+ "a_9473b70ca5094667503b": {
+  "value": "yes"
+ },
+ "s_7640a5e5273d416db093": {
+  "value": "unfavourable"
+ },
+ "s_78e39ccb8d43aa70cd2f": {
+  "value": "favourable"
+ },
+ "a_2dedc49bc3d6c560f6fe": {
+  "value": "yes"
+ },
+ "a_c3fda5325d9518b3183d": {
+  "value": "no"
+ },
+ "a_5f3c67ae9347f17f57eb": {
+  "value": "no"
+ },
+ "s_95c8d28bfccc45a45f8f": {
+  "value": "favourable"
+ },
+ "s_19527c7d83f2e7b2f309": {
+  "value": "favourable"
+ },
+ "a_6ef9219d46f90434c58c": {
+  "value": "yes"
+ },
+ "a_813f30870cc04e4a37d1": {
+  "value": "no"
+ },
+ "a_50e8ce3833b1db6af5ae": {
+  "value": "yes"
+ },
+ "a_2443919ea3adde9a4ef1": {
+  "value": "no"
+ },
+ "a_247f3c2fdf8644a05803": {
+  "value": "no"
+ },
+ "s_62f93a1d8678b169d565": {
+  "value": "favourable"
+ },
+ "s_4ec0fbafa01ac15ce46a": {
+  "value": "favourable"
+ },
+ "s_f0416ee6a91a8817ae94": {
+  "value": "unfavourable"
+ },
+ "a_0502895d6a84d76ebe4f": {
+  "value": "yes"
+ },
+ "s_a83178758e1d1c392d65": {
+  "value": "favourable"
+ },
+ "a_8dd51c3c39db9953c2af": {
+  "value": "no"
+ },
+ "a_79549a2699d5d1e58f42": {
+  "value": "no"
+ },
+ "s_e541b76ad7fd0cbe10e1": {
+  "value": "unfavourable"
+ },
+ "a_df6b6dfeed7cdf7aff43": {
+  "value": "yes"
+ },
+ "s_2992b310e1a51525bfcd": {
+  "value": "neither"
+ },
+ "a_973e979895da702b7213": {
+  "value": "yes"
+ },
+ "a_2a304d7e5819c57d1eeb": {
+  "value": "no"
+ },
+ "a_0d3a155e035b7871b3db": {
+  "value": "yes"
+ },
+ "a_6d796633d0462d00530e": {
+  "value": "no"
+ },
+ "a_56f66fe91b51faa63019": {
+  "value": "yes"
+ },
+ "s_5b1f6f458f35640919bd": {
+  "value": "favourable"
+ },
+ "a_a94253f02a395695cfde": {
+  "value": "no"
+ },
+ "a_35e1145ec83802c4bf7e": {
+  "value": "no"
+ },
+ "s_6d2d1e8fda9eb55e459f": {
+  "value": "favourable"
+ },
+ "a_d3e64003249c49f67237": {
+  "value": "yes"
+ },
+ "s_d0c1f11bf67b7c488991": {
+  "value": "unfavourable"
+ },
+ "a_3196ee984b11ded4f548": {
+  "value": "yes"
+ },
+ "a_2c70384dc29725721d82": {
+  "value": "yes"
+ },
+ "s_0d3a155e035b7871b3db": {
+  "value": "unfavourable"
+ },
+ "a_0e9d427af9bd9f9deef9": {
+  "value": "yes"
+ },
+ "a_127707754cf1fbec763d": {
+  "value": "yes"
+ },
+ "s_853a75150e3acca768cf": {
+  "value": "neither"
+ },
+ "s_6e296f8db01c670492b2": {
+  "value": "favourable"
+ },
+ "a_08fee1d5a7d5da555810": {
+  "value": "no"
+ },
+ "a_3fdc58b1adee4507b112": {
+  "value": "yes"
+ },
+ "a_9a8c3f1b682a3cf566fb": {
+  "value": "yes"
+ },
+ "s_053d8852c5217a950eb5": {
+  "value": "favourable"
+ },
+ "s_3dbd9c43ade04b305a9a": {
+  "value": "unfavourable"
+ },
+ "a_aeb592476c56fe3acbb6": {
+  "value": "no"
+ },
+ "a_9f748b5bc786d7d0ac2a": {
+  "value": "yes"
+ },
+ "a_ce3f5cd3a805a19c12aa": {
+  "value": "yes"
+ },
+ "a_3a461c7ab84c57852f3a": {
+  "value": "yes"
+ },
+ "a_e5816237d5adc4b5b03b": {
+  "value": "yes"
+ },
+ "s_9973d0a5c068f2a2a02d": {
+  "value": "favourable"
+ },
+ "a_7a28adc32276f671f8ae": {
+  "value": "yes"
+ },
+ "s_7c0a74b3c23e0fa41b29": {
+  "value": "favourable"
+ },
+ "a_7b30a1ec5dab50693f6d": {
+  "value": "yes"
+ },
+ "a_25d556bfa4281f6b5edc": {
+  "value": "no"
+ },
+ "a_8a4aa592e173d6a6bea6": {
+  "value": "no"
+ },
+ "a_75d274a28a2cf2a7b901": {
+  "value": "yes"
+ },
+ "a_bdff4c1ce8fb514dcea9": {
+  "value": "no"
+ },
+ "a_853a75150e3acca768cf": {
+  "value": "no"
+ },
+ "s_2e4239b27709f990d29a": {
+  "value": "favourable"
+ },
+ "a_e8a1eae9f266d4c1e67d": {
+  "value": "yes"
+ },
+ "a_ec2500aa276e2cc342d5": {
+  "value": "no"
+ },
+ "s_6ae77a0b29c8cc92d6f6": {
+  "value": "neither"
+ },
+ "s_62240a05b55abba6eae4": {
+  "value": "unfavourable"
+ },
+ "a_00de191f64919185c797": {
+  "value": "no"
+ },
+ "s_0f18699dcd71eac9651f": {
+  "value": "favourable"
+ },
+ "s_6d796633d0462d00530e": {
+  "value": "unfavourable"
+ },
+ "s_411d4d7d198ecb332b40": {
+  "value": "neither"
+ },
+ "a_9a824ee1f362cbec7ac6": {
+  "value": "yes"
+ },
+ "a_7f80d48f2bed58bb6ffd": {
+  "value": "yes"
+ },
+ "a_065facc90ffb2d487f8f": {
+  "value": "yes"
+ },
+ "s_2a82eaac64d2d1c17f0d": {
+  "value": "neither"
+ },
+ "s_18052843b867f5d5b91e": {
+  "value": "neither"
+ },
+ "s_fd58a07e8af8453cbfe5": {
+  "value": "neither"
+ },
+ "a_b7842c39bb029ab94069": {
+  "value": "no"
+ },
+ "a_c393d72c2f092b4fbc30": {
+  "value": "no"
+ },
+ "a_e69edb744bd9299ec007": {
+  "value": "no"
+ },
+ "a_1a144150bbefc6734f21": {
+  "value": "no"
+ },
+ "s_b30bfbcc34a0b9f21b81": {
+  "value": "unfavourable"
+ },
+ "s_7c1dfe811e59c4d5823b": {
+  "value": "favourable"
+ },
+ "a_a1b10f491bdf8522c0cb": {
+  "value": "no"
+ },
+ "a_2fe28774196b60004bff": {
+  "value": "yes"
+ },
+ "a_5ab44370e936878624a0": {
+  "value": "yes"
+ },
+ "s_13a0804df41af9791300": {
+  "value": "neither"
+ },
+ "a_73119433b021dfa5bfd1": {
+  "value": "no"
+ },
+ "a_6e5b4a46fb55908991a8": {
+  "value": "no"
+ },
+ "s_a14bfc1c487950aec10a": {
+  "value": "unfavourable"
+ },
+ "s_0ee2381e96be80c61ada": {
+  "value": "unfavourable"
+ },
+ "a_ccddd2d0b1fc6a369a7c": {
+  "value": "yes"
+ },
+ "s_e32710a447b62b8f4257": {
+  "value": "favourable"
+ },
+ "a_b9192ea6298383256f7d": {
+  "value": "yes"
+ },
+ "a_e32710a447b62b8f4257": {
+  "value": "yes"
+ },
+ "s_a8e40ceb0f3ddb24cb17": {
+  "value": "favourable"
+ },
+ "s_5e592ce72d6fd41a3c9c": {
+  "value": "neither"
+ },
+ "a_045bb2c7d748ece47268": {
+  "value": "yes"
+ },
+ "a_0d8be64a55fa6504d700": {
+  "value": "yes"
+ },
+ "s_cf08a9b4b196c3156f1a": {
+  "value": "neither"
+ },
+ "a_99d93708edd7cd3ccf69": {
+  "value": "yes"
+ },
+ "s_0b07e97326616fd87fdf": {
+  "value": "neither"
+ },
+ "a_ea3d57fdec510c1c5728": {
+  "value": "yes"
+ },
+ "s_b3e82688bfce638a345f": {
+  "value": "neither"
+ },
+ "s_d3e64003249c49f67237": {
+  "value": "neither"
+ },
+ "s_9a824ee1f362cbec7ac6": {
+  "value": "favourable"
+ },
+ "s_247f3c2fdf8644a05803": {
+  "value": "unfavourable"
+ },
+ "s_bd2dae5eca54c994dd8c": {
+  "value": "neither"
+ },
+ "a_b6dbd90c34bae74dd348": {
+  "value": "yes"
+ },
+ "s_f72ca8df35f02ca319b8": {
+  "value": "unfavourable"
+ },
+ "a_9245a5fdbaae81136cc0": {
+  "value": "no"
+ },
+ "a_00349212bc38ca721973": {
+  "value": "no"
+ },
+ "s_532b095bcd867cc87001": {
+  "value": "neither"
+ },
+ "s_97fa67d317d1470a600e": {
+  "value": "favourable"
+ },
+ "a_7640a5e5273d416db093": {
+  "value": "yes"
+ },
+ "a_5b1f6f458f35640919bd": {
+  "value": "yes"
+ },
+ "a_d70bdae7a21c29d148e0": {
+  "value": "yes"
+ },
+ "s_7ed44c2ecfc4713d962d": {
+  "value": "neither"
+ },
+ "s_cda2217d892fb4601e12": {
+  "value": "unfavourable"
+ },
+ "a_7ffe6500687ea3631176": {
+  "value": "yes"
+ },
+ "a_9bb8bc3d8e6f90be822c": {
+  "value": "yes"
+ },
+ "s_2c70384dc29725721d82": {
+  "value": "unfavourable"
+ },
+ "a_155925afa3fe67334e49": {
+  "value": "no"
+ },
+ "s_7c1baf3f5e01db4f283b": {
+  "value": "neither"
+ },
+ "a_3703719651bf8af0a00b": {
+  "value": "no"
+ },
+ "s_123be31784bf96fdc5d3": {
+  "value": "favourable"
+ },
+ "a_b3e82688bfce638a345f": {
+  "value": "yes"
+ },
+ "s_66294e45539df0b2ca51": {
+  "value": "favourable"
+ },
+ "a_de5d8ce36b88d81238b3": {
+  "value": "no"
+ },
+ "a_7c0a74b3c23e0fa41b29": {
+  "value": "yes"
+ },
+ "s_aeb592476c56fe3acbb6": {
+  "value": "unfavourable"
+ },
+ "s_d86ce63258afc66efb6e": {
+  "value": "unfavourable"
+ },
+ "s_665bf4001f944f7e7822": {
+  "value": "neither"
+ },
+ "s_333279b5ab94bb0903c0": {
+  "value": "unfavourable"
+ },
+ "s_a479cc1ff5b9e47ef275": {
+  "value": "neither"
+ },
+ "s_57ab38b7bf19fa0973c4": {
+  "value": "neither"
+ },
+ "a_66294e45539df0b2ca51": {
+  "value": "yes"
+ },
+ "a_2e75391292e60a1cc1b3": {
+  "value": "no"
+ },
+ "a_a537078c8591f6785a45": {
+  "value": "yes"
+ },
+ "s_73119433b021dfa5bfd1": {
+  "value": "unfavourable"
+ },
+ "s_57d7351a58e9e63bb8c9": {
+  "value": "unfavourable"
+ },
+ "a_4e52d08cecd71eddbcc1": {
+  "value": "no"
+ },
+ "s_9f8fb14ba719d6d1d6cd": {
+  "value": "unfavourable"
+ },
+ "s_d06b505f6afa5d34856e": {
+  "value": "unfavourable"
+ },
+ "a_5cb7c8341b5f44fd2b99": {
+  "value": "yes"
+ },
+ "a_19e005b1692ccd005823": {
+  "value": "yes"
+ },
+ "a_e6e34c5558ed59319941": {
+  "value": "yes"
+ },
+ "a_88315459b8d0d00f326c": {
+  "value": "yes"
+ },
+ "a_c81d70538025a1748ec8": {
+  "value": "no"
+ },
+ "a_d67293b43cc3797d5107": {
+  "value": "no"
+ },
+ "s_d70bdae7a21c29d148e0": {
+  "value": "favourable"
+ },
+ "a_546282cc20d72f2eb12b": {
+  "value": "yes"
+ },
+ "s_3518c5b7eae8fe14a71d": {
+  "value": "unfavourable"
+ },
+ "a_cddfda42ae128820010a": {
+  "value": "no"
+ },
+ "s_b6dbd90c34bae74dd348": {
+  "value": "neither"
+ },
+ "a_b1e0efe1bcdfcadbf939": {
+  "value": "no"
+ },
+ "a_7c1dfe811e59c4d5823b": {
+  "value": "yes"
+ }
+}

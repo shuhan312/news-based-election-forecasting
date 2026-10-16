@@ -337,3 +337,12 @@ out, so it is listed by town section as in `outlet_pilot_v1`. Result
 (`direction1_h2/coverage_counts.json`): 326 Reform articles, median 13 per
 council (was 9); 9 councils under 10 (was 15), 1 under 5 (Warwickshire, 3).
 No further outlet is added.
+
+*A4 classifier arm (2026-10-16, before any article is sent).* Under the
+cost policy, S_c uses V1's **Haiku arm** of the revised stance layer
+(claude-haiku-4-5, thinking budget 4,000, prompt unchanged) instead of the
+Sonnet arm. Both arms passed the same gate on the same human labels (Haiku
+kappa 0.741, Sonnet 0.736; Sonnet vs Haiku 0.848, Reform UK 11/11), and
+V1's actual Batches cost was US$0.0043 per article against US$0.0062. The
+exploratory activity question also runs on Haiku. The A4 agreement audit
+uses the Sonnet arm as the stronger second reader.

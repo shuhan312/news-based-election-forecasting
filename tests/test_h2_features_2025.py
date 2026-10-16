@@ -13,7 +13,9 @@ def test_stance_request_is_v1_prompt_verbatim():
     stance = next(r for r in reqs if r["custom_id"] == "s_a1")
     parties = v1.parties_present(ART["headline"], ART["text"])
     assert stance["params"]["system"] == v1.build_prompt(parties)
-    assert stance["params"]["model"] == "claude-sonnet-5"
+    assert stance["params"]["model"] == "claude-haiku-4-5"
+    assert stance["params"]["thinking"] == {"type": "enabled",
+                                            "budget_tokens": 4000}
     # the exploratory question goes in its own request
     activity = next(r for r in reqs if r["custom_id"] == "a_a1")
     assert activity["params"]["system"] == f.ACTIVITY_PROMPT
