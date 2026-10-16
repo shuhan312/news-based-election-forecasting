@@ -1,0 +1,126 @@
+{
+  "summary": {
+    "councils": 23,
+    "reform_articles_total": 236,
+    "median_per_council": 9.0,
+    "councils_under_5": 5,
+    "councils_under_10": 15
+  },
+  "per_council": {
+    "buckinghamshire": {
+      "articles": 51,
+      "reform_articles": 13,
+      "V_reform_share": 0.255
+    },
+    "cambridgeshire": {
+      "articles": 44,
+      "reform_articles": 22,
+      "V_reform_share": 0.5
+    },
+    "cornwall": {
+      "articles": 35,
+      "reform_articles": 8,
+      "V_reform_share": 0.229
+    },
+    "county-durham": {
+      "articles": 57,
+      "reform_articles": 4,
+      "V_reform_share": 0.07
+    },
+    "derbyshire": {
+      "articles": 21,
+      "reform_articles": 5,
+      "V_reform_share": 0.238
+    },
+    "devon": {
+      "articles": 14,
+      "reform_articles": 3,
+      "V_reform_share": 0.214
+    },
+    "doncaster": {
+      "articles": 100,
+      "reform_articles": 31,
+      "V_reform_share": 0.31
+    },
+    "gloucestershire": {
+      "articles": 21,
+      "reform_articles": 12,
+      "V_reform_share": 0.571
+    },
+    "hertfordshire": {
+      "articles": 33,
+      "reform_articles": 4,
+      "V_reform_share": 0.121
+    },
+    "kent": {
+      "articles": 38,
+      "reform_articles": 9,
+      "V_reform_share": 0.237
+    },
+    "lancashire": {
+      "articles": 55,
+      "reform_articles": 15,
+      "V_reform_share": 0.273
+    },
+    "leicestershire": {
+      "articles": 20,
+      "reform_articles": 7,
+      "V_reform_share": 0.35
+    },
+    "lincolnshire": {
+      "articles": 25,
+      "reform_articles": 13,
+      "V_reform_share": 0.52
+    },
+    "north-northamptonshire": {
+      "articles": 3,
+      "reform_articles": 2,
+      "V_reform_share": 0.667
+    },
+    "northumberland": {
+      "articles": 39,
+      "reform_articles": 13,
+      "V_reform_share": 0.333
+    },
+    "nottinghamshire": {
+      "articles": 31,
+      "reform_articles": 6,
+      "V_reform_share": 0.194
+    },
+    "oxfordshire": {
+      "articles": 72,
+      "reform_articles": 24,
+      "V_reform_share": 0.333
+    },
+    "shropshire": {
+      "articles": 121,
+      "reform_articles": 9,
+      "V_reform_share": 0.074
+    },
+    "staffordshire": {
+      "articles": 26,
+      "reform_articles": 7,
+      "V_reform_share": 0.269
+    },
+    "warwickshire": {
+      "articles": 16,
+      "reform_articles": 3,
+      "V_reform_share": 0.188
+    },
+    "west-northamptonshire": {
+      "articles": 33,
+      "reform_articles": 9,
+      "V_reform_share": 0.273
+    },
+    "wiltshire": {
+      "articles": 51,
+      "reform_articles": 9,
+      "V_reform_share": 0.176
+    },
+    "worcestershire": {
+      "articles": 27,
+      "reform_articles": 8,
+      "V_reform_share": 0.296
+    }
+  }
+}

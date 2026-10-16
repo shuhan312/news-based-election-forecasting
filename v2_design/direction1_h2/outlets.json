@@ -1,0 +1,190 @@
+{
+  "rule": "first candidate with >= 100 article captures, 2025-04-01..2025-04-07",
+  "chosen": {
+    "buckinghamshire": "bucksfreepress.co.uk/news/",
+    "cambridgeshire": "cambridge-news.co.uk/news/",
+    "cornwall": "cornwalllive.com/news/",
+    "county-durham": "chroniclelive.co.uk/news/",
+    "derbyshire": "derbytelegraph.co.uk/news/",
+    "devon": "devonlive.com/news/",
+    "doncaster": "doncasterfreepress.co.uk/news/",
+    "gloucestershire": "gloucestershirelive.co.uk/news/",
+    "hertfordshire": "watfordobserver.co.uk/news/",
+    "kent": "kentlive.news/news/",
+    "lancashire": "lancs.live/news/",
+    "leicestershire": "leicestermercury.co.uk/news/",
+    "lincolnshire": "lincolnshirelive.co.uk/news/",
+    "north-northamptonshire": "northamptonchron.co.uk/news/",
+    "northumberland": "chroniclelive.co.uk/news/",
+    "nottinghamshire": "nottinghampost.com/news/",
+    "oxfordshire": "oxfordmail.co.uk/news/",
+    "shropshire": "shropshirestar.com/news/",
+    "staffordshire": "stokesentinel.co.uk/news/",
+    "warwickshire": "coventrytelegraph.net/news/",
+    "west-northamptonshire": "northamptonchron.co.uk/news/",
+    "wiltshire": "wiltshiretimes.co.uk/news/",
+    "worcestershire": "worcesternews.co.uk/news/"
+  },
+  "probe_counts": {
+    "buckinghamshire": {
+      "bucksfreepress.co.uk/news/": 1307
+    },
+    "cambridgeshire": {
+      "cambridge-news.co.uk/news/": 1097
+    },
+    "cornwall": {
+      "cornwalllive.com/news/": 1103
+    },
+    "county-durham": {
+      "chroniclelive.co.uk/news/": 2512
+    },
+    "derbyshire": {
+      "derbytelegraph.co.uk/news/": 687
+    },
+    "devon": {
+      "devonlive.com/news/": 2349
+    },
+    "doncaster": {
+      "doncasterfreepress.co.uk/news/": 370
+    },
+    "gloucestershire": {
+      "gloucestershirelive.co.uk/news/": 1578
+    },
+    "hertfordshire": {
+      "hertfordshiremercury.co.uk/news/": 36,
+      "watfordobserver.co.uk/news/": 1097
+    },
+    "kent": {
+      "kentlive.news/news/": 420
+    },
+    "lancashire": {
+      "lancs.live/news/": 2506
+    },
+    "leicestershire": {
+      "leicestermercury.co.uk/news/": 1870
+    },
+    "lincolnshire": {
+      "lincolnshirelive.co.uk/news/": 577
+    },
+    "north-northamptonshire": {
+      "northantslive.news/news/": 30,
+      "northamptonchron.co.uk/news/": 463
+    },
+    "northumberland": {
+      "chroniclelive.co.uk/news/": 2512
+    },
+    "nottinghamshire": {
+      "nottinghampost.com/news/": 1759
+    },
+    "oxfordshire": {
+      "oxfordmail.co.uk/news/": 2403
+    },
+    "shropshire": {
+      "shropshirestar.com/news/": 1433
+    },
+    "staffordshire": {
+      "stokesentinel.co.uk/news/": 1541
+    },
+    "warwickshire": {
+      "coventrytelegraph.net/news/": 1349
+    },
+    "west-northamptonshire": {
+      "northantslive.news/news/": 30,
+      "northamptonchron.co.uk/news/": 463
+    },
+    "wiltshire": {
+      "wiltshirelive.co.uk/news/": 0,
+      "wiltshiretimes.co.uk/news/": 1295
+    },
+    "worcestershire": {
+      "worcesternews.co.uk/news/": 1373
+    }
+  },
+  "no_outlet": [],
+  "rule_triggered": true,
+  "sparse_councils": [
+    "cornwall",
+    "county-durham",
+    "derbyshire",
+    "devon",
+    "hertfordshire",
+    "kent",
+    "leicestershire",
+    "north-northamptonshire",
+    "nottinghamshire",
+    "shropshire",
+    "staffordshire",
+    "warwickshire",
+    "west-northamptonshire",
+    "wiltshire",
+    "worcestershire"
+  ],
+  "second": {
+    "cornwall": "falmouthpacket.co.uk/news/",
+    "county-durham": "thenorthernecho.co.uk/news/",
+    "derbyshire": "derbyshiretimes.co.uk/news/",
+    "devon": "exmouthjournal.co.uk/news/",
+    "hertfordshire": "hertsad.co.uk/news/",
+    "kent": "kentonline.co.uk/",
+    "north-northamptonshire": "northantstelegraph.co.uk/news/",
+    "nottinghamshire": "chad.co.uk/news/",
+    "staffordshire": "expressandstar.com/news/",
+    "wiltshire": "gazetteandherald.co.uk/news/",
+    "worcestershire": "malverngazette.co.uk/news/"
+  },
+  "second_probe_counts": {
+    "cornwall": {
+      "falmouthpacket.co.uk/news/": 1337
+    },
+    "county-durham": {
+      "thenorthernecho.co.uk/news/": 2925
+    },
+    "derbyshire": {
+      "derbyshiretimes.co.uk/news/": 424
+    },
+    "devon": {
+      "northdevongazette.co.uk/news/": 96,
+      "exmouthjournal.co.uk/news/": 149
+    },
+    "hertfordshire": {
+      "hertsad.co.uk/news/": 327
+    },
+    "kent": {
+      "kentonline.co.uk/": 826
+    },
+    "leicestershire": {
+      "harboroughmail.co.uk/news/": 90,
+      "meltontimes.co.uk/news/": 71
+    },
+    "north-northamptonshire": {
+      "northantstelegraph.co.uk/news/": 340
+    },
+    "nottinghamshire": {
+      "chad.co.uk/news/": 261
+    },
+    "shropshire": {
+      "shropshirelive.com/": 78
+    },
+    "staffordshire": {
+      "expressandstar.com/news/": 1410
+    },
+    "warwickshire": {
+      "leamingtoncourier.co.uk/news/": 0
+    },
+    "west-northamptonshire": {
+      "daventryexpress.co.uk/news/": 85
+    },
+    "wiltshire": {
+      "gazetteandherald.co.uk/news/": 1186
+    },
+    "worcestershire": {
+      "malverngazette.co.uk/news/": 1463
+    }
+  },
+  "no_second_outlet": [
+    "leicestershire",
+    "shropshire",
+    "warwickshire",
+    "west-northamptonshire"
+  ]
+}

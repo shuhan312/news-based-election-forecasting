@@ -309,3 +309,31 @@ defecting councillors and candidates in local incidents (`ward_coverage_v1`),
 local information that polls and Leave share do not carry. It also tests a
 finer text representation than V1's three-way portrayal without spending
 H2's power on it.
+
+*A4 exploratory robustness check (2026-10-15, fixed before any stance is
+computed and before any 2025 result is read).* H2's estimand is recomputed
+on the councils with at least 10 Reform articles only (same models,
+cross-fitting and bootstrap). It is exploratory: it is reported next to H2
+and cannot replace it. Why: many councils have few Reform articles, so S_c
+is noisy there; the check shows whether H2's answer depends on them.
+
+*A4 attribution diagnostic (2026-10-15, counts only).* Of 390 window
+articles in the first outlets that mention Reform UK or Farage, 231 name
+their council's area. 151 of the other 159 are national wire stories
+(Newsquest `/news/national/`, Reach `/uk-world-news/`); 8 are local but
+name another area or only "Northamptonshire". The attribution rule is kept:
+it removes national coverage that would otherwise inflate Newsquest
+councils' counts.
+
+*A4 data-sufficiency rule, outcome (2026-10-16, counts only; no stance
+computed, no 2025 result read).* With the widened URL filter and first
+outlets only, 15 councils had fewer than 10 Reform articles
+(`direction1_h2/coverage_counts_first_outlet.json`), so the rule was
+triggered. Eleven got a second outlet (`direction1_h2/outlets.json`,
+"second"); Leicestershire, Shropshire, Warwickshire and West
+Northamptonshire had no candidate with 100 probe-week captures (best: 90,
+78, 0, 85) and keep one outlet. KentOnline's whole-domain listing timed
+out, so it is listed by town section as in `outlet_pilot_v1`. Result
+(`direction1_h2/coverage_counts.json`): 326 Reform articles, median 13 per
+council (was 9); 9 councils under 10 (was 15), 1 under 5 (Warwickshire, 3).
+No further outlet is added.

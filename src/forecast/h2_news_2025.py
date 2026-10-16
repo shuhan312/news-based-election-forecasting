@@ -1,6 +1,7 @@
 """H2 news collection, 2025: local coverage of Reform UK in the 23 councils.
 
     PYTHONPATH=.:src python -m forecast.h2_news_2025 probe     # pick outlets
+    PYTHONPATH=.:src python -m forecast.h2_news_2025 probe2    # A4 rule
     PYTHONPATH=.:src python -m forecast.h2_news_2025 targets   # list URLs
     PYTHONPATH=.:src python -m forecast.h2_news_2025 fetch     # download
     PYTHONPATH=.:src python -m forecast.h2_news_2025 count     # per council
@@ -95,6 +96,27 @@ CANDIDATES = {
     "worcestershire": ["worcesternews.co.uk/news/"],
 }
 
+# Data-sufficiency rule (design A4): if 12+ councils have fewer than 10
+# Reform articles, each such council gets a second outlet, the next
+# candidate in its CANDIDATES list after the first choice, then these
+# additions (the other main local publisher in the area), by the same
+# PROBE_MIN rule. Written before the second probe was run.
+SECOND_CANDIDATES = {
+    "cornwall": ["falmouthpacket.co.uk/news/"],
+    "derbyshire": ["derbyshiretimes.co.uk/news/"],
+    "devon": ["northdevongazette.co.uk/news/", "exmouthjournal.co.uk/news/"],
+    "kent": ["kentonline.co.uk/"],
+    "leicestershire": ["harboroughmail.co.uk/news/", "meltontimes.co.uk/news/"],
+    "north-northamptonshire": ["northantstelegraph.co.uk/news/"],
+    "west-northamptonshire": ["daventryexpress.co.uk/news/"],
+    "nottinghamshire": ["chad.co.uk/news/", "worksopguardian.co.uk/news/"],
+    "shropshire": ["shropshirelive.com/"],
+    "worcestershire": ["malverngazette.co.uk/news/",
+                       "redditchstandard.co.uk/news/",
+                       "bromsgroveadvertiser.co.uk/news/"],
+}
+SPARSE_UNDER, SPARSE_COUNCILS = 10, 12
+
 # Only URLs whose slug suggests politics are downloaded: fetching every
 # article from 23 outlets would take days. The same rule applies to every
 # council, so it cannot favour one. Later stages filter by article text.
@@ -117,6 +139,12 @@ def _cdx(target: str, start: date, end: date) -> list[tuple[str, str]]:
     """Article-like captures of one prefix, one week at a time, cached.
     Wayback's collapse=urlkey keeps each URL's first (earliest) capture."""
     DATA.mkdir(parents=True, exist_ok=True)
+    if target == "kentonline.co.uk/":
+        # The whole-domain query times out (CDX 504 six times running), so
+        # KentOnline is listed town section by town section, as in
+        # outlet_pilot_v1. Same outlet, same capture window.
+        return [c for section in pilot.KENTONLINE_SECTIONS
+                for c in _cdx(f"kentonline.co.uk/{section}/news/", start, end)]
     slug = re.sub(r"[^a-z0-9]+", "_", target)
     out, s = [], start
     while s <= end:
@@ -151,13 +179,55 @@ def stage_probe() -> None:
         indent=2) + "\n", encoding="utf-8")
 
 
+def stage_probe2() -> None:
+    """Apply the data-sufficiency rule to the first-outlet counts and pick
+    each sparse council's second outlet."""
+    counts = json.loads((OUT_DIR / "coverage_counts_first_outlet.json")
+                        .read_text())["per_council"]
+    sparse = sorted(c for c, t in counts.items()
+                    if t["reform_articles"] < SPARSE_UNDER)
+    meta = json.loads((OUT_DIR / "outlets.json").read_text())
+    meta["rule_triggered"] = len(sparse) >= SPARSE_COUNCILS
+    meta["sparse_councils"] = sparse
+    second, report = {}, {}
+    if meta["rule_triggered"]:
+        for council in sparse:
+            first = meta["chosen"][council]
+            options = CANDIDATES[council]
+            later = options[options.index(first) + 1:]
+            report[council] = {}
+            for target in later + SECOND_CANDIDATES.get(council, []):
+                if target == first:
+                    continue
+                n = len({u for _, u in _cdx(target, CAP_START, PROBE_END)})
+                report[council][target] = n
+                if n >= PROBE_MIN:
+                    second[council] = target
+                    break
+            print(council, report[council], "->", second.get(council),
+                  flush=True)
+    meta.update({"second": second, "second_probe_counts": report,
+                 "no_second_outlet": sorted(set(sparse) - set(second))})
+    (OUT_DIR / "outlets.json").write_text(json.dumps(meta, indent=2) + "\n",
+                                          encoding="utf-8")
+
+
+def outlets_of(council: str, meta: dict) -> list[str]:
+    """The council's outlets: the first choice, plus a second if the
+    data-sufficiency rule gave it one."""
+    return [meta["chosen"][council]] + ([meta["second"][council]]
+                                        if council in meta.get("second", {})
+                                        else [])
+
+
 def stage_targets() -> None:
     """Every politics-slug URL captured 1-30 April 2025 by a chosen outlet,
     with its earliest capture timestamp. Also records each outlet's total
     article URLs (the denominator for coverage volume)."""
-    chosen = json.loads((OUT_DIR / "outlets.json").read_text())["chosen"]
+    meta = json.loads((OUT_DIR / "outlets.json").read_text())
+    outlets = set(meta["chosen"].values()) | set(meta.get("second", {}).values())
     rows, totals, seen = [], {}, set()
-    for target in sorted(set(chosen.values())):
+    for target in sorted(outlets):
         caps = {}
         for ts, url in _cdx(target, CAP_START, CAP_END):
             norm = wc._norm_url(url)
@@ -262,11 +332,11 @@ def attribute(articles: list[dict]) -> dict[str, dict]:
     """council -> {"all": [...], "reform": [...]}: articles from the
     council's outlet whose headline + text names its area, and the subset
     mentioning Reform UK or Farage."""
-    chosen = json.loads((OUT_DIR / "outlets.json").read_text())["chosen"]
+    meta = json.loads((OUT_DIR / "outlets.json").read_text())
     out = {}
-    for council, outlet in chosen.items():
+    for council in meta["chosen"]:
         name = re.compile(r"\b" + re.escape(AREA[council]) + r"\b")
-        mine = [a for a in articles if a["outlet"] == outlet
+        mine = [a for a in articles if a["outlet"] in outlets_of(council, meta)
                 and name.search((a.get("headline") or "") + " " + a["text"])]
         out[council] = {"all": mine,
                         "reform": [a for a in mine
@@ -298,5 +368,5 @@ def stage_count() -> None:
 
 
 if __name__ == "__main__":
-    {"probe": stage_probe, "targets": stage_targets,
+    {"probe": stage_probe, "probe2": stage_probe2, "targets": stage_targets,
      "fetch": stage_fetch, "count": stage_count}[sys.argv[1]]()
