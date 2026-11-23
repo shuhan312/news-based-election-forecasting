@@ -1,36 +1,26 @@
-"""The one-time 2026 unblinding: score the frozen predictions against reality.
+"""一次性的 2026 年揭盲：将冻结的预测与真实结果比较评分。
 
-This module performs the project's terminal confirmatory step, and it is
-built so that running it can only ever mean one thing:
+本模块执行项目最终的验证性步骤，其构建方式保证运行它只可能有一种含义：
 
-1. **Integrity first.** Before a single observed value is read, every
-   frozen prediction file is re-hashed and compared against the sha256
-   manifest committed at its freeze, and the v2 protocol's embedded copy
-   of the v1 hashes is checked too. If any byte has changed since the
-   freeze, unblinding refuses to start - scoring tampered predictions
-   would be worse than not scoring at all.
-2. **One unblinding.** The output directory is refused if it exists.
-   There is no flag to override this: a second "unblinding" would be a
-   re-grading of a known answer.
-3. **No selection.** Every archived specification is scored and written.
-   The confirmatory verdicts are the two pre-declared families - the
-   combined and national arms over the six confirmed windows, under the
-   v1 primary variant and under the v2 enrichment variant - each
-   compared against its recalibrated control on overall MAE, with
-   contest-level bootstrap intervals. Everything else (local arm,
-   cumulative periods, the 2017-only replication) is scored and labelled
-   sensitivity. The renderer reports counts and lists; it never ranks,
-   never picks a best row, and prints the interpretation rule beside
-   every table.
+1. **完整性优先。** 在读取任何一个观测值之前，每个冻结的预测文件都会被
+   重新计算哈希，并与冻结时提交的 sha256 清单进行比对，v2 协议中嵌入的
+   v1 哈希副本也会被检查。如果自冻结以来有任何一个字节发生了变化，揭盲
+   就拒绝启动 —— 给被篡改过的预测评分比不评分更糟糕。
+2. **只揭盲一次。** 如果输出目录已存在，就拒绝运行。没有任何参数可以
+   覆盖这一点：第二次"揭盲"相当于对一个已知答案重新打分。
+3. **不做选择。** 每一个归档的设定都会被评分并写出。验证性结论来自两个
+   事先声明的系列 —— 在六个已确认时间窗口上的合并组和全国组，分别在 v1
+   主变体和 v2 扩充变体之下 —— 每一个都在总体 MAE 上与其重新校准的对照组
+   比较，并给出竞选单元级别的 bootstrap 区间。其他所有内容（本地组、累积
+   时间段、仅 2017 年的复现）都会被评分，并标注为敏感性分析。输出程序只
+   报告计数和列表；它从不排名，从不挑选最好的一行，并在每张表旁边打印
+   解读规则。
 
-Scoring conventions are inherited from the frozen pre-2026 experiment:
-MAE over supported candidate rows (the six party families with news
-coverage), Reform UK reported separately with its row count visible,
-contest bootstrap with the baseline bundle's own seed, and seat-level
-accuracy computed from the two-member allocations. The observed values
-come from the Stage 1 holdout file - the same file whose predicted
-columns fed the freezes; its observed columns are read here for the
-first and only time in the news layer.
+评分约定沿用自冻结的 2026 年之前的实验：在受支持的候选人行（有新闻覆盖的
+六个政党系列）上计算 MAE，英国改革党单独报告并显示其行数，使用基线模型包
+自身的随机种子进行竞选单元 bootstrap，并根据双席位分配计算席位层面的准确率。
+观测值来自第一阶段留出集文件 —— 正是其预测列输入了各次冻结的那个文件；
+它的观测列在新闻层中是第一次、也是唯一一次在这里被读取。
 """
 
 from __future__ import annotations
@@ -53,8 +43,8 @@ HOLDOUT = Path(
 )
 OUTPUT_DIR = Path("news_features/unblinding_2026_v1")
 
-# The two pre-declared confirmatory families, exactly as the frozen
-# protocols state them. Everything not matched here is sensitivity.
+# 两个事先声明的验证性系列，与冻结协议中的表述
+# 完全一致。凡是不在这里匹配到的都属于敏感性分析。
 CONFIRMATORY = {
     "v1": {"fit_variant": "pooled_2017_2021",
            "analyses": ("combined_exploratory", "national_exploratory"),
@@ -66,7 +56,7 @@ CONFIRMATORY = {
 
 
 class UnblindingRefused(RuntimeError):
-    """The preconditions for a legitimate unblinding do not hold."""
+    """合法揭盲的前提条件不成立。"""
 
 
 def _sha256(path: Path) -> str:
@@ -74,7 +64,7 @@ def _sha256(path: Path) -> str:
 
 
 def verify_freeze_integrity() -> dict:
-    """Prove the files being scored are the files that were frozen."""
+    """证明被评分的文件就是被冻结的那些文件。"""
 
     report = {}
     for name, directory in (("v1", V1_DIR), ("v2", V2_DIR)):
@@ -88,8 +78,8 @@ def verify_freeze_integrity() -> dict:
                 )
             report[f"{name}/{filename}"] = actual
 
-    # The v2 protocol embedded the v1 hashes at its own freeze; a mismatch
-    # would mean the two files were not frozen against each other.
+    # v2 协议在其自身冻结时嵌入了 v1 的哈希；如果不匹配，
+    # 就意味着这两个文件并不是相互对照着冻结的。
     v2_protocol = json.loads((V2_DIR / "frozen_protocol.json").read_text())
     v1_manifest = json.loads((V1_DIR / "sha256_manifest.json").read_text())
     chain = v2_protocol["v1_freeze"]
@@ -102,7 +92,7 @@ def verify_freeze_integrity() -> dict:
 
 
 def load_observed() -> dict[str, dict]:
-    """The first sanctioned read of 2026 outcomes in the news layer."""
+    """新闻层中第一次被许可读取 2026 年结果的地方。"""
 
     observed = {}
     with HOLDOUT.open(encoding="utf-8", newline="") as handle:
@@ -120,7 +110,7 @@ def load_observed() -> dict[str, dict]:
 
 
 def _metric_block(rows: list[dict], prediction_key: str) -> dict:
-    """MAE/RMSE over rows, in the frozen experiment's shape."""
+    """按行计算的 MAE/RMSE，形式与冻结实验相同。"""
 
     if not rows:
         return {"rows": 0}
@@ -137,7 +127,7 @@ def _metric_block(rows: list[dict], prediction_key: str) -> dict:
 
 
 def _seat_accuracy(rows: list[dict], flag_key: str) -> dict:
-    """Share of candidate rows whose elected/not-elected call was right."""
+    """当选 / 未当选判断正确的候选人行所占的比例。"""
 
     if not rows:
         return {"rows": 0}
@@ -166,7 +156,7 @@ def _bootstrap_rows(rows: list[dict], comparator_key: str) -> list[dict]:
 
 def score_specification(spec_rows: list[dict], observed: dict,
                         *, with_bootstrap: bool) -> dict:
-    """Score one (variant, analysis, period) block of prediction rows."""
+    """为一个 (variant, analysis, period) 预测行块评分。"""
 
     joined = []
     for row in spec_rows:
@@ -231,7 +221,7 @@ def _is_confirmatory(version: str, key: tuple) -> bool:
 
 
 def run_unblinding() -> dict:
-    """Verify, read outcomes once, score everything, and report by family."""
+    """核验、一次性读取结果、为所有内容评分，并按系列报告。"""
 
     if OUTPUT_DIR.exists():
         raise UnblindingRefused(
@@ -246,8 +236,8 @@ def run_unblinding() -> dict:
         {**outcome,
          "baseline_prediction": outcome["baseline_predicted_share"]}
         for outcome in observed.values()
-        # Score the baseline on the two principal 2026 elections only,
-        # the same scope every frozen prediction file covers.
+        # 只在 2026 年的两场主要选举上为基线评分，
+        # 与每个冻结预测文件覆盖的范围相同。
         if outcome["election_id"].startswith("surrey-county-council-2026")
     ]
     results["baseline_all_2026_rows"] = _metric_block(
@@ -280,7 +270,7 @@ def run_unblinding() -> dict:
 
 
 def render_findings(results: dict) -> str:
-    """Report both families in full. Counts and lists; no ranking."""
+    """完整报告两个系列。只有计数和列表；不排名。"""
 
     def family_table(version: str) -> list[str]:
         rows = [e for e in results["files"][version]

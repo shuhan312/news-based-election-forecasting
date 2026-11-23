@@ -1,38 +1,31 @@
-"""The three news-window schemes the supervisor has specified, side by side.
+"""导师指定的三种新闻时间窗口方案，并列放在一起。
 
-Three documents give three different sets of pre-election windows and they do
-not reconcile:
+三份文件给出了三套不同的选举前时间窗口，而且它们彼此无法统一：
 
-* the original email - six windows out to 180 days, plus six cumulative
-  snapshots. This is what the extraction pipeline implements today
-  (``src/llm_extraction/temporal_horizon.py``).
-* Prompt 1's covering note and Prompt 2 - three windows inside 30 days, plus
-  cumulative snapshots at 30, 7 and 1 days.
-* the desktop application specification - seven labelled periods, splitting
-  the last three days into "final 48 hours", "previous day" and "election
-  day", and requiring anything older than 30 days to be *excluded* from
-  influence features rather than merely placed in an earlier window.
+* 最初的邮件 —— 六个窗口，最远到 180 天，外加六个累积快照。这是抽取
+  流水线目前实现的方案（``src/llm_extraction/temporal_horizon.py``）。
+* Prompt 1 的附带说明和 Prompt 2 —— 30 天之内的三个窗口，外加 30 天、
+  7 天和 1 天的累积快照。
+* 桌面应用规格说明 —— 七个带标签的时间段，把最后三天拆分为"最后 48
+  小时"、"前一天"和"选举日"，并要求把超过 30 天的内容从影响力特征中
+  *排除*，而不仅仅是放进更早的窗口。
 
-The differences are not cosmetic. Under the original scheme an article
-published three days before polling sits in ``final_72_hours``; under Prompt 2
-it belongs to the "7 to 2 days" window; under the desktop spec it belongs to
-"final week". Prompt 2 also requires the windows to be strictly
-non-overlapping, so the same article cannot be placed in two of them, and
-every news feature is computed per window - which means the choice of scheme
-changes every downstream number.
+这些差异并不只是表面上的。按照最初的方案，一篇在投票前三天发布的文章
+属于 ``final_72_hours``；按照 Prompt 2，它属于"7 到 2 天"窗口；按照桌面
+规格说明，它属于"最后一周"。Prompt 2 还要求各窗口严格互不重叠，因此同一篇
+文章不能被放进其中两个窗口，而且每个新闻特征都是按窗口计算的 —— 这意味着
+方案的选择会改变下游的每一个数字。
 
-Rather than guess, all three are implemented here and the default stays the
-one already in use, so nothing changes until the question is answered. The
-comparison function exists so the difference can be shown as a table of real
-articles rather than argued about in the abstract.
+与其去猜，不如把三种方案都在这里实现，并把默认值保持为当前已在使用的
+那一种，这样在问题得到回答之前什么都不会改变。比较函数的存在，是为了能用
+一张由真实文章组成的表来展示差异，而不是抽象地争论。
 
-What this module does and does not decide
+本模块决定什么、不决定什么
 -----------------------------------------
-It decides **timing only**: how many days before polling an article was
-published, which window that puts it in under a given scheme, and whether
-timing alone disqualifies it. It does not decide relevance, geography or
-duplication - those are content judgements made elsewhere, and an article can
-be perfectly timed and still be excluded for any of them.
+它**只决定时间**：一篇文章在投票前多少天发布、在给定方案下它属于哪个窗口，
+以及仅凭时间是否就会使它失去资格。它不决定相关性、地理或重复 —— 这些是
+在别处做出的内容判断，一篇文章即使时间完全合适，也仍可能因为其中任何一项
+而被排除。
 """
 
 from __future__ import annotations
@@ -41,16 +34,16 @@ from dataclasses import dataclass
 from datetime import date, datetime, time
 from zoneinfo import ZoneInfo
 
-# The brief's default timezone and poll close. Polls in England close at
-# 22:00, and an article published on polling day before that time was
-# genuinely available to voters; one published after was not.
+# 任务说明中默认的时区和投票截止时间。英格兰的投票站在
+# 22:00 关闭，投票日当天在此之前发布的文章确实
+# 能被选民看到；在此之后发布的则不能。
 UK = ZoneInfo("Europe/London")
 POLL_CLOSE = time(22, 0)
 
-# News election identifiers carry the polling month; Stage 1 identifiers carry
-# the full election name. Mapping on the polling *date* rather than on either
-# string keeps the two naming schemes independent of each other. This is the
-# canonical home for the map; other modules import it from here.
+# 新闻选举标识符带有投票月份；第一阶段标识符带有
+# 完整的选举名称。按投票*日期*而不是按任何一个字符串
+# 建立映射，可以让两套命名方案彼此独立。这里是
+# 该映射的权威存放处；其他模块都从这里导入它。
 NEWS_ELECTION_DATES: dict[str, date] = {
     "SCC-2013-05": date(2013, 5, 2),
     "SCC-2017-05": date(2017, 5, 4),
@@ -58,10 +51,10 @@ NEWS_ELECTION_DATES: dict[str, date] = {
     "ESWS-2026-05": date(2026, 5, 7),
 }
 
-# Timing-based exclusion reasons. Prompt 2 requires an auditable reason for
-# every excluded article; these are the ones timing alone can establish.
-# Content-based reasons (irrelevant geography, low-confidence match, duplicate,
-# synthetic) are assigned elsewhere and are deliberately not invented here.
+# 基于时间的排除理由。Prompt 2 要求每一篇被排除的文章
+# 都有可审计的理由；这里列出的是仅凭时间就能确定的那些理由。
+# 基于内容的理由（地理无关、低置信度匹配、重复、
+# 合成数据）在别处指定，这里刻意不去编造。
 AFTER_POLLS_CLOSED = "after_polls_closed"
 AFTER_POLLING_DATE = "after_polling_date"
 BEFORE_COLLECTION_WINDOW = "outside_configured_news_window"
@@ -71,19 +64,18 @@ ELECTION_DAY_TIME_UNKNOWN = "election_day_publication_time_unknown"
 
 @dataclass(frozen=True)
 class WindowScheme:
-    """One document's definition of the pre-election windows.
+    """一份文件对选举前时间窗口的定义。
 
-    ``windows`` are (label, first_day, last_day) with days counted backwards
-    from polling day, both bounds inclusive, and must not overlap.
-    ``cumulative`` are (label, days) meaning "everything from 1 to N days
-    before polling", so the same article legitimately appears in several.
+    ``windows`` 是 (label, first_day, last_day) 三元组，天数从投票日往前倒数，
+    两端都包含在内，并且不得重叠。``cumulative`` 是 (label, days) 二元组，
+    表示"投票前 1 到 N 天的所有内容"，因此同一篇文章可以合理地出现在
+    多个累积快照中。
 
-    ``max_days`` is the point beyond which an article is excluded from
-    influence features rather than placed in an earlier window. The original
-    email collects 180 days and models all of them; the desktop spec is
-    explicit that anything older than 30 days "must be removed from the
-    active influence dataset". That is a substantive difference in what the
-    model is allowed to see, not a labelling one.
+    ``max_days`` 是一个界限，超过它的文章会被排除在影响力特征之外，而不是
+    被放进更早的窗口。最初的邮件收集 180 天的内容并对全部内容建模；桌面
+    规格说明则明确规定，超过 30 天的任何内容都"must be removed from the
+    active influence dataset"（必须从活跃的影响力数据集中移除）。这是
+    模型被允许看到什么内容的实质性差异，而不是标签上的差异。
     """
 
     key: str
@@ -94,7 +86,7 @@ class WindowScheme:
     includes_election_day: bool = False
 
     def validate(self) -> None:
-        """Non-overlap is a requirement, so it is checked rather than assumed."""
+        """互不重叠是一项要求，所以要检查而不是想当然。"""
 
         covered: set[int] = set()
         for label, first, last in self.windows:
@@ -110,7 +102,7 @@ class WindowScheme:
             covered |= days
 
 
-# --- the three schemes ------------------------------------------------------
+# --- 三种方案 ------------------------------------------------------
 
 ORIGINAL_EMAIL = WindowScheme(
     key="original_email_180d",
@@ -137,7 +129,7 @@ PROMPT_1_AND_2 = WindowScheme(
     source="Prompt 1 covering note and Prompt 2: '30-8 days before, 7-2 days "
            "before, final day before'",
     windows=(
-        # "The final complete day before polling day" is day 1 alone.
+        # "投票日之前最后一个完整的日子"只有第 1 天。
         ("final_day", 1, 1),
         ("7_to_2_days", 2, 7),
         ("30_to_8_days", 8, 30),
@@ -153,8 +145,8 @@ DESKTOP_SPEC = WindowScheme(
     source="desktop application specification: 'Use the following exact, "
            "non-overlapping periods relative to the target election date'",
     windows=(
-        # Election day before polls close is a period in its own right here,
-        # which neither other scheme has.
+        # 在这里，选举日投票截止之前本身就是一个独立的时间段，
+        # 另外两种方案都没有这一段。
         ("election_day", 0, 0),
         ("previous_day", 1, 1),
         ("final_48_hours", 2, 2),
@@ -174,15 +166,15 @@ SCHEMES: dict[str, WindowScheme] = {
     for scheme in (ORIGINAL_EMAIL, PROMPT_1_AND_2, DESKTOP_SPEC)
 }
 
-# The scheme the pipeline currently uses. Left as the original email's so that
-# adding this module changes no existing number; switching is a one-line edit
-# once the question is settled.
+# 流水线当前使用的方案。保持为最初邮件中的方案，这样
+# 加入本模块不会改变任何已有的数字；一旦问题得到解决，
+# 切换只需要改一行。
 DEFAULT_SCHEME = ORIGINAL_EMAIL.key
 
 
 @dataclass(frozen=True)
 class WindowAssignment:
-    """Where one article falls, and why it was or was not included."""
+    """一篇文章落在哪里，以及它为什么被纳入或未被纳入。"""
 
     days_before: int | None
     window: str | None
@@ -206,19 +198,18 @@ def days_before_polling(
     published: date,
     polling_day: date,
 ) -> int:
-    """Calendar days between publication and polling day.
+    """发布日期与投票日之间相差的日历天数。
 
-    Positive means before, zero means polling day itself, negative means
-    after. Calendar days rather than 24-hour periods, because that is how
-    every one of the three schemes is written ("30 calendar days before
-    election day").
+    正数表示在投票日之前，零表示投票日当天，负数表示在投票日之后。使用
+    日历天而不是 24 小时周期，因为三种方案全都是这样写的（"30 calendar
+    days before election day"，即选举日之前 30 个日历天）。
     """
 
     return (polling_day - published).days
 
 
 def classify_lag(days: int | None, *, scheme: str = DEFAULT_SCHEME) -> str:
-    """Classify a publication lag against the authoritative window scheme."""
+    """按照权威的时间窗口方案对发布时间差进行分类。"""
 
     if days is None:
         return "undated"
@@ -240,14 +231,12 @@ def assign(
     published_time: time | None = None,
     poll_close: time = POLL_CLOSE,
 ) -> WindowAssignment:
-    """Place one article in a window, or record why it cannot be used.
+    """把一篇文章放进某个窗口，或者记录它为什么不能被使用。
 
-    ``published_time`` matters only on polling day itself. An article dated
-    polling day with no time is *not* assumed to precede the close: the
-    desktop spec is explicit that it must not be included unless the user
-    confirms it, and assuming otherwise would let results coverage into a
-    pre-election forecast. That is the one leakage this function exists to
-    prevent.
+    ``published_time`` 只在投票日当天才有意义。一篇日期为投票日但没有时间的
+    文章，*不会*被假定为发布于投票截止之前：桌面规格说明明确规定，除非用户
+    确认，否则不得纳入这类文章，而如果作相反的假定，就会让关于选举结果的
+    报道进入一个选举前的预测。这正是本函数要防止的那一种泄漏。
     """
 
     chosen = SCHEMES[scheme]
@@ -261,7 +250,7 @@ def assign(
         return WindowAssignment(days, None, (), False, AFTER_POLLING_DATE, scheme)
 
     if days == 0:
-        # Polling day. Whether it counts depends on the scheme and the time.
+        # 投票日。它是否计入取决于方案和时间。
         if not chosen.includes_election_day:
             return WindowAssignment(days, None, (), False, AFTER_POLLS_CLOSED, scheme)
         if published_time is None:
@@ -279,8 +268,8 @@ def assign(
         None,
     )
     if window is None:
-        # Reachable only if a scheme leaves a gap in its coverage, which
-        # validate() is meant to prevent. Reported rather than guessed.
+        # 只有当某个方案的覆盖范围出现空隙时才会走到这里，
+        # 而 validate() 的作用就是防止这种情况。如实报告而不去猜测。
         return WindowAssignment(
             days, None, (), False, BEFORE_COLLECTION_WINDOW, scheme)
 
@@ -296,12 +285,11 @@ def compare_schemes(
     *,
     published_time: time | None = None,
 ) -> dict[str, dict]:
-    """The same article under all three schemes.
+    """同一篇文章在三种方案下的归属。
 
-    Written so the disagreement can be shown as a table of real articles
-    rather than argued from the definitions. Two of the schemes exclude
-    everything older than 30 days that the third models, and the last three
-    days are cut differently by all three.
+    这样写是为了能用一张由真实文章组成的表来展示分歧，而不是从定义出发
+    进行争论。其中两种方案会排除超过 30 天的所有内容，而第三种方案会对
+    这些内容建模；最后三天在三种方案中的切分方式也各不相同。
     """
 
     return {
@@ -312,7 +300,7 @@ def compare_schemes(
 
 
 def scheme_summary() -> list[dict]:
-    """A plain description of each scheme, for the report to the supervisor."""
+    """对每种方案的简明描述，用于提交给导师的报告。"""
 
     rows = []
     for scheme in SCHEMES.values():

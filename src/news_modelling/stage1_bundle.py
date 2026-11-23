@@ -1,32 +1,29 @@
-"""Load and validate the frozen Stage 1 model bundle.
+"""加载并验证冻结的第一阶段模型包。
 
-Prompt 2's first requirement: "Load and validate the model bundle produced by
+Prompt 2 的第一项要求："Load and validate the model bundle produced by
 Stage 1... The application must fail safely if the selected Stage 1 model
-bundle is incomplete or incompatible", and "Do not alter or overwrite the
-Stage 1 model bundle."
+bundle is incomplete or incompatible"（加载并验证第一阶段生成的模型包……
+如果所选的第一阶段模型包不完整或不兼容，应用必须安全地失败），以及
+"Do not alter or overwrite the Stage 1 model bundle."（不得修改或覆盖第一阶段模型包。）
 
-This module is the only route by which the news layer touches Stage 1, and it
-opens everything read-only. That is not politeness. Stage 1's out-of-fold
-predictions are the thing the residual model is measured against; if the news
-layer could write to the bundle, a disappointing news result and a quietly
-regenerated baseline would be indistinguishable afterwards.
+本模块是新闻层接触第一阶段的唯一途径，并且所有内容都以只读方式打开。
+这并不是出于礼貌。第一阶段的折外预测正是残差模型的衡量基准；如果新闻层
+能够写入模型包，那么事后就无法区分"新闻结果令人失望"和"基线被悄悄
+重新生成"这两种情况。
 
-What "compatible" means here
+这里"兼容"的含义
 ----------------------------
-Not merely "the files exist". The checks below are the ones whose failure
-would produce a news model that trains on the wrong thing while reporting
-success:
+不仅仅是"文件存在"。下面的检查都是这样一些检查：一旦它们失败，就会产生一个
+在训练错误目标的同时却报告成功的新闻模型：
 
-- **the manifest hashes still match**, so the metrics describing the bundle
-  describe the files actually being read;
-- **out-of-fold predictions exist and are unique per row**, because the
-  residual is defined per candidate and two predictions for one candidate
-  would silently pick whichever was read last;
-- **out-of-fold predictions are not in-sample fits** — Prompt 2 is explicit
-  that the news layer must train on out-of-fold predictions, and the split
-  role recorded on each row is what proves they are;
-- **Reform UK and UKIP labels are present and never both set**, which is the
-  separation requirement restated as a property of the data.
+- **清单哈希仍然匹配**，因此描述该模型包的指标描述的正是实际被读取的
+  文件；
+- **折外预测存在，并且每行唯一**，因为残差是按候选人定义的，同一位候选人
+  有两个预测时，会悄悄地选用最后读到的那一个；
+- **折外预测不是样本内拟合** —— Prompt 2 明确规定新闻层必须在折外预测上
+  训练，而每一行上记录的划分角色正是证明这一点的依据；
+- **英国改革党（Reform UK）和英国独立党（UKIP）的标签存在，且从不同时为真**，
+  这是把"两者分开"的要求重新表述为数据的一项性质。
 """
 
 from __future__ import annotations
@@ -37,8 +34,8 @@ import json
 from dataclasses import dataclass, field
 from pathlib import Path
 
-# The files Prompt 1 requires a bundle to contain. A bundle missing any of
-# them is incomplete, whatever else it holds.
+# Prompt 1 要求模型包必须包含的文件。缺少其中任何一个的模型包都是不完整的，
+# 无论它还包含了什么别的东西。
 REQUIRED_FILES: tuple[str, ...] = (
     "model.pkl", "preprocessor.pkl", "architecture.json", "feature_schema.json",
     "feature_dictionary.csv", "leakage_audit.csv", "split_manifest.csv",
@@ -47,24 +44,23 @@ REQUIRED_FILES: tuple[str, ...] = (
     "model_card.md", "requirements-lock.txt", "training_config.yaml",
 )
 
-# Out-of-fold predictions must come from rolling-origin folds. A row carrying
-# any other split role is a holdout or development prediction and must not be
-# used as a baseline for residual training.
+# 折外预测必须来自滚动起点折。带有其他任何划分角色的行
+# 都是留出集或开发阶段的预测，不得用作残差训练的
+# 基线。
 OUT_OF_FOLD_ROLE = "rolling_origin_fold"
 
 
 class BundleIncompatible(RuntimeError):
-    """The Stage 1 bundle cannot be used as a baseline.
+    """第一阶段模型包不能用作基线。
 
-    A distinct type so a caller can tell "this bundle is unusable" from "this
-    model failed to fit". The first is fixed by rebuilding Stage 1; the second
-    is not.
+    单独定义一个类型，使调用方能够区分"这个模型包不可用"和"这个模型
+    拟合失败"。前者可以通过重建第一阶段来解决；后者则不能。
     """
 
 
 @dataclass(frozen=True)
 class Stage1Bundle:
-    """A validated, read-only view of the Stage 1 bundle."""
+    """经过验证的、只读的第一阶段模型包视图。"""
 
     directory: Path
     architecture: dict
@@ -76,7 +72,7 @@ class Stage1Bundle:
     split_manifest: tuple[dict, ...]
     warnings: tuple[str, ...] = field(default=())
 
-    # -- the facts the news layer needs to display -------------------------
+    # -- 新闻层需要展示的事实 -------------------------
 
     @property
     def bundle_version(self) -> str:
@@ -95,7 +91,7 @@ class Stage1Bundle:
         return sum(1 for row in self.out_of_fold if _truthy(row.get("is_reform_uk")))
 
     def summary(self) -> dict:
-        """What Prompt 2 asks the application to display after loading."""
+        """Prompt 2 要求应用在加载之后展示的内容。"""
 
         overall = self.metrics.get("out_of_fold", {}).get("overall", {})
         holdout = self.metrics.get("primary_holdout", {}).get("overall", {})
@@ -119,9 +115,9 @@ class Stage1Bundle:
             "holdout_elections": sorted({
                 str(row["election_id"]) for row in self.holdout
             }),
-            # Carried forward rather than summarised, because a news result
-            # reported without the baseline's own limitations reads as though
-            # the baseline had none.
+            # 原样沿用而不做概括，因为一个新闻结果如果在报告时
+            # 不附带基线自身的局限性，读起来就好像
+            # 基线没有任何局限。
             "known_limitations_reference": "docs/candidate_model_card.md",
             "warnings": list(self.warnings),
         }
@@ -145,12 +141,11 @@ def load_stage1_bundle(
     *,
     verify_hashes: bool = True,
 ) -> Stage1Bundle:
-    """Read the bundle, check it, and return it. Never writes.
+    """读取模型包、检查它并返回它。从不写入。
 
-    ``verify_hashes`` compares every file against ``bundle_manifest.json``.
-    Left on by default: the manifest exists precisely so a later stage can
-    prove it loaded the bundle a set of metrics describes, and a verification
-    that is off by default is one nobody runs.
+    ``verify_hashes`` 把每个文件与 ``bundle_manifest.json`` 进行比对。
+    默认开启：清单存在的目的正是让后续阶段能够证明它加载的就是某组指标
+    所描述的那个模型包，而一项默认关闭的核验是没有人会去运行的。
     """
 
     path = Path(directory)
@@ -212,7 +207,7 @@ def load_stage1_bundle(
 
 
 def _validate_predictions(rows: tuple[dict, ...], warnings: list[str]) -> None:
-    """Check the out-of-fold table is what the residual model requires."""
+    """检查折外预测表是否符合残差模型的要求。"""
 
     if not rows:
         raise BundleIncompatible(
@@ -240,9 +235,9 @@ def _validate_predictions(rows: tuple[dict, ...], warnings: list[str]) -> None:
             "prediction is used would depend on read order."
         )
 
-    # Prompt 2: "Training uses Stage 1 out-of-fold predictions." A row from
-    # any other split role is an in-sample or holdout figure and would make
-    # the residual an artefact of the baseline having seen the row.
+    # Prompt 2："Training uses Stage 1 out-of-fold predictions."（训练使用第一阶段的折外预测。）
+    # 来自其他任何划分角色的行都是样本内或留出集的数字，会使残差
+    # 变成基线已经见过该行所造成的假象。
     wrong_role = {
         str(row.get("split_role")) for row in rows
         if str(row.get("split_role")) != OUT_OF_FOLD_ROLE

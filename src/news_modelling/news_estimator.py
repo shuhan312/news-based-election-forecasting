@@ -1,62 +1,48 @@
-"""The news-layer estimator: Approach A (residual) and Approach B (joint).
+"""新闻层估计器：方法 A（残差法）和方法 B（联合法）。
 
-Until now `src/news_modelling/` could build features, select them, and
-diagnose coverage, but nothing in it fitted a model - the central question
-of the project ("does news improve prediction of Reform UK vote share over
-an election-history baseline?") had no code that could answer it. This
-module is that code.
+在此之前，`src/news_modelling/` 能够构建特征、选择特征并诊断覆盖情况，但其中
+没有任何东西拟合模型 —— 项目的核心问题（"在选举历史基线之上，新闻能否改善对
+英国改革党得票率的预测？"）没有任何代码能够回答。本模块就是这段代码。
 
-Two approaches, per the research design
+按照研究设计的两种方法
 ---------------------------------------
-**Approach A - residual.** For each eligible historical candidate row take
-the Stage 1 out-of-fold prediction, form
+**方法 A —— 残差法。** 对每一行符合条件的历史候选人数据，取第一阶段的折外
+预测，构造
 
     residual = observed_vote_share - baseline_prediction
 
-and fit a model of that residual on news features alone. The final
-prediction is ``baseline_prediction + predicted_adjustment``. This is the
-principal approach because it measures directly what the research question
-asks: whether news carries information the election-history baseline does
-not already have. A residual model that predicts nothing is the cleanest
-possible statement of "news adds nothing here".
+并只用新闻特征对该残差建模。最终预测为 ``baseline_prediction +
+predicted_adjustment``。这是主要方法，因为它直接衡量研究问题所问的内容：
+新闻是否携带了选举历史基线尚未拥有的信息。一个什么也预测不出来的残差模型，
+就是"新闻在这里没有带来任何东西"最干净的表述。
 
-**Approach B - joint.** Fit ``observed ~ baseline_prediction + news
-features`` in one model, letting it re-weight the baseline rather than
-treating it as fixed. Compared against A because the two fail differently:
-A cannot rescale a systematically biased baseline, B can, but B can also
-absorb news signal into the baseline coefficient and report an improvement
-that is really a recalibration. Reporting both makes that distinction
-visible instead of hiding it inside one number.
+**方法 B —— 联合法。** 在一个模型中拟合 ``observed ~ baseline_prediction +
+news features``，让模型对基线重新加权，而不是把基线视为固定的。之所以与 A
+比较，是因为两者失败的方式不同：A 无法重新缩放一个存在系统性偏差的基线，B
+可以；但 B 也可能把新闻信号吸收进基线系数，从而报告一个实际上只是重新校准
+的改进。同时报告两者可以让这种区别显露出来，而不是把它隐藏在一个数字里。
 
-Why ridge, and why closed form
+为什么用岭回归，为什么用闭式解
 ------------------------------
-Same choice, for the same reason, as Architecture A of the no-news
-baseline (`candidate_share_model.py`): ridge has a closed-form solution
-that can be checked by hand, whereas a correct elastic net needs an
-iterative solver whose convergence would itself have to be argued for.
-With a training matrix this small - single-digit Reform rows in some folds
-- an estimator whose behaviour is fully inspectable matters more than one
-that might select features slightly better.
+与无新闻基线的架构 A（`candidate_share_model.py`）的选择相同，理由也相同：
+岭回归有一个可以手工核对的闭式解，而一个正确的弹性网络需要迭代求解器，
+其收敛性本身就还需要论证。训练矩阵这么小 —— 某些折中改革党只有个位数的
+行 —— 一个行为完全可检查的估计器，比一个也许能把特征选得稍好一点的估计器
+更重要。
 
-The penalty is chosen inside each fold's training rows, never on the rows
-being predicted. A penalty tuned on the evaluation rows would leak the
-answer through the hyperparameter, which is the quiet version of the
-leakage the whole project is built to avoid.
+惩罚系数在每一折的训练行内部选择，绝不在被预测的行上选择。在评估行上调出
+的惩罚系数会通过超参数泄露答案，这是整个项目所要避免的那种泄漏的一种隐蔽
+形式。
 
-What this module refuses to do
+本模块拒绝做什么
 ------------------------------
-It does not touch the 7 May 2026 holdout. Fold construction reads the
-Stage 1 split manifest and evaluates on development folds only; the
-holdout is reachable only through an explicit, separately-named call that
-the comparison harness does not make. The supervisor's standing
-constraint is that the 2026 holdout must not be used to choose anything,
-and the safest way to honour that is for the selection path to have no
-route to it at all.
+它不接触 2026 年 5 月 7 日的留出集。折的构造读取第一阶段的划分清单，并且只在
+开发折上评估；留出集只能通过一个显式的、单独命名的调用才能访问，而比较框架
+不会发出这个调用。导师的一贯约束是：2026 年留出集不得被用来选择任何东西，
+而遵守这一点最安全的方式，就是让选择路径根本没有通往它的途径。
 
-It also does not impute. A row without a baseline prediction, or without
-an observed share, is dropped with a recorded reason - a residual against
-an unknown baseline is not a residual, and filling one in would
-manufacture agreement between the two layers.
+它也不做插补。没有基线预测或没有观测得票率的行会被丢弃，并记录原因 —— 相对于
+一个未知基线的残差不是残差，而填补一个值会人为制造出两层之间的一致。
 """
 
 from __future__ import annotations
@@ -66,32 +52,30 @@ from typing import Mapping, Sequence
 
 import numpy as np
 
-# Penalty grid. Spans four orders of magnitude because the news design
-# matrix is far smaller and more collinear than the baseline's, so the
-# useful penalty is not known in advance; a grid this wide makes the
-# selected value informative rather than an artefact of a narrow range.
+# 惩罚系数网格。跨越四个数量级，因为新闻的设计
+# 矩阵比基线的小得多、共线性也强得多，所以
+# 有用的惩罚系数无法事先知道；这么宽的网格使得
+# 选出的值具有信息量，而不是一个狭窄范围造成的假象。
 PENALTY_GRID = (0.01, 0.1, 1.0, 10.0, 100.0, 1000.0)
 
-# Fitted with fewer rows than this, a fold's estimate is reported but
-# flagged. Ten is the point below which a ridge fit on even a handful of
-# columns is describing its own noise; the flag exists so a reader is
-# never shown such a number without the warning attached.
+# 如果拟合时的行数少于这个值，该折的估计仍会报告，但
+# 会被标记。十行是一个界限：低于它，即使只有寥寥几列的岭回归拟合
+# 描述的也只是它自身的噪声；设置这个标记是为了让读者
+# 永远不会在没有附带警告的情况下看到这样的数字。
 MIN_ROWS_FOR_STABLE_FIT = 10
 
-# Bootstrap settings, matched to the baseline bundle so intervals from the
-# two layers are directly comparable rather than merely similar.
+# bootstrap 设置与基线模型包保持一致，使两层的区间
+# 可以直接比较，而不仅仅是相似。
 BOOTSTRAP_RESAMPLES = 2000
 BOOTSTRAP_SEED = 20260728
 
 
 class RidgeModel:
-    """Closed-form ridge regression, centred so the intercept is unshrunk.
+    """闭式解的岭回归，经过中心化，使截距不被收缩。
 
-    Deliberately a near-copy of the baseline's `RidgeShareModel` rather
-    than an import: the baseline bundle is frozen, and reaching into it
-    for a class would couple the news layer to a package that must not
-    change. The arithmetic is short enough that duplicating it costs less
-    than that coupling would.
+    刻意几乎照抄基线的 `RidgeShareModel`，而不是导入它：基线模型包是冻结的，
+    从中引用一个类会把新闻层与一个不得改变的包耦合在一起。这段运算足够短，
+    复制它的代价比那种耦合要小。
     """
 
     def __init__(self, l2_penalty: float) -> None:
@@ -109,28 +93,28 @@ class RidgeModel:
         if design.shape[0] == 0:
             raise ValueError("Cannot fit on an empty training set.")
 
-        # Standardise here rather than expecting the caller to have done
-        # it. News features arrive on wildly different scales - counts in
-        # the tens, sentiment fractions in [0,1], recency weights in
-        # [0,1] - and an unstandardised ridge penalty would silently
-        # penalise the count columns hundreds of times harder than the
-        # fractions, which is a modelling decision nobody made.
+        # 在这里做标准化，而不是指望调用方已经
+        # 做过。新闻特征的尺度相差极大 —— 计数是
+        # 几十的量级，情感比例在 [0,1] 之间，时效权重在
+        # [0,1] 之间 —— 未经标准化的岭回归惩罚会悄悄地
+        # 对计数列施加比比例列重数百倍的惩罚，
+        # 而这是一个没有任何人做出过的建模决策。
         means = design.mean(axis=0)
         scales = design.std(axis=0)
-        # A constant column has zero variance; dividing by zero would
-        # produce NaNs that propagate through the whole fit. Such a
-        # column carries no information anyway, so it is scaled by one
-        # and centred to exactly zero, contributing nothing.
+        # 常数列的方差为零；除以零会
+        # 产生 NaN，并在整个拟合过程中传播。这样的
+        # 列本来就不携带任何信息，所以把它的缩放系数设为一
+        # 并中心化为恰好为零，使它不产生任何贡献。
         scales = np.where(scales > 0, scales, 1.0)
         standardised = (design - means) / scales
 
         target_mean = float(target.mean())
         centred_target = target - target_mean
 
-        # w = (X'X + lambda I)^-1 X'y, solved as a linear system rather
-        # than by explicit inversion for numerical stability on a
-        # collinear matrix. Centring both sides keeps the intercept out
-        # of the penalised system: it is the training mean, unshrunk.
+        # w = (X'X + lambda I)^-1 X'y，以求解线性方程组的方式计算，而不是
+        # 显式求逆，以便在共线矩阵上保持数值稳定。
+        # 对两边都做中心化，使截距不进入
+        # 被惩罚的方程组：截距就是训练集均值，不被收缩。
         n_features = standardised.shape[1]
         gram = standardised.T @ standardised + self._l2 * np.eye(n_features)
         self._coefficients = np.linalg.solve(
@@ -151,17 +135,14 @@ class RidgeModel:
 
     @property
     def coefficients(self) -> np.ndarray:
-        """Coefficients on the STANDARDISED design, not the raw columns.
+        """标准化设计矩阵上的系数，而不是原始列上的系数。
 
-        Because ``fit`` standardises internally, a coefficient here reads
-        as "change in the target per one standard deviation of this
-        feature", not per unit. A feature with a raw effect of 1.5 per
-        article and a standard deviation of 1.7 articles appears as
-        roughly 2.6. This is the right scale for comparing features whose
-        units differ - counts against fractions - but it must not be
-        reported as a per-article effect. Divide by the feature's training
-        standard deviation to recover that, which ``feature_scales`` makes
-        possible.
+        因为 ``fit`` 在内部做了标准化，这里的系数应理解为"该特征每变化一个
+        标准差时目标的变化量"，而不是每变化一个单位。一个原始效应为每篇文章
+        1.5、标准差为 1.7 篇文章的特征，在这里大约显示为 2.6。这是比较单位
+        不同的特征（计数对比例）时的正确尺度，但不得把它报告为每篇文章的效应。
+        要还原每篇文章的效应，请除以该特征在训练集上的标准差，
+        ``feature_scales`` 提供了这一可能。
         """
         if self._coefficients is None:
             raise ValueError("The model has not been fitted.")
@@ -169,13 +150,11 @@ class RidgeModel:
 
     @property
     def feature_scales(self) -> np.ndarray:
-        """Training standard deviations used to standardise each column.
+        """用于标准化每一列的训练集标准差。
 
-        Exposed so a coefficient can be converted back to the feature's
-        own units when a result needs to be stated as "per article" rather
-        than "per standard deviation". Constant columns carry 1.0 here,
-        the substitute applied at fit time.
-        """
+        公开出来，是为了在需要把结果表述为"每篇文章"而不是"每个标准差"时，
+        能把系数换算回特征自身的单位。常数列在这里为 1.0，即拟合时所使用的
+        替代值。"""
         if self._design_scales is None:
             raise ValueError("The model has not been fitted.")
         return self._design_scales.copy()
@@ -193,15 +172,13 @@ class RidgeModel:
 
 def design_matrix(rows: Sequence[Mapping[str, object]],
                   columns: Sequence[str]) -> np.ndarray:
-    """Rows x named columns as floats, with missing read as zero.
+    """行 x 命名列组成的浮点矩阵，缺失值按零读取。
 
-    Zero is the right fill for these particular columns and only these:
-    every news feature is a count, a share, or a weighted sum over
-    articles, so "no article contributed" genuinely is zero. This is not a
-    general imputation rule and must not be reused for the baseline's
-    predictors, where a missing previous vote share means "unknown", not
-    "nobody voted" - the distinction the null-semantics documentation in
-    the baseline release exists to protect.
+    零是这些特定列、而且只是这些列的正确填充值：每个新闻特征都是计数、占比
+    或对文章的加权和，因此"没有文章贡献"确实就是零。这不是一条通用的插补
+    规则，不得用于基线的预测变量 —— 在那里，缺失的上一届得票率意味着"未知"，
+    而不是"没有人投票"，基线版本中关于空值语义的文档正是为了保护这一区别
+    而存在的。
     """
     return np.array(
         [[float(row.get(c) or 0.0) for c in columns] for row in rows],
@@ -210,23 +187,22 @@ def design_matrix(rows: Sequence[Mapping[str, object]],
 
 def select_penalty(design: np.ndarray, target: np.ndarray,
                    groups: Sequence[str]) -> tuple[float, dict]:
-    """Choose the L2 penalty by leave-one-group-out inside the training rows.
+    """在训练行内部用留一组法（leave-one-group-out）选择 L2 惩罚系数。
 
-    Groups are contests (election x division). Holding out whole contests
-    rather than individual rows matters because candidates in one contest
-    share the same news: a row-wise split would let the model see part of
-    a contest's news while predicting the rest of it, and would choose a
-    penalty tuned to that advantage.
+    组是竞选单元（选举 x 选区）。留出整个竞选单元而不是单独的行很重要，
+    因为同一竞选单元中的候选人共享相同的新闻：按行划分会让模型在预测某个
+    竞选单元的其余部分时，看到该竞选单元的一部分新闻，从而选出一个针对
+    这种优势调好的惩罚系数。
 
-    Returns the penalty and a record of what was tried, so the choice
-    appears in the output rather than only in the fitted object.
+    返回惩罚系数以及尝试过的内容的记录，使这一选择出现在输出中，而不仅仅
+    存在于拟合好的对象里。
     """
     unique_groups = sorted(set(groups))
     scores: dict[float, float] = {}
 
-    # With one group there is nothing to hold out. Returning the grid's
-    # midpoint and saying so is honest; silently returning the best
-    # in-sample penalty would report a tuned value that was never tested.
+    # 只有一个组时，没有东西可以留出。返回网格的
+    # 中点并如实说明是诚实的做法；而悄悄返回样本内最好的
+    # 惩罚系数，等于报告一个从未经过检验的调参值。
     if len(unique_groups) < 2:
         return 1.0, {"method": "default_no_inner_split",
                      "reason": f"only {len(unique_groups)} contest(s) in "
@@ -244,9 +220,9 @@ def select_penalty(design: np.ndarray, target: np.ndarray,
             try:
                 model = RidgeModel(penalty).fit(design[mask], target[mask])
             except (ValueError, np.linalg.LinAlgError):
-                # A singular system at this penalty means the penalty is
-                # too small for this design; record it as unusable rather
-                # than crashing the sweep.
+                # 在这个惩罚系数下方程组奇异，说明该惩罚系数
+                # 对这个设计来说太小；把它记录为不可用，而不是
+                # 让整个扫描过程崩溃。
                 errors = None
                 break
             predicted = model.predict(design[~mask])
@@ -266,7 +242,7 @@ def select_penalty(design: np.ndarray, target: np.ndarray,
 
 @dataclass
 class FoldFit:
-    """One fold's fit and its predictions, with the fold's own diagnostics."""
+    """一折的拟合及其预测，附带该折自身的诊断。"""
 
     fold: str
     approach: str
@@ -293,25 +269,23 @@ def fit_fold(train: Sequence[Mapping[str, object]],
              test: Sequence[Mapping[str, object]],
              feature_columns: Sequence[str],
              *, approach: str, fold_name: str) -> FoldFit:
-    """Fit one approach on one fold and predict its test rows.
+    """在一折上拟合一种方法，并预测其测试行。
 
-    ``approach`` is "residual" (target: observed minus baseline) or
-    "joint" (target: observed, with the baseline prediction admitted as an
-    extra column). The two differ only in the target and in whether the
-    baseline is a feature - everything else is deliberately identical so
-    that any difference in their results is attributable to that choice
-    and not to two divergent pipelines.
+    ``approach`` 为 "residual"（目标：观测值减去基线）或 "joint"（目标：观测值，
+    并把基线预测作为额外的一列纳入）。两者只在目标以及基线是否作为特征这两点
+    上不同 —— 其他一切都刻意保持一致，这样它们结果上的任何差异都可以归因于
+    这一选择，而不是两条分叉的流水线。
     """
     if approach not in ("residual", "joint"):
         raise ValueError(f"Unknown approach: {approach!r}")
 
     columns = list(feature_columns)
     if approach == "joint":
-        # The baseline prediction enters as a feature the model may
-        # re-weight. Named explicitly so it is visible in the coefficient
-        # table - a joint model whose news coefficients are all zero and
-        # whose baseline coefficient is 1.0 has found nothing, and that
-        # should be readable at a glance.
+        # 基线预测作为一个特征进入，模型可以
+        # 对它重新加权。明确命名它，使它在系数表中
+        # 可见 —— 如果一个联合模型的新闻系数全部为零、
+        # 基线系数为 1.0，那么它什么也没发现，而这一点
+        # 应该一眼就能看出来。
         columns = columns + ["baseline_prediction"]
 
     def target_of(rows):
@@ -374,17 +348,14 @@ def fit_fold(train: Sequence[Mapping[str, object]],
 
 
 def metrics(predictions: Sequence[Mapping[str, object]]) -> dict:
-    """Baseline and news-enhanced error, and the difference between them.
+    """基线误差、新闻增强后的误差，以及两者之差。
 
-    Reported for all rows and for Reform UK separately, because the
-    research question is about Reform specifically and an improvement
-    driven entirely by other parties would answer a different question.
+    对所有行以及英国改革党分别报告，因为研究问题专门针对改革党，而一个完全
+    由其他政党带来的改进回答的是另一个问题。
 
-    ``improvement`` is positive when the news model is better. It is a
-    difference of mean absolute errors on the same rows, so it needs no
-    normalisation - but it is also reported as a proportion, because a
-    0.1-point gain means something different on a 3-point baseline error
-    than on a 10-point one.
+    当新闻模型更好时，``improvement`` 为正。它是同一批行上平均绝对误差之差，
+    因此不需要归一化 —— 但它也会以比例的形式报告，因为 0.1 个百分点的提升
+    在 3 个百分点的基线误差上和在 10 个百分点的基线误差上意义不同。
     """
 
     def block(rows) -> dict:
@@ -423,16 +394,13 @@ def metrics(predictions: Sequence[Mapping[str, object]]) -> dict:
 def bootstrap_improvement(predictions: Sequence[Mapping[str, object]],
                           *, resamples: int = BOOTSTRAP_RESAMPLES,
                           seed: int = BOOTSTRAP_SEED) -> dict:
-    """A contest-level bootstrap interval on the MAE improvement.
+    """MAE 改进量的竞选单元级 bootstrap 区间。
 
-    Resampling contests, not rows: candidates within a contest share the
-    same news and the same baseline fold, so treating each candidate row
-    as an independent draw would understate the interval - the same
-    group-aware requirement the brief places on the baseline's
-    uncertainty.
+    重抽样的是竞选单元而不是行：同一竞选单元中的候选人共享相同的新闻和相同的
+    基线折，因此把每一行候选人数据当作独立抽样会低估区间 —— 这与任务说明对
+    基线不确定性提出的"考虑分组"要求相同。
 
-    An interval that straddles zero is the answer to the research
-    question, not a failure of the method, and is reported as such.
+    跨越零的区间就是研究问题的答案，而不是方法的失败，并会如实报告。
     """
     rows = list(predictions)
     if not rows:

@@ -1,61 +1,53 @@
-"""Turn extracted article records into the news feature table the model joins.
+"""把抽取出的文章记录转换成模型所连接的新闻特征表。
 
-## The grain, and why it is not the one the brief imagines
+## 粒度，以及为什么它不是任务说明所设想的那种
 
-The brief asks for features per ward. The corpus cannot deliver that: in the
-current canonical 1,632-article release, 46 came from a ward-specific search and
-body-text matching against the 108 published area names recovers 22 more -
-**4.2% carry an unambiguous area, 94.2% name no unambiguous Surrey area at
-all**. Coverage is too sparse and uneven for a general ward-level feature.
+任务说明要求按选区（ward）构建特征。但语料库做不到这一点：在当前 1,632 篇
+文章的正式版本中，有 46 篇来自针对特定选区的搜索，用 108 个已公布的区域名称
+对正文进行匹配又能找回 22 篇——**4.2% 带有明确的区域，94.2% 根本没有提到任何
+明确的萨里区域**。覆盖过于稀疏且不均衡，无法构建通用的选区级特征。
 
-So the table is keyed on **(election, party, window)**. Joining it to the
-baseline's (election, area, party) rows broadcasts each value across the areas
-of its election. That is a real limitation and it is stated here rather than
-hidden by a feature name: a news feature in this table can explain differences
-between elections and between parties, never between areas within an election.
+因此这张表以 **(election, party, window)** 为键。把它与基线的 (election, area,
+party) 行连接时，每个值会被广播到该场选举的所有区域上。这是一个真实的局限，
+在这里明确说明，而不是用一个特征名称把它掩盖起来：这张表中的新闻特征可以
+解释不同选举之间、不同政党之间的差异，但永远无法解释同一场选举内不同区域
+之间的差异。
 
-## Which features can carry a coefficient, measured rather than assumed
+## 哪些特征能够承载系数——经过测量而不是假定
 
-Cell counts inside the training period (2013 + 2017), from
-`diagnose_feature_grain`:
+训练期（2013 + 2017）内的单元格计数，来自 `diagnose_feature_grain`：
 
-    per election                2 cells  - cannot fit; two points determine a
-                                          line exactly and generalise nothing
-    per election x party       10 cells  - usable, median 162 articles per cell
+    按选举                  2 个单元格  - 无法拟合；两个点恰好确定一条
+                                          直线，什么也推广不了
+    按 选举 x 政党         10 个单元格  - 可用，每个单元格的文章数中位数为 162
 
-Every feature is therefore emitted with a `training_variation` verdict, and the
-election-level ones say `insufficient` rather than being silently offered to a
-model that cannot learn from them. They are still computed: the 3,122 collected
-but unprocessed by-election articles would add eight more election-level cells
-if that pipeline is ever run, and a column that already exists costs nothing to
-populate later.
+因此每个特征在输出时都附带一个 `training_variation` 判定，选举层面的特征会
+标为 `insufficient`，而不是被悄悄提供给一个无法从中学到任何东西的模型。它们
+仍然会被计算：如果那条流水线将来真的运行，已收集但尚未处理的 3,122 篇补选
+文章会再增加八个选举层面的单元格，而一个已经存在的列以后再填充是没有成本的。
 
-**Reform UK has zero training-period articles** - the party did not exist in
-2013 or 2017. No Reform-specific news coefficient can be estimated. Any
-relationship must be learned party-generically, from the five parties present in
-the training period, and applied to Reform. That is the central extrapolation of
-this project and it belongs in the report, not in a footnote.
+**英国改革党在训练期内的文章数为零**——该党在 2013 年或 2017 年还不存在。
+无法估计任何专门针对改革党的新闻系数。任何关系都必须以不区分政党的方式，
+从训练期内存在的五个政党中学习，然后应用到改革党身上。这是本项目的核心外推，
+它应当写进报告正文，而不是放在脚注里。
 
-## Counts and shares, both, for a measured reason
+## 计数和占比两者都有，理由经过测量
 
-A count is contaminated by how deeply a contest was searched; a share is not,
-because search depth moves numerator and denominator together. By-election
-search completeness ranges from under 12% to 100%, which is why by-elections
-were scoped out of count-based features - so every count here has a companion
-share, and the share is what a specification should prefer whenever contests
-with different search depths are compared.
+计数会受到某场竞选被搜索得有多深入的影响；占比则不会，因为搜索深度会同时
+改变分子和分母。补选的搜索完整度从不到 12% 到 100% 不等，这就是为什么补选
+被排除在基于计数的特征之外——所以这里的每个计数都有一个对应的占比，并且在
+比较搜索深度不同的竞选时，设定应当优先使用占比。
 
-## Deduplication, and the assertion that guards it
+## 去重，以及守护它的断言
 
-Tranche output files overlap: far2's articles were re-extracted in the full run
-while its stance and framing records were left in place, so concatenating the
-files double-counts **98 articles for framing and 66 for stance** - raw rows
-exceeded the corpus, 1,730 framing rows against 1,632 articles. Records are
-therefore deduplicated on `article_id`, newest tranche winning, and the build
-asserts that the unique article count never exceeds the corpus size. A silent
-double count would inflate every volume feature for the affected elections.
+各批次的输出文件有重叠：far2 的文章在完整运行中被重新抽取，而它的立场和框架
+记录却保留在原处，因此直接拼接这些文件会重复计数**框架层 98 篇文章、立场层
+66 篇文章**——原始行数超过了语料库，框架层 1,730 行对应 1,632 篇文章。因此
+记录按 `article_id` 去重，最新批次优先，并且构建过程会断言去重后的文章数
+永远不超过语料库的规模。悄无声息的重复计数会抬高受影响选举的每一个数量类
+特征。
 
-Usage:
+用法：
     python3 -m src.news_features.build_feature_table
 """
 
@@ -85,119 +77,119 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 
 
 def _repo_relative(path: Path) -> str:
-    """Serialise a lineage path portably, whether a wrapper bound it absolute or relative."""
+    """以可移植的方式序列化谱系路径，无论包装脚本绑定的是绝对路径还是相对路径。"""
 
     resolved = path if path.is_absolute() else (REPO_ROOT / path)
     return str(resolved.resolve().relative_to(REPO_ROOT))
 
-# The six windows the supervisor confirmed on 2026-07-30 ("Keep the news windows
-# you already implemented... That is fine. No need to change them"), ordered from
-# earliest to latest so a cumulative snapshot is a prefix of this list.
+# 导师于 2026-07-30 确认的六个时间窗口（"Keep the news windows
+# you already implemented... That is fine. No need to change them"，即保留已实现的窗口、无需修改），
+# 按从最早到最晚排列，使得每个累积快照都是这个列表的一个前缀。
 WINDOWS = ("180_to_91_days", "90_to_31_days", "30_to_15_days",
            "14_to_8_days", "7_to_4_days", "final_72_hours")
 
-# Cumulative periods, taken from `window_schemes.ORIGINAL_EMAIL.cumulative`
-# rather than invented here. That definition cites the supervisor's own email
-# and reads "everything from 1 to N days before polling" - the trailing N days,
-# accumulating backwards from polling day.
+# 累积时间段，取自 `window_schemes.ORIGINAL_EMAIL.cumulative`，
+# 而不是在这里自行编造。该定义引用了导师本人的邮件，
+# 内容为"投票前 1 到 N 天的所有内容"——即末尾的 N 天，
+# 从投票日往前累积。
 #
-# The first version of this file got both the count and the direction wrong: it
-# emitted four snapshots named `as_at_90_days` and so on, built from
-# `WINDOWS[:1]`, which is the 180-to-91-day band - the *earliest* coverage, the
-# complement of what the definition asks for. `previous_90_days` is the last 90
-# days before polling, which is `90_to_31_days` and everything after it. Reusing
-# the scheme's own labels also means a feature name here matches the one the
-# extraction pipeline already assigns, instead of introducing a second
-# vocabulary for the same periods.
+# 本文件的第一个版本把数量和方向都弄错了：它
+# 输出了四个名为 `as_at_90_days` 之类的快照，由
+# `WINDOWS[:1]` 构建，而那是 180 到 91 天的区间——即*最早*的覆盖，恰好是
+# 定义所要求内容的补集。`previous_90_days` 是投票前最后 90
+# 天，即 `90_to_31_days` 及其之后的所有窗口。复用
+# 方案自身的标签也意味着这里的特征名与
+# 抽取流水线已经分配的名称一致，而不是为同样的时间段
+# 引入第二套词汇。
 def _cumulative_members() -> dict[str, tuple[str, ...]]:
-    """Window names inside each cumulative period, from the frozen scheme."""
+    """每个累积时间段内包含的窗口名称，取自冻结的方案。"""
     from src.news_modelling.window_schemes import ORIGINAL_EMAIL
     spans = {name: (lo, hi) for name, lo, hi in ORIGINAL_EMAIL.windows}
     out: dict[str, tuple[str, ...]] = {}
     for label, limit in ORIGINAL_EMAIL.cumulative:
-        # A window belongs to a cumulative period when it lies entirely inside
-        # it. `previous_7_days` therefore takes final_72_hours and 7_to_4_days
-        # and not the 14-to-8-day band, which straddles the boundary.
+        # 当一个窗口完全位于某个累积时间段之内时，它才属于该时间段。
+        # 因此 `previous_7_days` 包含 final_72_hours 和 7_to_4_days，
+        # 而不包含跨越边界的 14 到 8 天区间。
         out[label] = tuple(w for w in WINDOWS if spans[w][1] <= limit)
     return out
 
 
 SNAPSHOTS = _cumulative_members()
 
-# The supervisor's chronological split. Recorded per row so a specification can
-# filter on it without re-deriving the split, and so the training-variation
-# verdict below can be computed from the table itself.
+# 导师规定的按时间顺序的划分。按行记录，使得某个设定可以
+# 直接据此筛选而无需重新推导划分，也使得下面的训练变异性
+# 判定可以根据表本身计算出来。
 SPLIT_ROLE = {"SCC-2013-05": "train", "SCC-2017-05": "train",
               "SCC-2021-05": "validation", "ESWS-2026-05": "test"}
 
-# Two points determine a line exactly. Three is where a residual first exists;
-# ten is where a coefficient is worth reporting. Stated here because "enough
-# variation" is otherwise a judgement made silently inside a model fit.
+# 两个点恰好确定一条直线。三个点时才第一次出现残差；
+# 十个点时系数才值得报告。之所以在这里写明，是因为"足够的
+# 变异"否则就是在模型拟合内部悄悄做出的判断。
 MIN_CELLS_TO_FIT = 3
 MIN_CELLS_TO_REPORT = 10
 
-# The election grid. None (the default, and v1's behaviour) derives the grid
-# from the elections that have at least one corpus article. A release whose
-# scope registers elections that legitimately ended with zero eligible
-# articles sets this explicitly, because the zero-cell policy below applies
-# to elections exactly as it applies to periods: a completed search with no
-# eligible article is an observation of zero coverage, not a missing election.
+# 选举网格。None（默认值，也是 v1 的行为）表示从至少有一篇
+# 语料库文章的选举中推导网格。如果某个版本的范围登记了
+# 那些合理地以零篇符合资格文章告终的选举，就要显式设置它，
+# 因为下面的零单元格政策对选举的适用方式与对时间段完全相同：
+# 一次已完成但没有符合资格文章的搜索，
+# 是对零覆盖的一次观测，而不是一场缺失的选举。
 GRID_ELECTIONS: list[str] | None = None
 
-# Also aggregate the issue and framing layers per (election, party, window),
-# by attributing each article to the parties its extraction record names in
-# `political_relevance.affected_actors`.
+# 同时按 (选举, 政党, 时间窗口) 聚合议题层和框架层，
+# 方法是把每篇文章归属到其抽取记录中
+# `political_relevance.affected_actors` 所列出的政党。
 #
-# OFF by default, and deliberately so. Every result in the repository was
-# computed from tables built with the per-election aggregation, so v1 and v2
-# must keep rebuilding byte-identically; a test asserts exactly that. The
-# v3party wrapper turns this on and writes to its own paths, which is the only
-# place the new columns appear.
+# 默认关闭，而且是刻意如此。仓库中的每一个结果都是
+# 用按选举聚合构建的表计算出来的，因此 v1 和 v2
+# 必须始终能够逐字节一致地重建；有一个测试正是断言这一点。
+# v3party 包装脚本会开启它并写入自己的路径，这是
+# 新列出现的唯一地方。
 #
-# The per-election columns are still emitted when this is on. Having both
-# grains in one file is what makes the change auditable: within any cell the
-# election column is identical across all six parties by construction, and the
-# party column is not.
+# 开启它时，按选举的列仍然会被输出。在一个文件中同时包含两种
+# 粒度，正是使这一改动可审计的原因：在任何一个单元格内，
+# 选举列按构造在全部六个政党之间都是相同的，而
+# 政党列则不是。
 PARTY_CONTENT_ATTRIBUTION = False
 
-# Extraction tranches to ignore when loading records. Empty by default, which
-# is v1's and v2's behaviour.
+# 加载记录时要忽略的抽取批次。默认为空，这
+# 也是 v1 和 v2 的行为。
 #
-# `load_records` reads every `corpus_extraction_outputs_*.json` on disk, and a
-# tranche can legitimately exist whose articles no canonical release admits.
-# The E5 local extension is exactly that: its triage failed validation at
-# kappa 0.4762 against a 0.600 bar, so its Farnham Herald articles were never
-# admitted to a release - yet the tranche was extracted anyway, on 2026-08-02,
-# nine hours AFTER feature table v2 was written. The assertion in `main` is
-# right to refuse that mixture. Naming the tranche here is the scoped way to
-# satisfy it: it states which corpus a build is made of, rather than relaxing
-# the guard that checks.
+# `load_records` 会读取磁盘上的每一个 `corpus_extraction_outputs_*.json`，而
+# 某个批次中的文章可能合理地不被任何正式版本准入。
+# E5 本地扩展正是这种情况：它的分诊验证没有通过——
+# kappa 为 0.4762，而门槛是 0.600，所以它的 Farnham Herald 文章从未
+# 被准入任何版本——但这个批次还是在 2026-08-02 被抽取了，
+# 比特征表 v2 写出的时间晚了九个小时。`main` 中的断言
+# 拒绝这种混合是正确的。在这里指名该批次是满足这一断言的
+# 有限定范围的方式：它声明一次构建由哪个语料库组成，而不是放松
+# 执行检查的那道防线。
 EXCLUDED_TRANCHES: set[str] = set()
 
-# The set the v1 lineage needs, named so a test can reach it: the `__main__`
-# block below is the v1 build, and configuration only reachable by running a
-# script is configuration nothing can check.
+# v1 谱系所需的集合，单独命名以便测试能够访问它：下面的 `__main__`
+# 代码块就是 v1 构建，而只有运行脚本才能触及的配置，
+# 是没有任何东西能够检查的配置。
 #
-# `byelection1` is here for a different reason from the other three. It is the
-# enrichment, which release v2 admits and v1 by definition does not - a scope
-# difference, not a rejected corpus. The other three are the two single-
-# contest case studies and the E5 local extension, which no release admits.
+# `byelection1` 出现在这里的原因与其他三个不同。它是
+# 扩充部分，版本 v2 准入它，而 v1 按定义不准入——这是范围
+# 上的差异，而不是一个被拒绝的语料库。另外三个是两个单场
+# 竞选的案例研究和 E5 本地扩展，它们不被任何版本准入。
 V1_EXCLUDED_TRANCHES = frozenset(
     {"byelection1", "e5local1", "haslemere1", "wokingsouth1"})
 
-# Issue codes aggregated into the six pre-registered issue features. Anything
-# outside this map lands in `issue_other`, which is reported rather than
-# dropped: an issue the taxonomy does not cover is a fact about the coverage.
+# 被聚合为六个预注册议题特征的议题代码。不在
+# 这个映射中的任何内容都归入 `issue_other`，它会被报告而不是
+# 被丢弃：分类体系没有覆盖到的议题本身就是关于覆盖情况的一个事实。
 #
-# Known defect, kept verbatim (2026-08-14): these members were drafted from
-# the feature plan's shorthand, not from the extraction prompt's `issue_code`
-# enum, so `crime_policing`, `planning_housing`, `waste_recycling` and
-# `schools_send` never match and 166 coded records route to `issue_other`
-# (61/50/5/50). The frozen v1/v2 tables were built with this map, their
-# byte-identical rebuild tests pin it, and the blinded-freeze rule forbids
-# regeneration - so the defect stays here, on the record. Future builds must
-# pass ISSUE_GROUPS_CORRECTED explicitly; `tests/test_issue_group_mapping.py`
-# pins both behaviours.
+# 已知缺陷，原样保留（2026-08-14）：这些成员是根据
+# 特征计划中的简写起草的，而不是根据抽取提示词中的 `issue_code`
+# 枚举，因此 `crime_policing`、`planning_housing`、`waste_recycling` 和
+# `schools_send` 永远匹配不上，导致 166 条已编码记录被归入 `issue_other`
+# （61/50/5/50）。冻结的 v1/v2 表是用这个映射构建的，它们的
+# 逐字节一致重建测试锁定了它，而盲化冻结规则禁止
+# 重新生成——所以这个缺陷留在这里，记录在案。今后的构建必须
+# 显式传入 ISSUE_GROUPS_CORRECTED；`tests/test_issue_group_mapping.py`
+# 同时锁定了两种行为。
 ISSUE_GROUPS = {
     "immigration": ("immigration", "asylum", "small_boats"),
     "crime_policing": ("crime", "policing", "antisocial_behaviour"),
@@ -209,8 +201,8 @@ ISSUE_GROUPS = {
                           "party_leadership", "scandal"),
 }
 
-# The corrected map for any post-freeze (v3+) build: member strings taken
-# from the extraction prompt's `issue_code` enum itself.
+# 用于任何冻结之后（v3 及以后）构建的修正映射：成员字符串直接取自
+# 抽取提示词中的 `issue_code` 枚举本身。
 ISSUE_GROUPS_CORRECTED = {
     "immigration": ("immigration",),
     "crime_policing": ("crime_policing",),
@@ -229,18 +221,17 @@ def live_layers() -> list[str]:
 
 
 def load_records() -> tuple[dict[str, dict], dict]:
-    """Deduplicated accepted records per layer, newest tranche winning.
+    """每一层去重后被接受的记录，最新批次优先。
 
-    Returns (records, provenance). `records[layer][article_id]` is the accepted
-    record; `provenance` counts which tranche and prompt fingerprint each
-    article's records came from, so a feature row can be traced to the prompts
-    behind it.
+    返回 (records, provenance)。`records[layer][article_id]` 是被接受的记录；
+    `provenance` 统计每篇文章的记录来自哪个批次和哪个提示词指纹，从而可以把
+    一行特征追溯到它背后的提示词。
     """
     paths = sorted(glob.glob("llm_context/corpus_extraction_outputs_*.json"))
-    # "all" is the production run and must win over the gate tranches, so files
-    # are applied oldest-first and later writes overwrite earlier ones. Sorting
-    # by name puts "all" first alphabetically, which is the wrong order - hence
-    # the explicit key rather than relying on the filename.
+    # "all" 是生产运行，必须优先于各个关卡批次，所以文件
+    # 按从旧到新的顺序应用，后写入的覆盖先写入的。按名称
+    # 排序会把 "all" 按字母顺序排在第一位，这是错误的顺序——因此
+    # 使用显式的排序键，而不是依赖文件名。
     order = {"narrow": 0, "far": 1, "far2": 2, "far3": 3, "all": 9}
     def rank(p: str) -> int:
         name = Path(p).stem.replace("corpus_extraction_outputs_", "")
@@ -273,7 +264,7 @@ def load_records() -> tuple[dict[str, dict], dict]:
 
 
 def primary_issue(record: dict) -> str | None:
-    """The issue code, unwrapped from whichever shape the schema produced."""
+    """议题代码，从 schema 生成的任意一种结构中解包出来。"""
     value = (record.get("issues") or {}).get("primary_issue")
     if isinstance(value, dict):
         value = value.get("issue_code") or value.get("code")
@@ -293,21 +284,21 @@ def main() -> None:
     records, provenance = load_records()
     article_ids = set().union(*(set(v) for v in records.values()))
 
-    # Freeze the corpus before joining extraction records. The release manifest
-    # is the one place that unions the main, pilot and validation eligibility
-    # streams and then applies dates, principal-election scope, the confirmed
-    # six windows and text availability. This prevents the 120-local main-table
-    # subset from being mixed with the 188-local corpus used here.
+    # 在连接抽取记录之前先冻结语料库。版本清单
+    # 是唯一一个把主语料、试点和验证三路纳入资格数据流合并起来、
+    # 再应用日期、主要选举范围、已确认的
+    # 六个时间窗口和文本可获得性的地方。这可以防止主表中 120 篇本地文章的
+    # 子集与这里使用的 188 篇本地文章的语料库混在一起。
     release, canonical_articles = build_release()
     CANONICAL_MANIFEST.write_text(
         json.dumps(release, indent=2), encoding="utf-8"
     )
     corpus_size = release["usable_feature_corpus"]["articles"]
 
-    # Extraction records can legitimately cover fewer articles than the corpus
-    # (a layer may fail validation), but they may never introduce an article
-    # from another release. Stopping here is safer than writing a plausible-
-    # looking table whose denominator came from a different corpus version.
+    # 抽取记录覆盖的文章数可以合理地少于语料库
+    # （某一层可能未通过验证），但它们绝不能引入
+    # 来自另一个版本的文章。在这里停止，比写出一张看起来合理、
+    # 但分母却来自另一个语料库版本的表要安全。
     unexpected_ids = article_ids - set(canonical_articles)
     assert not unexpected_ids, (
         f"{len(unexpected_ids)} extraction article(s) are outside canonical "
@@ -320,8 +311,8 @@ def main() -> None:
         if aid in canonical_articles
     }
 
-    # The guard the duplicate-counting hazard demands. An inflated article count
-    # would inflate every volume feature, and it would do so silently.
+    # 重复计数风险所要求的那道防线。被抬高的文章数
+    # 会抬高每一个数量类特征，而且是悄无声息地抬高。
     assert len(articles) <= corpus_size, (
         f"deduplication failed: {len(articles)} unique articles against a "
         f"corpus of {corpus_size}. Concatenating tranche files double-counts, "
@@ -330,41 +321,41 @@ def main() -> None:
         {l: len(v) for l, v in records.items()} }")
     print(f"unique articles: {len(articles)} of a {corpus_size}-article corpus")
 
-    # --- accumulate per (election, party, window) -------------------------
-    # Party-varying counters. The party key comes from the stance layer's own
-    # judgement list, which was built from deterministic alias matching, so a
-    # party appears here exactly when the article names it.
+    # --- 按 (选举, 政党, 时间窗口) 累计 -------------------------
+    # 随政党变化的计数器。政党键来自立场层自身的
+    # 判断列表，而该列表由确定性的别名匹配构建，因此
+    # 当且仅当文章提到某个政党时，该政党才会出现在这里。
     party_cells: dict[tuple, Counter] = defaultdict(Counter)
-    # The same counters again, split by collection arm. Added 2026-07-30 for
-    # the five-arm comparison the supervisor's original email asks for
-    # (baseline / local / national / combined / full).
+    # 同样的计数器，再按收集实验组拆分一次。于 2026-07-30 加入，
+    # 用于导师最初邮件中要求的五组比较
+    # （基线 / 本地 / 全国 / 合并 / 完整）。
     #
-    # Without this the arm comparison is vacuous by construction: the only
-    # arm-aware columns in the table were `local_article_count`,
-    # `national_article_count` and `local_share`, all of which sit at the
-    # per-election grain and therefore carry **two** distinct training values.
-    # A "local news model" built from a feature with two training values is
-    # not a local news model; it is the election indicator under another name.
-    # Splitting the per-party portrayal counters - the only block with ten
-    # training cells - is what makes "does local coverage do a different job
-    # from national coverage" a question the table can actually be asked.
+    # 没有这一部分，实验组比较按构造就是空洞的：表中仅有的
+    # 区分实验组的列是 `local_article_count`、
+    # `national_article_count` 和 `local_share`，它们全都处于
+    # 按选举的粒度，因此只有**两个**不同的训练取值。
+    # 一个由只有两个训练取值的特征构建出来的"本地新闻模型"
+    # 并不是本地新闻模型；它只是换了个名字的选举指示变量。
+    # 拆分按政党的形象刻画计数器——这是唯一一个拥有十个
+    # 训练单元格的模块——正是使"本地报道是否起到与
+    # 全国报道不同的作用"成为一个这张表真正能够回答的问题的原因。
     #
-    # `arm` here is the **collection** arm: which search stream retrieved the
-    # article, which is the same definition `local_article_count` above
-    # already uses, so the new columns reconcile with the existing ones rather
-    # than introducing a second notion of local. The alternative definition -
-    # the LLM's own `scope_classification` - lives at article level and is
-    # a content judgement rather than a provenance fact. Mixing the two inside
-    # one table would make `local_article_count` and `local_party_article_count`
-    # count different things under the same word.
+    # 这里的 `arm` 指**收集**实验组：即由哪一路搜索数据流
+    # 获取到这篇文章，这与上面 `local_article_count`
+    # 已经使用的定义相同，因此新列能与已有的列相互对应，而不是
+    # 引入第二种"本地"的概念。另一种定义——
+    # LLM 自身的 `scope_classification`——位于文章层面，是
+    # 一项内容判断而不是一个来源事实。在一张表中混用两者
+    # 会使 `local_article_count` 和 `local_party_article_count`
+    # 用同一个词计数不同的东西。
     party_arm_cells: dict[tuple, Counter] = defaultdict(Counter)
-    # Election-level counters, kept separate because their grain differs and
-    # conflating them would hide that one has two training cells and the other
-    # has ten.
+    # 选举层面的计数器，单独保存，因为它们的粒度不同，
+    # 把它们混为一谈会掩盖这样一个事实：一个只有两个训练单元格，而另一个
+    # 有十个。
     election_cells: dict[tuple, Counter] = defaultdict(Counter)
-    # How the content attribution actually landed, recorded in the metadata.
-    # An attribution rate is the first thing to check when a party-level
-    # content feature behaves oddly, and it is not recoverable from the table.
+    # 内容归属实际落地的情况，记录在元数据中。
+    # 当某个政党层面的内容特征表现异常时，归属率是首先要检查的东西，
+    # 而它无法从表中恢复出来。
     attribution: Counter = Counter()
 
     for aid, article in articles.items():
@@ -377,13 +368,13 @@ def main() -> None:
         if article.get("mentions_reform"):
             election_cells[ekey]["reform_named_count"] += 1
 
-        # Parties this article names, for the content layers. Read from the
-        # ISSUE record because that is the only layer the extraction gave a
-        # `political_relevance` block to; the framing record for the same
-        # article inherits this set below, which is what makes a party-level
-        # frame feature possible without re-running the extraction. Empty when
-        # PARTY_CONTENT_ATTRIBUTION is off, so every loop over it is a no-op
-        # and the per-election behaviour is untouched.
+        # 这篇文章提到的政党，用于内容层。从
+        # 议题（ISSUE）记录中读取，因为那是抽取过程中唯一被赋予
+        # `political_relevance` 模块的层；同一篇文章的框架记录
+        # 在下面继承这个集合，这使得无需重新运行抽取就能构建
+        # 政党层面的框架特征。当
+        # PARTY_CONTENT_ATTRIBUTION 关闭时它为空，因此所有对它的循环都不执行任何操作，
+        # 按选举的行为也完全不受影响。
         content_parties: set[str] = set()
 
         issues = records["issues"].get(aid)
@@ -412,10 +403,10 @@ def main() -> None:
             for frame in FRAME_KEYS:
                 if present.get(frame):
                     election_cells[ekey][f"frame_{frame}_count"] += 1
-            # The framing record carries no actors of its own, so it inherits
-            # the set established for its article above. An article with a
-            # framing record but no issue record contributes nothing here -
-            # 17 of 2,576 - because there is no actor list to inherit.
+            # 框架记录本身不携带任何行动者，因此它继承
+            # 上面为其所属文章确定的集合。一篇有
+            # 框架记录但没有议题记录的文章在这里不贡献任何东西——
+            # 2,576 篇中有 17 篇——因为没有可供继承的行动者列表。
             for party in content_parties:
                 cell = party_cells[(election, party, window)]
                 cell["party_framing_coded"] += 1
@@ -430,16 +421,16 @@ def main() -> None:
                 cell = party_cells[(election, party, window)]
                 cell["party_article_count"] += 1
                 cell[f"portrayal_{portrayal}"] += 1
-                # Same increments, keyed by arm as well. Written as a second
-                # accumulator rather than by deriving the all-arm figure from
-                # the arm split, so every column already published keeps
-                # exactly the value it had; the reconciliation assertion below
-                # is what proves the two stay consistent.
+                # 同样的增量，再加上按实验组作为键。写成第二个
+                # 累加器，而不是从实验组拆分中推导出全实验组的数字，
+                # 这样每一个已经发布的列都保持
+                # 原来的值完全不变；下面的对账断言
+                # 就是证明两者保持一致的依据。
                 arm_cell = party_arm_cells[(election, party, arm, window)]
                 arm_cell["party_article_count"] += 1
                 arm_cell[f"portrayal_{portrayal}"] += 1
 
-    # --- emit one row per (election, party, window-or-snapshot) -----------
+    # --- 每个 (选举, 政党, 时间窗口或快照) 输出一行 -----------
     def summed(cells: dict, key_prefix: tuple, windows) -> Counter:
         total = Counter()
         for w in windows:
@@ -467,19 +458,19 @@ def main() -> None:
                     for arm in ("local", "national")
                 }
                 total = e["article_count"]
-                # Keep the full election x party x period grid, including a
-                # completed search that found no eligible article.  The old
-                # build dropped these rows and turned a real zero into a
-                # missing observation.  In particular, all six party rows for
-                # SCC 2017's final 72 hours disappeared, so a chronological
-                # model could silently train on a different set of elections
-                # depending on the chosen window.
+                # 保留完整的 选举 x 政党 x 时间段 网格，包括
+                # 已完成但没有找到符合资格文章的搜索。旧的
+                # 构建丢弃了这些行，把一个真实的零变成了
+                # 一个缺失的观测。尤其是，SCC 2017 最后 72 小时的
+                # 全部六个政党行都消失了，因此一个按时间顺序的
+                # 模型可能会根据所选窗口的不同，悄悄地在不同的选举集合上
+                # 训练。
                 #
-                # Count features are genuine zeroes.  Share features remain
-                # blank where their denominator is zero: zero of zero is not a
-                # party share of zero, it is undefined.  This distinction lets
-                # a later model choose an explicit missing-value policy rather
-                # than receiving a fabricated proportion.
+                # 计数类特征是真正的零。占比类特征在其分母为零时
+                # 保持空白：零除以零并不是
+                # 政党占比为零，而是未定义的。这一区分让
+                # 之后的模型可以选择一个明确的缺失值策略，而不是
+                # 接收一个捏造出来的比例。
                 if not total:
                     zero_article_cells.append({
                         "election_id": election,
@@ -494,7 +485,7 @@ def main() -> None:
                     "period": period_name,
                     "period_kind": "window" if period_name in WINDOWS else "snapshot",
                     "split_role": SPLIT_ROLE.get(election, "unknown"),
-                    # --- per election x party: the usable grain -----------
+                    # --- 按 选举 x 政党：可用的粒度 -----------
                     "party_article_count": p["party_article_count"],
                     "party_article_share": round(p["party_article_count"] / total, 6) if total else "",
                     "unfavourable_count": unfav,
@@ -502,7 +493,7 @@ def main() -> None:
                     "net_portrayal": fav - unfav,
                     "net_portrayal_share": round((fav - unfav) / p["party_article_count"], 6)
                                             if p["party_article_count"] else "",
-                    # --- per election: two training cells, kept for later --
+                    # --- 按选举：两个训练单元格，留待以后使用 --
                     "article_count": total,
                     "local_article_count": e["local_article_count"],
                     "national_article_count": e["national_article_count"],
@@ -513,11 +504,11 @@ def main() -> None:
                     "reform_share_of_coverage": round(e["reform_named_count"] / total, 6) if total else "",
                 }
 
-                # Emit the same party-level signal separately for local and
-                # national collection arms. These are the columns needed for
-                # the supervisor's baseline/local/national/combined comparison;
-                # election-level local_share alone has only two training values
-                # and cannot identify a local-news coefficient.
+                # 对本地和全国两个收集实验组分别输出同样的
+                # 政党层面信号。这些是导师的
+                # 基线 / 本地 / 全国 / 合并 比较所需要的列；
+                # 仅靠选举层面的 local_share 只有两个训练取值，
+                # 无法识别出本地新闻的系数。
                 for arm, arm_party in by_arm.items():
                     arm_total = e[f"{arm}_article_count"]
                     arm_party_count = arm_party["party_article_count"]
@@ -537,10 +528,10 @@ def main() -> None:
                         if arm_party_count else ""
                     )
 
-                # Collection arm is exhaustive in the canonical release. These
-                # checks catch a misspelled/new arm or an aggregation error at
-                # the exact row where it occurs, before any model can consume
-                # understated combined counts.
+                # 在正式版本中，收集实验组是穷尽的。这些
+                # 检查会在错误发生的确切那一行捕获拼写错误 / 新出现的实验组或
+                # 聚合错误，在任何模型读取到
+                # 被低估的合并计数之前。
                 for key in (
                     "party_article_count",
                     "portrayal_unfavourable",
@@ -565,14 +556,14 @@ def main() -> None:
                     row[f"frame_{frame}_share"] = (
                         round(n / e["framing_coded"], 6) if e["framing_coded"] else "")
 
-                # The same two layers at party grain, emitted beside the
-                # per-election columns above rather than replacing them. The
-                # denominator is this party's own coded articles, so the share
-                # answers "of the coverage naming this party, how much was
-                # about immigration" - a composition, not a volume. That
-                # distinction is what stops the new feature from being the
-                # article count under another name, and it is checked before
-                # any specification uses these columns.
+                # 同样的两个层，但在政党粒度上，输出在
+                # 上面按选举的列旁边，而不是替换它们。
+                # 分母是该政党自身被编码的文章，因此该占比
+                # 回答的是"在提到这个政党的报道中，有多少是
+                # 关于移民的"——这是一种构成，而不是一种数量。正是这一
+                # 区分使新特征不至于只是
+                # 换了个名字的文章计数，而且在任何设定使用这些列之前
+                # 都会检查这一点。
                 if PARTY_CONTENT_ATTRIBUTION:
                     coded = p["party_issues_coded"]
                     row["party_issues_coded"] = coded
@@ -592,17 +583,17 @@ def main() -> None:
 
     OUT_CSV.parent.mkdir(parents=True, exist_ok=True)
     with OUT_CSV.open("w", newline="") as handle:
-        # Pin LF so the generated CSV is byte-stable across platforms and does
-        # not appear to contain trailing whitespace in repository checks.
+        # 固定使用 LF 换行，使生成的 CSV 在不同平台上逐字节稳定，并且
+        # 在仓库检查中不会显得包含行尾空白。
         writer = csv.DictWriter(
             handle, fieldnames=list(rows[0]), lineterminator="\n"
         )
         writer.writeheader()
         writer.writerows(rows)
 
-    # --- the training-variation verdict, computed from the table ----------
-    # A feature is only offered to a model if it varies across training rows.
-    # Computed here rather than asserted in a docstring so it cannot go stale.
+    # --- 训练变异性判定，根据表本身计算 ----------
+    # 只有当某个特征在训练行之间存在变化时，才会把它提供给模型。
+    # 在这里计算，而不是在 docstring 中声称，这样它就不会过时。
     train_rows = [r for r in rows if r["split_role"] == "train"]
     by_period: dict[str, list] = defaultdict(list)
     for r in train_rows:
@@ -613,12 +604,12 @@ def main() -> None:
         if column in ("election_id", "standard_party_key", "period",
                       "period_kind", "split_role"):
             continue
-        # Counted WITHIN a period, not across them. A specification uses one
-        # window or one snapshot, so variation between windows is not variation
-        # the fit can see. Pooling across periods inflated article_count from 2
-        # distinct training values to 14 and would have offered it as usable to
-        # a model that sees two - the first version of this verdict did exactly
-        # that, which is why it is computed per period now.
+        # 在一个时间段*内部*计数，而不是跨时间段计数。一个设定只使用一个
+        # 窗口或一个快照，因此窗口之间的变化并不是
+        # 拟合能看到的变化。跨时间段合并会把 article_count 从 2 个
+        # 不同的训练取值抬高到 14 个，并会把它作为可用特征提供给
+        # 一个只能看到两个取值的模型——这个判定的第一个版本恰恰就是
+        # 这样做的，这也是为什么现在按时间段计算它。
         best = max((len({r[column] for r in group if r[column] != ""})
                     for group in by_period.values()), default=0)
         pooled = len({r[column] for r in train_rows if r[column] != ""})
@@ -631,16 +622,16 @@ def main() -> None:
         }
 
     usable = [c for c, v in verdicts.items() if v["verdict"] == "usable"]
-    # Absent, not null, when the attribution is off: every metadata file this
-    # builder has ever written would otherwise gain a key, which is a diff on
-    # five committed artefacts in exchange for no information.
+    # 当归属功能关闭时，该键不存在，而不是为 null：否则这个
+    # 构建器曾经写出的每一个元数据文件都会多出一个键，这会让
+    # 五个已提交的产物出现差异，却换不来任何信息。
     #
-    # `party_cell_multiplier` is above 1 by design - an article naming two
-    # parties bears on both and is counted for both, so the party-level counts
-    # do not sum to the election-level one and should not be expected to.
-    # Explicit key order: spreading the Counter would serialise in insertion
-    # order, which varies with the article iteration and made the committed
-    # metadata flip between rebuilds.
+    # `party_cell_multiplier` 按设计大于 1——一篇提到两个
+    # 政党的文章与两者都相关，并且被两者各计一次，因此政党层面的计数
+    # 相加不等于选举层面的计数，也不应该期望它们相等。
+    # 显式的键顺序：直接展开 Counter 会按插入顺序序列化，
+    # 而插入顺序随文章的遍历顺序而变化，曾导致已提交的
+    # 元数据在多次重建之间来回翻转。
     attribution_block = {
         "articles_with_issue_record": attribution["articles_with_issue_record"],
         "articles_attributed": attribution["articles_attributed"],
@@ -660,10 +651,10 @@ def main() -> None:
         "unique_articles": len(articles),
         "corpus_size": corpus_size,
         "canonical_corpus_release_id": release["release_id"],
-        # Wrappers rebind CANONICAL_MANIFEST together with build_release.
-        # Serialise that bound path rather than labelling every derived table
-        # as v1, which would make v2 and the case-study tables claim the wrong
-        # corpus lineage in their metadata.
+        # 包装脚本会把 CANONICAL_MANIFEST 与 build_release 一起重新绑定。
+        # 序列化这个被绑定的路径，而不是把每一张派生表都标注
+        # 为 v1，否则 v2 和各案例研究表会在其元数据中声称
+        # 错误的语料库谱系。
         "canonical_corpus_manifest": _repo_relative(CANONICAL_MANIFEST),
         "canonical_corpus_by_arm":
             release["usable_feature_corpus"]["by_arm"],
@@ -681,10 +672,10 @@ def main() -> None:
                        "unambiguous Surrey-area attribution, and the remaining "
                        "coverage is too sparse and uneven to support a general "
                        "ward-level feature."),
-        # Sum disjoint windows only.  Including cumulative snapshots would
-        # count the same article several times and the previous implementation
-        # actually counted non-empty *cells*, despite calling the field
-        # articles.
+        # 只对互不相交的窗口求和。包括累积快照会
+        # 把同一篇文章计数多次，而之前的实现
+        # 实际上计数的是非空*单元格*，尽管该字段名叫
+        # articles（文章数）。
         "reform_training_articles": sum(
             r["party_article_count"] for r in train_rows
             if r["standard_party_key"] == "reform_uk"
@@ -716,14 +707,14 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    # Running this module IS the v1 build, and those four tranches put 948
-    # articles outside release v1, which stops it on the corpus assertion -
-    # correctly, since a table mixing corpora is the failure that assertion
-    # exists to prevent.
+    # 运行本模块就是 v1 构建，而那四个批次会使 948
+    # 篇文章落在版本 v1 之外，从而在语料库断言处终止构建——
+    # 这是正确的，因为一张混合了多个语料库的表正是该断言
+    # 要防止的失败。
     #
-    # Applied here rather than as the module default because importing this
-    # module must stay inert: `build_haslemere_probe_features` and
-    # `build_woking_south_blind_features` import it and need exactly the
-    # tranches this set removes.
+    # 在这里应用而不是作为模块默认值，因为导入这个
+    # 模块必须保持无副作用：`build_haslemere_probe_features` 和
+    # `build_woking_south_blind_features` 会导入它，并且恰恰需要
+    # 这个集合所移除的那些批次。
     EXCLUDED_TRANCHES = set(V1_EXCLUDED_TRANCHES)
     main()

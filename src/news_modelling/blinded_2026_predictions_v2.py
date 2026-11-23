@@ -1,31 +1,25 @@
-"""Freeze the enrichment model's blinded 2026 predictions (v2).
+"""冻结扩充模型的盲化 2026 年预测（v2）。
 
-The v1 freeze archived the pre-enrichment models. This module archives
-the one thing enrichment changed: the fitting set. Everything else is
-deliberately identical to v1 — the three frozen feature arms, the twelve
-periods, the fixed ridge penalty, party-mean residual targets,
-clip-and-renormalise post-processing, the outcome-column strip, the
-refuse-to-overwrite freeze — and is imported from the v1 module rather
-than copied, so the two freezes cannot drift apart.
+v1 冻结归档了扩充之前的模型。本模块归档的是扩充所改变的唯一一样东西：
+拟合集。其他一切都刻意与 v1 保持一致 —— 三个冻结的特征组、十二个时间段、
+固定的岭回归惩罚系数、政党平均残差目标、截断并重新归一化的后处理、结果列
+剥离、拒绝覆盖的冻结 —— 并且是从 v1 模块导入而不是复制过来的，因此两次
+冻结不可能出现偏差。
 
-What v2 adds
+v2 新增了什么
 ------------
-One fitting variant, ``pooled_2017_2021_byelections``: party-mean Stage 1
-residuals per (election x party) over the 2017 and 2021 principal
-elections plus the eight pre-holdout by-elections. Through the 2025
-by-elections this fit contains real Reform UK residual cells — the first
-in the project — joined to news features from canonical release v2
-(Reform training articles: 300 against v1's zero). Six of the eight
-by-elections carry zero admitted articles; their cells enter with zero
-counts and structurally-blank shares under the audited zero policy,
-because a searched election with no eligible coverage is an observation,
-not a gap.
+一个拟合变体 ``pooled_2017_2021_byelections``：在 2017 年和 2021 年主要选举
+以及八场留出期之前的补选上，按 (选举 x 政党) 计算的第一阶段政党平均残差。
+借助 2025 年的补选，这次拟合包含了真实的英国改革党残差单元格 —— 这在项目中
+尚属首次 —— 并与来自正式版本 v2 的新闻特征相连接（改革党训练文章：300 篇，
+而 v1 为零篇）。八场补选中有六场没有任何被准入的文章；在经过审计的零值政策
+下，它们的单元格以零计数和结构性空白的占比进入，因为一场已被搜索但没有符合
+资格报道的选举是一个观测，而不是一个空缺。
 
-The declared unblinding structure is unchanged and shared with v1: one
-unblinding event; the confirmatory family is the combined and national
-arms over the six confirmed windows, now under this variant, against the
-recalibrated control; local, cumulative and every v1 variant are
-sensitivity. Nothing may be selected after outcomes are seen.
+已声明的揭盲结构保持不变，并与 v1 共用：只有一次揭盲事件；验证性系列是
+六个已确认时间窗口上的合并组和全国组，现在在本变体之下，与重新校准的对照组
+比较；本地组、累积时间段以及所有 v1 变体都属于敏感性分析。在看到结果之后
+不得做任何选择。
 """
 
 from __future__ import annotations
@@ -59,9 +53,9 @@ from news_modelling.production_news_experiment import (
 
 V2_VARIANT = "pooled_2017_2021_byelections"
 
-# Stage 1 election id -> news-table election id for every fitting election.
-# Principal ids differ between the two systems; by-election ids are the same
-# long-form string on both sides, which is asserted rather than assumed.
+# 每场拟合选举的 第一阶段选举 ID -> 新闻表选举 ID。
+# 主要选举的 ID 在两个系统中不同；补选的 ID 在两边都是同一个
+# 长格式字符串，这一点通过断言保证，而不是想当然。
 FIT_ELECTION_MAP = {
     FIT_ELECTION: FIT_NEWS_ELECTION,
     VALIDATION_ELECTION: VALIDATION_NEWS_ELECTION,
@@ -70,14 +64,13 @@ FIT_ELECTION_MAP = {
 
 
 def aggregate_v2_residuals(oof_rows: Iterable[dict]) -> list[dict]:
-    """One residual row per (fitting election, party), by-elections included.
+    """每个 (拟合选举, 政党) 一行残差，包括补选。
 
-    Same anti-pseudo-replication rule as every fit before it: news exists
-    per election x party, so the fit sees one mean residual per cell, never
-    per candidate. The guards encode what the enrichment claims to deliver:
-    Reform must be absent from 2017 (it did not exist) and present in at
-    least one 2025 by-election cell (it stood in them; a fit without those
-    cells would silently revert to the v1 party-generic design).
+    与之前每一次拟合相同的"避免伪重复"规则：新闻是按 选举 x 政党 存在的，
+    因此拟合时每个单元格只看到一个平均残差，而绝不是每位候选人一个。这些
+    检查编码了扩充声称要实现的内容：改革党必须不出现在 2017 年（当时它还
+    不存在），并且至少出现在一个 2025 年补选单元格中（它参加了这些补选；
+    缺少这些单元格的拟合会悄悄退回到 v1 那种不区分政党的设计）。
     """
 
     residuals: dict[tuple[str, str], list[float]] = defaultdict(list)
@@ -131,19 +124,17 @@ def build_v2_blinded_predictions(
     v1_manifest: dict,
     release_id: str,
 ) -> tuple[dict, list[dict]]:
-    """Fit every frozen specification under the v2 variant and predict 2026.
+    """在 v2 变体下拟合每一个冻结的设定，并预测 2026 年。
 
-    The specification grid, ridge penalty and post-processing come from the
-    same frozen sources as v1; only the fitting rows differ. Nothing in the
-    return value contains a 2026 outcome.
-    """
+    设定网格、岭回归惩罚系数和后处理都来自与 v1 相同的冻结来源；只有拟合
+    行不同。返回值中不包含任何 2026 年的结果。"""
 
     validate_inputs(oof_rows, audit)
     blinded = sanitise_holdout_rows(holdout_rows)
     feature_index = _feature_index(features)
-    # Every fitting cell must resolve in the v2 table before any model is
-    # fitted: a missing by-election cell would otherwise surface mid-fit as
-    # a KeyError on one arbitrary specification.
+    # 在拟合任何模型之前，每个拟合单元格都必须能在 v2 表中找到：
+    # 否则一个缺失的补选单元格会在拟合中途、在某个任意的设定上
+    # 以 KeyError 的形式暴露出来。
     periods = (
         audit["feature_table"]["windows"]
         + audit["feature_table"]["cumulative_periods"]

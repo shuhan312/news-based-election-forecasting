@@ -1,87 +1,72 @@
-"""A rescue attempt for the failed framing layer, using the stance recipe.
+"""使用立场层的方法，对未通过验证的框架层进行的一次补救尝试。
 
-## Why the original failed, and why the same fix might apply
+## 原始层为什么失败，以及为什么同样的修正可能适用
 
-`framing_detection.py` asks for one `primary_frame` chosen from sixteen
-categories. It failed both rulers - kappa 0.483 against the human coding,
-0.502 between the two model arms - and a coarsened re-test that grouped the
-sixteen into three thematic families still failed (0.496 / 0.523), so the
-problem is not granularity.
+`framing_detection.py` 要求从十六个类别中选出一个 `primary_frame`。它在两把
+"尺子"上都没有通过——与人工编码的 kappa 为 0.483，两个模型组之间为 0.502——
+而把十六个类别归并为三个主题系列的粗化重新测试仍然没有通过（0.496 / 0.523），
+所以问题并不在于粒度。
 
-The diagnosis borrows from stance. That layer failed for two reasons, both
-of which were the model being handed an unguided choice: which entities
-deserve a row, and where the boundary of the `mixed` catch-all sits. Fixing
-both took it from 0.316 to 0.848 between arms.
+诊断借鉴了立场层。那一层失败有两个原因，两者都是把一个没有指引的选择交给了
+模型：哪些实体值得占一行，以及兜底类别 `mixed` 的边界在哪里。修正这两点后，
+它的模型组间一致性从 0.316 提高到了 0.848。
 
-`primary_frame` is the same shape of problem. Asking "which of these
-sixteen frames is the *primary* one" is a sixteen-way ranking judgement,
-and nothing in the prompt says how to rank. An article that judges the
-council's competence *and* portrays voters as fed up genuinely contains two
-frames; which one is "primary" is a question the article does not answer,
-so two models resolve it differently and disagree - while agreeing
-completely about what the article contains.
+`primary_frame` 是同一类问题。问"这十六个框架中哪一个是*主要*框架"是一个
+十六选一的排序判断，而提示词中没有任何内容说明如何排序。一篇既评判议会的
+能力、*又*把选民描绘成已经受够了的文章，确实包含两个框架；哪一个是"主要"的，
+是文章本身并没有回答的问题，因此两个模型会以不同方式处理它并产生分歧——尽管
+它们对文章包含什么内容完全一致。
 
-The coarsened re-test could not detect this, because collapsing a recorded
-`primary_frame` into a family still inherits the ranking that produced it.
-You cannot recover "both were present" from a field that only ever stored
-one winner.
+粗化重新测试无法发现这一点，因为把已经记录的 `primary_frame` 归并到某个系列，
+仍然继承了产生它的那次排序。你无法从一个只存储过一个胜出者的字段中，恢复出
+"两者都存在"这一信息。
 
-## What this layer changes
+## 这一层改变了什么
 
-**One ranking becomes four independent presence questions.** For each of
-four frames the model answers only: is this frame present in this article,
-yes or no. Frames are not mutually exclusive, none is "primary", and an
-article may carry all four or none. There is no ranking left to disagree
-about.
+**一次排序变成了四个独立的"是否存在"问题。** 对四个框架中的每一个，模型只回答：
+这个框架是否存在于这篇文章中，是或否。各框架之间并不互斥，没有哪个是"主要"
+的，一篇文章可以同时带有全部四个框架，也可以一个都没有。不再剩下任何可供
+产生分歧的排序。
 
-**The four frames are fixed here, chosen for the research question, not
-for what scores well.** They are declared before any output exists. Each
-maps from a group of the original sixteen, so nothing new is being measured
-- the same content is being asked about in a form two raters can agree on:
+**四个框架在这里固定下来，是根据研究问题而不是根据什么得分高来选择的。** 它们
+在任何输出存在之前就已声明。每个框架都对应原来十六个类别中的一组，所以并没有
+测量任何新的东西——只是以一种两个评分者能够达成一致的形式，询问同样的内容：
 
-* `incumbent_judgement` - the article passes judgement on how the governing
-  administration has performed. From the original government_performance,
-  governance_failure, financial_pressure, public_service_quality,
-  accountability, competence, integrity, leadership.
-* `challenger_emergence` - the article presents a party outside the
-  established order as a rising or credible force. From
-  challenger_emergence, electoral_competition,
-  national_political_momentum. This is the frame the research question
-  cares about most directly: Reform UK is the insurgent under study.
-* `voter_discontent` - the article portrays voters as dissatisfied, angry,
-  or wanting to punish someone. From anti_incumbent_sentiment,
-  voter_dissatisfaction. Paired with the above because the standard theory
-  of insurgent voting is discontent plus an available alternative, and
-  separating the two lets the data speak to whether both are needed.
-* `local_impact` - the article frames the matter through concrete local
-  consequences for residents. From local_community_impact, policy_conflict.
-  Carried because the local-versus-national comparison is one of the
-  supervisor's named contrasts.
+* `incumbent_judgement` —— 文章对执政当局的表现做出评判。来自原来的
+  government_performance、governance_failure、financial_pressure、
+  public_service_quality、accountability、competence、integrity、leadership。
+* `challenger_emergence` —— 文章把既有秩序之外的某个政党呈现为一股正在崛起
+  或可信的力量。来自 challenger_emergence、electoral_competition、
+  national_political_momentum。这是研究问题最直接关心的框架：英国改革党
+  （Reform UK）正是所研究的新兴挑战者。
+* `voter_discontent` —— 文章把选民描绘为不满、愤怒或想要惩罚某人。来自
+  anti_incumbent_sentiment、voter_dissatisfaction。与上一个框架配对，是因为
+  关于挑战者投票的标准理论是"不满加上一个可用的替代选项"，把两者分开可以让
+  数据说明是否两者都是必需的。
+* `local_impact` —— 文章通过对居民的具体本地影响来框定事件。来自
+  local_community_impact、policy_conflict。之所以保留，是因为本地与全国的
+  比较是导师指名的对比之一。
 
-Four of the original sixteen categories map to none of these -
-`other`, plus the three that describe an article's genre rather than its
-frame. Their absence is deliberate and recorded: this layer measures four
-named frames, not a partition of all possible framing.
+原来十六个类别中有四个不对应其中任何一个——`other`，以及另外三个描述文章
+体裁而不是框架的类别。它们的缺席是刻意的并已记录在案：这一层测量的是四个
+指名的框架，而不是对所有可能框架的一个划分。
 
-**No verbatim evidence span**, for the reason it was dropped in the stance
-rescue: it suppressed recall, pushing a model that could see a frame but
-could not isolate one clean quotable sentence into answering "not present".
-A one-sentence free-text reason is requested instead.
+**不要求逐字证据片段**，原因与在立场补救中取消它的原因相同：它压低了召回率，
+迫使一个能看出某个框架、却无法分离出一句干净可引用句子的模型回答"不存在"。
+改为要求一句话的自由文本理由。
 
-## Honest status
+## 如实的状态说明
 
-This is the second and final rescue attempt in this family. If it passes,
-framing enters the feature set as four binary presence indicators - not as
-a sixteen-category classification, and reported that way. If it fails,
-framing is excluded on four independent attempts (original, coarsened,
-this redesign, on two model arms each), which is a far stronger basis for
-exclusion than one disagreement with one coder.
+这是这一系列中第二次、也是最后一次补救尝试。如果通过，框架将以四个二元的
+"是否存在"指示变量进入特征集——而不是作为一个十六类的分类，并且会如实这样
+报告。如果失败，框架就是在四次独立尝试（原始版、粗化版、本次重新设计，每次
+都在两个模型组上）之后被排除的，这比"与一位编码者有一次分歧"要有力得多的
+排除依据。
 
-Iterating further would mean tuning a prompt against the validation sample
-until it passed, which is selection on the evaluation data by another name.
-Two principled attempts is the limit set in advance.
+再继续迭代就意味着针对验证样本调整提示词直到它通过为止，这只是换了个名字的、
+在评估数据上做选择。两次有原则的尝试是事先设定的上限。
 
-Usage:
+用法：
     python3 -m src.llm_extraction.frame_rescue submit [arm]
     python3 -m src.llm_extraction.frame_rescue collect [arm]
 """
@@ -103,17 +88,17 @@ from src.llm_extraction.run_pilot import MODEL
 
 RESCUE_VERSION = "frame-rescue-v1.0-2026-07-30"
 
-# Must exceed the Haiku arm's fixed 4,000-token thinking budget, because
-# the API requires budget_tokens < max_tokens. The stance rescue's first
-# submission set this to 2,000 and every Haiku request errored while every
-# Sonnet request succeeded - Sonnet uses adaptive thinking and has no fixed
-# budget to exceed. Recorded here so the same trap is not walked into twice.
+# 必须超过 Haiku 组固定的 4,000 token 思考预算，因为
+# API 要求 budget_tokens < max_tokens。立场补救的第一次
+# 提交把这个值设为 2,000，结果每个 Haiku 请求都报错，而每个
+# Sonnet 请求都成功了——Sonnet 使用自适应思考，没有可以超出的
+# 固定预算。记录在这里，以免第二次掉进同一个陷阱。
 MAX_TOKENS = 6000
 
-# The four frames, with the question each one puts to the model. The
-# wording matters more than usual: these are the entire specification a
-# model has to work from, so each is written as a single testable claim
-# about the article rather than as a category label to be interpreted.
+# 四个框架，以及每个框架向模型提出的问题。
+# 措辞比平常更重要：这些就是模型可依据的全部规格说明，
+# 因此每一条都写成关于文章的一个可检验的单一论断，
+# 而不是一个需要解读的类别标签。
 FRAMES = {
     "incumbent_judgement": (
         "Does the article pass judgement on how the governing administration "
@@ -142,12 +127,11 @@ FRAMES = {
 
 
 def build_prompt() -> str:
-    """The system prompt.
+    """系统提示词。
 
-    Byte-stable across every article, unlike the stance rescue's - the
-    question set here does not depend on the article's content, so the
-    whole prompt caches once per batch and is billed at the cache-read
-    rate for the remaining requests.
+    在每篇文章之间都是逐字节稳定的，这与立场补救的不同——这里的问题集
+    不依赖于文章内容，所以整个提示词在每个批次中只缓存一次，其余请求都
+    按缓存读取的费率计费。
     """
     questions = "\n\n".join(
         f'{i}. "{key}": {text}'
@@ -204,11 +188,11 @@ def cmd_submit(arm_name: str = "haiku") -> None:
     arts, _fallback = load_d4_articles()
     client = anthropic.Anthropic()
 
-    # Every article is asked about all four frames - unlike the stance
-    # rescue, where the party list depends on who the article names. Frames
-    # are properties of the article itself, so there is nothing to filter
-    # and no article is skipped. That also makes the comparison base the
-    # full 60 articles x 4 frames = 240 pairs.
+    # 每篇文章都会被问到全部四个框架——这与立场
+    # 补救不同，后者的政党列表取决于文章提到了谁。框架
+    # 是文章本身的属性，所以没有什么需要筛选，
+    # 也不会跳过任何文章。这也使比较的基数为
+    # 完整的 60 篇文章 x 4 个框架 = 240 对。
     system = [{"type": "text", "text": build_prompt(),
                "cache_control": {"type": "ephemeral"}}]
     requests = [Request(
@@ -258,10 +242,10 @@ def cmd_collect(arm_name: str = "haiku") -> None:
                                     .removeprefix("```").removesuffix("```"))
                 judged = {f["frame"]: bool(f["present"])
                           for f in parsed.get("frames", [])}
-                # A model that answered about three frames, or invented a
-                # fifth, has not answered the question asked. Recorded as a
-                # validation error rather than partially used: scoring the
-                # overlap would credit it for the part it happened to cover.
+                # 一个只回答了三个框架、或者编造出第五个框架的模型，
+                # 没有回答所问的问题。记录为
+                # 验证错误，而不是部分采用：对重叠部分
+                # 评分会因为它碰巧覆盖到的部分而给它加分。
                 errors = []
                 if set(judged) != set(FRAMES):
                     errors.append(f"answered about {sorted(judged)}, "

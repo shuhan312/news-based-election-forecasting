@@ -1,45 +1,39 @@
-"""Freeze the news layer's blinded 2026 predictions.
+"""冻结新闻层的盲化 2026 年预测。
 
-The supervisor's design ends in one test: "The most important test is whether
-adding news context improves prediction on an election that was not used to
-train the model", and it must be blinded — "predictions are saved first and
-only then compared to reality".  This module produces that saved-first file.
-It is the first news-layer code permitted to open the Stage 1 holdout file,
-and it opens it for exactly one purpose: to copy the identity and *predicted*
-columns of the 2026 candidate rows.  Every observed column is stripped at
-load, and no function in this module computes an error, a metric or a
-comparison of any kind.  Unblinding is a separate, later, single event.
+导师的设计以一项检验收尾："The most important test is whether adding news
+context improves prediction on an election that was not used to train the
+model"（最重要的检验是：在一场未被用于训练模型的选举上，加入新闻语境能否
+改善预测），并且必须是盲化的 ——"predictions are saved first and only then
+compared to reality"（先保存预测，然后才与现实比较）。本模块生成的就是那个
+"先保存"的文件。它是第一段被允许打开第一阶段留出集文件的新闻层代码，而且
+打开它只有一个目的：复制 2026 年候选人行的身份列和*预测*列。所有观测列都在
+加载时被剥离，本模块中没有任何函数计算误差、指标或任何形式的比较。揭盲是
+一个单独的、之后的、唯一一次的事件。
 
-Two fitting variants, both frozen here before any 2026 outcome is seen
+两个拟合变体，都在看到任何 2026 年结果之前于此冻结
 ----------------------------------------------------------------------
-**pooled_2017_2021 (primary).**  The supervisor's split is train 2013-2019,
-validation 2021, final test 2026.  With validation-based selection complete —
-and it selected nothing: 0/18 confirmed-window comparisons improved — the
-standard final step is to refit on train plus validation.  Pooling gives the
-residual model up to eleven election x party fitting rows instead of five,
-and, through 2021, its only Reform UK residual observation.  The choice of
-this variant as primary is made now, blind, and recorded; it is not informed
-by any 2026 outcome and cannot be revisited after unblinding.
+**pooled_2017_2021（主变体）。** 导师的划分是：2013-2019 年训练，2021 年
+验证，2026 年最终测试。基于验证的选择已经完成 —— 而且它什么也没选中：18 个
+已确认窗口的比较中有 0 个得到改进 —— 标准的最后一步是在训练集加验证集上
+重新拟合。合并使残差模型的拟合行从五个 选举 x 政党 行增加到最多十一个，并且
+借助 2021 年获得了它唯一的英国改革党残差观测。选择这个变体作为主变体是现在、
+在盲化状态下做出并记录的；它没有参考任何 2026 年的结果，在揭盲之后也不能
+重新考虑。
 
-**fit_2017_only (protocol replication).**  Exactly the frozen pre-2026
-experiment's fit, applied unchanged to 2026 features.  Kept because the
-pre-2026 conclusion was produced under this protocol, so the 2026 test of
-that protocol must exist alongside the pooled refit.
+**fit_2017_only（协议复现）。** 与冻结的 2026 年之前实验完全相同的拟合，
+原封不动地应用于 2026 年的特征。之所以保留，是因为 2026 年之前的结论是在
+这个协议下得出的，因此必须在合并重拟合之外，同时存在对该协议的 2026 年检验。
 
-Everything else is inherited unchanged from the frozen experiment: the three
-frozen feature arms, the twelve periods, the fixed ridge penalty of 1.0, the
-party-mean residual target (never per-candidate pseudo-replication), zero
-substitution only for audited structural blanks, clip-negatives-then-
-renormalise within each contest, and the rule that unsupported minor parties
-receive no adjustment but stay in the denominator.
+其他一切都原封不动地沿用自冻结的实验：三个冻结的特征组、十二个时间段、固定
+为 1.0 的岭回归惩罚系数、政党平均残差目标（绝不做按候选人的伪重复）、只对
+经过审计的结构性空白做零值替换、在每个竞选单元内先截断负值再重新归一化，
+以及"不受支持的小党不做调整、但仍保留在分母中"的规则。
 
-What this file does NOT do
+本文件不做什么
 --------------------------
-It does not read observed 2026 vote shares, ranks or elected flags; it does
-not compute any error; it does not choose between specifications.  The
-declared unblinding structure (which comparisons are primary, which are
-sensitivity) is written into the protocol JSON so the later comparison step
-has no degrees of freedom left.
+它不读取 2026 年观测到的得票率、排名或当选标记；它不计算任何误差；它不在
+各设定之间做选择。已声明的揭盲结构（哪些比较是主要的、哪些是敏感性分析）
+被写入协议 JSON，因此之后的比较步骤已经没有任何自由度可言。
 """
 
 from __future__ import annotations
@@ -69,10 +63,10 @@ from news_modelling.production_news_experiment import (
     validate_inputs,
 )
 
-# The two Stage 1 elections held out for the final test.  Both map to the
-# single news election ESWS-2026-05: the corpus was collected for the May
-# 2026 event as a whole, and East/West is an administrative split of the
-# same polling day, not two news environments.
+# 为最终测试而留出的两场第一阶段选举。两者都映射到
+# 同一个新闻选举 ESWS-2026-05：语料库是针对 2026 年 5 月
+# 这一整个事件收集的，而东 / 西萨里只是同一投票日的行政划分，
+# 并不是两个不同的新闻环境。
 HOLDOUT_ELECTIONS = (
     "surrey-county-council-2026-east-surrey",
     "surrey-county-council-2026-west-surrey",
@@ -80,10 +74,10 @@ HOLDOUT_ELECTIONS = (
 HOLDOUT_NEWS_ELECTION = "ESWS-2026-05"
 HOLDOUT_SPLIT_ROLE = "primary_holdout"
 
-# Columns that carry, or are derived from, the 2026 result.  They are
-# removed the moment the holdout file is read and must never appear in any
-# output this module writes.  The blind is enforced twice: once at load
-# (strip_outcome_columns) and once at write (assert_blind_fieldnames).
+# 携带 2026 年结果或由其派生的列。它们在
+# 读取留出集文件的那一刻就被移除，绝不能出现在本模块写出的
+# 任何输出中。盲化被执行两次：一次在加载时
+# （strip_outcome_columns），一次在写出时（assert_blind_fieldnames）。
 OUTCOME_COLUMNS = (
     "observed_vote_share",
     "observed_rank",
@@ -93,22 +87,21 @@ OUTCOME_COLUMNS = (
     "squared_error",
 )
 
-# The primary fitting variant, declared before unblinding.  Changing this
-# constant after the predictions file exists would be visible in git and is
-# forbidden by the protocol it writes.
+# 主拟合变体，在揭盲之前声明。在预测文件已经存在之后
+# 修改这个常量会在 git 中留下痕迹，并且
+# 被它所写出的协议禁止。
 PRIMARY_VARIANT = "pooled_2017_2021"
 
 
 class BlindingViolation(RuntimeError):
-    """An input or output would expose 2026 outcomes to the news layer."""
+    """某个输入或输出会把 2026 年的结果暴露给新闻层。"""
 
 
 def strip_outcome_columns(rows: Iterable[dict]) -> list[dict]:
-    """Return copies of ``rows`` with every outcome column removed.
+    """返回 ``rows`` 的副本，其中所有结果列都已移除。
 
-    The Stage 1 bundle scored its own holdout when it was trained, so the
-    file on disk contains observed columns.  The news layer may not carry
-    them any further than this function.
+    第一阶段模型包在训练时为它自己的留出集打过分，所以磁盘上的文件包含
+    观测列。新闻层最多只能把它们带到这个函数为止，不能再往前带。
     """
 
     cleaned = []
@@ -121,7 +114,7 @@ def strip_outcome_columns(rows: Iterable[dict]) -> list[dict]:
 
 
 def assert_blind_fieldnames(fieldnames: Iterable[str]) -> None:
-    """Refuse any output schema that mentions an outcome column."""
+    """拒绝任何提到了结果列的输出 schema。"""
 
     exposed = sorted(set(fieldnames) & set(OUTCOME_COLUMNS))
     if exposed:
@@ -132,11 +125,11 @@ def assert_blind_fieldnames(fieldnames: Iterable[str]) -> None:
 
 
 def sanitise_holdout_rows(rows: list[dict]) -> list[dict]:
-    """Filter the holdout file to the 2026 principal rows and blind them.
+    """把留出集文件筛选为 2026 年主要选举的行，并对它们进行盲化。
 
-    Post-May-2026 by-elections also live in the holdout file, but the news
-    layer scoped by-elections out on 30 July and has no feature rows for
-    them, so they are excluded rather than silently given no adjustment.
+    2026 年 5 月之后的补选也在留出集文件中，但新闻层在 7 月 30 日已把补选
+    排除在范围之外，没有它们的特征行，所以它们被排除，而不是被悄悄地给予
+    零调整。
     """
 
     principal = [
@@ -157,8 +150,8 @@ def sanitise_holdout_rows(rows: list[dict]) -> list[dict]:
 
     blinded = strip_outcome_columns(principal)
 
-    # The strip must actually have worked; a renamed outcome column would
-    # defeat it silently, so verify against the declared list.
+    # 剥离必须真的生效；一个被改名的结果列会让它
+    # 悄无声息地失效，所以要对照已声明的列表进行核验。
     for row in blinded:
         leaked = sorted(set(row) & set(OUTCOME_COLUMNS))
         if leaked:
@@ -181,11 +174,11 @@ def sanitise_holdout_rows(rows: list[dict]) -> list[dict]:
 
 
 def aggregate_pooled_residuals(oof_rows: Iterable[dict]) -> list[dict]:
-    """One residual row per (election, party) for 2017 and 2021 together.
+    """2017 年和 2021 年合在一起，每个 (选举, 政党) 一行残差。
 
-    The same anti-pseudo-replication rule as the frozen experiment: news
-    values exist per election x party, so the fit sees one mean residual per
-    election x party, never hundreds of copied candidate rows.
+    与冻结实验相同的"避免伪重复"规则：新闻值是按 选举 x 政党 存在的，因此
+    拟合时每个 选举 x 政党 只看到一个平均残差，而绝不是数百行被复制的
+    候选人数据。
     """
 
     residuals: dict[tuple[str, str], list[float]] = defaultdict(list)
@@ -200,13 +193,13 @@ def aggregate_pooled_residuals(oof_rows: Iterable[dict]) -> list[dict]:
             float(row["observed_vote_share"]) - float(row["predicted_vote_share"])
         )
 
-    # Reform UK did not exist in 2017; a 2017 Reform row would mean the
-    # party join is broken and the scientific setup wrong.
+    # 英国改革党在 2017 年还不存在；出现 2017 年的改革党行就意味着
+    # 政党连接出了问题，科学设定也是错的。
     if (FIT_ELECTION, "reform_uk") in residuals:
         raise ProductionExperimentError("Unexpected Reform row in 2017 fitting data.")
-    # The pooled variant's entire point includes the single 2021 Reform
-    # observation.  Its absence would change what the primary variant means,
-    # so it is asserted rather than tolerated.
+    # 合并变体的全部意义包括那唯一一条 2021 年的改革党
+    # 观测。缺少它会改变主变体的含义，
+    # 所以对它进行断言，而不是容忍其缺失。
     if (VALIDATION_ELECTION, "reform_uk") not in residuals:
         raise ProductionExperimentError("The 2021 Reform residual row is missing.")
 
@@ -233,13 +226,13 @@ def aggregate_pooled_residuals(oof_rows: Iterable[dict]) -> list[dict]:
 
 
 def _fitting_rows_for_variant(variant: str, oof_rows: list[dict]) -> list[dict]:
-    """Return the frozen fitting rows for one declared variant."""
+    """返回某个已声明变体的冻结拟合行。"""
 
     if variant == "pooled_2017_2021":
         return aggregate_pooled_residuals(oof_rows)
     if variant == "fit_2017_only":
-        # Reuse the experiment's own aggregator so the replication variant
-        # cannot drift from the protocol it replicates.
+        # 复用实验自身的聚合器，使复现变体
+        # 不可能偏离它所复现的协议。
         fitting = aggregate_fitting_residuals(oof_rows)
         return [
             {**row, "election_id": FIT_ELECTION,
@@ -256,7 +249,7 @@ def _fit_specification(
     period: str,
     feature_columns: list[str],
 ) -> tuple[RidgeModel, dict]:
-    """Fit one arm/period ridge on the variant's party-mean residuals."""
+    """在该变体的政党平均残差上，为一个 组 / 时间段 拟合岭回归。"""
 
     design = np.array([
         [
@@ -285,13 +278,12 @@ def _fit_specification(
 
 
 def _normalise_contests(rows: list[dict], raw_column: str, output_column: str) -> int:
-    """Clip negative raw shares and renormalise each contest to 100.
+    """截断为负的原始得票率，并把每个竞选单元重新归一化为 100。
 
-    Stage 1's own 2026 predictions sum to exactly 100 per contest
-    (normalisation_status = 'normalised'), so 100 is the correct target and
-    the news adjustment cannot quietly change the baseline's scale.  The
-    contest key includes the election because East and West Surrey are
-    separate Stage 1 elections.
+    第一阶段自身的 2026 年预测在每个竞选单元中的总和恰好为 100
+    （normalisation_status = 'normalised'），所以 100 是正确的目标，新闻调整
+    不能悄悄改变基线的尺度。竞选单元的键包含选举，因为东萨里和西萨里是
+    两场独立的第一阶段选举。
     """
 
     by_contest: dict[tuple[str, str], list[dict]] = defaultdict(list)
@@ -316,12 +308,11 @@ def _normalise_contests(rows: list[dict], raw_column: str, output_column: str) -
 
 
 def _assign_ranks(rows: list[dict], share_column: str, seats_column: str) -> None:
-    """Deterministic within-contest rank and seat allocation.
+    """确定性的竞选单元内排名和席位分配。
 
-    Ties are broken by candidate_contest_id so two runs of this module can
-    never disagree; the tie-break is recorded in the protocol.  Elected means
-    ranked within the contest's number of seats, which for 2026 is a
-    pre-election fact (two-member wards).
+    平局按 candidate_contest_id 打破，因此本模块的两次运行永远不会得出不同
+    结果；打破平局的规则记录在协议中。"当选"指排名在该竞选单元的席位数
+    之内，而对于 2026 年来说席位数是选举前就已知的事实（双席位分区）。
     """
 
     by_contest: dict[tuple[str, str], list[dict]] = defaultdict(list)
@@ -348,13 +339,11 @@ def predict_specification(
     period: str,
     feature_columns: list[str],
 ) -> tuple[list[dict], dict]:
-    """Apply one fitted specification to every blinded 2026 candidate row.
+    """把一个拟合好的设定应用到每一行盲化的 2026 年候选人数据上。
 
-    Mirrors the frozen experiment exactly: supported parties receive the
-    model's adjustment (news features plus intercept), unsupported minor
-    parties receive no adjustment but remain in the denominator, and both
-    the recalibrated control and the news-enhanced predictions are clipped
-    and renormalised per contest.
+    与冻结实验完全对应：受支持的政党获得模型的调整量（新闻特征加截距），
+    不受支持的小党不做调整但仍保留在分母中，并且重新校准的对照组预测和
+    新闻增强后的预测都会按竞选单元进行截断和重新归一化。
     """
 
     rows = [dict(row) for row in blinded_rows]
@@ -396,11 +385,10 @@ def build_blinded_predictions(
     features: list[dict],
     audit: dict,
 ) -> tuple[dict, list[dict]]:
-    """Fit every frozen specification under both variants and predict 2026.
+    """在两个变体下拟合每一个冻结的设定，并预测 2026 年。
 
-    Returns the protocol record and the prediction rows.  Nothing in the
-    return value contains a 2026 outcome; ``sanitise_holdout_rows`` removed
-    them before any prediction was formed.
+    返回协议记录和预测行。返回值中不包含任何 2026 年的结果；
+    ``sanitise_holdout_rows`` 在形成任何预测之前就已把它们移除。
     """
 
     validate_inputs(oof_rows, audit)
@@ -521,12 +509,10 @@ def write_outputs(
     *,
     input_paths: dict[str, Path],
 ) -> dict:
-    """Write the frozen protocol, the blinded predictions and their hashes.
+    """写出冻结的协议、盲化预测及其哈希。
 
-    Refuses to overwrite: the whole value of this file is that it existed,
-    unchanged, before anyone looked at the 2026 results.  A rebuild requires
-    deleting the directory by hand, which git will show.
-    """
+    拒绝覆盖：这个文件的全部价值就在于，在任何人查看 2026 年结果之前，它就
+    已经存在并且未被改动。重建需要手动删除该目录，而 git 会显示这一操作。"""
 
     output = Path(output_dir)
     predictions_path = output / "blinded_predictions.csv"
@@ -545,8 +531,8 @@ def write_outputs(
         writer.writeheader()
         writer.writerows(predictions)
 
-    # Input hashes make the freeze auditable end to end: the exact feature
-    # table, estimability report and Stage 1 files this run read.
+    # 输入哈希使冻结可以端到端地审计：即本次运行读取的确切的特征
+    # 表、可估计性报告和第一阶段文件。
     protocol = dict(protocol)
     protocol["input_sha256"] = {
         name: _sha256(path) for name, path in sorted(input_paths.items())

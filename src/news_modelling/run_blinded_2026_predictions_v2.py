@@ -1,12 +1,11 @@
-"""Freeze the v2 (enrichment) blinded 2026 predictions.
+"""冻结 v2（扩充版）的盲化 2026 年预测。
 
     PYTHONPATH=src .venv/bin/python -m news_modelling.run_blinded_2026_predictions_v2
 
-Second and final pre-registered model version. Reads the hash-verified
-Stage 1 bundle, news feature table v2 and the frozen estimability report;
-writes the v2 blinded prediction file beside the untouched v1 freeze.
-The v1 sha256 manifest is a required input so the v2 protocol can bind
-itself to the exact v1 files it will be unblinded alongside.
+第二个、也是最后一个预注册的模型版本。读取经过哈希核验的第一阶段模型包、
+新闻特征表 v2 以及冻结的可估计性报告；在未被改动的 v1 冻结旁边写出 v2 的
+盲化预测文件。v1 的 sha256 清单是必需的输入，这样 v2 协议才能把自己绑定到
+将与之一同揭盲的那些确切的 v1 文件上。
 """
 
 from pathlib import Path

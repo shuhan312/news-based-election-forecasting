@@ -1,15 +1,13 @@
-"""Freeze the blinded 2026 news-layer predictions.
+"""冻结盲化的 2026 年新闻层预测。
 
-Usage from the repository root:
+在仓库根目录下的用法：
 
     PYTHONPATH=src .venv/bin/python -m news_modelling.run_blinded_2026_predictions
 
-This is the single sanctioned opening of the Stage 1 holdout file by the
-news layer.  The bundle is loaded through the validating read-only loader,
-observed columns are stripped before any prediction is formed, and the
-output directory refuses to be overwritten once written.  No comparison
-with 2026 outcomes happens here or anywhere until the separate, single
-unblinding step.
+这是新闻层唯一一次被许可打开第一阶段留出集文件的地方。模型包通过带验证的
+只读加载器加载，在形成任何预测之前先剥离观测列，并且输出目录一旦写入就
+拒绝被覆盖。在单独的、唯一一次的揭盲步骤之前，这里以及其他任何地方都
+不会与 2026 年的结果进行比较。
 """
 
 from pathlib import Path
@@ -30,9 +28,9 @@ OUTPUT = Path("news_features/blinded_2026_predictions_v1")
 
 
 def main() -> None:
-    # The validating loader checks the bundle against its own hash manifest,
-    # so the freeze provably reads the same files the Stage 1 metrics
-    # describe — not a quietly regenerated baseline.
+    # 带验证的加载器会根据模型包自身的哈希清单进行检查，
+    # 因此可以证明冻结读取的就是第一阶段指标所描述的那些文件
+    # —— 而不是一个被悄悄重新生成的基线。
     bundle = load_stage1_bundle(BUNDLE)
     audit = json.loads(AUDIT.read_text(encoding="utf-8"))
     features = _read_csv(FEATURES)
@@ -53,8 +51,8 @@ def main() -> None:
         },
     )
 
-    # Deliberately counts and hashes only: predicted values stay in the
-    # frozen files, and observed values were never loaded past the strip.
+    # 刻意只输出计数和哈希：预测值保留在
+    # 冻结文件中，而观测值在剥离步骤之后从未被加载。
     print(f"blinded candidate rows : {protocol['blinded_candidate_rows']}")
     print(f"specifications frozen  : {len(protocol['specifications'])}")
     print(f"prediction rows        : {manifest['prediction_rows']}")
