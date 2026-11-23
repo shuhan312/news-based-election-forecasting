@@ -1,32 +1,20 @@
-# `src/llm_extraction/` — validated LLM context extraction (Layer 3)
+# `src/llm_extraction/` —— 经过验证的 LLM 语境抽取（第 3 层）
 
-This directory turns canonical news articles into structured context labels,
-tests those labels against human coding and independent model runs, and admits
-only validated fields to the final feature pipeline. Not every file is part of
-the production path: the complete file guide below groups every module by
-function, and the main line is listed first.
+本目录把正式新闻文章转换成结构化的语境标签，用人工编码和独立的模型运行来检验这些标签，并且只把经过验证的字段准入最终的特征流水线。并不是每个文件都在生产路径上：下面的完整文件指南按功能对所有模块分组，主线列在最前面。
 
-Generated outputs and decision records live in
-[`llm_context/`](../../llm_context/README.md). Raw per-article model responses
-remain local because they reproduce copyrighted article quotations.
+生成的输出和决策记录位于 [`llm_context/`](../../llm_context/README.md)。逐篇文章的模型原始响应保存在本地，因为其中复述了受版权保护的文章引文。
 
-## 1. The main line
+## 1. 主线
 
-The final report uses three validated extraction layers, run by one
-authoritative production runner:
+最终报告使用三个经过验证的抽取层，由一个权威的生产运行器运行：
 
-| Final layer | Definition | Production model | Final use |
+| 最终层 | 定义 | 生产模型 | 最终用途 |
 |---|---|---|---|
-| Issue classification | `issue_classification.py` | Claude Sonnet 5 | exploratory issue features |
-| Revised party stance | `stance_rescue.py` | Claude Haiku 4.5 | party article share and stance balance |
-| Revised framing | `frame_rescue.py` | Claude Haiku 4.5 | validated frames used in exploratory analysis |
+| 议题分类 | `issue_classification.py` | Claude Sonnet 5 | 探索性的议题特征 |
+| 修订后的政党立场 | `stance_rescue.py` | Claude Haiku 4.5 | 政党文章占比和立场平衡度 |
+| 修订后的框架 | `frame_rescue.py` | Claude Haiku 4.5 | 用于探索性分析的、经过验证的框架 |
 
-`run_corpus_extraction.py` submits, collects, validates, retries, and records
-prompt fingerprints for these layers in tranche files named
-`llm_context/corpus_extraction_outputs_<tranche>.json`.
-`health_check_tranche.py` applies the predeclared operational checks before a
-tranche is accepted, and `write_batch_manifest_digest.py` reduces local batch
-manifests to committed provenance digests.
+`run_corpus_extraction.py` 负责为这些层提交、收集、验证、重试请求，并记录提示词指纹，结果保存在名为 `llm_context/corpus_extraction_outputs_<tranche>.json` 的分批文件中。`health_check_tranche.py` 在一个批次被接受之前执行事先声明的运行检查，`write_batch_manifest_digest.py` 则把本地的批次清单精简为已提交的来源摘要。
 
 ```bash
 python3 -m src.llm_extraction.run_corpus_extraction submit <tranche>
@@ -34,14 +22,14 @@ python3 -m src.llm_extraction.run_corpus_extraction collect <tranche>
 python3 -m src.llm_extraction.health_check_tranche <tranche>
 ```
 
-The accepted labels have two frozen downstream releases:
+被接受的标签有两个冻结的下游版本：
 
-| Release | Builder | Outputs | Role in the final report |
+| 版本 | 构建器 | 输出 | 在最终报告中的角色 |
 |---|---|---|---|
-| v1 | [`src/news_features/build_feature_table.py`](../news_features/build_feature_table.py) | `news_features/news_feature_table_v1.csv`, `news_feature_table_v1_metadata.json` | frozen pre-enrichment reference |
-| v2 | [`src/news_features/build_feature_table_v2.py`](../news_features/build_feature_table_v2.py) | `news_features/news_feature_table_v2.csv`, `news_feature_table_v2_metadata.json` | enriched confirmatory release including the by-election corpus |
+| v1 | [`src/news_features/build_feature_table.py`](../news_features/build_feature_table.py) | `news_features/news_feature_table_v1.csv`、`news_feature_table_v1_metadata.json` | 冻结的、扩充之前的参照 |
+| v2 | [`src/news_features/build_feature_table_v2.py`](../news_features/build_feature_table_v2.py) | `news_features/news_feature_table_v2.csv`、`news_feature_table_v2_metadata.json` | 扩充后的验证性版本，包含补选语料库 |
 
-End-to-end:
+端到端流程：
 
 ```text
 run_corpus_extraction.py
@@ -54,112 +42,99 @@ run_corpus_extraction.py
     -> news_features/unblinding_2026_v1/
 ```
 
-## 2. Complete file guide, grouped by function
+## 2. 按功能分组的完整文件指南
 
-### 2.1 Production pipeline (the main line)
+### 2.1 生产流水线（主线）
 
-| File | Role |
+| 文件 | 作用 |
 |---|---|
-| `run_corpus_extraction.py` | the authoritative runner: full-corpus extraction of the three layers that survived the validation gate |
-| `issue_classification.py` | issue/topic layer definition: prompt, schema, and per-record validator |
-| `stance_rescue.py` | revised three-level party-stance layer definition (replaced the failed original) |
-| `frame_rescue.py` | revised framing layer definition (replaced the failed original) |
-| `health_check_tranche.py` | operational gate a tranche must pass before its labels are accepted |
-| `write_batch_manifest_digest.py` | reduces a tranche's local batch manifest to the committed provenance digest |
+| `run_corpus_extraction.py` | 权威运行器：对通过验证关卡的三个层进行全语料库抽取 |
+| `issue_classification.py` | 议题 / 话题层的定义：提示词、schema 和逐条记录验证器 |
+| `stance_rescue.py` | 修订后的三级政党立场层的定义（取代了未通过验证的原始版本） |
+| `frame_rescue.py` | 修订后的框架层的定义（取代了未通过验证的原始版本） |
+| `health_check_tranche.py` | 一个批次的标签被接受之前必须通过的运行关卡 |
+| `write_batch_manifest_digest.py` | 把一个批次的本地批次清单精简为已提交的来源摘要 |
 
-### 2.2 Shared helpers imported by the code above
+### 2.2 被上述代码导入的共享辅助模块
 
-| File | Role |
+| 文件 | 作用 |
 |---|---|
-| `pilot_sample.py` | sampling and prompt-construction functions; also drew the D4 validation sample |
-| `run_pilot.py` | article loading and model constants reused by the production runner and every rescue layer |
-| `validate_context.py` | schema validation for extracted records |
+| `pilot_sample.py` | 抽样和提示词构造函数；D4 验证样本也是用它抽取的 |
+| `run_pilot.py` | 文章加载和模型常量，被生产运行器和每个重新设计层复用 |
+| `validate_context.py` | 对抽取记录进行 schema 验证 |
 
-### 2.3 Validation evidence behind the report's agreement table
+### 2.3 报告一致性表格背后的验证证据
 
-These scripts produced the kappa values and pass/fail decisions reported in
-the final report (Appendix, LLM extraction validation).
+这些脚本生成了最终报告（附录，LLM 抽取验证）中报告的 kappa 值和通过 / 未通过决定。
 
-| File | Role |
+| 文件 | 作用 |
 |---|---|
-| `build_d4_sample.py` | draws the deterministic human-validation article sample |
-| `run_d4_validation.py` | runs the six compared extraction layers over that sample for both models |
-| `compare_d4_agreement.py` | scores model output against human labels; defines the kappa >= 0.60 judge reused by every other scorer |
-| `compare_model_to_model.py` | inter-model (Sonnet vs Haiku) reliability on the compared layers |
-| `compare_stance_rescue.py` | scores the revised stance layer (inter-model, then human reference) |
-| `compare_frame_rescue.py` | scores the revised framing layer (inter-model, then human reference) |
-| `test_coarsened_agreement.py` | pre-stated check of whether failing fields pass at coarser label granularity |
+| `build_d4_sample.py` | 抽取确定性的人工验证文章样本 |
+| `run_d4_validation.py` | 让两个模型分别在该样本上运行六个被比较的抽取层 |
+| `compare_d4_agreement.py` | 将模型输出与人工标签比较评分；定义了 kappa >= 0.60 的判定标准，其他所有评分程序都复用它 |
+| `compare_model_to_model.py` | 被比较各层上模型之间（Sonnet vs Haiku）的一致性 |
+| `compare_stance_rescue.py` | 为修订后的立场层评分（先模型之间，再对照人工参照） |
+| `compare_frame_rescue.py` | 为修订后的框架层评分（先模型之间，再对照人工参照） |
+| `test_coarsened_agreement.py` | 事先声明的检查：未通过的字段在更粗的标签粒度下能否通过 |
 
-### 2.4 Negative-result evidence (excluded layers)
+### 2.4 负面结果证据（被排除的层）
 
-The credit-blame and expected-impact layers failed their gates even after a
-redesign. Their code remains because the final report reports those negative
-results, which must stay reproducible; they are evidence, not production
-layers.
+功过归因层和预期影响层即使在重新设计之后仍未通过关卡。它们的代码之所以保留，是因为最终报告报告了这些负面结果，而这些结果必须保持可复现；它们是证据，而不是生产层。
 
-| File | Role |
+| 文件 | 作用 |
 |---|---|
-| `credit_blame.py` | original credit/blame attribution layer definition |
-| `attribution_rescue.py` | redesigned credit/blame layer (second attempt) |
-| `compare_attribution_rescue.py` | scores the redesign against human gold labels (still below gate; excluded) |
-| `electoral_consequence.py` | original expected-electoral-impact layer definition |
-| `consequence_rescue.py` | redesigned expected-impact layer (second attempt) |
-| `compare_consequence_rescue.py` | scores the redesign against human gold labels (still below gate; excluded) |
+| `credit_blame.py` | 原始的功过归因层定义 |
+| `attribution_rescue.py` | 重新设计的功过归因层（第二次尝试） |
+| `compare_attribution_rescue.py` | 将重新设计版本与人工金标准标签比较评分（仍低于关卡；被排除） |
+| `electoral_consequence.py` | 原始的预期选举影响层定义 |
+| `consequence_rescue.py` | 重新设计的预期影响层（第二次尝试） |
+| `compare_consequence_rescue.py` | 将重新设计版本与人工金标准标签比较评分（仍低于关卡；被排除） |
 
-### 2.5 Superseded schemes retained as validation inputs
+### 2.5 作为验证输入保留的、已被取代的方案
 
-| File | Role |
+| 文件 | 作用 |
 |---|---|
-| `stance_classification.py` | original stance scheme that failed validation; imported by `run_d4_validation.py` as a compared arm |
-| `framing_detection.py` | original framing scheme that failed validation; imported by `run_d4_validation.py` as a compared arm |
-| `temporal_horizon.py` | LLM temporal-horizon layer that was not adopted; imported by `run_d4_validation.py` as a compared arm |
+| `stance_classification.py` | 未通过验证的原始立场方案；被 `run_d4_validation.py` 作为一个被比较的组导入 |
+| `framing_detection.py` | 未通过验证的原始框架方案；被 `run_d4_validation.py` 作为一个被比较的组导入 |
+| `temporal_horizon.py` | 未被采用的 LLM 时间跨度层；被 `run_d4_validation.py` 作为一个被比较的组导入 |
 
-### 2.6 Final-report extensions
+### 2.6 最终报告的扩展
 
-Thin wrappers that reuse the frozen three-layer machinery on additional
-final-report samples; they define no new extraction methods.
+一些轻量的包装脚本，它们在最终报告的额外样本上复用冻结的三层机制；不定义任何新的抽取方法。
 
-| File | Role |
+| 文件 | 作用 |
 |---|---|
-| `run_byelection_extraction.py` | extracts the by-election corpus that enters the v2 feature table |
-| `run_byelection_issues_resubmit.py` | recovery wrapper: resubmits the by-election issues layer after an API credit outage |
-| `run_haslemere_probe_extraction.py` | extraction for the Haslemere replication test |
-| `run_woking_south_blind_extraction.py` | extraction for the Woking South blind transfer test |
+| `run_byelection_extraction.py` | 抽取进入 v2 特征表的补选语料库 |
+| `run_byelection_issues_resubmit.py` | 恢复用的包装脚本：在 API 额度中断之后重新提交补选的议题层 |
+| `run_haslemere_probe_extraction.py` | Haslemere 复现测试的抽取 |
+| `run_woking_south_blind_extraction.py` | Woking South 盲测迁移测试的抽取 |
 
-### 2.7 Archived validation support and the post-unblinding extension
+### 2.7 归档的验证支持与揭盲后的扩展
 
-| File | Role |
+| 文件 | 作用 |
 |---|---|
-| `freeze_layer.py` | pure validation helpers retained because the archived eight-layer freeze report and the viva pack exercise its evidence re-verification; it is not a production runner |
-| `run_e5_backlog_v3_extraction.py` | post-unblinding v3exp lineage: not used by the v1/v2 feature tables, but its labels enter the v3exp table that the Woking South blind test's local arm (§5.6) fits on |
+| `freeze_layer.py` | 纯验证辅助函数；之所以保留，是因为归档的八层冻结报告和答辩材料包会演示它的证据重新核验；它不是生产运行器 |
+| `run_e5_backlog_v3_extraction.py` | 揭盲之后的 v3exp 谱系：v1/v2 特征表不使用它，但它的标签进入了 v3exp 表，Woking South 盲测的本地实验组（§5.6）就是在这张表上拟合的 |
 
-Superseded development code beyond this — the original single-layer pilot
-runners, the never-validated local/national-relevance and confidence-evidence
-layers, the obsolete eight-layer freeze runner, and two one-off provenance
-repair tools — has been removed from the final tree. Git history preserves
-those scripts. The prompt-backfill finding, including the unrecoverable v1.2
-prompt, remains recorded in `llm_context/d4_findings_log.md`.
+除此之外的已被取代的开发代码——最初的单层试点运行器、从未通过验证的本地 / 全国相关性层和置信度证据层、过时的八层冻结运行器，以及两个一次性的来源修复工具——已从最终的目录树中移除。Git 历史保留了这些脚本。关于提示词回填的发现（包括无法恢复的 v1.2 提示词）仍记录在 `llm_context/d4_findings_log.md` 中。
 
-## 3. Output locations and hand-off
+## 3. 输出位置与交接
 
-The production code and its outputs deliberately live in different
-directories:
+生产代码和它的输出刻意放在不同的目录中：
 
-| Location | Contents | Version-control status |
+| 位置 | 内容 | 版本管理状态 |
 |---|---|---|
-| `src/llm_extraction/` | extraction, validation and comparison code | committed |
-| `llm_context/corpus_extraction_outputs_<tranche>.json` | raw per-article labels and supporting quotations | local/OneDrive; git-ignored because quotations reproduce copyrighted text |
-| `llm_context/*agreement*.json` | human-model and model-model validation results | committed |
-| `llm_context/corpus_extraction_batch_digests.json` | prompt fingerprints, batch ids and output digests | committed |
-| `llm_context/d4_llm_output_manifest.json` | integrity manifest for local validation outputs | committed |
-| `news_features/news_feature_table_v1.*` | frozen pre-enrichment feature table and metadata | committed |
-| `news_features/news_feature_table_v2.*` | enriched final-report feature table and metadata | committed |
+| `src/llm_extraction/` | 抽取、验证和比较代码 | 已提交 |
+| `llm_context/corpus_extraction_outputs_<tranche>.json` | 逐篇文章的原始标签和支撑引文 | 本地 / OneDrive；因引文复述了受版权保护的文本而被 git 忽略 |
+| `llm_context/*agreement*.json` | 人工–模型以及模型–模型的验证结果 | 已提交 |
+| `llm_context/corpus_extraction_batch_digests.json` | 提示词指纹、批次 ID 和输出摘要 | 已提交 |
+| `llm_context/d4_llm_output_manifest.json` | 本地验证输出的完整性清单 | 已提交 |
+| `news_features/news_feature_table_v1.*` | 冻结的、扩充之前的特征表及元数据 | 已提交 |
+| `news_features/news_feature_table_v2.*` | 扩充后的、最终报告使用的特征表及元数据 | 已提交 |
 
-## 4. Verifying this directory without spending API credit
+## 4. 不花费 API 额度即可验证本目录
 
-The deterministic logic of this package (prompt construction, record
-validators, agreement scoring, gate rules) is covered by unit tests that run
-offline in a few seconds:
+本包的确定性逻辑（提示词构造、记录验证器、一致性评分、关卡规则）由单元测试覆盖，可以在几秒钟内离线运行：
 
 ```bash
 python -m pytest tests/test_issue_classification.py \
@@ -170,22 +145,14 @@ python -m pytest tests/test_issue_classification.py \
     tests/test_party_content_attribution.py
 ```
 
-The model responses themselves are treated as frozen artefacts rather than
-regenerated casually: the Claude Batches API is costly and not bit-for-bit
-deterministic. Committed prompt versions, agreement scorecards, batch
-digests, prompt fingerprints, and SHA-256 manifests identify the exact local
-outputs used by the final feature tables.
+模型响应本身被视为冻结的产物，而不会被随意重新生成：Claude Batches API 成本较高，而且不能保证逐位确定。已提交的提示词版本、一致性评分表、批次摘要、提示词指纹和 SHA-256 清单共同确定了最终特征表所使用的确切本地输出。
 
-The final methodological rule is simple:
+最终的方法论规则很简单：
 
-1. validate the record structure and evidence;
-2. measure reliability on held-out human-labelled articles and independent
-   model runs;
-3. admit only fields that meet the declared rule;
-4. preserve failed fields only when they support a reported negative result;
-5. make every accepted tranche traceable to its prompt and batch manifest.
+1. 验证记录结构和证据；
+2. 在留出的人工标注文章和独立的模型运行上衡量一致性；
+3. 只准入满足已声明规则的字段；
+4. 只有当未通过的字段用于支撑一项已报告的负面结果时，才保留它们；
+5. 让每个被接受的批次都能追溯到其提示词和批次清单。
 
-See [`REPO_MAP.md`](../../REPO_MAP.md) for the complete path from canonical
-articles through extraction and feature construction to the Stage 2 models.
-The Stage 2 runners also load the frozen Stage 1 bundle documented in
-[`surrey-election-no-news-baseline/README.md`](../../surrey-election-no-news-baseline/README.md).
+从正式文章经过抽取和特征构建到第二阶段模型的完整路径见 [`REPO_MAP.md`](../../REPO_MAP.md)。第二阶段的运行器还会加载 [`surrey-election-no-news-baseline/README.md`](../../surrey-election-no-news-baseline/README.md) 中记录的冻结第一阶段模型包。

@@ -1,101 +1,61 @@
-# Viva demonstrator (`demo/`)
+# 答辩演示程序（`demo/`）
 
-A local, offline research demonstrator for the viva, built for the study
-**"Context to Consequence — AI-Driven News Categorisation and Event
-Prediction"** (2026 Surrey local elections, Reform UK focus).
+一个本地、离线的研究演示程序，为答辩（viva）而制作，服务于研究课题 **"Context to Consequence — AI-Driven News Categorisation and Event Prediction"（从语境到后果——AI 驱动的新闻分类与事件预测）**（2026 年萨里地方选举，重点关注英国改革党 Reform UK）。
 
-## Separation statement
+## 隔离声明
 
-This directory is **not part of the work the reported results rest on**.
-Nothing here feeds the pipeline, the frozen predictions, the report tables
-or the report figures. It is a *viewing layer only*: every number shown is
-**read at build time from the committed, frozen artefacts** in
-`outputs/report_tables_v1/` (whose `manifest.json` pins the sha256 of every
-upstream input) and every figure is embedded from the committed
-`outputs/report_figures_v1/`. The build **fails** if any headline number in
-the pack disagrees with the frozen artefacts. No number is invented, and
-exploratory results are labelled as such, exactly as in the report.
+本目录**不属于报告结果所依赖的工作**。这里的任何内容都不会输入流水线、冻结的预测、报告表格或报告图表。它*只是一个浏览层*：展示的每个数字都是**在构建时从 `outputs/report_tables_v1/` 中已提交的、冻结的产物读取的**（其 `manifest.json` 锁定了每个上游输入的 sha256），每张图都嵌入自已提交的 `outputs/report_figures_v1/`。如果材料包中任何一个核心数字与冻结产物不一致，构建就会**失败**。没有任何数字是编造的，探索性结果也会如实标注为探索性结果，与报告完全一致。
 
-## What it produces
+## 生成的内容
 
-`demo/viva_pack.html` — a single self-contained HTML file (no server, no
-network, no API keys) with eight sections following the demonstrator brief:
+`demo/viva_pack.html` —— 一个单一、自包含的 HTML 文件（不需要服务器、网络或 API key），按照演示要求分为八个部分：
 
-1. Research overview
-2. Data and code
-3. Methodology
-4. Technical results
-5. Research interpretation
-6. Interactive demonstration (frozen-model scenarios + confirmatory explorer)
-7. Limitations and responsible use
-8. Exports and provenance
+1. 研究概述
+2. 数据与代码
+3. 方法论
+4. 技术结果
+5. 研究解读
+6. 交互演示（冻结模型的情景分析 + 验证性结果浏览器）
+7. 局限性与负责任的使用
+8. 导出与来源追溯
 
-plus built-in **viva guidance**: a suggested run order, per-section speaking
-notes, and anticipated questions with artefact-grounded answers.
+此外还内置了**答辩指引**：建议的演示顺序、每一部分的讲解要点，以及预想的问题和基于产物的回答。
 
-a **code navigator** (section 9: every tracked Python file in `src/`,
-`app/`, `tests/` and `demo/`, embedded verbatim with search and
-line-numbered viewing, so any examiner question can be answered by
-opening the exact file), and the live-demonstration pairing required by
-the supervisor's viva guidance: the static pack carries the frozen
-evidence and its code trail, while `app/news_app.py` (Streamlit) accepts
-inputs — party, tone, arm, article count, window — and runs the frozen
-model live; the pack verifies at build time that the live app's inputs
-are present on the machine.
+还有一个**代码导航器**（第 9 部分：`src/`、`app/`、`tests/` 和 `demo/` 中每个纳入版本管理的 Python 文件都被原样嵌入，支持搜索和带行号查看，因此考官的任何问题都可以通过打开对应的文件来回答），以及导师答辩指引所要求的现场演示配套：静态材料包承载冻结的证据及其代码线索，而 `app/news_app.py`（Streamlit）接受输入——政党、语气、实验组、文章数量、时间窗口——并现场运行冻结的模型；材料包会在构建时核验现场应用所需的输入是否存在于本机上。
 
-Two further features are wired through the whole page:
+整个页面还贯穿了另外两项功能：
 
-- **Number-to-code provenance.** Every table, figure and headline number
-  carries a "code behind these numbers" button. It opens the full chain:
-  the frozen input artefact (with its manifest sha256), the pipeline
-  module that computed the numbers (docstring plus the exact functions,
-  e.g. the bootstrap and scoring code in `unblind_2026.py`), and the
-  function in `build_report_tables.py` that wrote the CSV. All excerpts
-  are extracted from the repository by `ast` at build time — never
-  copied by hand — so they cannot drift from the committed code.
-- **Synthetic what-if scenarios.** Section 6.2 replays the design's
-  scenario layer (`synthetic_news_scenarios.py`): hypothetical stories
-  injected into the frozen v2 model's feature cells, with the injection
-  mechanics, the frozen-coefficient assertion and the stated boundary
-  (the issue axis cannot flow through the model) shown alongside the
-  committed outputs.
+- **数字到代码的来源追溯。** 每张表、每张图和每个核心数字都带有一个"这些数字背后的代码"按钮。点击后会展开完整的链条：冻结的输入产物（及其清单中的 sha256）、计算这些数字的流水线模块（模块的 docstring 加上确切的函数，例如 `unblind_2026.py` 中的 bootstrap 和评分代码），以及 `build_report_tables.py` 中写出该 CSV 的函数。所有摘录都在构建时由 `ast` 从仓库中提取——从不手工复制——因此不可能与已提交的代码出现偏差。
+- **合成的假设情景（what-if）。** 第 6.2 部分重放了设计中的情景层（`synthetic_news_scenarios.py`）：把假设的新闻报道注入冻结的 v2 模型的特征单元格中，并在已提交的输出旁边展示注入机制、冻结系数断言以及已声明的边界（议题维度无法通过模型传导）。
 
-## Run instructions
+## 运行说明
 
-From the repository root:
+在仓库根目录下：
 
 ```bash
 .venv/bin/python demo/build_viva_pack.py
 open demo/viva_pack.html
 ```
 
-Dependencies: only `pandas` (already in the project `requirements.txt`).
-No environment variables, keys or network access are needed — the pack is
-static and works offline in any browser.
+依赖：只需要 `pandas`（已包含在项目的 `requirements.txt` 中）。不需要任何环境变量、密钥或网络访问——材料包是静态的，可以在任何浏览器中离线使用。
 
-Tests:
+测试：
 
 ```bash
 .venv/bin/python -m pytest demo/test_viva_pack.py -q
 ```
 
-## Live-model demonstration (optional, separate)
+## 现场模型演示（可选，独立）
 
-The repository also contains `app/news_app.py`, a Streamlit app that runs
-synthetic scenarios against the *frozen* Stage 2 model live (it re-verifies
-the frozen coefficients before running anything). The static pack embeds the
-committed scenario outputs (`t18_synthetic_scenarios.csv`) instead, so the
-viva demonstration works with zero setup; the Streamlit app is the fallback
-if a live run is requested and the local model bundle is present.
+仓库中还包含 `app/news_app.py`，这是一个 Streamlit 应用，可以针对*冻结的*第二阶段模型现场运行合成情景（在运行任何内容之前，它都会重新核验冻结的系数）。静态材料包则嵌入的是已提交的情景输出（`t18_synthetic_scenarios.csv`），因此答辩演示无需任何配置即可进行；如果要求现场运行、并且本地存在模型包，则以 Streamlit 应用作为备选。
 
-## Provenance
+## 来源追溯
 
-| input | role |
+| 输入 | 作用 |
 | --- | --- |
-| `outputs/report_tables_v1/*.csv` | all tabular numbers (frozen, sha256-pinned via `manifest.json`) |
-| `outputs/report_tables_v1/latex/a1_stage1_predictors.tex`, `a5_llm_validation.tex` | predictor dictionary and LLM validation evidence |
-| `outputs/report_figures_v1/*.png` | all figures (committed) |
-| `git ls-files` | the repository map and test counts (computed, not typed) |
+| `outputs/report_tables_v1/*.csv` | 所有表格数字（冻结的，通过 `manifest.json` 以 sha256 锁定） |
+| `outputs/report_tables_v1/latex/a1_stage1_predictors.tex`、`a5_llm_validation.tex` | 预测变量词典和 LLM 验证证据 |
+| `outputs/report_figures_v1/*.png` | 所有图表（已提交） |
+| `git ls-files` | 仓库地图和测试数量（计算得出，而非手工填写） |
 
-The generated `viva_pack.html` is a build artefact and is git-ignored
-(see `demo/.gitignore`), per the repository's generated-artefact rule.
+生成的 `viva_pack.html` 是构建产物，依据仓库关于生成产物的规定已被 git 忽略（见 `demo/.gitignore`）。

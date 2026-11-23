@@ -1,8 +1,8 @@
 # `title.toml`
 
-- The `title.toml` file in this directory is pre-populated with the project title we have on record.  
-- It is your responsibility to keep this file up to date.
+- 本目录中的 `title.toml` 文件已预先填入我们登记在案的项目标题。  
+- 你有责任保持该文件为最新状态。
 
-## Validating with GitHub Actions
+## 使用 GitHub Actions 验证
 
-To ensure that your `title.toml` file is correctly formatted and readable, make sure the `title` GitHub Actions workflow passes successfully.
+为确保你的 `title.toml` 文件格式正确且可以正常读取，请确保 `title` GitHub Actions 工作流成功通过。

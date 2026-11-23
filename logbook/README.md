@@ -1,11 +1,11 @@
 # `logbook.md`
 
-You are responsible for keeping the `logbook.md` file in this directory **regularly updated** on the `main` branch, in accordance with the [Engaging with Supervisors and Documenting Meetings](https://ese-msc.github.io/irp/academic-integrity/engaging-with-supervisors/).
+你有责任按照 [Engaging with Supervisors and Documenting Meetings（与导师沟通及会议记录）](https://ese-msc.github.io/irp/academic-integrity/engaging-with-supervisors/) 的要求，在 `main` 分支上**定期更新**本目录中的 `logbook.md` 文件。
 
-## Validating with GitHub Actions
+## 使用 GitHub Actions 验证
 
-To ensure that `logbook.md` is properly formatted and readable, make sure the `logbook` GitHub Actions workflow passes successfully.
+为确保 `logbook.md` 格式正确且可以正常读取，请确保 `logbook` GitHub Actions 工作流成功通过。
 
-## Inactivity Warnings
+## 不活跃警告
 
-A scheduled workflow will periodically check whether `logbook.md` has been updated recently on `main`. If no recent commits are detected, a warning will be automatically raised as an issue in this repository. **You must not close those issues.**
+一个定时工作流会定期检查 `main` 分支上的 `logbook.md` 最近是否有更新。如果没有检测到最近的提交，系统会自动在本仓库中创建一个 issue 作为警告。**你不得关闭这些 issue。**

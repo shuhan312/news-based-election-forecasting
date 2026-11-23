@@ -1,139 +1,91 @@
-# `src/` — news-pipeline code (Layers 1–5)
+# `src/` —— 新闻流水线代码（第 1–5 层）
 
-## Purpose and role in the IRP
+## 用途及在 IRP 中的角色
 
-This directory contains the code that prepares the news side of the project and
-fits the Stage 2 news model. It tests whether pre-election news provides
-**additional predictive information beyond the history-only Stage 1 baseline**
-(`surrey-election-no-news-baseline/`). It turns raw news articles into validated
-election–party–window features and fits the residual model used in the project's
-central comparison.
+本目录包含为项目新闻部分做准备、并拟合第二阶段新闻模型的代码。它检验选举前的新闻是否能**在仅基于历史数据的第一阶段基线**（`surrey-election-no-news-baseline/`）**之外提供额外的预测信息**。它把原始新闻文章转换成经过验证的"选举–政党–时间窗口"特征，并拟合项目核心比较中所使用的残差模型。
 
-It holds **code only**. Its outputs and frozen evidence live at the repository
-root — `news_collection/`, `llm_context/`, `news_features/` — and the report
-tables in `outputs/`. For the full eight-layer pipeline and how any reported
-number traces to the code that produced it, see [`../REPO_MAP.md`](../REPO_MAP.md).
+这里**只存放代码**。它的输出和冻结证据位于仓库根目录——`news_collection/`、`llm_context/`、`news_features/`——报告表格位于 `outputs/`。关于完整的八层流水线，以及任何一个报告数字如何追溯到生成它的代码，见 [`../REPO_MAP.md`](../REPO_MAP.md)。
 
-## Numbering: layers are not modelling stages
+## 编号说明：层（Layer）不是建模阶段（Stage）
 
-The repository uses two deliberately different numbering systems:
+本仓库刻意使用两套不同的编号体系：
 
-- **Pipeline Layers 1–8** describe the end-to-end data and evidence flow.
-- **Modelling Stages 1–2** distinguish the history-only baseline (Stage 1) from
-  the news residual model (Stage 2).
+- **流水线第 1–8 层（Pipeline Layers 1–8）** 描述端到端的数据流和证据流。
+- **建模第 1–2 阶段（Modelling Stages 1–2）** 区分仅基于历史数据的基线（第一阶段）和新闻残差模型（第二阶段）。
 
-Stage 2 modelling therefore sits in **Pipeline Layer 5**. Collection's internal
-query stages (A–H, M, M2) and eligibility stages (1–5) are local workflow labels,
-not modelling stages or pipeline layers.
+因此，第二阶段建模位于**流水线第 5 层**。收集过程内部的查询阶段（A–H、M、M2）和纳入资格阶段（1–5）只是局部的工作流标签，既不是建模阶段，也不是流水线层。
 
-Some Layer 2 READMEs also retain numbers from the original news-processing
-protocol: text normalisation was **Phase 4** and deduplication was **Phase 5**.
-Those are historical within-layer workflow labels, not extra pipeline layers.
-Both components belong to current **Pipeline Layer 2**; the phase numbers are
-kept only so the code can still be traced to the original protocol.
+部分第 2 层的 README 还保留了最初新闻处理协议中的编号：文本规范化是**第 4 阶段（Phase 4）**，去重是**第 5 阶段（Phase 5）**。这些是层内部的历史工作流标签，并不是额外的流水线层。这两个组件都属于当前的**流水线第 2 层**；保留这些阶段编号只是为了让代码仍能追溯到最初的协议。
 
-## Layers represented in `src/`
+## `src/` 中涵盖的层
 
-| Pipeline layer | Code location | Responsibility |
+| 流水线层 | 代码位置 | 职责 |
 | --- | --- | --- |
-| **1A — official-election inputs** | top-level `src/*.py`; `surrey-election-extractor/` | build and validate the election results, calendar and name tables against which news is aligned |
-| **1B — news collection and eligibility** | `news_collection/` | retrieve the pre-election corpus and record every include/exclude decision |
-| **2 — cleaning and canonicalisation** | `normalisation/`, `dedup/` | clean text, collapse duplicates and select one canonical article |
-| **3 — LLM extraction and validation** | `llm_extraction/` | extract issue/stance/framing labels, apply the human-agreement gate and freeze accepted labels |
-| **4 — feature construction** | `news_features/` | aggregate accepted labels to election–party–window feature tables and apply leakage guards |
-| **5 — modelling** | `news_modelling/`; Stage 1 sibling project | load the frozen Stage 1 bundle, fit Stage 2 residual models, freeze predictions and unblind once |
+| **1A —— 官方选举输入** | 顶层的 `src/*.py`；`surrey-election-extractor/` | 构建并验证选举结果、日历和名称表，新闻以它们为基准对齐 |
+| **1B —— 新闻收集与纳入资格** | `news_collection/` | 获取选举前的语料库，并记录每一项纳入 / 排除决策 |
+| **2 —— 清洗与规范化** | `normalisation/`、`dedup/` | 清洗文本、合并重复项并选出一篇正式文章 |
+| **3 —— LLM 抽取与验证** | `llm_extraction/` | 抽取议题 / 立场 / 框架标签，执行人工一致性关卡，并冻结被接受的标签 |
+| **4 —— 特征构建** | `news_features/` | 把被接受的标签聚合成"选举–政党–时间窗口"特征表，并执行防泄漏检查 |
+| **5 —— 建模** | `news_modelling/`；第一阶段的同级项目 | 加载冻结的第一阶段模型包，拟合第二阶段残差模型，冻结预测并执行一次性揭盲 |
 
-Layers 6–8 live outside `src/`: frozen evidence in `news_features/` and
-`news_protocol/`, report tables/figures in `outputs/`, and the final consumers
-in `report/`, `app/` and `demo/`. See [`../REPO_MAP.md`](../REPO_MAP.md) for the
-authoritative eight-layer map and report-to-code trace.
+第 6–8 层位于 `src/` 之外：冻结证据在 `news_features/` 和 `news_protocol/` 中，报告表格 / 图表在 `outputs/` 中，最终的使用方在 `report/`、`app/` 和 `demo/` 中。权威的八层地图以及从报告到代码的追溯见 [`../REPO_MAP.md`](../REPO_MAP.md)。
 
-## Pipeline overview
+## 流水线概览
 
 ```text
-Layer 1  official-election inputs + news collection and eligibility
+第 1 层  官方选举输入 + 新闻收集与纳入资格
    ↓
-Layer 2  text normalisation + article store + deduplication
+第 2 层  文本规范化 + 文章存储 + 去重
    ↓
-Layer 3  LLM issue / stance / framing → validation gate → frozen labels
+第 3 层  LLM 议题 / 立场 / 框架 → 验证关卡 → 冻结标签
    ↓
-Layer 4  election × party × window feature tables
+第 4 层  选举 × 政党 × 时间窗口 特征表
    ↓
-Layer 5  Stage 1 historical baseline + Stage 2 news residual model
+第 5 层  第一阶段历史基线 + 第二阶段新闻残差模型
    ↓
-Layers 6–8  frozen evidence → report pack → report/app/viva consumers
+第 6–8 层  冻结证据 → 报告包 → 报告 / 应用 / 答辩 使用方
 ```
 
-## Layout
+## 目录结构
 
-| Location | What it does |
+| 位置 | 作用 |
 | --- | --- |
-| `news_collection/` | Layer 1B: news retrieval and eligibility/leakage screening |
-| `normalisation/`, `dedup/` | Layer 2: cleaning and canonicalisation |
-| `llm_extraction/` | Layer 3: LLM labels, validation and freeze evidence |
-| `news_features/` | Layer 4: deterministic feature construction and leakage guards |
-| `news_modelling/` | Layer 5: Stage 2 residual modelling, blinding, unblinding and diagnostics |
-| top-level scripts | Layer 1A: build the election tables and calendar to which news is aligned |
+| `news_collection/` | 第 1B 层：新闻检索以及纳入资格 / 泄漏筛查 |
+| `normalisation/`、`dedup/` | 第 2 层：清洗与规范化 |
+| `llm_extraction/` | 第 3 层：LLM 标签、验证与冻结证据 |
+| `news_features/` | 第 4 层：确定性的特征构建与防泄漏检查 |
+| `news_modelling/` | 第 5 层：第二阶段残差建模、盲化、揭盲与诊断 |
+| 顶层脚本 | 第 1A 层：构建新闻据以对齐的选举表和日历 |
 
-Each subdirectory's own README lists its files and the ordered steps within it.
+每个子目录都有自己的 README，列出其中的文件以及内部的执行步骤顺序。
 
-## How to run the code
+## 如何运行代码
 
-Not every `.py` file is an executable program. The supported entry points are
-the documented `run_*` and `build_*` modules; schemas, validators, estimators
-and comparison helpers are normally imported by those entry points. Running a
-helper directly is neither required nor a separate reproduction step.
+并不是每个 `.py` 文件都是可执行程序。受支持的入口是有文档说明的 `run_*` 和 `build_*` 模块；schema、验证器、估计器和比较辅助模块通常由这些入口导入。直接运行辅助模块既不是必需的，也不构成一个单独的复现步骤。
 
-| Layer | Where the supported commands are documented | Execution rule |
+| 层 | 受支持命令的文档位置 | 执行规则 |
 | --- | --- | --- |
-| 1A | the top-level-script guide below | run only the required standalone builder or validator from the repository root |
-| 1B | [`news_collection/README.md`](news_collection/README.md) | use the collection CLI for query stages and the documented builders for eligibility/release work |
-| 2 | [`normalisation/README.md`](normalisation/README.md), [`dedup/README.md`](dedup/README.md) | run the ordered `build_*` chains |
-| 3 | [`llm_extraction/README.md`](llm_extraction/README.md) | use the production batch runner and health check; validation modules support the recorded evidence, and API runs are not repeated casually |
-| 4 | [`news_features/README.md`](news_features/README.md) | run the required v1/v2 or explicitly named extension builder |
-| 5 | [`news_modelling/README.md`](news_modelling/README.md) | use the named freeze/unblind runners; the remaining modules are report diagnostics, figure builders or imported modelling logic |
+| 1A | 下面的顶层脚本指南 | 只在仓库根目录下运行所需的独立构建器或验证器 |
+| 1B | [`news_collection/README.md`](news_collection/README.md) | 查询阶段使用收集命令行工具，纳入资格 / 版本发布工作使用有文档说明的构建器 |
+| 2 | [`normalisation/README.md`](normalisation/README.md)、[`dedup/README.md`](dedup/README.md) | 按顺序运行 `build_*` 链 |
+| 3 | [`llm_extraction/README.md`](llm_extraction/README.md) | 使用生产批处理运行器和健康检查；验证模块用于支撑已记录的证据，API 调用不应随意重复运行 |
+| 4 | [`news_features/README.md`](news_features/README.md) | 运行所需的 v1/v2 或明确指名的扩展构建器 |
+| 5 | [`news_modelling/README.md`](news_modelling/README.md) | 使用指名的冻结 / 揭盲运行器；其余模块是报告诊断、图表构建器或被导入的建模逻辑 |
 
-Each layer README also gives its offline verification command. The complete
-repository reproduction order is documented in `REPO_MAP.md`; a file's presence
-in a file guide does not imply that it must be run independently.
+每一层的 README 也都给出了其离线验证命令。完整的仓库复现顺序记录在 `REPO_MAP.md` 中；某个文件出现在文件指南中，并不意味着它必须被单独运行。
 
-### Layer 1A: top-level official-election input scripts
+### 第 1A 层：顶层的官方选举输入脚本
 
-The loose scripts directly under `src/` are the official-election branch of
-Layer 1: each builds a shared input the rest of the pipeline aligns against (the
-`data/elections/` result tables, the election calendar, the name-standardisation
-tables). They are standalone scripts, not a multi-step sub-pipeline, which is why
-they sit at the top level rather than in a package. Grouped by role:
+直接位于 `src/` 下的零散脚本是第 1 层中官方选举数据的分支：每个脚本构建一项供流水线其余部分对齐的共享输入（`data/elections/` 中的结果表、选举日历、名称标准化表）。它们是独立脚本，而不是多步骤的子流水线，因此放在顶层而不是放在一个包里。按用途分组：
 
-- **Official results → the `data/elections/` tables** — `fetch_official_scc_results.py`, `fetch_2026_surrey_results.py`, `convert_2013_extractor_output.py`, `convert_2026_extractor_output.py`, `add_2013_wikipedia_turnout.py` (fills the 2013 turnout gap the official page lacks), `fetch_election_results.py`, `aggregate_results.py` (writes `ward_party_results.csv` and `ward_winners.csv`, which the pre-registered division sample reads), `build_election_calendar.py`, `audit_turnout.py`, `validate_election_results.py`
-- **Name standardisation and sampling** — `build_name_standardisation.py`, `build_division_sample.py`
-- **News-coverage checks** — `check_newsapi_coverage.py`, `pilot_news_retrieval.py`, `verify_news_coverage_audit.py`
+- **官方结果 → `data/elections/` 中的表** —— `fetch_official_scc_results.py`、`fetch_2026_surrey_results.py`、`convert_2013_extractor_output.py`、`convert_2026_extractor_output.py`、`add_2013_wikipedia_turnout.py`（填补官方页面缺失的 2013 年投票率）、`fetch_election_results.py`、`aggregate_results.py`（写出 `ward_party_results.csv` 和 `ward_winners.csv`，预注册的选区样本会读取它们）、`build_election_calendar.py`、`audit_turnout.py`、`validate_election_results.py`
+- **名称标准化与抽样** —— `build_name_standardisation.py`、`build_division_sample.py`
+- **新闻覆盖检查** —— `check_newsapi_coverage.py`、`pilot_news_retrieval.py`、`verify_news_coverage_audit.py`
 
-Superseded early code — the `build_model_dataset.py` prototype, the
-pre-supervisor news scripts (`legacy_pre_supervisor_news/`) and the research
-workbook builder (`build_research_workbook.py`, whose spec predates the
-current results schema) — has been removed from the working tree and remains
-in Git history.
+已被取代的早期代码——`build_model_dataset.py` 原型、导师介入之前的新闻脚本（`legacy_pre_supervisor_news/`）以及研究工作簿构建器（`build_research_workbook.py`，其规格早于当前的结果 schema）——已从工作目录树中移除，保留在 Git 历史中。
 
-**Outputs and reproduction.** These scripts write the committed `data/elections/`
-reference tables (`2013_scc_results.csv`, `2026_east/west_surrey_results.csv`,
-`election_calendar.csv`, `candidate_name_standardisation.csv` and their logs), so
-those tables are already in the repository and need not be regenerated. The
-`convert_*` scripts read the frozen extractor output and reproduce
-deterministically; the `fetch_*`, calendar and Wikipedia-turnout scripts read
-external sources, so re-running them yields a fresh snapshot rather than a
-bit-for-bit copy of the committed table. Run a script from the repository root
-(some, such as `build_name_standardisation.py`, import a sibling module and need
-`PYTHONPATH=src`).
+**输出与复现。** 这些脚本写出已提交的 `data/elections/` 参考表（`2013_scc_results.csv`、`2026_east/west_surrey_results.csv`、`election_calendar.csv`、`candidate_name_standardisation.csv` 及其日志），因此这些表已经在仓库中，无需重新生成。`convert_*` 脚本读取冻结的抽取器输出，可以确定性地复现；`fetch_*`、日历和维基百科投票率脚本读取外部来源，因此重新运行它们会得到一份新的快照，而不是与已提交表格逐位一致的副本。请在仓库根目录下运行脚本（部分脚本，例如 `build_name_standardisation.py`，会导入同级模块，需要设置 `PYTHONPATH=src`）。
 
-## Reproducibility and leakage controls
+## 可复现性与防泄漏控制
 
-The production path is staged; validation, audit and presentation modules may
-also read explicitly named upstream artefacts. Predictors and outcomes stay
-separated, missing values are flagged rather than filled, LLM labels enter
-Layer 4 only after the κ ≥ 0.60 human-agreement gate and are then frozen, and
-Stage 2 models the residuals of the frozen Stage 1 baseline to test whether
-news features add predictive information beyond history. Reported numbers
-trace to committed artefacts, and the report table pack pins the sha256 of
-every input it reads (see `REPO_MAP.md` and the root `REPRODUCIBILITY.md`).
-Large raw inputs under `data/` are local by design per the IRP large-file rule.
+生产路径是分阶段的；验证、审计和展示模块也可以读取明确指名的上游产物。预测变量和结果变量保持分离，缺失值会被标记而不是被填补，LLM 标签只有在通过 κ ≥ 0.60 的人工一致性关卡之后才会进入第 4 层并随即冻结，第二阶段对冻结的第一阶段基线的残差建模，以检验新闻特征能否在历史数据之外提供额外的预测信息。报告中的数字都可以追溯到已提交的产物，报告表格包锁定了它读取的每个输入的 sha256（见 `REPO_MAP.md` 和根目录的 `REPRODUCIBILITY.md`）。依据 IRP 大文件规定，`data/` 下的大型原始输入按设计只保存在本地。

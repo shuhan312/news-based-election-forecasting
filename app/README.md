@@ -1,45 +1,32 @@
-# `app/` — the news-layer Streamlit interface
+# `app/` —— 新闻层的 Streamlit 界面
 
-A Layer 8 consumer: a thin, **read-only** viewing layer over the artefacts the
-pipeline has already produced. It does not process, fit or re-drive anything —
-the news layer ran through the auditable CLI pipeline and its outputs are frozen,
-so this app only displays them. Re-driving processing here would either duplicate
-the CLI or, worse, invite reading an outcome the design keeps blinded.
+一个第 8 层（Layer 8）的消费者：在流水线已经生成的产物之上的一层轻量、**只读**的浏览层。它不做任何处理、拟合或重新驱动——新闻层已经通过可审计的命令行流水线运行完毕，其输出已被冻结，所以这个应用只负责展示它们。如果在这里重新驱动处理流程，要么会重复命令行的工作，要么更糟——会诱使人去读取设计上一直保持盲化的结果。
 
-## The three pages
+## 三个页面
 
-`news_app.py` presents:
+`news_app.py` 提供：
 
-- **Status** — what has run and which frozen artefacts are loaded (the Stage 1
-  bundle, the feature table, the corpus release), each shown with its version and
-  `sha256` so the app can be trusted to be reading the committed evidence.
-- **Results** — the news layer's confirmatory results, carrying the statistical
-  interpretation warning the design requires on any results surface.
-- **Scenarios** — how the fitted model responds to a hypothetical news story; the
-  scenario page re-verifies the inputs it uses.
+- **Status（状态）** —— 哪些步骤已经运行、加载了哪些冻结产物（第一阶段模型包、特征表、语料库版本），每一项都显示其版本号和 `sha256`，以便确信应用读取的正是已提交的证据。
+- **Results（结果）** —— 新闻层的验证性结果，并带有设计要求在任何结果展示界面上都必须附带的统计解读警示。
+- **Scenarios（情景）** —— 拟合好的模型对一条假设新闻报道会作出怎样的响应；情景页面会重新核验它所使用的输入。
 
-## What it reads (read-only)
+## 读取的内容（只读）
 
-| Artefact | From |
+| 产物 | 来源 |
 | --- | --- |
-| Stage 1 model bundle | `surrey-election-no-news-baseline/outputs/model_bundle_v1/` |
-| News feature table | `news_features/news_feature_table_v2.csv` |
-| Corpus release | `news_collection/canonical_corpus_release_v2.json` |
-| Blinded-prediction manifest | the committed `sha256_manifest.json` beside the predictions |
+| 第一阶段模型包 | `surrey-election-no-news-baseline/outputs/model_bundle_v1/` |
+| 新闻特征表 | `news_features/news_feature_table_v2.csv` |
+| 语料库版本 | `news_collection/canonical_corpus_release_v2.json` |
+| 盲化预测清单 | 预测文件旁已提交的 `sha256_manifest.json` |
 
-Everything it shows already exists as a frozen, hash-pinned artefact; the app adds
-a view, never a new number.
+它展示的所有内容都已经作为冻结的、以哈希锁定的产物存在；这个应用只增加一个视图，从不产生新的数字。
 
-## Running
+## 运行
 
-From the repository root, with the project `.venv` active:
+在仓库根目录下、激活项目的 `.venv` 后运行：
 
 ```bash
 streamlit run app/news_app.py
 ```
 
-This is the **news-layer** app. The Stage 1 baseline has its own six-page
-application (`surrey-election-no-news-baseline/app/`) and the extractor has its own
-(`surrey-election-extractor/app.py`); both are separate and untouched by this one.
-See [`../REPO_MAP.md`](../REPO_MAP.md) for how Layer 8 consumers sit on top of the
-frozen report pack.
+这是**新闻层**的应用。第一阶段基线有自己的六页应用（`surrey-election-no-news-baseline/app/`），抽取器也有自己的应用（`surrey-election-extractor/app.py`）；两者都是独立的，不受本应用影响。关于第 8 层的消费者如何建立在冻结的报告包之上，见 [`../REPO_MAP.md`](../REPO_MAP.md)。

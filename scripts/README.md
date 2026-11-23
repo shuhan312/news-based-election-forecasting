@@ -1,18 +1,11 @@
-# `scripts/` — retained cross-cutting utility
+# `scripts/` —— 保留的跨层工具脚本
 
-Repository-root helpers belong here only when they cross pipeline-layer
-boundaries and preserve a final manual-review input. Production runners live in
-`src/` or one of the two subprojects; report artefacts are built by
-`src/news_modelling/`.
+只有当某个辅助脚本跨越了流水线各层的边界、并且用于保存一项最终的人工审核输入时，它才放在仓库根目录下的这里。生产用的运行器位于 `src/` 或两个子项目之一中；报告产物由 `src/news_modelling/` 构建。
 
-| Script | What it does |
+| 脚本 | 作用 |
 | --- | --- |
-| `update_e5_geographic_review_workbook.mjs` | Rebuilds the E5 geographic-review workbook while preserving the captured manual decisions |
+| `update_e5_geographic_review_workbook.mjs` | 重建 E5 地理审核工作簿，同时保留已记录的人工决策 |
 
-## Rule
+## 规则
 
-This script supports the provenance of a human-review input; it is not a model
-runner and does not generate a reported result. Run it from the repository root
-with Node as documented in its header. Development-only collection schedulers,
-overnight wrappers and window-comparison exporters are retained in Git history,
-not in the final working tree.
+这个脚本用于支撑一项人工审核输入的来源可追溯性；它不是模型运行器，也不生成任何报告中的结果。请按照其文件头中的说明，在仓库根目录下用 Node 运行它。仅用于开发阶段的收集调度器、夜间批处理包装脚本和时间窗口比较导出工具都保留在 Git 历史中，而不在最终的工作目录树里。

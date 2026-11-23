@@ -1,47 +1,40 @@
-# `src/dedup/` — deduplication (Layer 2, Phase 5)
+# `src/dedup/` —— 去重（第 2 层，第 5 阶段）
 
-Cleaning layer, second half: identify duplicate, syndicated and updated copies of
-the same article and select one canonical version, so the corpus counts each
-piece of news once. Each Phase 5 step is a **pure-logic module** plus a
-**`build_` runner** that applies it over the frozen articles.
+清洗层的后半部分：识别同一篇文章的重复副本、转载副本和更新副本，并选出一个正式版本，使语料库中每条新闻只被计数一次。第 5 阶段的每一步都由一个**纯逻辑模块**加上一个**`build_` 运行器**组成，后者把逻辑应用到冻结的文章上。
 
-## The Phase 5 steps
+## 第 5 阶段的各个步骤
 
 ```text
-1  exact_duplicates    exact content-duplicate detection
-2  url_canonical       canonical URL resolution and URL-group resolution
-3  near_duplicates     near-duplicate detection
-4  syndication         syndicated-copy identification
-5  versioning          updated-article and version linking, temporal availability
-6  cluster_validation  duplicate-cluster validation
-7  canonical_selection canonical article selection (one kept per cluster)
-8  mapping_layer       consolidate steps 1–7 and freeze the duplicate mapping
+1  exact_duplicates    完全相同内容的重复检测
+2  url_canonical       规范 URL 判定以及 URL 分组判定
+3  near_duplicates     近似重复检测
+4  syndication         转载副本识别
+5  versioning          更新文章与版本关联、时间可获得性
+6  cluster_validation  重复簇验证
+7  canonical_selection 正式文章选择（每个簇保留一篇）
+8  mapping_layer       合并第 1–7 步并冻结重复映射
 ```
 
-## Complete file guide
+## 完整文件指南
 
-One pure-logic module and one `build_` runner per step; `tests/test_<step>.py`
-covers each logic module.
+每一步对应一个纯逻辑模块和一个 `build_` 运行器；`tests/test_<step>.py` 覆盖每个逻辑模块。
 
-| Step | Logic module | Runner | What the runner writes |
+| 步骤 | 逻辑模块 | 运行器 | 运行器写出的内容 |
 | --- | --- | --- | --- |
-| 1 | `exact_duplicates.py` | `build_exact_duplicates.py` | byte-identical duplicate clusters, mapping, review queue and summary |
-| 2 | `url_canonical.py` | `build_url_resolution.py` | canonical URL groups and the URL-level duplicate mapping |
-| 3 | `near_duplicates.py` | `build_near_duplicates.py` | near-duplicate pairs/clusters, resolutions and review queue |
-| 4 | `syndication.py` | `build_syndication.py` | syndicated-copy families and relationships |
-| 5 | `versioning.py` | `build_versioning.py` | article-version families, relationships and temporal availability |
-| 6 | `cluster_validation.py` | `build_cluster_validation.py` | validated clusters, conflicts and their review queue |
-| 7 | `canonical_selection.py` | `build_canonical_selection.py` | one canonical article per cluster, with the selection report |
-| 8 | `mapping_layer.py` | `build_mapping_layer.py` | the consolidated, provisionally frozen duplicate mapping (audit + manifest) |
+| 1 | `exact_duplicates.py` | `build_exact_duplicates.py` | 逐字节相同的重复簇、映射、审核队列和摘要 |
+| 2 | `url_canonical.py` | `build_url_resolution.py` | 规范 URL 分组以及 URL 级别的重复映射 |
+| 3 | `near_duplicates.py` | `build_near_duplicates.py` | 近似重复的配对 / 簇、处理结果和审核队列 |
+| 4 | `syndication.py` | `build_syndication.py` | 转载副本系列及其关系 |
+| 5 | `versioning.py` | `build_versioning.py` | 文章版本系列、版本关系和时间可获得性 |
+| 6 | `cluster_validation.py` | `build_cluster_validation.py` | 经过验证的簇、冲突及其审核队列 |
+| 7 | `canonical_selection.py` | `build_canonical_selection.py` | 每个簇一篇正式文章，并附选择报告 |
+| 8 | `mapping_layer.py` | `build_mapping_layer.py` | 合并后的、临时冻结的重复映射（审计 + 清单） |
 
-The `_v1_provisional` name records the state of this frozen intermediate layer
-when it was produced; it does not mean the final repository is awaiting another
-deduplication decision. The canonical v1/v2 corpus releases consume this pinned
-mapping and record their own release identities.
+名称中的 `_v1_provisional` 记录的是这一冻结中间层在生成时所处的状态；它并不表示最终的仓库还在等待另一项去重决策。正式的 v1/v2 语料库版本使用这一锁定的映射，并记录它们自己的版本标识。
 
-## Running and outputs
+## 运行与输出
 
-Run the `build_` steps in order (from the repository root), e.g.:
+在仓库根目录下按顺序运行各个 `build_` 步骤，例如：
 
 ```bash
 python3 -m src.dedup.build_exact_duplicates
@@ -54,20 +47,11 @@ python3 -m src.dedup.build_canonical_selection
 python3 -m src.dedup.build_mapping_layer
 ```
 
-The stage is **deterministic** — it reads the frozen cleaned articles and
-produces the same duplicate mapping on every run. Outputs (the version families,
-the canonical article mapping, review queues and the frozen
-`canonical_corpus_release_*.json`) land in the repository-root `news_collection/`
-directory; see its README. Step 8 freezes the mapping that downstream layers use
-to work from one canonical copy per news item.
+本阶段是**确定性的**——它读取冻结的已清洗文章，每次运行都生成相同的重复映射。输出（版本系列、正式文章映射、审核队列以及冻结的 `canonical_corpus_release_*.json`）写入仓库根目录的 `news_collection/` 目录；见该目录的 README。第 8 步冻结的映射供下游各层使用，使它们基于每条新闻的一份正式副本开展工作。
 
-## Hand-off and verification
+## 交接与验证
 
-Step 8's frozen mapping and step 7's canonical selection are what the corpus
-release consumes: `src/news_collection/canonical_corpus_release(_v2).py`
-builds the one-per-news-item article universe from them, and that release is
-what the feature tables and the LLM extraction read. The offline test suite
-for this package:
+语料库版本使用的是第 8 步冻结的映射和第 7 步的正式选择：`src/news_collection/canonical_corpus_release(_v2).py` 据此构建每条新闻一篇的文章集合，而特征表和 LLM 抽取读取的就是这个版本。本包的离线测试套件：
 
 ```bash
 .venv/bin/python -m pytest tests/test_exact_duplicates.py \
@@ -77,8 +61,6 @@ for this package:
     tests/test_mapping_layer.py -q
 ```
 
-## Discipline
+## 规范
 
-A duplicate is never deleted — it is mapped to its canonical copy, so the
-grouping is auditable and reversible. Near-duplicate and syndication decisions
-are validated (step 6) before the mapping is frozen (step 8). See `REPO_MAP.md`.
+重复项从不被删除——它被映射到其正式副本，因此分组是可审计、可撤销的。近似重复和转载的判定在映射冻结（第 8 步）之前会先经过验证（第 6 步）。见 `REPO_MAP.md`。

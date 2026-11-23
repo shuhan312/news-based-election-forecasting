@@ -1,20 +1,20 @@
-# Deliverables
+# 提交材料
 
-Commit your written reports to this directory using the exact filenames specified below:
+请使用下面指定的确切文件名，把书面报告提交到本目录：
 
-| Deliverable     | Filename                          |
+| 提交材料     | 文件名                          |
 |-----------------|-----------------------------------|
-| Project Plan    | `sl1425-project-plan.pdf`     |
-| Final Report    | `sl1425-final-report.pdf`     |
+| 项目计划（Project Plan）    | `sl1425-project-plan.pdf`     |
+| 最终报告（Final Report）    | `sl1425-final-report.pdf`     |
 
-**Filenames must:**
-- Be all lowercase  
-- Use dashes (`-`) instead of underscores (`_`)  
-- Have a `.pdf` extension  
-- Contain no whitespace
+**文件名必须：**
+- 全部小写  
+- 使用连字符（`-`）而不是下划线（`_`）  
+- 以 `.pdf` 为扩展名  
+- 不含空白字符
 
-## Validating with GitHub Actions
+## 使用 GitHub Actions 验证
 
-To verify your submission is readable, ensure the corresponding GitHub Actions workflow (`project-plan` or `final-report`) passes.
+为确认你提交的文件可以正常读取，请确保相应的 GitHub Actions 工作流（`project-plan` 或 `final-report`）通过。
 
-It is normal for the workflows to fail until you have submitted the required deliverables. The checks will only pass once your reports are correctly named, below the maximum file size limit, and committed before the deadline.
+在你提交所需材料之前，这些工作流失败是正常的。只有当报告命名正确、文件大小低于上限、并且在截止日期前提交后，检查才会通过。

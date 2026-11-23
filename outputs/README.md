@@ -1,69 +1,39 @@
-# `outputs/` — generated products and audit records
+# `outputs/` —— 生成的产物与审计记录
 
-This directory contains downstream products. It is not a raw-data source, but
-not every item has the same role: report packs are generated presentation
-artefacts, machine-readable audit ledgers record a verified repository state,
-and bulky working files remain local.
+本目录包含下游产物。它不是原始数据来源，但其中各项的角色并不相同：报告包是生成的展示产物，机器可读的审计台账记录了一个经过验证的仓库状态，而体积较大的工作文件则保留在本地。
 
-## The report pack (Layer 7) — committed and hash-pinned
+## 报告包（第 7 层）——已提交并以哈希锁定
 
-### Tables
+### 表格
 
-`report_tables_v1/` contains:
+`report_tables_v1/` 包含：
 
-- 23 machine-readable tables (`t01`–`t23`) written by
-  `news_modelling.build_report_tables`;
-- `manifest.json`, which pins every input read by that table-pack builder;
-- the authoritative generated LaTeX directory mirrored into the
-  self-contained `report/` source.
+- 23 张机器可读的表格（`t01`–`t23`），由 `news_modelling.build_report_tables` 写出；
+- `manifest.json`，锁定该表格包构建程序读取的每一个输入；
+- 权威的生成 LaTeX 目录，它被镜像到自包含的 `report/` 源码中。
 
-`news_modelling.report_appendix_tables` formats the pack plus explicitly named
-frozen evidence into the LaTeX tables; `stage2_fitting_cells_table` derives the
-Stage 2 chronology table separately. The report includes 16 generated/static
-views, mirrored under `report/` and pinned byte-for-byte by tests. The other
-LaTeX tables are component or pack-only views. See
-[`report_tables_v1/README.md`](report_tables_v1/README.md).
+`news_modelling.report_appendix_tables` 把表格包以及明确指名的冻结证据格式化为 LaTeX 表格；`stage2_fitting_cells_table` 则单独推导第二阶段的时间线表。报告收录了 16 个生成的 / 静态的视图，它们被镜像到 `report/` 下，并由测试逐字节锁定。其余的 LaTeX 表格是组件视图或仅存在于表格包中的视图。见 [`report_tables_v1/README.md`](report_tables_v1/README.md)。
 
-### Figures
+### 图表
 
-`report_figures_v1/` contains 10 generated figures. They are produced by
-several modules, not one:
+`report_figures_v1/` 包含 10 张生成的图表。它们由多个模块生成，而不是一个：
 
-- `make_report_figures.py` writes the six core analysis figures;
-- `study_design_figure.py`, `corpus_funnel_figure.py` and
-  `framework_figure.py` write three structural figures;
-- `reform_party_split_figure.py` writes the Reform split figure.
+- `make_report_figures.py` 写出六张核心分析图；
+- `study_design_figure.py`、`corpus_funnel_figure.py` 和 `framework_figure.py` 写出三张结构图；
+- `reform_party_split_figure.py` 写出改革党拆分图。
 
-The written report reads committed report-facing copies from `report/figures/`.
-It uses five figures represented in this pack plus the pipeline overview built
-under `news_features/pipeline_overview_v1/`; the remaining pack figures are
-supplementary. The exact six-file mapping is in
-[`../REPRODUCIBILITY.md`](../REPRODUCIBILITY.md).
+书面报告读取的是 `report/figures/` 中已提交的、供报告使用的副本。它使用了本图表包中的五张图，再加上在 `news_features/pipeline_overview_v1/` 下构建的流水线总览图；图表包中其余的图是补充材料。确切的六个文件的对应关系见 [`../REPRODUCIBILITY.md`](../REPRODUCIBILITY.md)。
 
-Build-time assertions and table-regeneration tests fail on numerical or
-presentation drift. See [`../REPO_MAP.md`](../REPO_MAP.md) for the complete
-report-section → artefact → code trace.
+构建时的断言和表格重新生成测试会在数值或展示出现偏差时失败。完整的"报告章节 → 产物 → 代码"追溯见 [`../REPO_MAP.md`](../REPO_MAP.md)。
 
-## Committed audits and retained evidence
+## 已提交的审计与保留的证据
 
-The directory also holds small committed outputs whose value is the recorded
-verdict or project evidence, including the leakage/provenance JSON and CSV.
-These are not report-pack inputs merely because they live under `outputs/`;
-their producing command and authority are documented beside them or in the
-root reproducibility guide.
+本目录还存放一些小型的已提交输出，它们的价值在于所记录的结论或项目证据，包括泄漏 / 来源审计的 JSON 和 CSV。这些文件并不会仅仅因为位于 `outputs/` 下就成为报告包的输入；生成它们的命令及其权威性记录在文件旁边或根目录的复现指南中。
 
-## Research workbooks and labelling queues — local, regenerable
+## 研究工作簿与标注队列——本地、可重新生成
 
-Other directories may be bulky working artefacts — the combined research
-workbook, the master and news workbooks, the D4 and manual labelling queues, the
-window-scheme comparison and the progress deck. Per the IRP large-file rule they
-are **git-ignored** and kept on OneDrive; the code that builds each one is
-tracked (see `scripts/` and `src/`), so they regenerate on demand. The one
-committed narrative here is `IRP_Surrey_Election_Experiment_Log_*.md`.
+其他目录可能是体积较大的工作产物——综合研究工作簿、主工作簿和新闻工作簿、D4 及人工标注队列、时间窗口方案比较以及进度汇报幻灯片。依据 IRP 大文件规定，它们**被 git 忽略**并保存在 OneDrive 上；构建每一个文件的代码都纳入了版本管理（见 `scripts/` 和 `src/`），因此可以按需重新生成。这里唯一提交的叙述性文档是 `IRP_Surrey_Election_Experiment_Log_*.md`。
 
-## Rule
+## 规则
 
-Commit a generated output only when it is a report dependency, a compact
-machine-readable audit verdict, or explicitly retained final evidence. Keep
-bulky convenience outputs local. A file's authority comes from its documented
-producer, inputs and hashes—not from the fact that it lives under `outputs/`.
+只有当生成的输出是报告的依赖、精简的机器可读审计结论，或明确保留的最终证据时，才提交它。体积较大的便利性输出保留在本地。一个文件的权威性来自其有文档记录的生成者、输入和哈希——而不是来自它位于 `outputs/` 之下这一事实。

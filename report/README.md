@@ -1,29 +1,16 @@
-# Final report source
+# 最终报告源码
 
-`report.tex` is the authoritative source of the final report. Its 16 included
-LaTeX tables are kept in this directory so the submitted Overleaf source is
-self-contained; `make -C report sync-tables` refreshes them from the
-authoritative generated copies in `../outputs/report_tables_v1/latex/`.
-The six report-facing figures live in `figures/`.
+`report.tex` 是最终报告的权威源文件。它收录的 16 张 LaTeX 表格保存在本目录中，使提交的 Overleaf 源码是自包含的；`make -C report sync-tables` 会从 `../outputs/report_tables_v1/latex/` 中权威的生成副本刷新这些表格。报告中使用的六张图位于 `figures/`。
 
-Build the PDF from the repository root with:
+在仓库根目录下构建 PDF：
 
 ```bash
 make -C report sync-tables
 make -C report
 ```
 
-This writes `report/report.pdf`, which is a local build product and is not
-tracked. The submitted copy belongs at
-`deliverables/sl1425-final-report.pdf`, following the repository's deliverable
-naming rule. The full table, figure and input rebuild order is documented in
-`../REPRODUCIBILITY.md`.
+这会生成 `report/report.pdf`，它是本地构建产物，不纳入版本管理。按照仓库的提交材料命名规则，提交的版本应放在 `deliverables/sl1425-final-report.pdf`。完整的表格、图表和输入重建顺序记录在 `../REPRODUCIBILITY.md` 中。
 
-## Source history
+## 源码历史
 
-The report was drafted in the Overleaf project `Final Report` from early August
-2026. The two screenshots in this directory preserve the Overleaf history panel
-as of 16 August 2026. Labelled Overleaf milestones were imported into Git in
-chronological order; their commit messages record the corresponding label and
-date. Since 16 August 2026, `report.tex` has been maintained directly in this
-repository, and Git is the version history for the final source.
+报告自 2026 年 8 月初起在名为 `Final Report` 的 Overleaf 项目中起草。本目录中的两张截图保存了截至 2026 年 8 月 16 日的 Overleaf 历史面板。带标签的 Overleaf 里程碑按时间顺序导入了 Git；它们的提交信息记录了对应的标签和日期。自 2026 年 8 月 16 日起，`report.tex` 直接在本仓库中维护，Git 就是最终源码的版本历史。
